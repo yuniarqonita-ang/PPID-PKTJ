@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Dokumen;
+use App\Models\Dokumen; // INI YANG WAJIB ADA
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 
 class DokumenController extends Controller
 {
@@ -28,32 +29,25 @@ class DokumenController extends Controller
         ]);
 
         if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $path = $file->store('dokumen', 'public');
+            $path = $request->file('file')->store('dokumen', 'public');
 
             Dokumen::create([
                 'judul' => $validated['judul'],
                 'file_path' => $path,
-                'kategori' => $validated['kategori'] ?? null,
-                'user_id' => auth()->id()
+                'kategori' => $validated['kategori'] ?? 'Umum',
+                'user_id' => Auth::id()
             ]);
 
-            return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil diupload!');
+            return redirect()->route('admin.dokumen.index')->with('success', 'Dokumen diupload!');
         }
-
-        return back()->with('error', 'Gagal upload dokumen');
+        return back()->with('error', 'Gagal upload');
     }
 
     public function destroy($id)
     {
         $dokumen = Dokumen::findOrFail($id);
-        
-        if ($dokumen->file_path) {
-            Storage::disk('public')->delete($dokumen->file_path);
-        }
-        
+        if ($dokumen->file_path) { Storage::disk('public')->delete($dokumen->file_path); }
         $dokumen->delete();
-
-        return redirect()->route('dokumen.index')->with('success', 'Dokumen berhasil dihapus!');
+        return redirect()->route('admin.dokumen.index')->with('success', 'Dokumen dihapus!');
     }
 }
