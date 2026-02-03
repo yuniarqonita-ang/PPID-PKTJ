@@ -18,9 +18,16 @@ use App\Http\Controllers\ProfileController;
 |--------------------------------------------------------------------------
 */
 Route::get('/', function () {
-    // Ngambil data terbaru biar Welcome Page gak kosong
-    $artikel = Berita::latest()->take(3)->get();
-    $dokumen = Dokumen::latest()->take(6)->get();
+    // Jurus Try-Catch: Biar kalau database belum siap, web gak merah/error
+    try {
+        $artikel = Berita::latest()->take(3)->get();
+        $dokumen = Dokumen::latest()->take(6)->get();
+    } catch (\Exception $e) {
+        // Kalau database error/kosong, kasih data kosong aja biar web tetep jalan
+        $artikel = collect(); 
+        $dokumen = collect();
+    }
+    
     return view('welcome', compact('artikel', 'dokumen'));
 })->name('welcome');
 
@@ -69,7 +76,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/dikecualikan', [DokumenController::class, 'index'])->name('dikecualikan');
     });
 
-    // FIX DASHBOARD ERROR: LPSE & JDIH (Baris 95-96)
+    // FIX DASHBOARD ERROR: LPSE & JDIH
     Route::get('/lpse', function() { return view('admin.lpse.index'); })->name('admin.lpse.index');
     Route::get('/jdih', function() { return view('admin.jdih.index'); })->name('admin.jdih.index');
 });
