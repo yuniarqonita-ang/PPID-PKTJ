@@ -37,10 +37,6 @@
                         MASUK
                     </button>
                 </div>
-
-                <div class="mt-6 text-center text-sm">
-                    Belum punya akun? <a href="{{ route('register') }}" class="text-blue-600 hover:underline">Daftar di sini</a>
-                </div>
             </form>
         </div>
     </div>

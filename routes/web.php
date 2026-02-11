@@ -1,82 +1,66 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-// --- IMPORT SEMUA CONTROLLER & MODEL (WAJIB) ---
-use App\Models\Berita;
-use App\Models\Dokumen;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\ProsedurController;
 use App\Http\Controllers\FaqController;
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\Auth\LoginController;
 
-/*
-|--------------------------------------------------------------------------
-| 1. PUBLIC ROUTES (Halaman Depan / Link Polosan)
-|--------------------------------------------------------------------------
-*/
-Route::get('/', function () {
-    // Jurus Try-Catch: Biar kalau database belum siap, web gak merah/error
-    try {
-        $artikel = Berita::latest()->take(3)->get();
-        $dokumen = Dokumen::latest()->take(6)->get();
-    } catch (\Exception $e) {
-        // Kalau database error/kosong, kasih data kosong aja biar web tetep jalan
-        $artikel = collect(); 
-        $dokumen = collect();
-    }
-    
-    return view('welcome', compact('artikel', 'dokumen'));
-})->name('welcome');
+// ==========================================
+// 1. FRONT OFFICE
+// ==========================================
+Route::get('/', function () { 
+    return view('welcome', ['dokumen' => [], 'artikel' => []]); 
+})->name('home');
 
-/*
-|--------------------------------------------------------------------------
-| 2. AUTHENTICATION ROUTES
-|--------------------------------------------------------------------------
-*/
-require __DIR__.'/auth.php';
+// ==========================================
+// 2. AUTH SYSTEM (LOGIN & LOGOUT)
+// ==========================================
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login']);
 
-// Route Logout khusus Admin
-Route::post('/admin/logout-action', [DashboardController::class, 'logout'])->name('admin.logout');
+// Logout dibuat fleksibel agar tidak error di app.blade maupun dashboard.blade
+Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
 
-/*
-|--------------------------------------------------------------------------
-| 3. ADMIN ROUTES (BACK OFFICE LENGKAP)
-|--------------------------------------------------------------------------
-*/
+// ==========================================
+// 3. ADMIN DASHBOARD (BACK OFFICE)
+// ==========================================
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     
-    // Dashboard Utama
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // KELOLA DATA UTAMA (CRUD)
+    // Menu Profil PPID
+    Route::name('admin.profil.')->prefix('profil')->group(function () {
+        Route::get('/edit', [ProfilController::class, 'edit'])->name('edit');
+        Route::get('/tugas', [ProfilController::class, 'tugas'])->name('tugas');
+        Route::get('/visi', [ProfilController::class, 'visi'])->name('visi');
+        Route::get('/struktur', [ProfilController::class, 'struktur'])->name('struktur');
+        Route::get('/regulasi', [ProfilController::class, 'regulasi'])->name('regulasi');
+        Route::get('/kontak', [ProfilController::class, 'kontak'])->name('kontak');
+    });
+
+    // Menu Informasi Publik
+    Route::name('admin.informasi.')->prefix('informasi')->group(function () {
+        Route::get('/berkala', function() { return view('admin.informasi.berkala'); })->name('berkala');
+        Route::get('/serta-merta', function() { return view('admin.informasi.sertamerta'); })->name('sertamerta');
+        Route::get('/setiap-saat', function() { return view('admin.informasi.setiapsaat'); })->name('setiapsaat');
+        Route::get('/dikecualikan', function() { return view('admin.informasi.dikecualikan'); })->name('dikecualikan');
+    });
+
+    // Resource CRUD
     Route::resource('berita', BeritaController::class)->names('admin.berita');
     Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
     Route::resource('prosedur', ProsedurController::class)->names('admin.prosedur');
     Route::resource('faq', FaqController::class)->names('admin.faq');
 
-    // MENU PROFIL PPID (Fix Route Not Defined)
-    Route::name('admin.profil.')->prefix('profil')->group(function () {
-        Route::get('/edit', [ProfileController::class, 'edit'])->name('edit');
-        Route::get('/tugas', [ProfileController::class, 'edit'])->name('tugas');
-        Route::get('/visi-misi', [ProfileController::class, 'edit'])->name('visi');
-        Route::get('/struktur', [ProfileController::class, 'edit'])->name('struktur');
-        Route::get('/regulasi', [ProfileController::class, 'edit'])->name('regulasi');
-        Route::get('/kontak', [ProfileController::class, 'edit'])->name('kontak');
-        Route::patch('/update', [ProfileController::class, 'update'])->name('update');
-    });
+    // Link Aplikasi Terkait
+    Route::get('/lpse', function() { return "Halaman LPSE"; })->name('admin.lpse.index');
+    Route::get('/jdih', function() { return "Halaman JDIH"; })->name('admin.jdih.index');
 
-    // MENU INFORMASI PUBLIK
-    Route::name('admin.informasi.')->prefix('informasi')->group(function () {
-        Route::get('/berkala', [DokumenController::class, 'index'])->name('berkala');
-        Route::get('/serta-merta', [DokumenController::class, 'index'])->name('sertamerta');
-        Route::get('/setiap-saat', [DokumenController::class, 'index'])->name('setiapsaat');
-        Route::get('/dikecualikan', [DokumenController::class, 'index'])->name('dikecualikan');
-    });
-
-    // FIX DASHBOARD ERROR: LPSE & JDIH
-    Route::get('/lpse', function() { return view('admin.lpse.index'); })->name('admin.lpse.index');
-    Route::get('/jdih', function() { return view('admin.jdih.index'); })->name('admin.jdih.index');
+    Route::get('/user-management', [DashboardController::class, 'users'])->name('admin.users');
+    Route::get('/settings', [DashboardController::class, 'settings'])->name('admin.settings');
 });

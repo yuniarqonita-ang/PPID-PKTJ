@@ -2,37 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Berita;
-use App\Models\User;
-use App\Models\Dokumen;
-use App\Models\Faq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        // Cek tabel ada atau tidak, biar gak error
+        // Mengambil jumlah data dengan aman (cek tabel dulu)
         $data = [
-            'totalBerita'   => Schema::hasTable('beritas') ? Berita::count() : 0,
-            'totalUser'     => Schema::hasTable('users') ? User::count() : 0,
-            'totalDokumen'  => Schema::hasTable('dokumens') ? Dokumen::count() : 0,
-            'totalFaq'      => Schema::hasTable('faqs') ? Faq::count() : 0,
-            'last_update'   => date('d M Y H:i'),
+            'totalBerita'  => Schema::hasTable('beritas') ? DB::table('beritas')->count() : 0,
+            'totalDokumen' => Schema::hasTable('dokumens') ? DB::table('dokumens')->count() : 0,
+            'totalUser'    => Schema::hasTable('users') ? DB::table('users')->count() : 0,
+            'totalFaq'     => Schema::hasTable('faqs') ? DB::table('faqs')->count() : 0,
+            'last_update'  => date('d M Y H:i')
         ];
 
         return view('admin.dashboard', $data);
     }
 
-    public function logout(Request $request)
-    {
-        Auth::logout();
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-        
-        // Balik ke login biar aman
-        return redirect('/login');
-    }
+    public function users() { return "Halaman User Management"; }
+    public function settings() { return "Halaman Settings"; }
 }
