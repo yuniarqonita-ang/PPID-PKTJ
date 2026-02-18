@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0;">
     <div class="container">
-        <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="#">
+        <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="<?php echo e(route('home')); ?>">
             <img src="<?php echo e(asset('images/logo-pktj.png')); ?>" alt="Logo PKTJ" style="height: 50px; margin-right: 12px;">
             <span>PPID PKTJ</span>
         </a>
@@ -8,18 +8,18 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link text-white px-3 fw-bold uppercase" href="#">BERANDA</a>
+                    <a class="nav-link text-white px-3 fw-bold uppercase" href="<?php echo e(route('home')); ?>">BERANDA</a>
                 </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
                     <ul class="dropdown-menu" style="min-width: 280px;">
                         <li><a class="dropdown-item" href="#">Profil PPID</a></li>
-                        <li><a class="dropdown-item" href="#">Tugas dan Tanggung Jawab PPID</a></li>
-                        <li><a class="dropdown-item" href="#">Visi dan Misi PPID</a></li>
-                        <li><a class="dropdown-item" href="#">Struktur Organisasi</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.tugas-tanggung-jawab')); ?>">Tugas dan Tanggung Jawab PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.visi-misi')); ?>">Visi dan Misi PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.struktur-organisasi')); ?>">Struktur Organisasi</a></li>
                         <li><a class="dropdown-item" href="#">Regulasi</a></li>
-                        <li><a class="dropdown-item" href="#">Kontak</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.kontak')); ?>">Kontak</a></li>
                     </ul>
                 </li>
 
@@ -69,7 +69,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-white px-3 fw-bold uppercase" href="#">FAQ</a>
+                    <a class="nav-link text-white px-3 fw-bold uppercase" href="<?php echo e(route('faq.index')); ?>">FAQ</a>
                 </li>
             </ul>
 

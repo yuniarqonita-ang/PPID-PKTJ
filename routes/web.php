@@ -8,6 +8,9 @@ use App\Http\Controllers\ProfilPpidController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\PermohonanController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\AdminFaqController;
+use App\Http\Controllers\ProfilPublicController;
 
 // ==========================================
 // 1. FRONT OFFICE
@@ -19,6 +22,15 @@ Route::get('/', function () {
 // Permohonan Informasi (Public)
 Route::get('/permohonan-informasi', [PermohonanController::class, 'form'])->name('permohonan.form');
 Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->name('permohonan.store');
+
+// FAQ (Public)
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+
+// Profil PPID (Public)
+Route::get('/profil/tugas-tanggung-jawab', [ProfilPublicController::class, 'tugasTanggungJawab'])->name('profil.tugas-tanggung-jawab');
+Route::get('/profil/visi-misi', [ProfilPublicController::class, 'visiMisi'])->name('profil.visi-misi');
+Route::get('/profil/struktur-organisasi', [ProfilPublicController::class, 'strukturOrganisasi'])->name('profil.struktur-organisasi');
+Route::get('/profil/kontak', [ProfilPublicController::class, 'kontak'])->name('profil.kontak');
 
 // ==========================================
 // 2. AUTH SYSTEM (LOGIN & LOGOUT)
@@ -54,6 +66,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('berita', BeritaController::class)->names('admin.berita');
     Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
     Route::resource('permohonan', PermohonanController::class)->names('admin.permohonan');
+    Route::resource('faq', AdminFaqController::class)->names('admin.faq');
 
     // Link Aplikasi Terkait
     Route::get('/lpse', function() { return "Halaman LPSE"; })->name('admin.lpse.index');

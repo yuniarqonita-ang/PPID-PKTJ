@@ -2818,3 +2818,35 @@
 #54 C:/laragon/www/PPID-PKTJ/public/index.php(17): Illuminate/Foundation/Application->handleRequest(Object(Illuminate/Http/Request))
 #55 {main}
 "} 
+[2026-02-18 08:32:51] local.ERROR: Cannot declare class App\Http\Controllers\ProfilController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\ProfilController, because the name is already in use at C:/laragon/www/PPID-PKTJ/app/Http/Controllers/ProfilPublicController.php:5)
+[stacktrace]
+#0 {main}
+"} 
+[2026-02-18 08:32:52] local.ERROR: Cannot declare class App\Http\Controllers\ProfilController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\ProfilController, because the name is already in use at C:/laragon/www/PPID-PKTJ/app/Http/Controllers/ProfilPublicController.php:5)
+[stacktrace]
+#0 {main}
+"} 
+[2026-02-18 08:32:52] local.ERROR: Cannot declare class App\Http\Controllers\ProfilController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\ProfilController, because the name is already in use at C:/laragon/www/PPID-PKTJ/app/Http/Controllers/ProfilPublicController.php:5)
+[stacktrace]
+#0 {main}
+"} 
+[2026-02-18 08:32:52] local.ERROR: Cannot declare class App\Http\Controllers\ProfilController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\ProfilController, because the name is already in use at C:/laragon/www/PPID-PKTJ/app/Http/Controllers/ProfilPublicController.php:5)
+[stacktrace]
+#0 {main}
+"} 
+[2026-02-18 08:32:52] local.ERROR: Cannot declare class App\Http\Controllers\ProfilController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\ProfilController, because the name is already in use at C:/laragon/www/PPID-PKTJ/app/Http/Controllers/ProfilPublicController.php:5)
+[stacktrace]
+#0 {main}
+"} 
+[2026-02-18 08:32:52] local.ERROR: Cannot declare class App\Http\Controllers\ProfilController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\ProfilController, because the name is already in use at C:/laragon/www/PPID-PKTJ/app/Http/Controllers/ProfilPublicController.php:5)
+[stacktrace]
+#0 {main}
+"} 
+[2026-02-18 08:33:10] local.ERROR: Cannot declare class App\Http\Controllers\ProfilController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\ProfilController, because the name is already in use at C:/laragon/www/PPID-PKTJ/app/Http/Controllers/ProfilPublicController.php:5)
+[stacktrace]
+#0 {main}
+"} 
+[2026-02-18 08:33:28] local.ERROR: Cannot declare class App\Http\Controllers\ProfilController, because the name is already in use {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): Cannot declare class App\\Http\\Controllers\\ProfilController, because the name is already in use at C:/laragon/www/PPID-PKTJ/app/Http/Controllers/ProfilPublicController.php:5)
+[stacktrace]
+#0 {main}
+"} 
