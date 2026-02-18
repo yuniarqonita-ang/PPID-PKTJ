@@ -1,6 +1,9 @@
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0;">
     <div class="container">
-        <a class="navbar-brand fw-bold me-4" href="#">PPID PKTJ</a>
+        <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="#">
+            <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ" style="height: 50px; margin-right: 12px;">
+            <span>PPID PKTJ</span>
+        </a>
         
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto align-items-center">
@@ -70,7 +73,7 @@
                 </li>
             </ul>
 
-            <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="#" style="font-size: 13px;">
+            <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="{{ route('permohonan.form') }}" style="font-size: 13px;">
                 PERMOHONAN INFORMASI
             </a>
         </div>

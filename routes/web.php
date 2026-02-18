@@ -4,10 +4,10 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DokumenController;
-use App\Http\Controllers\ProsedurController;
-use App\Http\Controllers\FaqController;
-use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ProfilPpidController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\PermohonanController;
 
 // ==========================================
 // 1. FRONT OFFICE
@@ -15,6 +15,10 @@ use App\Http\Controllers\Auth\LoginController;
 Route::get('/', function () { 
     return view('welcome', ['dokumen' => [], 'artikel' => []]); 
 })->name('home');
+
+// Permohonan Informasi (Public)
+Route::get('/permohonan-informasi', [PermohonanController::class, 'form'])->name('permohonan.form');
+Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->name('permohonan.store');
 
 // ==========================================
 // 2. AUTH SYSTEM (LOGIN & LOGOUT)
@@ -35,12 +39,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     // Menu Profil PPID
     Route::name('admin.profil.')->prefix('profil')->group(function () {
-        Route::get('/edit', [ProfilController::class, 'edit'])->name('edit');
-        Route::get('/tugas', [ProfilController::class, 'tugas'])->name('tugas');
-        Route::get('/visi', [ProfilController::class, 'visi'])->name('visi');
-        Route::get('/struktur', [ProfilController::class, 'struktur'])->name('struktur');
-        Route::get('/regulasi', [ProfilController::class, 'regulasi'])->name('regulasi');
-        Route::get('/kontak', [ProfilController::class, 'kontak'])->name('kontak');
+        Route::get('/edit', [ProfilPpidController::class, 'index'])->name('edit');
     });
 
     // Menu Informasi Publik
@@ -54,8 +53,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Resource CRUD
     Route::resource('berita', BeritaController::class)->names('admin.berita');
     Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
-    Route::resource('prosedur', ProsedurController::class)->names('admin.prosedur');
-    Route::resource('faq', FaqController::class)->names('admin.faq');
+    Route::resource('permohonan', PermohonanController::class)->names('admin.permohonan');
 
     // Link Aplikasi Terkait
     Route::get('/lpse', function() { return "Halaman LPSE"; })->name('admin.lpse.index');
