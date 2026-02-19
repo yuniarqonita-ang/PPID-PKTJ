@@ -14,11 +14,26 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
                     <ul class="dropdown-menu" style="min-width: 280px;">
+<<<<<<< HEAD
                         <li><a class="dropdown-item" href="<?php echo e(route('profil.ppid')); ?>">Profil PPID</a></li>
                         <li><a class="dropdown-item" href="<?php echo e(route('profil.tugas-tanggung-jawab')); ?>">Tugas dan Tanggung Jawab PPID</a></li>
                         <li><a class="dropdown-item" href="<?php echo e(route('profil.visi-misi')); ?>">Visi dan Misi PPID</a></li>
                         <li><a class="dropdown-item" href="<?php echo e(route('profil.struktur-organisasi')); ?>">Struktur Organisasi</a></li>
                         <li><a class="dropdown-item" href="<?php echo e(route('profil.regulasi')); ?>">Regulasi</a></li>
+=======
+<<<<<<< Updated upstream
+                        <li><a class="dropdown-item" href="#">Profil PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.tugas-tanggung-jawab')); ?>">Tugas dan Tanggung Jawab PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.visi-misi')); ?>">Visi dan Misi PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.struktur-organisasi')); ?>">Struktur Organisasi</a></li>
+=======
+                        <li><a class="dropdown-item" href="/profil">Profil PPID</a></li>
+                        <li><a class="dropdown-item" href="#">Tugas dan Tanggung Jawab PPID</a></li>
+                        <li><a class="dropdown-item" href="#">Visi dan Misi PPID</a></li>
+                        <li><a class="dropdown-item" href="#">Struktur Organisasi</a></li>
+>>>>>>> Stashed changes
+                        <li><a class="dropdown-item" href="#">Regulasi</a></li>
+>>>>>>> 1f525144c563b6ae7cd4efd9d991684075953f92
                         <li><a class="dropdown-item" href="<?php echo e(route('profil.kontak')); ?>">Kontak</a></li>
                     </ul>
                 </li>
