@@ -152,7 +152,7 @@
 
     <div class="form-container">
         <div class="form-header">
-            <h2>Registrasi & Permohonan Informasi Publik</h2>
+            <h2>Registrasi User Pemohon Informasi</h2>
             <p>PPID Kementerian Perhubungan - Politeknik Keselamatan Transportasi Jalan Tegal</p>
         </div>
 

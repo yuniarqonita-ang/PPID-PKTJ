@@ -14,11 +14,11 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
                     <ul class="dropdown-menu" style="min-width: 280px;">
-                        <li><a class="dropdown-item" href="#">Profil PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.ppid')); ?>">Profil PPID</a></li>
                         <li><a class="dropdown-item" href="<?php echo e(route('profil.tugas-tanggung-jawab')); ?>">Tugas dan Tanggung Jawab PPID</a></li>
                         <li><a class="dropdown-item" href="<?php echo e(route('profil.visi-misi')); ?>">Visi dan Misi PPID</a></li>
                         <li><a class="dropdown-item" href="<?php echo e(route('profil.struktur-organisasi')); ?>">Struktur Organisasi</a></li>
-                        <li><a class="dropdown-item" href="#">Regulasi</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.regulasi')); ?>">Regulasi</a></li>
                         <li><a class="dropdown-item" href="<?php echo e(route('profil.kontak')); ?>">Kontak</a></li>
                     </ul>
                 </li>

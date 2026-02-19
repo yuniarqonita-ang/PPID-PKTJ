@@ -94,6 +94,10 @@
             margin-bottom: 8px;
             line-height: 1.5;
         }
+        ul {
+            list-style: none;
+            padding-left: 0;
+        }
         ul li {
             margin-bottom: 6px;
             line-height: 1.5;

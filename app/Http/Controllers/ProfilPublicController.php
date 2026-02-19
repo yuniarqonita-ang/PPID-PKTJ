@@ -4,6 +4,11 @@ namespace App\Http\Controllers;
 
 class ProfilPublicController extends Controller
 {
+    public function profilPpid()
+    {
+        return view('profil-ppid');
+    }
+
     public function tugasTanggungJawab()
     {
         return view('profil-tugas-tanggung-jawab');
@@ -17,6 +22,11 @@ class ProfilPublicController extends Controller
     public function strukturOrganisasi()
     {
         return view('profil-struktur-organisasi');
+    }
+
+    public function regulasi()
+    {
+        return view('profil-regulasi');
     }
 
     public function kontak()
