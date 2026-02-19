@@ -106,25 +106,19 @@
 </head>
 <body>
 
-    @include('navigation')
+    <?php echo $__env->make('navigation', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <div class="container py-5">
-        <h1 class="page-title">{{ $profil->judul ?? 'Tugas dan Tanggung Jawab PPID' }}</h1>
+        <h1 class="page-title">Tugas dan Tanggung Jawab PPID</h1>
         
-        @if($profil)
-            <div class="content-box">
-                @if($profil->konten_pembuka)
-                    {!! $profil->konten_pembuka !!}
-                @else
-                    <ol class="task-list">
-                        <li>Melakukan pengelolaan informasi publik;</li>
-                        <li>Menyampaikan informasi secara baik dan efisien sehingga dapat diakses dengan mudah;</li>
-                        <li>Melakukan pemutakhiran dalam pengelolaan maupun pengembangan digital;</li>
-                        <li>Menyediakan Sarana dan Prasarana dalam pelaksanaan pelayanan informasi.</li>
-                    </ol>
-                @endif
-            </div>
-        @endif
+        <div class="content-box">
+            <ol class="task-list">
+                <li>Melakukan pengelolaan informasi publik;</li>
+                <li>Menyampaikan informasi secara baik dan efisien sehingga dapat diakses dengan mudah;</li>
+                <li>Melakukan pemutakhiran dalam pengelolaan maupun pengembangan digital;</li>
+                <li>Menyediakan Sarana dan Prasarana dalam pelaksanaan pelayanan informasi.</li>
+            </ol>
+        </div>
 
         <!-- PPID UTAMA -->
         <div class="table-section">
@@ -259,15 +253,9 @@
                 </tbody>
             </table>
         </div>
-
-        @if($profil && $profil->konten_detail)
-            <div class="content-box mt-4">
-                <h3 class="mb-3">{{ $profil->judul_sub ?? 'Detail Informasi Tambahan' }}</h3>
-                {!! $profil->konten_detail !!}
-            </div>
-        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/profil-tugas-tanggung-jawab.blade.php ENDPATH**/ ?>

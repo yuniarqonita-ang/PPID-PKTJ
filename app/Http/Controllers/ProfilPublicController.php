@@ -2,43 +2,35 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProfilPpid;
-
-class ProfilPublikController extends Controller
+class ProfilPublicController extends Controller
 {
-    public function showProfil()
+    public function profilPpid()
     {
-        $profil = ProfilPpid::where('type', 'profil')->first();
-        return view('profil-ppid', ['profil' => $profil]);
+        return view('profil-ppid');
     }
 
-    public function showTugas()
+    public function tugasTanggungJawab()
     {
-        $profil = ProfilPpid::where('type', 'tugas')->first();
-        return view('profil-tugas-tanggung-jawab', ['profil' => $profil]);
+        return view('profil-tugas-tanggung-jawab');
     }
 
-    public function showVisi()
+    public function visiMisi()
     {
-        $profil = ProfilPpid::where('type', 'visi')->first();
-        return view('profil-visi-misi', ['profil' => $profil]);
+        return view('profil-visi-misi');
     }
 
-    public function showStruktur()
+    public function strukturOrganisasi()
     {
-        $profil = ProfilPpid::where('type', 'struktur')->first();
-        return view('profil-struktur-organisasi', ['profil' => $profil]);
+        return view('profil-struktur-organisasi');
     }
 
-    public function showRegulasi()
+    public function regulasi()
     {
-        $profil = ProfilPpid::where('type', 'regulasi')->first();
-        return view('profil-regulasi', ['profil' => $profil]);
+        return view('profil-regulasi');
     }
 
-    public function showKontak()
+    public function kontak()
     {
-        $profil = ProfilPpid::where('type', 'kontak')->first();
-        return view('profil-kontak', ['profil' => $profil]);
+        return view('profil-kontak');
     }
 }

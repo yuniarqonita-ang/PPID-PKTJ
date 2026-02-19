@@ -70,7 +70,7 @@
 </head>
 <body>
 
-    @include('navigation')
+    <?php echo $__env->make('navigation', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <div class="container py-5">
         <h1 class="page-title">Regulasi</h1>
@@ -111,3 +111,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/profil-regulasi.blade.php ENDPATH**/ ?>

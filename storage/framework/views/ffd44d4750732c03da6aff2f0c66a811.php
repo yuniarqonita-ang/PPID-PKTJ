@@ -1,31 +1,31 @@
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0;">
     <div class="container">
-        <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ" style="height: 50px; margin-right: 12px;">
+        <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="<?php echo e(route('home')); ?>">
+            <img src="<?php echo e(asset('images/logo-pktj.png')); ?>" alt="Logo PKTJ" style="height: 50px; margin-right: 12px;">
             <span>PPID PKTJ</span>
         </a>
         
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto align-items-center">
                 <li class="nav-item">
-                    <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('home') }}">BERANDA</a>
+                    <a class="nav-link text-white px-3 fw-bold uppercase" href="<?php echo e(route('home')); ?>">BERANDA</a>
                 </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
                     <ul class="dropdown-menu" style="min-width: 280px;">
 <<<<<<< HEAD
-                        <li><a class="dropdown-item" href="{{ route('profil.ppid') }}">Profil PPID</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.tugas-tanggung-jawab') }}">Tugas dan Tanggung Jawab PPID</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.visi-misi') }}">Visi dan Misi PPID</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.struktur-organisasi') }}">Struktur Organisasi</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.regulasi') }}">Regulasi</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.ppid')); ?>">Profil PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.tugas-tanggung-jawab')); ?>">Tugas dan Tanggung Jawab PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.visi-misi')); ?>">Visi dan Misi PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.struktur-organisasi')); ?>">Struktur Organisasi</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.regulasi')); ?>">Regulasi</a></li>
 =======
 <<<<<<< Updated upstream
                         <li><a class="dropdown-item" href="#">Profil PPID</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.tugas-tanggung-jawab') }}">Tugas dan Tanggung Jawab PPID</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.visi-misi') }}">Visi dan Misi PPID</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.struktur-organisasi') }}">Struktur Organisasi</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.tugas-tanggung-jawab')); ?>">Tugas dan Tanggung Jawab PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.visi-misi')); ?>">Visi dan Misi PPID</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.struktur-organisasi')); ?>">Struktur Organisasi</a></li>
 =======
                         <li><a class="dropdown-item" href="/profil">Profil PPID</a></li>
                         <li><a class="dropdown-item" href="#">Tugas dan Tanggung Jawab PPID</a></li>
@@ -34,7 +34,7 @@
 >>>>>>> Stashed changes
                         <li><a class="dropdown-item" href="#">Regulasi</a></li>
 >>>>>>> 1f525144c563b6ae7cd4efd9d991684075953f92
-                        <li><a class="dropdown-item" href="{{ route('profil.kontak') }}">Kontak</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('profil.kontak')); ?>">Kontak</a></li>
                     </ul>
                 </li>
 
@@ -84,13 +84,13 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('faq.index') }}">FAQ</a>
+                    <a class="nav-link text-white px-3 fw-bold uppercase" href="<?php echo e(route('faq.index')); ?>">FAQ</a>
                 </li>
             </ul>
 
-            <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="{{ route('permohonan.form') }}" style="font-size: 13px;">
+            <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="<?php echo e(route('permohonan.form')); ?>" style="font-size: 13px;">
                 PERMOHONAN INFORMASI
             </a>
         </div>
     </div>
-</nav>
+</nav><?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/navigation.blade.php ENDPATH**/ ?>
