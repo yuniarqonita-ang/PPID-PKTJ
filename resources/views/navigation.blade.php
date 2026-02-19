@@ -14,10 +14,17 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
                     <ul class="dropdown-menu" style="min-width: 280px;">
+<<<<<<< Updated upstream
                         <li><a class="dropdown-item" href="#">Profil PPID</a></li>
                         <li><a class="dropdown-item" href="{{ route('profil.tugas-tanggung-jawab') }}">Tugas dan Tanggung Jawab PPID</a></li>
                         <li><a class="dropdown-item" href="{{ route('profil.visi-misi') }}">Visi dan Misi PPID</a></li>
                         <li><a class="dropdown-item" href="{{ route('profil.struktur-organisasi') }}">Struktur Organisasi</a></li>
+=======
+                        <li><a class="dropdown-item" href="/profil">Profil PPID</a></li>
+                        <li><a class="dropdown-item" href="#">Tugas dan Tanggung Jawab PPID</a></li>
+                        <li><a class="dropdown-item" href="#">Visi dan Misi PPID</a></li>
+                        <li><a class="dropdown-item" href="#">Struktur Organisasi</a></li>
+>>>>>>> Stashed changes
                         <li><a class="dropdown-item" href="#">Regulasi</a></li>
                         <li><a class="dropdown-item" href="{{ route('profil.kontak') }}">Kontak</a></li>
                     </ul>

@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
         <title>Admin PPID PKTJ</title>
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
         <style>
             /* Custom Scrollbar untuk Sidebar agar tetap estetik */
             .sidebar-scroll::-webkit-scrollbar { width: 4px; }
@@ -41,7 +41,7 @@
                 
                 <nav class="flex-1 overflow-y-auto sidebar-scroll px-4 py-4">
                     <!-- Dashboard Link -->
-                    <a href="{{ route('dashboard') }}" class="flex items-center py-3 px-4 rounded-xl mb-6 transition-all duration-300 group {{ request()->routeIs('dashboard') ? 'nav-item-active text-white' : 'hover:bg-white/10 text-slate-300' }}">
+                    <a href="<?php echo e(route('dashboard')); ?>" class="flex items-center py-3 px-4 rounded-xl mb-6 transition-all duration-300 group <?php echo e(request()->routeIs('dashboard') ? 'nav-item-active text-white' : 'hover:bg-white/10 text-slate-300'); ?>">
                         <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🏠</span>
                         <span class="font-bold text-sm tracking-wide">DASHBOARD</span>
                     </a>
@@ -52,12 +52,13 @@
                             <span class="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse"></span> PROFIL & IDENTITAS
                         </div>
                         <div class="space-y-1">
-                            @foreach(['edit' => 'Profil Utama', 'tugas' => 'Tugas & Fungsi', 'visi' => 'Visi & Misi', 'struktur' => 'Struktur Organisasi', 'regulasi' => 'Regulasi PPID', 'kontak' => 'Kontak'] as $key => $label)
-                                <a href="{{ route('admin.profil.'.$key) }}" 
-                                   class="flex items-center py-2 px-4 rounded-lg text-xs font-medium transition-all duration-200 {{ request()->routeIs('admin.profil.'.$key) ? 'bg-blue-600/20 text-blue-300 border-l-2 border-blue-400' : 'text-slate-400 hover:text-white hover:bg-white/5 hover:pl-6' }}">
-                                    <span class="mr-2 opacity-50">○</span> {{ $label }}
+                            <?php $__currentLoopData = ['edit' => 'Profil Utama', 'tugas' => 'Tugas & Fungsi', 'visi' => 'Visi & Misi', 'struktur' => 'Struktur Organisasi', 'regulasi' => 'Regulasi PPID', 'kontak' => 'Kontak']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <a href="<?php echo e(route('admin.profil.'.$key)); ?>" 
+                                   class="flex items-center py-2 px-4 rounded-lg text-xs font-medium transition-all duration-200 <?php echo e(request()->routeIs('admin.profil.'.$key) ? 'bg-blue-600/20 text-blue-300 border-l-2 border-blue-400' : 'text-slate-400 hover:text-white hover:bg-white/5 hover:pl-6'); ?>">
+                                    <span class="mr-2 opacity-50">○</span> <?php echo e($label); ?>
+
                                 </a>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
 
@@ -67,12 +68,13 @@
                             <span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span> INFORMASI PUBLIK
                         </div>
                         <div class="space-y-1">
-                            @foreach(['berkala' => 'Info Berkala', 'sertamerta' => 'Info Serta Merta', 'setiapsaat' => 'Info Setiap Saat', 'dikecualikan' => 'Info Dikecualikan'] as $key => $label)
-                                <a href="{{ route('admin.informasi.'.$key) }}" 
-                                   class="flex items-center py-2 px-4 rounded-lg text-xs font-medium transition-all duration-200 {{ request()->routeIs('admin.informasi.'.$key) ? 'bg-yellow-600/20 text-yellow-300 border-l-2 border-yellow-400' : 'text-slate-400 hover:text-white hover:bg-white/5 hover:pl-6' }}">
-                                    <span class="mr-2 opacity-50">○</span> {{ $label }}
+                            <?php $__currentLoopData = ['berkala' => 'Info Berkala', 'sertamerta' => 'Info Serta Merta', 'setiapsaat' => 'Info Setiap Saat', 'dikecualikan' => 'Info Dikecualikan']; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $label): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <a href="<?php echo e(route('admin.informasi.'.$key)); ?>" 
+                                   class="flex items-center py-2 px-4 rounded-lg text-xs font-medium transition-all duration-200 <?php echo e(request()->routeIs('admin.informasi.'.$key) ? 'bg-yellow-600/20 text-yellow-300 border-l-2 border-yellow-400' : 'text-slate-400 hover:text-white hover:bg-white/5 hover:pl-6'); ?>">
+                                    <span class="mr-2 opacity-50">○</span> <?php echo e($label); ?>
+
                                 </a>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
 
@@ -81,7 +83,7 @@
                         <div class="text-[10px] font-extrabold text-green-500 uppercase px-4 mb-3 tracking-widest flex items-center">
                             <span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span> UPDATE KONTEN
                         </div>
-                        @php
+                        <?php
                             $menus = [
                                 ['route' => 'admin.berita.index', 'icon' => '📰', 'label' => 'Berita Terkini'],
                                 ['route' => 'admin.dokumen.index', 'icon' => '📁', 'label' => 'File Dokumen'],
@@ -89,19 +91,20 @@
                                 ['route' => 'admin.prosedur.index', 'icon' => '⚙️', 'label' => 'SOP Layanan'],
                                 ['route' => 'admin.users', 'icon' => '👥', 'label' => 'User Management'],
                             ];
-                        @endphp
-                        @foreach($menus as $menu)
-                            <a href="{{ route($menu['route']) }}" 
-                               class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium mb-1 transition-all duration-200 {{ request()->routeIs($menu['route']) ? 'bg-green-600/20 text-green-300 border-l-2 border-green-400' : 'text-slate-400 hover:text-white hover:bg-white/5 hover:translate-x-1' }}">
-                                <span class="mr-3 text-base">{{ $menu['icon'] }}</span> {{ $menu['label'] }}
+                        ?>
+                        <?php $__currentLoopData = $menus; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $menu): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                            <a href="<?php echo e(route($menu['route'])); ?>" 
+                               class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium mb-1 transition-all duration-200 <?php echo e(request()->routeIs($menu['route']) ? 'bg-green-600/20 text-green-300 border-l-2 border-green-400' : 'text-slate-400 hover:text-white hover:bg-white/5 hover:translate-x-1'); ?>">
+                                <span class="mr-3 text-base"><?php echo e($menu['icon']); ?></span> <?php echo e($menu['label']); ?>
+
                             </a>
-                        @endforeach
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                     </div>
 
                     <!-- Link Eksternal -->
                     <div class="mt-4 pt-4 border-t border-white/10">
-                        <a href="{{ route('admin.lpse.index') }}" class="block py-2 px-4 text-[10px] text-slate-500 hover:text-white transition">↗ LPSE SYSTEM</a>
-                        <a href="{{ route('admin.jdih.index') }}" class="block py-2 px-4 text-[10px] text-slate-500 hover:text-white transition">↗ JDIH KEMENHUB</a>
+                        <a href="<?php echo e(route('admin.lpse.index')); ?>" class="block py-2 px-4 text-[10px] text-slate-500 hover:text-white transition">↗ LPSE SYSTEM</a>
+                        <a href="<?php echo e(route('admin.jdih.index')); ?>" class="block py-2 px-4 text-[10px] text-slate-500 hover:text-white transition">↗ JDIH KEMENHUB</a>
                     </div>
                 </nav>
             </div>
@@ -110,11 +113,11 @@
                 <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-20">
                     <div class="flex flex-col">
                         <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Administrator</span>
-                        <h2 class="text-lg font-bold text-slate-700 leading-tight">{{ Auth::user()->name }}</h2>
+                        <h2 class="text-lg font-bold text-slate-700 leading-tight"><?php echo e(Auth::user()->name); ?></h2>
                     </div>
                     
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('logout')); ?>">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full text-xs transition shadow-lg shadow-red-200">
                             KELUAR (LOGOUT)
                         </button>
@@ -122,9 +125,10 @@
                 </header>
 
                 <main class="p-8">
-                    {{ $slot }}
+                    <?php echo e($slot); ?>
+
                 </main>
             </div>
         </div>
     </body>
-</html>
+</html><?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/layouts/app.blade.php ENDPATH**/ ?>
