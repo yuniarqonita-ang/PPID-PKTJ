@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('profil_ppids', function (Blueprint $table) {
             $table->id();
+            $table->enum('type', ['profil', 'tugas', 'visi', 'struktur', 'regulasi', 'kontak'])->unique();
+            $table->string('judul')->nullable();
+            $table->longText('konten_pembuka')->nullable();
+            $table->string('judul_sub')->nullable();
+            $table->longText('konten_detail')->nullable();
+            $table->string('gambar')->nullable();
+            $table->string('link_dokumen')->nullable();
             $table->timestamps();
         });
     }

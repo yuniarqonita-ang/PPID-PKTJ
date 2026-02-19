@@ -1,179 +1,159 @@
-<?php if (isset($component)) { $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54 = $component; } ?>
-<?php if (isset($attributes)) { $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54 = $attributes; } ?>
-<?php $component = App\View\Components\AppLayout::resolve([] + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? $attributes->all() : [])); ?>
-<?php $component->withName('app-layout'); ?>
-<?php if ($component->shouldRender()): ?>
-<?php $__env->startComponent($component->resolveView(), $component->data()); ?>
-<?php if (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag): ?>
-<?php $attributes = $attributes->except(\App\View\Components\AppLayout::ignoredParameterNames()); ?>
-<?php endif; ?>
-<?php $component->withAttributes([]); ?>
-    <div class="min-h-screen bg-gradient-to-br from-blue-50 to-blue-100">
-        <!-- Header Welcome Section -->
-        <div class="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg">
-            <div class="max-w-full px-4 sm:px-6 lg:px-8 py-8">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h1 class="text-3xl font-bold">Selamat Datang, <?php echo e(Auth::user()->name); ?></h1>
-                        <p class="text-blue-100 mt-2">Update Terakhir: <?php echo e($last_update); ?></p>
+
+
+<?php $__env->startSection('content'); ?>
+<div class="mb-6">
+    <h1 class="text-3xl font-bold text-gray-800">Dashboard Overview</h1>
+    <p class="text-gray-600">Selamat datang kembali di Panel Admin PPID PKTJ.</p>
+</div>
+
+<!-- Profil Cards Section -->
+<div class="mb-8">
+    <h2 class="text-2xl font-bold text-gray-800 mb-4">Kelola Profil PPID</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Profil Utama -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden border-t-4 border-blue-500">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 rounded-full bg-blue-100 text-blue-500">
+                        <i class="fas fa-building text-2xl"></i>
                     </div>
-                    <form method="POST" action="<?php echo e(route('admin.logout')); ?>">
-                        <?php echo csrf_field(); ?>
-                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-full font-bold shadow-lg transition">
-                            KELUAR (LOGOUT)
-                        </button>
-                    </form>
+                    <h3 class="text-lg font-bold text-gray-800 ml-3">Profil PPID</h3>
                 </div>
+                <p class="text-gray-600 text-sm mb-4">Kelola profil dan identitas Politeknik Keselamatan Transportasi Jalan</p>
+                <a href="<?php echo e(route('admin.profil.edit', 'profil')); ?>" class="inline-block bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded text-sm transition">
+                    Edit
+                </a>
             </div>
         </div>
 
-        <div class="max-w-full px-4 sm:px-6 lg:px-8 py-8">
-            <!-- Statistics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-                <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-blue-600 hover:shadow-xl transition">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-500 text-sm font-semibold uppercase">Total Berita</p>
-                            <h3 class="text-3xl font-bold text-gray-800 mt-2"><?php echo e($totalBerita); ?></h3>
-                        </div>
-                        <div class="text-blue-600 text-4xl">📰</div>
+        <!-- Tugas & Fungsi -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden border-t-4 border-yellow-500">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 rounded-full bg-yellow-100 text-yellow-500">
+                        <i class="fas fa-tasks text-2xl"></i>
                     </div>
+                    <h3 class="text-lg font-bold text-gray-800 ml-3">Tugas & Fungsi</h3>
                 </div>
-
-                <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-yellow-500 hover:shadow-xl transition">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-500 text-sm font-semibold uppercase">Dokumen Publik</p>
-                            <h3 class="text-3xl font-bold text-gray-800 mt-2"><?php echo e($totalDokumen); ?></h3>
-                        </div>
-                        <div class="text-yellow-500 text-4xl">📁</div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-red-500 hover:shadow-xl transition">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-500 text-sm font-semibold uppercase">User Terdaftar</p>
-                            <h3 class="text-3xl font-bold text-gray-800 mt-2"><?php echo e($totalUser); ?></h3>
-                        </div>
-                        <div class="text-red-500 text-4xl">👥</div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-xl shadow-lg p-6 border-t-4 border-green-500 hover:shadow-xl transition">
-                    <div class="flex items-center justify-between">
-                        <div>
-                            <p class="text-gray-500 text-sm font-semibold uppercase">Total FAQ</p>
-                            <h3 class="text-3xl font-bold text-gray-800 mt-2"><?php echo e($totalFaq); ?></h3>
-                        </div>
-                        <div class="text-green-500 text-4xl">❓</div>
-                    </div>
-                </div>
+                <p class="text-gray-600 text-sm mb-4">Kelola tugas pokok dan fungsi organisasi</p>
+                <a href="<?php echo e(route('admin.profil.edit', 'tugas')); ?>" class="inline-block bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-2 px-4 rounded text-sm transition">
+                    Edit
+                </a>
             </div>
+        </div>
 
-            <!-- Main Content Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Publikasi Artikel -->
-                <div class="lg:col-span-2">
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
-                            <h2 class="text-white font-bold text-lg">📰 PUBLIKASI ARTIKEL TERKINI</h2>
-                        </div>
-                        <div class="p-6">
-                            <?php if($totalBerita > 0): ?>
-                                <p class="text-gray-700 mb-4">Sistem mendeteksi <span class="font-bold text-blue-600"><?php echo e($totalBerita); ?></span> artikel telah dipublikasikan.</p>
-                                <a href="<?php echo e(route('admin.berita.index')); ?>" class="inline-block bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-bold transition shadow-lg">
-                                    Kelola Berita
-                                </a>
-                            <?php else: ?>
-                                <p class="text-gray-400 italic">Belum ada konten berita.</p>
-                            <?php endif; ?>
-                        </div>
+        <!-- Visi & Misi -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden border-t-4 border-green-500">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 rounded-full bg-green-100 text-green-500">
+                        <i class="fas fa-lightbulb text-2xl"></i>
                     </div>
+                    <h3 class="text-lg font-bold text-gray-800 ml-3">Visi & Misi</h3>
                 </div>
+                <p class="text-gray-600 text-sm mb-4">Kelola visi dan misi organisasi</p>
+                <a href="<?php echo e(route('admin.profil.edit', 'visi')); ?>" class="inline-block bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded text-sm transition">
+                    Edit
+                </a>
+            </div>
+        </div>
 
-                <!-- Sidebar Menu -->
-                <div class="space-y-4">
-                    <!-- Profil PPID Menu -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
-                            <h3 class="text-white font-bold flex items-center">
-                                <span class="mr-2">📂</span> PROFIL PPID
-                            </h3>
-                        </div>
-                        <div class="p-4 space-y-2">
-                            <a href="<?php echo e(route('admin.profil.edit')); ?>" class="block px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium hover:text-blue-600 transition border-l-4 border-transparent hover:border-blue-600">
-                                ● Profil
-                            </a>
-                            <a href="<?php echo e(route('admin.profil.tugas')); ?>" class="block px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium hover:text-blue-600 transition border-l-4 border-transparent hover:border-blue-600">
-                                ● Tugas & Fungsi
-                            </a>
-                            <a href="<?php echo e(route('admin.profil.visi')); ?>" class="block px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium hover:text-blue-600 transition border-l-4 border-transparent hover:border-blue-600">
-                                ● Visi & Misi
-                            </a>
-                            <a href="<?php echo e(route('admin.profil.struktur')); ?>" class="block px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium hover:text-blue-600 transition border-l-4 border-transparent hover:border-blue-600">
-                                ● Struktur Organisasi
-                            </a>
-                            <a href="<?php echo e(route('admin.profil.regulasi')); ?>" class="block px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium hover:text-blue-600 transition border-l-4 border-transparent hover:border-blue-600">
-                                ● Regulasi PPID
-                            </a>
-                            <a href="<?php echo e(route('admin.profil.kontak')); ?>" class="block px-4 py-2 rounded-lg hover:bg-blue-50 text-gray-700 font-medium hover:text-blue-600 transition border-l-4 border-transparent hover:border-blue-600">
-                                ● Kontak
-                            </a>
-                        </div>
+        <!-- Struktur Organisasi -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden border-t-4 border-red-500">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 rounded-full bg-red-100 text-red-500">
+                        <i class="fas fa-sitemap text-2xl"></i>
                     </div>
-
-                    <!-- Informasi Publik Menu -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <div class="bg-gradient-to-r from-yellow-500 to-yellow-600 px-6 py-4">
-                            <h3 class="text-white font-bold flex items-center">
-                                <span class="mr-2">📊</span> INFORMASI PUBLIK
-                            </h3>
-                        </div>
-                        <div class="p-4 space-y-2">
-                            <a href="<?php echo e(route('admin.informasi.berkala')); ?>" class="block px-4 py-2 rounded-lg hover:bg-yellow-50 text-gray-700 font-medium hover:text-yellow-600 transition border-l-4 border-transparent hover:border-yellow-600">
-                                ● Berkala
-                            </a>
-                            <a href="<?php echo e(route('admin.informasi.sertamerta')); ?>" class="block px-4 py-2 rounded-lg hover:bg-yellow-50 text-gray-700 font-medium hover:text-yellow-600 transition border-l-4 border-transparent hover:border-yellow-600">
-                                ● Serta Merta
-                            </a>
-                            <a href="<?php echo e(route('admin.informasi.setiapsaat')); ?>" class="block px-4 py-2 rounded-lg hover:bg-yellow-50 text-gray-700 font-medium hover:text-yellow-600 transition border-l-4 border-transparent hover:border-yellow-600">
-                                ● Setiap Saat
-                            </a>
-                            <a href="<?php echo e(route('admin.informasi.dikecualikan')); ?>" class="block px-4 py-2 rounded-lg hover:bg-yellow-50 text-gray-700 font-medium hover:text-yellow-600 transition border-l-4 border-transparent hover:border-yellow-600">
-                                ● Dikecualikan
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- Layanan Terkait Menu -->
-                    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                        <div class="bg-gradient-to-r from-red-500 to-red-600 px-6 py-4">
-                            <h3 class="text-white font-bold flex items-center">
-                                <span class="mr-2">🔗</span> LAYANAN TERKAIT
-                            </h3>
-                        </div>
-                        <div class="p-4 flex gap-2">
-                            <a href="<?php echo e(route('admin.lpse.index')); ?>" class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 font-bold py-2 px-3 rounded-lg text-center transition uppercase text-sm">
-                                LPSE
-                            </a>
-                            <a href="<?php echo e(route('admin.jdih.index')); ?>" class="flex-1 bg-red-50 hover:bg-red-100 text-red-600 font-bold py-2 px-3 rounded-lg text-center transition uppercase text-sm">
-                                JDIH
-                            </a>
-                        </div>
-                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 ml-3">Struktur Organisasi</h3>
                 </div>
+                <p class="text-gray-600 text-sm mb-4">Kelola struktur dan susunan organisasi</p>
+                <a href="<?php echo e(route('admin.profil.edit', 'struktur')); ?>" class="inline-block bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded text-sm transition">
+                    Edit
+                </a>
+            </div>
+        </div>
+
+        <!-- Regulasi -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden border-t-4 border-purple-500">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 rounded-full bg-purple-100 text-purple-500">
+                        <i class="fas fa-file-contract text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 ml-3">Regulasi PPID</h3>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">Kelola peraturan dan regulasi PPID</p>
+                <a href="<?php echo e(route('admin.profil.edit', 'regulasi')); ?>" class="inline-block bg-purple-500 hover:bg-purple-600 text-white font-bold py-2 px-4 rounded text-sm transition">
+                    Edit
+                </a>
+            </div>
+        </div>
+
+        <!-- Kontak -->
+        <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden border-t-4 border-cyan-500">
+            <div class="p-6">
+                <div class="flex items-center mb-4">
+                    <div class="p-3 rounded-full bg-cyan-100 text-cyan-500">
+                        <i class="fas fa-phone text-2xl"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-gray-800 ml-3">Kontak</h3>
+                </div>
+                <p class="text-gray-600 text-sm mb-4">Kelola informasi kontak organisasi</p>
+                <a href="<?php echo e(route('admin.profil.edit', 'kontak')); ?>" class="inline-block bg-cyan-500 hover:bg-cyan-600 text-white font-bold py-2 px-4 rounded text-sm transition">
+                    Edit
+                </a>
             </div>
         </div>
     </div>
- <?php echo $__env->renderComponent(); ?>
-<?php endif; ?>
-<?php if (isset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
-<?php $attributes = $__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
-<?php unset($__attributesOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
-<?php endif; ?>
-<?php if (isset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54)): ?>
-<?php $component = $__componentOriginal9ac128a9029c0e4701924bd2d73d7f54; ?>
-<?php unset($__componentOriginal9ac128a9029c0e4701924bd2d73d7f54); ?>
-<?php endif; ?>
-<?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>
+</div>
+
+<!-- Stats Cards -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Card 1 -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500 flex items-center">
+        <div class="p-3 rounded-full bg-blue-100 text-blue-500 mr-4">
+            <i class="fas fa-newspaper text-2xl"></i>
+        </div>
+        <div>
+            <p class="text-gray-500 text-sm font-medium">Total Berita</p>
+            <p class="text-2xl font-bold text-gray-800"><?php echo e(\App\Models\Berita::count()); ?></p>
+        </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500 flex items-center">
+        <div class="p-3 rounded-full bg-green-100 text-green-500 mr-4">
+            <i class="fas fa-file-pdf text-2xl"></i>
+        </div>
+        <div>
+            <p class="text-gray-500 text-sm font-medium">Dokumen Publik</p>
+            <p class="text-2xl font-bold text-gray-800"><?php echo e(\App\Models\Dokumen::count()); ?></p>
+        </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500 flex items-center">
+        <div class="p-3 rounded-full bg-purple-100 text-purple-500 mr-4">
+            <i class="fas fa-users text-2xl"></i>
+        </div>
+        <div>
+            <p class="text-gray-500 text-sm font-medium">Permohonan Info</p>
+            <p class="text-2xl font-bold text-gray-800">0</p> <!-- Nanti diganti real data -->
+        </div>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-red-500 flex items-center">
+        <div class="p-3 rounded-full bg-red-100 text-red-500 mr-4">
+            <i class="fas fa-exclamation-circle text-2xl"></i>
+        </div>
+        <div>
+            <p class="text-gray-500 text-sm font-medium">Pengajuan Keberatan</p>
+            <p class="text-2xl font-bold text-gray-800">0</p>
+        </div>
+    </div>
+</div>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

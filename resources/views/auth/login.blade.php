@@ -12,14 +12,9 @@
         <div class="w-full sm:max-w-md">
             <!-- Logo Section -->
             <div class="mb-8 text-center">
-                <!-- Logo PKTJ (Placeholder) -->
+                <!-- Logo PKTJ -->
                 <div class="flex justify-center mb-6">
-                    <div class="w-24 h-24 rounded-full bg-white shadow-xl flex items-center justify-center">
-                        <div class="text-center">
-                            <div class="text-5xl mb-2">🛣️</div>
-                            <p class="text-xs font-bold text-blue-600">PKTJ</p>
-                        </div>
-                    </div>
+                    <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ" class="w-24 h-24 object-contain">
                 </div>
                 <h2 class="text-2xl font-bold text-white uppercase">Politeknik Keselamatan </h2>
                 <h2 class="text-2xl font-bold text-yellow-300 uppercase">Transportasi Jalan</h2>
