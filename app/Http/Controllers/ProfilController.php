@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\ProfilPpid;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-class ProfileController extends Controller
+class ProfilPublikController extends Controller
 {
     /**
      * Display the user's profile form.
@@ -163,7 +164,8 @@ class ProfileController extends Controller
      */
     public function showProfil(): View
     {
-        return view('user.profil');
+        $profil = ProfilPpid::where('type', 'profil')->first();
+        return view('profil-ppid', compact('profil'));
     }
 
     /**
@@ -171,7 +173,8 @@ class ProfileController extends Controller
      */
     public function showTugas(): View
     {
-        return view('user.tugas');
+        $profil = ProfilPpid::where('type', 'tugas')->first();
+        return view('profil-tugas-tanggung-jawab', compact('profil'));
     }
 
     /**
@@ -179,7 +182,8 @@ class ProfileController extends Controller
      */
     public function showVisi(): View
     {
-        return view('user.visi');
+        $profil = ProfilPpid::where('type', 'visi')->first();
+        return view('profil-visi-misi', compact('profil'));
     }
 
     /**
@@ -187,7 +191,8 @@ class ProfileController extends Controller
      */
     public function showStruktur(): View
     {
-        return view('user.struktur');
+        $profil = ProfilPpid::where('type', 'struktur')->first();
+        return view('profil-struktur-organisasi', compact('profil'));
     }
 
     /**
@@ -195,7 +200,8 @@ class ProfileController extends Controller
      */
     public function showRegulasi(): View
     {
-        return view('user.regulasi');
+        $profil = ProfilPpid::where('type', 'regulasi')->first();
+        return view('profil-regulasi', compact('profil'));
     }
 
     /**
@@ -203,6 +209,7 @@ class ProfileController extends Controller
      */
     public function showKontak(): View
     {
-        return view('user.kontak');
+        $profil = ProfilPpid::where('type', 'kontak')->first();
+        return view('profil-kontak', compact('profil'));
     }
 }

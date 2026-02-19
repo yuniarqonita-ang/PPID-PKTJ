@@ -7,7 +7,7 @@ use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\ProsedurController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ProfilPpidController;
-use App\Http\Controllers\ProfilController;
+use App\Http\Controllers\ProfilPublikController;
 use App\Http\Controllers\Auth\LoginController;
 
 // ==========================================
@@ -36,16 +36,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     // Menu Profil PPID
     Route::name('admin.profil.')->prefix('profil')->group(function () {
-        // Menggunakan ProfilPpidController untuk semua halaman profil (Single Page Form)
-        Route::get('/edit', [ProfilPpidController::class, 'index'])->name('edit');
-        Route::put('/update', [ProfilPpidController::class, 'update'])->name('update');
+        // Dashboard menunjukkan semua profil sections
+        Route::get('/', [ProfilPpidController::class, 'index'])->name('index');
         
-        // Route lain diarahkan ke index juga (karena formnya jadi satu)
-        Route::get('/tugas', [ProfilPpidController::class, 'index'])->name('tugas');
-        Route::get('/visi', [ProfilPpidController::class, 'index'])->name('visi');
-        Route::get('/struktur', [ProfilPpidController::class, 'index'])->name('struktur');
-        Route::get('/regulasi', [ProfilPpidController::class, 'index'])->name('regulasi');
-        Route::get('/kontak', [ProfilPpidController::class, 'index'])->name('kontak');
+        // CRUD untuk setiap tipe profil
+        Route::get('/{type}', [ProfilPpidController::class, 'edit'])->name('edit');
+        Route::put('/{type}', [ProfilPpidController::class, 'update'])->name('update');
+        Route::delete('/{type}', [ProfilPpidController::class, 'destroy'])->name('destroy');
     });
 
     // Menu Informasi Publik
@@ -73,9 +70,14 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 // ==========================================
 // 4. FRONTEND USER (PUBLIC PAGES)
 // ==========================================
-Route::get('/profil', [ProfilController::class, 'showProfil'])->name('user.profil');
-Route::get('/tugas', [ProfilController::class, 'showTugas'])->name('user.tugas');
-Route::get('/visi', [ProfilController::class, 'showVisi'])->name('user.visi');
-Route::get('/struktur', [ProfilController::class, 'showStruktur'])->name('user.struktur');
-Route::get('/regulasi', [ProfilController::class, 'showRegulasi'])->name('user.regulasi');
-Route::get('/kontak', [ProfilController::class, 'showKontak'])->name('user.kontak');
+Route::name('profil.')->prefix('profil')->group(function () {
+    Route::get('/', [ProfilPublikController::class, 'showProfil'])->name('index');
+    Route::get('/tugas', [ProfilPublikController::class, 'showTugas'])->name('tugas');
+    Route::get('/visi', [ProfilPublikController::class, 'showVisi'])->name('visi');
+    Route::get('/struktur', [ProfilPublikController::class, 'showStruktur'])->name('struktur');
+    Route::get('/regulasi', [ProfilPublikController::class, 'showRegulasi'])->name('regulasi');
+    Route::get('/kontak', [ProfilPublikController::class, 'showKontak'])->name('kontak');
+});
+
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+Route::get('/permohonan', function() { return view('permohonan'); })->name('permohonan.form');

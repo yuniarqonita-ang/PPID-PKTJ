@@ -1,45 +1,47 @@
-@extends('layouts.app')
 
-@section('content')
+
+<?php $__env->startSection('content'); ?>
 <div class="container mt-5 mb-5">
     <div class="row mb-4">
         <div class="col-12">
-            <a href="{{ route('admin.profil.index') }}" class="btn btn-secondary btn-sm mb-3">
+            <a href="<?php echo e(route('admin.profil.index')); ?>" class="btn btn-secondary btn-sm mb-3">
                 <i class="fas fa-arrow-left me-2"></i> Kembali
             </a>
             <h2 class="display-5 fw-bold text-primary">
-                <i class="fas fa-edit me-2"></i> Edit {{ ucfirst(str_replace('-', ' ', $type)) }}
+                <i class="fas fa-edit me-2"></i> Edit <?php echo e(ucfirst(str_replace('-', ' ', $type))); ?>
+
             </h2>
             <p class="text-muted">Kelola konten dan media untuk halaman ini</p>
         </div>
     </div>
 
-    @if($errors->any())
+    <?php if($errors->any()): ?>
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
             <h5 class="alert-heading">
                 <i class="fas fa-exclamation-circle me-2"></i> Terjadi Kesalahan!
             </h5>
             <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
+                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <li><?php echo e($error); ?></li>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
             </ul>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-    @endif
+    <?php endif; ?>
 
-    @if(session('success'))
+    <?php if(session('success')): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
+            <i class="fas fa-check-circle me-2"></i> <?php echo e(session('success')); ?>
+
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-    @endif
+    <?php endif; ?>
 
     <div class="card border-0 shadow-lg">
         <div class="card-body p-5">
-            <form action="{{ route('admin.profil.update', $type) }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
+            <form action="<?php echo e(route('admin.profil.update', $type)); ?>" method="POST" enctype="multipart/form-data">
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('PUT'); ?>
 
                 <div class="row">
                     <!-- Left Column: Text Content -->
@@ -49,12 +51,26 @@
                             <label for="judul" class="form-label fw-bold">
                                 <i class="fas fa-heading me-2"></i> Judul Halaman
                             </label>
-                            <input type="text" class="form-control form-control-lg @error('judul') is-invalid @enderror" 
-                                   id="judul" name="judul" value="{{ old('judul', $profil->judul) }}"
+                            <input type="text" class="form-control form-control-lg <?php $__errorArgs = ['judul'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                                   id="judul" name="judul" value="<?php echo e(old('judul', $profil->judul)); ?>"
                                    placeholder="Masukkan judul halaman..." required>
-                            @error('judul')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <?php $__errorArgs = ['judul'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <div class="invalid-feedback"><?php echo e($message); ?></div>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <!-- Konten Pembuka -->
@@ -63,10 +79,24 @@
                                 <i class="fas fa-pen-fancy me-2"></i> Konten Utama
                             </label>
                             <small class="d-block text-muted mb-2">Gunakan editor di bawah untuk memformat teks (bold, italic, list, link, dll)</small>
-                            <textarea id="editor_pembuka" name="konten_pembuka" class="form-control form-editor @error('konten_pembuka') is-invalid @enderror">{{ old('konten_pembuka', $profil->konten_pembuka) }}</textarea>
-                            @error('konten_pembuka')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            <textarea id="editor_pembuka" name="konten_pembuka" class="form-control form-editor <?php $__errorArgs = ['konten_pembuka'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"><?php echo e(old('konten_pembuka', $profil->konten_pembuka)); ?></textarea>
+                            <?php $__errorArgs = ['konten_pembuka'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <div class="invalid-feedback d-block"><?php echo e($message); ?></div>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <!-- Judul Sub -->
@@ -74,12 +104,26 @@
                             <label for="judul_sub" class="form-label fw-bold">
                                 <i class="fas fa-heading me-2"></i> Judul Bagian Tambahan (Opsional)
                             </label>
-                            <input type="text" class="form-control @error('judul_sub') is-invalid @enderror" 
-                                   id="judul_sub" name="judul_sub" value="{{ old('judul_sub', $profil->judul_sub) }}"
+                            <input type="text" class="form-control <?php $__errorArgs = ['judul_sub'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                                   id="judul_sub" name="judul_sub" value="<?php echo e(old('judul_sub', $profil->judul_sub)); ?>"
                                    placeholder="Contoh: Detail Lebih Lanjut...">
-                            @error('judul_sub')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
+                            <?php $__errorArgs = ['judul_sub'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <div class="invalid-feedback"><?php echo e($message); ?></div>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <!-- Konten Detail -->
@@ -88,34 +132,62 @@
                                 <i class="fas fa-pen-fancy me-2"></i> Konten Bagian Tambahan
                             </label>
                             <small class="d-block text-muted mb-2">Konten tambahan dengan format lengkap (tabel, list, dll)</small>
-                            <textarea id="editor_detail" name="konten_detail" class="form-control form-editor @error('konten_detail') is-invalid @enderror">{{ old('konten_detail', $profil->konten_detail) }}</textarea>
-                            @error('konten_detail')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            <textarea id="editor_detail" name="konten_detail" class="form-control form-editor <?php $__errorArgs = ['konten_detail'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>"><?php echo e(old('konten_detail', $profil->konten_detail)); ?></textarea>
+                            <?php $__errorArgs = ['konten_detail'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <div class="invalid-feedback d-block"><?php echo e($message); ?></div>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
-                        @if($type === 'regulasi')
+                        <?php if($type === 'regulasi'): ?>
                         <!-- Link Dokumen (For Regulasi) -->
                         <div class="mb-4">
                             <label for="link_dokumen" class="form-label fw-bold">
                                 <i class="fas fa-link me-2"></i> Link Dokumen / Google Drive
                             </label>
                             <div class="input-group">
-                                <input type="url" class="form-control @error('link_dokumen') is-invalid @enderror" 
-                                       id="link_dokumen" name="link_dokumen" value="{{ old('link_dokumen', $profil->link_dokumen) }}"
+                                <input type="url" class="form-control <?php $__errorArgs = ['link_dokumen'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>" 
+                                       id="link_dokumen" name="link_dokumen" value="<?php echo e(old('link_dokumen', $profil->link_dokumen)); ?>"
                                        placeholder="https://drive.google.com/...">
-                                @if($profil->link_dokumen)
-                                    <button type="button" class="btn btn-outline-info" onclick="previewDocument('{{ $profil->link_dokumen }}')">
+                                <?php if($profil->link_dokumen): ?>
+                                    <button type="button" class="btn btn-outline-info" onclick="previewDocument('<?php echo e($profil->link_dokumen); ?>')">
                                         <i class="fas fa-eye me-2"></i> Preview
                                     </button>
-                                @endif
+                                <?php endif; ?>
                             </div>
                             <small class="d-block text-info mt-2">✓ Dokumen akan ditampilkan dalam preview modal di halaman publik (bukan tab baru)</small>
-                            @error('link_dokumen')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            <?php $__errorArgs = ['link_dokumen'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <div class="invalid-feedback d-block"><?php echo e($message); ?></div>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
-                        @endif
+                        <?php endif; ?>
                     </div>
 
                     <!-- Right Column: Images -->
@@ -128,24 +200,31 @@
                             <div class="border-2 border-dashed border-primary rounded p-4 text-center bg-light position-relative" style="cursor: pointer;" onclick="document.getElementById('gambar').click()">
                                 <input type="file" id="gambar" name="gambar" class="d-none" accept="image/*" onchange="previewImage(event)">
                                 <div id="image-preview-wrapper">
-                                    @if($profil->gambar)
-                                        <img id="image-preview" src="{{ asset('storage/profil/' . $profil->gambar) }}" alt="{{ $profil->judul }}" class="img-fluid rounded mb-3" style="max-height: 300px;">
+                                    <?php if($profil->gambar): ?>
+                                        <img id="image-preview" src="<?php echo e(asset('storage/profil/' . $profil->gambar)); ?>" alt="<?php echo e($profil->judul); ?>" class="img-fluid rounded mb-3" style="max-height: 300px;">
                                         <div class="form-check mt-3">
                                             <input class="form-check-input" type="checkbox" name="hapus_gambar" value="1" id="hapus_gambar">
                                             <label class="form-check-label text-danger" for="hapus_gambar">
                                                 Hapus gambar
                                             </label>
                                         </div>
-                                    @else
+                                    <?php else: ?>
                                         <img id="image-preview" src="https://via.placeholder.com/400x300?text=Klik+untuk+upload" alt="Preview" class="img-fluid rounded mb-3">
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                                 <p class="text-primary fw-bold mb-1">Klik di sini untuk upload</p>
                                 <small class="text-muted">Format: JPG, PNG, GIF | Ukuran max: 5MB</small>
                             </div>
-                            @error('gambar')
-                                <div class="text-danger mt-2">{{ $message }}</div>
-                            @enderror
+                            <?php $__errorArgs = ['gambar'];
+$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
+if ($__bag->has($__errorArgs[0])) :
+if (isset($message)) { $__messageOriginal = $message; }
+$message = $__bag->first($__errorArgs[0]); ?>
+                                <div class="text-danger mt-2"><?php echo e($message); ?></div>
+                            <?php unset($message);
+if (isset($__messageOriginal)) { $message = $__messageOriginal; }
+endif;
+unset($__errorArgs, $__bag); ?>
                         </div>
 
                         <!-- Info Card -->
@@ -169,7 +248,7 @@
                 <!-- Form Actions -->
                 <div class="row mt-5">
                     <div class="col-12 d-flex gap-2 justify-content-end">
-                        <a href="{{ route('admin.profil.index') }}" class="btn btn-secondary btn-lg">
+                        <a href="<?php echo e(route('admin.profil.index')); ?>" class="btn btn-secondary btn-lg">
                             <i class="fas fa-times me-2"></i> Batal
                         </a>
                         <button type="submit" class="btn btn-primary btn-lg">
@@ -417,4 +496,5 @@
         }
     });
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/admin/profil/edit.blade.php ENDPATH**/ ?>

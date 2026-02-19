@@ -26,84 +26,226 @@
     </head>
     <body class="font-sans antialiased bg-gray-100">
         <div class="flex min-h-screen">
-            <!-- SIDEBAR BARU YANG LEBIH MENARIK -->
-            <div class="w-72 bg-gradient-to-b from-slate-900 via-blue-950 to-slate-900 text-white hidden md:block shadow-2xl sticky top-0 h-screen flex flex-col border-r border-white/10">
+            <!-- SIDEBAR ACCORDION MODERN -->
+            <div class="w-80 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white hidden md:flex md:flex-col shadow-2xl sticky top-0 h-screen border-r border-blue-500/20">
                 
                 <!-- Logo Area -->
-                <div class="h-20 flex items-center justify-center border-b border-white/10 bg-black/20">
+                <div class="h-24 flex items-center justify-center border-b border-blue-500/20 bg-gradient-to-r from-blue-950/50 to-purple-950/50 backdrop-blur-xl">
                     <div class="text-center">
-                        <h1 class="text-2xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300">
-                            ADMIN PPID
+                        <h1 class="text-3xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 mb-1">
+                            PPID PKTJ
                         </h1>
-                        <p class="text-[10px] text-slate-400 tracking-widest uppercase">Back Office System</p>
+                        <p class="text-[9px] text-slate-400 tracking-widest uppercase font-bold">Management Panel</p>
                     </div>
                 </div>
                 
-                <nav class="flex-1 overflow-y-auto sidebar-scroll px-4 py-4">
+                <nav class="flex-1 overflow-y-auto sidebar-scroll px-3 py-4 space-y-2">
                     <!-- Dashboard Link -->
-                    <a href="{{ route('dashboard') }}" class="flex items-center py-3 px-4 rounded-xl mb-6 transition-all duration-300 group {{ request()->routeIs('dashboard') ? 'nav-item-active text-white' : 'hover:bg-white/10 text-slate-300' }}">
-                        <span class="text-xl mr-3 group-hover:scale-110 transition-transform">🏠</span>
+                    <a href="{{ route('dashboard') }}" class="flex items-center py-3 px-4 rounded-lg transition-all duration-300 group {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30' : 'hover:bg-slate-800/50 text-slate-300' }}">
+                        <span class="text-2xl mr-3 group-hover:scale-110 transition-transform">🏠</span>
                         <span class="font-bold text-sm tracking-wide">DASHBOARD</span>
                     </a>
 
-                    <!-- Group 1: Profil PPID -->
-                    <div class="mb-6">
-                        <div class="text-[10px] font-extrabold text-blue-400 uppercase px-4 mb-3 tracking-widest flex items-center">
-                            <span class="w-2 h-2 rounded-full bg-blue-500 mr-2 animate-pulse"></span> PROFIL & IDENTITAS
-                        </div>
-                        <div class="space-y-1">
-                            @foreach(['edit' => 'Profil Utama', 'tugas' => 'Tugas & Fungsi', 'visi' => 'Visi & Misi', 'struktur' => 'Struktur Organisasi', 'regulasi' => 'Regulasi PPID', 'kontak' => 'Kontak'] as $key => $label)
-                                <a href="{{ route('admin.profil.'.$key) }}" 
-                                   class="flex items-center py-2 px-4 rounded-lg text-xs font-medium transition-all duration-200 {{ request()->routeIs('admin.profil.'.$key) ? 'bg-blue-600/20 text-blue-300 border-l-2 border-blue-400' : 'text-slate-400 hover:text-white hover:bg-white/5 hover:pl-6' }}">
-                                    <span class="mr-2 opacity-50">○</span> {{ $label }}
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <!-- Group 2: Informasi Publik -->
-                    <div class="mb-6">
-                        <div class="text-[10px] font-extrabold text-yellow-500 uppercase px-4 mb-3 tracking-widest flex items-center">
-                            <span class="w-2 h-2 rounded-full bg-yellow-500 mr-2"></span> INFORMASI PUBLIK
-                        </div>
-                        <div class="space-y-1">
-                            @foreach(['berkala' => 'Info Berkala', 'sertamerta' => 'Info Serta Merta', 'setiapsaat' => 'Info Setiap Saat', 'dikecualikan' => 'Info Dikecualikan'] as $key => $label)
-                                <a href="{{ route('admin.informasi.'.$key) }}" 
-                                   class="flex items-center py-2 px-4 rounded-lg text-xs font-medium transition-all duration-200 {{ request()->routeIs('admin.informasi.'.$key) ? 'bg-yellow-600/20 text-yellow-300 border-l-2 border-yellow-400' : 'text-slate-400 hover:text-white hover:bg-white/5 hover:pl-6' }}">
-                                    <span class="mr-2 opacity-50">○</span> {{ $label }}
-                                </a>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <!-- Group 3: Manajemen Konten -->
-                    <div class="mb-8">
-                        <div class="text-[10px] font-extrabold text-green-500 uppercase px-4 mb-3 tracking-widest flex items-center">
-                            <span class="w-2 h-2 rounded-full bg-green-500 mr-2"></span> UPDATE KONTEN
-                        </div>
-                        @php
-                            $menus = [
-                                ['route' => 'admin.berita.index', 'icon' => '📰', 'label' => 'Berita Terkini'],
-                                ['route' => 'admin.dokumen.index', 'icon' => '📁', 'label' => 'File Dokumen'],
-                                ['route' => 'admin.faq.index', 'icon' => '❓', 'label' => 'FAQ System'],
-                                ['route' => 'admin.prosedur.index', 'icon' => '⚙️', 'label' => 'SOP Layanan'],
-                                ['route' => 'admin.users', 'icon' => '👥', 'label' => 'User Management'],
-                            ];
-                        @endphp
-                        @foreach($menus as $menu)
-                            <a href="{{ route($menu['route']) }}" 
-                               class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium mb-1 transition-all duration-200 {{ request()->routeIs($menu['route']) ? 'bg-green-600/20 text-green-300 border-l-2 border-green-400' : 'text-slate-400 hover:text-white hover:bg-white/5 hover:translate-x-1' }}">
-                                <span class="mr-3 text-base">{{ $menu['icon'] }}</span> {{ $menu['label'] }}
+                    <!-- ==================== ACCORDION GROUP 1: PROFIL PPID ==================== -->
+                    <div class="accordion-item pt-2">
+                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-blue-600/20 to-blue-500/10 hover:from-blue-600/30 hover:to-blue-500/20 border border-blue-500/30 transition-all duration-300 group"
+                                onclick="toggleAccordion(this)">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">📋</span>
+                                <span class="font-bold text-sm text-blue-300 tracking-wider uppercase">Profil PPID</span>
+                            </div>
+                            <span class="accordion-arrow text-slate-400 group-hover:text-blue-300 transition-all duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
+                            <a href="{{ route('admin.profil.edit', 'profil') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'profil' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Profil PPID
                             </a>
-                        @endforeach
+                            <a href="{{ route('admin.profil.edit', 'tugas') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'tugas' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Tugas dan tanggung jawab PPID
+                            </a>
+                            <a href="{{ route('admin.profil.edit', 'visi') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'visi' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Visi dan misi PPID
+                            </a>
+                            <a href="{{ route('admin.profil.edit', 'struktur') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'struktur' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Struktur organisasi
+                            </a>
+                            <a href="{{ route('admin.profil.edit', 'regulasi') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'regulasi' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Regulasi
+                            </a>
+                            <a href="{{ route('admin.profil.edit', 'kontak') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'kontak' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Kontak
+                            </a>
+                        </div>
                     </div>
 
-                    <!-- Link Eksternal -->
-                    <div class="mt-4 pt-4 border-t border-white/10">
-                        <a href="{{ route('admin.lpse.index') }}" class="block py-2 px-4 text-[10px] text-slate-500 hover:text-white transition">↗ LPSE SYSTEM</a>
-                        <a href="{{ route('admin.jdih.index') }}" class="block py-2 px-4 text-[10px] text-slate-500 hover:text-white transition">↗ JDIH KEMENHUB</a>
+                    <!-- ==================== ACCORDION GROUP 2: INFORMASI PUBLIK ==================== -->
+                    <div class="accordion-item pt-2">
+                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-yellow-600/20 to-yellow-500/10 hover:from-yellow-600/30 hover:to-yellow-500/20 border border-yellow-500/30 transition-all duration-300 group"
+                                onclick="toggleAccordion(this)">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">📰</span>
+                                <span class="font-bold text-sm text-yellow-300 tracking-wider uppercase">Informasi Publik</span>
+                            </div>
+                            <span class="accordion-arrow text-slate-400 group-hover:text-yellow-300 transition-all duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
+                            <a href="{{ route('admin.informasi.berkala') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.berkala') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Informasi berkala
+                            </a>
+                            <a href="{{ route('admin.informasi.sertamerta') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.sertamerta') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Informasi serta merta
+                            </a>
+                            <a href="{{ route('admin.informasi.setiapsaat') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.setiapsaat') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Informasi setiap saat
+                            </a>
+                            <a href="{{ route('admin.informasi.dikecualikan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.dikecualikan') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Informasi dikecualikan
+                            </a>
+                        </div>
                     </div>
+
+                    <!-- ==================== ACCORDION GROUP 3: LAYANAN INFORMASI ==================== -->
+                    <div class="accordion-item pt-2">
+                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-purple-600/20 to-purple-500/10 hover:from-purple-600/30 hover:to-purple-500/20 border border-purple-500/30 transition-all duration-300 group"
+                                onclick="toggleAccordion(this)">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">📋</span>
+                                <span class="font-bold text-sm text-purple-300 tracking-wider uppercase">Layanan Informasi</span>
+                            </div>
+                            <span class="accordion-arrow text-slate-400 group-hover:text-purple-300 transition-all duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Daftar informasi publik
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Maklumat pelayanan dan standar biaya
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Laporan layanan informasi publik
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Laporan akses informasi publik
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Laporan survey kepuasan layanan informasi publik
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> JDIH kementrian perhubungan
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ==================== ACCORDION GROUP 4: PROSEDUR ==================== -->
+                    <div class="accordion-item pt-2">
+                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-orange-600/20 to-orange-500/10 hover:from-orange-600/30 hover:to-orange-500/20 border border-orange-500/30 transition-all duration-300 group"
+                                onclick="toggleAccordion(this)">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">⚙️</span>
+                                <span class="font-bold text-sm text-orange-300 tracking-wider uppercase">Prosedur</span>
+                            </div>
+                            <span class="accordion-arrow text-slate-400 group-hover:text-orange-300 transition-all duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> SOP permintaan informasi publik
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> SOP penanganan keberatan
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> SOP pengajuan sengketa informasi publik
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> SOP penetapan dan pemiktakhiran daftar informasi publik
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> SOP pengujian konsekuensi
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> SOP pendokumentasian informasi publik
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ==================== ACCORDION GROUP 5: LPSE ==================== -->
+                    <div class="accordion-item pt-2">
+                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-green-600/20 to-green-500/10 hover:from-green-600/30 hover:to-green-500/20 border border-green-500/30 transition-all duration-300 group"
+                                onclick="toggleAccordion(this)">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">🏪</span>
+                                <span class="font-bold text-sm text-green-300 tracking-wider uppercase">LPSE</span>
+                            </div>
+                            <span class="accordion-arrow text-slate-400 group-hover:text-green-300 transition-all duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Pengadaan barang dan jasa
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Informasi pengadaan barang dan jasa
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Dokumen pengadaan barang dan jasa
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Informasi penyedia
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Permohonan informasi
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ==================== ACCORDION GROUP 6: FAQ & PERMOHONAN ==================== -->
+                    <div class="accordion-item pt-2">
+                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-pink-600/20 to-pink-500/10 hover:from-pink-600/30 hover:to-pink-500/20 border border-pink-500/30 transition-all duration-300 group"
+                                onclick="toggleAccordion(this)">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">❓</span>
+                                <span class="font-bold text-sm text-pink-300 tracking-wider uppercase">FAQ & Permohonan</span>
+                            </div>
+                            <span class="accordion-arrow text-slate-400 group-hover:text-pink-300 transition-all duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
+                            <a href="{{ route('admin.faq.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-pink-500/20 hover:border-l-2 hover:border-pink-400 transition-all duration-200 {{ request()->routeIs('admin.faq.index') ? 'bg-pink-500/30 text-pink-300 border-l-2 border-pink-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> FAQ
+                            </a>
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-pink-500/20 hover:border-l-2 hover:border-pink-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Permohonan informasi
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ==================== ACCORDION GROUP 7: KONTEN LAINNYA ==================== -->
+                    <div class="accordion-item pt-2">
+                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-cyan-600/20 to-cyan-500/10 hover:from-cyan-600/30 hover:to-cyan-500/20 border border-cyan-500/30 transition-all duration-300 group"
+                                onclick="toggleAccordion(this)">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">📝</span>
+                                <span class="font-bold text-sm text-cyan-300 tracking-wider uppercase">Konten & Berita</span>
+                            </div>
+                            <span class="accordion-arrow text-slate-400 group-hover:text-cyan-300 transition-all duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
+                            <a href="{{ route('admin.berita.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 {{ request()->routeIs('admin.berita.index') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Berita Terkini
+                            </a>
+                            <a href="{{ route('admin.dokumen.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 {{ request()->routeIs('admin.dokumen.index') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> File Dokumen
+                            </a>
+                            <a href="{{ route('admin.users') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 {{ request()->routeIs('admin.users') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> User Management
+                            </a>
+                        </div>
+                    </div>
+
                 </nav>
+
+                <!-- Footer -->
+                <div class="border-t border-slate-700/50 bg-slate-950/50 backdrop-blur-xl p-3 text-center">
+                    <p class="text-[9px] text-slate-500 font-semibold tracking-wider uppercase">Admin Panel v2.1</p>
+                </div>
             </div>
 
             <div class="flex-1 flex flex-col">
@@ -122,9 +264,125 @@
                 </header>
 
                 <main class="p-8">
-                    {{ $slot }}
+                    @yield('content')
                 </main>
             </div>
         </div>
+
+        <!-- ACCORDION JAVASCRIPT -->
+        <script>
+            // Accordion Toggle Function
+            function toggleAccordion(button) {
+                const accordionItem = button.closest('.accordion-item');
+                const content = accordionItem.querySelector('.accordion-content');
+                const arrow = button.querySelector('.accordion-arrow');
+                
+                // Close all other accordion items
+                document.querySelectorAll('.accordion-item').forEach(item => {
+                    if (item !== accordionItem) {
+                        item.querySelector('.accordion-content').classList.add('hidden');
+                        item.querySelector('.accordion-arrow').style.transform = 'rotate(0deg)';
+                    }
+                });
+                
+                // Toggle current accordion
+                content.classList.toggle('hidden');
+                
+                // Rotate arrow based on state
+                if (content.classList.contains('hidden')) {
+                    arrow.style.transform = 'rotate(0deg)';
+                } else {
+                    arrow.style.transform = 'rotate(180deg)';
+                }
+                
+                // Save state to localStorage
+                const accordionName = button.querySelector('span:nth-child(2)').textContent.trim();
+                const isOpen = !content.classList.contains('hidden');
+                localStorage.setItem('accordion_' + accordionName, isOpen);
+            }
+
+            // Restore accordion state on page load
+            window.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.accordion-item').forEach(item => {
+                    const button = item.querySelector('.accordion-toggle');
+                    const accordionName = button.querySelector('span:nth-child(2)').textContent.trim();
+                    const wasOpen = localStorage.getItem('accordion_' + accordionName) === 'true';
+                    
+                    if (wasOpen) {
+                        toggleAccordion(button);
+                    }
+                });
+
+                // Optional: Expand the first accordion on initial load (comment out if not needed)
+                // const firstToggle = document.querySelector('.accordion-toggle');
+                // if (firstToggle) toggleAccordion(firstToggle);
+            });
+
+            // Add smooth scroll for sidebar
+            const sidebar = document.querySelector('.sidebar-scroll');
+            if (sidebar) {
+                sidebar.addEventListener('mouseenter', function() {
+                    this.style.scrollBehavior = 'smooth';
+                });
+            }
+        </script>
+
+        <!-- ACCORDION STYLES -->
+        <style>
+            .accordion-content {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+                opacity: 0;
+            }
+
+            .accordion-content:not(.hidden) {
+                max-height: 500px;
+                opacity: 1;
+            }
+
+            .accordion-arrow {
+                display: inline-block;
+                transition: transform 0.3s ease-in-out;
+                font-size: 0.85em;
+            }
+
+            /* Smooth hover effects for accordion items */
+            .accordion-item .accordion-toggle:active {
+                transform: scale(0.98);
+            }
+
+            /* Custom scrollbar for sidebar */
+            .sidebar-scroll {
+                scrollbar-width: thin;
+                scrollbar-color: rgba(59, 130, 246, 0.5) rgba(15, 23, 42, 0.1);
+            }
+
+            .sidebar-scroll::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .sidebar-scroll::-webkit-scrollbar-track {
+                background: rgba(15, 23, 42, 0.1);
+                border-radius: 10px;
+            }
+
+            .sidebar-scroll::-webkit-scrollbar-thumb {
+                background: rgba(59, 130, 246, 0.5);
+                border-radius: 10px;
+                transition: background 0.3s;
+            }
+
+            .sidebar-scroll::-webkit-scrollbar-thumb:hover {
+                background: rgba(59, 130, 246, 0.8);
+            }
+
+            /* Active state styling */
+            .nav-item-active {
+                background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.2) 100%);
+                border-left: 3px solid rgb(59, 130, 246);
+                padding-left: calc(1rem - 3px);
+            }
+        </style>
     </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Struktur Organisasi PPID - Portal PPID PKTJ</title>
+    <title>Profil PPID - Portal PPID PKTJ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #f8f9fa; }
@@ -15,7 +15,7 @@
 <body>
     @include('navigation')
     <div class="container py-5">
-        <h1 class="page-title">{{ $profil->judul ?? 'Struktur Organisasi PPID' }}</h1>
+        <h1 class="page-title">{{ $profil->judul ?? 'Profil PPID' }}</h1>
         <div class="content-box">
             @if($profil)
                 @if($profil->konten_pembuka)
@@ -26,9 +26,18 @@
                     <img src="{{ asset('storage/' . $profil->gambar) }}" alt="{{ $profil->judul }}">
                 @endif
                 
+                @if($profil->judul_sub)
+                    <h3 class="mt-4 mb-3">{{ $profil->judul_sub }}</h3>
+                @endif
+                
                 @if($profil->konten_detail)
-                    <div class="mt-4">{!! $profil->konten_detail !!}</div>
+                    <div>{!! $profil->konten_detail !!}</div>
                 @endif
             @else
-                <p class="text-muted">Konten struktur organisasi PPID belum tersedia.</p>
+                <p class="text-muted">Konten profil PPID belum tersedia.</p>
             @endif
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

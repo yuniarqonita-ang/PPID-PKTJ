@@ -4,132 +4,120 @@ namespace App\Http\Controllers;
 
 use App\Models\ProfilPpid;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use Illuminate\Support\Facades\Storage;
 
 class ProfilPpidController extends Controller
 {
+    protected $types = ['profil', 'tugas', 'visi', 'struktur', 'regulasi', 'kontak'];
+
     /**
-     * Menampilkan halaman edit Profil PPID
+     * Show admin dashboard with all profile sections
      */
     public function index(): View
     {
-        // Mengambil data pertama, jika tidak ada maka siapkan objek kosong
-        $profil = ProfilPpid::first() ?? new ProfilPpid();
-        return view('admin.profil.index', compact('profil'));
+        $profils = ProfilPpid::all();
+        $profilesData = [];
+        
+        foreach ($this->types as $type) {
+            $profilesData[$type] = $profils->where('type', $type)->first() ?? new ProfilPpid(['type' => $type]);
+        }
+        
+        return view('admin.profil.index', compact('profilesData'));
     }
 
     /**
-     * Menyimpan atau mengupdate data Profil PPID sesuai Gambar 1-3
+     * Show edit form for a specific profile section
      */
-    public function update(Request $request)
+    public function edit(string $type): View
     {
-        // Validasi sederhana agar data tidak kosong
-        $request->validate([
-            'judul' => 'required',
-            'konten_pembuka' => 'required',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'gambar_sub' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'judul_visi' => 'nullable',
-            'konten_visi' => 'nullable',
-            'gambar_visi' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'gambar_struktur' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'konten_regulasi' => 'nullable',
+        if (!in_array($type, $this->types)) {
+            abort(404);
+        }
+
+        $profil = ProfilPpid::where('type', $type)->first() ?? new ProfilPpid(['type' => $type]);
+        return view('admin.profil.edit', compact('profil', 'type'));
+    }
+
+    /**
+     * Update a specific profile section
+     */
+    public function update(Request $request, string $type): RedirectResponse
+    {
+        if (!in_array($type, $this->types)) {
+            abort(404);
+        }
+
+        // Validation
+        $validated = $request->validate([
+            'judul' => 'required|string|max:255',
+            'konten_pembuka' => 'nullable|string',
+            'konten_detail' => 'nullable|string',
+            'judul_sub' => 'nullable|string|max:255',
+            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'link_dokumen' => 'nullable|url',
         ]);
 
-        // Ambil data lama atau buat baru
-        $profil = ProfilPpid::firstOrNew(['id' => 1]);
+        // Get or create the profile section
+        $profil = ProfilPpid::where('type', $type)->firstOrNew(['type' => $type]);
 
-        // Handle Upload Gambar Utama
+        // Handle image upload
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama jika ada
+            // Delete old image
             if ($profil->gambar && Storage::exists('public/profil/' . $profil->gambar)) {
                 Storage::delete('public/profil/' . $profil->gambar);
             }
-            
+
             $file = $request->file('gambar');
-            $filename = time() . '_profil.' . $file->getClientOriginalExtension();
+            $filename = time() . '_' . $type . '.' . $file->getClientOriginalExtension();
             $file->storeAs('public/profil', $filename);
             $profil->gambar = $filename;
         }
-        // Handle Hapus Gambar Utama (Tanpa Ganti Baru)
-        elseif ($request->has('hapus_gambar') && $request->hapus_gambar == '1') {
+
+        // Handle image deletion
+        if ($request->has('hapus_gambar') && $request->hapus_gambar == '1') {
             if ($profil->gambar && Storage::exists('public/profil/' . $profil->gambar)) {
                 Storage::delete('public/profil/' . $profil->gambar);
             }
             $profil->gambar = null;
         }
 
-        // Handle Upload Gambar Sub (Tugas & Tanggung Jawab)
-        if ($request->hasFile('gambar_sub')) {
-            // Hapus gambar lama jika ada
-            if ($profil->gambar_sub && Storage::exists('public/profil/' . $profil->gambar_sub)) {
-                Storage::delete('public/profil/' . $profil->gambar_sub);
-            }
-            
-            $fileSub = $request->file('gambar_sub');
-            $filenameSub = time() . '_tugas.' . $fileSub->getClientOriginalExtension();
-            $fileSub->storeAs('public/profil', $filenameSub);
-            $profil->gambar_sub = $filenameSub;
-        }
-        // Handle Hapus Gambar Sub
-        elseif ($request->has('hapus_gambar_sub') && $request->hapus_gambar_sub == '1') {
-            if ($profil->gambar_sub && Storage::exists('public/profil/' . $profil->gambar_sub)) {
-                Storage::delete('public/profil/' . $profil->gambar_sub);
-            }
-            $profil->gambar_sub = null;
-        }
-
-        // Handle Upload Gambar Visi Misi
-        if ($request->hasFile('gambar_visi')) {
-            if ($profil->gambar_visi && Storage::exists('public/profil/' . $profil->gambar_visi)) {
-                Storage::delete('public/profil/' . $profil->gambar_visi);
-            }
-            
-            $fileVisi = $request->file('gambar_visi');
-            $filenameVisi = time() . '_visi.' . $fileVisi->getClientOriginalExtension();
-            $fileVisi->storeAs('public/profil', $filenameVisi);
-            $profil->gambar_visi = $filenameVisi;
-        }
-        // Handle Hapus Gambar Visi
-        elseif ($request->has('hapus_gambar_visi') && $request->hapus_gambar_visi == '1') {
-            if ($profil->gambar_visi && Storage::exists('public/profil/' . $profil->gambar_visi)) {
-                Storage::delete('public/profil/' . $profil->gambar_visi);
-            }
-            $profil->gambar_visi = null;
-        }
-
-        // Handle Upload Gambar Struktur Organisasi
-        if ($request->hasFile('gambar_struktur')) {
-            if ($profil->gambar_struktur && Storage::exists('public/profil/' . $profil->gambar_struktur)) {
-                Storage::delete('public/profil/' . $profil->gambar_struktur);
-            }
-            
-            $fileStruk = $request->file('gambar_struktur');
-            $filenameStruk = time() . '_struktur.' . $fileStruk->getClientOriginalExtension();
-            $fileStruk->storeAs('public/profil', $filenameStruk);
-            $profil->gambar_struktur = $filenameStruk;
-        }
-        elseif ($request->has('hapus_gambar_struktur') && $request->hapus_gambar_struktur == '1') {
-            if ($profil->gambar_struktur && Storage::exists('public/profil/' . $profil->gambar_struktur)) {
-                Storage::delete('public/profil/' . $profil->gambar_struktur);
-            }
-            $profil->gambar_struktur = null;
-        }
-
-        // Proses simpan data ke tabel profil_ppids
-        $profil->judul = $request->judul;
-        $profil->konten_pembuka = $request->konten_pembuka;
-        $profil->judul_sub = $request->judul_sub;
-        $profil->konten_detail = $request->konten_detail;
-        $profil->judul_visi = $request->judul_visi;
-        $profil->konten_visi = $request->konten_visi;
-        $profil->konten_struktur = $request->konten_struktur;
-        $profil->konten_regulasi = $request->konten_regulasi;
-        $profil->konten_kontak = $request->konten_kontak;
+        // Update profile data
+        $profil->judul = $validated['judul'];
+        $profil->konten_pembuka = $validated['konten_pembuka'];
+        $profil->konten_detail = $validated['konten_detail'];
+        $profil->judul_sub = $validated['judul_sub'];
         
+        if (isset($validated['link_dokumen'])) {
+            $profil->link_dokumen = $validated['link_dokumen'];
+        }
+
         $profil->save();
 
-        return back()->with('success', 'Profil PPID Berhasil Diperbarui!');
+        return redirect()->route('admin.profil.edit', $type)
+            ->with('success', ucfirst(str_replace('-', ' ', $type)) . ' PPID berhasil diperbarui!');
+    }
+
+    /**
+     * Delete a profile section
+     */
+    public function destroy(string $type): RedirectResponse
+    {
+        if (!in_array($type, $this->types)) {
+            abort(404);
+        }
+
+        $profil = ProfilPpid::where('type', $type)->first();
+
+        if ($profil) {
+            if ($profil->gambar && Storage::exists('public/profil/' . $profil->gambar)) {
+                Storage::delete('public/profil/' . $profil->gambar);
+            }
+            $profil->delete();
+        }
+
+        return redirect()->route('admin.profil.index')
+            ->with('success', 'Konten berhasil dihapus!');
     }
 }
