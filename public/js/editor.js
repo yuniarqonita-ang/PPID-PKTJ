@@ -288,6 +288,139 @@
 
 })();
 
+// Modal Event Handlers
+document.addEventListener('DOMContentLoaded', function() {
+    // File Manager - Insert image from file manager
+    const fileInsertBtns = document.querySelectorAll('[data-action="insert-file"]');
+    fileInsertBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const filePath = this.getAttribute('data-file-path');
+            const konten = document.getElementById('konten');
+            konten.value += `\n<img src="${filePath}" alt="Image" style="max-width: 100%;">\n`;
+            bootstrap.Modal.getInstance(document.getElementById('fileManagerModal'))?.hide();
+        });
+    });
+
+    // Insert Character
+    const charInsertBtns = document.querySelectorAll('[data-action="insert-character"]');
+    charInsertBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const char = this.getAttribute('data-char');
+            const konten = document.getElementById('konten');
+            konten.selectionStart = konten.value.length;
+            konten.selectionEnd = konten.value.length;
+            document.execCommand('insertText', false, char);
+            bootstrap.Modal.getInstance(document.getElementById('insertCharacterModal'))?.hide();
+        });
+    });
+
+    // Insert Media
+    const insertMediaBtn = document.getElementById('insertMediaBtn');
+    if (insertMediaBtn) {
+        insertMediaBtn.addEventListener('click', function() {
+            const source = document.getElementById('mediaSource')?.value;
+            const width = document.getElementById('mediaWidth')?.value || '100%';
+            const height = document.getElementById('mediaHeight')?.value || 'auto';
+            const konten = document.getElementById('konten');
+            
+            if (!source) {
+                alert('Silakan masukkan sumber media');
+                return;
+            }
+            
+            const mediaHtml = `\n<figure class="media-figure"><video controls style="max-width: 100%; height: ${height};"><source src="${source}"></video></figure>\n`;
+            konten.value += mediaHtml;
+            bootstrap.Modal.getInstance(document.getElementById('insertMediaModal'))?.hide();
+        });
+    }
+
+    // Insert Image
+    const insertImageBtn = document.getElementById('insertImageBtn');
+    if (insertImageBtn) {
+        insertImageBtn.addEventListener('click', function() {
+            const source = document.getElementById('imageSource')?.value;
+            const alt = document.getElementById('imageAlt')?.value || 'Image';
+            const width = document.getElementById('imageWidth')?.value || '100%';
+            const height = document.getElementById('imageHeight')?.value || 'auto';
+            const konten = document.getElementById('konten');
+            
+            if (!source) {
+                alert('Silakan masukkan sumber gambar');
+                return;
+            }
+            
+            const imgHtml = `\n<img src="${source}" alt="${alt}" style="max-width: ${width}; height: ${height};" />\n`;
+            konten.value += imgHtml;
+            bootstrap.Modal.getInstance(document.getElementById('insertImageModal'))?.hide();
+        });
+    }
+
+    // Insert Anchor
+    const insertAnchorBtn = document.getElementById('insertAnchorBtn');
+    if (insertAnchorBtn) {
+        insertAnchorBtn.addEventListener('click', function() {
+            const anchorName = document.getElementById('anchorName')?.value;
+            const konten = document.getElementById('konten');
+            
+            if (!anchorName) {
+                alert('Silakan masukkan nama anchor');
+                return;
+            }
+            
+            const anchorHtml = `\n<a id="${anchorName.replace(/\s+/g, '-').toLowerCase()}"></a>\n`;
+            konten.value += anchorHtml;
+            bootstrap.Modal.getInstance(document.getElementById('insertAnchorModal'))?.hide();
+        });
+    }
+
+    // Find & Replace
+    const findReplaceBtn = document.getElementById('findReplaceBtn');
+    if (findReplaceBtn) {
+        findReplaceBtn.addEventListener('click', function() {
+            const findText = document.getElementById('findText')?.value;
+            const replaceText = document.getElementById('replaceText')?.value || '';
+            const konten = document.getElementById('konten');
+            const caseSensitive = document.getElementById('caseSensitive')?.checked;
+            
+            if (!findText) {
+                alert('Silakan masukkan teks untuk dicari');
+                return;
+            }
+            
+            const flags = caseSensitive ? 'g' : 'gi';
+            const regex = new RegExp(findText, flags);
+            konten.value = konten.value.replace(regex, replaceText);
+            
+            bootstrap.Modal.getInstance(document.getElementById('findReplaceModal'))?.hide();
+        });
+    }
+
+    // List Style Selection
+    const bulletListBtns = document.querySelectorAll('[data-action="set-bullet-style"]');
+    bulletListBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const style = this.getAttribute('data-style');
+            const styleMap = {
+                'default': 'disc',
+                'circle': 'circle',
+                'disc': 'disc',
+                'square': 'square'
+            };
+            document.execCommand('insertUnorderedList');
+            bootstrap.Modal.getInstance(document.getElementById('bulletListModal'))?.hide();
+        });
+    });
+
+    const numberedListBtns = document.querySelectorAll('[data-action="set-numbered-style"]');
+    numberedListBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            const style = this.getAttribute('data-style');
+            document.execCommand('insertOrderedList');
+            bootstrap.Modal.getInstance(document.getElementById('numberedListModal'))?.hide();
+        });
+    });
+});
+
 // Link insertion function
 function insertLink() {
     const url = document.getElementById('linkUrl')?.value;
@@ -307,5 +440,5 @@ function insertLink() {
     const textarea = document.getElementById('konten');
     textarea.value += '\n' + link + '\n';
 
-    bootstrap.Modal.getInstance(document.getElementById('insertLinkModal')).hide();
+    bootstrap.Modal.getInstance(document.getElementById('insertLinkModal'))?.hide();
 }
