@@ -10,6 +10,419 @@
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     
+    /* MENU BAR & TOOLBAR */
+    .editor-menu-bar {
+        background: white;
+        border-bottom: 1px solid #ddd;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    
+    .menu-item {
+        position: relative;
+        padding: 12px 16px;
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        font-size: 0.95rem;
+        color: #333;
+    }
+    
+    .menu-item:hover {
+        background: #f5f5f5;
+        color: #667eea;
+    }
+    
+    .menu-dropdown {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-top: none;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        z-index: 1000;
+        min-width: 220px;
+        animation: slideDown 0.2s ease;
+    }
+    
+    .menu-item:hover .menu-dropdown {
+        display: block;
+    }
+    
+    .menu-submenu {
+        padding: 8px 0;
+    }
+    
+    .menu-subitem {
+        padding: 10px 20px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        transition: all 0.2s ease;
+        color: #333;
+        font-size: 0.9rem;
+    }
+    
+    .menu-subitem:hover {
+        background: #f0f0ff;
+        color: #667eea;
+        padding-left: 25px;
+    }
+    
+    .menu-icon {
+        width: 20px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #667eea;
+    }
+    
+    .menu-shortcut {
+        font-size: 0.8rem;
+        color: #999;
+        margin-left: auto;
+    }
+    
+    .menu-separator {
+        height: 1px;
+        background: #eee;
+        margin: 6px 0;
+    }
+    
+    .submenu-arrow {
+        margin-left: auto;
+        font-size: 0.8rem;
+    }
+    
+    /* TOOLBAR */
+    .editor-toolbar {
+        background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
+        border-bottom: 1px solid #ddd;
+        padding: 10px 15px;
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+    
+    .toolbar-group {
+        display: flex;
+        gap: 4px;
+        border-right: 1px solid #ddd;
+        padding-right: 8px;
+        margin-right: 8px;
+    }
+    
+    .toolbar-btn {
+        width: 38px;
+        height: 38px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+        color: #333;
+        position: relative;
+    }
+    
+    .toolbar-btn:hover {
+        background: #f0f0ff;
+        border-color: #667eea;
+        color: #667eea;
+        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    }
+    
+    .toolbar-btn.active {
+        background: #667eea;
+        color: white;
+        border-color: #667eea;
+    }
+    
+    .toolbar-dropdown {
+        position: relative;
+    }
+    
+    .toolbar-dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        z-index: 1000;
+        min-width: 140px;
+        animation: slideDown 0.2s ease;
+    }
+    
+    .toolbar-btn.dropdown:hover .toolbar-dropdown-menu {
+        display: block;
+    }
+    
+    .dropdown-item {
+        padding: 10px 15px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 0.9rem;
+        color: #333;
+    }
+    
+    .dropdown-item:hover {
+        background: #f0f0ff;
+        color: #667eea;
+        padding-left: 20px;
+    }
+    
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-5px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .toolbar-separator {
+        width: 1px;
+        height: 30px;
+        background: #ddd;
+    }
+    
+    .word-count {
+        font-size: 0.85rem;
+        color: #666;
+        padding: 8px 12px;
+        margin-left: auto;
+        background: #f5f5f5;
+        border-radius: 6px;
+    }
+    
+    /* MODAL STYLES */
+    .editor-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        z-index: 2000;
+        align-items: center;
+        justify-content: center;
+        animation: fadeIn 0.2s ease;
+    }
+    
+    .editor-modal.show {
+        display: flex;
+    }
+    
+    .modal-dialog {
+        background: white;
+        border-radius: 12px;
+        max-width: 500px;
+        width: 90%;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        animation: scaleIn 0.2s ease;
+    }
+    
+    .modal-header {
+        padding: 20px;
+        border-bottom: 1px solid #eee;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-radius: 12px 12px 0 0;
+    }
+    
+    .modal-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        margin: 0;
+    }
+    
+    .modal-close-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+    
+    .modal-close-btn:hover {
+        transform: rotate(90deg);
+        opacity: 0.8;
+    }
+    
+    .modal-body {
+        padding: 25px;
+    }
+    
+    .form-group {
+        margin-bottom: 18px;
+    }
+    
+    .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 600;
+        color: #333;
+        font-size: 0.95rem;
+    }
+    
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        font-size: 0.9rem;
+        font-family: inherit;
+        transition: all 0.2s ease;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus,
+    .form-group select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        background: #fafbff;
+    }
+    
+    .input-with-icon {
+        position: relative;
+        display: flex;
+        gap: 8px;
+    }
+    
+    .input-with-icon input {
+        flex: 1;
+    }
+    
+    .file-browser-btn {
+        width: 40px;
+        height: 40px;
+        border: 1px solid #ddd;
+        background: white;
+        border-radius: 6px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #667eea;
+        transition: all 0.2s ease;
+        font-size: 1rem;
+    }
+    
+    .file-browser-btn:hover {
+        background: #f0f0ff;
+        border-color: #667eea;
+    }
+    
+    .modal-tabs {
+        display: flex;
+        border-bottom: 2px solid #eee;
+        margin-bottom: 20px;
+        gap: 0;
+    }
+    
+    .modal-tab {
+        padding: 12px 16px;
+        cursor: pointer;
+        border-bottom: 3px solid transparent;
+        transition: all 0.2s ease;
+        font-weight: 500;
+        color: #666;
+    }
+    
+    .modal-tab:hover {
+        color: #667eea;
+    }
+    
+    .modal-tab.active {
+        color: #667eea;
+        border-bottom-color: #667eea;
+    }
+    
+    .tab-content {
+        display: none;
+    }
+    
+    .tab-content.active {
+        display: block;
+    }
+    
+    .modal-footer {
+        padding: 20px;
+        border-top: 1px solid #eee;
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+    }
+    
+    .modal-btn {
+        padding: 10px 24px;
+        border: none;
+        border-radius: 6px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+    }
+    
+    .modal-btn-cancel {
+        background: #f0f0f0;
+        color: #333;
+    }
+    
+    .modal-btn-cancel:hover {
+        background: #e0e0e0;
+    }
+    
+    .modal-btn-ok {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+    }
+    
+    .modal-btn-ok:hover {
+        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        transform: translateY(-2px);
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes scaleIn {
+        from { opacity: 0; transform: scale(0.95); }
+        to { opacity: 1; transform: scale(1); }
+    }
+    
     /* HEADER */
     .editor-header {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
@@ -543,7 +956,320 @@
 </style>
 @endpush
 
+@endsection
+
 @section('content')
+
+<!-- MENU BAR -->
+<nav class="editor-menu-bar">
+    <!-- FILE MENU -->
+    <div class="menu-item">
+        <i class="fas fa-file me-1"></i> File
+        <div class="menu-dropdown">
+            <div class="menu-submenu">
+                <div class="menu-subitem" onclick="newDocument()">
+                    <span><i class="menu-icon fas fa-file-circle-plus"></i> New Document</span>
+                </div>
+                <div class="menu-subitem" onclick="printDocument()">
+                    <span><i class="menu-icon fas fa-print"></i> Print</span>
+                    <span class="menu-shortcut">Ctrl+P</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EDIT MENU -->
+    <div class="menu-item">
+        <i class="fas fa-pen me-1"></i> Edit
+        <div class="menu-dropdown">
+            <div class="menu-submenu">
+                <div class="menu-subitem" onclick="execCommand('undo')">
+                    <span><i class="menu-icon fas fa-undo"></i> Undo</span>
+                    <span class="menu-shortcut">Ctrl+Z</span>
+                </div>
+                <div class="menu-subitem" onclick="execCommand('redo')">
+                    <span><i class="menu-icon fas fa-redo"></i> Redo</span>
+                    <span class="menu-shortcut">Ctrl+Y</span>
+                </div>
+                <div class="menu-separator"></div>
+                <div class="menu-subitem" onclick="execCommand('cut')">
+                    <span><i class="menu-icon fas fa-cut"></i> Cut</span>
+                    <span class="menu-shortcut">Ctrl+X</span>
+                </div>
+                <div class="menu-subitem" onclick="execCommand('copy')">
+                    <span><i class="menu-icon fas fa-copy"></i> Copy</span>
+                    <span class="menu-shortcut">Ctrl+C</span>
+                </div>
+                <div class="menu-subitem" onclick="execCommand('paste')">
+                    <span><i class="menu-icon fas fa-paste"></i> Paste</span>
+                    <span class="menu-shortcut">Ctrl+V</span>
+                </div>
+                <div class="menu-subitem" onclick="pasteAsText()">
+                    <span><i class="menu-icon fas fa-file-lines"></i> Paste as Text</span>
+                </div>
+                <div class="menu-separator"></div>
+                <div class="menu-subitem" onclick="execCommand('selectAll')">
+                    <span><i class="menu-icon fas fa-object-group"></i> Select All</span>
+                    <span class="menu-shortcut">Ctrl+A</span>
+                </div>
+                <div class="menu-separator"></div>
+                <div class="menu-subitem" onclick="openFindReplace()">
+                    <span><i class="menu-icon fas fa-magnifying-glass"></i> Find & Replace</span>
+                    <span class="menu-shortcut">Ctrl+H</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- INSERT MENU -->
+    <div class="menu-item">
+        <i class="fas fa-plus me-1"></i> Insert
+        <div class="menu-dropdown">
+            <div class="menu-submenu">
+                <div class="menu-subitem" onclick="openInsertMedia()">
+                    <span><i class="menu-icon fas fa-video"></i> Media</span>
+                </div>
+                <div class="menu-subitem" onclick="openInsertImage()">
+                    <span><i class="menu-icon fas fa-image"></i> Image</span>
+                </div>
+                <div class="menu-subitem" onclick="openInsertLink()">
+                    <span><i class="menu-icon fas fa-link"></i> Link</span>
+                </div>
+                <div class="menu-separator"></div>
+                <div class="menu-subitem" onclick="insertSpecialChar()">
+                    <span><i class="menu-icon fas fa-star"></i> Special Character</span>
+                </div>
+                <div class="menu-subitem" onclick="insertHorizontalLine()">
+                    <span><i class="menu-icon fas fa-minus"></i> Horizontal Line</span>
+                </div>
+                <div class="menu-subitem" onclick="insertAnchor()">
+                    <span><i class="menu-icon fas fa-anchor"></i> Anchor</span>
+                </div>
+                <div class="menu-subitem" onclick="insertPageBreak()">
+                    <span><i class="menu-icon fas fa-copy"></i> Page Break</span>
+                </div>
+                <div class="menu-subitem" onclick="insertNbsp()">
+                    <span><i class="menu-icon fas fa-space-shuttle"></i> Non-breaking Space</span>
+                    <span class="menu-shortcut">Ctrl+Shift+Space</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- VIEW MENU -->
+    <div class="menu-item">
+        <i class="fas fa-eye me-1"></i> View
+        <div class="menu-dropdown">
+            <div class="menu-submenu">
+                <div class="menu-subitem" onclick="toggleInvisible()">
+                    <span><i class="menu-icon fas fa-eye"></i> Show Invisible Characters</span>
+                </div>
+                <div class="menu-subitem" onclick="toggleBlocks()">
+                    <span><i class="menu-icon fas fa-square"></i> Show Blocks</span>
+                </div>
+                <div class="menu-subitem" onclick="toggleVisualAids()">
+                    <span><i class="menu-icon fas fa-wand-magic-sparkles"></i> Visual Aids</span>
+                </div>
+                <div class="menu-separator"></div>
+                <div class="menu-subitem" onclick="previewContent()">
+                    <span><i class="menu-icon fas fa-eye"></i> Preview</span>
+                </div>
+                <div class="menu-subitem" onclick="toggleFullscreen()">
+                    <span><i class="menu-icon fas fa-expand"></i> Fullscreen</span>
+                    <span class="menu-shortcut">F11</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- FORMAT MENU -->
+    <div class="menu-item">
+        <i class="fas fa-palette me-1"></i> Format
+        <div class="menu-dropdown">
+            <div class="menu-submenu">
+                <div class="menu-subitem" onclick="execCommand('bold')">
+                    <span><i class="menu-icon fas fa-bold"></i> Bold</span>
+                    <span class="menu-shortcut">Ctrl+B</span>
+                </div>
+                <div class="menu-subitem" onclick="execCommand('italic')">
+                    <span><i class="menu-icon fas fa-italic"></i> Italic</span>
+                    <span class="menu-shortcut">Ctrl+I</span>
+                </div>
+                <div class="menu-subitem" onclick="execCommand('underline')">
+                    <span><i class="menu-icon fas fa-underline"></i> Underline</span>
+                    <span class="menu-shortcut">Ctrl+U</span>
+                </div>
+                <div class="menu-subitem" onclick="execCommand('strikethrough')">
+                    <span><i class="menu-icon fas fa-strikethrough"></i> Strikethrough</span>
+                </div>
+                <div class="menu-subitem" onclick="execCommand('superscript')">
+                    <span><i class="menu-icon fas fa-superscript"></i> Superscript</span>
+                </div>
+                <div class="menu-subitem" onclick="execCommand('subscript')">
+                    <span><i class="menu-icon fas fa-subscript"></i> Subscript</span>
+                </div>
+                <div class="menu-separator"></div>
+                <div class="menu-subitem">
+                    <span><i class="menu-icon fas fa-font"></i> Heading</span>
+                    <span class="submenu-arrow">→</span>
+                </div>
+                <div class="menu-subitem" onclick="execCommand('clearFormatting')">
+                    <span><i class="menu-icon fas fa-eraser"></i> Clear Formatting</span>
+                    <span class="menu-shortcut">Ctrl+M</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TABLE MENU -->
+    <div class="menu-item">
+        <i class="fas fa-table me-1"></i> Table
+        <div class="menu-dropdown">
+            <div class="menu-submenu">
+                <div class="menu-subitem" onclick="openInsertTable()">
+                    <span><i class="menu-icon fas fa-table"></i> Insert Table</span>
+                </div>
+                <div class="menu-subitem" onclick="tableProperties()">
+                    <span><i class="menu-icon fas fa-sliders"></i> Table Properties</span>
+                </div>
+                <div class="menu-subitem" onclick="deleteTable()">
+                    <span><i class="menu-icon fas fa-trash"></i> Delete Table</span>
+                </div>
+                <div class="menu-separator"></div>
+                <div class="menu-subitem">
+                    <span><i class="menu-icon fas fa-th"></i> Cell</span>
+                    <span class="submenu-arrow">→</span>
+                </div>
+                <div class="menu-subitem">
+                    <span><i class="menu-icon fas fa-bars"></i> Row</span>
+                    <span class="submenu-arrow">→</span>
+                </div>
+                <div class="menu-subitem">
+                    <span><i class="menu-icon fas fa-columns"></i> Column</span>
+                    <span class="submenu-arrow">→</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOOLS MENU -->
+    <div class="menu-item">
+        <i class="fas fa-screwdriver me-1"></i> Tools
+        <div class="menu-dropdown">
+            <div class="menu-submenu">
+                <div class="menu-subitem" onclick="openSourceCode()">
+                    <span><i class="menu-icon fas fa-code"></i> Source Code</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- TOOLBAR -->
+<div class="editor-toolbar">
+    <!-- Undo/Redo -->
+    <div class="toolbar-group">
+        <button class="toolbar-btn" title="Undo (Ctrl+Z)" onclick="execCommand('undo')">
+            <i class="fas fa-undo"></i>
+        </button>
+        <button class="toolbar-btn" title="Redo (Ctrl+Y)" onclick="execCommand('redo')">
+            <i class="fas fa-redo"></i>
+        </button>
+    </div>
+
+    <!-- Format Dropdown -->
+    <div class="toolbar-group">
+        <div class="toolbar-btn dropdown" title="Paragraph Format">
+            <i class="fas fa-align-left"></i>
+            <div class="toolbar-dropdown-menu">
+                <div class="dropdown-item" onclick="execCommand('formatBlock', 'p')">
+                    <i class="fas fa-font"></i> Paragraph
+                </div>
+                <div class="dropdown-item" onclick="execCommand('formatBlock', 'h1')">
+                    <i class="fas fa-heading"></i> Heading 1
+                </div>
+                <div class="dropdown-item" onclick="execCommand('formatBlock', 'h2')">
+                    <i class="fas fa-heading"></i> Heading 2
+                </div>
+                <div class="dropdown-item" onclick="execCommand('formatBlock', 'h3')">
+                    <i class="fas fa-heading"></i> Heading 3
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bold/Underline -->
+    <div class="toolbar-group">
+        <button class="toolbar-btn" title="Bold (Ctrl+B)" onclick="execCommand('bold')">
+            <i class="fas fa-bold"></i>
+        </button>
+        <button class="toolbar-btn" title="Underline (Ctrl+U)" onclick="execCommand('underline')">
+            <i class="fas fa-underline"></i>
+        </button>
+    </div>
+
+    <!-- Alignment -->
+    <div class="toolbar-group">
+        <button class="toolbar-btn" title="Align Left" onclick="execCommand('justifyLeft')">
+            <i class="fas fa-align-left"></i>
+        </button>
+        <button class="toolbar-btn" title="Align Center" onclick="execCommand('justifyCenter')">
+            <i class="fas fa-align-center"></i>
+        </button>
+        <button class="toolbar-btn" title="Align Right" onclick="execCommand('justifyRight')">
+            <i class="fas fa-align-right"></i>
+        </button>
+        <button class="toolbar-btn" title="Justify" onclick="execCommand('justifyFull')">
+            <i class="fas fa-align-justify"></i>
+        </button>
+    </div>
+
+    <!-- Lists -->
+    <div class="toolbar-group">
+        <div class="toolbar-btn dropdown" title="Bullet List">
+            <i class="fas fa-list-ul"></i>
+            <div class="toolbar-dropdown-menu">
+                <div class="dropdown-item" onclick="execCommand('insertUnorderedList')">
+                    <i class="fas fa-circle"></i> Default
+                </div>
+            </div>
+        </div>
+        <div class="toolbar-btn dropdown" title="Numbered List">
+            <i class="fas fa-list-ol"></i>
+            <div class="toolbar-dropdown-menu">
+                <div class="dropdown-item" onclick="execCommand('insertOrderedList')">
+                    <i class="fas fa-list"></i> Default
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Insert Link/Media -->
+    <div class="toolbar-group">
+        <button class="toolbar-btn" title="Insert Link" onclick="openInsertLink()">
+            <i class="fas fa-link"></i>
+        </button>
+        <button class="toolbar-btn" title="Remove Link" onclick="execCommand('unlink')">
+            <i class="fas fa-link-slash"></i>
+        </button>
+    </div>
+
+    <!-- Media/Image -->
+    <div class="toolbar-group">
+        <button class="toolbar-btn" title="Insert Media" onclick="openInsertMedia()">
+            <i class="fas fa-video"></i>
+        </button>
+        <button class="toolbar-btn" title="Insert Image" onclick="openInsertImage()">
+            <i class="fas fa-image"></i>
+        </button>
+    </div>
+
+    <!-- Word Count -->
+    <div class="word-count">
+        <span id="wordCount">Words: 0</span>
+    </div>
+</div>
+
 <div class="editor-header">
     <div class="header-content">
         <div class="header-icon">
@@ -844,6 +1570,316 @@
 
     document.addEventListener('keydown', function(event) {
         if (event.key === 'Escape') closeDocumentPreview();
+    });
+</script>
+
+<!-- INSERT MEDIA MODAL -->
+<div id="insertMediaModal" class="editor-modal">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h2 class="modal-title"><i class="fas fa-video me-2"></i> Insert/Edit Media</h2>
+            <button class="modal-close-btn" onclick="closeModal('insertMediaModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-tabs">
+                <div class="modal-tab active" onclick="switchTab(event, 'media-general')">General</div>
+                <div class="modal-tab" onclick="switchTab(event, 'media-embed')">Embed</div>
+                <div class="modal-tab" onclick="switchTab(event, 'media-advanced')">Advanced</div>
+            </div>
+
+            <!-- General Tab -->
+            <div id="media-general" class="tab-content active">
+                <div class="form-group">
+                    <label>Source</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="mediaSource" placeholder="https://example.com/video.mp4">
+                        <button class="file-browser-btn" onclick="openFileManager('media')"><i class="fas fa-folder-open"></i></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Dimensions</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="number" id="mediaWidth" placeholder="Width" value="100" style="flex: 1;">
+                        <span>x</span>
+                        <input type="number" id="mediaHeight" placeholder="Height" value="auto" style="flex: 1;">
+                        <input type="checkbox" id="mediaConstrain" checked title="Constrain proportions">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Embed Tab -->
+            <div id="media-embed" class="tab-content">
+                <div class="form-group">
+                    <label>Paste your embed code below:</label>
+                    <textarea id="mediaEmbed" placeholder="Paste embed code here..." style="min-height: 150px;"></textarea>
+                </div>
+            </div>
+
+            <!-- Advanced Tab -->
+            <div id="media-advanced" class="tab-content">
+                <div class="form-group">
+                    <label>Alternative Source</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="mediaAltSource" placeholder="Alternative source URL">
+                        <button class="file-browser-btn" onclick="openFileManager('media')"><i class="fas fa-folder-open"></i></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Poster</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="mediaPoster" placeholder="Poster image URL">
+                        <button class="file-browser-btn" onclick="openFileManager('images')"><i class="fas fa-folder-open"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn modal-btn-cancel" onclick="closeModal('insertMediaModal')">Cancel</button>
+            <button class="modal-btn modal-btn-ok" onclick="insertMedia()">OK</button>
+        </div>
+    </div>
+</div>
+
+<!-- INSERT IMAGE MODAL -->
+<div id="insertImageModal" class="editor-modal">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h2 class="modal-title"><i class="fas fa-image me-2"></i> Insert/Edit Image</h2>
+            <button class="modal-close-btn" onclick="closeModal('insertImageModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="modal-tabs">
+                <div class="modal-tab active" onclick="switchTab(event, 'img-general')">General</div>
+                <div class="modal-tab" onclick="switchTab(event, 'img-advanced')">Advanced</div>
+            </div>
+
+            <!-- General Tab -->
+            <div id="img-general" class="tab-content active">
+                <div class="form-group">
+                    <label>Source</label>
+                    <div class="input-with-icon">
+                        <input type="text" id="imageSource" placeholder="https://example.com/image.jpg">
+                        <button class="file-browser-btn" onclick="openFileManager('images')"><i class="fas fa-folder-open"></i></button>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Image Description</label>
+                    <input type="text" id="imageAlt" placeholder="Describe this image">
+                </div>
+                <div class="form-group">
+                    <label>Dimensions</label>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <input type="number" id="imageWidth" placeholder="Width" value="100" style="flex: 1;">
+                        <span>x</span>
+                        <input type="number" id="imageHeight" placeholder="Height" value="auto" style="flex: 1;">
+                        <input type="checkbox" id="imageConstrain" checked title="Constrain proportions">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Tab -->
+            <div id="img-advanced" class="tab-content">
+                <div class="form-group">
+                    <label>Style</label>
+                    <input type="text" id="imageStyle" placeholder="CSS style">
+                </div>
+                <div class="form-group">
+                    <label>Vertical Space</label>
+                    <input type="number" id="imageVSpace" placeholder="pixels">
+                </div>
+                <div class="form-group">
+                    <label>Border</label>
+                    <input type="number" id="imageBorder" placeholder="pixels">
+                </div>
+                <div class="form-group">
+                    <label>Horizontal Space</label>
+                    <input type="number" id="imageHSpace" placeholder="pixels">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn modal-btn-cancel" onclick="closeModal('insertImageModal')">Cancel</button>
+            <button class="modal-btn modal-btn-ok" onclick="insertImage()">OK</button>
+        </div>
+    </div>
+</div>
+
+<!-- INSERT LINK MODAL -->
+<div id="insertLinkModal" class="editor-modal">
+    <div class="modal-dialog">
+        <div class="modal-header">
+            <h2 class="modal-title"><i class="fas fa-link me-2"></i> Insert Link</h2>
+            <button class="modal-close-btn" onclick="closeModal('insertLinkModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+                <label>URL</label>
+                <div class="input-with-icon">
+                    <input type="text" id="linkUrl" placeholder="https://example.com">
+                    <button class="file-browser-btn" onclick="openFileManager('all')"><i class="fas fa-folder-open"></i></button>
+                </div>
+                <small style="color: #999; margin-top: 5px; display: block;">
+                    <i class="fas fa-icons"></i> Files • Images • Archives • Videos • Music
+                </small>
+            </div>
+            <div class="form-group">
+                <label>Text to Display</label>
+                <input type="text" id="linkText" placeholder="Link text">
+            </div>
+            <div class="form-group">
+                <label>Title</label>
+                <input type="text" id="linkTitle" placeholder="Hover text">
+            </div>
+            <div class="form-group">
+                <label>Target</label>
+                <select id="linkTarget">
+                    <option value="">None</option>
+                    <option value="_blank">New Window</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn modal-btn-cancel" onclick="closeModal('insertLinkModal')">Cancel</button>
+            <button class="modal-btn modal-btn-ok" onclick="insertLink()">OK</button>
+        </div>
+    </div>
+</div>
+
+<!-- SOURCE CODE MODAL -->
+<div id="sourceCodeModal" class="editor-modal">
+    <div class="modal-dialog" style="max-width: 700px;">
+        <div class="modal-header">
+            <h2 class="modal-title"><i class="fas fa-code me-2"></i> Source Code</h2>
+            <button class="modal-close-btn" onclick="closeModal('sourceCodeModal')"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="modal-body">
+            <textarea id="sourceCode" style="width: 100%; min-height: 400px; font-family: monospace; padding: 12px; border: 1px solid #ddd; border-radius: 6px;"></textarea>
+        </div>
+        <div class="modal-footer">
+            <button class="modal-btn modal-btn-cancel" onclick="closeModal('sourceCodeModal')">Cancel</button>
+            <button class="modal-btn" style="background: #4CAF50; color: white;" onclick="copySourceCode()">
+                <i class="fas fa-copy me-2"></i> Copy
+            </button>
+            <button class="modal-btn modal-btn-ok" onclick="updateSourceCode()">OK</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.add('show');
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.remove('show');
+    }
+
+    function switchTab(event, contentId) {
+        // Hide all tabs in parent
+        const tabs = event.target.parentElement.querySelectorAll('.modal-tab');
+        const contents = event.target.parentElement.parentElement.querySelectorAll('.tab-content');
+        
+        tabs.forEach(tab => tab.classList.remove('active'));
+        contents.forEach(content => content.classList.remove('active'));
+        
+        // Show selected tab
+        event.target.classList.add('active');
+        document.getElementById(contentId).classList.add('active');
+    }
+
+    function openInsertMedia() { openModal('insertMediaModal'); }
+    function openInsertImage() { openModal('insertImageModal'); }
+    function openInsertLink() { openModal('insertLinkModal'); }
+    function openSourceCode() {
+        const editor = document.querySelector('[contenteditable], textarea[id*="editor"]');
+        document.getElementById('sourceCode').value = editor?.innerHTML || '';
+        openModal('sourceCodeModal');
+    }
+
+    function insertMedia() {
+        const source = document.getElementById('mediaSource').value;
+        if (source) {
+            const html = `<video controls style="max-width: 100%; height: auto;"><source src="${source}"></video>`;
+            insertHtmlToEditor(html);
+            closeModal('insertMediaModal');
+        }
+    }
+
+    function insertImage() {
+        const source = document.getElementById('imageSource').value;
+        const alt = document.getElementById('imageAlt').value;
+        if (source) {
+            const html = `<img src="${source}" alt="${alt}" style="max-width: 100%; height: auto;">`;
+            insertHtmlToEditor(html);
+            closeModal('insertImageModal');
+        }
+    }
+
+    function insertLink() {
+        const url = document.getElementById('linkUrl').value;
+        const text = document.getElementById('linkText').value || 'Link';
+        const title = document.getElementById('linkTitle').value;
+        const target = document.getElementById('linkTarget').value;
+        
+        if (url) {
+            const titleAttr = title ? ` title="${title}"` : '';
+            const targetAttr = target ? ` target="${target}"` : '';
+            const html = `<a href="${url}"${titleAttr}${targetAttr}>${text}</a>`;
+            insertHtmlToEditor(html);
+            closeModal('insertLinkModal');
+        }
+    }
+
+    function insertHtmlToEditor(html) {
+        const editors = document.querySelectorAll('.ck-editor__editable');
+        if (editors.length > 0 && window.editor) {
+            window.editor.model.insertContent(html);
+        }
+    }
+
+    function copySourceCode() {
+        const code = document.getElementById('sourceCode');
+        code.select();
+        document.execCommand('copy');
+        alert('Code copied to clipboard!');
+    }
+
+    function updateSourceCode() {
+        const newCode = document.getElementById('sourceCode').value;
+        const editor = document.querySelector('[contenteditable]');
+        if (editor) {
+            editor.innerHTML = newCode;
+        }
+        closeModal('sourceCodeModal');
+    }
+
+    function execCommand(cmd, value = null) {
+        document.execCommand(cmd, false, value);
+    }
+
+    function openFileManager(type) {
+        alert('File Manager untuk: ' + type);
+        // Implementasi file manager akan ditambahkan
+    }
+
+    function printDocument() {
+        window.print();
+    }
+
+    function newDocument() {
+        if (confirm('Apakah Anda yakin ingin membuat dokumen baru? Perubahan yang belum disimpan akan hilang.')) {
+            location.reload();
+        }
+    }
+
+    // Update word count
+    document.addEventListener('input', function() {
+        const editor = document.querySelector('[contenteditable], textarea[id*="editor"]');
+        if (editor) {
+            const text = editor.innerText || editor.value;
+            const words = text.trim().split(/\s+/).length;
+            document.getElementById('wordCount').textContent = 'Words: ' + words;
+        }
     });
 </script>
 
