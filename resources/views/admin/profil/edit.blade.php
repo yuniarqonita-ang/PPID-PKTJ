@@ -1740,16 +1740,20 @@
                     <label>Source</label>
                     <div class="input-with-icon">
                         <input type="text" id="mediaSource" placeholder="https://example.com/video.mp4">
-                        <button class="file-browser-btn" onclick="openFileManager('media')"><i class="fas fa-folder-open"></i></button>
+                        <button class="file-browser-btn" onclick="openFileManager('media')" type="button"><i class="fas fa-folder-open"></i></button>
                     </div>
+                    <small>Enter the URL of the media file (MP4, WebM, Ogg)</small>
                 </div>
                 <div class="form-group">
                     <label>Dimensions</label>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <input type="number" id="mediaWidth" placeholder="Width" value="100" style="flex: 1;">
-                        <span>x</span>
-                        <input type="number" id="mediaHeight" placeholder="Height" value="auto" style="flex: 1;">
-                        <input type="checkbox" id="mediaConstrain" checked title="Constrain proportions">
+                    <div class="input-dimension-group">
+                        <input type="number" id="mediaWidth" placeholder="Width" value="640">
+                        <input type="number" id="mediaHeight" placeholder="Height" value="360">
+                        <div class="dimension-separator">×</div>
+                    </div>
+                    <div class="checkbox-group" style="margin-top: 10px;">
+                        <input type="checkbox" id="mediaConstrain" checked>
+                        <label for="mediaConstrain">Constrain proportions</label>
                     </div>
                 </div>
             </div>
@@ -1806,20 +1810,25 @@
                     <label>Source</label>
                     <div class="input-with-icon">
                         <input type="text" id="imageSource" placeholder="https://example.com/image.jpg">
-                        <button class="file-browser-btn" onclick="openFileManager('images')"><i class="fas fa-folder-open"></i></button>
+                        <button class="file-browser-btn" onclick="openFileManager('images')" type="button"><i class="fas fa-folder-open"></i></button>
                     </div>
+                    <small>Browse or paste image URL</small>
                 </div>
                 <div class="form-group">
                     <label>Image Description</label>
-                    <input type="text" id="imageAlt" placeholder="Describe this image">
+                    <input type="text" id="imageAlt" placeholder="Describe this image for accessibility">
+                    <small>Used as alt text for screen readers</small>
                 </div>
                 <div class="form-group">
                     <label>Dimensions</label>
-                    <div style="display: flex; gap: 10px; align-items: center;">
-                        <input type="number" id="imageWidth" placeholder="Width" value="100" style="flex: 1;">
-                        <span>x</span>
-                        <input type="number" id="imageHeight" placeholder="Height" value="auto" style="flex: 1;">
-                        <input type="checkbox" id="imageConstrain" checked title="Constrain proportions">
+                    <div class="input-dimension-group">
+                        <input type="number" id="imageWidth" placeholder="Width" value="400">
+                        <input type="number" id="imageHeight" placeholder="Height" value="300">
+                        <div class="dimension-separator">×</div>
+                    </div>
+                    <div class="checkbox-group" style="margin-top: 10px;">
+                        <input type="checkbox" id="imageConstrain" checked>
+                        <label for="imageConstrain">Constrain proportions</label>
                     </div>
                 </div>
             </div>
@@ -1827,20 +1836,20 @@
             <!-- Advanced Tab -->
             <div id="img-advanced" class="tab-content">
                 <div class="form-group">
-                    <label>Style</label>
-                    <input type="text" id="imageStyle" placeholder="CSS style">
+                    <label>Style <span class="helper-icon" title="Custom CSS properties">?</span></label>
+                    <input type="text" id="imageStyle" placeholder="e.g., border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.2);">
                 </div>
                 <div class="form-group">
                     <label>Vertical Space</label>
-                    <input type="number" id="imageVSpace" placeholder="pixels">
+                    <input type="number" id="imageVSpace" placeholder="0" value="0"> <small>pixels</small>
                 </div>
                 <div class="form-group">
                     <label>Border</label>
-                    <input type="number" id="imageBorder" placeholder="pixels">
+                    <input type="number" id="imageBorder" placeholder="0" value="0"> <small>pixels</small>
                 </div>
                 <div class="form-group">
                     <label>Horizontal Space</label>
-                    <input type="number" id="imageHSpace" placeholder="pixels">
+                    <input type="number" id="imageHSpace" placeholder="0" value="0"> <small>pixels</small>
                 </div>
             </div>
         </div>
@@ -1860,29 +1869,30 @@
         </div>
         <div class="modal-body">
             <div class="form-group">
-                <label>URL</label>
+                <label>URL <span class="helper-icon" title="Enter the full URL including http:// or https://">?</span></label>
                 <div class="input-with-icon">
                     <input type="text" id="linkUrl" placeholder="https://example.com">
-                    <button class="file-browser-btn" onclick="openFileManager('all')"><i class="fas fa-folder-open"></i></button>
+                    <button class="file-browser-btn" onclick="openFileManager('all')" type="button"><i class="fas fa-folder-open"></i></button>
                 </div>
-                <small style="color: #999; margin-top: 5px; display: block;">
-                    <i class="fas fa-icons"></i> Files • Images • Archives • Videos • Music
-                </small>
+                <small>Browse files or paste URL</small>
             </div>
             <div class="form-group">
                 <label>Text to Display</label>
-                <input type="text" id="linkText" placeholder="Link text">
+                <input type="text" id="linkText" placeholder="What should the link say?">
+                <small>The text visible to users</small>
             </div>
             <div class="form-group">
-                <label>Title</label>
-                <input type="text" id="linkTitle" placeholder="Hover text">
+                <label>Title (Tooltip)</label>
+                <input type="text" id="linkTitle" placeholder="Text shown on hover">
+                <small>Optional tooltip text</small>
             </div>
             <div class="form-group">
-                <label>Target</label>
+                <label>Open in</label>
                 <select id="linkTarget">
-                    <option value="">None</option>
-                    <option value="_blank">New Window</option>
+                    <option value="">Same Window</option>
+                    <option value="_blank">New Window/Tab</option>
                 </select>
+                <small>Where the link opens</small>
             </div>
         </div>
         <div class="modal-footer">
@@ -1900,14 +1910,18 @@
             <button class="modal-close-btn" onclick="closeModal('sourceCodeModal')"><i class="fas fa-times"></i></button>
         </div>
         <div class="modal-body">
-            <textarea id="sourceCode" style="width: 100%; min-height: 400px; font-family: monospace; padding: 12px; border: 1px solid #ddd; border-radius: 6px;"></textarea>
+            <div class="form-group">
+                <label>HTML Code</label>
+                <textarea id="sourceCode"></textarea>
+                <small>Edit the HTML code directly</small>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="modal-btn modal-btn-cancel" onclick="closeModal('sourceCodeModal')">Cancel</button>
-            <button class="modal-btn" style="background: #4CAF50; color: white;" onclick="copySourceCode()">
-                <i class="fas fa-copy me-2"></i> Copy
+            <button class="modal-btn" style="background: #4CAF50; border: none; color: white;" onclick="copySourceCode()">
+                <i class="fas fa-copy me-2"></i> Copy Code
             </button>
-            <button class="modal-btn modal-btn-ok" onclick="updateSourceCode()">OK</button>
+            <button class="modal-btn modal-btn-ok" onclick="updateSourceCode()">Update</button>
         </div>
     </div>
 </div>
