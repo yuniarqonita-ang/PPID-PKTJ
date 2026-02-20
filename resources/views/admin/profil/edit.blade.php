@@ -1005,6 +1005,101 @@
             justify-content: center;
         }
     }
+    
+    /* Additional Form Elements Styling */
+    .form-group small {
+        display: block;
+        margin-top: 6px;
+        color: #999;
+        font-size: 0.85rem;
+    }
+    
+    .form-group input[type="checkbox"],
+    .form-group input[type="radio"] {
+        width: auto;
+        margin-right: 8px;
+        cursor: pointer;
+        accent-color: #667eea;
+    }
+    
+    .checkbox-group {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    
+    .checkbox-group label {
+        margin: 0;
+        cursor: pointer;
+        font-weight: 500;
+    }
+    
+    .input-dimension-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 10px;
+        align-items: flex-end;
+    }
+    
+    .input-dimension-group input {
+        width: 100%;
+    }
+    
+    .dimension-separator {
+        text-align: center;
+        color: #999;
+        line-height: 38px;
+        font-weight: 600;
+    }
+    
+    /* Scrollbar styling */
+    ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+    }
+    
+    ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+    }
+    
+    ::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 4px;
+    }
+    
+    ::-webkit-scrollbar-thumb:hover {
+        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+    }
+    
+    /* Helper icons */
+    .helper-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #f0f0ff;
+        color: #667eea;
+        font-size: 0.75rem;
+        font-weight: bold;
+        cursor: help;
+        margin-left: 6px;
+        transition: all 0.2s ease;
+    }
+    
+    .helper-icon:hover {
+        background: #667eea;
+        color: white;
+    }
+    
+    /* Better textarea styling */
+    textarea {
+        resize: vertical;
+        min-height: 120px;
+        line-height: 1.5;
+        font-family: 'Courier New', monospace;
+    }
 </style>
 @endpush
 
