@@ -8,18 +8,28 @@
     <style>
         body { font-family: 'Arial', sans-serif; background-color: #f8f9fa; }
         .page-title { color: #004a99; font-size: 32px; font-weight: bold; text-transform: uppercase; margin-bottom: 30px; }
-        .content-box { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .content-box { background-color: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); line-height: 1.8; }
+        .content-box img { max-width: 100%; height: auto; margin-top: 20px; border-radius: 8px; }
     </style>
 </head>
 <body>
     <?php echo $__env->make('navigation', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
     <div class="container py-5">
-        <h1 class="page-title">Struktur Organisasi PPID</h1>
+        <h1 class="page-title"><?php echo e($profil->judul ?? 'Struktur Organisasi PPID'); ?></h1>
         <div class="content-box">
-            <p class="text-muted">Halaman Struktur Organisasi PPID - Konten segera ditampilkan</p>
-        </div>
-    </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+            <?php if($profil): ?>
+                <?php if($profil->konten_pembuka): ?>
+                    <div class="mb-4"><?php echo $profil->konten_pembuka; ?></div>
+                <?php endif; ?>
+                
+                <?php if($profil->gambar): ?>
+                    <img src="<?php echo e(asset('storage/' . $profil->gambar)); ?>" alt="<?php echo e($profil->judul); ?>">
+                <?php endif; ?>
+                
+                <?php if($profil->konten_detail): ?>
+                    <div class="mt-4"><?php echo $profil->konten_detail; ?></div>
+                <?php endif; ?>
+            <?php else: ?>
+                <p class="text-muted">Konten struktur organisasi PPID belum tersedia.</p>
+            <?php endif; ?>
 <?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/profil-struktur-organisasi.blade.php ENDPATH**/ ?>
