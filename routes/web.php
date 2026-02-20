@@ -26,12 +26,12 @@ Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->na
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
 // Profil PPID (Public)
-Route::get('/profil/ppid', [ProfilPublikController::class, 'profilPpid'])->name('profil.ppid');
-Route::get('/profil/tugas-tanggung-jawab', [ProfilPublikController::class, 'tugasTanggungJawab'])->name('profil.tugas-tanggung-jawab');
-Route::get('/profil/visi-misi', [ProfilPublikController::class, 'visiMisi'])->name('profil.visi-misi');
-Route::get('/profil/struktur-organisasi', [ProfilPublikController::class, 'strukturOrganisasi'])->name('profil.struktur-organisasi');
-Route::get('/profil/regulasi', [ProfilPublikController::class, 'regulasi'])->name('profil.regulasi');
-Route::get('/profil/kontak', [ProfilPublikController::class, 'kontak'])->name('profil.kontak');
+Route::get('/profil/ppid', [ProfilPublikController::class, 'showProfil'])->name('profil.ppid');
+Route::get('/profil/tugas-tanggung-jawab', [ProfilPublikController::class, 'showTugas'])->name('profil.tugas-tanggung-jawab');
+Route::get('/profil/visi-misi', [ProfilPublikController::class, 'showVisi'])->name('profil.visi-misi');
+Route::get('/profil/struktur-organisasi', [ProfilPublikController::class, 'showStruktur'])->name('profil.struktur-organisasi');
+Route::get('/profil/regulasi', [ProfilPublikController::class, 'showRegulasi'])->name('profil.regulasi');
+Route::get('/profil/kontak', [ProfilPublikController::class, 'showKontak'])->name('profil.kontak');
 
 // ==========================================
 // 2. AUTH SYSTEM (LOGIN & LOGOUT)
