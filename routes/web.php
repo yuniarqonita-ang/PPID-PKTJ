@@ -8,6 +8,7 @@ use App\Http\Controllers\ProsedurController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ProfilPpidController;
 use App\Http\Controllers\ProfilPublikController;
+use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\Auth\LoginController;
 
 // ==========================================
@@ -17,7 +18,6 @@ Route::get('/', function () {
     return view('welcome', ['dokumen' => [], 'artikel' => []]); 
 })->name('home');
 
-<<<<<<< HEAD
 // Permohonan Informasi (Public)
 Route::get('/permohonan-informasi', [PermohonanController::class, 'form'])->name('permohonan.form');
 Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->name('permohonan.store');
@@ -26,15 +26,13 @@ Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->na
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
 // Profil PPID (Public)
-Route::get('/profil/ppid', [ProfilPublicController::class, 'profilPpid'])->name('profil.ppid');
-Route::get('/profil/tugas-tanggung-jawab', [ProfilPublicController::class, 'tugasTanggungJawab'])->name('profil.tugas-tanggung-jawab');
-Route::get('/profil/visi-misi', [ProfilPublicController::class, 'visiMisi'])->name('profil.visi-misi');
-Route::get('/profil/struktur-organisasi', [ProfilPublicController::class, 'strukturOrganisasi'])->name('profil.struktur-organisasi');
-Route::get('/profil/regulasi', [ProfilPublicController::class, 'regulasi'])->name('profil.regulasi');
-Route::get('/profil/kontak', [ProfilPublicController::class, 'kontak'])->name('profil.kontak');
+Route::get('/profil/ppid', [ProfilPublikController::class, 'profilPpid'])->name('profil.ppid');
+Route::get('/profil/tugas-tanggung-jawab', [ProfilPublikController::class, 'tugasTanggungJawab'])->name('profil.tugas-tanggung-jawab');
+Route::get('/profil/visi-misi', [ProfilPublikController::class, 'visiMisi'])->name('profil.visi-misi');
+Route::get('/profil/struktur-organisasi', [ProfilPublikController::class, 'strukturOrganisasi'])->name('profil.struktur-organisasi');
+Route::get('/profil/regulasi', [ProfilPublikController::class, 'regulasi'])->name('profil.regulasi');
+Route::get('/profil/kontak', [ProfilPublikController::class, 'kontak'])->name('profil.kontak');
 
-=======
->>>>>>> 1f525144c563b6ae7cd4efd9d991684075953f92
 // ==========================================
 // 2. AUTH SYSTEM (LOGIN & LOGOUT)
 // ==========================================
