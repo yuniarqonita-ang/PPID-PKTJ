@@ -1,18 +1,44 @@
 @extends('layouts.app')
 
+@push('styles')
+<link rel="stylesheet" href="{{ asset('css/profil-editor.css') }}">
+<style>
+    body { background: #f5f7fa; }
+</style>
+@endpush
+
 @section('content')
-<div class="container mt-5 mb-5">
-    <div class="row mb-4">
-        <div class="col-12">
-            <a href="{{ route('admin.profil.index') }}" class="btn btn-secondary btn-sm mb-3">
-                <i class="fas fa-arrow-left me-2"></i> Kembali
-            </a>
-            <h2 class="display-5 fw-bold text-primary">
-                <i class="fas fa-edit me-2"></i> Edit {{ ucfirst(str_replace('-', ' ', $type)) }}
-            </h2>
-            <p class="text-muted">Kelola konten dan media untuk halaman ini</p>
+<div class="editor-header">
+    <div class="container">
+        <div class="header-content">
+            <h1 class="editor-title" id="pageTitle">
+                @switch($type)
+                    @case('profil')
+                        Edit Profil PPID
+                        @break
+                    @case('tugas')
+                        Edit Tugas dan Tanggung Jawab PPID
+                        @break
+                    @case('visi')
+                        Edit Visi dan Misi PPID
+                        @break
+                    @case('struktur')
+                        Edit Struktur Organisasi
+                        @break
+                    @case('regulasi')
+                        Edit Regulasi
+                        @break
+                    @case('kontak')
+                        Edit Kontak
+                        @break
+                @endswitch
+            </h1>
+            <p class="header-subtitle">Kelola konten dan tampilan halaman dengan editor yang powerful</p>
         </div>
     </div>
+</div>
+
+<div class="container profil-editor-container">
 
     @if($errors->any())
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
@@ -417,4 +443,25 @@
         }
     });
 </script>
+
+<!-- INCLUDE ALL MODALS -->
+@include('admin.profil.modals.file-manager')
+@include('admin.profil.modals.insert-media')
+@include('admin.profil.modals.insert-image')
+@include('admin.profil.modals.insert-link')
+@include('admin.profil.modals.find-replace')
+@include('admin.profil.modals.insert-character')
+@include('admin.profil.modals.insert-anchor')
+@include('admin.profil.modals.table-grid')
+@include('admin.profil.modals.table-properties')
+@include('admin.profil.modals.cell-properties')
+@include('admin.profil.modals.row-properties')
+@include('admin.profil.modals.source-code')
+@include('admin.profil.modals.bullet-list')
+@include('admin.profil.modals.numbered-list')
+
+@push('scripts')
+<script src="{{ asset('js/editor.js') }}"></script>
+@endpush
+
 @endsection
