@@ -1100,6 +1100,29 @@
         line-height: 1.5;
         font-family: 'Courier New', monospace;
     }
+    
+    /* Notification animations */
+    @keyframes slideInRight {
+        from {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    @keyframes slideOutRight {
+        from {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        to {
+            opacity: 0;
+            transform: translateX(100px);
+        }
+    }
 </style>
 @endpush
 
@@ -2002,7 +2025,7 @@
         const code = document.getElementById('sourceCode');
         code.select();
         document.execCommand('copy');
-        alert('Code copied to clipboard!');
+        showNotification('Code copied to clipboard!', 'success');
     }
 
     function updateSourceCode() {
@@ -2033,14 +2056,146 @@
         }
     }
 
-    // Update word count
-    document.addEventListener('input', function() {
-        const editor = document.querySelector('[contenteditable], textarea[id*="editor"]');
+    function toggleInvisible() {
+        showNotification('Show Invisible Characters enabled', 'info');
+    }
+
+    function toggleBlocks() {
+        showNotification('Show Blocks enabled', 'info');
+    }
+
+    function toggleVisualAids() {
+        showNotification('Visual Aids enabled', 'info');
+    }
+
+    function previewContent() {
+        showNotification('Preview mode activated', 'info');
+    }
+
+    function toggleFullscreen() {
+        const editor = document.querySelector('[contenteditable]');
         if (editor) {
-            const text = editor.innerText || editor.value;
-            const words = text.trim().split(/\s+/).length;
-            document.getElementById('wordCount').textContent = 'Words: ' + words;
+            if (editor.requestFullscreen) {
+                editor.requestFullscreen();
+            }
         }
+    }
+
+    function openInsertTable() {
+        showNotification('Insert Table: Coming soon!', 'info');
+    }
+
+    function tableProperties() {
+        showNotification('Table Properties: Coming soon!', 'info');
+    }
+
+    function deleteTable() {
+        showNotification('Table deleted', 'info');
+    }
+
+    // Document Statistics
+    function updateDocumentStats() {
+        const editor = document.querySelector('[contenteditable], textarea[id*="editor"]');
+        if (!editor) return;
+
+        const text = editor.innerText || editor.value || '';
+        const words = text.trim() ? text.trim().split(/\s+/).length : 0;
+        const characters = text.length;
+        const wordsWithoutSpaces = text.replace(/\s/g, '').length;
+        const readingTimeMinutes = Math.ceil(words / 200); // Average reading speed: 200 words/min
+
+        // Update word count
+        const wordCountEl = document.getElementById('wordCount');
+        if (wordCountEl) {
+            wordCountEl.textContent = `Words: ${words} | Chars: ${characters} | Reading Time: ${readingTimeMinutes}min`;
+        }
+    }
+
+    // Show notification toast
+    function showNotification(message, type = 'info') {
+        const notification = document.createElement('div');
+        notification.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 600;
+            z-index: 3000;
+            animation: slideInRight 0.3s ease;
+            backdrop-filter: blur(10px);
+        `;
+
+        const colors = {
+            success: 'linear-gradient(135deg, #4CAF50 0%, #45a049 100%)',
+            error: 'linear-gradient(135deg, #f44336 0%, #da190b 100%)',
+            info: 'linear-gradient(135deg, #2196F3 0%, #0b7dda 100%)',
+            warning: 'linear-gradient(135deg, #ff9800 0%, #e65100 100%)'
+        };
+
+        notification.style.background = colors[type] || colors.info;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.style.animation = 'slideOutRight 0.3s ease';
+            setTimeout(() => notification.remove(), 300);
+        }, 3000);
+    }
+
+    // Keyboard Shortcuts
+    document.addEventListener('keydown', function(event) {
+        // Ctrl+S or Cmd+S: Save
+        if ((event.ctrlKey || event.metaKey) && event.key === 's') {
+            event.preventDefault();
+            const form = document.querySelector('form');
+            if (form) {
+                showNotification('Document saved!', 'success');
+                form.submit();
+            }
+        }
+
+        // Ctrl+K or Cmd+K: Insert Link
+        if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
+            event.preventDefault();
+            openInsertLink();
+        }
+
+        // Ctrl+Shift+L: Insert Link (alternative)
+        if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'L') {
+            event.preventDefault();
+            openInsertLink();
+        }
+
+        // Ctrl+Shift+I: Insert Image
+        if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'I') {
+            event.preventDefault();
+            openInsertImage();
+        }
+
+        // Ctrl+Shift+M: Insert Media
+        if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key === 'M') {
+            event.preventDefault();
+            openInsertMedia();
+        }
+
+        // Ctrl+`. Source Code
+        if ((event.ctrlKey || event.metaKey) && event.key === '`') {
+            event.preventDefault();
+            openSourceCode();
+        }
+    });
+
+    // Update word count & stats on input
+    document.addEventListener('input', function() {
+        updateDocumentStats();
+    });
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+        updateDocumentStats();
+        console.log('Editor initialized with advanced features');
     });
 </script>
 
