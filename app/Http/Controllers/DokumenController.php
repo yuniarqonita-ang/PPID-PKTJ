@@ -50,4 +50,32 @@ class DokumenController extends Controller
         $dokumen->delete();
         return redirect()->route('admin.dokumen.index')->with('success', 'Dokumen dihapus!');
     }
+
+    /**
+     * PUBLIC: List dokumen untuk halaman publik
+     */
+    public function publicList()
+    {
+        $dokumen = Dokumen::latest()->paginate(12);
+        $kategori = Dokumen::distinct('kategori')->pluck('kategori');
+        return view('dokumen', compact('dokumen', 'kategori'));
+    }
+
+    /**
+     * PUBLIC: Download dokumen
+     */
+    public function download($id)
+    {
+        $dokumen = Dokumen::findOrFail($id);
+        return Storage::disk('public')->download($dokumen->file_path, $dokumen->judul . '.' . pathinfo($dokumen->file_path, PATHINFO_EXTENSION));
+    }
+
+    /**
+     * PUBLIC: View dokumen (PDF di browser)
+     */
+    public function view($id)
+    {
+        $dokumen = Dokumen::findOrFail($id);
+        return view('dokumen-view', compact('dokumen'));
+    }
 }

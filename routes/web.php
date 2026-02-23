@@ -25,12 +25,18 @@ Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->na
 // FAQ (Public)
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
 
+// Dokumentasi (Public)
+Route::get('/dokumen', [DokumenController::class, 'publicList'])->name('dokumen.public');
+Route::get('/dokumen/{id}/view', [DokumenController::class, 'view'])->name('dokumen.view');
+Route::get('/dokumen/{id}/download', [DokumenController::class, 'download'])->name('dokumen.download');
+
 // Profil PPID (Public)
 Route::get('/profil/ppid', [ProfilPublikController::class, 'showProfil'])->name('profil.ppid');
 Route::get('/profil/tugas-tanggung-jawab', [ProfilPublikController::class, 'showTugas'])->name('profil.tugas-tanggung-jawab');
 Route::get('/profil/visi-misi', [ProfilPublikController::class, 'showVisi'])->name('profil.visi-misi');
 Route::get('/profil/struktur-organisasi', [ProfilPublikController::class, 'showStruktur'])->name('profil.struktur-organisasi');
 Route::get('/profil/regulasi', [ProfilPublikController::class, 'showRegulasi'])->name('profil.regulasi');
+Route::get('/profil/regulasi/{id}', [ProfilPublikController::class, 'viewPeraturan'])->name('profil.peraturan-view');
 Route::get('/profil/kontak', [ProfilPublikController::class, 'showKontak'])->name('profil.kontak');
 
 // ==========================================
