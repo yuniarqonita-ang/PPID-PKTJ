@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('welcome', ['dokumen' => [], 'artikel' => []]); 
 })->name('home');
 
+// Profil Publik
+Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');
+
 // Permohonan Informasi (Public)
 Route::get('/permohonan-informasi', [PermohonanController::class, 'form'])->name('permohonan.form');
 Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->name('permohonan.store');

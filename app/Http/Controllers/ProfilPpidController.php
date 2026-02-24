@@ -86,8 +86,8 @@ class ProfilPpidController extends Controller
         // Update profile data
         $profil->judul = $validated['judul'];
         $profil->konten_pembuka = $validated['konten_pembuka'];
-        $profil->konten_detail = $validated['konten_detail'];
-        $profil->judul_sub = $validated['judul_sub'];
+        $profil->konten_detail = $validated['konten_detail'] ?? null;
+        $profil->judul_sub = $validated['judul_sub'] ?? null;
         
         if (isset($validated['link_dokumen'])) {
             $profil->link_dokumen = $validated['link_dokumen'];
@@ -97,6 +97,15 @@ class ProfilPpidController extends Controller
 
         return redirect()->route('admin.profil.edit', $type)
             ->with('success', ucfirst(str_replace('-', ' ', $type)) . ' PPID berhasil diperbarui!');
+    }
+
+    /**
+     * Show public profile page
+     */
+    public function showPublic(): View
+    {
+        $profil = ProfilPpid::where('type', 'profil')->where('status', 1)->first();
+        return view('profil', compact('profil'));
     }
 
     /**
