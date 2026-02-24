@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ProfilPpid;
+use App\Models\Peraturan;
 
 class ProfilPublikController extends Controller
 {
@@ -33,12 +34,22 @@ class ProfilPublikController extends Controller
     public function showRegulasi()
     {
         $profil = ProfilPpid::where('type', 'regulasi')->first();
-        return view('profil-regulasi', ['profil' => $profil]);
+        $peraturan = Peraturan::where('is_active', true)->get()->groupBy('kategori');
+        return view('profil-regulasi', ['profil' => $profil, 'peraturan' => $peraturan]);
     }
 
     public function showKontak()
     {
         $profil = ProfilPpid::where('type', 'kontak')->first();
         return view('profil-kontak', ['profil' => $profil]);
+    }
+
+    /**
+     * View PDF peraturan (modal preview / new tab)
+     */
+    public function viewPeraturan($id)
+    {
+        $peraturan = Peraturan::findOrFail($id);
+        return view('peraturan-view', compact('peraturan'));
     }
 }

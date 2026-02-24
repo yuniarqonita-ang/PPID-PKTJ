@@ -13,9 +13,12 @@
         }
         @media (min-width: 992px) { 
             .nav-item.dropdown:hover .dropdown-menu { 
-                display: block; 
+                display: block !important; 
                 margin-top: 0; 
             } 
+        }
+        .dropdown-menu {
+            z-index: 1050 !important;
         }
         .page-title {
             color: #004a99;
@@ -75,40 +78,60 @@
     <div class="container py-5">
         <h1 class="page-title">Regulasi</h1>
         <div class="content-box">
-            <!-- PERATURAN UNDANG-UNDANG -->
-            <h2 class="section-title">Peraturan Undang-Undang :</h2>
-            <ul class="regulation-list">
-                <li><a href="#" class="regulation-link">Undang-Undang Nomor 25 Tahun 2009 tentang Pelayanan Publik;</a></li>
-                <li><a href="#" class="regulation-link">Undang-Undang Nomor 43 Tahun 2009 tentang Kearsipan;</a></li>
-                <li><a href="#" class="regulation-link">Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik;</a></li>
-                <li><a href="#" class="regulation-link">Undang-Undang Nomor 40 Tahun 1999 tentang Pers.</a></li>
-            </ul>
+            <?php $__empty_1 = true; $__currentLoopData = $peraturan; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $kategori => $items): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
+                <h2 class="section-title"><?php echo e($kategori); ?> :</h2>
+                <ul class="regulation-list">
+                    <?php $__currentLoopData = $items; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $item): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                        <li>
+                            <a href="<?php echo e(route('profil.peraturan-view', $item->id)); ?>" class="regulation-link" target="_blank">
+                                <?php echo e($item->judul); ?>
 
-            <!-- PERATURAN KOMISI INFORMASI PUSAT -->
-            <h2 class="section-title">Peraturan Komisi Informasi Pusat :</h2>
-            <ul class="regulation-list">
-                <li><a href="#" class="regulation-link">Peraturan Komisi Informasi Pusat Nomor 1 Tahun 2021 Tentang Standar Layanan Informasi Publik;</a></li>
-                <li><a href="#" class="regulation-link">Peraturan Komisi Informasi Pusat Nomor 1 Tahun 2013 Tentang Prosedur Penyelesaian Sengketa Informasi Publik.</a></li>
-            </ul>
-
-            <!-- PERATURAN KEMENTERIAN PERHUBUNGAN -->
-            <h2 class="section-title">Peraturan Kementerian Perhubungan terkait Keterbukaan Informasi Publik :</h2>
-            <ul class="regulation-list">
-                <li><a href="#" class="regulation-link">Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan;</a></li>
-                <li><a href="#" class="regulation-link">Keputusan Menteri Perhubungan Nomor KM 117 Tahun 2022 tentang SOP Pejabat Pengelola Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan;</a></li>
-                <li><a href="#" class="regulation-link">Keputusan Sekretaris Jenderal Kementerian Perhubungan Nomor KP-SKJ 25 Tahun 2024 tentang Daftar Informasi Publik Tahun 2024;</a></li>
-                <li><a href="#" class="regulation-link">Keputusan Sekretaris Jenderal Kementerian Perhubungan Nomor KP-SKJ 24 Tahun 2024 tentang Perubahan Atas Keputusan Sekretaris Jenderal Nomor KP 591 Tahun 2023 tentang Informasi yang Dikecualikan;</a></li>
-                <li><a href="#" class="regulation-link">Keputusan Sekretaris Jenderal Kementerian Perhubungan Nomor KP-SKJ 15 Tahun 2025 tentang Daftar Informasi Publik Tahun 2025;</a></li>
-                <li><a href="#" class="regulation-link">Keputusan Sekretaris Jenderal Kementerian Perhubungan Nomor KP-SKJ 16 Tahun 2025 tentang Perubahan Kedua Atas Keputusan Sekretaris Jenderal Nomor KP 591 Tahun 2023 tentang Informasi yang Dikecualikan.</a></li>
-            </ul>
-
-            <!-- RANCANGAN PERATURAN -->
-            <h2 class="section-title">Rancangan Peraturan terkait Keterbukaan Informasi Publik :</h2>
-            <p class="note-text">Saat ini belum terdapat rancangan terkait Keterbukaan Informasi Publik</p>
+                            </a>
+                        </li>
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                </ul>
+            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle"></i> Belum ada data peraturan yang tersedia.
+                </div>
+            <?php endif; ?>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Dropdown Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const dropdownItem = this.closest('.dropdown');
+                    const dropdownMenu = dropdownItem.querySelector('.dropdown-menu');
+                    
+                    if (dropdownMenu.style.display === 'block') {
+                        dropdownMenu.style.display = 'none';
+                    } else {
+                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                            menu.style.display = 'none';
+                        });
+                        dropdownMenu.style.display = 'block';
+                    }
+                });
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.style.display = 'none';
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
 <?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/profil-regulasi.blade.php ENDPATH**/ ?>

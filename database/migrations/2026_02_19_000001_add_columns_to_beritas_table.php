@@ -11,31 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // Add missing columns to beritas table
-        Schema::table('beritas', function (Blueprint $table) {
-            // Check if columns don't exist before adding
-            if (!Schema::hasColumn('beritas', 'judul')) {
-                $table->string('judul')->after('id');
-            }
-            if (!Schema::hasColumn('beritas', 'slug')) {
-                $table->string('slug')->unique()->after('judul');
-            }
-            if (!Schema::hasColumn('beritas', 'konten')) {
-                $table->longText('konten')->nullable()->after('slug');
-            }
-            if (!Schema::hasColumn('beritas', 'gambar')) {
-                $table->string('gambar')->nullable()->after('konten');
-            }
-            if (!Schema::hasColumn('beritas', 'kategori_id')) {
-                $table->unsignedBigInteger('kategori_id')->nullable()->after('gambar');
-            }
-            if (!Schema::hasColumn('beritas', 'is_published')) {
-                $table->boolean('is_published')->default(false)->after('kategori_id');
-            }
-            if (!Schema::hasColumn('beritas', 'views')) {
-                $table->bigInteger('views')->default(0)->after('is_published');
-            }
-        });
+        // Columns already added in create_beritas_table migration
+        // This migration is kept for reference only
     }
 
     /**
