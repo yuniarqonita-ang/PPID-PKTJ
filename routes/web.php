@@ -39,6 +39,21 @@ Route::get('/profil/regulasi', [ProfilPublikController::class, 'showRegulasi'])-
 Route::get('/profil/regulasi/{id}', [ProfilPublikController::class, 'viewPeraturan'])->name('profil.peraturan-view');
 Route::get('/profil/kontak', [ProfilPublikController::class, 'showKontak'])->name('profil.kontak');
 
+// Informasi Publik (Public)
+Route::get('/informasi-publik/berkala', function () {
+    return view('informasi-berkala');
+})->name('informasi.berkala');
+
+Route::get('/informasi-publik/serta-merta', [BeritaController::class, 'sertaMerta'])->name('informasi.serta-merta');
+
+Route::get('/informasi-publik/setiap-saat', [BeritaController::class, 'setiapSaat'])->name('informasi.setiap-saat');
+
+Route::get('/informasi-publik/dikecualikan', [DokumenController::class, 'dikecualikan'])->name('informasi.dikecualikan');
+
+Route::get('/layanan-informasi/daftar', function () { return view('daftar-informasi-publik'); })->name('layanan.daftar-informasi');
+
+Route::get('/layanan-informasi/maklumat', function () { return view('maklumat-pelayanan'); })->name('layanan.maklumat-pelayanan');
+
 // ==========================================
 // 2. AUTH SYSTEM (LOGIN & LOGOUT)
 // ==========================================

@@ -26,18 +26,18 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
                     <ul class="dropdown-menu" style="min-width: 250px;">
-                        <li><a class="dropdown-item" href="#">Informasi Berkala</a></li>
-                        <li><a class="dropdown-item" href="#">Informasi Serta Merta</a></li>
-                        <li><a class="dropdown-item" href="#">Informasi Setiap Saat</a></li>
-                        <li><a class="dropdown-item" href="#">Informasi Dikecualikan</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('informasi.berkala')); ?>">Informasi Berkala</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('informasi.serta-merta')); ?>">Informasi Serta Merta</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('informasi.setiap-saat')); ?>">Informasi Setiap Saat</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('informasi.dikecualikan')); ?>">Informasi Dikecualikan</a></li>
                     </ul>
                 </li>
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
                     <ul class="dropdown-menu" style="min-width: 320px;">
-                        <li><a class="dropdown-item" href="#">Daftar Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="#">Maklumat Pelayanan & Standar Biaya</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('layanan.daftar-informasi')); ?>">Daftar Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="<?php echo e(route('layanan.maklumat-pelayanan')); ?>">Maklumat Pelayanan & Standar Biaya</a></li>
                         <li><a class="dropdown-item" href="#">Laporan Layanan Informasi Publik</a></li>
                         <li><a class="dropdown-item" href="#">Laporan Akses Informasi Publik</a></li>
                         <li><a class="dropdown-item" href="#">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>

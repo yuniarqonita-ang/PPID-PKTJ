@@ -67,4 +67,16 @@ class BeritaController extends Controller
         Berita::findOrFail($id)->delete();
         return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus');
     }
+
+    public function sertaMerta()
+    {
+        $beritas = Berita::latest()->get();
+        return view('informasi-serta-merta', compact('beritas'));
+    }
+
+    public function setiapSaat()
+    {
+        $beritas = Berita::latest()->get();
+        return view('informasi-setiap-saat', compact('beritas'));
+    }
 }

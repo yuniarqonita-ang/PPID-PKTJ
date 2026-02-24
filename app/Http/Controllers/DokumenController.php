@@ -78,4 +78,13 @@ class DokumenController extends Controller
         $dokumen = Dokumen::findOrFail($id);
         return view('dokumen-view', compact('dokumen'));
     }
+
+    /**
+     * PUBLIC: Informasi Dikecualikan
+     */
+    public function dikecualikan()
+    {
+        $dokumen = Dokumen::latest()->get();
+        return view('informasi-dikecualikan', compact('dokumen'));
+    }
 }
