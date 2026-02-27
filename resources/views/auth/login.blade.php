@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Login - PPID PKTJ</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -28,12 +29,12 @@
                 </div>
 
                 <form method="POST" action="{{ route('login') }}" class="space-y-4">
-                    @csrf 
+                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
 
                     <!-- Email Input -->
                     <div>
                         <label class="block font-medium text-sm text-gray-700 mb-2">📧 Alamat Email</label>
-                        <input id="email" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 transition" type="email" name="email" value="{{ old('email') }}" required autofocus />
+                        <input id="email" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 transition" type="email" name="email" value="{{ old('email') }}" required autofocus autocomplete="username" />
                         @if($errors->has('email'))
                             <p class="text-sm text-red-600 mt-2">{{ $errors->first('email') }}</p>
                         @endif
@@ -43,7 +44,7 @@
                     <div>
                         <label class="block font-medium text-sm text-gray-700 mb-2">🔐 Kata Sandi</label>
                         <div class="relative">
-                            <input id="password_login" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 transition" type="password" name="password" required />
+                            <input id="password_login" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-200 transition" type="password" name="password" required autocomplete="current-password" />
                             <button type="button" onclick="togglePassword('password_login')" class="absolute inset-y-0 right-0 pr-4 flex items-center text-sm text-blue-600 font-bold hover:text-blue-800">
                                 LIHAT
                             </button>
@@ -79,6 +80,13 @@
             const input = document.getElementById(id);
             input.type = input.type === "password" ? "text" : "password";
         }
+
+        // Script Anti-419: Reload halaman jika diakses dari cache browser (tombol Back)
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        };
     </script>
 </body>
 </html>

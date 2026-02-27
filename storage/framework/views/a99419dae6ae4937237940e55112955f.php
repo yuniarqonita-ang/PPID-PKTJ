@@ -1,500 +1,178 @@
-
-
 <?php $__env->startSection('content'); ?>
-<div class="container mt-5 mb-5">
-    <div class="row mb-4">
-        <div class="col-12">
-            <a href="<?php echo e(route('admin.profil.index')); ?>" class="btn btn-secondary btn-sm mb-3">
-                <i class="fas fa-arrow-left me-2"></i> Kembali
-            </a>
-            <h2 class="display-5 fw-bold text-primary">
-                <i class="fas fa-edit me-2"></i> Edit <?php echo e(ucfirst(str_replace('-', ' ', $type))); ?>
+<div class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 p-8">
+    <div class="space-y-8 max-w-full">
 
-            </h2>
-            <p class="text-muted">Kelola konten dan media untuk halaman ini</p>
+    <!-- ==================== HEADER SECTION ==================== -->
+    <div class="flex justify-between items-center">
+        <div>
+            <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+                Edit Profil PPID
+            </h1>
+            <p class="text-slate-500 mt-1">Kelola informasi profil PPID dengan editor lengkap</p>
+        </div>
+        <div class="flex items-center space-x-3">
+            <button type="button" onclick="window.open('/profil', '_blank')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-green-600 text-white font-bold hover:shadow-lg transition transform hover:scale-105">
+                <i class="fas fa-eye mr-2"></i>Lihat Publik
+            </button>
+            <a href="<?php echo e(route('admin.profil.index')); ?>" class="px-6 py-3 rounded-xl bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 font-bold hover:shadow-lg transition transform hover:scale-105">
+                <i class="fas fa-arrow-left mr-2"></i>Kembali
+            </a>
         </div>
     </div>
 
-    <?php if($errors->any()): ?>
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <h5 class="alert-heading">
-                <i class="fas fa-exclamation-circle me-2"></i> Terjadi Kesalahan!
-            </h5>
-            <ul class="mb-0">
-                <?php $__currentLoopData = $errors->all(); $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $error): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                    <li><?php echo e($error); ?></li>
-                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    <?php endif; ?>
+    <!-- ==================== FORM SECTION ==================== -->
+    <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-xl p-8 border border-slate-200">
+        <form action="<?php echo e(route('admin.profil.update', $profil->type)); ?>" method="POST" enctype="multipart/form-data">
+            <?php echo csrf_field(); ?>
+            <?php echo method_field('PUT'); ?>
+                
+            <!-- JUDUL SECTION -->
+            <div class="mb-8">
+                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                    <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center mr-3">
+                        <i class="fas fa-heading text-sm"></i>
+                    </span>
+                    Judul Profil
+                </label>
+                <input type="text" name="judul" value="<?php echo e(old('judul', $profil->judul)); ?>" 
+                       class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm"
+                       placeholder="Masukkan judul profil" required>
+            </div>
 
-    <?php if(session('success')): ?>
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i> <?php echo e(session('success')); ?>
-
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    <?php endif; ?>
-
-    <div class="card border-0 shadow-lg">
-        <div class="card-body p-5">
-            <form action="<?php echo e(route('admin.profil.update', $type)); ?>" method="POST" enctype="multipart/form-data">
-                <?php echo csrf_field(); ?>
-                <?php echo method_field('PUT'); ?>
-
-                <div class="row">
-                    <!-- Left Column: Text Content -->
-                    <div class="col-lg-8">
-                        <!-- Judul -->
-                        <div class="mb-4">
-                            <label for="judul" class="form-label fw-bold">
-                                <i class="fas fa-heading me-2"></i> Judul Halaman
-                            </label>
-                            <input type="text" class="form-control form-control-lg <?php $__errorArgs = ['judul'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" 
-                                   id="judul" name="judul" value="<?php echo e(old('judul', $profil->judul)); ?>"
-                                   placeholder="Masukkan judul halaman..." required>
-                            <?php $__errorArgs = ['judul'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="invalid-feedback"><?php echo e($message); ?></div>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                        </div>
-
-                        <!-- Konten Pembuka -->
-                        <div class="mb-4">
-                            <label for="konten_pembuka" class="form-label fw-bold">
-                                <i class="fas fa-pen-fancy me-2"></i> Konten Utama
-                            </label>
-                            <small class="d-block text-muted mb-2">Gunakan editor di bawah untuk memformat teks (bold, italic, list, link, dll)</small>
-                            <textarea id="editor_pembuka" name="konten_pembuka" class="form-control form-editor <?php $__errorArgs = ['konten_pembuka'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"><?php echo e(old('konten_pembuka', $profil->konten_pembuka)); ?></textarea>
-                            <?php $__errorArgs = ['konten_pembuka'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="invalid-feedback d-block"><?php echo e($message); ?></div>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                        </div>
-
-                        <!-- Judul Sub -->
-                        <div class="mb-4">
-                            <label for="judul_sub" class="form-label fw-bold">
-                                <i class="fas fa-heading me-2"></i> Judul Bagian Tambahan (Opsional)
-                            </label>
-                            <input type="text" class="form-control <?php $__errorArgs = ['judul_sub'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" 
-                                   id="judul_sub" name="judul_sub" value="<?php echo e(old('judul_sub', $profil->judul_sub)); ?>"
-                                   placeholder="Contoh: Detail Lebih Lanjut...">
-                            <?php $__errorArgs = ['judul_sub'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="invalid-feedback"><?php echo e($message); ?></div>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                        </div>
-
-                        <!-- Konten Detail -->
-                        <div class="mb-4">
-                            <label for="konten_detail" class="form-label fw-bold">
-                                <i class="fas fa-pen-fancy me-2"></i> Konten Bagian Tambahan
-                            </label>
-                            <small class="d-block text-muted mb-2">Konten tambahan dengan format lengkap (tabel, list, dll)</small>
-                            <textarea id="editor_detail" name="konten_detail" class="form-control form-editor <?php $__errorArgs = ['konten_detail'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>"><?php echo e(old('konten_detail', $profil->konten_detail)); ?></textarea>
-                            <?php $__errorArgs = ['konten_detail'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="invalid-feedback d-block"><?php echo e($message); ?></div>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                        </div>
-
-                        <?php if($type === 'regulasi'): ?>
-                        <!-- Link Dokumen (For Regulasi) -->
-                        <div class="mb-4">
-                            <label for="link_dokumen" class="form-label fw-bold">
-                                <i class="fas fa-link me-2"></i> Link Dokumen / Google Drive
-                            </label>
-                            <div class="input-group">
-                                <input type="url" class="form-control <?php $__errorArgs = ['link_dokumen'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?> is-invalid <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>" 
-                                       id="link_dokumen" name="link_dokumen" value="<?php echo e(old('link_dokumen', $profil->link_dokumen)); ?>"
-                                       placeholder="https://drive.google.com/...">
-                                <?php if($profil->link_dokumen): ?>
-                                    <button type="button" class="btn btn-outline-info" onclick="previewDocument('<?php echo e($profil->link_dokumen); ?>')">
-                                        <i class="fas fa-eye me-2"></i> Preview
-                                    </button>
-                                <?php endif; ?>
-                            </div>
-                            <small class="d-block text-info mt-2">✓ Dokumen akan ditampilkan dalam preview modal di halaman publik (bukan tab baru)</small>
-                            <?php $__errorArgs = ['link_dokumen'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="invalid-feedback d-block"><?php echo e($message); ?></div>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                        </div>
-                        <?php endif; ?>
-                    </div>
-
-                    <!-- Right Column: Images -->
-                    <div class="col-lg-4">
-                        <!-- Image Upload -->
-                        <div class="mb-4">
-                            <label for="gambar" class="form-label fw-bold mb-3">
-                                <i class="fas fa-image me-2"></i> Gambar / Ilustrasi
-                            </label>
-                            <div class="border-2 border-dashed border-primary rounded p-4 text-center bg-light position-relative" style="cursor: pointer;" onclick="document.getElementById('gambar').click()">
-                                <input type="file" id="gambar" name="gambar" class="d-none" accept="image/*" onchange="previewImage(event)">
-                                <div id="image-preview-wrapper">
-                                    <?php if($profil->gambar): ?>
-                                        <img id="image-preview" src="<?php echo e(asset('storage/profil/' . $profil->gambar)); ?>" alt="<?php echo e($profil->judul); ?>" class="img-fluid rounded mb-3" style="max-height: 300px;">
-                                        <div class="form-check mt-3">
-                                            <input class="form-check-input" type="checkbox" name="hapus_gambar" value="1" id="hapus_gambar">
-                                            <label class="form-check-label text-danger" for="hapus_gambar">
-                                                Hapus gambar
-                                            </label>
-                                        </div>
-                                    <?php else: ?>
-                                        <img id="image-preview" src="https://via.placeholder.com/400x300?text=Klik+untuk+upload" alt="Preview" class="img-fluid rounded mb-3">
-                                    <?php endif; ?>
+            <!-- SAMPUL SECTION -->
+            <div class="mb-8">
+                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                    <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center mr-3">
+                        <i class="fas fa-image text-sm"></i>
+                    </span>
+                    Sampul / Cover
+                </label>
+                <div class="relative group">
+                    <div class="border-3 border-dashed border-slate-300 rounded-2xl p-8 text-center bg-white hover:border-blue-400 transition-all duration-300">
+                        <?php if($profil->gambar): ?>
+                            <div class="relative inline-block">
+                                <img src="<?php echo e(asset('storage/profil/' . $profil->gambar)); ?>" alt="Sampul" class="mx-auto h-40 object-cover rounded-xl shadow-lg mb-4">
+                                <div class="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+                                    <i class="fas fa-times text-xs"></i>
                                 </div>
-                                <p class="text-primary fw-bold mb-1">Klik di sini untuk upload</p>
-                                <small class="text-muted">Format: JPG, PNG, GIF | Ukuran max: 5MB</small>
                             </div>
-                            <?php $__errorArgs = ['gambar'];
-$__bag = $errors->getBag($__errorArgs[1] ?? 'default');
-if ($__bag->has($__errorArgs[0])) :
-if (isset($message)) { $__messageOriginal = $message; }
-$message = $__bag->first($__errorArgs[0]); ?>
-                                <div class="text-danger mt-2"><?php echo e($message); ?></div>
-                            <?php unset($message);
-if (isset($__messageOriginal)) { $message = $__messageOriginal; }
-endif;
-unset($__errorArgs, $__bag); ?>
-                        </div>
-
-                        <!-- Info Card -->
-                        <div class="card bg-info bg-opacity-10 border-info">
-                            <div class="card-body">
-                                <h6 class="card-title fw-bold">
-                                    <i class="fas fa-lightbulb text-warning me-2"></i> Tips Penulisan
-                                </h6>
-                                <ul class="small mb-0">
-                                    <li>Gunakan judul yang jelas dan deskriptif</li>
-                                    <li>Sisipkan gambar untuk menarik perhatian</li>
-                                    <li>Gunakan list untuk poin-poin penting</li>
-                                    <li>Format tabel untuk data terstruktur</li>
-                                    <li>Tambahkan link ke dokumen terkait</li>
-                                </ul>
+                        <?php else: ?>
+                            <div class="text-slate-400 mb-4">
+                                <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
+                                    <i class="fas fa-image text-3xl"></i>
+                                </div>
+                                <p class="mt-3 text-sm font-medium">Belum ada gambar</p>
+                                <p class="text-xs">Klik untuk upload</p>
                             </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Form Actions -->
-                <div class="row mt-5">
-                    <div class="col-12 d-flex gap-2 justify-content-end">
-                        <a href="<?php echo e(route('admin.profil.index')); ?>" class="btn btn-secondary btn-lg">
-                            <i class="fas fa-times me-2"></i> Batal
-                        </a>
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-save me-2"></i> Simpan Perubahan
+                        <?php endif; ?>
+                        <input type="file" name="gambar" accept="image/*" class="hidden" id="gambar" onchange="previewSampul(this)">
+                        <button type="button" onclick="document.getElementById('gambar').click()" 
+                                class="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                            <i class="fas fa-upload mr-2"></i>Pilih Gambar
                         </button>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+
+            <!-- KONTEN UTAMA SECTION -->
+            <div class="mb-8">
+                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                    <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white flex items-center justify-center mr-3">
+                        <i class="fas fa-edit text-sm"></i>
+                    </span>
+                    Konten
+                </label>
+                <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner">
+                    <textarea id="summernote-editor" name="konten_pembuka" class="summernote-editor"><?php echo e(old('konten_pembuka', $profil->konten_pembuka)); ?></textarea>
+                </div>
+            </div>
+
+            <!-- ACTION BUTTONS -->
+            <div class="flex justify-end space-x-4">
+                <a href="<?php echo e(route('admin.profil.index')); ?>" class="px-8 py-4 rounded-xl bg-gradient-to-r from-gray-300 to-gray-400 text-gray-700 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-times mr-2"></i>Batal
+                </a>
+                <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-save mr-2"></i>Simpan Perubahan
+                </button>
+            </div>
+        </form>
     </div>
 </div>
 
-<!-- CKEditor 5 Community Edition - Free & No API Key Required -->
-<script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
-<script>
-    function initializeCKEditor(selector) {
-        ClassicEditor
-            .create(document.querySelector(selector), {
-                toolbar: {
-                    items: [
-                        'heading', '|',
-                        'fontSize', 'fontFamily', '|',
-                        'bold', 'italic', 'underline', 'strikethrough', '|',
-                        'alignment', 'outdent', 'indent', '|',
-                        'bulletedList', 'numberedList', '|',
-                        'link', 'imageUpload', 'insertTable', '|',
-                        'blockQuote', 'codeBlock', '|',
-                        'undo', 'redo'
-                    ],
-                    shouldNotGroupWhenFull: true
-                },
-                heading: {
-                    options: [
-                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
-                    ]
-                },
-                fontSize: {
-                    options: [ 10, 12, 14, 'default', 18, 20, 22 ],
-                    supportAllValues: true
-                },
-                fontFamily: {
-                    options: [
-                        'default',
-                        'Arial, sans-serif',
-                        'Georgia, serif',
-                        'Courier New, monospace'
-                    ]
-                },
-                table: {
-                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
-                },
-                image: {
-                    toolbar: ['imageTextAlternative', 'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight'],
-                    styles: [
-                        'full',
-                        'side',
-                        'alignLeft',
-                        'alignCenter',
-                        'alignRight'
-                    ]
-                },
-                link: {
-                    decorators: {
-                        addTargetToExternalLinks: true,
-                        defaultProtocol: 'https://',
-                        toggleDownloadable: {
-                            mode: 'manual',
-                            label: 'Downloadable',
-                            attributes: {
-                                download: 'file'
-                            }
-                        }
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('CKEditor error:', error);
-            });
-    }
+<!-- SUMMERNOTE SCRIPTS - 100% FREE -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-id-ID.js"></script>
+<link rel="stylesheet" href="<?php echo e(asset('css/summernote-custom.css')); ?>">
 
-    // Initialize editors when DOM is ready
-    document.addEventListener('DOMContentLoaded', function() {
-        initializeCKEditor('#editor_pembuka');
-        initializeCKEditor('#editor_detail');
-        
-        // Image preview handler
-        const gambarInput = document.getElementById('gambar');
-        if (gambarInput) {
-            gambarInput.addEventListener('change', previewImage);
+<script>
+$(document).ready(function() {
+    // Initialize Summernote
+    $('#summernote-editor').summernote({
+        height: 500,
+        lang: 'id-ID',
+        placeholder: 'Tulis konten profil di sini...',
+        toolbar: [
+            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph', 'height']],
+            ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+            ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
+        ],
+        callbacks: {
+            onImageUpload: function(files) {
+                for (let i = 0; i < files.length; i++) {
+                    uploadImage(files[i]);
+                }
+            },
+            onInit: function() {
+                console.log('Summernote initialized!');
+            }
         }
     });
 
-    function previewImage(event) {
-        const file = event.target.files[0];
-        if (file) {
+    // Image upload function
+    function uploadImage(file) {
+        const data = new FormData();
+        data.append('image', file);
+        
+        // Show loading
+        const loadingImg = $('<img>').attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjAiIHN0cm9rZT0iIzY2N2VlYSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtZGFzaGFycmF5PSI0IDQiPgo8L2NpcmNsZT4KPC9zdmc+').css('width', '50px');
+        $('#summernote-editor').summernote('insertNode', loadingImg[0]);
+        
+        // Simulate upload
+        setTimeout(() => {
+            $('#summernote-editor').summernote('removeNode', loadingImg[0]);
             const reader = new FileReader();
             reader.onload = function(e) {
-                const preview = document.getElementById('image-preview');
-                preview.src = e.target.result;
-                
-                // Remove the delete checkbox if it exists
-                const deleteCheckbox = document.getElementById('hapus_gambar');
-                if (deleteCheckbox) {
-                    deleteCheckbox.checked = false;
-                }
+                const img = $('<img>').attr('src', e.target.result).css('max-width', '100%');
+                $('#summernote-editor').summernote('insertNode', img[0]);
             };
             reader.readAsDataURL(file);
+        }, 1000);
+    }
+});
+</script>
+                } else {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.className = 'mx-auto h-32 object-cover rounded mb-4';
+                    input.parentElement.insertBefore(img, input.parentElement.querySelector('.text-gray-400'));
+                }
+            }
+            reader.readAsDataURL(input.files[0]);
         }
     }
+    
+    console.log('Edit Profil PPID - Custom Editor Loaded');
+});
 </script>
-
-<style>
-    .form-control.form-editor {
-        min-height: 200px;
-    }
-    
-    .hover-shadow {
-        transition: box-shadow 0.3s ease-in-out;
-    }
-    
-    .display-5 {
-        font-size: 2rem;
-        font-weight: 600;
-    }
-
-    /* Document Preview Modal Styles */
-    .document-modal {
-        display: none;
-        position: fixed;
-        z-index: 2000;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.7);
-        animation: fadeIn 0.3s ease-in;
-    }
-
-    .document-modal.show {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .modal-content-custom {
-        background-color: white;
-        border-radius: 12px;
-        width: 95%;
-        max-width: 1200px;
-        height: 80vh;
-        display: flex;
-        flex-direction: column;
-        box-shadow: 0 10px 50px rgba(0, 0, 0, 0.3);
-    }
-
-    .modal-header-custom {
-        padding: 20px;
-        border-bottom: 2px solid #e0e0e0;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        background: linear-gradient(135deg, #f5f7fa 0%, #f9f9f9 100%);
-    }
-
-    .modal-header-custom h5 {
-        margin: 0;
-        font-weight: 600;
-        color: #333;
-    }
-
-    .modal-body-custom {
-        flex: 1;
-        overflow: auto;
-        background-color: #f5f5f5;
-    }
-
-    .modal-body-custom iframe {
-        width: 100%;
-        height: 100%;
-        border: none;
-    }
-
-    @keyframes fadeIn {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-</style>
-
-<!-- Document Preview Modal -->
-<div id="documentModal" class="document-modal">
-    <div class="modal-content-custom">
-        <div class="modal-header-custom">
-            <h5>Preview Dokumen</h5>
-            <button type="button" class="btn-close" onclick="closeDocumentPreview()"></button>
-        </div>
-        <div class="modal-body-custom">
-            <iframe id="documentFrame" src="" frameborder="0" allowfullscreen="true"></iframe>
-        </div>
-    </div>
 </div>
-
-<script>
-    function previewDocument(url) {
-        let embedUrl = url;
-        
-        // Convert Google Drive links to preview format
-        if (url.includes('drive.google.com')) {
-            let fileId = '';
-            if (url.includes('/d/')) {
-                fileId = url.split('/d/')[1].split('/')[0];
-            } else if (url.includes('id=')) {
-                fileId = url.split('id=')[1].split('&')[0];
-            }
-            
-            if (fileId) {
-                embedUrl = `https://drive.google.com/file/d/${fileId}/preview`;
-            }
-        }
-        
-        document.getElementById('documentFrame').src = embedUrl;
-        document.getElementById('documentModal').classList.add('show');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeDocumentPreview() {
-        document.getElementById('documentModal').classList.remove('show');
-        document.getElementById('documentFrame').src = '';
-        document.body.style.overflow = 'auto';
-    }
-
-    // Close modal on Escape key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            closeDocumentPreview();
-        }
-    });
-
-    // Close modal when clicking outside
-    document.getElementById('documentModal').addEventListener('click', function(event) {
-        if (event.target === this) {
-            closeDocumentPreview();
-        }
-    });
-</script>
+</div>
 <?php $__env->stopSection(); ?>
+
 <?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/admin/profil/edit.blade.php ENDPATH**/ ?>

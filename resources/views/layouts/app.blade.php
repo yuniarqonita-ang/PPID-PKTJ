@@ -27,7 +27,7 @@
     <body class="font-sans antialiased bg-gray-100">
         <div class="flex min-h-screen">
             <!-- SIDEBAR ACCORDION MODERN -->
-            <div class="w-80 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white hidden md:flex md:flex-col shadow-2xl sticky top-0 h-screen border-r border-blue-500/20">
+            <div class="w-80 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white hidden md:flex md:flex-col shadow-2xl fixed top-0 left-0 h-screen border-r border-blue-500/20 z-30">
                 
                 <!-- Logo Area -->
                 <div class="h-24 flex items-center justify-center border-b border-blue-500/20 bg-gradient-to-r from-blue-950/50 to-purple-950/50 backdrop-blur-xl">
@@ -249,10 +249,10 @@
             </div>
 
             <div class="flex-1 flex flex-col">
-                <header class="bg-white shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-20">
+                <header class="bg-gray-800 shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-20 border-b border-gray-700">
                     <div class="flex flex-col">
-                        <span class="text-xs text-slate-400 font-bold uppercase tracking-wider">Administrator</span>
-                        <h2 class="text-lg font-bold text-slate-700 leading-tight">{{ Auth::user()->name }}</h2>
+                        <span class="text-xs text-yellow-400 font-bold uppercase tracking-wider">Administrator</span>
+                        <h2 class="text-lg font-bold text-yellow-300 leading-tight">{{ Auth::user()->name }}</h2>
                     </div>
                     
                     <form method="POST" action="{{ route('logout') }}">
@@ -263,7 +263,7 @@
                     </form>
                 </header>
 
-                <main class="p-8">
+                <main class="w-full" style="margin-left: 320px; padding: 32px; max-width: calc(100vw - 320px);">
                     @yield('content')
                 </main>
             </div>

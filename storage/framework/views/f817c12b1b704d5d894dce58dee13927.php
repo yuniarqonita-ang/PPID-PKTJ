@@ -68,28 +68,29 @@
 </head>
 <body>
 
-    @include('navigation')
+    <?php echo $__env->make('navigation', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <div class="container py-5">
         <div class="faq-container">
             <h2 class="faq-title">Frequently asked questions</h2>
-            <p class="faq-subtitle">Menampilkan {{ $faqs->count() }} dari {{ $faqs->count() }} FAQ yang tersedia.</p>
+            <p class="faq-subtitle">Menampilkan <?php echo e($faqs->count()); ?> dari <?php echo e($faqs->count()); ?> FAQ yang tersedia.</p>
 
-            @if($faqs->count())
+            <?php if($faqs->count()): ?>
                 <div id="faq-list">
-                    @foreach($faqs as $faq)
+                    <?php $__currentLoopData = $faqs; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $faq): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                         <div class="faq-item">
                             <div class="faq-question">
                                 <i class="fas fa-question-circle me-2"></i>
-                                {{ $faq->pertanyaan }}
+                                <?php echo e($faq->pertanyaan); ?>
+
                             </div>
                             <div class="faq-answer">
-                                <p class="mb-0">{!! nl2br(e($faq->jawaban)) !!}</p>
+                                <p class="mb-0"><?php echo nl2br(e($faq->jawaban)); ?></p>
                             </div>
                         </div>
-                    @endforeach
+                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                 </div>
-            @else
+            <?php else: ?>
                 <div class="text-center py-5 text-muted">
                     <div class="faq-item" style="opacity: 0.6; text-align: left;">
                         <div class="faq-question">
@@ -102,7 +103,7 @@
                     </div>
                     <p class="mt-4">Belum ada FAQ yang tersedia saat ini.</p>
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
 
@@ -142,3 +143,4 @@
     </script>
 </body>
 </html>
+<?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/faq.blade.php ENDPATH**/ ?>

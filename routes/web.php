@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('welcome', ['dokumen' => [], 'artikel' => []]); 
 })->name('home');
 
+// Profil Publik
+Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');
+
 // Permohonan Informasi (Public)
 Route::get('/permohonan-informasi', [PermohonanController::class, 'form'])->name('permohonan.form');
 Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->name('permohonan.store');
@@ -54,6 +57,39 @@ Route::get('/layanan-informasi/daftar', function () { return view('daftar-inform
 
 Route::get('/layanan-informasi/maklumat', function () { return view('maklumat-pelayanan'); })->name('layanan.maklumat-pelayanan');
 
+Route::get('/layanan-informasi/laporan', function () { return view('laporan-layanan-informasi'); })->name('layanan.laporan-layanan');
+
+Route::get('/layanan-informasi/laporan-akses', function () { return view('laporan-akses-informasi-publik'); })->name('layanan.laporan-akses');
+
+Route::get('/layanan-informasi/laporan-survey', function () { return view('laporan-survey-kepuasan'); })->name('layanan.laporan-survey');
+
+// Prosedur (Public)
+Route::get('/prosedur/sop-permintaan-informasi', function () {
+    // Menggunakan view 'sop-permintaan' sesuai lokasi file Anda saat ini
+    return view('sop-permintaan');
+})->name('prosedur.sop-permintaan');
+
+Route::get('/prosedur/sop-penanganan-keberatan', function () {
+    // Placeholder - Anda bisa membuat view baru nanti
+    return "Halaman SOP Penanganan Keberatan - Segera Hadir";
+})->name('prosedur.sop-keberatan');
+
+Route::get('/prosedur/sop-pengajuan-sengketa', function () {
+    return view('sop-sengketa');
+})->name('prosedur.sop-sengketa');
+
+Route::get('/prosedur/sop-penetapan-pemutakhiran', function () {
+    return "Halaman SOP Penetapan dan Pemutakhiran Daftar Informasi Publik - Segera Hadir";
+})->name('prosedur.sop-pemutakhiran');
+
+Route::get('/prosedur/sop-pengujian-konsekuensi', function () {
+    return "Halaman SOP Pengujian Konsekuensi - Segera Hadir";
+})->name('prosedur.sop-pengujian');
+
+Route::get('/prosedur/sop-pendokumentasian', function () {
+    return "Halaman SOP Pendokumentasian Informasi Publik - Segera Hadir";
+})->name('prosedur.sop-pendokumentasian');
+
 // ==========================================
 // 2. AUTH SYSTEM (LOGIN & LOGOUT)
 // ==========================================
@@ -82,12 +118,25 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/{type}', [ProfilPpidController::class, 'destroy'])->name('destroy');
     });
 
+    // Menu Layanan Informasi
+    Route::name('admin.layanan.')->prefix('layanan')->group(function () {
+        Route::get('/daftar-informasi', function() { return view('admin.layanan.daftar-informasi'); })->name('daftar-informasi');
+        Route::get('/daftar-informasi/create', function() { return view('admin.layanan.daftar-informasi-create'); })->name('daftar-informasi.create');
+        Route::get('/maklumat-pelayanan', function() { return view('admin.layanan.maklumat-pelayanan'); })->name('maklumat-pelayanan');
+    });
+
     // Menu Informasi Publik
     Route::name('admin.informasi.')->prefix('informasi')->group(function () {
         Route::get('/berkala', function() { return view('admin.informasi.berkala'); })->name('berkala');
         Route::get('/serta-merta', function() { return view('admin.informasi.sertamerta'); })->name('sertamerta');
         Route::get('/setiap-saat', function() { return view('admin.informasi.setiapsaat'); })->name('setiapsaat');
         Route::get('/dikecualikan', function() { return view('admin.informasi.dikecualikan'); })->name('dikecualikan');
+        
+        // Create routes for upload forms
+        Route::get('/berkala/create', function() { return view('admin.informasi.berkala-create'); })->name('berkala.create');
+        Route::get('/serta-merta/create', function() { return view('admin.informasi.sertamerta-create'); })->name('sertamerta.create');
+        Route::get('/setiap-saat/create', function() { return view('admin.informasi.setiapsaat-create'); })->name('setiapsaat.create');
+        Route::get('/dikecualikan/create', function() { return view('admin.informasi.dikecualikan-create'); })->name('dikecualikan.create');
     });
 
     // Resource CRUD
