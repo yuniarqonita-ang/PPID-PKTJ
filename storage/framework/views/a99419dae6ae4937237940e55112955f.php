@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 p-8">
     <div class="space-y-8 max-w-full">
 
@@ -16,7 +14,7 @@
             <button type="button" onclick="window.open('/profil', '_blank')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-green-600 text-white font-bold hover:shadow-lg transition transform hover:scale-105">
                 <i class="fas fa-eye mr-2"></i>Lihat Publik
             </button>
-            <a href="{{ route('admin.profil.index') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 font-bold hover:shadow-lg transition transform hover:scale-105">
+            <a href="<?php echo e(route('admin.profil.index')); ?>" class="px-6 py-3 rounded-xl bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 font-bold hover:shadow-lg transition transform hover:scale-105">
                 <i class="fas fa-arrow-left mr-2"></i>Kembali
             </a>
         </div>
@@ -24,9 +22,9 @@
 
     <!-- ==================== FORM SECTION ==================== -->
     <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-xl p-8 border border-slate-200">
-        <form action="{{ route('admin.profil.update', $profil->type) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
+        <form action="<?php echo e(route('admin.profil.update', $profil->type)); ?>" method="POST" enctype="multipart/form-data">
+            <?php echo csrf_field(); ?>
+            <?php echo method_field('PUT'); ?>
                 
             <!-- JUDUL SECTION -->
             <div class="mb-8">
@@ -36,7 +34,7 @@
                     </span>
                     Judul Profil
                 </label>
-                <input type="text" name="judul" value="{{ old('judul', $profil->judul) }}" 
+                <input type="text" name="judul" value="<?php echo e(old('judul', $profil->judul)); ?>" 
                        class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm"
                        placeholder="Masukkan judul profil" required>
             </div>
@@ -51,14 +49,14 @@
                 </label>
                 <div class="relative group">
                     <div class="border-3 border-dashed border-slate-300 rounded-2xl p-8 text-center bg-white hover:border-blue-400 transition-all duration-300">
-                        @if($profil->gambar)
+                        <?php if($profil->gambar): ?>
                             <div class="relative inline-block">
-                                <img src="{{ asset('storage/profil/' . $profil->gambar) }}" alt="Sampul" class="mx-auto h-40 object-cover rounded-xl shadow-lg mb-4">
+                                <img src="<?php echo e(asset('storage/profil/' . $profil->gambar)); ?>" alt="Sampul" class="mx-auto h-40 object-cover rounded-xl shadow-lg mb-4">
                                 <div class="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
                                     <i class="fas fa-times text-xs"></i>
                                 </div>
                             </div>
-                        @else
+                        <?php else: ?>
                             <div class="text-slate-400 mb-4">
                                 <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
                                     <i class="fas fa-image text-3xl"></i>
@@ -66,7 +64,7 @@
                                 <p class="mt-3 text-sm font-medium">Belum ada gambar</p>
                                 <p class="text-xs">Klik untuk upload</p>
                             </div>
-                        @endif
+                        <?php endif; ?>
                         <input type="file" name="gambar" accept="image/*" class="hidden" id="gambar" onchange="previewSampul(this)">
                         <button type="button" onclick="document.getElementById('gambar').click()" 
                                 class="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
@@ -85,13 +83,13 @@
                     Konten
                 </label>
                 <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner">
-                    <textarea id="summernote-editor" name="konten_pembuka" class="summernote-editor">{{ old('konten_pembuka', $profil->konten_pembuka) }}</textarea>
+                    <textarea id="summernote-editor" name="konten_pembuka" class="summernote-editor"><?php echo e(old('konten_pembuka', $profil->konten_pembuka)); ?></textarea>
                 </div>
             </div>
 
             <!-- ACTION BUTTONS -->
             <div class="flex justify-end space-x-4">
-                <a href="{{ route('admin.profil.index') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-gray-300 to-gray-400 text-gray-700 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                <a href="<?php echo e(route('admin.profil.index')); ?>" class="px-8 py-4 rounded-xl bg-gradient-to-r from-gray-300 to-gray-400 text-gray-700 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
                     <i class="fas fa-times mr-2"></i>Batal
                 </a>
                 <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
@@ -107,7 +105,7 @@
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-id-ID.js"></script>
-<link rel="stylesheet" href="{{ asset('css/summernote-custom.css') }}">
+<link rel="stylesheet" href="<?php echo e(asset('css/summernote-custom.css')); ?>">
 
 <script>
 $(document).ready(function() {
@@ -175,4 +173,6 @@ $(document).ready(function() {
 </script>
 </div>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/admin/profil/edit.blade.php ENDPATH**/ ?>

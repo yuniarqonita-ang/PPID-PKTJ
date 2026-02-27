@@ -1,0 +1,382 @@
+/* SUMMERNOTE CUSTOM STYLES - MODERN & CLEAN */
+
+/* Main container */
+.note-editor {
+    border: 1px solid #e8eaed;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    background: white;
+}
+
+/* Toolbar */
+.note-toolbar {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    padding: 15px;
+    border-radius: 12px 12px 0 0;
+}
+
+.note-toolbar .btn-group {
+    margin: 0 5px;
+}
+
+.note-toolbar .btn {
+    background: rgba(255,255,255,0.2);
+    border: 1px solid rgba(255,255,255,0.3);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    margin: 0 2px;
+}
+
+.note-toolbar .btn:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.note-toolbar .btn.active {
+    background: rgba(255,255,255,0.4);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Dropdown menus */
+.note-toolbar .dropdown-menu {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    padding: 8px 0;
+    margin-top: 5px;
+}
+
+.note-toolbar .dropdown-menu > li > a {
+    color: #333;
+    padding: 10px 20px;
+    transition: all 0.2s ease;
+    font-size: 14px;
+}
+
+.note-toolbar .dropdown-menu > li > a:hover {
+    background: linear-gradient(90deg, #f0f0ff 0%, #fafbff 100%);
+    color: #667eea;
+    padding-left: 25px;
+}
+
+/* Color picker */
+.note-color {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+}
+
+/* Editing area */
+.note-editable {
+    border: none;
+    border-top: 1px solid #e8eaed;
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #333;
+    background: white;
+    min-height: 400px;
+}
+
+.note-editable:focus {
+    outline: none;
+    background: #fafbff;
+}
+
+/* Tables in editor */
+.note-editable table {
+    border-collapse: collapse;
+    margin: 15px 0;
+    width: 100%;
+}
+
+.note-editable table td,
+.note-editable table th {
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    text-align: left;
+}
+
+.note-editable table th {
+    background: #f8f9fa;
+    font-weight: 600;
+}
+
+.note-editable table tr:hover {
+    background: #f8f9fa;
+}
+
+/* Images in editor */
+.note-editable img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    margin: 10px 0;
+}
+
+/* Links in editor */
+.note-editable a {
+    color: #667eea;
+    text-decoration: underline;
+    transition: color 0.2s ease;
+}
+
+.note-editable a:hover {
+    color: #764ba2;
+}
+
+/* Code blocks */
+.note-editable pre {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+    overflow-x: auto;
+}
+
+.note-editable code {
+    background: #f8f9fa;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+}
+
+/* Blockquotes */
+.note-editable blockquote {
+    border-left: 4px solid #667eea;
+    background: #f8f9fa;
+    padding: 15px 20px;
+    margin: 15px 0;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+}
+
+/* Lists */
+.note-editable ul,
+.note-editable ol {
+    margin: 15px 0;
+    padding-left: 30px;
+}
+
+.note-editable li {
+    margin: 5px 0;
+}
+
+/* Status bar */
+.note-statusbar {
+    background: #f8f9fa;
+    border-top: 1px solid #e8eaed;
+    padding: 10px 15px;
+    font-size: 12px;
+    color: #666;
+    border-radius: 0 0 12px 12px;
+}
+
+/* Popover dialogs */
+.note-popover {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+
+.note-popover .popover-content {
+    padding: 10px;
+}
+
+/* Modal dialogs */
+.note-modal {
+    background: rgba(0,0,0,0.5);
+}
+
+.note-modal .modal-dialog {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    margin: 50px auto;
+    max-width: 600px;
+}
+
+.note-modal .modal-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 12px 12px 0 0;
+}
+
+.note-modal .modal-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.note-modal .modal-body {
+    padding: 20px;
+}
+
+.note-modal .modal-footer {
+    padding: 20px;
+    border-top: 1px solid #e8eaed;
+    text-align: right;
+}
+
+.note-modal .btn {
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    margin-left: 10px;
+}
+
+.note-modal .btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+}
+
+.note-modal .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.note-modal .btn-default {
+    background: #f8f9fa;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.note-modal .btn-default:hover {
+    background: #e9ecef;
+}
+
+/* Form controls */
+.note-modal .form-control {
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    padding: 10px 15px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.note-modal .form-control:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+/* Help dialog */
+.note-help {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    max-width: 600px;
+    margin: 50px auto;
+}
+
+.note-help .modal-content {
+    padding: 20px;
+}
+
+.note-help h3 {
+    color: #667eea;
+    margin-bottom: 20px;
+}
+
+.note-help table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.note-help table td {
+    padding: 8px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.note-help table td:first-child {
+    font-weight: 600;
+    color: #333;
+}
+
+/* Loading indicator */
+.note-loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    color: #666;
+}
+
+.note-loading::before {
+    content: '';
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ddd;
+    border-top: 2px solid #667eea;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 10px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .note-toolbar {
+        padding: 10px;
+        flex-wrap: wrap;
+    }
+    
+    .note-toolbar .btn-group {
+        margin: 2px;
+    }
+    
+    .note-toolbar .btn {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    
+    .note-editable {
+        padding: 15px;
+        font-size: 14px;
+    }
+    
+    .note-modal .modal-dialog {
+        margin: 20px;
+        max-width: 90%;
+    }
+}
+
+/* Dark mode support (optional) */
+@media (prefers-color-scheme: dark) {
+    .note-editor {
+        background: #1a1a1a;
+        border-color: #333;
+    }
+    
+    .note-editable {
+        background: #1a1a1a;
+        color: #fff;
+    }
+    
+    .note-statusbar {
+        background: #2a2a2a;
+        color: #ccc;
+        border-color: #333;
+    }
+}

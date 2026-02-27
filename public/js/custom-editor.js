@@ -179,9 +179,86 @@ class CustomEditor {
                             </div>
                         </div>
                         
-                        <div class="menu-item-integrated" onclick="window.editor_${this.editor.id}.showTableGrid()">
+                        <div class="menu-item-integrated">
                             <i class="fas fa-table"></i>
                             <span>Table</span>
+                            <div class="menu-dropdown-integrated">
+                                <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.showTableGrid()">
+                                    <i class="fas fa-th"></i> Insert Table
+                                    <span class="shortcut">Ctrl+Alt+T</span>
+                                </div>
+                                <div class="dropdown-separator"></div>
+                                <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.showTableProperties()">
+                                    <i class="fas fa-cog"></i> Table Properties
+                                </div>
+                                <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.deleteTable()">
+                                    <i class="fas fa-trash"></i> Delete Table
+                                </div>
+                                <div class="dropdown-separator"></div>
+                                <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.showCellMenu()">
+                                    <i class="fas fa-th-large"></i> Cell
+                                    <span class="menu-arrow">▶</span>
+                                    <div class="submenu-dropdown">
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.cellProperties()">
+                                            <i class="fas fa-cog"></i> Cell Properties
+                                        </div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.mergeCells()">
+                                            <i class="fas fa-compress-arrows-alt"></i> Merge Cells
+                                        </div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.splitCell()">
+                                            <i class="fas fa-expand-arrows-alt"></i> Split Cell
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.showRowMenu()">
+                                    <i class="fas fa-bars"></i> Row
+                                    <span class="menu-arrow">▶</span>
+                                    <div class="submenu-dropdown">
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.insertRowBefore()">
+                                            <i class="fas fa-arrow-up"></i> Insert Row Before
+                                        </div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.insertRowAfter()">
+                                            <i class="fas fa-arrow-down"></i> Insert Row After
+                                        </div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.deleteRow()">
+                                            <i class="fas fa-trash"></i> Delete Row
+                                        </div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.rowProperties()">
+                                            <i class="fas fa-cog"></i> Row Properties
+                                        </div>
+                                        <div class="dropdown-separator"></div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.cutRow()">
+                                            <i class="fas fa-cut"></i> Cut Row
+                                            <span class="shortcut">Ctrl+X</span>
+                                        </div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.copyRow()">
+                                            <i class="fas fa-copy"></i> Copy Row
+                                            <span class="shortcut">Ctrl+C</span>
+                                        </div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.pasteRowBefore()">
+                                            <i class="fas fa-paste"></i> Paste Row Before
+                                        </div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.pasteRowAfter()">
+                                            <i class="fas fa-paste"></i> Paste Row After
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.showColumnMenu()">
+                                    <i class="fas fa-columns"></i> Column
+                                    <span class="menu-arrow">▶</span>
+                                    <div class="submenu-dropdown">
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.insertColumnBefore()">
+                                            <i class="fas fa-arrow-left"></i> Insert Column Before
+                                        </div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.insertColumnAfter()">
+                                            <i class="fas fa-arrow-right"></i> Insert Column After
+                                        </div>
+                                        <div class="dropdown-item-integrated" onclick="window.editor_${this.editor.id}.deleteColumn()">
+                                            <i class="fas fa-trash"></i> Delete Column
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         
                         <div class="menu-item-integrated">
@@ -396,14 +473,14 @@ class CustomEditor {
                 <div class="table-grid-popup-title">
                     <i class="fas fa-table"></i> Insert Table
                 </div>
-                <button class="table-grid-popup-close" onclick="window.editor_${this.editor.id}.closeTableGrid()">
+                <button class="table-grid-popup-close" onclick="window.editor.closeTableGrid()">
                     <i class="fas fa-times"></i>
                 </button>
             </div>
             <div class="table-grid-container" id="tableGrid"></div>
             <div class="table-grid-footer">
                 <span>Grid size: <span class="table-grid-size" id="gridSize">1×1</span></span>
-                <button class="modal-btn modal-btn-ok" onclick="window.editor_${this.editor.id}.insertTableFromGrid()">Insert Table</button>
+                <button class="modal-btn modal-btn-ok" onclick="window.editor.insertTableFromGrid()">Insert Table</button>
             </div>
         `;
 
@@ -631,11 +708,6 @@ class CustomEditor {
         alert('Alignment menu');
     }
 
-    showTableGrid() {
-        // Show table grid for selection
-        alert('Table grid selection');
-    }
-
     showTableProperties() {
         // Show table properties modal
         alert('Table properties');
@@ -646,19 +718,72 @@ class CustomEditor {
         this.execCommand('deleteTable');
     }
 
+    cellProperties() {
+        alert('Cell properties');
+    }
+
+    mergeCells() {
+        this.execCommand('mergeCells');
+    }
+
+    splitCell() {
+        this.execCommand('splitCell');
+    }
+
+    insertRowBefore() {
+        this.execCommand('insertRowBefore');
+    }
+
+    insertRowAfter() {
+        this.execCommand('insertRowAfter');
+    }
+
+    deleteRow() {
+        this.execCommand('deleteRow');
+    }
+
+    rowProperties() {
+        alert('Row properties');
+    }
+
+    cutRow() {
+        this.execCommand('cut');
+    }
+
+    copyRow() {
+        this.execCommand('copy');
+    }
+
+    pasteRowBefore() {
+        this.execCommand('paste');
+    }
+
+    pasteRowAfter() {
+        this.execCommand('paste');
+    }
+
+    insertColumnBefore() {
+        this.execCommand('insertColumnBefore');
+    }
+
+    insertColumnAfter() {
+        this.execCommand('insertColumnAfter');
+    }
+
+    deleteColumn() {
+        this.execCommand('deleteColumn');
+    }
+
     showCellMenu() {
-        // Show cell operations menu
-        alert('Cell menu');
+        // This will be handled by CSS hover
     }
 
     showRowMenu() {
-        // Show row operations menu
-        alert('Row menu');
+        // This will be handled by CSS hover
     }
 
     showColumnMenu() {
-        // Show column operations menu
-        alert('Column menu');
+        // This will be handled by CSS hover
     }
 
     showSourceCode() {

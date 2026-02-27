@@ -1,6 +1,4 @@
-@extends('layouts.app')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
     <div class="max-w-7xl mx-auto space-y-6">
         
@@ -12,7 +10,7 @@
             <p class="text-cyan-300 text-lg mt-2 font-semibold">Selamat datang di Panel Admin PPID PKTJ 🎯</p>
             <div class="flex justify-center items-center gap-2 mt-3">
                 <span class="w-3 h-3 bg-green-400 rounded-full animate-bounce"></span>
-                <span class="text-xs text-green-400 font-bold uppercase tracking-wider">⏰ Last Update: {{ $last_update }}</span>
+                <span class="text-xs text-green-400 font-bold uppercase tracking-wider">⏰ Last Update: <?php echo e($last_update); ?></span>
             </div>
         </div>
 
@@ -28,7 +26,7 @@
                             <span class="text-3xl">📰</span>
                         </div>
                         <div class="text-right">
-                            <span class="text-4xl font-black text-white drop-shadow-lg">{{ $stats['totalBerita'] }}</span>
+                            <span class="text-4xl font-black text-white drop-shadow-lg"><?php echo e($stats['totalBerita']); ?></span>
                         </div>
                     </div>
                     <div class="mt-4">
@@ -51,7 +49,7 @@
                             <span class="text-3xl">🖼️</span>
                         </div>
                         <div class="text-right">
-                            <span class="text-4xl font-black text-white drop-shadow-lg">{{ $stats['totalGallery'] ?? 0 }}</span>
+                            <span class="text-4xl font-black text-white drop-shadow-lg"><?php echo e($stats['totalGallery'] ?? 0); ?></span>
                         </div>
                     </div>
                     <div class="mt-4">
@@ -74,7 +72,7 @@
                             <span class="text-3xl">🎬</span>
                         </div>
                         <div class="text-right">
-                            <span class="text-4xl font-black text-white drop-shadow-lg">{{ $stats['totalVideo'] ?? 0 }}</span>
+                            <span class="text-4xl font-black text-white drop-shadow-lg"><?php echo e($stats['totalVideo'] ?? 0); ?></span>
                         </div>
                     </div>
                     <div class="mt-4">
@@ -97,7 +95,7 @@
                             <span class="text-3xl">📅</span>
                         </div>
                         <div class="text-right">
-                            <span class="text-4xl font-black text-white drop-shadow-lg">{{ $stats['totalAgenda'] ?? 0 }}</span>
+                            <span class="text-4xl font-black text-white drop-shadow-lg"><?php echo e($stats['totalAgenda'] ?? 0); ?></span>
                         </div>
                     </div>
                     <div class="mt-4">
@@ -165,41 +163,43 @@
                                 </h2>
                                 <p class="text-sm text-orange-300 mt-1">Berita dengan jumlah views tertinggi ⭐</p>
                             </div>
-                            <a href="{{ route('admin.berita.index') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold text-sm hover:from-orange-500 hover:to-red-500 transition transform hover:scale-105 shadow-lg">
+                            <a href="<?php echo e(route('admin.berita.index')); ?>" class="px-6 py-3 rounded-xl bg-gradient-to-r from-orange-600 to-red-600 text-white font-bold text-sm hover:from-orange-500 hover:to-red-500 transition transform hover:scale-105 shadow-lg">
                                 Lihat Semua →
                             </a>
                         </div>
 
                         <!-- News List -->
                         <div class="space-y-4">
-                            @forelse($topNews as $index => $news)
+                            <?php $__empty_1 = true; $__currentLoopData = $topNews; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $index => $news): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                                 <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-700 to-slate-800 p-5 border border-slate-600 hover:border-orange-400 hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.02]">
                                     <div class="flex items-center gap-4">
                                         <!-- Ranking Badge -->
                                         <div class="flex-shrink-0">
-                                            @if($index == 0)
+                                            <?php if($index == 0): ?>
                                                 <div class="w-14 h-14 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center font-black text-2xl text-white shadow-lg animate-bounce">
                                                     🥇
                                                 </div>
-                                            @elseif($index == 1)
+                                            <?php elseif($index == 1): ?>
                                                 <div class="w-14 h-14 rounded-full bg-gradient-to-br from-gray-300 to-gray-500 flex items-center justify-center font-black text-2xl text-white shadow-lg">
                                                     🥈
                                                 </div>
-                                            @elseif($index == 2)
+                                            <?php elseif($index == 2): ?>
                                                 <div class="w-14 h-14 rounded-full bg-gradient-to-br from-orange-400 to-red-500 flex items-center justify-center font-black text-2xl text-white shadow-lg">
                                                     🥉
                                                 </div>
-                                            @else
+                                            <?php else: ?>
                                                 <div class="w-14 h-14 rounded-full bg-gradient-to-br from-slate-500 to-slate-600 flex items-center justify-center font-black text-xl text-white shadow-lg">
-                                                    {{ $index + 1 }}
+                                                    <?php echo e($index + 1); ?>
+
                                                 </div>
-                                            @endif
+                                            <?php endif; ?>
                                         </div>
 
                                         <!-- News Content -->
                                         <div class="flex-1 min-w-0">
                                             <h3 class="text-lg font-bold text-white mb-2 line-clamp-2 group-hover:text-orange-300 transition-colors">
-                                                {{ $news->judul ?? 'Judul berita tidak tersedia' }}
+                                                <?php echo e($news->judul ?? 'Judul berita tidak tersedia'); ?>
+
                                             </h3>
                                             
                                             <!-- Meta Info with Different Colors -->
@@ -208,45 +208,45 @@
                                                     <!-- Views Count (BLUE) -->
                                                     <div class="flex items-center gap-1 bg-blue-600/20 px-3 py-1 rounded-full border border-blue-500/30">
                                                         <span class="text-blue-400 font-bold">👁️</span>
-                                                        <span class="text-blue-300 font-bold">{{ number_format($news->views ?? 0, 0, ',', '.') }}x</span>
+                                                        <span class="text-blue-300 font-bold"><?php echo e(number_format($news->views ?? 0, 0, ',', '.')); ?>x</span>
                                                     </div>
                                                     
                                                     <!-- Category (PURPLE) -->
-                                                    @if($news->category ?? false)
+                                                    <?php if($news->category ?? false): ?>
                                                         <div class="bg-purple-600/20 px-3 py-1 rounded-full border border-purple-500/30">
-                                                            <span class="text-purple-300 font-bold">📁 {{ $news->category }}</span>
+                                                            <span class="text-purple-300 font-bold">📁 <?php echo e($news->category); ?></span>
                                                         </div>
-                                                    @endif
+                                                    <?php endif; ?>
                                                 </div>
                                                 
                                                 <!-- Date (GREEN) -->
                                                 <div class="flex items-center gap-1 bg-green-600/20 px-3 py-1 rounded-full border border-green-500/30">
                                                     <span class="text-green-400 font-bold">📅</span>
-                                                    <span class="text-green-300 font-bold">{{ \Carbon\Carbon::parse($news->created_at ?? now())->format('d M Y') }}</span>
+                                                    <span class="text-green-300 font-bold"><?php echo e(\Carbon\Carbon::parse($news->created_at ?? now())->format('d M Y')); ?></span>
                                                 </div>
                                             </div>
                                         </div>
 
                                         <!-- Action Button -->
                                         <div class="flex-shrink-0">
-                                            <a href="{{ route('admin.berita.edit', $news->id) }}" class="w-10 h-10 rounded-xl bg-slate-600 hover:bg-orange-500 flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg">
+                                            <a href="<?php echo e(route('admin.berita.edit', $news->id)); ?>" class="w-10 h-10 rounded-xl bg-slate-600 hover:bg-orange-500 flex items-center justify-center transition-all duration-300 transform hover:scale-110 shadow-lg">
                                                 <span class="text-sm text-white">✏️</span>
                                             </a>
                                         </div>
                                     </div>
                                 </div>
-                            @empty
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                                 <div class="text-center py-12">
                                     <div class="text-orange-400 text-6xl mb-4 animate-bounce">
                                         📰
                                     </div>
                                     <h3 class="text-lg font-medium text-white mb-2">Belum Ada Data Berita</h3>
                                     <p class="text-white mb-4">Belum ada berita yang tersedia saat ini.</p>
-                                    <a href="{{ route('admin.berita.create') }}" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-xl hover:from-orange-500 hover:to-red-500 transition transform hover:scale-105 shadow-lg">
+                                    <a href="<?php echo e(route('admin.berita.create')); ?>" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-orange-600 to-red-600 text-white rounded-xl hover:from-orange-500 hover:to-red-500 transition transform hover:scale-105 shadow-lg">
                                         <span class="mr-2">+</span> Buat Berita Pertama
                                     </a>
                                 </div>
-                            @endforelse
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -266,7 +266,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-xs font-bold text-white uppercase tracking-wider mb-1">🟢 Online Sekarang</p>
-                                    <p class="text-3xl font-black text-white">{{ $visitorMetrics['online'] }}</p>
+                                    <p class="text-3xl font-black text-white"><?php echo e($visitorMetrics['online']); ?></p>
                                     <p class="text-xs text-white mt-1">Sedang aktif 🔥</p>
                                 </div>
                                 <div class="bg-slate-600 rounded-xl p-2">
@@ -281,7 +281,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-xs font-bold text-white uppercase tracking-wider mb-1">📅 Pengunjung Hari Ini</p>
-                                    <p class="text-3xl font-black text-white">{{ number_format($visitorMetrics['today'], 0, ',', '.') }}</p>
+                                    <p class="text-3xl font-black text-white"><?php echo e(number_format($visitorMetrics['today'], 0, ',', '.')); ?></p>
                                     <p class="text-xs text-white mt-1">Hari ini ⭐</p>
                                 </div>
                                 <div class="bg-slate-600 rounded-xl p-2">
@@ -295,7 +295,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-xs font-bold text-white uppercase tracking-wider mb-1">⚡ Hits Hari Ini</p>
-                                    <p class="text-3xl font-black text-white">{{ number_format($visitorMetrics['hits_today'], 0, ',', '.') }}</p>
+                                    <p class="text-3xl font-black text-white"><?php echo e(number_format($visitorMetrics['hits_today'], 0, ',', '.')); ?></p>
                                     <p class="text-xs text-white mt-1">Total klik 🔥</p>
                                 </div>
                                 <div class="bg-slate-600 rounded-xl p-2">
@@ -309,7 +309,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-xs font-bold text-white uppercase tracking-wider mb-1">📊 Pengunjung Kemarin</p>
-                                    <p class="text-3xl font-black text-white">{{ number_format($visitorMetrics['yesterday'], 0, ',', '.') }}</p>
+                                    <p class="text-3xl font-black text-white"><?php echo e(number_format($visitorMetrics['yesterday'], 0, ',', '.')); ?></p>
                                     <p class="text-xs text-white mt-1">Kemarin 📈</p>
                                 </div>
                                 <div class="bg-slate-600 rounded-xl p-2">
@@ -323,7 +323,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-xs font-bold text-white uppercase tracking-wider mb-1">⚡ Hits Kemarin</p>
-                                    <p class="text-3xl font-black text-white">{{ number_format($visitorMetrics['hits_yesterday'], 0, ',', '.') }}</p>
+                                    <p class="text-3xl font-black text-white"><?php echo e(number_format($visitorMetrics['hits_yesterday'], 0, ',', '.')); ?></p>
                                     <p class="text-xs text-white mt-1">Klik kemarin 🎯</p>
                                 </div>
                                 <div class="bg-slate-600 rounded-xl p-2">
@@ -337,7 +337,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-xs font-bold text-white uppercase tracking-wider mb-1">🏆 Total Pengunjung</p>
-                                    <p class="text-3xl font-black text-white">{{ number_format($visitorMetrics['total_visitors'], 0, ',', '.') }}</p>
+                                    <p class="text-3xl font-black text-white"><?php echo e(number_format($visitorMetrics['total_visitors'], 0, ',', '.')); ?></p>
                                     <p class="text-xs text-white mt-1">Semua waktu 👑</p>
                                 </div>
                                 <div class="bg-slate-600 rounded-xl p-2">
@@ -351,7 +351,7 @@
                             <div class="flex items-center justify-between">
                                 <div>
                                     <p class="text-xs font-bold text-white uppercase tracking-wider mb-1">🚀 Total Hits</p>
-                                    <p class="text-3xl font-black text-white">{{ number_format($visitorMetrics['total_hits'], 0, ',', '.') }}</p>
+                                    <p class="text-3xl font-black text-white"><?php echo e(number_format($visitorMetrics['total_hits'], 0, ',', '.')); ?></p>
                                     <p class="text-xs text-white mt-1">Semua klik ⚡</p>
                                 </div>
                                 <div class="bg-pink-600/30 rounded-xl p-2">
@@ -450,4 +450,6 @@
         });
     </script>
 </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.app', array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/admin/dashboard.blade.php ENDPATH**/ ?>

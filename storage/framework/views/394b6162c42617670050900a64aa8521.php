@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
         <title>Admin PPID PKTJ</title>
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <?php echo app('Illuminate\Foundation\Vite')(['resources/css/app.css', 'resources/js/app.js']); ?>
         <style>
             /* Custom Scrollbar untuk Sidebar agar tetap estetik */
             .sidebar-scroll::-webkit-scrollbar { width: 4px; }
@@ -41,7 +41,7 @@
                 
                 <nav class="flex-1 overflow-y-auto sidebar-scroll px-3 py-4 space-y-2">
                     <!-- Dashboard Link -->
-                    <a href="{{ route('dashboard') }}" class="flex items-center py-3 px-4 rounded-lg transition-all duration-300 group {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30' : 'hover:bg-slate-800/50 text-slate-300' }}">
+                    <a href="<?php echo e(route('dashboard')); ?>" class="flex items-center py-3 px-4 rounded-lg transition-all duration-300 group <?php echo e(request()->routeIs('dashboard') ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30' : 'hover:bg-slate-800/50 text-slate-300'); ?>">
                         <span class="text-2xl mr-3 group-hover:scale-110 transition-transform">🏠</span>
                         <span class="font-bold text-sm tracking-wide">DASHBOARD</span>
                     </a>
@@ -57,22 +57,22 @@
                             <span class="accordion-arrow text-slate-400 group-hover:text-blue-300 transition-all duration-300">▼</span>
                         </button>
                         <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.profil.edit', 'profil') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'profil' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                            <a href="<?php echo e(route('admin.profil.edit', 'profil')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 <?php echo e(request()->get('type') === 'profil' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Profil PPID
                             </a>
-                            <a href="{{ route('admin.profil.edit', 'tugas') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'tugas' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                            <a href="<?php echo e(route('admin.profil.edit', 'tugas')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 <?php echo e(request()->get('type') === 'tugas' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Tugas dan tanggung jawab PPID
                             </a>
-                            <a href="{{ route('admin.profil.edit', 'visi') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'visi' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                            <a href="<?php echo e(route('admin.profil.edit', 'visi')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 <?php echo e(request()->get('type') === 'visi' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Visi dan misi PPID
                             </a>
-                            <a href="{{ route('admin.profil.edit', 'struktur') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'struktur' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                            <a href="<?php echo e(route('admin.profil.edit', 'struktur')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 <?php echo e(request()->get('type') === 'struktur' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Struktur organisasi
                             </a>
-                            <a href="{{ route('admin.profil.edit', 'regulasi') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'regulasi' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                            <a href="<?php echo e(route('admin.profil.edit', 'regulasi')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 <?php echo e(request()->get('type') === 'regulasi' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Regulasi
                             </a>
-                            <a href="{{ route('admin.profil.edit', 'kontak') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'kontak' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
+                            <a href="<?php echo e(route('admin.profil.edit', 'kontak')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 <?php echo e(request()->get('type') === 'kontak' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Kontak
                             </a>
                         </div>
@@ -89,16 +89,16 @@
                             <span class="accordion-arrow text-slate-400 group-hover:text-yellow-300 transition-all duration-300">▼</span>
                         </button>
                         <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.informasi.berkala') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.berkala') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
+                            <a href="<?php echo e(route('admin.informasi.berkala')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.informasi.berkala') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Informasi berkala
                             </a>
-                            <a href="{{ route('admin.informasi.sertamerta') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.sertamerta') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
+                            <a href="<?php echo e(route('admin.informasi.sertamerta')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.informasi.sertamerta') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Informasi serta merta
                             </a>
-                            <a href="{{ route('admin.informasi.setiapsaat') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.setiapsaat') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
+                            <a href="<?php echo e(route('admin.informasi.setiapsaat')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.informasi.setiapsaat') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Informasi setiap saat
                             </a>
-                            <a href="{{ route('admin.informasi.dikecualikan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.dikecualikan') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
+                            <a href="<?php echo e(route('admin.informasi.dikecualikan')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.informasi.dikecualikan') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Informasi dikecualikan
                             </a>
                         </div>
@@ -208,7 +208,7 @@
                             <span class="accordion-arrow text-slate-400 group-hover:text-pink-300 transition-all duration-300">▼</span>
                         </button>
                         <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.faq.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-pink-500/20 hover:border-l-2 hover:border-pink-400 transition-all duration-200 {{ request()->routeIs('admin.faq.index') ? 'bg-pink-500/30 text-pink-300 border-l-2 border-pink-400' : '' }}">
+                            <a href="<?php echo e(route('admin.faq.index')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-pink-500/20 hover:border-l-2 hover:border-pink-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.faq.index') ? 'bg-pink-500/30 text-pink-300 border-l-2 border-pink-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> FAQ
                             </a>
                             <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-pink-500/20 hover:border-l-2 hover:border-pink-400 transition-all duration-200">
@@ -228,13 +228,13 @@
                             <span class="accordion-arrow text-slate-400 group-hover:text-cyan-300 transition-all duration-300">▼</span>
                         </button>
                         <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.berita.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 {{ request()->routeIs('admin.berita.index') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : '' }}">
+                            <a href="<?php echo e(route('admin.berita.index')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.berita.index') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Berita Terkini
                             </a>
-                            <a href="{{ route('admin.dokumen.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 {{ request()->routeIs('admin.dokumen.index') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : '' }}">
+                            <a href="<?php echo e(route('admin.dokumen.index')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.dokumen.index') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> File Dokumen
                             </a>
-                            <a href="{{ route('admin.users') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 {{ request()->routeIs('admin.users') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : '' }}">
+                            <a href="<?php echo e(route('admin.users')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.users') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> User Management
                             </a>
                         </div>
@@ -252,11 +252,11 @@
                 <header class="bg-gray-800 shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-20 border-b border-gray-700">
                     <div class="flex flex-col">
                         <span class="text-xs text-yellow-400 font-bold uppercase tracking-wider">Administrator</span>
-                        <h2 class="text-lg font-bold text-yellow-300 leading-tight">{{ Auth::user()->name }}</h2>
+                        <h2 class="text-lg font-bold text-yellow-300 leading-tight"><?php echo e(Auth::user()->name); ?></h2>
                     </div>
                     
-                    <form method="POST" action="{{ route('logout') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('logout')); ?>">
+                        <?php echo csrf_field(); ?>
                         <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full text-xs transition shadow-lg shadow-red-200">
                             KELUAR (LOGOUT)
                         </button>
@@ -264,7 +264,7 @@
                 </header>
 
                 <main class="w-full" style="margin-left: 320px; padding: 32px; max-width: calc(100vw - 320px);">
-                    @yield('content')
+                    <?php echo $__env->yieldContent('content'); ?>
                 </main>
             </div>
         </div>
@@ -385,4 +385,4 @@
             }
         </style>
     </body>
-</html>
+</html><?php /**PATH C:\laragon\www\PPID-PKTJ\resources\views/layouts/app.blade.php ENDPATH**/ ?>

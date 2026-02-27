@@ -85,12 +85,25 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/{type}', [ProfilPpidController::class, 'destroy'])->name('destroy');
     });
 
+    // Menu Layanan Informasi
+    Route::name('admin.layanan.')->prefix('layanan')->group(function () {
+        Route::get('/daftar-informasi', function() { return view('admin.layanan.daftar-informasi'); })->name('daftar-informasi');
+        Route::get('/daftar-informasi/create', function() { return view('admin.layanan.daftar-informasi-create'); })->name('daftar-informasi.create');
+        Route::get('/maklumat-pelayanan', function() { return view('admin.layanan.maklumat-pelayanan'); })->name('maklumat-pelayanan');
+    });
+
     // Menu Informasi Publik
     Route::name('admin.informasi.')->prefix('informasi')->group(function () {
         Route::get('/berkala', function() { return view('admin.informasi.berkala'); })->name('berkala');
         Route::get('/serta-merta', function() { return view('admin.informasi.sertamerta'); })->name('sertamerta');
         Route::get('/setiap-saat', function() { return view('admin.informasi.setiapsaat'); })->name('setiapsaat');
         Route::get('/dikecualikan', function() { return view('admin.informasi.dikecualikan'); })->name('dikecualikan');
+        
+        // Create routes for upload forms
+        Route::get('/berkala/create', function() { return view('admin.informasi.berkala-create'); })->name('berkala.create');
+        Route::get('/serta-merta/create', function() { return view('admin.informasi.sertamerta-create'); })->name('sertamerta.create');
+        Route::get('/setiap-saat/create', function() { return view('admin.informasi.setiapsaat-create'); })->name('setiapsaat.create');
+        Route::get('/dikecualikan/create', function() { return view('admin.informasi.dikecualikan-create'); })->name('dikecualikan.create');
     });
 
     // Resource CRUD
