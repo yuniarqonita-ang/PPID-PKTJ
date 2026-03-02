@@ -115,19 +115,19 @@
                             <span class="accordion-arrow text-slate-400 group-hover:text-purple-300 transition-all duration-300">▼</span>
                         </button>
                         <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                            <a href="{{ route('admin.layanan.daftar-informasi') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200 {{ request()->routeIs('admin.layanan.daftar-informasi') ? 'bg-purple-500/30 text-purple-300 border-l-2 border-purple-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> Daftar informasi publik
                             </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                            <a href="{{ route('admin.layanan.maklumat-pelayanan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200 {{ request()->routeIs('admin.layanan.maklumat-pelayanan') ? 'bg-purple-500/30 text-purple-300 border-l-2 border-purple-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> Maklumat pelayanan dan standar biaya
                             </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                            <a href="{{ route('admin.layanan.laporan-layanan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200 {{ request()->routeIs('admin.layanan.laporan-layanan') ? 'bg-purple-500/30 text-purple-300 border-l-2 border-purple-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> Laporan layanan informasi publik
                             </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                            <a href="{{ route('admin.layanan.laporan-akses') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200 {{ request()->routeIs('admin.layanan.laporan-akses') ? 'bg-purple-500/30 text-purple-300 border-l-2 border-purple-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> Laporan akses informasi publik
                             </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
+                            <a href="{{ route('admin.layanan.laporan-survey') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200 {{ request()->routeIs('admin.layanan.laporan-survey') ? 'bg-purple-500/30 text-purple-300 border-l-2 border-purple-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> Laporan survey kepuasan layanan informasi publik
                             </a>
                             <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
@@ -147,22 +147,22 @@
                             <span class="accordion-arrow text-slate-400 group-hover:text-orange-300 transition-all duration-300">▼</span>
                         </button>
                         <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                            <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-permintaan') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> SOP permintaan informasi publik
                             </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                            <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-keberatan') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> SOP penanganan keberatan
                             </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                            <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-sengketa') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> SOP pengajuan sengketa informasi publik
                             </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                            <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-penetapan') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> SOP penetapan dan pemiktakhiran daftar informasi publik
                             </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                            <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-pengujian') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> SOP pengujian konsekuensi
                             </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200">
+                            <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-pendokumentasian') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> SOP pendokumentasian informasi publik
                             </a>
                         </div>
