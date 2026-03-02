@@ -69,7 +69,7 @@
                 </li>
 
                 <li class="nav-item">
-                    <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('faq.index') }}">FAQ</a>
+                    <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('faq.public') }}">FAQ</a>
                 </li>
             </ul>
 

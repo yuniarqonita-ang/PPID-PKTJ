@@ -197,44 +197,58 @@
                         </div>
                     </div>
 
-                    <!-- ==================== ACCORDION GROUP 6: FAQ & PERMOHONAN ==================== -->
+                    <!-- ==================== ACCORDION GROUP 6: FAQ ==================== -->
                     <div class="accordion-item pt-2">
                         <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-pink-600/20 to-pink-500/10 hover:from-pink-600/30 hover:to-pink-500/20 border border-pink-500/30 transition-all duration-300 group"
                                 onclick="toggleAccordion(this)">
                             <div class="flex items-center">
                                 <span class="text-xl mr-3">❓</span>
-                                <span class="font-bold text-sm text-pink-300 tracking-wider uppercase">FAQ & Permohonan</span>
+                                <span class="font-bold text-sm text-pink-300 tracking-wider uppercase">FAQ</span>
                             </div>
                             <span class="accordion-arrow text-slate-400 group-hover:text-pink-300 transition-all duration-300">▼</span>
                         </button>
                         <div class="accordion-content hidden space-y-1 mt-2 ml-2">
                             <a href="<?php echo e(route('admin.faq.index')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-pink-500/20 hover:border-l-2 hover:border-pink-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.faq.index') ? 'bg-pink-500/30 text-pink-300 border-l-2 border-pink-400' : ''); ?>">
-                                <span class="mr-2 opacity-70">▸</span> FAQ
-                            </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-pink-500/20 hover:border-l-2 hover:border-pink-400 transition-all duration-200">
-                                <span class="mr-2 opacity-70">▸</span> Permohonan informasi
+                                <span class="mr-2 opacity-70">▸</span> Kelola FAQ
                             </a>
                         </div>
                     </div>
 
-                    <!-- ==================== ACCORDION GROUP 7: KONTEN LAINNYA ==================== -->
+                    <!-- ==================== ACCORDION GROUP 7: PERMOHONAN INFORMASI ==================== -->
                     <div class="accordion-item pt-2">
                         <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-cyan-600/20 to-cyan-500/10 hover:from-cyan-600/30 hover:to-cyan-500/20 border border-cyan-500/30 transition-all duration-300 group"
                                 onclick="toggleAccordion(this)">
                             <div class="flex items-center">
                                 <span class="text-xl mr-3">📝</span>
-                                <span class="font-bold text-sm text-cyan-300 tracking-wider uppercase">Konten & Berita</span>
+                                <span class="font-bold text-sm text-cyan-300 tracking-wider uppercase">Permohonan Informasi</span>
                             </div>
                             <span class="accordion-arrow text-slate-400 group-hover:text-cyan-300 transition-all duration-300">▼</span>
                         </button>
                         <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="<?php echo e(route('admin.berita.index')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.berita.index') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : ''); ?>">
+                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200">
+                                <span class="mr-2 opacity-70">▸</span> Daftar Permohonan
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- ==================== ACCORDION GROUP 8: KONTEN LAINNYA ==================== -->
+                    <div class="accordion-item pt-2">
+                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-green-600/20 to-green-500/10 hover:from-green-600/30 hover:to-green-500/20 border border-green-500/30 transition-all duration-300 group"
+                                onclick="toggleAccordion(this)">
+                            <div class="flex items-center">
+                                <span class="text-xl mr-3">📝</span>
+                                <span class="font-bold text-sm text-green-300 tracking-wider uppercase">Konten & Berita</span>
+                            </div>
+                            <span class="accordion-arrow text-slate-400 group-hover:text-green-300 transition-all duration-300">▼</span>
+                        </button>
+                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
+                            <a href="<?php echo e(route('admin.berita.index')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.berita.index') ? 'bg-green-500/30 text-green-300 border-l-2 border-green-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> Berita Terkini
                             </a>
-                            <a href="<?php echo e(route('admin.dokumen.index')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.dokumen.index') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : ''); ?>">
+                            <a href="<?php echo e(route('admin.dokumen.index')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.dokumen.index') ? 'bg-green-500/30 text-green-300 border-l-2 border-green-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> File Dokumen
                             </a>
-                            <a href="<?php echo e(route('admin.users')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.users') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : ''); ?>">
+                            <a href="<?php echo e(route('admin.users')); ?>" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200 <?php echo e(request()->routeIs('admin.users') ? 'bg-green-500/30 text-green-300 border-l-2 border-green-400' : ''); ?>">
                                 <span class="mr-2 opacity-70">▸</span> User Management
                             </a>
                         </div>

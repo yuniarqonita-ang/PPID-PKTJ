@@ -156,7 +156,14 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('berita', BeritaController::class)->names('admin.berita');
     Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
     Route::resource('prosedur', ProsedurController::class)->names('admin.prosedur');
-    Route::resource('faq', FaqController::class)->names('admin.faq');
+    
+    // Custom FAQ routes for admin
+    Route::get('/faq', [FaqController::class, 'adminIndex'])->name('admin.faq.index');
+    Route::get('/faq/create', [FaqController::class, 'create'])->name('admin.faq.create');
+    Route::post('/faq', [FaqController::class, 'store'])->name('admin.faq.store');
+    Route::get('/faq/{faq}/edit', [FaqController::class, 'edit'])->name('admin.faq.edit');
+    Route::put('/faq/{faq}', [FaqController::class, 'update'])->name('admin.faq.update');
+    Route::delete('/faq/{faq}', [FaqController::class, 'destroy'])->name('admin.faq.destroy');
 
     // Link Aplikasi Terkait
     Route::get('/lpse', function() { return "Halaman LPSE"; })->name('admin.lpse.index');
@@ -178,5 +185,5 @@ Route::name('profil.')->prefix('profil')->group(function () {
     Route::get('/kontak', [ProfilPublikController::class, 'showKontak'])->name('kontak');
 });
 
-Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+Route::get('/faq', [FaqController::class, 'index'])->name('faq.public');
 Route::get('/permohonan', function() { return view('permohonan'); })->name('permohonan.form');
