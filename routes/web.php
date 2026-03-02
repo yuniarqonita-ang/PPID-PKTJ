@@ -57,6 +57,39 @@ Route::get('/layanan-informasi/daftar', function () { return view('daftar-inform
 
 Route::get('/layanan-informasi/maklumat', function () { return view('maklumat-pelayanan'); })->name('layanan.maklumat-pelayanan');
 
+Route::get('/layanan-informasi/laporan', function () { return view('laporan-layanan-informasi'); })->name('layanan.laporan-layanan');
+
+Route::get('/layanan-informasi/laporan-akses', function () { return view('laporan-akses-informasi-publik'); })->name('layanan.laporan-akses');
+
+Route::get('/layanan-informasi/laporan-survey', function () { return view('laporan-survey-kepuasan'); })->name('layanan.laporan-survey');
+
+// Prosedur (Public)
+Route::get('/prosedur/sop-permintaan-informasi', function () {
+    // Menggunakan view 'sop-permintaan' sesuai lokasi file Anda saat ini
+    return view('sop-permintaan');
+})->name('prosedur.sop-permintaan');
+
+Route::get('/prosedur/sop-penanganan-keberatan', function () {
+    // Placeholder - Anda bisa membuat view baru nanti
+    return "Halaman SOP Penanganan Keberatan - Segera Hadir";
+})->name('prosedur.sop-keberatan');
+
+Route::get('/prosedur/sop-pengajuan-sengketa', function () {
+    return view('sop-sengketa');
+})->name('prosedur.sop-sengketa');
+
+Route::get('/prosedur/sop-penetapan-pemutakhiran', function () {
+    return "Halaman SOP Penetapan dan Pemutakhiran Daftar Informasi Publik - Segera Hadir";
+})->name('prosedur.sop-pemutakhiran');
+
+Route::get('/prosedur/sop-pengujian-konsekuensi', function () {
+    return "Halaman SOP Pengujian Konsekuensi - Segera Hadir";
+})->name('prosedur.sop-pengujian');
+
+Route::get('/prosedur/sop-pendokumentasian', function () {
+    return "Halaman SOP Pendokumentasian Informasi Publik - Segera Hadir";
+})->name('prosedur.sop-pendokumentasian');
+
 // ==========================================
 // 2. AUTH SYSTEM (LOGIN & LOGOUT)
 // ==========================================

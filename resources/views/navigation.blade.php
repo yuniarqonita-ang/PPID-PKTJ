@@ -38,9 +38,9 @@
                     <ul class="dropdown-menu" style="min-width: 320px;">
                         <li><a class="dropdown-item" href="{{ route('layanan.daftar-informasi') }}">Daftar Informasi Publik</a></li>
                         <li><a class="dropdown-item" href="{{ route('layanan.maklumat-pelayanan') }}">Maklumat Pelayanan & Standar Biaya</a></li>
-                        <li><a class="dropdown-item" href="#">Laporan Layanan Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="#">Laporan Akses Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="#">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="{{ route('layanan.laporan-layanan') }}">Laporan Layanan Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="{{ route('layanan.laporan-akses') }}">Laporan Akses Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="{{ route('layanan.laporan-survey') }}">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
                         <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
                     </ul>
                 </li>
@@ -48,12 +48,12 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
                     <ul class="dropdown-menu" style="min-width: 380px;">
-                        <li><a class="dropdown-item" href="#">SOP Permintaan Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="#">SOP Penanganan Keberatan</a></li>
-                        <li><a class="dropdown-item" href="#">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="#">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="#">SOP Pengujian Konsekuensi</a></li>
-                        <li><a class="dropdown-item" href="#">SOP Pendokumentasian Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-permintaan') }}">SOP Permintaan Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-keberatan') }}">SOP Penanganan Keberatan</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-sengketa') }}">SOP Pengajuan Sengketa Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-pemutakhiran') }}">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-pengujian') }}">SOP Pengujian Konsekuensi</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-pendokumentasian') }}">SOP Pendokumentasian Informasi Publik</a></li>
                     </ul>
                 </li>
 
