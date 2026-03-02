@@ -1,159 +1,353 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="space-y-8">
+<div class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 p-8">
+    <div class="space-y-8 max-w-full">
 
     <!-- ==================== HEADER SECTION ==================== -->
     <div class="flex justify-between items-center">
         <div>
-            <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-cyan-600">
+            <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
                 📋 Informasi Setiap Saat
             </h1>
             <p class="text-slate-500 mt-1">Kelola informasi yang tersedia setiap saat</p>
         </div>
         <div class="flex items-center space-x-3">
-            <a href="{{ route('admin.informasi.setiapsaat.create') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:shadow-lg transition transform hover:scale-105">
-                <i class="fas fa-plus mr-2"></i>Upload Informasi
-            </a>
             <a href="{{ route('dashboard') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 font-bold hover:shadow-lg transition transform hover:scale-105">
                 <i class="fas fa-arrow-left mr-2"></i>Kembali
             </a>
         </div>
     </div>
 
-    <!-- ==================== SEARCH & FILTER SECTION ==================== -->
-    <div class="bg-white rounded-2xl shadow-lg p-6">
-        <div class="flex flex-wrap gap-4 items-center">
-            <div class="flex-1 min-w-[300px]">
-                <div class="relative">
-                    <input type="text" placeholder="Cari informasi setiap saat..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                    <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+    <!-- ==================== ALERTS SECTION ==================== -->
+    @if($errors->any())
+        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-50 to-red-100 border-2 border-red-200 p-6 shadow-lg">
+            <div class="absolute -top-4 -right-4 w-16 h-16 bg-red-200/20 rounded-full blur-2xl"></div>
+            <div class="relative z-10">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center">
+                            <i class="fas fa-exclamation-circle text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-red-800 mb-2">🚨 Terjadi Kesalahan!</h3>
+                        <ul class="space-y-1 text-red-700">
+                            @foreach($errors->all() as $error)
+                                <li class="flex items-center space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
+                                    <span>{{ $error }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
-            <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                <option value="">Semua Kategori</option>
-                <option value="profil">Profil</option>
-                <option value="layanan">Layanan</option>
-                <option value="peraturan">Peraturan</option>
-                <option value="lainnya">Lainnya</option>
-            </select>
-            <select class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
-                <option value="">Semua Status</option>
-                <option value="1">Dipublikasikan</option>
-                <option value="0">Draft</option>
-            </select>
         </div>
-    </div>
+    @endif
 
-    <!-- ==================== DATA TABLE ==================== -->
-    <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead class="bg-gradient-to-r from-blue-500 to-cyan-600 text-white">
-                    <tr>
-                        <th class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">No</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">Judul Informasi</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">Kategori</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">Frekuensi Update</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">File</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">Tanggal</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-4 text-left text-xs font-medium uppercase tracking-wider">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                    @forelse($setiapSaatData ?? [] as $index => $item)
-                        <tr class="hover:bg-gray-50 transition-colors">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{{ $index + 1 }}</td>
-                            <td class="px-6 py-4">
-                                <div class="text-sm font-medium text-gray-900">{{ $item->judul }}</div>
-                                <div class="text-sm text-gray-500">{{ Str::limit($item->konten, 100) }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
-                                    {{ $item->kategori }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $item->frekuensi == 'harian' ? 'bg-green-100 text-green-800' : ($item->frekuensi == 'mingguan' ? 'bg-blue-100 text-blue-800' : ($item->frekuensi == 'bulanan' ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800')) }}">
-                                    {{ $item->frekuensi }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                @if($item->file)
-                                    <a href="{{ asset('storage/setiap-saat/' . $item->file) }}" target="_blank" class="text-blue-600 hover:text-blue-900">
-                                        <i class="fas fa-file-pdf"></i> {{ $item->file }}
-                                    </a>
-                                @else
-                                    <span class="text-gray-400">-</span>
-                                @endif
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                {{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full {{ $item->status == 1 ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800' }}">
-                                    {{ $item->status == 1 ? 'Dipublikasikan' : 'Draft' }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                <div class="flex space-x-2">
-                                    <a href="#" class="text-blue-600 hover:text-blue-900">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <a href="#" class="text-red-600 hover:text-red-900">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="px-6 py-12 text-center">
-                                <div class="text-blue-500 text-6xl mb-4">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                                <h3 class="text-lg font-medium text-gray-900 mb-2">Belum Ada Data Informasi Setiap Saat</h3>
-                                <p class="text-gray-500 mb-4">Belum ada informasi yang tersedia setiap saat saat ini.</p>
-                                <a href="{{ route('admin.informasi.setiapsaat.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition">
-                                    <i class="fas fa-plus mr-2"></i>Upload Informasi Pertama
-                                </a>
-                            </td>
-                        </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
-        
-        <!-- ==================== PAGINATION ==================== -->
-        @if(isset($setiapSaatData) && $setiapSaatData->count() > 0)
-            <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
-                <div class="flex-1 flex justify-between sm:hidden">
-                    <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> Previous </a>
-                    <a href="#" class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"> Next </a>
+    @if(session('success'))
+        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-200 p-6 shadow-lg">
+            <div class="absolute -top-4 -right-4 w-16 h-16 bg-green-200/20 rounded-full blur-2xl"></div>
+            <div class="relative z-10">
+                <div class="flex items-start space-x-4">
+                    <div class="flex-shrink-0">
+                        <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center animate-pulse">
+                            <i class="fas fa-check-circle text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="flex-1">
+                        <h3 class="text-lg font-bold text-green-800">✅ Berhasil!</h3>
+                        <p class="text-green-700">{{ session('success') }}</p>
+                    </div>
                 </div>
-                <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                    <div>
-                        <p class="text-sm text-gray-700">
-                            Menampilkan <span class="font-medium">1</span> hingga <span class="font-medium">10</span> dari <span class="font-medium">{{ $setiapSaatData->count() }}</span> hasil
+            </div>
+        </div>
+    @endif
+
+    <!-- ==================== FORM SECTION ==================== -->
+    <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-xl p-8 border border-slate-200">
+        <form action="#" method="POST" enctype="multipart/form-data">
+            @csrf
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- Main Content (2 columns) -->
+                <div class="lg:col-span-2 space-y-8">
+                    <!-- Judul Section -->
+                    <div class="group">
+                        <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center mr-3">
+                                <i class="fas fa-heading text-sm"></i>
+                            </span>
+                            Judul Informasi
+                        </label>
+                        <input type="text" name="judul" id="judul" 
+                               class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm"
+                               placeholder="Contoh: Profil Lembaga PPID PKTJ" required>
+                    </div>
+
+                    <!-- Deskripsi Section -->
+                    <div class="group">
+                        <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center mr-3">
+                                <i class="fas fa-align-left text-sm"></i>
+                            </span>
+                            Deskripsi Singkat
+                        </label>
+                        <textarea name="deskripsi" id="deskripsi" rows="3"
+                                  class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 bg-white shadow-sm resize-none"
+                                  placeholder="Penjelasan singkat tentang informasi ini"></textarea>
+                    </div>
+
+                    <!-- Konten Section -->
+                    <div class="group">
+                        <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white flex items-center justify-center mr-3">
+                                <i class="fas fa-pen-fancy text-sm"></i>
+                            </span>
+                            Konten Lengkap
+                        </label>
+                        <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner">
+                            <textarea id="editor" name="konten" class="w-full p-6 border-0 outline-none resize-none" style="min-height: 300px;">
+Tulis konten lengkap informasi setiap saat di sini...
+                            </textarea>
+                        </div>
+                        <p class="text-sm text-slate-500 mt-2">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Gunakan formatting lengkap (bold, italic, list, tabel, dll)
                         </p>
                     </div>
-                    <div>
-                        <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-                            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                <i class="fas fa-chevron-left"></i>
-                            </a>
-                            <a href="#" aria-current="page" class="z-10 bg-blue-50 border-blue-500 text-blue-600 relative inline-flex items-center px-4 py-2 border text-sm font-medium">1</a>
-                            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">2</a>
-                            <a href="#" class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">3</a>
-                            <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-                                <i class="fas fa-chevron-right"></i>
-                            </a>
-                        </nav>
+
+                    <!-- Tanggal Section -->
+                    <div class="group">
+                        <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-center mr-3">
+                                <i class="fas fa-calendar text-sm"></i>
+                            </span>
+                            Tanggal Publikasi
+                        </label>
+                        <input type="date" name="tanggal" id="tanggal" 
+                               class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-orange-500/20 focus:border-orange-500 transition-all duration-300 bg-white shadow-sm"
+                               required>
+                    </div>
+
+                    <!-- Frekuensi Update Section -->
+                    <div class="group">
+                        <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center mr-3">
+                                <i class="fas fa-sync text-sm"></i>
+                            </span>
+                            Frekuensi Update
+                        </label>
+                        <div class="grid grid-cols-4 gap-4">
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="frekuensi" value="harian" class="peer sr-only" required>
+                                <div class="p-4 border-2 border-slate-200 rounded-xl hover:border-green-400 peer-checked:border-green-500 peer-checked:bg-green-50 transition-all">
+                                    <div class="text-center">
+                                        <i class="fas fa-calendar-day text-2xl text-slate-400 peer-checked:text-green-500 mb-2"></i>
+                                        <p class="font-medium text-slate-700 peer-checked:text-green-700">Harian</p>
+                                        <p class="text-xs text-slate-500">Setiap hari</p>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="frekuensi" value="mingguan" class="peer sr-only">
+                                <div class="p-4 border-2 border-slate-200 rounded-xl hover:border-blue-400 peer-checked:border-blue-500 peer-checked:bg-blue-50 transition-all">
+                                    <div class="text-center">
+                                        <i class="fas fa-calendar-week text-2xl text-slate-400 peer-checked:text-blue-500 mb-2"></i>
+                                        <p class="font-medium text-slate-700 peer-checked:text-blue-700">Mingguan</p>
+                                        <p class="text-xs text-slate-500">Seminggu sekali</p>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="frekuensi" value="bulanan" class="peer sr-only">
+                                <div class="p-4 border-2 border-slate-200 rounded-xl hover:border-purple-400 peer-checked:border-purple-500 peer-checked:bg-purple-50 transition-all">
+                                    <div class="text-center">
+                                        <i class="fas fa-calendar-alt text-2xl text-slate-400 peer-checked:text-purple-500 mb-2"></i>
+                                        <p class="font-medium text-slate-700 peer-checked:text-purple-700">Bulanan</p>
+                                        <p class="text-xs text-slate-500">Sebulan sekali</p>
+                                    </div>
+                                </div>
+                            </label>
+                            <label class="relative cursor-pointer">
+                                <input type="radio" name="frekuensi" value="kapan-saja" class="peer sr-only">
+                                <div class="p-4 border-2 border-slate-200 rounded-xl hover:border-indigo-400 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 transition-all">
+                                    <div class="text-center">
+                                        <i class="fas fa-infinity text-2xl text-slate-400 peer-checked:text-indigo-600 mb-2"></i>
+                                        <p class="font-medium text-slate-700 peer-checked:text-indigo-700">Kapan Saja</p>
+                                        <p class="text-xs text-slate-500">Fleksibel</p>
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Dokumen Section -->
+                    <div class="group">
+                        <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white flex items-center justify-center mr-3">
+                                <i class="fas fa-file text-sm"></i>
+                            </span>
+                            Dokumen Terkait (Opsional)
+                        </label>
+                        <div class="relative">
+                            <input type="file" name="dokumen" id="dokumen" 
+                                   class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 bg-white shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-700 hover:file:bg-red-100">
+                            <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm">
+                                Max 10MB
+                            </div>
+                        </div>
+                        <p class="text-sm text-slate-500 mt-2">
+                            <i class="fas fa-file-alt mr-1"></i>
+                            Format: PDF, DOC, DOCX, XLS, XLSX
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Sidebar (1 column) -->
+                <div class="space-y-6">
+                    <!-- Panduan Card -->
+                    <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-50 to-orange-50 border-2 border-yellow-200 p-6 shadow-lg">
+                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-yellow-200/20 rounded-full blur-3xl"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 text-white flex items-center justify-center mr-3">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-orange-800">Panduan Pengisian</h3>
+                            </div>
+                            <div class="space-y-3 text-sm">
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                                    <div>
+                                        <strong class="text-orange-800">Judul:</strong>
+                                        <p class="text-orange-700">Singkat, jelas, dan deskriptif</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                                    <div>
+                                        <strong class="text-orange-800">Deskripsi:</strong>
+                                        <p class="text-orange-700">Ringkasan maksimal 100 kata</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                                    <div>
+                                        <strong class="text-orange-800">Konten:</strong>
+                                        <p class="text-orange-700">Uraian lengkap dengan formatting</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                                    <div>
+                                        <strong class="text-orange-800">Tanggal:</strong>
+                                        <p class="text-orange-700">Waktu publikasi informasi</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                                    <div>
+                                        <strong class="text-orange-800">Frekuensi:</strong>
+                                        <p class="text-orange-700">Pilih frekuensi update</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
+                                    <div>
+                                        <strong class="text-orange-800">Dokumen:</strong>
+                                        <p class="text-orange-700">File pendukung jika ada</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Info Card -->
+                    <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 p-6 shadow-lg">
+                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-blue-200/20 rounded-full blur-3xl"></div>
+                        <div class="relative z-10">
+                            <div class="flex items-center mb-3">
+                                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-400 to-indigo-500 text-white flex items-center justify-center mr-3">
+                                    <i class="fas fa-info-circle"></i>
+                                </div>
+                                <h3 class="text-lg font-bold text-blue-800">Tentang Informasi Setiap Saat</h3>
+                            </div>
+                            <p class="text-sm text-blue-700 leading-relaxed">
+                                Informasi Setiap Saat adalah informasi yang harus tersedia secara berkelanjutan dan dapat diakses oleh masyarakat kapan saja, seperti profil lembaga, struktur organisasi, atau layanan publik yang tersedia.
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Quick Stats -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-green-400 to-green-600 p-4 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-white/20 rounded-full blur-xl"></div>
+                            <div class="relative z-10">
+                                <p class="text-2xl font-black">8</p>
+                                <p class="text-xs text-white/80">Total Item</p>
+                            </div>
+                        </div>
+                        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 p-4 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
+                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-white/20 rounded-full blur-xl"></div>
+                            <div class="relative z-10">
+                                <p class="text-2xl font-black">4</p>
+                                <p class="text-xs text-white/80">Bulan Ini</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        @endif
+
+            <!-- Action Buttons -->
+            <div class="flex justify-end space-x-4 mt-8 pt-8 border-t-2 border-slate-200">
+                <a href="{{ route('dashboard') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-gray-300 to-gray-400 text-gray-700 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-times mr-2"></i>Batal
+                </a>
+                <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <i class="fas fa-save mr-2"></i>Simpan Informasi
+                </button>
+            </div>
+        </form>
     </div>
+</div>
+<!-- CKEditor 5 -->
+<script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        ClassicEditor
+            .create(document.querySelector('#editor'), {
+                toolbar: {
+                    items: [
+                        'heading', '|',
+                        'fontSize', 'fontFamily', '|',
+                        'bold', 'italic', 'underline', '|',
+                        'alignment', 'outdent', 'indent', '|',
+                        'bulletedList', 'numberedList', '|',
+                        'link', 'imageUpload', 'insertTable', '|',
+                        'blockQuote', 'codeBlock', '|',
+                        'undo', 'redo'
+                    ]
+                },
+                table: {
+                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
+                }
+            })
+            .catch(error => console.error(error));
+    });
+</script>
+
+<style>
+    .form-control.form-editor {
+        min-height: 250px;
+    }
+    .display-5 {
+        font-size: 2rem;
+        font-weight: 600;
+    }
+    .ck-editor__editable { min-height: 250px; }
+</style>
+</div>
 </div>
 @endsection
