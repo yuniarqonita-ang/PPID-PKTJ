@@ -6,8 +6,10 @@ use App\Http\Controllers\BeritaController;
 use App\Http\Controllers\DokumenController;
 use App\Http\Controllers\ProsedurController;
 use App\Http\Controllers\FaqController;
-use App\Http\Controllers\ProfilPpidController;
+use App\Http\Controllers\InformasiPublikController;
+use App\Http\Controllers\InformasiBerkalaController;
 use App\Http\Controllers\ProfilPublikController;
+use App\Http\Controllers\ProfilPpidController;
 use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\Auth\LoginController;
 
@@ -104,8 +106,16 @@ Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.lo
 // 3. ADMIN DASHBOARD (BACK OFFICE)
 // ==========================================
 Route::middleware(['auth'])->prefix('admin')->group(function () {
+    // Dashboard routes
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard/edit', [DashboardController::class, 'edit'])->name('dashboard.edit');
+    Route::put('/dashboard', [DashboardController::class, 'update'])->name('dashboard.update');
     
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    // Content management routes
+    Route::get('/content', function() { return view('admin.content.index'); })->name('content.index');
+    
+    // Halaman management routes
+    Route::get('/halaman', function() { return view('admin.halaman.index'); })->name('halaman.index');
 
     // Menu Profil PPID
     Route::name('admin.profil.')->prefix('profil')->group(function () {
@@ -116,6 +126,16 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/{type}', [ProfilPpidController::class, 'edit'])->name('edit');
         Route::put('/{type}', [ProfilPpidController::class, 'update'])->name('update');
         Route::delete('/{type}', [ProfilPpidController::class, 'destroy'])->name('destroy');
+    });
+
+    // Informasi Berkala CRUD
+    Route::name('admin.informasi.berkala.')->prefix('informasi-berkala')->group(function () {
+        Route::get('/', [InformasiBerkalaController::class, 'index'])->name('index');
+        Route::get('/create', [InformasiBerkalaController::class, 'create'])->name('create');
+        Route::post('/', [InformasiBerkalaController::class, 'store'])->name('store');
+        Route::get('/{id}/edit', [InformasiBerkalaController::class, 'edit'])->name('edit');
+        Route::put('/{id}', [InformasiBerkalaController::class, 'update'])->name('update');
+        Route::delete('/{id}', [InformasiBerkalaController::class, 'destroy'])->name('destroy');
     });
 
     // Menu Layanan Informasi
@@ -164,6 +184,16 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/faq/{faq}/edit', [FaqController::class, 'edit'])->name('admin.faq.edit');
     Route::put('/faq/{faq}', [FaqController::class, 'update'])->name('admin.faq.update');
     Route::delete('/faq/{faq}', [FaqController::class, 'destroy'])->name('admin.faq.destroy');
+    
+    // Permohonan Informasi routes
+    Route::name('admin.permohonan.')->prefix('permohonan')->group(function () {
+        Route::get('/', function() { return view('admin.permohonan.index'); })->name('index');
+        Route::get('/form', function() { return view('admin.permohonan.form'); })->name('form');
+        Route::post('/store', function() { 
+            // Handle form submission logic here
+            return redirect()->route('admin.permohonan.index')->with('success', 'Form permohonan berhasil disimpan!');
+        })->name('store');
+    });
 
     // Link Aplikasi Terkait
     Route::get('/lpse', function() { return "Halaman LPSE"; })->name('admin.lpse.index');
@@ -184,6 +214,27 @@ Route::name('profil.')->prefix('profil')->group(function () {
     Route::get('/regulasi', [ProfilPublikController::class, 'showRegulasi'])->name('regulasi');
     Route::get('/kontak', [ProfilPublikController::class, 'showKontak'])->name('kontak');
 });
+
+// Informasi Publik Routes
+Route::name('informasi.')->prefix('informasi')->group(function () {
+    Route::get('/berkala', [InformasiPublikController::class, 'informasiBerkala'])->name('berkala');
+    Route::get('/serta-merta', [InformasiPublikController::class, 'informasiSertamerta'])->name('sertamerta');
+    Route::get('/setiap-saat', [InformasiPublikController::class, 'informasiSetiapsaat'])->name('setiapsaat');
+    Route::get('/dikecualikan', [InformasiPublikController::class, 'informasiDikecualikan'])->name('dikecualikan');
+});
+
+// Prosedur Routes
+Route::name('prosedur.')->prefix('prosedur')->group(function () {
+    Route::get('/sop-permintaan', [InformasiPublikController::class, 'prosedur'])->name('permintaan');
+    Route::get('/sop-keberatan', [InformasiPublikController::class, 'prosedur'])->name('keberatan');
+    Route::get('/sop-sengketa', [InformasiPublikController::class, 'prosedur'])->name('sengketa');
+    Route::get('/sop-penetapan', [InformasiPublikController::class, 'prosedur'])->name('penetapan');
+    Route::get('/sop-pengujian', [InformasiPublikController::class, 'prosedur'])->name('pengujian');
+    Route::get('/sop-pendokumentasian', [InformasiPublikController::class, 'prosedur'])->name('pendokumentasian');
+});
+
+// Download Route
+Route::get('/download/{model}/{id}', [InformasiPublikController::class, 'downloadFile'])->name('download.file');
 
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.public');
 Route::get('/permohonan', function() { return view('permohonan'); })->name('permohonan.form');

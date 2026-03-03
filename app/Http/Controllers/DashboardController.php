@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Carbon\Carbon;
+use App\Models\Dashboard;
 
 class DashboardController extends Controller
 {
@@ -71,6 +72,65 @@ class DashboardController extends Controller
         ];
 
         return view('admin.dashboard', $data);
+    }
+
+    public function edit()
+    {
+        return view('admin.dashboard.edit');
+    }
+
+    public function update(Request $request)
+    {
+        $settings = [
+            'hero_title' => $request->hero_title,
+            'hero_subtitle' => $request->hero_subtitle,
+            'primary_color' => $request->primary_color,
+            'secondary_color' => $request->secondary_color,
+            'bg_color' => $request->bg_color,
+            'video_url' => $request->video_url,
+            'video_title' => $request->video_title,
+            'app_eppid' => $request->app_eppid,
+            'app_lpse' => $request->app_lpse,
+            'app_jdih' => $request->app_jdih,
+            'app_sistem' => $request->app_sistem,
+            'ppid_nama' => $request->ppid_nama,
+            'ppid_deskripsi' => $request->ppid_deskripsi,
+        ];
+
+        foreach ($settings as $key => $value) {
+            Dashboard::updateOrCreate(
+                ['key' => $key],
+                [
+                    'value' => $value,
+                    'type' => 'text',
+                    'description' => $this->getDescription($key),
+                    'aktif' => true
+                ]
+            );
+        }
+
+        return redirect()->route('admin.dashboard.edit')->with('success', 'Dashboard berhasil diperbarui!');
+    }
+
+    private function getDescription($key)
+    {
+        $descriptions = [
+            'hero_title' => 'Judul utama di hero section',
+            'hero_subtitle' => 'Subjudul di hero section',
+            'primary_color' => 'Warna primer tema',
+            'secondary_color' => 'Warna sekunder tema',
+            'bg_color' => 'Warna background halaman',
+            'video_url' => 'URL video YouTube',
+            'video_title' => 'Judul video layanan',
+            'app_eppid' => 'Link aplikasi E-PPID Kemenhub',
+            'app_lpse' => 'Link aplikasi LPSE PKTJ',
+            'app_jdih' => 'Link aplikasi JDIH PKTJ',
+            'app_sistem' => 'Link sistem informasi PKTJ',
+            'ppid_nama' => 'Nama PPID',
+            'ppid_deskripsi' => 'Deskripsi PPID',
+        ];
+
+        return $descriptions[$key] ?? 'Pengaturan dashboard';
     }
 
     public function users() { return "Halaman User Management"; }

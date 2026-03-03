@@ -1,178 +1,170 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 p-8">
-    <div class="space-y-8 max-w-full">
+<div class="min-h-screen bg-gray-50 p-8">
+    <div class="max-w-6xl mx-auto">
 
     <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center">
+    <div class="flex justify-between items-center mb-8">
         <div>
-            <h1 class="text-4xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-                Edit Profil PPID
-            </h1>
-            <p class="text-slate-500 mt-1">Kelola informasi profil PPID dengan editor lengkap</p>
+            <h1 class="text-3xl font-bold text-gray-900">📝 Edit Profil PPID</h1>
+            <p class="text-gray-600 mt-1">Kelola informasi {{ ucfirst($type) }} PPID</p>
         </div>
         <div class="flex items-center space-x-3">
-            <button type="button" onclick="window.open('/profil', '_blank')" class="px-6 py-3 rounded-xl bg-gradient-to-r from-green-500 to-green-600 text-white font-bold hover:shadow-lg transition transform hover:scale-105">
+            <a href="{{ url('/profil/' . $type) }}" target="_blank" class="px-4 py-2 bg-green-600 text-white font-medium hover:bg-green-700 transition rounded-lg">
                 <i class="fas fa-eye mr-2"></i>Lihat Publik
-            </button>
-            <a href="{{ route('admin.profil.index') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 font-bold hover:shadow-lg transition transform hover:scale-105">
-                <i class="fas fa-arrow-left mr-2"></i>Kembali
+            </a>
+            <a href="{{ route('admin.profil.index') }}" class="px-4 py-2 text-gray-700 hover:text-gray-900 font-medium">
+                Kembali
             </a>
         </div>
     </div>
 
+    <!-- ==================== ALERTS SECTION ==================== -->
+    @if(session('success'))
+        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+            <div class="flex items-center">
+                <div class="flex-shrink-0">
+                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                </div>
+                <div class="ml-3">
+                    <p class="text-green-800 font-medium">{{ session('success') }}</p>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <!-- ==================== FORM SECTION ==================== -->
-    <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-xl p-8 border border-slate-200">
-        <form action="{{ route('admin.profil.update', $profil->type) }}" method="POST" enctype="multipart/form-data">
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+        <form action="{{ route('admin.profil.update', $profil->tipe) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
-                
-            <!-- JUDUL SECTION -->
-            <div class="mb-8">
-                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
-                    <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center mr-3">
-                        <i class="fas fa-heading text-sm"></i>
-                    </span>
-                    Judul Profil
-                </label>
-                <input type="text" name="judul" value="{{ old('judul', $profil->judul) }}" 
-                       class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm"
-                       placeholder="Masukkan judul profil" required>
-            </div>
 
-            <!-- SAMPUL SECTION -->
-            <div class="mb-8">
-                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
-                    <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center mr-3">
-                        <i class="fas fa-image text-sm"></i>
-                    </span>
-                    Sampul / Cover
-                </label>
-                <div class="relative group">
-                    <div class="border-3 border-dashed border-slate-300 rounded-2xl p-8 text-center bg-white hover:border-blue-400 transition-all duration-300">
+            <div class="p-6 space-y-8">
+                
+                <!-- Judul Section -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Judul</label>
+                    <input type="text" 
+                           name="judul" 
+                           value="{{ old('judul', $profil->judul) }}"
+                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           placeholder="Masukkan judul {{ $type }}"
+                           required>
+                </div>
+
+                <!-- Gambar Section (for struktur) -->
+                @if($type === 'struktur')
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Struktur Organisasi</label>
+                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
                         @if($profil->gambar)
-                            <div class="relative inline-block">
-                                <img src="{{ asset('storage/profil/' . $profil->gambar) }}" alt="Sampul" class="mx-auto h-40 object-cover rounded-xl shadow-lg mb-4">
-                                <div class="absolute top-2 right-2 w-8 h-8 bg-red-500 text-white rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
-                                    <i class="fas fa-times text-xs"></i>
+                            <div class="mb-4">
+                                <img src="{{ asset('storage/profil/' . $profil->gambar) }}" alt="Struktur" class="mx-auto h-48 object-contain">
+                                <div class="mt-2">
+                                    <label class="inline-flex items-center">
+                                        <input type="checkbox" name="hapus_gambar" value="1" class="mr-2">
+                                        <span class="text-sm text-red-600">Hapus gambar</span>
+                                    </label>
                                 </div>
                             </div>
                         @else
-                            <div class="text-slate-400 mb-4">
-                                <div class="w-20 h-20 mx-auto rounded-full bg-gradient-to-br from-slate-200 to-slate-300 flex items-center justify-center">
-                                    <i class="fas fa-image text-3xl"></i>
-                                </div>
-                                <p class="mt-3 text-sm font-medium">Belum ada gambar</p>
-                                <p class="text-xs">Klik untuk upload</p>
+                            <div class="text-gray-400 mb-4">
+                                <i class="fas fa-image text-4xl"></i>
+                                <p class="mt-2">Belum ada gambar</p>
                             </div>
                         @endif
-                        <input type="file" name="gambar" accept="image/*" class="hidden" id="gambar" onchange="previewSampul(this)">
-                        <button type="button" onclick="document.getElementById('gambar').click()" 
-                                class="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                        <input type="file" 
+                               name="gambar" 
+                               accept="image/*" 
+                               class="hidden" 
+                               id="gambar-input"
+                               onchange="previewImage(this)">
+                        <button type="button" 
+                                onclick="document.getElementById('gambar-input').click()" 
+                                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
                             <i class="fas fa-upload mr-2"></i>Pilih Gambar
                         </button>
+                        <div id="image-preview" class="mt-4"></div>
                     </div>
                 </div>
-            </div>
+                @endif
 
-            <!-- KONTEN UTAMA SECTION -->
-            <div class="mb-8">
-                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
-                    <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white flex items-center justify-center mr-3">
-                        <i class="fas fa-edit text-sm"></i>
-                    </span>
-                    Konten
-                </label>
-                <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner">
-                    <textarea id="summernote-editor" name="konten_pembuka" class="summernote-editor">{{ old('konten_pembuka', $profil->konten_pembuka) }}</textarea>
+                <!-- Konten Section -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Konten</label>
+                    <div class="border border-gray-300 rounded-lg">
+                        <textarea id="editor" 
+                                  name="konten" 
+                                  rows="10"
+                                  class="w-full px-4 py-2 border-0 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                                  placeholder="Tulis konten {{ $type }} di sini...">{{ old('konten', $profil->konten) }}</textarea>
+                    </div>
                 </div>
+
             </div>
 
-            <!-- ACTION BUTTONS -->
-            <div class="flex justify-end space-x-4">
-                <a href="{{ route('admin.profil.index') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-gray-300 to-gray-400 text-gray-700 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <i class="fas fa-times mr-2"></i>Batal
+            <!-- Action Buttons -->
+            <div class="bg-gray-50 px-6 py-4 flex justify-end space-x-4">
+                <a href="{{ route('admin.profil.index') }}" class="px-6 py-2 text-gray-700 hover:text-gray-900 font-medium">
+                    Batal
                 </a>
-                <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition rounded-lg">
                     <i class="fas fa-save mr-2"></i>Simpan Perubahan
                 </button>
             </div>
         </form>
     </div>
 </div>
+</div>
 
-<!-- SUMMERNOTE SCRIPTS - 100% FREE -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-id-ID.js"></script>
-<link rel="stylesheet" href="{{ asset('css/summernote-custom.css') }}">
-
+<!-- Simple Editor Script -->
+<script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
 <script>
-$(document).ready(function() {
-    // Initialize Summernote
-    $('#summernote-editor').summernote({
-        height: 500,
-        lang: 'id-ID',
-        placeholder: 'Tulis konten profil di sini...',
-        toolbar: [
-            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph', 'height']],
-            ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-            ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
-        ],
-        callbacks: {
-            onImageUpload: function(files) {
-                for (let i = 0; i < files.length; i++) {
-                    uploadImage(files[i]);
-                }
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize CKEditor
+    ClassicEditor
+        .create(document.querySelector('#editor'), {
+            toolbar: [
+                'heading', '|',
+                'bold', 'italic', 'link', '|',
+                'bulletedList', 'numberedList', '|',
+                'outdent', 'indent', '|',
+                'imageUpload', 'blockQuote', 'insertTable', '|',
+                'undo', 'redo'
+            ],
+            image: {
+                toolbar: [
+                    'imageTextAlternative', 'imageStyle:full', 'imageStyle:side'
+                ]
             },
-            onInit: function() {
-                console.log('Summernote initialized!');
-            }
-        }
-    });
+            table: {
+                contentToolbar: [
+                    'tableColumn', 'tableRow', 'mergeTableCells'
+                ]
+            },
+            placeholder: 'Tulis konten {{ $type }} di sini...'
+        })
+        .catch(error => {
+            console.error(error);
+        });
 
-    // Image upload function
-    function uploadImage(file) {
-        const data = new FormData();
-        data.append('image', file);
-        
-        // Show loading
-        const loadingImg = $('<img>').attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjAiIHN0cm9rZT0iIzY2N2VlYSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtZGFzaGFycmF5PSI0IDQiPgo8L2NpcmNsZT4KPC9zdmc+').css('width', '50px');
-        $('#summernote-editor').summernote('insertNode', loadingImg[0]);
-        
-        // Simulate upload
-        setTimeout(() => {
-            $('#summernote-editor').summernote('removeNode', loadingImg[0]);
+    // Image preview function
+    window.previewImage = function(input) {
+        if (input.files && input.files[0]) {
             const reader = new FileReader();
             reader.onload = function(e) {
-                const img = $('<img>').attr('src', e.target.result).css('max-width', '100%');
-                $('#summernote-editor').summernote('insertNode', img[0]);
+                const preview = document.getElementById('image-preview');
+                preview.innerHTML = `
+                    <div class="mt-4">
+                        <img src="${e.target.result}" alt="Preview" class="mx-auto h-48 object-contain rounded border">
+                        <p class="text-sm text-gray-600 mt-2">Preview gambar baru</p>
+                    </div>
+                `;
             };
-            reader.readAsDataURL(file);
-        }, 1000);
-    }
-});
-</script>
-                } else {
-                    const img = document.createElement('img');
-                    img.src = e.target.result;
-                    img.className = 'mx-auto h-32 object-cover rounded mb-4';
-                    input.parentElement.insertBefore(img, input.parentElement.querySelector('.text-gray-400'));
-                }
-            }
             reader.readAsDataURL(input.files[0]);
         }
-    }
-    
-    console.log('Edit Profil PPID - Custom Editor Loaded');
+    };
 });
 </script>
-</div>
-</div>
 @endsection

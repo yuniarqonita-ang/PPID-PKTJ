@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProfilPpid;
+use App\Models\Profil;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -10,18 +10,18 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfilPpidController extends Controller
 {
-    protected $types = ['profil', 'tugas', 'visi', 'struktur', 'regulasi', 'kontak'];
+    protected $types = ['tugas', 'visi', 'struktur', 'regulasi', 'kontak'];
 
     /**
      * Show admin dashboard with all profile sections
      */
     public function index(): View
     {
-        $profils = ProfilPpid::all();
+        $profils = Profil::all();
         $profilesData = [];
         
         foreach ($this->types as $type) {
-            $profilesData[$type] = $profils->where('type', $type)->first() ?? new ProfilPpid(['type' => $type]);
+            $profilesData[$type] = $profils->where('tipe', $type)->first() ?? new Profil(['tipe' => $type]);
         }
         
         return view('admin.profil.index', compact('profilesData'));
@@ -36,7 +36,7 @@ class ProfilPpidController extends Controller
             abort(404);
         }
 
-        $profil = ProfilPpid::where('type', $type)->first() ?? new ProfilPpid(['type' => $type]);
+        $profil = Profil::where('tipe', $type)->first() ?? new Profil(['tipe' => $type]);
         return view('admin.profil.edit', compact('profil', 'type'));
     }
 
@@ -52,15 +52,12 @@ class ProfilPpidController extends Controller
         // Validation
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'konten_pembuka' => 'nullable|string',
-            'konten_detail' => 'nullable|string',
-            'judul_sub' => 'nullable|string|max:255',
+            'konten' => 'required|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
-            'link_dokumen' => 'nullable|url',
         ]);
 
         // Get or create the profile section
-        $profil = ProfilPpid::where('type', $type)->firstOrNew(['type' => $type]);
+        $profil = Profil::where('tipe', $type)->firstOrNew(['tipe' => $type]);
 
         // Handle image upload
         if ($request->hasFile('gambar')) {
@@ -85,27 +82,13 @@ class ProfilPpidController extends Controller
 
         // Update profile data
         $profil->judul = $validated['judul'];
-        $profil->konten_pembuka = $validated['konten_pembuka'];
-        $profil->konten_detail = $validated['konten_detail'] ?? null;
-        $profil->judul_sub = $validated['judul_sub'] ?? null;
-        
-        if (isset($validated['link_dokumen'])) {
-            $profil->link_dokumen = $validated['link_dokumen'];
-        }
+        $profil->konten = $validated['konten'];
+        $profil->aktif = true;
 
         $profil->save();
 
         return redirect()->route('admin.profil.edit', $type)
-            ->with('success', ucfirst(str_replace('-', ' ', $type)) . ' PPID berhasil diperbarui!');
-    }
-
-    /**
-     * Show public profile page
-     */
-    public function showPublic(): View
-    {
-        $profil = ProfilPpid::where('type', 'profil')->where('status', 1)->first();
-        return view('profil', compact('profil'));
+            ->with('success', ucfirst($type) . ' PPID berhasil diperbarui!');
     }
 
     /**
@@ -117,7 +100,7 @@ class ProfilPpidController extends Controller
             abort(404);
         }
 
-        $profil = ProfilPpid::where('type', $type)->first();
+        $profil = Profil::where('tipe', $type)->first();
 
         if ($profil) {
             if ($profil->gambar && Storage::exists('public/profil/' . $profil->gambar)) {

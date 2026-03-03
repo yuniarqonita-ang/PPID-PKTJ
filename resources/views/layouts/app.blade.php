@@ -46,6 +46,16 @@
                         <span class="font-bold text-sm tracking-wide">DASHBOARD</span>
                     </a>
 
+                    <a href="{{ route('content.index') }}" class="flex items-center py-3 px-4 rounded-lg transition-all duration-300 {{ request()->is('admin/content') ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg' : 'hover:bg-slate-800/50 text-slate-300' }}">
+                        <i class="fas fa-folder-open text-lg"></i>
+                        <span class="font-bold text-sm tracking-wide">Kelola Konten</span>
+                    </a>
+
+                    <a href="{{ route('halaman.index') }}" class="flex items-center py-3 px-4 rounded-lg transition-all duration-300 {{ request()->is('admin/halaman') ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' : 'hover:bg-slate-800/50 text-slate-300' }}">
+                        <i class="fas fa-globe text-lg"></i>
+                        <span class="font-bold text-sm tracking-wide">Kelola Halaman</span>
+                    </a>
+
                     <!-- ==================== ACCORDION GROUP 1: PROFIL PPID ==================== -->
                     <div class="accordion-item pt-2">
                         <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-blue-600/20 to-blue-500/10 hover:from-blue-600/30 hover:to-blue-500/20 border border-blue-500/30 transition-all duration-300 group"
@@ -168,35 +178,6 @@
                         </div>
                     </div>
 
-                    <!-- ==================== ACCORDION GROUP 5: LPSE ==================== -->
-                    <div class="accordion-item pt-2">
-                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-green-600/20 to-green-500/10 hover:from-green-600/30 hover:to-green-500/20 border border-green-500/30 transition-all duration-300 group"
-                                onclick="toggleAccordion(this)">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">🏪</span>
-                                <span class="font-bold text-sm text-green-300 tracking-wider uppercase">LPSE</span>
-                            </div>
-                            <span class="accordion-arrow text-slate-400 group-hover:text-green-300 transition-all duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200">
-                                <span class="mr-2 opacity-70">▸</span> Pengadaan barang dan jasa
-                            </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200">
-                                <span class="mr-2 opacity-70">▸</span> Informasi pengadaan barang dan jasa
-                            </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200">
-                                <span class="mr-2 opacity-70">▸</span> Dokumen pengadaan barang dan jasa
-                            </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200">
-                                <span class="mr-2 opacity-70">▸</span> Informasi penyedia
-                            </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200">
-                                <span class="mr-2 opacity-70">▸</span> Permohonan informasi
-                            </a>
-                        </div>
-                    </div>
-
                     <!-- ==================== ACCORDION GROUP 6: FAQ ==================== -->
                     <div class="accordion-item pt-2">
                         <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-pink-600/20 to-pink-500/10 hover:from-pink-600/30 hover:to-pink-500/20 border border-pink-500/30 transition-all duration-300 group"
@@ -225,8 +206,11 @@
                             <span class="accordion-arrow text-slate-400 group-hover:text-cyan-300 transition-all duration-300">▼</span>
                         </button>
                         <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200">
+                            <a href="{{ route('admin.permohonan.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 {{ request()->routeIs('admin.permohonan.index') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : '' }}">
                                 <span class="mr-2 opacity-70">▸</span> Daftar Permohonan
+                            </a>
+                            <a href="{{ route('admin.permohonan.form') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 {{ request()->routeIs('admin.permohonan.form') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : '' }}">
+                                <span class="mr-2 opacity-70">▸</span> Form Permohonan
                             </a>
                         </div>
                     </div>
