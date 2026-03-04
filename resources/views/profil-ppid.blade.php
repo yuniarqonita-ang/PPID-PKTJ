@@ -55,31 +55,34 @@
     @include('navigation')
 
     <div class="container py-5">
-        <h1 class="page-title">Profil PPID</h1>
+        <h1 class="page-title">{{ $profil->judul ?? 'Profil PPID' }}</h1>
+        
+        @if($profil && $profil->konten)
+            <div class="content-box">
+                {!! $profil->konten !!}
+            </div>
+        @else
+            <!-- SECTION: PROFILE PPID -->
+            <div class="content-box">
+                <p style="margin-bottom: 15px;">
+                    Sejak Undang-Undang Nomor 14 Tahun 2008 Tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan tonggak atau dasar bagi seluruh rakyat Indonesia untuk bersama-sama mengawasi secara langsung pelayanan publik yang diselenggarakan oleh Badan Publik.
+                </p>
+                <p>
+                    Keterbukaan informasi adalah salah satu pilar penting yang akan mendorong terciptanya iklim transparansi. Terlebih di era yang serba terbuka ini, keinginan masyarakat untuk memperoleh informasi semakin tinggi. Diberlakukannya UU KIP merupakan perubahan yang mendasar dalam kehidupan bermasyarakat, berbangsa dan bernegara, oleh sebab itu perlu adanya kesadaran dari seluruh elemen bangsa agar setiap lembaga dan badan pemerintah dalam pengelolaan informasi harus dengan prinsip good governance, tata kelola yang baik dan akuntabilitas.
+                </p>
+            </div>
 
-        <!-- SECTION: PROFILE PPID -->
-        <div class="content-box">
-            <p style="margin-bottom: 15px;">
-                Sejak Undang-Undang Nomor 14 Tahun 2008 Tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan tonggak atau dasar bagi seluruh rakyat Indonesia untuk bersama-sama mengawasi secara langsung pelayanan publik yang diselenggarakan oleh Badan Publik.
-            </p>
-            <p>
-                Keterbukaan informasi adalah salah satu pilar penting yang akan mendorong terciptanya iklim transparansi. Terlebih di era yang serba terbuka ini, keinginan masyarakat untuk memperoleh informasi semakin tinggi. Diberlakukannya UU KIP merupakan perubahan yang mendasar dalam kehidupan bermasyarakat, berbangsa dan bernegara, oleh sebab itu perlu adanya kesadaran dari seluruh elemen bangsa agar setiap lembaga dan badan pemerintah dalam pengelolaan informasi harus dengan prinsip good governance, tata kelola yang baik dan akuntabilitas.
-            </p>
-        </div>
-
-        <!-- SECTION: GAMBARAN SINGKAT PPID -->
-        <div class="content-box">
-            <h2 class="section-title">GAMBARAN SINGKAT PEMBENTUKAN PPID KEMENHUB</h2>
-            <p style="margin-bottom: 15px;">
-                Sejalan dengan amanah Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik, Kementerian Perhubungan telah membentukan Pejabat Pengelola Informasi dan Dokumentasi (PPID) dan Pedoman pelaksanaan layanan informasi publik yang ditetapkan melalui Peraturan Menteri Perhubungan Nomor PM. 46 Tahun 2018 Tentang Pedoman Pengelolaan Informasi dan Dokumentasi di lingkungan Kementerian Perhubungan serta dalam menjalankan layanan informasi yang sesuai standar, PPID Kementerian Perhubungan menerbitkan Keputusan Menteri Perhubungan Nomor KM 117 Tahun 2022 tentang Standar Operasional Prosedur Pejabat Pengelola Informasi dan Dokumentasi di lingkungan Kementerian Perhubungan.
-            </p>
-            <p style="margin-bottom: 15px;">
-                Dengan terbentuknya pelaksanaan PPID Kementerian Perhubungan dapat mewujudkan penyelenggaraan pemerintahan yang baik, yaitu yang transparan, efektif dan efisien, akuntabel serta dapat dipertanggungjawabkan dan meningkatkan pengelolaan dan pelayanan informasi dan dokumentasi di Kementerian Perhubungan untuk menghasilkan layanan Informasi dan dokumentasi yang berkualitas.
-            </p>
-            <p>
-                Dengan lebih dari 500 Unit Pelaksana Teknis (UPT) Kementerian Perhubungan di seluruh Indonesia, dalam sistem pelaksanaannya, PPID Kementerian Perhubungan mengambil konsep desentralisasi, dimana UPT Kementerian Perhubungan di seluruh Indonesia dapat melakukan pelayanan informasi secara mandiri. Hal ini bertujuan untuk mendekatkan masyarakat dalam melakukan permohonan informasi dimanapun mereka berada.
-            </p>
-        </div>
+            <!-- SECTION: GAMBARAN SINGKAT PPID -->
+            <div class="content-box">
+                <h2 class="section-title">GAMBARAN SINGKAT PEMBENTUKAN PPID KEMENHUB</h2>
+                <p style="margin-bottom: 15px;">
+                    Sejalan dengan amanah Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik, Kementerian Perhubungan telah membentuk Pejabat Pengelola Informasi dan Dokumentasi (PPID) dan Pedoman pelaksanaan layanan informasi publik yang ditetapkan melalui Peraturan Menteri Perhubungan Nomor PM. 46 Tahun 2018 Tentang Pedoman Pengelolaan Informasi dan Dokumentasi di lingkungan Kementerian Perhubungan serta dalam menjalankan layanan informasi yang sesuai standar, PPID Kementerian Perhubungan menerbitkan Keputusan Menteri Perhubungan Nomor KM 117 Tahun 2022 tentang Standar Operasional Prosedur Pejabat Pengelola Informasi dan Dokumentasi di lingkungan Kementerian Perhubungan.
+                </p>
+                <p style="margin-bottom: 15px;">
+                    PPID Kementerian Perhubungan dibentuk berdasarkan amanat Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik dan Peraturan Pemerintah Nomor 61 Tahun 2010 tentang Pelaksanaan UU KIP. PPID Kementerian Perhubungan bertanggung jawab atas pengelolaan dan pelayanan informasi di lingkungan Kementerian Perhubungan.
+                </p>
+            </div>
+        @endif
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -92,23 +95,23 @@
             dropdownToggles.forEach(toggle => {
                 toggle.addEventListener('click', function(e) {
                     e.preventDefault();
+                    const dropdownMenu = this.nextElementSibling;
                     
-                    const dropdownItem = this.closest('.dropdown');
-                    const dropdownMenu = dropdownItem.querySelector('.dropdown-menu');
-                    
-                    if (dropdownMenu.style.display === 'block') {
-                        dropdownMenu.style.display = 'none';
-                    } else {
-                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                    // Close all other dropdowns
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        if (menu !== dropdownMenu) {
                             menu.style.display = 'none';
-                        });
-                        dropdownMenu.style.display = 'block';
-                    }
+                        }
+                    });
+                    
+                    // Toggle current dropdown
+                    dropdownMenu.style.display = dropdownMenu.style.display === 'block' ? 'none' : 'block';
                 });
             });
             
+            // Close dropdowns when clicking outside
             document.addEventListener('click', function(e) {
-                if (!e.target.closest('.dropdown')) {
+                if (!e.target.matches('.dropdown-toggle') && !e.target.closest('.dropdown')) {
                     document.querySelectorAll('.dropdown-menu').forEach(menu => {
                         menu.style.display = 'none';
                     });

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@php
+    use App\Models\Dashboard;
+@endphp
+
 @section('content')
 <div class="min-h-screen bg-gray-50 p-8">
     <div class="max-w-6xl mx-auto">
@@ -36,7 +40,7 @@
 
     <!-- ==================== FORM SECTION ==================== -->
     <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-        <form action="{{ route('admin.dashboard.update') }}" method="POST">
+        <form action="{{ route('dashboard.update') }}" method="POST">
             @csrf
             @method('PUT')
 

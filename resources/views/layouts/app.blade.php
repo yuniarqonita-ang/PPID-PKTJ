@@ -6,381 +6,561 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <title>Admin PPID PKTJ</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
-            /* Custom Scrollbar untuk Sidebar agar tetap estetik */
-            .sidebar-scroll::-webkit-scrollbar { width: 4px; }
-            .sidebar-scroll::-webkit-scrollbar-track { background: #0f172a; }
-            .sidebar-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-            
-            /* Efek Glassmorphism untuk Sidebar */
-            .glass-nav {
-                background: rgba(255, 255, 255, 0.05);
-                backdrop-filter: blur(10px);
-                border-right: 1px solid rgba(255, 255, 255, 0.1);
+            body {
+                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                min-height: 100vh;
             }
-            .nav-item-active {
-                background: linear-gradient(90deg, #3b82f6 0%, #2563eb 100%);
-                box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            
+            .sidebar {
+                width: 280px;
+                background: linear-gradient(180deg, #1a1c2e 0%, #2d3561 100%);
+                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+                position: fixed;
+                left: 0;
+                top: 0;
+                height: 100vh;
+                z-index: 1000;
+                overflow-y: auto;
+            }
+            
+            .sidebar::-webkit-scrollbar {
+                width: 6px;
+            }
+            
+            .sidebar::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .sidebar::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.3);
+                border-radius: 3px;
+            }
+            
+            .logo-section {
+                padding: 30px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                text-align: center;
+                background: rgba(255, 255, 255, 0.05);
+            }
+            
+            .logo-section img {
+                width: 80px;
+                height: 80px;
+                object-fit: contain;
+                margin-bottom: 15px;
+                filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+            }
+            
+            .logo-title {
+                color: #fff;
+                font-size: 24px;
+                font-weight: 700;
+                margin-bottom: 5px;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            }
+            
+            .logo-subtitle {
+                color: #a0a0a0;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                font-weight: 500;
+            }
+            
+            .nav-menu {
+                padding: 20px 0;
+            }
+            
+            .nav-item {
+                margin-bottom: 5px;
+            }
+            
+            .nav-link {
+                display: flex;
+                align-items: center;
+                padding: 15px 25px;
+                color: #b0b0b0;
+                text-decoration: none;
+                transition: all 0.3s ease;
+                font-size: 14px;
+                font-weight: 500;
+                position: relative;
+                overflow: hidden;
+            }
+            
+            .nav-link:hover {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.1);
+                padding-left: 30px;
+            }
+            
+            .nav-link.active {
+                color: #fff;
+                background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+                box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            }
+            
+            .nav-link.active::before {
+                content: '';
+                position: absolute;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 4px;
+                background: #fff;
+            }
+            
+            .nav-icon {
+                margin-right: 15px;
+                font-size: 18px;
+                width: 20px;
+                text-align: center;
+            }
+            
+            .accordion-toggle {
+                background: none;
+                border: none;
+                color: #b0b0b0;
+                cursor: pointer;
+                width: 100%;
+                text-align: left;
+                font-size: 14px;
+                font-weight: 500;
+                padding: 15px 25px;
+                transition: all 0.3s ease;
+                position: relative;
+            }
+            
+            .accordion-toggle:hover {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.1);
+                padding-left: 30px;
+            }
+            
+            .accordion-toggle.active {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.1);
+            }
+            
+            .submenu {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                background: rgba(0, 0, 0, 0.2);
+            }
+            
+            .submenu.open {
+                max-height: 500px;
+            }
+            
+            .submenu-link {
+                display: block;
+                padding: 12px 25px 12px 60px;
+                color: #a0a0a0;
+                text-decoration: none;
+                font-size: 13px;
+                transition: all 0.3s ease;
+                border-left: 2px solid transparent;
+            }
+            
+            .submenu-link:hover {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.05);
+                border-left-color: #667eea;
+            }
+            
+            .submenu-link.active {
+                color: #fff;
+                background: rgba(102, 126, 234, 0.2);
+                border-left-color: #667eea;
+            }
+            
+            .main-content {
+                margin-left: 280px;
+                min-height: 100vh;
+                background: #f8f9fa;
+            }
+            
+            .top-header {
+                background: #fff;
+                padding: 20px 30px;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            
+            .page-title {
+                font-size: 24px;
+                font-weight: 600;
+                color: #2c3e50;
+                margin: 0;
+            }
+            
+            .user-menu {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #fff;
+                font-weight: 600;
+                font-size: 16px;
+            }
+            
+            .content-area {
+                padding: 30px;
+            }
+            
+            @media (max-width: 768px) {
+                .sidebar {
+                    transform: translateX(-100%);
+                    transition: transform 0.3s ease;
+                }
+                
+                .sidebar.open {
+                    transform: translateX(0);
+                }
+                
+                .main-content {
+                    margin-left: 0;
+                }
+                
+                .mobile-menu-toggle {
+                    display: block;
+                    position: fixed;
+                    top: 20px;
+                    left: 20px;
+                    z-index: 1001;
+                    background: #fff;
+                    border: none;
+                    padding: 10px;
+                    border-radius: 5px;
+                    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+                    cursor: pointer;
+                }
+            }
+            
+            @media (min-width: 769px) {
+                .mobile-menu-toggle {
+                    display: none;
+                }
             }
         </style>
     </head>
-    <body class="font-sans antialiased bg-gray-100">
-        <div class="flex min-h-screen">
-            <!-- SIDEBAR ACCORDION MODERN -->
-            <div class="w-80 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950 text-white hidden md:flex md:flex-col shadow-2xl fixed top-0 left-0 h-screen border-r border-blue-500/20 z-30">
-                
-                <!-- Logo Area -->
-                <div class="h-24 flex items-center justify-center border-b border-blue-500/20 bg-gradient-to-r from-blue-950/50 to-purple-950/50 backdrop-blur-xl">
-                    <div class="text-center">
-                        <h1 class="text-3xl font-black tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-purple-400 to-cyan-300 mb-1">
-                            PPID PKTJ
-                        </h1>
-                        <p class="text-[9px] text-slate-400 tracking-widest uppercase font-bold">Management Panel</p>
-                    </div>
-                </div>
-                
-                <nav class="flex-1 overflow-y-auto sidebar-scroll px-3 py-4 space-y-2">
-                    <!-- Dashboard Link -->
-                    <a href="{{ route('dashboard') }}" class="flex items-center py-3 px-4 rounded-lg transition-all duration-300 group {{ request()->routeIs('dashboard') ? 'bg-gradient-to-r from-blue-600 to-blue-700 text-white shadow-lg shadow-blue-500/30' : 'hover:bg-slate-800/50 text-slate-300' }}">
-                        <span class="text-2xl mr-3 group-hover:scale-110 transition-transform">🏠</span>
-                        <span class="font-bold text-sm tracking-wide">DASHBOARD</span>
-                    </a>
-
-                    <a href="{{ route('content.index') }}" class="flex items-center py-3 px-4 rounded-lg transition-all duration-300 {{ request()->is('admin/content') ? 'bg-gradient-to-r from-cyan-600 to-blue-600 text-white shadow-lg' : 'hover:bg-slate-800/50 text-slate-300' }}">
-                        <i class="fas fa-folder-open text-lg"></i>
-                        <span class="font-bold text-sm tracking-wide">Kelola Konten</span>
-                    </a>
-
-                    <a href="{{ route('halaman.index') }}" class="flex items-center py-3 px-4 rounded-lg transition-all duration-300 {{ request()->is('admin/halaman') ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg' : 'hover:bg-slate-800/50 text-slate-300' }}">
-                        <i class="fas fa-globe text-lg"></i>
-                        <span class="font-bold text-sm tracking-wide">Kelola Halaman</span>
-                    </a>
-
-                    <!-- ==================== ACCORDION GROUP 1: PROFIL PPID ==================== -->
-                    <div class="accordion-item pt-2">
-                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-blue-600/20 to-blue-500/10 hover:from-blue-600/30 hover:to-blue-500/20 border border-blue-500/30 transition-all duration-300 group"
-                                onclick="toggleAccordion(this)">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">📋</span>
-                                <span class="font-bold text-sm text-blue-300 tracking-wider uppercase">Profil PPID</span>
-                            </div>
-                            <span class="accordion-arrow text-slate-400 group-hover:text-blue-300 transition-all duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.profil.edit', 'profil') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'profil' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Profil PPID
-                            </a>
-                            <a href="{{ route('admin.profil.edit', 'tugas') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'tugas' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Tugas dan tanggung jawab PPID
-                            </a>
-                            <a href="{{ route('admin.profil.edit', 'visi') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'visi' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Visi dan misi PPID
-                            </a>
-                            <a href="{{ route('admin.profil.edit', 'struktur') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'struktur' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Struktur organisasi
-                            </a>
-                            <a href="{{ route('admin.profil.edit', 'regulasi') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'regulasi' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Regulasi
-                            </a>
-                            <a href="{{ route('admin.profil.edit', 'kontak') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-blue-500/20 hover:border-l-2 hover:border-blue-400 transition-all duration-200 {{ request()->get('type') === 'kontak' ? 'bg-blue-500/30 text-blue-300 border-l-2 border-blue-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Kontak
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- ==================== ACCORDION GROUP 2: INFORMASI PUBLIK ==================== -->
-                    <div class="accordion-item pt-2">
-                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-yellow-600/20 to-yellow-500/10 hover:from-yellow-600/30 hover:to-yellow-500/20 border border-yellow-500/30 transition-all duration-300 group"
-                                onclick="toggleAccordion(this)">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">📰</span>
-                                <span class="font-bold text-sm text-yellow-300 tracking-wider uppercase">Informasi Publik</span>
-                            </div>
-                            <span class="accordion-arrow text-slate-400 group-hover:text-yellow-300 transition-all duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.informasi.berkala') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.berkala') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Informasi berkala
-                            </a>
-                            <a href="{{ route('admin.informasi.sertamerta') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.sertamerta') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Informasi serta merta
-                            </a>
-                            <a href="{{ route('admin.informasi.setiapsaat') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.setiapsaat') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Informasi setiap saat
-                            </a>
-                            <a href="{{ route('admin.informasi.dikecualikan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-yellow-500/20 hover:border-l-2 hover:border-yellow-400 transition-all duration-200 {{ request()->routeIs('admin.informasi.dikecualikan') ? 'bg-yellow-500/30 text-yellow-300 border-l-2 border-yellow-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Informasi dikecualikan
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- ==================== ACCORDION GROUP 3: LAYANAN INFORMASI ==================== -->
-                    <div class="accordion-item pt-2">
-                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-purple-600/20 to-purple-500/10 hover:from-purple-600/30 hover:to-purple-500/20 border border-purple-500/30 transition-all duration-300 group"
-                                onclick="toggleAccordion(this)">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">📋</span>
-                                <span class="font-bold text-sm text-purple-300 tracking-wider uppercase">Layanan Informasi</span>
-                            </div>
-                            <span class="accordion-arrow text-slate-400 group-hover:text-purple-300 transition-all duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.layanan.daftar-informasi') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200 {{ request()->routeIs('admin.layanan.daftar-informasi') ? 'bg-purple-500/30 text-purple-300 border-l-2 border-purple-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Daftar informasi publik
-                            </a>
-                            <a href="{{ route('admin.layanan.maklumat-pelayanan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200 {{ request()->routeIs('admin.layanan.maklumat-pelayanan') ? 'bg-purple-500/30 text-purple-300 border-l-2 border-purple-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Maklumat pelayanan dan standar biaya
-                            </a>
-                            <a href="{{ route('admin.layanan.laporan-layanan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200 {{ request()->routeIs('admin.layanan.laporan-layanan') ? 'bg-purple-500/30 text-purple-300 border-l-2 border-purple-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Laporan layanan informasi publik
-                            </a>
-                            <a href="{{ route('admin.layanan.laporan-akses') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200 {{ request()->routeIs('admin.layanan.laporan-akses') ? 'bg-purple-500/30 text-purple-300 border-l-2 border-purple-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Laporan akses informasi publik
-                            </a>
-                            <a href="{{ route('admin.layanan.laporan-survey') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200 {{ request()->routeIs('admin.layanan.laporan-survey') ? 'bg-purple-500/30 text-purple-300 border-l-2 border-purple-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Laporan survey kepuasan layanan informasi publik
-                            </a>
-                            <a href="#" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-purple-500/20 hover:border-l-2 hover:border-purple-400 transition-all duration-200">
-                                <span class="mr-2 opacity-70">▸</span> JDIH kementrian perhubungan
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- ==================== ACCORDION GROUP 4: PROSEDUR ==================== -->
-                    <div class="accordion-item pt-2">
-                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-orange-600/20 to-orange-500/10 hover:from-orange-600/30 hover:to-orange-500/20 border border-orange-500/30 transition-all duration-300 group"
-                                onclick="toggleAccordion(this)">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">⚙️</span>
-                                <span class="font-bold text-sm text-orange-300 tracking-wider uppercase">Prosedur</span>
-                            </div>
-                            <span class="accordion-arrow text-slate-400 group-hover:text-orange-300 transition-all duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-permintaan') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> SOP permintaan informasi publik
-                            </a>
-                            <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-keberatan') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> SOP penanganan keberatan
-                            </a>
-                            <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-sengketa') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> SOP pengajuan sengketa informasi publik
-                            </a>
-                            <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-penetapan') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> SOP penetapan dan pemiktakhiran daftar informasi publik
-                            </a>
-                            <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-pengujian') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> SOP pengujian konsekuensi
-                            </a>
-                            <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-orange-500/20 hover:border-l-2 hover:border-orange-400 transition-all duration-200 {{ request()->routeIs('admin.prosedur.sop-pendokumentasian') ? 'bg-orange-500/30 text-orange-300 border-l-2 border-orange-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> SOP pendokumentasian informasi publik
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- ==================== ACCORDION GROUP 6: FAQ ==================== -->
-                    <div class="accordion-item pt-2">
-                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-pink-600/20 to-pink-500/10 hover:from-pink-600/30 hover:to-pink-500/20 border border-pink-500/30 transition-all duration-300 group"
-                                onclick="toggleAccordion(this)">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">❓</span>
-                                <span class="font-bold text-sm text-pink-300 tracking-wider uppercase">FAQ</span>
-                            </div>
-                            <span class="accordion-arrow text-slate-400 group-hover:text-pink-300 transition-all duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.faq.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-pink-500/20 hover:border-l-2 hover:border-pink-400 transition-all duration-200 {{ request()->routeIs('admin.faq.index') ? 'bg-pink-500/30 text-pink-300 border-l-2 border-pink-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Kelola FAQ
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- ==================== ACCORDION GROUP 7: PERMOHONAN INFORMASI ==================== -->
-                    <div class="accordion-item pt-2">
-                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-cyan-600/20 to-cyan-500/10 hover:from-cyan-600/30 hover:to-cyan-500/20 border border-cyan-500/30 transition-all duration-300 group"
-                                onclick="toggleAccordion(this)">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">📝</span>
-                                <span class="font-bold text-sm text-cyan-300 tracking-wider uppercase">Permohonan Informasi</span>
-                            </div>
-                            <span class="accordion-arrow text-slate-400 group-hover:text-cyan-300 transition-all duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.permohonan.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 {{ request()->routeIs('admin.permohonan.index') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Daftar Permohonan
-                            </a>
-                            <a href="{{ route('admin.permohonan.form') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-cyan-500/20 hover:border-l-2 hover:border-cyan-400 transition-all duration-200 {{ request()->routeIs('admin.permohonan.form') ? 'bg-cyan-500/30 text-cyan-300 border-l-2 border-cyan-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Form Permohonan
-                            </a>
-                        </div>
-                    </div>
-
-                    <!-- ==================== ACCORDION GROUP 8: KONTEN LAINNYA ==================== -->
-                    <div class="accordion-item pt-2">
-                        <button class="accordion-toggle w-full flex items-center justify-between py-3 px-4 rounded-lg bg-gradient-to-r from-green-600/20 to-green-500/10 hover:from-green-600/30 hover:to-green-500/20 border border-green-500/30 transition-all duration-300 group"
-                                onclick="toggleAccordion(this)">
-                            <div class="flex items-center">
-                                <span class="text-xl mr-3">📝</span>
-                                <span class="font-bold text-sm text-green-300 tracking-wider uppercase">Konten & Berita</span>
-                            </div>
-                            <span class="accordion-arrow text-slate-400 group-hover:text-green-300 transition-all duration-300">▼</span>
-                        </button>
-                        <div class="accordion-content hidden space-y-1 mt-2 ml-2">
-                            <a href="{{ route('admin.berita.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200 {{ request()->routeIs('admin.berita.index') ? 'bg-green-500/30 text-green-300 border-l-2 border-green-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> Berita Terkini
-                            </a>
-                            <a href="{{ route('admin.dokumen.index') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200 {{ request()->routeIs('admin.dokumen.index') ? 'bg-green-500/30 text-green-300 border-l-2 border-green-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> File Dokumen
-                            </a>
-                            <a href="{{ route('admin.users') }}" class="flex items-center py-2.5 px-4 rounded-lg text-xs font-medium text-slate-300 hover:text-white hover:bg-green-500/20 hover:border-l-2 hover:border-green-400 transition-all duration-200 {{ request()->routeIs('admin.users') ? 'bg-green-500/30 text-green-300 border-l-2 border-green-400' : '' }}">
-                                <span class="mr-2 opacity-70">▸</span> User Management
-                            </a>
-                        </div>
-                    </div>
-
-                </nav>
-
-                <!-- Footer -->
-                <div class="border-t border-slate-700/50 bg-slate-950/50 backdrop-blur-xl p-3 text-center">
-                    <p class="text-[9px] text-slate-500 font-semibold tracking-wider uppercase">Admin Panel v2.1</p>
-                </div>
+    <body>
+        <div class="mobile-menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i>
+        </div>
+        
+        <div class="sidebar" id="sidebar">
+            <div class="logo-section">
+                <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ">
+                <div class="logo-title">PPID PKTJ</div>
+                <div class="logo-subtitle">Management Panel</div>
             </div>
-
-            <div class="flex-1 flex flex-col">
-                <header class="bg-gray-800 shadow-sm py-4 px-8 flex justify-between items-center sticky top-0 z-20 border-b border-gray-700">
-                    <div class="flex flex-col">
-                        <span class="text-xs text-yellow-400 font-bold uppercase tracking-wider">Administrator</span>
-                        <h2 class="text-lg font-bold text-yellow-300 leading-tight">{{ Auth::user()->name }}</h2>
+            
+            <nav class="nav-menu">
+                <div class="nav-item">
+                    <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                        <i class="fas fa-home nav-icon"></i>
+                        Dashboard
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
+                        <i class="fas fa-users nav-icon"></i>
+                        Profil PPID
+                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                    </button>
+                    <div class="submenu">
+                        <a href="{{ route('admin.profil.index') }}" class="submenu-link {{ request()->is('admin/profil*') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Kelola Profil
+                        </a>
+                        <a href="{{ route('admin.profil.edit', 'profil') }}" class="submenu-link {{ request()->get('type') === 'profil' ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Profil PPID
+                        </a>
+                        <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link {{ request()->get('type') === 'tugas' ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Tugas dan Tanggung Jawab PPID
+                        </a>
+                        <a href="{{ route('admin.profil.edit', 'visi') }}" class="submenu-link {{ request()->get('type') === 'visi' ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Visi dan Misi PPID
+                        </a>
+                        <a href="{{ route('admin.profil.edit', 'struktur') }}" class="submenu-link {{ request()->get('type') === 'struktur' ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Struktur Organisasi
+                        </a>
+                        <a href="{{ route('admin.profil.edit', 'regulasi') }}" class="submenu-link {{ request()->get('type') === 'regulasi' ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Regulasi
+                        </a>
+                        <a href="{{ route('admin.profil.edit', 'kontak') }}" class="submenu-link {{ request()->get('type') === 'kontak' ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Kontak
+                        </a>
                     </div>
-                    
-                    <form method="POST" action="{{ route('logout') }}">
+                </div>
+                
+                <div class="nav-item">
+                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
+                        <i class="fas fa-newspaper nav-icon"></i>
+                        Informasi Publik
+                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                    </button>
+                    <div class="submenu">
+                        <a href="{{ route('admin.informasi.berkala') }}" class="submenu-link {{ request()->routeIs('admin.informasi.berkala') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Informasi Berkala
+                        </a>
+                        <a href="{{ route('admin.informasi.sertamerta') }}" class="submenu-link {{ request()->routeIs('admin.informasi.sertamerta') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Informasi Serta Merta
+                        </a>
+                        <a href="{{ route('admin.informasi.setiapsaat') }}" class="submenu-link {{ request()->routeIs('admin.informasi.setiapsaat') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Informasi Setiap Saat
+                        </a>
+                        <a href="{{ route('admin.informasi.dikecualikan') }}" class="submenu-link {{ request()->routeIs('admin.informasi.dikecualikan') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Informasi Dikecualikan
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="nav-item">
+                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
+                        <i class="fas fa-concierge-bell nav-icon"></i>
+                        Layanan Informasi
+                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                    </button>
+                    <div class="submenu">
+                        <a href="{{ route('admin.layanan.daftar-informasi') }}" class="submenu-link {{ request()->routeIs('admin.layanan.daftar-informasi') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Daftar Informasi Publik
+                        </a>
+                        <a href="{{ route('admin.layanan.maklumat-pelayanan') }}" class="submenu-link {{ request()->routeIs('admin.layanan.maklumat-pelayanan') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Maklumat Pelayanan
+                        </a>
+                        <a href="{{ route('admin.layanan.laporan-layanan') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-layanan') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Laporan Layanan
+                        </a>
+                        <a href="{{ route('admin.layanan.laporan-akses') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-akses') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Laporan Akses
+                        </a>
+                        <a href="{{ route('admin.layanan.laporan-survey') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-survey') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Laporan Survey
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="nav-item">
+                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
+                        <i class="fas fa-cogs nav-icon"></i>
+                        Prosedur
+                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                    </button>
+                    <div class="submenu">
+                        <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-permintaan') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            SOP Permintaan
+                        </a>
+                        <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-keberatan') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            SOP Keberatan
+                        </a>
+                        <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-sengketa') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            SOP Sengketa
+                        </a>
+                        <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-penetapan') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            SOP Penetapan
+                        </a>
+                        <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pengujian') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            SOP Pengujian
+                        </a>
+                        <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pendokumentasian') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            SOP Pendokumentasian
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="{{ route('admin.faq.index') }}" class="nav-link {{ request()->routeIs('admin.faq.index') ? 'active' : '' }}">
+                        <i class="fas fa-question-circle nav-icon"></i>
+                        FAQ
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
+                        <i class="fas fa-file-alt nav-icon"></i>
+                        Permohonan Informasi
+                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                    </button>
+                    <div class="submenu">
+                        <a href="{{ route('admin.permohonan.index') }}" class="submenu-link {{ request()->routeIs('admin.permohonan.index') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Daftar Permohonan
+                        </a>
+                        <a href="{{ route('admin.permohonan.form') }}" class="submenu-link {{ request()->routeIs('admin.permohonan.form') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Form Permohonan
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="nav-item">
+                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
+                        <i class="fas fa-newspaper nav-icon"></i>
+                        Berita
+                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                    </button>
+                    <div class="submenu">
+                        <a href="{{ route('admin.berita.index') }}" class="submenu-link {{ request()->routeIs('admin.berita.index') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Daftar Berita
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="{{ route('halaman.index') }}" class="nav-link {{ request()->routeIs('halaman.index') ? 'active' : '' }}">
+                        <i class="fas fa-file nav-icon"></i>
+                        Halaman
+                    </a>
+                </div>
+                
+                <div class="nav-item">
+                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
+                        <i class="fas fa-calendar nav-icon"></i>
+                        Galeri & Media
+                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                    </button>
+                    <div class="submenu">
+                        <a href="#" class="submenu-link">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Agenda
+                        </a>
+                        <a href="#" class="submenu-link">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Galeri
+                        </a>
+                        <a href="#" class="submenu-link">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Video
+                        </a>
+                        <a href="#" class="submenu-link">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Dokumen
+                        </a>
+                    </div>
+                </div>
+            </nav>
+            
+            <div style="padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <div style="display: flex; align-items: center; gap: 15px;">
+                    <div class="user-avatar">
+                        {{ substr(Auth::user()->name, 0, 1) }}
+                    </div>
+                    <div style="flex: 1;">
+                        <div style="color: #fff; font-weight: 600; font-size: 14px;">{{ Auth::user()->name }}</div>
+                        <div style="color: #a0a0a0; font-size: 12px;">{{ Auth::user()->email }}</div>
+                    </div>
+                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
                         @csrf
-                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-full text-xs transition shadow-lg shadow-red-200">
-                            KELUAR (LOGOUT)
+                        <button type="submit" style="background: none; border: none; color: #a0a0a0; cursor: pointer; padding: 5px;">
+                            <i class="fas fa-sign-out-alt"></i>
                         </button>
                     </form>
-                </header>
-
-                <main class="w-full" style="margin-left: 320px; padding: 32px; max-width: calc(100vw - 320px);">
-                    @yield('content')
-                </main>
+                </div>
             </div>
         </div>
-
-        <!-- ACCORDION JAVASCRIPT -->
+        
+        <div class="main-content">
+            <header class="top-header">
+                <h1 class="page-title">
+                    @if(request()->routeIs('dashboard'))
+                        Dashboard
+                    @elseif(request()->is('admin/profil*'))
+                        Kelola Profil PPID
+                    @else
+                        {{ ucfirst(request()->segment(1)) }}
+                    @endif
+                </h1>
+                <div class="user-menu">
+                    <button style="background: none; border: none; position: relative; cursor: pointer;">
+                        <i class="fas fa-bell" style="font-size: 18px; color: #666;"></i>
+                        <span style="position: absolute; top: -5px; right: -5px; width: 8px; height: 8px; background: #e74c3c; border-radius: 50%;"></span>
+                    </button>
+                    <div class="user-avatar">
+                        {{ substr(Auth::user()->name, 0, 1) }}
+                    </div>
+                </div>
+            </header>
+            
+            <main class="content-area">
+                @yield('content')
+            </main>
+        </div>
+        
         <script>
-            // Accordion Toggle Function
             function toggleAccordion(button) {
-                const accordionItem = button.closest('.accordion-item');
-                const content = accordionItem.querySelector('.accordion-content');
-                const arrow = button.querySelector('.accordion-arrow');
+                const submenu = button.nextElementSibling;
+                const chevron = button.querySelector('.fa-chevron-down');
                 
-                // Close all other accordion items
-                document.querySelectorAll('.accordion-item').forEach(item => {
-                    if (item !== accordionItem) {
-                        item.querySelector('.accordion-content').classList.add('hidden');
-                        item.querySelector('.accordion-arrow').style.transform = 'rotate(0deg)';
+                // Close other accordions
+                document.querySelectorAll('.submenu.open').forEach(menu => {
+                    if (menu !== submenu) {
+                        menu.classList.remove('open');
+                        menu.previousElementSibling.querySelector('.fa-chevron-down').style.transform = 'rotate(0deg)';
                     }
                 });
                 
                 // Toggle current accordion
-                content.classList.toggle('hidden');
-                
-                // Rotate arrow based on state
-                if (content.classList.contains('hidden')) {
-                    arrow.style.transform = 'rotate(0deg)';
-                } else {
-                    arrow.style.transform = 'rotate(180deg)';
-                }
-                
-                // Save state to localStorage
-                const accordionName = button.querySelector('span:nth-child(2)').textContent.trim();
-                const isOpen = !content.classList.contains('hidden');
-                localStorage.setItem('accordion_' + accordionName, isOpen);
+                submenu.classList.toggle('open');
+                chevron.style.transform = submenu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
             }
-
-            // Restore accordion state on page load
-            window.addEventListener('DOMContentLoaded', function() {
-                document.querySelectorAll('.accordion-item').forEach(item => {
-                    const button = item.querySelector('.accordion-toggle');
-                    const accordionName = button.querySelector('span:nth-child(2)').textContent.trim();
-                    const wasOpen = localStorage.getItem('accordion_' + accordionName) === 'true';
+            
+            function toggleSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                sidebar.classList.toggle('open');
+            }
+            
+            // Open accordion if active link is inside
+            document.addEventListener('DOMContentLoaded', function() {
+                document.querySelectorAll('.submenu-link.active').forEach(link => {
+                    const submenu = link.parentElement;
+                    const button = submenu.previousElementSibling;
+                    const chevron = button.querySelector('.fa-chevron-down');
                     
-                    if (wasOpen) {
-                        toggleAccordion(button);
-                    }
+                    submenu.classList.add('open');
+                    chevron.style.transform = 'rotate(180deg)';
+                    button.classList.add('active');
                 });
-
-                // Optional: Expand the first accordion on initial load (comment out if not needed)
-                // const firstToggle = document.querySelector('.accordion-toggle');
-                // if (firstToggle) toggleAccordion(firstToggle);
             });
-
-            // Add smooth scroll for sidebar
-            const sidebar = document.querySelector('.sidebar-scroll');
-            if (sidebar) {
-                sidebar.addEventListener('mouseenter', function() {
-                    this.style.scrollBehavior = 'smooth';
-                });
-            }
         </script>
-
-        <!-- ACCORDION STYLES -->
-        <style>
-            .accordion-content {
-                max-height: 0;
-                overflow: hidden;
-                transition: max-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
-                opacity: 0;
-            }
-
-            .accordion-content:not(.hidden) {
-                max-height: 500px;
-                opacity: 1;
-            }
-
-            .accordion-arrow {
-                display: inline-block;
-                transition: transform 0.3s ease-in-out;
-                font-size: 0.85em;
-            }
-
-            /* Smooth hover effects for accordion items */
-            .accordion-item .accordion-toggle:active {
-                transform: scale(0.98);
-            }
-
-            /* Custom scrollbar for sidebar */
-            .sidebar-scroll {
-                scrollbar-width: thin;
-                scrollbar-color: rgba(59, 130, 246, 0.5) rgba(15, 23, 42, 0.1);
-            }
-
-            .sidebar-scroll::-webkit-scrollbar {
-                width: 6px;
-            }
-
-            .sidebar-scroll::-webkit-scrollbar-track {
-                background: rgba(15, 23, 42, 0.1);
-                border-radius: 10px;
-            }
-
-            .sidebar-scroll::-webkit-scrollbar-thumb {
-                background: rgba(59, 130, 246, 0.5);
-                border-radius: 10px;
-                transition: background 0.3s;
-            }
-
-            .sidebar-scroll::-webkit-scrollbar-thumb:hover {
-                background: rgba(59, 130, 246, 0.8);
-            }
-
-            /* Active state styling */
-            .nav-item-active {
-                background: linear-gradient(135deg, rgba(59, 130, 246, 0.3) 0%, rgba(139, 92, 246, 0.2) 100%);
-                border-left: 3px solid rgb(59, 130, 246);
-                padding-left: calc(1rem - 3px);
-            }
-        </style>
     </body>
 </html>

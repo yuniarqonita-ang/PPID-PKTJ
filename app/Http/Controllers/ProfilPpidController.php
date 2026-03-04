@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfilPpidController extends Controller
 {
-    protected $types = ['tugas', 'visi', 'struktur', 'regulasi', 'kontak'];
+    protected $types = ['profil', 'tugas', 'visi', 'struktur', 'regulasi', 'kontak'];
 
     /**
      * Show admin dashboard with all profile sections
@@ -53,6 +53,7 @@ class ProfilPpidController extends Controller
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
             'konten' => 'required|string',
+            'status' => 'required|boolean',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
         ]);
 
@@ -83,12 +84,13 @@ class ProfilPpidController extends Controller
         // Update profile data
         $profil->judul = $validated['judul'];
         $profil->konten = $validated['konten'];
+        $profil->status = $validated['status'];
         $profil->aktif = true;
 
         $profil->save();
 
         return redirect()->route('admin.profil.edit', $type)
-            ->with('success', ucfirst($type) . ' PPID berhasil diperbarui!');
+            ->with('success', ($type === 'profil' ? 'Profil PPID' : ($type === 'tugas' ? 'Tugas PPID' : ($type === 'visi' ? 'Visi dan Misi' : ($type === 'struktur' ? 'Struktur Organisasi' : ($type === 'regulasi' ? 'Regulasi' : 'Kontak'))))) . ' berhasil diperbarui!');
     }
 
     /**

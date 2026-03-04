@@ -70,13 +70,19 @@
 <body>
     @include('navigation')
     <div class="container py-5">
-        <h1 class="page-title">Visi dan Misi PPID</h1>
-        <div class="content-box">
-            <!-- VISI SECTION -->
-            <h2 class="section-title">Visi</h2>
-            <p class="intro-text">
-                Terwujudnya layanan informasi publik yang Transparan, Objektif dan Prima untuk meningkatkan peran serta aktif masyarakat dalam penyelenggaraan pembangunan sektor transportasi.
-            </p>
+        <h1 class="page-title">{{ $profil->judul ?? 'Visi dan Misi PPID' }}</h1>
+        
+        @if($profil && $profil->konten)
+            <div class="content-box">
+                {!! $profil->konten !!}
+            </div>
+        @else
+            <div class="content-box">
+                <!-- VISI SECTION -->
+                <h2 class="section-title">Visi</h2>
+                <p class="intro-text">
+                    Terwujudnya layanan informasi publik yang Transparan, Objektif dan Prima untuk meningkatkan peran serta aktif masyarakat dalam penyelenggaraan pembangunan sektor transportasi.
+                </p>
 
             <ul class="point-list">
                 <li>

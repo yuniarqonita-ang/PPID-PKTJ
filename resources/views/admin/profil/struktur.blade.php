@@ -43,8 +43,25 @@
         </div>
     </div>
 
-    <script src="https://cdn.ckeditor.com/ckeditor5/34.2.0/classic/ckeditor.js"></script>
+    <!-- Summernote Editor Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
     <script>
-        ClassicEditor.create(document.querySelector('#editor')).catch(error => { console.error(error); });
+        $(document).ready(function() {
+            $('#editor').summernote({
+                height: 300,
+                placeholder: 'Tulis deskripsi struktur organisasi di sini...',
+                toolbar: [
+                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
+                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
+                ]
+            });
+        });
     </script>
 </x-app-layout>

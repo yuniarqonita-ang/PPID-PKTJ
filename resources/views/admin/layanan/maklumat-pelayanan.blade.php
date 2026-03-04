@@ -290,53 +290,43 @@ Tuliskan standar biaya pelayanan informasi publik secara lengkap...
     </div>
 </div>
 
-<!-- CKEditor 5 -->
-<script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Initialize CKEditor for Maklumat
-        ClassicEditor
-            .create(document.querySelector('#editor_maklumat'), {
-                toolbar: {
-                    items: [
-                        'heading', '|',
-                        'fontSize', 'fontFamily', '|',
-                        'bold', 'italic', 'underline', '|',
-                        'alignment', 'outdent', 'indent', '|',
-                        'bulletedList', 'numberedList', '|',
-                        'link', 'imageUpload', 'insertTable', '|',
-                        'blockQuote', 'codeBlock', '|',
-                        'undo', 'redo'
-                    ]
-                },
-                table: {
-                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
-                }
-            })
-            .catch(error => console.error(error));
-
-        // Initialize CKEditor for Standar Biaya
-        ClassicEditor
-            .create(document.querySelector('#editor_standar'), {
-                toolbar: {
-                    items: [
-                        'heading', '|',
-                        'fontSize', 'fontFamily', '|',
-                        'bold', 'italic', 'underline', '|',
-                        'alignment', 'outdent', 'indent', '|',
-                        'bulletedList', 'numberedList', '|',
-                        'link', 'imageUpload', 'insertTable', '|',
-                        'blockQuote', 'codeBlock', '|',
-                        'undo', 'redo'
-                    ]
-                },
-                table: {
-                    contentToolbar: ['tableColumn', 'tableRow', 'mergeTableCells']
-                }
-            })
-            .catch(error => console.error(error));
-    });
-</script>
+<!-- Summernote Editor Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Initialize Summernote for Maklumat
+            $('#editor_maklumat').summernote({
+                height: 300,
+                placeholder: 'Tuliskan maklumat pelayanan informasi publik secara lengkap dan jelas...',
+                toolbar: [
+                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
+                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
+                ]
+            });
+            
+            // Initialize Summernote for Standar Biaya
+            $('#editor_standar').summernote({
+                height: 300,
+                placeholder: 'Tuliskan standar biaya pelayanan informasi publik secara lengkap dan jelas...',
+                toolbar: [
+                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
+                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
+                ]
+            });
+        });
+    </script>
 
 <style>
     .form-control.form-editor {

@@ -1,170 +1,259 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 p-8">
-    <div class="max-w-6xl mx-auto">
+<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6">
+    <div class="max-w-7xl mx-auto">
 
     <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center mb-8">
-        <div>
-            <h1 class="text-3xl font-bold text-gray-900">📝 Edit Profil PPID</h1>
-            <p class="text-gray-600 mt-1">Kelola informasi {{ ucfirst($type) }} PPID</p>
-        </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ url('/profil/' . $type) }}" target="_blank" class="px-4 py-2 bg-green-600 text-white font-medium hover:bg-green-700 transition rounded-lg">
-                <i class="fas fa-eye mr-2"></i>Lihat Publik
-            </a>
-            <a href="{{ route('admin.profil.index') }}" class="px-4 py-2 text-gray-700 hover:text-gray-900 font-medium">
-                Kembali
-            </a>
+    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 mb-6">
+        <div class="flex justify-between items-center">
+            <div>
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                    ✏️ Edit {{ $type === 'profil' ? 'Profil PPID' : ($type === 'tugas' ? 'Tugas dan Tanggung Jawab PPID' : ($type === 'visi' ? 'Visi dan Misi PPID' : ($type === 'struktur' ? 'Struktur Organisasi' : ($type === 'regulasi' ? 'Regulasi' : 'Kontak')))) }}
+                </h1>
+                <p class="text-slate-600 mt-2">Edit konten {{ $type === 'profil' ? 'Profil PPID' : ($type === 'tugas' ? 'Tugas dan Tanggung Jawab PPID' : ($type === 'visi' ? 'Visi dan Misi PPID' : ($type === 'struktur' ? 'Struktur Organisasi' : ($type === 'regulasi' ? 'Regulasi' : 'Kontak')))) }} yang akan ditampilkan di halaman publik</p>
+            </div>
+            <div class="flex items-center space-x-3">
+                <a href="{{ route('admin.profil.index') }}" 
+                   class="px-6 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105 rounded-xl flex items-center">
+                    <i class="fas fa-arrow-left mr-2"></i>Kembali
+                </a>
+                <a href="{{ url('/profil/' . $type) }}" target="_blank" 
+                   class="px-6 py-3 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105 rounded-xl flex items-center">
+                    <i class="fas fa-eye mr-2"></i>Lihat Publik
+                </a>
+            </div>
         </div>
     </div>
 
     <!-- ==================== ALERTS SECTION ==================== -->
-    @if(session('success'))
-        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
+    @if($errors->any())
+        <div class="bg-gradient-to-r from-red-50 to-pink-50 border-2 border-red-300 rounded-2xl p-6 mb-6 shadow-lg">
             <div class="flex items-center">
                 <div class="flex-shrink-0">
-                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                    <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-full flex items-center justify-center">
+                        <i class="fas fa-exclamation-triangle text-white text-xl"></i>
+                    </div>
                 </div>
-                <div class="ml-3">
-                    <p class="text-green-800 font-medium">{{ session('success') }}</p>
+                <div class="ml-4">
+                    <h3 class="text-lg font-bold text-red-800">Ada kesalahan!</h3>
+                    <div class="mt-2 text-sm text-red-700">
+                        <ul class="list-disc list-inside space-y-1">
+                            @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
     @endif
 
     <!-- ==================== FORM SECTION ==================== -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
-        <form action="{{ route('admin.profil.update', $profil->tipe) }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            @method('PUT')
-
-            <div class="p-6 space-y-8">
+    <form action="{{ route('admin.profil.update', $type) }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
+        
+        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+            <div class="p-8">
                 
-                <!-- Judul Section -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Judul</label>
-                    <input type="text" 
-                           name="judul" 
-                           value="{{ old('judul', $profil->judul) }}"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                           placeholder="Masukkan judul {{ $type }}"
-                           required>
-                </div>
+                <!-- ==================== INFORMASI UTAMA ==================== -->
+                <div class="mb-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-blue-600 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-info-circle text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800">Informasi Utama</h2>
+                            <p class="text-slate-600">Data dasar {{ $type === 'profil' ? 'Profil PPID' : ($type === 'tugas' ? 'Tugas dan Tanggung Jawab PPID' : ($type === 'visi' ? 'Visi dan Misi PPID' : ($type === 'struktur' ? 'Struktur Organisasi' : ($type === 'regulasi' ? 'Regulasi' : 'Kontak')))) }}</p>
+                        </div>
+                    </div>
 
-                <!-- Gambar Section (for struktur) -->
-                @if($type === 'struktur')
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Gambar Struktur Organisasi</label>
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
-                        @if($profil->gambar)
-                            <div class="mb-4">
-                                <img src="{{ asset('storage/profil/' . $profil->gambar) }}" alt="Struktur" class="mx-auto h-48 object-contain">
-                                <div class="mt-2">
-                                    <label class="inline-flex items-center">
-                                        <input type="checkbox" name="hapus_gambar" value="1" class="mr-2">
-                                        <span class="text-sm text-red-600">Hapus gambar</span>
+                    <div class="bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl p-6 border border-slate-200">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <!-- Judul -->
+                            <div class="lg:col-span-2">
+                                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                                    <span class="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-heading text-sm"></i>
+                                    </span>
+                                    Judul {{ $type === 'profil' ? 'Profil PPID' : ($type === 'tugas' ? 'Tugas dan Tanggung Jawab PPID' : ($type === 'visi' ? 'Visi dan Misi PPID' : ($type === 'struktur' ? 'Struktur Organisasi' : ($type === 'regulasi' ? 'Regulasi' : 'Kontak')))) }} *
+                                </label>
+                                <input type="text" 
+                                       name="judul" 
+                                       value="{{ old('judul', $profil->judul) }}"
+                                       class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm"
+                                       placeholder="Masukkan judul {{ $type === 'profil' ? 'Profil PPID' : ($type === 'tugas' ? 'Tugas dan Tanggung Jawab PPID' : ($type === 'visi' ? 'Visi dan Misi PPID' : ($type === 'struktur' ? 'Struktur Organisasi' : ($type === 'regulasi' ? 'Regulasi' : 'Kontak')))) }}"
+                                       required>
+                            </div>
+
+                            <!-- Status -->
+                            <div>
+                                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                                    <span class="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-toggle-on text-sm"></i>
+                                    </span>
+                                    Status Publikasi
+                                </label>
+                                <div class="flex items-center space-x-4">
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="radio" name="status" value="1" {{ old('status', $profil->status) == '1' ? 'checked' : '' }} class="mr-2">
+                                        <span class="text-green-600 font-medium">Aktif</span>
+                                    </label>
+                                    <label class="flex items-center cursor-pointer">
+                                        <input type="radio" name="status" value="0" {{ old('status', $profil->status) == '0' ? 'checked' : '' }} class="mr-2">
+                                        <span class="text-red-600 font-medium">Tidak Aktif</span>
                                     </label>
                                 </div>
                             </div>
-                        @else
-                            <div class="text-gray-400 mb-4">
-                                <i class="fas fa-image text-4xl"></i>
-                                <p class="mt-2">Belum ada gambar</p>
+
+                            <!-- Gambar -->
+                            <div>
+                                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                                    <span class="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg flex items-center justify-center mr-3">
+                                        <i class="fas fa-image text-sm"></i>
+                                    </span>
+                                    Gambar (Opsional)
+                                </label>
+                                <input type="file" 
+                                       name="gambar" 
+                                       accept="image/*"
+                                       class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 bg-white shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-medium file:bg-purple-50 file:text-purple-700 hover:file:bg-purple-100">
+                                @if($profil->gambar)
+                                    <div class="mt-3">
+                                        <img src="{{ asset('storage/' . $profil->gambar) }}" alt="Current image" class="h-20 rounded-lg shadow-sm">
+                                        <p class="text-xs text-slate-500 mt-1">Gambar saat ini</p>
+                                    </div>
+                                @endif
                             </div>
-                        @endif
-                        <input type="file" 
-                               name="gambar" 
-                               accept="image/*" 
-                               class="hidden" 
-                               id="gambar-input"
-                               onchange="previewImage(this)">
-                        <button type="button" 
-                                onclick="document.getElementById('gambar-input').click()" 
-                                class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                            <i class="fas fa-upload mr-2"></i>Pilih Gambar
-                        </button>
-                        <div id="image-preview" class="mt-4"></div>
+                        </div>
+                    </div>
+                </div>
+
+                @if($profil->konten)
+                <!-- ==================== CURRENT CONTENT ==================== -->
+                <div class="mb-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-file-alt text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800">Konten Saat Ini</h2>
+                            <p class="text-slate-600">Preview konten {{ $type === 'profil' ? 'Profil PPID' : ($type === 'tugas' ? 'Tugas dan Tanggung Jawab PPID' : ($type === 'visi' ? 'Visi dan Misi PPID' : ($type === 'struktur' ? 'Struktur Organisasi' : ($type === 'regulasi' ? 'Regulasi' : 'Kontak')))) }} yang sedang aktif</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-6 border border-amber-200">
+                        <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner p-6">
+                            <div class="prose prose-lg max-w-none">
+                                {!! $profil->konten !!}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 @endif
 
-                <!-- Konten Section -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Konten</label>
-                    <div class="border border-gray-300 rounded-lg">
-                        <textarea id="editor" 
-                                  name="konten" 
-                                  rows="10"
-                                  class="w-full px-4 py-2 border-0 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                                  placeholder="Tulis konten {{ $type }} di sini...">{{ old('konten', $profil->konten) }}</textarea>
+                <!-- ==================== KONTEN SECTION ==================== -->
+                <div class="mb-8">
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-r from-indigo-500 to-indigo-600 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-file-alt text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-800">Konten Lengkap</h2>
+                            <p class="text-slate-600">Tulis konten {{ $type === 'profil' ? 'Profil PPID' : ($type === 'tugas' ? 'Tugas dan Tanggung Jawab PPID' : ($type === 'visi' ? 'Visi dan Misi PPID' : ($type === 'struktur' ? 'Struktur Organisasi' : ($type === 'regulasi' ? 'Regulasi' : 'Kontak')))) }} dengan format lengkap</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-gradient-to-r from-indigo-50 to-purple-50 rounded-xl p-6 border border-indigo-200">
+                        <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner">
+                            <textarea id="editor" 
+                                      name="konten" 
+                                      class="w-full p-6 border-0 outline-none resize-none" 
+                                      style="min-height: 400px;"
+                                      placeholder="Tulis konten di sini...">{{ old('konten', $profil->konten) }}</textarea>
+                        </div>
+                        <p class="text-sm text-slate-600 mt-3">
+                            <i class="fas fa-info-circle mr-2 text-indigo-500"></i>
+                            Gunakan formatting lengkap (bold, italic, list, tabel, alignment, dll)
+                        </p>
                     </div>
                 </div>
 
             </div>
 
-            <!-- Action Buttons -->
-            <div class="bg-gray-50 px-6 py-4 flex justify-end space-x-4">
-                <a href="{{ route('admin.profil.index') }}" class="px-6 py-2 text-gray-700 hover:text-gray-900 font-medium">
-                    Batal
-                </a>
-                <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition rounded-lg">
-                    <i class="fas fa-save mr-2"></i>Simpan Perubahan
-                </button>
+            <!-- ==================== ACTION BUTTONS ==================== -->
+            <div class="bg-gradient-to-r from-slate-50 to-blue-50 px-8 py-6 border-t border-slate-200">
+                <div class="flex justify-between items-center">
+                    <div class="text-sm text-slate-600">
+                        <i class="fas fa-info-circle mr-2 text-blue-500"></i>
+                        Perubahan akan langsung tersimpan dan ditampilkan di halaman publik
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <a href="{{ route('admin.profil.index') }}" 
+                           class="px-6 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105 rounded-xl flex items-center">
+                            <i class="fas fa-times mr-2"></i>Batal
+                        </a>
+                        <button type="submit" 
+                                class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105 rounded-xl flex items-center">
+                            <i class="fas fa-save mr-2"></i>Simpan Perubahan
+                        </button>
+                    </div>
+                </div>
             </div>
-        </form>
+        </div>
+    </form>
+
     </div>
 </div>
-</div>
 
-<!-- Simple Editor Script -->
-<script src="https://cdn.ckeditor.com/ckeditor5/35.4.0/classic/ckeditor.js"></script>
+<!-- Summernote Editor Scripts -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Initialize CKEditor
-    ClassicEditor
-        .create(document.querySelector('#editor'), {
-            toolbar: [
-                'heading', '|',
-                'bold', 'italic', 'link', '|',
-                'bulletedList', 'numberedList', '|',
-                'outdent', 'indent', '|',
-                'imageUpload', 'blockQuote', 'insertTable', '|',
-                'undo', 'redo'
-            ],
-            image: {
-                toolbar: [
-                    'imageTextAlternative', 'imageStyle:full', 'imageStyle:side'
-                ]
-            },
-            table: {
-                contentToolbar: [
-                    'tableColumn', 'tableRow', 'mergeTableCells'
-                ]
-            },
-            placeholder: 'Tulis konten {{ $type }} di sini...'
-        })
-        .catch(error => {
-            console.error(error);
-        });
-
-    // Image preview function
-    window.previewImage = function(input) {
-        if (input.files && input.files[0]) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const preview = document.getElementById('image-preview');
-                preview.innerHTML = `
-                    <div class="mt-4">
-                        <img src="${e.target.result}" alt="Preview" class="mx-auto h-48 object-contain rounded border">
-                        <p class="text-sm text-gray-600 mt-2">Preview gambar baru</p>
-                    </div>
-                `;
-            };
-            reader.readAsDataURL(input.files[0]);
+$(document).ready(function() {
+    // Initialize Summernote with complete toolbar
+    $('#editor').summernote({
+        height: 400,
+        placeholder: 'Tulis konten di sini...',
+        toolbar: [
+            // [groupName, [list of button]]
+            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
+            ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+            ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
+        ],
+        callbacks: {
+            onImageUpload: function(files) {
+                for (var i = 0; i < files.length; i++) {
+                    uploadImage(files[i]);
+                }
+            }
         }
-    };
+    });
 });
+
+function uploadImage(file) {
+    var formData = new FormData();
+    formData.append('image', file);
+    
+    $.ajax({
+        url: '/upload-image',
+        type: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            $('#editor').summernote('insertImage', response.url);
+        },
+        error: function() {
+            alert('Gagal mengupload gambar');
+        }
+    });
+}
 </script>
 @endsection

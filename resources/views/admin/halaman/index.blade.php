@@ -134,7 +134,7 @@
                         <p class="text-sm font-medium text-gray-900">Informasi Berkala</p>
                         <p class="text-xs text-gray-500">{{ App\Models\InformasiBerkala::count() }} file</p>
                     </div>
-                    <a href="{{ route('admin.informasi.berkala') }}" class="text-blue-600 hover:text-blue-800">
+                    <a href="{{ route('admin.informasi.berkala.index') }}" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
@@ -143,7 +143,7 @@
                         <p class="text-sm font-medium text-gray-900">Informasi Serta Merta</p>
                         <p class="text-xs text-gray-500">{{ App\Models\InformasiSertamerta::count() }} file</p>
                     </div>
-                    <a href="{{ route('admin.informasi.sertamerta') }}" class="text-blue-600 hover:text-blue-800">
+                    <a href="#" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
@@ -152,7 +152,7 @@
                         <p class="text-sm font-medium text-gray-900">Informasi Setiap Saat</p>
                         <p class="text-xs text-gray-500">{{ App\Models\InformasiSetiapsaat::count() }} file</p>
                     </div>
-                    <a href="{{ route('admin.informasi.setiapsaat') }}" class="text-blue-600 hover:text-blue-800">
+                    <a href="#" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
@@ -161,7 +161,7 @@
                         <p class="text-sm font-medium text-gray-900">Informasi Dikecualikan</p>
                         <p class="text-xs text-gray-500">{{ App\Models\InformasiDikecualikan::count() }} file</p>
                     </div>
-                    <a href="{{ route('admin.informasi.dikecualikan') }}" class="text-blue-600 hover:text-blue-800">
+                    <a href="#" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
@@ -206,14 +206,14 @@
                             <p class="text-sm font-medium text-gray-900">{{ $label }}</p>
                             <p class="text-xs text-gray-500">{{ $count }} file</p>
                         </div>
-                        <a href="{{ route('admin.prosedur.index') }}?kategori={{ $category }}" class="text-blue-600 hover:text-blue-800">
+                        <a href="#" class="text-blue-600 hover:text-blue-800">
                             <i class="fas fa-list text-sm"></i>
                         </a>
                     </div>
                 @endforeach
             </div>
             <div class="mt-4 pt-4 border-t border-gray-200">
-                <a href="{{ route('admin.prosedur.index') }}" class="w-full block text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                <a href="#" class="w-full block text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
                     Kelola Prosedur
                 </a>
             </div>
@@ -243,7 +243,7 @@
                             <p class="text-xs text-gray-500">{{ Str::limit($faq->jawaban, 50) }}</p>
                         </div>
                         <div class="flex items-center space-x-1">
-                            <a href="{{ route('admin.faq.edit', $faq->id) }}" class="text-blue-600 hover:text-blue-800">
+                            <a href="#" class="text-blue-600 hover:text-blue-800">
                                 <i class="fas fa-edit text-sm"></i>
                             </a>
                             <button onclick="confirmDelete('faq', {{ $faq->id }})" class="text-red-600 hover:text-red-800">
@@ -256,7 +256,7 @@
                 @endforelse
             </div>
             <div class="mt-4 pt-4 border-t border-gray-200">
-                <a href="{{ route('admin.faq.index') }}" class="w-full block text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                <a href="#" class="w-full block text-center px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
                     Kelola FAQ
                 </a>
             </div>
@@ -281,7 +281,7 @@
                         <p class="text-sm font-medium text-gray-900">Form Permohonan</p>
                         <p class="text-xs text-gray-500">Form builder</p>
                     </div>
-                    <a href="{{ route('admin.permohonan.form') }}" class="text-blue-600 hover:text-blue-800">
+                    <a href="#" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-edit text-sm"></i>
                     </a>
                 </div>
@@ -290,13 +290,13 @@
                         <p class="text-sm font-medium text-gray-900">Daftar Permohonan</p>
                         <p class="text-xs text-gray-500">List permohonan</p>
                     </div>
-                    <a href="{{ route('admin.permohonan.index') }}" class="text-blue-600 hover:text-blue-800">
+                    <a href="#" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-gray-200">
-                <a href="{{ route('admin.permohonan.index') }}" class="w-full block text-center px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition">
+                <a href="#" class="w-full block text-center px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition">
                     Kelola Permohonan
                 </a>
             </div>

@@ -2,45 +2,45 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProfilPpid;
+use App\Models\Profil;
 use App\Models\Peraturan;
 
 class ProfilPublikController extends Controller
 {
     public function showProfil()
     {
-        $profil = ProfilPpid::where('type', 'profil')->first();
+        $profil = Profil::getByType('profil');
         return view('profil-ppid', ['profil' => $profil]);
     }
 
     public function showTugas()
     {
-        $profil = ProfilPpid::where('type', 'tugas')->first();
+        $profil = Profil::getByType('tugas');
         return view('profil-tugas-tanggung-jawab', ['profil' => $profil]);
     }
 
     public function showVisi()
     {
-        $profil = ProfilPpid::where('type', 'visi')->first();
+        $profil = Profil::getByType('visi');
         return view('profil-visi-misi', ['profil' => $profil]);
     }
 
     public function showStruktur()
     {
-        $profil = ProfilPpid::where('type', 'struktur')->first();
+        $profil = Profil::getByType('struktur');
         return view('profil-struktur-organisasi', ['profil' => $profil]);
     }
 
     public function showRegulasi()
     {
-        $profil = ProfilPpid::where('type', 'regulasi')->first();
+        $profil = Profil::getByType('regulasi');
         $peraturan = Peraturan::where('is_active', true)->get()->groupBy('kategori');
         return view('profil-regulasi', ['profil' => $profil, 'peraturan' => $peraturan]);
     }
 
     public function showKontak()
     {
-        $profil = ProfilPpid::where('type', 'kontak')->first();
+        $profil = Profil::getByType('kontak');
         return view('profil-kontak', ['profil' => $profil]);
     }
 
