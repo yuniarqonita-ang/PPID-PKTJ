@@ -211,6 +211,24 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+
+<style>
+/* Custom CSS for Summernote */
+.note-editor .note-editable ol {
+    list-style-type: decimal;
+    padding-left: 20px;
+}
+.note-editor .note-editable ol li {
+    margin-bottom: 5px;
+}
+.note-editor .note-editable ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+.note-editor .note-editable ul li {
+    margin-bottom: 5px;
+}
+</style>
 <script>
 $(document).ready(function() {
     // Initialize Summernote with complete toolbar
@@ -226,6 +244,14 @@ $(document).ready(function() {
             ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
             ['insert', ['picture', 'link', 'video', 'table', 'hr']],
             ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
+        ],
+        styleTags: [
+            'p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'
+        ],
+        fontNames: [
+            'Arial', 'Arial Black', 'Comic Sans MS', 'Courier New',
+            'Helvetica Neue', 'Helvetica', 'Impact', 'Lucida Grande',
+            'Tahoma', 'Times New Roman', 'Verdana'
         ],
         callbacks: {
             onImageUpload: function(files) {
