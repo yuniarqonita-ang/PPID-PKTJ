@@ -36,24 +36,29 @@ Route::get('/dokumen/{id}/view', [DokumenController::class, 'view'])->name('doku
 Route::get('/dokumen/{id}/download', [DokumenController::class, 'download'])->name('dokumen.download');
 
 // Profil PPID (Public)
-Route::get('/profil/ppid', [ProfilPublikController::class, 'showProfil'])->name('profil.ppid');
-Route::get('/profil/tugas-tanggung-jawab', [ProfilPublikController::class, 'showTugas'])->name('profil.tugas-tanggung-jawab');
-Route::get('/profil/visi-misi', [ProfilPublikController::class, 'showVisi'])->name('profil.visi-misi');
-Route::get('/profil/struktur-organisasi', [ProfilPublikController::class, 'showStruktur'])->name('profil.struktur-organisasi');
-Route::get('/profil/regulasi', [ProfilPublikController::class, 'showRegulasi'])->name('profil.regulasi');
-Route::get('/profil/regulasi/{id}', [ProfilPublikController::class, 'viewPeraturan'])->name('profil.peraturan-view');
-Route::get('/profil/kontak', [ProfilPublikController::class, 'showKontak'])->name('profil.kontak');
+Route::get('/profil/ppid', function () { return view('profil-ppid'); })->name('profil.ppid');
+Route::get('/profil/tugas-tanggung-jawab', function () { return view('profil-tugas-tanggung-jawab'); })->name('profil.tugas-tanggung-jawab');
+Route::get('/profil/visi-misi', function () { return view('profil-visi-misi'); })->name('profil.visi-misi');
+Route::get('/profil/struktur-organisasi', function () { return view('profil-struktur-organisasi'); })->name('profil.struktur-organisasi');
+Route::get('/profil/regulasi', function () { return view('profil-regulasi'); })->name('profil.regulasi');
+Route::get('/profil/kontak', function () { return view('profil-kontak'); })->name('profil.kontak');
 
 // Informasi Publik (Public)
 Route::get('/informasi-publik/berkala', function () {
     return view('informasi-berkala');
 })->name('informasi.berkala');
 
-Route::get('/informasi-publik/serta-merta', [BeritaController::class, 'sertaMerta'])->name('informasi.serta-merta');
+Route::get('/informasi-publik/serta-merta', function () {
+    return view('informasi-serta-merta');
+})->name('informasi.serta-merta');
 
-Route::get('/informasi-publik/setiap-saat', [BeritaController::class, 'setiapSaat'])->name('informasi.setiap-saat');
+Route::get('/informasi-publik/setiap-saat', function () {
+    return view('informasi-setiap-saat');
+})->name('informasi.setiap-saat');
 
-Route::get('/informasi-publik/dikecualikan', [DokumenController::class, 'dikecualikan'])->name('informasi.dikecualikan');
+Route::get('/informasi-publik/dikecualikan', function () {
+    return view('informasi-dikecualikan');
+})->name('informasi.dikecualikan');
 
 Route::get('/layanan-informasi/daftar', function () { return view('daftar-informasi-publik'); })->name('layanan.daftar-informasi');
 
@@ -67,13 +72,11 @@ Route::get('/layanan-informasi/laporan-survey', function () { return view('lapor
 
 // Prosedur (Public)
 Route::get('/prosedur/sop-permintaan-informasi', function () {
-    // Menggunakan view 'sop-permintaan' sesuai lokasi file Anda saat ini
     return view('sop-permintaan');
 })->name('prosedur.sop-permintaan');
 
 Route::get('/prosedur/sop-penanganan-keberatan', function () {
-    // Placeholder - Anda bisa membuat view baru nanti
-    return "Halaman SOP Penanganan Keberatan - Segera Hadir";
+    return view('sop-penanganan-keberatan');
 })->name('prosedur.sop-keberatan');
 
 Route::get('/prosedur/sop-pengajuan-sengketa', function () {
@@ -81,15 +84,15 @@ Route::get('/prosedur/sop-pengajuan-sengketa', function () {
 })->name('prosedur.sop-sengketa');
 
 Route::get('/prosedur/sop-penetapan-pemutakhiran', function () {
-    return "Halaman SOP Penetapan dan Pemutakhiran Daftar Informasi Publik - Segera Hadir";
+    return view('sop-penetapan-pemutakhiran');
 })->name('prosedur.sop-pemutakhiran');
 
 Route::get('/prosedur/sop-pengujian-konsekuensi', function () {
-    return "Halaman SOP Pengujian Konsekuensi - Segera Hadir";
+    return view('sop-pengujian-konsekuensi');
 })->name('prosedur.sop-pengujian');
 
 Route::get('/prosedur/sop-pendokumentasian', function () {
-    return "Halaman SOP Pendokumentasian Informasi Publik - Segera Hadir";
+    return view('sop-pendokumentasian');
 })->name('prosedur.sop-pendokumentasian');
 
 // ==========================================

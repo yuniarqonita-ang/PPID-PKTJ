@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laporan Layanan Informasi Publik - Portal PPID PKTJ Tegal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #004a99 !important;
+            border-bottom: 3px solid #ffc107;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 12px;
+        }
+
+        @media (min-width: 992px) {
+            .nav-item.dropdown:hover .dropdown-menu {
+                display: block !important;
+                margin-top: 0;
+            }
+        }
+
+        .dropdown-menu {
+            z-index: 1050 !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1a3a52 0%, #2d5f8d 50%, #d4af37 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            color: #004a99;
+            font-size: 32px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #004a99;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .content-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: #004a99;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .profil-content {
+            text-align: justify;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .stat-card i {
+            font-size: 36px;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .stat-card h3 {
+            color: #004a99;
+            font-weight: bold;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+
+        .stat-card p {
+            color: #666;
+            margin: 0;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #e9ecef;
+            text-align: center;
+            min-height: 200px;
+        }
+
+        .chart-container i {
+            font-size: 64px;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .table-responsive {
+            margin: 20px 0;
+        }
+
+        .table {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .table thead th {
+            background: #004a99;
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 15px;
+        }
+
+        .table tbody td {
+            padding: 12px 15px;
+            border: none;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .table tbody tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .table tbody tr:hover {
+            background: #fff3cd;
+        }
+
+        .download-section {
+            background: linear-gradient(135deg, #f0f8ff 0%, #e6f3ff 100%);
+            border: 2px solid #0066cc;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .download-section h5 {
+            color: #004a99;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .download-btn {
+            background: #d4af37;
+            border: none;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background: #c99a2b;
+            transform: scale(1.05);
+            color: white;
+        }
+
+        .footer {
+            background: #1a3a52;
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .btn-warning {
+            background-color: #d4af37;
+            border-color: #d4af37;
+            color: #1a3a52;
+            font-weight: 600;
+        }
+
+        .btn-warning:hover {
+            background-color: #c9a227;
+            border-color: #c9a227;
+            color: #1a3a52;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
+                <img src="images/logo-pktj.png" alt="Logo PKTJ">
+                <span>PPID PKTJ Tegal</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
+                        <ul class="dropdown-menu" style="min-width: 280px;">
+                            <li><a class="dropdown-item" href="profil-ppid.html">Profil PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-tugas-tanggung-jawab.html">Tugas dan Tanggung Jawab PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-visi-misi.html">Visi dan Misi</a></li>
+                            <li><a class="dropdown-item" href="profil-struktur-organisasi.html">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="profil-regulasi.html">Regulasi</a></li>
+                            <li><a class="dropdown-item" href="profil-kontak.html">Kontak</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
+                        <ul class="dropdown-menu" style="min-width: 250px;">
+                            <li><a class="dropdown-item" href="informasi-berkala.html">Informasi Berkala</a></li>
+                            <li><a class="dropdown-item" href="informasi-serta-merta.html">Informasi Serta Merta</a></li>
+                            <li><a class="dropdown-item" href="informasi-setiap-saat.html">Informasi Setiap Saat</a></li>
+                            <li><a class="dropdown-item" href="informasi-dikecualikan.html">Informasi Dikecualikan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
+                        <ul class="dropdown-menu" style="min-width: 320px;">
+                            <li><a class="dropdown-item" href="daftar-informasi-publik.html">Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="maklumat-pelayanan.html">Maklumat Pelayanan & Standar Biaya</a></li>
+                            <li><a class="dropdown-item" href="laporan-layanan-informasi.html">Laporan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-akses-informasi-publik.html">Laporan Akses Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-survey-kepuasan.html">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
+                        <ul class="dropdown-menu" style="min-width: 380px;">
+                            <li><a class="dropdown-item" href="sop-permintaan-informasi.html">SOP Permintaan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penanganan-keberatan.html">SOP Penanganan Keberatan</a></li>
+                            <li><a class="dropdown-item" href="sop-pengajuan-sengketa.html">SOP Pengajuan Sengketa Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penetapan-pemutakhiran.html">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-pengujian-konsekuensi.html">SOP Pengujian Konsekuensi</a></li>
+                            <li><a class="dropdown-item" href="sop-pendokumentasian.html">SOP Pendokumentasian Informasi Publik</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="faq.html">FAQ</a>
+                    </li>
+                </ul>
+
+                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="permohonan-informasi.html">
+                    PERMOHONAN INFORMASI
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="container">
+                <h1 class="display-5 fw-bold mb-3">Laporan Layanan Informasi Publik</h1>
+                <p class="lead">Laporan periodik kinerja PPID dalam melayani masyarakat</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <h1 class="page-title">Laporan Layanan Informasi Publik</h1>
+
+        <div class="content-box">
+            <h2 class="section-title">Ringkasan Kinerja 2024</h2>
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <i class="fas fa-file-alt"></i>
+                    <h3>1,247</h3>
+                    <p>Permintaan Informasi</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-check-circle"></i>
+                    <h3>98.5%</h3>
+                    <p>Tingkat Pemenuhan</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-clock"></i>
+                    <h3>4.2</h3>
+                    <p>Rata-rata Waktu (Hari)</p>
+                </div>
+                <div class="stat-card">
+                    <i class="fas fa-star"></i>
+                    <h3>4.7/5</h3>
+                    <p>Indeks Kepuasan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Laporan Triwulanan</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Triwulan</th>
+                            <th>Permintaan</th>
+                            <th>Dipenuhi</th>
+                            <th>Ditolak</th>
+                            <th>Tingkat Pemenuhan</th>
+                            <th>Rata-rata Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Triwulan I (Jan-Mar)</td>
+                            <td>312</td>
+                            <td>305</td>
+                            <td>7</td>
+                            <td>97.8%</td>
+                            <td>3.8 hari</td>
+                        </tr>
+                        <tr>
+                            <td>Triwulan II (Apr-Jun)</td>
+                            <td>298</td>
+                            <td>294</td>
+                            <td>4</td>
+                            <td>98.7%</td>
+                            <td>4.1 hari</td>
+                        </tr>
+                        <tr>
+                            <td>Triwulan III (Jul-Sep)</td>
+                            <td>334</td>
+                            <td>330</td>
+                            <td>4</td>
+                            <td>98.8%</td>
+                            <td>4.3 hari</td>
+                        </tr>
+                        <tr>
+                            <td>Triwulan IV (Okt-Des)</td>
+                            <td>303</td>
+                            <td>298</td>
+                            <td>5</td>
+                            <td>98.3%</td>
+                            <td>4.2 hari</td>
+                        </tr>
+                        <tr style="background: #004a99; color: white; font-weight: bold;">
+                            <td>TOTAL</td>
+                            <td>1,247</td>
+                            <td>1,227</td>
+                            <td>20</td>
+                            <td>98.5%</td>
+                            <td>4.2 hari</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Kategori Permintaan Informasi</h2>
+            <div class="chart-container">
+                <i class="fas fa-chart-pie"></i>
+                <h5>Grafik Kategori Permintaan</h5>
+                <p>Grafik interaktif kategori permintaan informasi publik</p>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-building text-primary me-2"></i>Informasi Organisasi (35%)</h5>
+                    <ul>
+                        <li>Struktur organisasi</li>
+                        <li>Tugas dan fungsi</li>
+                        <li>Profil pejabat</li>
+                        <li>Program kerja</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-file-contract text-success me-2"></i>Informasi Peraturan (28%)</h5>
+                    <ul>
+                        <li>Peraturan internal</li>
+                        <li>Standar operasional</li>
+                        <li>Kebijakan organisasi</li>
+                        <li>Regulasi terkait</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-chart-line text-warning me-2"></i>Informasi Keuangan (20%)</h5>
+                    <ul>
+                        <li>Laporan keuangan</li>
+                        <li>Anggaran dan realisasi</li>
+                        <li>Sumber pendapatan</li>
+                        <li>Penggunaan anggaran</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-users text-info me-2"></i>Informasi Lainnya (17%)</h5>
+                    <ul>
+                        <li>Data statistik</li>
+                        <li>Informasi umum</li>
+                        <li>Informasi khusus</li>
+                        <li>Pertanyaan lainnya</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Alasan Penolakan Permintaan</h2>
+            <div class="chart-container">
+                <i class="fas fa-chart-bar"></i>
+                <h5>Grafik Alasan Penolakan</h5>
+                <p>Distribusi alasan penolakan permintaan informasi</p>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-ban text-danger me-2"></i>Informasi Dikecualikan (60%)</h5>
+                    <ul>
+                        <li>Rahasia negara</li>
+                        <li>Privasi individu</li>
+                        <li>Rahasia dagang</li>
+                        <li>Proses pengambilan keputusan</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-search text-warning me-2"></i>Tidak Ditemukan (25%)</h5>
+                    <ul>
+                        <li>Informasi tidak ada</li>
+                        <li>Informasi belum tercatat</li>
+                        <li>Pemintaan tidak spesifik</li>
+                        <li>Kesalahan identifikasi</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-clock text-info me-2"></i>Dalam Proses (10%)</h5>
+                    <ul>
+                        <li>Masih dalam pembahasan</li>
+                        <li>Belum final</li>
+                        <li>Dalam tahap penyusunan</li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-exclamation-triangle text-secondary me-2"></i>Lainnya (5%)</h5>
+                    <ul>
+                        <li>Pemohon tidak lengkapi syarat</li>
+                        <li>Permintaan tidak wajar</li>
+                        <li>Kesalahan administratif</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Indeks Kepuasan Masyarakat</h2>
+            <div class="chart-container">
+                <i class="fas fa-star-half-alt"></i>
+                <h5>Grafik Indeks Kepuasan</h5>
+                <p>Hasil survei kepuasan pemohon informasi publik</p>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-md-4 text-center">
+                    <div class="stat-card">
+                        <i class="fas fa-thumbs-up"></i>
+                        <h3>4.7/5</h3>
+                        <p>Kepuasan Umum</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="stat-card">
+                        <i class="fas fa-clock"></i>
+                        <h3>4.5/5</h3>
+                        <p>Kecepatan Layanan</p>
+                    </div>
+                </div>
+                <div class="col-md-4 text-center">
+                    <div class="stat-card">
+                        <i class="fas fa-user-tie"></i>
+                        <h3>4.8/5</h3>
+                        <p>Keramahan Petugas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Pengaduan dan Keberatan</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Jenis</th>
+                            <th>Diterima</th>
+                            <th>Ditanggapi</th>
+                            <th>Tingkat Penyelesaian</th>
+                            <th>Rata-rata Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Keberatan</td>
+                            <td>15</td>
+                            <td>15</td>
+                            <td>100%</td>
+                            <td>25 hari</td>
+                        </tr>
+                        <tr>
+                            <td>Pengaduan</td>
+                            <td>8</td>
+                            <td>8</td>
+                            <td>100%</td>
+                            <td>7 hari</td>
+                        </tr>
+                        <tr>
+                            <td>Sengketa</td>
+                            <td>2</td>
+                            <td>2</td>
+                            <td>100%</td>
+                            <td>45 hari</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <h5><i class="fas fa-download me-2"></i>Download Laporan Lengkap</h5>
+            <p>Unduh laporan lengkap kinerja PPID PKTJ Tegal tahun 2024</p>
+            <a href="#" class="download-btn">
+                <i class="fas fa-file-pdf me-1"></i>Download PDF
+            </a>
+            <a href="#" class="download-btn">
+                <i class="fas fa-file-excel me-1"></i>Download Excel
+            </a>
+            <a href="#" class="download-btn">
+                <i class="fas fa-file-word me-1"></i>Download Word
+            </a>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Kesimpulan dan Rekomendasi</h2>
+            <div class="profil-content">
+                <h5><i class="fas fa-check-circle text-success me-2"></i>Pencapaian Positif</h5>
+                <ul>
+                    <li>Tingkat pemenuhan permintaan mencapai 98.5%</li>
+                    <li>Rata-rata waktu penyelesaian 4.2 hari sesuai standar</li>
+                    <li>Indeks kepuasan masyarakat mencapai 4.7/5</li>
+                    <li>Semua pengaduan dan keberatan terselesaikan 100%</li>
+                    <li>Pelayanan informasi berjalan efektif dan efisien</li>
+                </ul>
+
+                <h5 class="mt-4"><i class="fas fa-lightbulb text-warning me-2"></i>Rekomendasi Perbaikan</h5>
+                <ul>
+                    <li>Meningkatkan sosialisasi UU KIP kepada masyarakat</li>
+                    <li>Mengembangkan sistem informasi yang lebih modern</li>
+                    <li>Melakukan pelatihan berkala kepada petugas PPID</li>
+                    <li>Memperluas kanal komunikasi dengan masyarakat</li>
+                    <li>Meningkatkan kualitas dokumentasi informasi</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">PPID PKTJ Tegal</h5>
+                    <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
+            <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
+        </div>
+        <div class="col-md-6">
+            <h5 class="mb-3">Kontak</h5>
+            <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
+            <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
+            <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
+        </div>
+    </div>
+    <hr class="my-4 bg-light">
+    <div class="text-center">
+        <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
+        <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

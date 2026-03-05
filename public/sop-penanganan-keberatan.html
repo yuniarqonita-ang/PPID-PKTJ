@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOP Penanganan Keberatan - Portal PPID PKTJ Tegal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #004a99 !important;
+            border-bottom: 3px solid #ffc107;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 12px;
+        }
+
+        @media (min-width: 992px) {
+            .nav-item.dropdown:hover .dropdown-menu {
+                display: block !important;
+                margin-top: 0;
+            }
+        }
+
+        .dropdown-menu {
+            z-index: 1050 !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1a3a52 0%, #2d5f8d 50%, #d4af37 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            color: #004a99;
+            font-size: 32px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #004a99;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .content-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: #004a99;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .profil-content {
+            text-align: justify;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .step-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 15px 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #d4af37;
+            color: #1a3a52;
+            font-weight: bold;
+            font-size: 18px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid white;
+        }
+
+        .step-card i {
+            font-size: 36px;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .step-card h5 {
+            color: #004a99;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #d4af37;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d4af37;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #d4af37;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #d4af37;
+        }
+
+        .requirements-box {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .requirements-box h6 {
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .important-note {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: 2px solid #dc3545;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .important-note h6 {
+            color: #721c24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background: #1a3a52;
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .btn-warning {
+            background-color: #d4af37;
+            border-color: #d4af37;
+            color: #1a3a52;
+            font-weight: 600;
+        }
+
+        .btn-warning:hover {
+            background-color: #c9a227;
+            border-color: #c9a227;
+            color: #1a3a52;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
+                <img src="images/logo-pktj.png" alt="Logo PKTJ">
+                <span>PPID PKTJ Tegal</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
+                        <ul class="dropdown-menu" style="min-width: 280px;">
+                            <li><a class="dropdown-item" href="profil-ppid.html">Profil PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-tugas-tanggung-jawab.html">Tugas dan Tanggung Jawab PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-visi-misi.html">Visi dan Misi</a></li>
+                            <li><a class="dropdown-item" href="profil-struktur-organisasi.html">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="profil-regulasi.html">Regulasi</a></li>
+                            <li><a class="dropdown-item" href="profil-kontak.html">Kontak</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
+                        <ul class="dropdown-menu" style="min-width: 250px;">
+                            <li><a class="dropdown-item" href="informasi-berkala.html">Informasi Berkala</a></li>
+                            <li><a class="dropdown-item" href="informasi-serta-merta.html">Informasi Serta Merta</a></li>
+                            <li><a class="dropdown-item" href="informasi-setiap-saat.html">Informasi Setiap Saat</a></li>
+                            <li><a class="dropdown-item" href="informasi-dikecualikan.html">Informasi Dikecualikan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
+                        <ul class="dropdown-menu" style="min-width: 320px;">
+                            <li><a class="dropdown-item" href="daftar-informasi-publik.html">Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="maklumat-pelayanan.html">Maklumat Pelayanan & Standar Biaya</a></li>
+                            <li><a class="dropdown-item" href="laporan-layanan-informasi.html">Laporan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-akses-informasi-publik.html">Laporan Akses Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-survey-kepuasan.html">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
+                        <ul class="dropdown-menu" style="min-width: 380px;">
+                            <li><a class="dropdown-item" href="sop-permintaan-informasi.html">SOP Permintaan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penanganan-keberatan.html">SOP Penanganan Keberatan</a></li>
+                            <li><a class="dropdown-item" href="sop-pengajuan-sengketa.html">SOP Pengajuan Sengketa Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penetapan-pemutakhiran.html">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-pengujian-konsekuensi.html">SOP Pengujian Konsekuensi</a></li>
+                            <li><a class="dropdown-item" href="sop-pendokumentasian.html">SOP Pendokumentasian Informasi Publik</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="faq.html">FAQ</a>
+                    </li>
+                </ul>
+
+                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="permohonan-informasi.html">
+                    PERMOHONAN INFORMASI
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="container">
+                <h1 class="display-5 fw-bold mb-3">SOP Penanganan Keberatan</h1>
+                <p class="lead">Standar Operasional Prosedur Penanganan Keberatan PPID PKTJ Tegal</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <h1 class="page-title">SOP Penanganan Keberatan</h1>
+
+        <div class="content-box">
+            <h2 class="section-title">Dasar Hukum</h2>
+            <div class="profil-content">
+                <p>Standar Operasional Prosedur (SOP) Penanganan Keberatan PPID PKTJ Tegal disusun berdasarkan:</p>
+                <ul>
+                    <li>Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik</li>
+                    <li>Peraturan Pemerintah Nomor 61 Tahun 2010 tentang Pelaksanaan Undang-Undang Nomor 14 Tahun 2008</li>
+                    <li>Peraturan Komisi Informasi Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik</li>
+                    <li>Keputusan Direktur Jenderal Perhubungan Udara Nomor KP 345 Tahun 2018 tentang SOP PPID PKTJ Tegal</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Pengertian Keberatan</h2>
+            <div class="profil-content">
+                <p>Keberatan adalah hak pemohon informasi untuk mengajukan sanggahan terhadap keputusan PPID yang menolak atau membatasi akses informasi publik. Keberatan dapat diajukan dalam waktu 30 hari sejak keputusan PPID diterima oleh pemohon.</p>
+            </div>
+        </div>
+
+        <div class="requirements-box">
+            <h6><i class="fas fa-file-signature me-2"></i>Persyaratan Pengajuan Keberatan</h6>
+            <ul>
+                <li>Salinan lengkap keputusan PPID yang dikberatkan</li>
+                <li>Salinan lengkap formulir permintaan informasi</li>
+                <li>Alasan keberatan yang jelas dan spesifik</li>
+                <li>Bukti-bukti pendukung keberatan (jika ada)</li>
+                <li>Identitas pemohon yang lengkap</li>
+            </ul>
+        </requirements-box>
+
+        <div class="content-box">
+            <h2 class="section-title">Alur Proses Penanganan Keberatan</h2>
+
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <i class="fas fa-inbox"></i>
+                <h5>Penerimaan Keberatan</h5>
+                <p>PPID menerima pengajuan keberatan melalui berbagai kanal. Keberatan dicatat dalam register khusus dengan nomor registrasi keberatan.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <i class="fas fa-search"></i>
+                <h5>Verifikasi Kelengkapan</h5>
+                <p>PPID memverifikasi kelengkapan dokumen keberatan. Jika tidak lengkap, pemohon diberi kesempatan melengkapi dalam waktu 7 hari kerja.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <i class="fas fa-users"></i>
+                <h5>Pembentukan Tim</h5>
+                <p>PPID membentuk tim penanganan keberatan yang terdiri dari minimal 3 orang yang kompeten dan tidak terlibat dalam proses permintaan awal.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <i class="fas fa-balance-scale"></i>
+                <h5>Pemeriksaan Keberatan</h5>
+                <p>Tim memeriksa keberatan berdasarkan alasan yang diajukan pemohon. Proses ini dilakukan secara obyektif dan profesional.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">5</div>
+                <i class="fas fa-gavel"></i>
+                <h5>Pengambilan Keputusan</h5>
+                <p>Tim mengambil keputusan untuk menerima atau menolak keberatan berdasarkan fakta dan ketentuan perundang-undangan.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">6</div>
+                <i class="fas fa-paper-plane"></i>
+                <h5>Pemberitahuan Keputusan</h5>
+                <p>PPID memberitahukan keputusan keberatan kepada pemohon dalam waktu maksimal 30 hari kerja sejak keberatan diterima lengkap.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">7</div>
+                <i class="fas fa-clipboard-list"></i>
+                <h5>Dokumentasi</h5>
+                <p>Seluruh proses keberatan didokumentasikan dengan lengkap untuk pelaporan dan audit. Data disimpan dalam database PPID.</p>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Jangka Waktu Penanganan</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">Penerimaan Keberatan</h6>
+                        <p>Maksimal 30 hari sejak keputusan PPID diterima oleh pemohon. Keberatan yang diajukan setelah batas waktu tidak dapat diproses.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">Verifikasi Kelengkapan</h6>
+                        <p>Maksimal 7 hari kerja untuk melengkapi dokumen keberatan yang kurang. Jika tidak dilengkapi, keberatan dianggap ditarik.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">Proses Penanganan</h6>
+                        <p>Maksimal 30 hari kerja sejak keberatan diterima secara lengkap. Jangka waktu ini dapat diperpanjang dengan alasan sah.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">Pemberitahuan Keputusan</h6>
+                        <p>Maksimal 30 hari kerja sejak keberatan diterima lengkap. Keputusan harus disampaikan secara tertulis dengan alasan yang jelas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Alasan Keberatan Yang Dapat Diajukan</h2>
+            <div class="profil-content">
+                <p>Keberatan dapat diajukan dengan alasan:</p>
+                <ul>
+                    <li>Informasi yang diminta tidak termasuk informasi yang dikecualikan</li>
+                    <li>Informasi yang diminta bukan merupakan rahasia negara</li>
+                    <li>Informasi yang diminta telah terbuka bagi masyarakat</li>
+                    <li>Informasi yang diminta tidak mengganggu proses penegakan hukum</li>
+                    <li>Informasi yang diminta tidak berkaitan dengan hak pribadi orang lain</li>
+                    <li>Permintaan informasi tidak menggunakan prosedur yang salah</li>
+                    <li>Informasi yang diminta tersedia dalam bentuk yang diminta</li>
+                    <li>Biaya yang dikenakan tidak sesuai dengan ketentuan</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Keputusan Terhadap Keberatan</h2>
+            <div class="profil-content">
+                <p>Hasil penanganan keberatan dapat berupa:</p>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-check-circle text-success me-2"></i>Keberatan Diterima</h5>
+                        <ul>
+                            <li>PPID mencabut keputusan penolakan</li>
+                            <li>Informasi disampaikan kepada pemohon</li>
+                            <li>Jangka waktu penyampaian maksimal 10 hari kerja</li>
+                            <li>Biaya penggandaan ditanggung PPID</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-times-circle text-danger me-2"></i>Keberatan Ditolak</h5>
+                        <ul>
+                            <li>PPID mempertahankan keputusan penolakan</li>
+                            <li>Alasan penolakan dijelaskan secara rinci</li>
+                            <li>Pemohon dapat mengajukan sengketa ke Komisi Informasi</li>
+                            <li>Sengketa diajukan dalam waktu 14 hari</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="important-note">
+            <h6><i class="fas fa-exclamation-triangle me-2"></i>PENTING</h6>
+            <p>Proses penanganan keberatan bersifat administratif dan tidak mengikat. Jika keberatan ditolak, pemohon masih dapat mengajukan sengketa ke Komisi Informasi sebagai lembaga independen yang berwenang memutus sengketa informasi publik.</p>
+        </important-note>
+
+        <div class="content-box">
+            <h2 class="section-title">Biaya Penanganan Keberatan</h2>
+            <div class="profil-content">
+                <p>Biaya penanganan keberatan PPID PKTJ Tegal:</p>
+                <ul>
+                    <li><strong>Gratis:</strong> Pengajuan keberatan dan proses penanganan</li>
+                    <li><strong>Rp 500/lembar:</strong> Penggandaan dokumen jika keberatan diterima</li>
+                    <li><strong>Sesuai tarif:</strong> Pengiriman dokumen hasil keberatan</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Pengajuan Sengketa</h2>
+            <div class="profil-content">
+                <p>Jika keberatan ditolak oleh PPID, pemohon dapat mengajukan sengketa ke Komisi Informasi dalam waktu 14 hari dengan melampirkan:</p>
+                <ul>
+                    <li>Keputusan PPID atas keberatan</li>
+                    <li>Dokumen permintaan informasi asli</li>
+                    <li>Dokumen keberatan yang telah diajukan</li>
+                    <li>Bukti-bukti pendukung lainnya</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Kanal Pengajuan Keberatan</h2>
+            <div class="profil-content">
+                <p>Keberatan dapat diajukan melalui:</p>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-globe text-primary me-2"></i>Online</h5>
+                        <ul>
+                            <li>Website PPID PKTJ Tegal</li>
+                            <li>Email resmi PPID</li>
+                            <li>Formulir online</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-building text-success me-2"></i>Offline</h5>
+                        <ul>
+                            <li>Datang langsung ke kantor PPID</li>
+                            <li>Mengirim surat ke alamat PPID</li>
+                            <li>Fax ke nomor resmi PPID</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Monitoring dan Evaluasi</h2>
+            <div class="profil-content">
+                <p>PPID melakukan monitoring dan evaluasi terhadap:</p>
+                <ul>
+                    <li>Jumlah keberatan yang diterima</li>
+                    <li>Tingkat penyelesaian keberatan</li>
+                    <li>Waktu penyelesaian rata-rata</li>
+                    <li>Kualitas keputusan keberatan</li>
+                    <li>Feedback dari pemohon</li>
+                    <li>Perbaikan proses berdasarkan evaluasi</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Kontak dan Informasi Tambahan</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-building text-primary me-2"></i>Kantor PPID PKTJ Tegal</h5>
+                    <p>Jl. Raya Curug KM 2<br>
+                    Tangerang, Banten 15810<br>
+                    Indonesia</p>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-phone text-success me-2"></i>Kontak</h5>
+                    <p>Telepon: (021) 3847790<br>
+                    Fax: (021) 3847791<br>
+                    Email: ppid@pktj.dephub.go.id</p>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <a href="permohonan-informasi.html" class="btn btn-warning">
+                    <i class="fas fa-file-alt me-2"></i>Ajukan Permintaan Informasi
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">PPID PKTJ Tegal</h5>
+                    <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
+            <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
+        </div>
+        <div class="col-md-6">
+            <h5 class="mb-3">Kontak</h5>
+            <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
+            <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
+            <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
+        </div>
+    </div>
+    <hr class="my-4 bg-light">
+    <div class="text-center">
+        <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
+        <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

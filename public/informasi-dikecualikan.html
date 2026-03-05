@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informasi Dikecualikan - Portal PPID PKTJ Tegal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #004a99 !important;
+            border-bottom: 3px solid #ffc107;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 12px;
+        }
+
+        @media (min-width: 992px) {
+            .nav-item.dropdown:hover .dropdown-menu {
+                display: block !important;
+                margin-top: 0;
+            }
+        }
+
+        .dropdown-menu {
+            z-index: 1050 !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1a3a52 0%, #2d5f8d 50%, #d4af37 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            color: #004a99;
+            font-size: 32px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #004a99;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .content-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: #004a99;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .profil-content {
+            text-align: justify;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .exception-card {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+            border: 2px solid #ffc107;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 15px 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .exception-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
+        }
+
+        .exception-card i {
+            font-size: 36px;
+            color: #856404;
+            margin-bottom: 15px;
+        }
+
+        .exception-card h5 {
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .criteria-list {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .criteria-list h6 {
+            color: #004a99;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .criteria-list ul li {
+            margin-bottom: 8px;
+            padding-left: 10px;
+            position: relative;
+        }
+
+        .criteria-list ul li::before {
+            content: '🔒';
+            position: absolute;
+            left: 0;
+            color: #dc3545;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #d4af37;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d4af37;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #d4af37;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #d4af37;
+        }
+
+        .important-note {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: 2px solid #dc3545;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .important-note h6 {
+            color: #721c24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background: #1a3a52;
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .btn-warning {
+            background-color: #d4af37;
+            border-color: #d4af37;
+            color: #1a3a52;
+            font-weight: 600;
+        }
+
+        .btn-warning:hover {
+            background-color: #c9a227;
+            border-color: #c9a227;
+            color: #1a3a52;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
+                <img src="images/logo-pktj.png" alt="Logo PKTJ">
+                <span>PPID PKTJ Tegal</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
+                        <ul class="dropdown-menu" style="min-width: 280px;">
+                            <li><a class="dropdown-item" href="profil-ppid.html">Profil PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-tugas-tanggung-jawab.html">Tugas dan Tanggung Jawab PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-visi-misi.html">Visi dan Misi</a></li>
+                            <li><a class="dropdown-item" href="profil-struktur-organisasi.html">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="profil-regulasi.html">Regulasi</a></li>
+                            <li><a class="dropdown-item" href="profil-kontak.html">Kontak</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
+                        <ul class="dropdown-menu" style="min-width: 250px;">
+                            <li><a class="dropdown-item" href="informasi-berkala.html">Informasi Berkala</a></li>
+                            <li><a class="dropdown-item" href="informasi-serta-merta.html">Informasi Serta Merta</a></li>
+                            <li><a class="dropdown-item" href="informasi-setiap-saat.html">Informasi Setiap Saat</a></li>
+                            <li><a class="dropdown-item" href="informasi-dikecualikan.html">Informasi Dikecualikan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
+                        <ul class="dropdown-menu" style="min-width: 320px;">
+                            <li><a class="dropdown-item" href="daftar-informasi-publik.html">Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="maklumat-pelayanan.html">Maklumat Pelayanan & Standar Biaya</a></li>
+                            <li><a class="dropdown-item" href="laporan-layanan-informasi.html">Laporan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-akses-informasi-publik.html">Laporan Akses Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-survey-kepuasan.html">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
+                        <ul class="dropdown-menu" style="min-width: 380px;">
+                            <li><a class="dropdown-item" href="sop-permintaan-informasi.html">SOP Permintaan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penanganan-keberatan.html">SOP Penanganan Keberatan</a></li>
+                            <li><a class="dropdown-item" href="sop-pengajuan-sengketa.html">SOP Pengajuan Sengketa Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penetapan-pemutakhiran.html">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-pengujian-konsekuensi.html">SOP Pengujian Konsekuensi</a></li>
+                            <li><a class="dropdown-item" href="sop-pendokumentasian.html">SOP Pendokumentasian Informasi Publik</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="faq.html">FAQ</a>
+                    </li>
+                </ul>
+
+                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="permohonan-informasi.html">
+                    PERMOHONAN INFORMASI
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="container">
+                <h1 class="display-5 fw-bold mb-3">Informasi Dikecualikan</h1>
+                <p class="lead">Informasi yang dikecualikan dari keterbukaan sesuai ketentuan hukum</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <h1 class="page-title">Informasi Dikecualikan</h1>
+
+        <div class="content-box">
+            <h2 class="section-title">Pengertian Informasi Dikecualikan</h2>
+            <div class="profil-content">
+                <p><strong>Informasi Dikecualikan</strong> adalah informasi yang tidak dapat diakses oleh publik karena alasan-alasan tertentu yang telah ditentukan dalam Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik. Informasi ini dikecualikan untuk melindungi kepentingan yang lebih besar.</p>
+
+                <p>Pengecualian informasi bersifat sementara dan dapat dibuka kembali apabila alasan pengecualian sudah tidak berlaku. PPID wajib melakukan pengujian konsekuensi secara berkala terhadap informasi yang dikecualikan.</p>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Kriteria Pengecualian Informasi</h2>
+            <div class="criteria-list">
+                <h6>Informasi dikecualikan berdasarkan Pasal 17 UU KIP:</h6>
+                <ul>
+                    <li>Informasi yang dapat membahayakan negara</li>
+                    <li>Informasi yang berkaitan dengan rahasia negara</li>
+                    <li>Informasi yang berkaitan dengan keselamatan dan keamanan negara</li>
+                    <li>Informasi yang berkaitan dengan pertahanan dan keamanan negara</li>
+                    <li>Informasi yang berkaitan dengan kepentingan luar negeri</li>
+                    <li>Informasi yang berkaitan dengan keselamatan jiwa</li>
+                    <li>Informasi yang berkaitan dengan privasi individu</li>
+                    <li>Informasi yang berkaitan dengan rahasia dagang</li>
+                    <li>Informasi yang berkaitan dengan hak kekayaan intelektual</li>
+                    <li>Informasi yang berkaitan dengan proses pengambilan keputusan internal</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Jenis-Jenis Informasi Dikecualikan</h2>
+
+            <div class="exception-card">
+                <i class="fas fa-shield-alt"></i>
+                <h5>Informasi yang Dapat Membahayakan Keamanan Negara</h5>
+                <p>Informasi yang berkaitan dengan pertahanan negara, strategi militer, dan operasi keamanan yang dapat membahayakan keselamatan negara jika dibuka ke publik.</p>
+            </div>
+
+            <div class="exception-card">
+                <i class="fas fa-lock"></i>
+                <h5>Informasi Rahasia Negara</h5>
+                <p>Dokumen-dokumen yang diklasifikasikan sebagai rahasia negara sesuai dengan ketentuan peraturan perundang-undangan yang berlaku.</p>
+            </div>
+
+            <div class="exception-card">
+                <i class="fas fa-user-secret"></i>
+                <h5>Informasi yang Berkaitan dengan Privasi</h5>
+                <p>Data pribadi individu, catatan kesehatan, dan informasi personal yang dapat melanggar hak privasi seseorang jika dibuka ke publik.</p>
+            </div>
+
+            <div class="exception-card">
+                <i class="fas fa-balance-scale"></i>
+                <h5>Informasi Dalam Proses Pengambilan Keputusan</h5>
+                <p>Informasi yang masih dalam proses pembahasan internal, draft kebijakan, atau informasi yang dapat mengganggu proses pengambilan keputusan.</p>
+            </div>
+
+            <div class="exception-card">
+                <i class="fas fa-gavel"></i>
+                <h5>Informasi yang Masih Dalam Proses Peradilan</h5>
+                <p>Informasi yang berkaitan dengan perkara yang sedang dalam proses penyidikan, penuntutan, atau pemeriksaan di pengadilan.</p>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Mekanisme Pengujian Konsekuensi</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">1. Penerimaan Permintaan</h6>
+                        <p>PPID menerima permintaan informasi yang dikategorikan sebagai informasi dikecualikan</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">2. Pembentukan Tim Penguji</h6>
+                        <p>PPID membentuk tim penguji yang kompeten untuk melakukan pengujian konsekuensi</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">3. Pengujian Konsekuensi</h6>
+                        <p>Tim melakukan pengujian mendalam terhadap potensi dampak pembukaan informasi</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">4. Pengambilan Keputusan</h6>
+                        <p>Tim mengambil keputusan untuk membuka atau tetap menolak informasi</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">5. Pemberitahuan</h6>
+                        <p>PPID memberitahukan keputusan kepada pemohon dengan alasan yang jelas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="important-note">
+            <h6><i class="fas fa-exclamation-triangle me-2"></i>PENTING</h6>
+            <p>Informasi dikecualikan dapat dibuka kembali jika alasan pengecualian sudah tidak relevan. PPID wajib melakukan pengujian konsekuensi secara berkala terhadap informasi yang dikecualikan untuk menentukan apakah informasi tersebut masih perlu dikecualikan atau sudah dapat dibuka.</p>
+        </important-note>
+
+        <div class="content-box">
+            <h2 class="section-title">Jangka Waktu Pengecualian</h2>
+            <div class="profil-content">
+                <p>Informasi dikecualikan memiliki jangka waktu pengecualian yang berbeda-beda:</p>
+                <ul>
+                    <li><strong>Informasi Rahasia Negara:</strong> Sesuai dengan klasifikasi rahasia (5-20 tahun)</li>
+                    <li><strong>Informasi Privasi:</strong> Selama masih relevan dengan kepentingan yang dilindungi</li>
+                    <li><strong>Informasi Proses Internal:</strong> Hingga proses selesai atau keputusan final</li>
+                    <li><strong>Informasi Peradilan:</strong> Selama proses peradilan masih berlangsung</li>
+                    <li><strong>Informasi Lainnya:</strong> Sesuai dengan ketentuan peraturan perundang-undangan</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Permintaan Informasi Dikecualikan</h2>
+            <div class="profil-content">
+                <p>Untuk mengajukan permintaan terhadap informasi yang dikecualikan:</p>
+
+                <div class="alert alert-info mt-3">
+                    <h6><i class="fas fa-info-circle me-2"></i>Cara Mengajukan Permintaan</h6>
+                    <ol>
+                        <li>Ajukan permintaan informasi melalui formulir resmi</li>
+                        <li>PPID akan melakukan pengujian konsekuensi</li>
+                        <li>Tunggu keputusan PPID dalam jangka waktu maksimal 30 hari</li>
+                        <li>Jika ditolak, pemohon dapat mengajukan keberatan</li>
+                        <li>Jika keberatan ditolak, dapat mengajukan sengketa ke Komisi Informasi</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Hak dan Kewajiban</h2>
+            <div class="row">
+                <div class="col-lg-6">
+                    <h5 class="text-primary"><i class="fas fa-user-check me-2"></i>Hak Pemohon</h5>
+                    <ul class="mt-3">
+                        <li>Mendapatkan penjelasan yang jelas tentang alasan penolakan</li>
+                        <li>Mengajukan keberatan atas keputusan PPID</li>
+                        <li>Mengajukan sengketa ke Komisi Informasi jika keberatan ditolak</li>
+                        <li>Mendapatkan informasi jika pengujian konsekuensi menyatakan dapat dibuka</li>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <h5 class="text-danger"><i class="fas fa-building me-2"></i>Kewajiban PPID</h5>
+                    <ul class="mt-3">
+                        <li>Memberikan alasan yang jelas dan dapat dipertanggungjawabkan</li>
+                        <li>Melakukan pengujian konsekuensi secara obyektif</li>
+                        <li>Mendokumentasikan seluruh proses pengujian</li>
+                        <li>Membuka informasi jika alasan pengecualian sudah tidak relevan</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Kontak dan Bantuan</h2>
+            <div class="profil-content">
+                <p>Jika Anda membutuhkan informasi lebih lanjut tentang informasi dikecualikan atau ingin mengajukan permintaan:</p>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <div class="alert alert-primary">
+                            <h6><i class="fas fa-phone me-2"></i>Hotline PPID</h6>
+                            <p class="mb-1">Telepon: (021) 3847790</p>
+                            <p class="mb-1">WhatsApp: +62 812-3456-7890</p>
+                            <p class="mb-0">Email: ppid@pktj.dephub.go.id</p>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="alert alert-success">
+                            <h6><i class="fas fa-file-alt me-2"></i>Formulir Permintaan</h6>
+                            <p class="mb-1">Ajukan permintaan informasi melalui:</p>
+                            <p class="mb-1">Website PPID PKTJ Tegal</p>
+                            <p class="mb-0">Datang langsung ke kantor PPID</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">PPID PKTJ Tegal</h5>
+                    <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
+                    <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
+        </div>
+        <div class="col-md-6">
+            <h5 class="mb-3">Kontak</h5>
+            <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
+            <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
+            <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
+        </div>
+    </div>
+    <hr class="my-4 bg-light">
+    <div class="text-center">
+        <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
+        <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

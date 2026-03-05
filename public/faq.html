@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Pertanyaan Umum PPID PKTJ Tegal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #004a99 !important;
+            border-bottom: 3px solid #ffc107;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 12px;
+        }
+
+        @media (min-width: 992px) {
+            .nav-item.dropdown:hover .dropdown-menu {
+                display: block !important;
+                margin-top: 0;
+            }
+        }
+
+        .dropdown-menu {
+            z-index: 1050 !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1a3a52 0%, #2d5f8d 50%, #d4af37 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            color: #004a99;
+            font-size: 32px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #004a99;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .content-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: #004a99;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .profil-content {
+            text-align: justify;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .faq-item {
+            margin-bottom: 15px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .faq-question {
+            background: linear-gradient(135deg, #004a99 0%, #0066cc 100%);
+            color: white;
+            padding: 20px;
+            margin: 0;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .faq-question:hover {
+            background: linear-gradient(135deg, #003d82 0%, #0056b3 100%);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 24px;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            background: white;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 20px;
+            max-height: 500px;
+        }
+
+        .faq-answer p {
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .faq-answer ul, .faq-answer ol {
+            margin-bottom: 15px;
+            padding-left: 20px;
+        }
+
+        .faq-answer li {
+            margin-bottom: 8px;
+        }
+
+        .faq-category {
+            background: linear-gradient(135deg, #d4af37 0%, #c99a2b 100%);
+            color: #1a3a52;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .search-box {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 2px solid #d4af37;
+        }
+
+        .search-box h6 {
+            color: #004a99;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 15px;
+            border: 2px solid #e9ecef;
+            border-radius: 25px;
+            font-size: 14px;
+        }
+
+        .search-input:focus {
+            border-color: #d4af37;
+            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+        }
+
+        .contact-help {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .contact-help h5 {
+            color: #004a99;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .footer {
+            background: #1a3a52;
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .btn-warning {
+            background-color: #d4af37;
+            border-color: #d4af37;
+            color: #1a3a52;
+            font-weight: 600;
+        }
+
+        .btn-warning:hover {
+            background-color: #c9a227;
+            border-color: #c9a227;
+            color: #1a3a52;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
+                <img src="images/logo-pktj.png" alt="Logo PKTJ">
+                <span>PPID PKTJ Tegal</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
+                        <ul class="dropdown-menu" style="min-width: 280px;">
+                            <li><a class="dropdown-item" href="profil-ppid.html">Profil PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-tugas-tanggung-jawab.html">Tugas dan Tanggung Jawab PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-visi-misi.html">Visi dan Misi</a></li>
+                            <li><a class="dropdown-item" href="profil-struktur-organisasi.html">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="profil-regulasi.html">Regulasi</a></li>
+                            <li><a class="dropdown-item" href="profil-kontak.html">Kontak</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
+                        <ul class="dropdown-menu" style="min-width: 250px;">
+                            <li><a class="dropdown-item" href="informasi-berkala.html">Informasi Berkala</a></li>
+                            <li><a class="dropdown-item" href="informasi-serta-merta.html">Informasi Serta Merta</a></li>
+                            <li><a class="dropdown-item" href="informasi-setiap-saat.html">Informasi Setiap Saat</a></li>
+                            <li><a class="dropdown-item" href="informasi-dikecualikan.html">Informasi Dikecualikan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
+                        <ul class="dropdown-menu" style="min-width: 320px;">
+                            <li><a class="dropdown-item" href="daftar-informasi-publik.html">Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="maklumat-pelayanan.html">Maklumat Pelayanan & Standar Biaya</a></li>
+                            <li><a class="dropdown-item" href="laporan-layanan-informasi.html">Laporan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-akses-informasi-publik.html">Laporan Akses Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-survey-kepuasan.html">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
+                        <ul class="dropdown-menu" style="min-width: 380px;">
+                            <li><a class="dropdown-item" href="sop-permintaan-informasi.html">SOP Permintaan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penanganan-keberatan.html">SOP Penanganan Keberatan</a></li>
+                            <li><a class="dropdown-item" href="sop-pengajuan-sengketa.html">SOP Pengajuan Sengketa Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penetapan-pemutakhiran.html">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-pengujian-konsekuensi.html">SOP Pengujian Konsekuensi</a></li>
+                            <li><a class="dropdown-item" href="sop-pendokumentasian.html">SOP Pendokumentasian Informasi Publik</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="faq.html">FAQ</a>
+                    </li>
+                </ul>
+
+                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="permohonan-informasi.html">
+                    PERMOHONAN INFORMASI
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="container">
+                <h1 class="display-5 fw-bold mb-3">Pertanyaan Umum (FAQ)</h1>
+                <p class="lead">Jawaban atas pertanyaan yang sering diajukan tentang PPID dan layanan informasi publik</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <h1 class="page-title">FAQ - Pertanyaan Umum</h1>
+
+        <div class="search-box">
+            <h6><i class="fas fa-search me-2"></i>Cari Pertanyaan</h6>
+            <input type="text" class="search-input" placeholder="Ketik kata kunci pertanyaan yang ingin dicari..." id="faqSearch">
+        </div>
+
+        <div class="content-box">
+            <div class="faq-category">
+                <i class="fas fa-question-circle me-2"></i>Tentang PPID
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Apa itu PPID?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>PPID adalah singkatan dari Pejabat Pengelola Informasi dan Dokumentasi. PPID adalah pejabat yang bertugas mengelola dan menyediakan informasi publik di lingkungan badan publik sesuai dengan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Apa tugas utama PPID?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Tugas utama PPID meliputi:</p>
+                    <ul>
+                        <li>Mengelola dan menyediakan informasi publik</li>
+                        <li>Melayani permintaan informasi dari masyarakat</li>
+                        <li>Mengkoordinasikan pengumpulan dan pendokumentasian informasi</li>
+                        <li>Melakukan pengujian konsekuensi informasi yang dikecualikan</li>
+                        <li>Menyusun dan memutakhirkan daftar informasi publik</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Siapa saja yang dapat mengajukan permintaan informasi?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Setiap orang, baik Warga Negara Indonesia maupun Warga Negara Asing, dapat mengajukan permintaan informasi publik kepada PPID tanpa perlu alasan apapun. Permintaan informasi merupakan hak asasi setiap orang sesuai dengan konstitusi dan peraturan perundang-undangan.</p>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <i class="fas fa-file-alt me-2"></i>Permintaan Informasi
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Bagaimana cara mengajukan permintaan informasi?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Ada beberapa cara untuk mengajukan permintaan informasi:</p>
+                    <ol>
+                        <li><strong>Online:</strong> Melalui website PPID dengan mengisi formulir permintaan</li>
+                        <li><strong>Datang langsung:</strong> Ke kantor PPID dengan membawa identitas diri</li>
+                        <li><strong>Via pos:</strong> Mengirim surat permohonan ke alamat PPID</li>
+                        <li><strong>Email/WhatsApp:</strong> Menggunakan kanal komunikasi resmi PPID</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Berapa lama waktu penyelesaian permintaan informasi?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Waktu penyelesaian permintaan informasi:</p>
+                    <ul>
+                        <li><strong>Maksimal 3 hari kerja</strong> untuk informasi yang tersedia langsung</li>
+                        <li><strong>Maksimal 10 hari kerja</strong> untuk informasi yang perlu penyiapan</li>
+                        <li>Dapat diperpanjang maksimal 7 hari kerja dengan pemberitahuan tertulis</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Apakah pengajuan permintaan informasi dikenakan biaya?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Pengajuan permintaan informasi tidak dikenakan biaya. Biaya hanya dikenakan untuk:</p>
+                    <ul>
+                        <li>Penggandaan dokumen (Rp 500/lembar)</li>
+                        <li>Scan dokumen (Rp 1.000/lembar)</li>
+                        <li>Media penyimpanan (Rp 10.000/CD/DVD)</li>
+                        <li>Pengiriman dokumen sesuai ongkos kirim</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <i class="fas fa-gavel me-2"></i>Keberatan dan Sengketa
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Apa yang harus dilakukan jika permintaan informasi ditolak?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Jika permintaan informasi ditolak, Anda dapat:</p>
+                    <ol>
+                        <li>Mengajukan keberatan ke PPID dalam waktu 30 hari</li>
+                        <li>Keberatan akan diproses maksimal 30 hari kerja</li>
+                        <li>Jika keberatan ditolak, dapat mengajukan sengketa ke Komisi Informasi</li>
+                        <li>Sengketa diproses maksimal 60 hari kerja</li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Apa saja alasan penolakan permintaan informasi?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Alasan penolakan permintaan informasi meliputi:</p>
+                    <ul>
+                        <li>Informasi yang diminta tidak ada atau tidak dikuasai</li>
+                        <li>Informasi yang dikecualikan sesuai UU KIP</li>
+                        <li>Permintaan tidak spesifik atau tidak jelas</li>
+                        <li>Pemohon tidak melengkapi persyaratan</li>
+                        <li>Informasi masih dalam proses pengolahan</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <i class="fas fa-shield-alt me-2"></i>Informasi Dikecualikan
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Apa itu informasi dikecualikan?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Informasi dikecualikan adalah informasi yang tidak dapat diakses publik karena alasan tertentu yang telah ditentukan dalam Undang-Undang Keterbukaan Informasi Publik. Pengecualian bersifat sementara dan dapat dibuka kembali jika alasan pengecualian sudah tidak relevan.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Kategori informasi apa saja yang dikecualikan?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Kategori informasi dikecualikan meliputi:</p>
+                    <ul>
+                        <li>Informasi yang dapat membahayakan negara</li>
+                        <li>Rahasia negara dan pertahanan keamanan</li>
+                        <li>Privasi individu dan data pribadi</li>
+                        <li>Rahasia dagang dan kekayaan intelektual</li>
+                        <li>Informasi dalam proses pengambilan keputusan</li>
+                        <li>Informasi yang masih dalam proses peradilan</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-category">
+                <i class="fas fa-clock me-2"></i>Jadwal dan Waktu Kerja
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Kapan jam kerja PPID?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>Jam kerja PPID PKTJ Tegal:</p>
+                    <ul>
+                        <li><strong>Senin - Kamis:</strong> 08:00 - 16:00 WIB</li>
+                        <li><strong>Jumat:</strong> 08:00 - 16:30 WIB</li>
+                        <li><strong>Sabtu - Minggu:</strong> Libur</li>
+                        <li><strong>Hotline darurat:</strong> 24 jam</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Apakah PPID melayani di luar jam kerja?
+                    <span></span>
+                </div>
+                <div class="faq-answer">
+                    <p>PPID menyediakan layanan hotline darurat 24 jam untuk:</p>
+                    <ul>
+                        <li>Informasi darurat dan bencana</li>
+                        <li>Kejadian yang membahayakan keselamatan</li>
+                        <li>Kasus-kasus mendesak lainnya</li>
+                        <li>Pengaduan pelayanan yang tidak normal</li>
+                    </ul>
+                    <p>Pelayanan administrasi tetap mengikuti jam kerja resmi.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="contact-help">
+            <h5><i class="fas fa-headset me-2"></i>Tidak Menemukan Jawaban?</h5>
+            <p>Jika pertanyaan Anda tidak terjawab dalam FAQ ini, silakan hubungi PPID langsung:</p>
+            <div class="mt-3">
+                <a href="permohonan-informasi.html" class="btn btn-warning me-3">
+                    <i class="fas fa-file-alt me-2"></i>Ajukan Pertanyaan
+                </a>
+                <a href="profil-kontak.html" class="btn btn-outline-primary">
+                    <i class="fas fa-phone me-2"></i>Hubungi PPID
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">PPID PKTJ Tegal</h5>
+                    <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
+                    <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
+        </div>
+        <div class="col-md-6">
+            <h5 class="mb-3">Kontak</h5>
+            <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
+            <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
+            <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
+        </div>
+    </div>
+    <hr class="my-4 bg-light">
+    <div class="text-center">
+        <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
+        <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+// FAQ Accordion functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        question.addEventListener('click', () => {
+            item.classList.toggle('active');
+        });
+    });
+});
+
+// FAQ Search functionality
+document.getElementById('faqSearch').addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const faqItems = document.querySelectorAll('.faq-item');
+
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question').textContent.toLowerCase();
+        const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
+
+        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
+            item.style.display = 'block';
+        } else {
+            item.style.display = 'none';
+        }
+    });
+});
+</script>
+</body>
+</html>

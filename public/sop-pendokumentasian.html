@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SOP Pendokumentasian - Portal PPID PKTJ Tegal</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        .navbar {
+            background-color: #004a99 !important;
+            border-bottom: 3px solid #ffc107;
+        }
+
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 12px;
+        }
+
+        @media (min-width: 992px) {
+            .nav-item.dropdown:hover .dropdown-menu {
+                display: block !important;
+                margin-top: 0;
+            }
+        }
+
+        .dropdown-menu {
+            z-index: 1050 !important;
+        }
+
+        .hero-section {
+            background: linear-gradient(135deg, #1a3a52 0%, #2d5f8d 50%, #d4af37 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+            opacity: 0.1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .page-title {
+            color: #004a99;
+            font-size: 32px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #004a99;
+            display: inline-block;
+            padding-bottom: 10px;
+        }
+
+        .content-box {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .section-title {
+            color: #004a99;
+            font-size: 28px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .profil-content {
+            text-align: justify;
+            line-height: 1.8;
+            color: #333;
+        }
+
+        .step-card {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border: 2px solid #d4af37;
+            border-radius: 10px;
+            padding: 25px;
+            margin: 15px 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background: #d4af37;
+            color: #1a3a52;
+            font-weight: bold;
+            font-size: 18px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid white;
+        }
+
+        .step-card i {
+            font-size: 36px;
+            color: #d4af37;
+            margin-bottom: 15px;
+        }
+
+        .step-card h5 {
+            color: #004a99;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .timeline {
+            position: relative;
+            padding-left: 30px;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #d4af37;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin-bottom: 30px;
+            padding-left: 40px;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -23px;
+            top: 8px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #d4af37;
+            border: 3px solid white;
+            box-shadow: 0 0 0 2px #d4af37;
+        }
+
+        .timeline-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #d4af37;
+        }
+
+        .document-types {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .document-types h6 {
+            color: #856404;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .important-note {
+            background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+            border: 2px solid #dc3545;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+
+        .important-note h6 {
+            color: #721c24;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background: #1a3a52;
+            color: white;
+            padding: 40px 0;
+            margin-top: 60px;
+        }
+
+        .btn-warning {
+            background-color: #d4af37;
+            border-color: #d4af37;
+            color: #1a3a52;
+            font-weight: 600;
+        }
+
+        .btn-warning:hover {
+            background-color: #c9a227;
+            border-color: #c9a227;
+            color: #1a3a52;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
+                <img src="images/logo-pktj.png" alt="Logo PKTJ">
+                <span>PPID PKTJ Tegal</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
+                        <ul class="dropdown-menu" style="min-width: 280px;">
+                            <li><a class="dropdown-item" href="profil-ppid.html">Profil PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-tugas-tanggung-jawab.html">Tugas dan Tanggung Jawab PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-visi-misi.html">Visi dan Misi</a></li>
+                            <li><a class="dropdown-item" href="profil-struktur-organisasi.html">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="profil-regulasi.html">Regulasi</a></li>
+                            <li><a class="dropdown-item" href="profil-kontak.html">Kontak</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
+                        <ul class="dropdown-menu" style="min-width: 250px;">
+                            <li><a class="dropdown-item" href="informasi-berkala.html">Informasi Berkala</a></li>
+                            <li><a class="dropdown-item" href="informasi-serta-merta.html">Informasi Serta Merta</a></li>
+                            <li><a class="dropdown-item" href="informasi-setiap-saat.html">Informasi Setiap Saat</a></li>
+                            <li><a class="dropdown-item" href="informasi-dikecualikan.html">Informasi Dikecualikan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
+                        <ul class="dropdown-menu" style="min-width: 320px;">
+                            <li><a class="dropdown-item" href="daftar-informasi-publik.html">Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="maklumat-pelayanan.html">Maklumat Pelayanan & Standar Biaya</a></li>
+                            <li><a class="dropdown-item" href="laporan-layanan-informasi.html">Laporan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-akses-informasi-publik.html">Laporan Akses Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-survey-kepuasan.html">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
+                        <ul class="dropdown-menu" style="min-width: 380px;">
+                            <li><a class="dropdown-item" href="sop-permintaan-informasi.html">SOP Permintaan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penanganan-keberatan.html">SOP Penanganan Keberatan</a></li>
+                            <li><a class="dropdown-item" href="sop-pengajuan-sengketa.html">SOP Pengajuan Sengketa Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penetapan-pemutakhiran.html">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-pengujian-konsekuensi.html">SOP Pengujian Konsekuensi</a></li>
+                            <li><a class="dropdown-item" href="sop-pendokumentasian.html">SOP Pendokumentasian Informasi Publik</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="faq.html">FAQ</a>
+                    </li>
+                </ul>
+
+                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="permohonan-informasi.html">
+                    PERMOHONAN INFORMASI
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="container">
+                <h1 class="display-5 fw-bold mb-3">SOP Pendokumentasian</h1>
+                <p class="lead">Standar Operasional Prosedur Pendokumentasian Informasi Publik</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <h1 class="page-title">SOP Pendokumentasian Informasi Publik</h1>
+
+        <div class="content-box">
+            <h2 class="section-title">Dasar Hukum</h2>
+            <div class="profil-content">
+                <p>Standar Operasional Prosedur (SOP) Pendokumentasian Informasi Publik PPID PKTJ Tegal disusun berdasarkan:</p>
+                <ul>
+                    <li>Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik</li>
+                    <li>Peraturan Pemerintah Nomor 61 Tahun 2010 tentang Pelaksanaan Undang-Undang Nomor 14 Tahun 2008</li>
+                    <li>Peraturan Komisi Informasi Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik</li>
+                    <li>Undang-Undang Nomor 43 Tahun 2009 tentang Kearsipan</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Pengertian Pendokumentasian</h2>
+            <div class="profil-content">
+                <p>Pendokumentasian adalah proses pengumpulan, pengolahan, penyimpanan, dan pengelolaan informasi publik secara sistematis dan terstruktur untuk memudahkan akses, pencarian, dan pemanfaatan informasi oleh publik. Pendokumentasian dilakukan untuk menjaga keakuratan, keutuhan, dan ketersediaan informasi publik.</p>
+            </div>
+        </div>
+
+        <div class="document-types">
+            <h6><i class="fas fa-file-archive me-2"></i>Jenis Dokumen Yang Didokumentasikan</h6>
+            <ul>
+                <li>Dokumen permintaan informasi publik</li>
+                <li>Dokumen jawaban dan penyampaian informasi</li>
+                <li>Dokumen keberatan dan penanganannya</li>
+                <li>Dokumen sengketa informasi publik</li>
+                <li>Dokumen pengujian konsekuensi</li>
+                <li>Dokumen laporan dan evaluasi</li>
+                <li>Dokumen regulasi dan kebijakan</li>
+                <li>Dokumen statistik dan data publik</li>
+            </ul>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Alur Proses Pendokumentasian</h2>
+
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <i class="fas fa-inbox"></i>
+                <h5>Penerimaan Dokumen</h5>
+                <p>PPID menerima dokumen dari berbagai sumber (pemohon, unit kerja, hasil pengolahan) dan melakukan verifikasi kelengkapan.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <i class="fas fa-tags"></i>
+                <h5>Klasifikasi Dokumen</h5>
+                <p>Dokumen diklasifikasikan berdasarkan kategori, jenis informasi, tingkat kerahasiaan, dan kode klasifikasi yang berlaku.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <i class="fas fa-file-signature"></i>
+                <h5>Indeksing Dokumen</h5>
+                <p>Dokumen diberi indeks dengan metadata lengkap untuk memudahkan pencarian dan pengelolaan.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">4</div>
+                <i class="fas fa-database"></i>
+                <h5>Penyimpanan Dokumen</h5>
+                <p>Dokumen disimpan dalam sistem penyimpanan yang aman, terorganisir, dan mudah diakses.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">5</div>
+                <i class="fas fa-search"></i>
+                <h5>Pengelolaan Akses</h5>
+                <p>Mengelola hak akses dokumen sesuai dengan ketentuan perundang-undangan dan kebijakan internal.</p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">6</div>
+                <i class="fas fa-archive"></i>
+                <h5>Pemeliharaan Dokumen</h5>
+                <p>Melakukan pemeliharaan, backup, dan pemusnahan dokumen sesuai jadwal dan ketentuan yang berlaku.</p>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Sistem Klasifikasi Dokumen</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">Berdasarkan Jenis Informasi</h6>
+                        <p>Dokumen diklasifikasikan berdasarkan kategori informasi publik: berkala, serta merta, setiap saat, atau dikecualikan.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">Berdasarkan Tahapan Proses</h6>
+                        <p>Dokumen diklasifikasikan berdasarkan tahapan proses: permintaan, penanganan, keberatan, sengketa, atau penyelesaian.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">Berdasarkan Tingkat Kerahasiaan</h6>
+                        <p>Dokumen diklasifikasikan berdasarkan tingkat kerahasiaan: publik, internal, rahasia, atau sangat rahasia.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h6 class="text-primary">Berdasarkan Format</h6>
+                        <p>Dokumen diklasifikasikan berdasarkan format: fisik (kertas), digital, audio, video, atau multimedia.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Metadata Dokumen</h2>
+            <div class="profil-content">
+                <p>Setiap dokumen harus memiliki metadata lengkap:</p>
+                <ul>
+                    <li><strong>Identitas Dokumen:</strong> Nomor registrasi, judul, tanggal pembuatan</li>
+                    <li><strong>Klasifikasi:</strong> Kategori, jenis, tingkat kerahasiaan</li>
+                    <li><strong>Informasi Pembuat:</strong> Nama pembuat, jabatan, unit kerja</li>
+                    <li><strong>Informasi Teknis:</strong> Format, ukuran, jumlah halaman</li>
+                    <li><strong>Kata Kunci:</strong> Keywords untuk pencarian</li>
+                    <li><strong>Status:</strong> Aktif, inaktif, arsip, atau dimusnahkan</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Sistem Penyimpanan</h2>
+            <div class="profil-content">
+                <p>PPID PKTJ Tegal menggunakan sistem penyimpanan:</p>
+
+                <div class="row mt-4">
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-folder text-primary me-2"></i>Penyimpanan Fisik</h5>
+                        <ul>
+                            <li>Lemari arsip dengan klasifikasi</li>
+                            <li>Ruangan arsip yang aman</li>
+                            <li>Labeling yang jelas</li>
+                            <li>Kontrol akses terbatas</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <h5><i class="fas fa-server text-success me-2"></i>Penyimpanan Digital</h5>
+                        <ul>
+                            <li>Database terstruktur</li>
+                            <li>Cloud storage terenkripsi</li>
+                            <li>Backup otomatis harian</li>
+                            <li>Version control dokumen</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="important-note">
+            <h6><i class="fas fa-exclamation-triangle me-2"></i>PENTING</h6>
+            <p>Pendokumentasian dilakukan secara sistematis dan berkelanjutan untuk menjaga keakuratan, keutuhan, dan ketersediaan informasi publik. Semua dokumen harus dapat dilacak jejaknya (audit trail) dan terlindungi dari perubahan yang tidak sah.</p>
+        </important-note>
+
+        <div class="content-box">
+            <h2 class="section-title">Jangka Waktu Penyimpanan</h2>
+            <div class="profil-content">
+                <p>Dokumen disimpan berdasarkan jangka waktu:</p>
+                <ul>
+                    <li><strong>Dokumen aktif:</strong> 5 tahun untuk dokumen yang masih digunakan</li>
+                    <li><strong>Dokumen inaktif:</strong> 10 tahun untuk dokumen yang jarang digunakan</li>
+                    <li><strong>Dokumen arsip:</strong> 20 tahun untuk dokumen penting</li>
+                    <li><strong>Dokumen vital:</strong> Selamanya untuk dokumen yang sangat penting</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Keamanan Dokumen</h2>
+            <div class="profil-content">
+                <p>Keamanan dokumen dijamin melalui:</p>
+                <ul>
+                    <li>Kontrol akses berbasis peran dan tanggung jawab</li>
+                    <li>Enkripsi data untuk dokumen digital</li>
+                    <li>Monitoring akses dan perubahan dokumen</li>
+                    <li>Backup dan disaster recovery plan</li>
+                    <li>Proteksi terhadap malware dan cyber attack</li>
+                    <li>Audit keamanan secara berkala</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Pencarian dan Akses Dokumen</h2>
+            <div class="profil-content">
+                <p>Sistem pencarian dokumen:</p>
+                <ul>
+                    <li>Pencarian berdasarkan kata kunci</li>
+                    <li>Filter berdasarkan kategori dan tanggal</li>
+                    <li>Full-text search untuk dokumen digital</li>
+                    <li>Advanced search dengan kombinasi kriteria</li>
+                    <li>Tracking log akses untuk audit</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Pemusnahan Dokumen</h2>
+            <div class="profil-content">
+                <p>Pemusnahan dokumen dilakukan sesuai prosedur:</p>
+                <ul>
+                    <li>Evaluasi dokumen yang sudah melewati masa simpan</li>
+                    <li>Persetujuan dari pejabat berwenang</li>
+                    <li>Pemusnahan fisik untuk dokumen kertas</li>
+                    <li>Hapus permanen untuk dokumen digital</li>
+                    <li>Dokumentasi proses pemusnahan</li>
+                    <li>Laporan pemusnahan kepada atasan</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Evaluasi dan Perbaikan</h2>
+            <div class="profil-content">
+                <p>PPID melakukan evaluasi sistem pendokumentasian:</p>
+                <ul>
+                    <li>Audit pendokumentasian minimal 1 tahun sekali</li>
+                    <li>Evaluasi efektivitas sistem pencarian</li>
+                    <li>Monitoring kualitas metadata dokumen</li>
+                    <li>Perbaikan berdasarkan feedback pengguna</li>
+                    <li>Pelatihan petugas pendokumentasian</li>
+                    <li>Upgrade sistem teknologi jika diperlukan</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="content-box">
+            <h2 class="section-title">Kontak dan Informasi Tambahan</h2>
+            <div class="row">
+                <div class="col-md-6">
+                    <h5><i class="fas fa-building text-primary me-2"></i>Kantor PPID PKTJ Tegal</h5>
+                    <p>Jl. Raya Curug KM 2<br>
+                    Tangerang, Banten 15810<br>
+                    Indonesia</p>
+                </div>
+                <div class="col-md-6">
+                    <h5><i class="fas fa-phone text-success me-2"></i>Kontak</h5>
+                    <p>Telepon: (021) 3847790<br>
+                    Fax: (021) 3847791<br>
+                    Email: ppid@pktj.dephub.go.id</p>
+                </div>
+            </div>
+
+            <div class="mt-3">
+                <a href="permohonan-informasi.html" class="btn btn-warning">
+                    <i class="fas fa-file-alt me-2"></i>Ajukan Permintaan Informasi
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">PPID PKTJ Tegal</h5>
+                <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
+            <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
+        </div>
+        <div class="col-md-6">
+            <h5 class="mb-3">Kontak</h5>
+            <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
+            <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
+            <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
+        </div>
+    </div>
+    <hr class="my-4 bg-light">
+    <div class="text-center">
+        <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
+        <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -116,8 +116,8 @@
         
         @if($profil)
             <div class="content-box">
-                @if($profil->konten)
-                    {!! $profil->konten !!}
+                @if($profil->konten_pembuka)
+                    {!! $profil->konten_pembuka !!}
                 @else
                     <ol class="task-list">
                         <li>Melakukan pengelolaan informasi publik;</li>
@@ -263,10 +263,10 @@
             </table>
         </div>
 
-        @if($profil && $profil->konten)
+        @if($profil && $profil->konten_detail)
             <div class="content-box mt-4">
-                <h3 class="mb-3">{{ $profil->judul ?? 'Detail Informasi Tambahan' }}</h3>
-                {!! $profil->konten !!}
+                <h3 class="mb-3">{{ $profil->judul_sub ?? 'Detail Informasi Tambahan' }}</h3>
+                {!! $profil->konten_detail !!}
             </div>
         @endif
     </div>
