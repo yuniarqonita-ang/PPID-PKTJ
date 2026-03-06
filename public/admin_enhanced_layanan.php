@@ -73,6 +73,19 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-12 mt-3">
+                        <div class="card h-100 border-warning">
+                            <div class="card-body text-center">
+                                <i class="fas fa-external-link-alt fa-2x text-warning mb-3"></i>
+                                <h6>JDIH Kementerian Perhubungan</h6>
+                                <p class="text-muted small">Jaringan Dokumentasi dan Informasi Hukum Kementerian Perhubungan</p>
+                                <a href="https://jdih.dephub.go.id/" target="_blank" class="btn btn-warning btn-sm">
+                                    <i class="fas fa-external-link-alt me-1"></i>Buka JDIH
+                                </a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
