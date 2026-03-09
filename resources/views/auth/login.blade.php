@@ -281,7 +281,7 @@
             <!-- Logo Section -->
             <div class="logo-section">
                 <div class="logo-container">
-                    <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ">
+                    <img src="{{ URL::asset('images/logo-pktj.png') }}" alt="Logo PKTJ" style="width: 80px; height: auto;">
                     <div class="logo-title">PPID PKTJ</div>
                     <div class="logo-subtitle">Sistem Informasi</div>
                 </div>

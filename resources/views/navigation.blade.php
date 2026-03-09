@@ -57,17 +57,6 @@
                     </ul>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LPSE</a>
-                    <ul class="dropdown-menu" style="min-width: 350px;">
-                        <li><a class="dropdown-item" href="#">Pengadaan Barang dan Jasa</a></li>
-                        <li><a class="dropdown-item" href="#">Informasi Pengadaan Barang dan Jasa</a></li>
-                        <li><a class="dropdown-item" href="#">Dokumen Pengadaan Barang dan Jasa</a></li>
-                        <li><a class="dropdown-item" href="#">Informasi Penyedia</a></li>
-                        <li><a class="dropdown-item" href="#">Permohonan Informasi</a></li>
-                    </ul>
-                </li>
-
                 <li class="nav-item">
                     <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('faq.public') }}">FAQ</a>
                 </li>

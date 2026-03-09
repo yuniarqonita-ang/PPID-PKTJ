@@ -8,6 +8,8 @@ use App\Http\Controllers\ProsedurController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\InformasiPublikController;
 use App\Http\Controllers\InformasiBerkalaController;
+use App\Http\Controllers\AgendaController;
+use App\Models\Visitor;
 use App\Http\Controllers\ProfilPublikController;
 use App\Http\Controllers\ProfilPpidController;
 use App\Http\Controllers\PermohonanController;
@@ -17,8 +19,20 @@ use App\Http\Controllers\Auth\LoginController;
 // 1. FRONT OFFICE
 // ==========================================
 Route::get('/', function () { 
-    return view('welcome', ['dokumen' => [], 'artikel' => []]); 
+    try {
+        // Ambil data dari database
+        $dokumen = \App\Models\Dokumen::where('aktif', true)->take(6)->get();
+        $artikel = \App\Models\Berita::where('aktif', true)->take(3)->get();
+        
+        return view('welcome', compact('dokumen', 'artikel')); 
+    } catch (\Exception $e) {
+        // Jika error, tampilkan pesan error
+        return response()->view('errors.500', [], 500);
+    }
 })->name('home');
+
+// Track visitor
+Visitor::create(['ip' => request()->ip(), 'tanggal' => now()]);
 
 // Profil Publik
 Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');
@@ -72,6 +86,7 @@ Route::get('/layanan-informasi/laporan-survey', function () { return view('lapor
 
 // Prosedur (Public)
 Route::get('/prosedur/sop-permintaan-informasi', function () {
+    // Menggunakan view 'sop-permintaan' sesuai lokasi file Anda saat ini
     return view('sop-permintaan');
 })->name('prosedur.sop-permintaan');
 
@@ -131,6 +146,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/{type}', [ProfilPpidController::class, 'destroy'])->name('destroy');
     });
 
+    // Agenda CRUD
+    Route::resource('agenda', AgendaController::class)->names('admin.agenda');
+
     // Informasi Berkala CRUD
     Route::name('admin.informasi.berkala.')->prefix('informasi-berkala')->group(function () {
         Route::get('/', [InformasiBerkalaController::class, 'index'])->name('index');
@@ -169,10 +187,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/dikecualikan', function() { return view('admin.informasi.dikecualikan'); })->name('dikecualikan');
         
         // Create routes for upload forms
-        Route::get('/berkala/create', function() { return view('admin.informasi.berkala-create'); })->name('berkala.create');
-        Route::get('/serta-merta/create', function() { return view('admin.informasi.sertamerta-create'); })->name('sertamerta.create');
-        Route::get('/setiap-saat/create', function() { return view('admin.informasi.setiapsaat-create'); })->name('setiapsaat.create');
-        Route::get('/dikecualikan/create', function() { return view('admin.informasi.dikecualikan-create'); })->name('dikecualikan.create');
+        Route::get('/berkala/create', function() { return view('admin.informasi.berkala-create'); })->name('admin.informasi.berkala.create');
+        Route::get('/serta-merta/create', function() { return view('admin.informasi.sertamerta-create'); })->name('admin.informasi.sertamerta.create');
+        Route::get('/setiap-saat/create', function() { return view('admin.informasi.setiapsaat-create'); })->name('admin.informasi.setiapsaat.create');
+        Route::get('/dikecualikan/create', function() { return view('admin.informasi.dikecualikan-create'); })->name('admin.informasi.dikecualikan.create');
     });
 
     // Resource CRUD
@@ -228,7 +246,6 @@ Route::name('informasi.')->prefix('informasi')->group(function () {
 
 // Prosedur Routes
 Route::name('prosedur.')->prefix('prosedur')->group(function () {
-    Route::get('/sop-permintaan', [InformasiPublikController::class, 'prosedur'])->name('permintaan');
     Route::get('/sop-keberatan', [InformasiPublikController::class, 'prosedur'])->name('keberatan');
     Route::get('/sop-sengketa', [InformasiPublikController::class, 'prosedur'])->name('sengketa');
     Route::get('/sop-penetapan', [InformasiPublikController::class, 'prosedur'])->name('penetapan');
