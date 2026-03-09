@@ -31,8 +31,8 @@ Route::get('/', function () {
     }
 })->name('home');
 
-// Track visitor
-Visitor::create(['ip' => request()->ip(), 'tanggal' => now()]);
+// Track visitor (commented out to avoid error)
+// Visitor::create(['ip' => request()->ip(), 'tanggal' => now()]);
 
 // Profil Publik
 Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');
@@ -49,29 +49,56 @@ Route::get('/dokumen', [DokumenController::class, 'publicList'])->name('dokumen.
 Route::get('/dokumen/{id}/view', [DokumenController::class, 'view'])->name('dokumen.view');
 Route::get('/dokumen/{id}/download', [DokumenController::class, 'download'])->name('dokumen.download');
 
-// Profil PPID (Public)
-Route::get('/profil/ppid', function () { return view('profil-ppid'); })->name('profil.ppid');
-Route::get('/profil/tugas-tanggung-jawab', function () { return view('profil-tugas-tanggung-jawab'); })->name('profil.tugas-tanggung-jawab');
-Route::get('/profil/visi-misi', function () { return view('profil-visi-misi'); })->name('profil.visi-misi');
-Route::get('/profil/struktur-organisasi', function () { return view('profil-struktur-organisasi'); })->name('profil.struktur-organisasi');
-Route::get('/profil/regulasi', function () { return view('profil-regulasi'); })->name('profil.regulasi');
-Route::get('/profil/kontak', function () { return view('profil-kontak'); })->name('profil.kontak');
+// Profil PPID (Public - Dynamic from Database)
+Route::get('/profil/ppid', function () {
+    $profil = \App\Models\ProfilPpid::where('type', 'profil')->first();
+    return view('profil-ppid', compact('profil'));
+})->name('profil.ppid');
 
-// Informasi Publik (Public)
+Route::get('/profil/tugas-tanggung-jawab', function () {
+    $profil = \App\Models\ProfilPpid::where('type', 'tugas')->first();
+    return view('profil-tugas-tanggung-jawab', compact('profil'));
+})->name('profil.tugas-tanggung-jawab');
+
+Route::get('/profil/visi-misi', function () {
+    $profil = \App\Models\ProfilPpid::where('type', 'visi')->first();
+    return view('profil-visi-misi', compact('profil'));
+})->name('profil.visi-misi');
+
+Route::get('/profil/struktur-organisasi', function () {
+    $profil = \App\Models\ProfilPpid::where('type', 'struktur')->first();
+    return view('profil-struktur-organisasi', compact('profil'));
+})->name('profil.struktur-organisasi');
+
+Route::get('/profil/regulasi', function () {
+    $profil = \App\Models\ProfilPpid::where('type', 'regulasi')->first();
+    return view('profil-regulasi', compact('profil'));
+})->name('profil.regulasi');
+
+Route::get('/profil/kontak', function () {
+    $profil = \App\Models\ProfilPpid::where('type', 'kontak')->first();
+    return view('profil-kontak', compact('profil'));
+})->name('profil.kontak');
+
+// Informasi Publik (Public - Dynamic from Database)
 Route::get('/informasi-publik/berkala', function () {
-    return view('informasi-berkala');
+    $informasi = \App\Models\InformasiBerkala::where('status', 1)->orderBy('tanggal', 'desc')->get();
+    return view('informasi-berkala', compact('informasi'));
 })->name('informasi.berkala');
 
 Route::get('/informasi-publik/serta-merta', function () {
-    return view('informasi-serta-merta');
+    $informasi = \App\Models\InformasiSertaMerta::where('status', 1)->orderBy('tanggal', 'desc')->get();
+    return view('informasi-serta-merta', compact('informasi'));
 })->name('informasi.serta-merta');
 
 Route::get('/informasi-publik/setiap-saat', function () {
-    return view('informasi-setiap-saat');
+    $informasi = \App\Models\InformasiSetiapSaat::where('status', 1)->orderBy('tanggal', 'desc')->get();
+    return view('informasi-setiap-saat', compact('informasi'));
 })->name('informasi.setiap-saat');
 
 Route::get('/informasi-publik/dikecualikan', function () {
-    return view('informasi-dikecualikan');
+    $informasi = \App\Models\InformasiDikecualikan::where('status', 1)->orderBy('tanggal', 'desc')->get();
+    return view('informasi-dikecualikan', compact('informasi'));
 })->name('informasi.dikecualikan');
 
 Route::get('/layanan-informasi/daftar', function () { return view('daftar-informasi-publik'); })->name('layanan.daftar-informasi');
