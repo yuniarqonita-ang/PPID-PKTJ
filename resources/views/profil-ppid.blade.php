@@ -59,12 +59,40 @@
 
         <!-- SECTION: PROFILE PPID -->
         <div class="content-box">
-            <p style="margin-bottom: 15px;">
-                Sejak Undang-Undang Nomor 14 Tahun 2008 Tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan tonggak atau dasar bagi seluruh rakyat Indonesia untuk bersama-sama mengawasi secara langsung pelayanan publik yang diselenggarakan oleh Badan Publik.
-            </p>
-            <p>
-                Keterbukaan informasi adalah salah satu pilar penting yang akan mendorong terciptanya iklim transparansi. Terlebih di era yang serba terbuka ini, keinginan masyarakat untuk memperoleh informasi semakin tinggi. Diberlakukannya UU KIP merupakan perubahan yang mendasar dalam kehidupan bermasyarakat, berbangsa dan bernegara, oleh sebab itu perlu adanya kesadaran dari seluruh elemen bangsa agar setiap lembaga dan badan pemerintah dalam pengelolaan informasi harus dengan prinsip good governance, tata kelola yang baik dan akuntabilitas.
-            </p>
+            @if($profil)
+                <h2 class="section-title">{{ $profil->judul }}</h2>
+                <div class="content">
+                    @if($profil->konten_pembuka)
+                        {!! $profil->konten_pembuka !!}
+                    @endif
+                    
+                    @if($profil->judul_sub)
+                        <h3>{{ $profil->judul_sub }}</h3>
+                    @endif
+                    
+                    @if($profil->konten_detail)
+                        {!! $profil->konten_detail !!}
+                    @endif
+                    
+                    @if($profil->gambar)
+                        <img src="{{ asset('storage/' . $profil->gambar) }}" alt="{{ $profil->judul }}" class="img-fluid mt-3">
+                    @endif
+                    
+                    @if($profil->link_dokumen)
+                        <a href="{{ $profil->link_dokumen }}" target="_blank" class="btn btn-primary mt-3">
+                            <i class="fas fa-download"></i> Download Dokumen
+                        </a>
+                    @endif
+                </div>
+            @else
+                <h2 class="section-title">Profil PPID</h2>
+                <p style="margin-bottom: 15px;">
+                    Sejak Undang-Undang Nomor 14 Tahun 2008 Tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan tonggak atau dasar bagi seluruh rakyat Indonesia untuk bersama-sama mengawasi secara langsung pelayanan publik yang diselenggarakan oleh Badan Publik.
+                </p>
+                <p>
+                    Keterbukaan informasi adalah salah satu pilar penting yang akan mendorong terciptanya iklim transparansi. Terlebih di era yang serba terbuka ini, keinginan masyarakat untuk memperoleh informasi semakin tinggi. Diberlakukannya UU KIP merupakan perubahan yang mendasar dalam kehidupan bermasyarakat, berbangsa dan bernegara, oleh sebab itu perlu adanya kesadaran dari seluruh elemen bangsa agar setiap lembaga dan badan pemerintah dalam pengelolaan informasi harus dengan prinsip good governance, tata kelola yang baik dan akuntabilitas.
+                </p>
+            @endif
         </div>
 
         <!-- SECTION: GAMBARAN SINGKAT PPID -->

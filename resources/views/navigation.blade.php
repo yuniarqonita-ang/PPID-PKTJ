@@ -15,9 +15,9 @@
                     <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
                     <ul class="dropdown-menu" style="min-width: 280px;">
                         <li><a class="dropdown-item" href="{{ route('profil.ppid') }}">Profil PPID</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.tugas') }}">Tugas dan Tanggung Jawab PPID</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.visi') }}">Visi dan Misi</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.struktur') }}">Struktur Organisasi</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profil.tugas-tanggung-jawab') }}">Tugas dan Tanggung Jawab PPID</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profil.visi-misi') }}">Visi dan Misi</a></li>
+                        <li><a class="dropdown-item" href="{{ route('profil.struktur-organisasi') }}">Struktur Organisasi</a></li>
                         <li><a class="dropdown-item" href="{{ route('profil.regulasi') }}">Regulasi</a></li>
                         <li><a class="dropdown-item" href="{{ route('profil.kontak') }}">Kontak</a></li>
                     </ul>
@@ -48,23 +48,12 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
                     <ul class="dropdown-menu" style="min-width: 380px;">
-                        <li><a class="dropdown-item" href="{{ route('prosedur.permintaan') }}">SOP Permintaan Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.keberatan') }}">SOP Penanganan Keberatan</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sengketa') }}">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.penetapan') }}">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.pengujian') }}">SOP Pengujian Konsekuensi</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.pendokumentasian') }}">SOP Pendokumentasian Informasi Publik</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LPSE</a>
-                    <ul class="dropdown-menu" style="min-width: 350px;">
-                        <li><a class="dropdown-item" href="#">Pengadaan Barang dan Jasa</a></li>
-                        <li><a class="dropdown-item" href="#">Informasi Pengadaan Barang dan Jasa</a></li>
-                        <li><a class="dropdown-item" href="#">Dokumen Pengadaan Barang dan Jasa</a></li>
-                        <li><a class="dropdown-item" href="#">Informasi Penyedia</a></li>
-                        <li><a class="dropdown-item" href="#">Permohonan Informasi</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-permintaan') }}">SOP Permintaan Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-keberatan') }}">SOP Penanganan Keberatan</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-sengketa') }}">SOP Pengajuan Sengketa Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="#">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="#">SOP Pengujian Konsekuensi</a></li>
+                        <li><a class="dropdown-item" href="#">SOP Pendokumentasian Informasi Publik</a></li>
                     </ul>
                 </li>
 

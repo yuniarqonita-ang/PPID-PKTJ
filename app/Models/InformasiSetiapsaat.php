@@ -4,19 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class InformasiSetiapsaat extends Model
+class InformasiSetiapSaat extends Model
 {
+    protected $table = 'informasi_setiap_saat';
+    
     protected $fillable = [
         'judul',
         'deskripsi',
-        'file_path',
-        'file_name',
-        'file_size',
-        'file_type',
-        'aktif'
+        'konten',
+        'dokumen',
+        'tanggal',
+        'status'
     ];
     
     protected $casts = [
-        'aktif' => 'boolean',
+        'status' => 'boolean',
+        'tanggal' => 'date',
     ];
 }

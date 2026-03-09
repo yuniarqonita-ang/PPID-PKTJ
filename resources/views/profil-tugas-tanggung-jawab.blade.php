@@ -129,95 +129,6 @@
             </div>
         @endif
 
-        <!-- PPID UTAMA -->
-        <div class="table-section">
-            <div class="table-title">PPID Utama</div>
-            <table class="responsibility-table">
-                <thead>
-                    <tr>
-                        <th class="col-left">TANGGUNG JAWAB</th>
-                        <th class="col-right">WEWENANG</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="col-left">
-                            <ul>
-                                <li>a. menyediakan Informasi secara baik dan efisien sehingga dapat diakses dengan mudah;</li>
-                                <li>b. melakukan pengawasan terhadap pelaksanaan layanan Informasi sehingga dapat diakses dengan mudah;</li>
-                                <li>c. meningkatkan sumber daya manusia dalam pelayanan Informasi; dan</li>
-                                <li>d. mengkoordinasikan setiap unit/satuan kerja di Badan Publik dalam melaksanakan pelayanan Informasi.</li>
-                            </ul>
-                        </td>
-                        <td class="col-right">
-                            <ul>
-                                <li>a. memberikan Informasi secara baik dan efisien sehingga dapat diakses dengan mudah;</li>
-                                <li>b. menetapkan daftar Informasi Publik dan Informasi yang dikecualikan;</li>
-                                <li>c. menjamin tersimpan dan terdokumentasi seluruh Informasi secara fisik yang meliputi:
-                                    <ol style="margin-top: 8px;">
-                                        <li>Informasi yang wajib disediakan dan diumumkan secara berkala;</li>
-                                        <li>Informasi yang wajib tersedia setiap saat; dan</li>
-                                        <li>Informasi terbuka lainnya yang diminta pemohon Informasi;</li>
-                                    </ol>
-                                </li>
-                                <li>d. menolak permohonan Informasi dengan apabila Informasi yang dimohon termasuk Informasi yang dikecualikan/rahasia dengan disertai alasan;</li>
-                                <li>e. membuat dan mengumumkan laporan tentang pelaksanaan layanan Informasi serta menyampaikan salinan laporan kepada Komisi Informasi dan atasan Pejabat Pengelola Informasi dan Dokumentasi;</li>
-                                <li>f. menyediakan sarana dan prasarana layanan Informasi;</li>
-                                <li>g. menugaskan pejabat fungsional dan/atau petugas Informasi dibawah wewenang dan koordinasinnya untuk membuat, memelihara, dan/atau memutakhirkan Informasi;</li>
-                                <li>h. menetapkan program meningkatkan sumber daya manusia dalam pelayanan Informasi; dan</li>
-                                <li>i. melakukan evaluasi terhadap pelaksanaan layanan Informasi pada instansinnya.</li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <!-- PPID PELAKSANA -->
-        <div class="table-section">
-            <div class="table-title">PPID Pelaksana</div>
-            <table class="responsibility-table">
-                <thead>
-                    <tr>
-                        <th class="col-left">TANGGUNG JAWAB</th>
-                        <th class="col-right">WEWENANG</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="col-left">
-                            <ul>
-                                <li>a. menyediakan Informasi secara baik dan efisien sehingga dapat diakses dengan mudah;</li>
-                                <li>b. melakukan pengawasan terhadap pelaksanaan layanan Informasi sehingga dapat diakses dengan mudah;</li>
-                                <li>c. meningkatkan sumber daya manusia dalam pelayanan Informasi; dan</li>
-                                <li>d. mengkoordinasikan setiap unit/satuan kerja di lingkup kerja Eselon I dalam melaksanakan pelayanan Informasi.</li>
-                            </ul>
-                        </td>
-                        <td class="col-left">
-                            <ul>
-                                <li>a. memberikan Informasi secara baik dan efisien sehingga dapat diakses dengan mudah;</li>
-                                <li>b. mengajukan usulan daftar Informasi Publik dan Informasi dikecualikan kepada PPID Utama;</li>
-                                <li>c. menjamin tersimpan dan terdokumentasi seluruh Informasi secara fisik yang meliputi:
-                                    <ol style="margin-top: 8px;">
-                                        <li>Informasi yang wajib disediakan dan diumumkan secara berkala;</li>
-                                        <li>Informasi yang wajib tersedia setiap saat; dan</li>
-                                        <li>Informasi terbuka lainnya yang diminta pemohon Informasi;</li>
-                                    </ol>
-                                </li>
-                                <li>d. menolak permohonan Informasi dengan apabila Informasi yang dimohon termasuk Informasi yang dikecualikan/rahasia dengan disertai alasan;</li>
-                                <li>e. melaporkan perkembangan pelayanan Informasi yang dilaksanakan di lingkup unit kerjanya secara berkala kepada PPID Utama;</li>
-                                <li>f. membuat dan mengumumkan laporan tentang pelaksanaan layanan Informasi serta menyampaikan salinan laporan kepada PPID Utama;</li>
-                                <li>g. menyediakan sarana dan prasarana layanan Informasi;</li>
-                                <li>h. menugaskan pejabat fungsional dan/atau petugas Informasi dibawah wewenang dan koordinasinnya untuk membuat, memelihara, dan/atau memutakhirkan Informasi;</li>
-                                <li>i. menetapkan program meningkatkan sumber daya manusia dalam pelayanan Informasi; dan</li>
-                                <li>j. melakukan evaluasi terhadap pelaksanaan layanan Informasi pada lingkup unit kerjanya.</li>
-                            </ul>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
         <!-- PPID PELAKSANA UPT -->
         <div class="table-section">
             <div class="table-title">PPID Pelaksana UPT</div>
@@ -234,8 +145,7 @@
                             <ul>
                                 <li>a. menyediakan Informasi secara baik dan efisien sehingga dapat diakses dengan mudah;</li>
                                 <li>b. melakukan pengawasan terhadap pelaksanaan layanan Informasi sehingga dapat diakses dengan mudah;</li>
-                                <li>c. meningkatkan sumber daya manusia dalam pelayanan Informasi; dan</li>
-                                <li>d. mengkoordinasikan setiap unit/satuan kerja di lingkup kerja Eselon I dalam melaksanakan pelayanan Informasi.</li>
+                                <li>c. meningkatkan sumber daya manusia dalam pelayanan Informasi;</li>
                             </ul>
                         </td>
                         <td class="col-left">
@@ -245,14 +155,13 @@
                                 <li>c. menjamin tersimpan dan terdokumentasi seluruh Informasi secara fisik yang meliputi:
                                     <ol style="margin-top: 8px;">
                                         <li>Informasi yang wajib disediakan dan diumumkan secara berkala;</li>
-                                        <li>Informasi yang wajib tersedia setiap saat; dan</li>
-                                        <li>Informasi terbuka lainnya yang diminta pemohon Informasi;</li>
+                                        <li>Informasi yang wajib tersedia setiap saat;</li>
                                     </ol>
                                 </li>
                                 <li>d. menolak permohonan Informasi dengan apabila Informasi yang dimohon termasuk Informasi yang dikecualikan/rahasia dengan disertai alasan;</li>
                                 <li>e. melaporkan perkembangan pelayanan Informasi yang dilaksanakan di lingkup unit kerjanya secara berkala kepada PPID Utama;</li>
                                 <li>f. membuat dan mengumumkan laporan tentang pelaksanaan layanan Informasi serta menyampaikan salinan laporan kepada PPID Utama;</li>
-                                <li>g. menyediakan sarana dan prasarana layanan Informasi dibawah wewenang dan koordinasinnya untuk membuat, memelihara, dan/atau memutakhirkan Informasi;</li>
+                                <li>g. menyediakan sarana dan prasarana layanan Informasi;</li>
                                 <li>h. menugaskan pejabat fungsional dan/atau petugas Informasi dibawah wewenang dan koordinasinnya untuk membuat, memelihara, dan/atau memutakhirkan Informasi;</li>
                                 <li>i. menetapkan program meningkatkan sumber daya manusia dalam pelayanan Informasi; dan</li>
                                 <li>j. melakukan evaluasi terhadap pelaksanaan layanan Informasi pada lingkup unit kerjanya.</li>
@@ -263,6 +172,7 @@
             </table>
         </div>
 
+<<<<<<< Updated upstream
         @if($profil && $profil->konten_detail)
             <div class="content-box mt-4">
                 <h3 class="mb-3">{{ $profil->judul_sub ?? 'Detail Informasi Tambahan' }}</h3>
@@ -270,6 +180,9 @@
             </div>
         @endif
     </div>
+=======
+        </div>
+>>>>>>> Stashed changes
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
