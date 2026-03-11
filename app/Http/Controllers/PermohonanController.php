@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Permohonan;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
 
 class PermohonanController extends Controller
@@ -25,13 +26,13 @@ class PermohonanController extends Controller
             'perusahaan_instansi' => 'nullable|string|max:255',
             'email' => 'required|email|max:255|unique:permohonan,email',
             'password' => 'required|string|min:6|confirmed',
-            'jenis_informasi' => 'required|string|max:255',
-            'deskripsi_permohonan' => 'required|string',
-            'format_informasi' => 'required|in:digital,cetak,keduanya',
+            'jenis_informasi' => 'nullable|string|max:255',
+            'deskripsi_permohonan' => 'nullable|string',
+            'format_informasi' => 'nullable|in:digital,cetak,keduanya',
         ]);
 
         // Hash password sebelum disimpan
-        $validated['password'] = bcrypt($validated['password']);
+        $validated['password'] = Hash::make($validated['password']);
 
         Permohonan::create($validated);
 

@@ -9,7 +9,9 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
             scroll-behavior: smooth;
             overflow-x: hidden;
         }
@@ -22,6 +24,29 @@
         .navbar-brand img {
             height: 50px;
             margin-right: 12px;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 9999 !important;
+        }
+
+        .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 9999 !important;
+        }
+
+        /* Force logo visibility */
+        .navbar-brand img[src*="logo-pktj"] {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: auto !important;
+            height: 50px !important;
         }
 
         @media (min-width: 992px) {
@@ -51,161 +76,229 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.1;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
-            z-index: 1;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .faq-container {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            overflow: hidden;
+        }
+
+        .faq-header {
+            background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .faq-header h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .faq-header p {
+            font-size: 18px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .faq-content {
+            padding: 40px;
+        }
+
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb-item {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item:hover {
+            color: #004a99;
+        }
+
+        .breadcrumb-item.active {
+            color: #004a99;
+            font-weight: 600;
         }
 
         .page-title {
             color: #004a99;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #004a99;
-            display: inline-block;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
-        .content-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
+        .page-subtitle {
+            color: #666;
+            font-size: 16px;
+            text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .section-title {
-            color: #004a99;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .profil-content {
-            text-align: justify;
-            line-height: 1.8;
             color: #333;
-        }
-
-        .faq-item {
-            margin-bottom: 15px;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        }
-
-        .faq-question {
-            background: linear-gradient(135deg, #004a99 0%, #0066cc 100%);
-            color: white;
-            padding: 20px;
-            margin: 0;
-            font-size: 18px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .faq-question:hover {
-            background: linear-gradient(135deg, #003d82 0%, #0056b3 100%);
-        }
-
-        .faq-question::after {
-            content: '+';
             font-size: 24px;
             font-weight: bold;
-            transition: transform 0.3s ease;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d4af37;
+            display: flex;
+            align-items: center;
         }
 
-        .faq-item.active .faq-question::after {
-            transform: rotate(45deg);
+        .section-title i {
+            color: #d4af37;
+            margin-right: 10px;
+            font-size: 20px;
         }
 
-        .faq-answer {
+        .info-text {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .faq-table {
+            width: 100%;
+            border-collapse: collapse;
             background: white;
-            padding: 0;
-            max-height: 0;
+            border-radius: 8px;
             overflow: hidden;
-            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .faq-item.active .faq-answer {
+        .faq-table th {
+            background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #004a99;
+        }
+
+        .faq-table td {
             padding: 20px;
-            max-height: 500px;
+            vertical-align: top;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 15px;
+            line-height: 1.6;
         }
 
-        .faq-answer p {
+        .faq-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .faq-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .question-number {
+            color: #004a99;
+            font-weight: bold;
+            font-size: 16px;
+            width: 80px;
+            text-align: center;
+        }
+
+        .question-text {
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .answer-text {
+            color: #666;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 80px;
+            color: #d4af37;
+            margin-bottom: 30px;
+        }
+
+        .empty-state h3 {
+            color: #004a99;
+            margin-bottom: 20px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .empty-state p {
+            font-size: 18px;
             margin-bottom: 15px;
             line-height: 1.6;
         }
 
-        .faq-answer ul, .faq-answer ol {
-            margin-bottom: 15px;
-            padding-left: 20px;
-        }
-
-        .faq-answer li {
-            margin-bottom: 8px;
-        }
-
-        .faq-category {
-            background: linear-gradient(135deg, #d4af37 0%, #c99a2b 100%);
-            color: #1a3a52;
-            padding: 15px 20px;
-            margin-bottom: 20px;
-            border-radius: 8px;
-            font-size: 18px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .search-box {
-            background: #f8f9fa;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            border: 2px solid #d4af37;
-        }
-
-        .search-box h6 {
-            color: #004a99;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .search-input {
-            width: 100%;
-            padding: 10px 15px;
-            border: 2px solid #e9ecef;
+        .empty-state .btn-contact {
+            background: #004a99;
+            color: white;
+            padding: 12px 30px;
             border-radius: 25px;
-            font-size: 14px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: 600;
         }
 
-        .search-input:focus {
-            border-color: #d4af37;
-            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
-        }
-
-        .contact-help {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            padding: 25px;
-            margin: 20px 0;
-            text-align: center;
-        }
-
-        .contact-help h5 {
-            color: #004a99;
-            font-weight: bold;
-            margin-bottom: 15px;
+        .empty-state .btn-contact:hover {
+            background: #003d7a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 74, 153, 0.3);
         }
 
         .footer {
@@ -227,14 +320,68 @@
             border-color: #c9a227;
             color: #1a3a52;
         }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 0 60px 0;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-content p {
+                font-size: 18px;
+            }
+
+            .faq-header {
+                padding: 30px 20px;
+            }
+
+            .faq-header h1 {
+                font-size: 28px;
+            }
+
+            .faq-content {
+                padding: 30px 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .page-subtitle {
+                font-size: 14px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .faq-table th,
+            .faq-table td {
+                padding: 12px 10px;
+                font-size: 14px;
+            }
+
+            .question-number {
+                width: 60px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="images/logo-pktj.png" alt="Logo PKTJ">
+            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="index.html" style="display: flex !important; visibility: visible !important; opacity: 1 !important;">
+                <img src="images/logo-pktj.png" alt="Logo PKTJ" style="height: 50px; margin-right: 12px; display: block !important; visibility: visible !important; opacity: 1 !important; width: auto;">
                 <span>PPID PKTJ Tegal</span>
             </a>
 
@@ -244,7 +391,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="index.html">BERANDA</a>
                     </li>
 
                     <li class="nav-item dropdown">
@@ -294,7 +441,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="faq.html">FAQ</a>
+                        <a class="nav-link text-white px-3 fw-bold uppercase active" href="faq.html">FAQ</a>
                     </li>
                 </ul>
 
@@ -309,231 +456,59 @@
     <div class="hero-section">
         <div class="hero-content">
             <div class="container">
-                <h1 class="display-5 fw-bold mb-3">Pertanyaan Umum (FAQ)</h1>
-                <p class="lead">Jawaban atas pertanyaan yang sering diajukan tentang PPID dan layanan informasi publik</p>
+                <h1 class="display-5 fw-bold mb-3">FAQ</h1>
+                <p class="lead">Pertanyaan yang sering diajukan mengenai layanan PPID PKTJ Tegal</p>
             </div>
         </div>
     </div>
 
     <!-- Main Content -->
-    <div class="container py-5">
-        <h1 class="page-title">FAQ - Pertanyaan Umum</h1>
-
-        <div class="search-box">
-            <h6><i class="fas fa-search me-2"></i>Cari Pertanyaan</h6>
-            <input type="text" class="search-input" placeholder="Ketik kata kunci pertanyaan yang ingin dicari..." id="faqSearch">
-        </div>
-
-        <div class="content-box">
-            <div class="faq-category">
-                <i class="fas fa-question-circle me-2"></i>Tentang PPID
+    <div class="container">
+        <div class="faq-container">
+            <!-- FAQ Header -->
+            <div class="faq-header">
+                <h1>FAQ</h1>
+                <p>Pertanyaan yang sering diajukan mengenai layanan informasi publik kami</p>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    Apa itu PPID?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>PPID adalah singkatan dari Pejabat Pengelola Informasi dan Dokumentasi. PPID adalah pejabat yang bertugas mengelola dan menyediakan informasi publik di lingkungan badan publik sesuai dengan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik.</p>
-                </div>
-            </div>
+            <!-- FAQ Content -->
+            <div class="faq-content">
+                <!-- Breadcrumb -->
+                <nav aria-label="breadcrumb">
+                    <a class="breadcrumb-item" href="index.html">Beranda</a>
+                    <span class="breadcrumb-separator">/</span>
+                    <a class="breadcrumb-item active">FAQ</a>
+                </nav>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    Apa tugas utama PPID?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Tugas utama PPID meliputi:</p>
-                    <ul>
-                        <li>Mengelola dan menyediakan informasi publik</li>
-                        <li>Melayani permintaan informasi dari masyarakat</li>
-                        <li>Mengkoordinasikan pengumpulan dan pendokumentasian informasi</li>
-                        <li>Melakukan pengujian konsekuensi informasi yang dikecualikan</li>
-                        <li>Menyusun dan memutakhirkan daftar informasi publik</li>
-                    </ul>
-                </div>
-            </div>
+                <div class="info-text">Showing 1-6 of 6 items.</div>
 
-            <div class="faq-item">
-                <div class="faq-question">
-                    Siapa saja yang dapat mengajukan permintaan informasi?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Setiap orang, baik Warga Negara Indonesia maupun Warga Negara Asing, dapat mengajukan permintaan informasi publik kepada PPID tanpa perlu alasan apapun. Permintaan informasi merupakan hak asasi setiap orang sesuai dengan konstitusi dan peraturan perundang-undangan.</p>
-                </div>
-            </div>
-
-            <div class="faq-category">
-                <i class="fas fa-file-alt me-2"></i>Permintaan Informasi
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    Bagaimana cara mengajukan permintaan informasi?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Ada beberapa cara untuk mengajukan permintaan informasi:</p>
-                    <ol>
-                        <li><strong>Online:</strong> Melalui website PPID dengan mengisi formulir permintaan</li>
-                        <li><strong>Datang langsung:</strong> Ke kantor PPID dengan membawa identitas diri</li>
-                        <li><strong>Via pos:</strong> Mengirim surat permohonan ke alamat PPID</li>
-                        <li><strong>Email/WhatsApp:</strong> Menggunakan kanal komunikasi resmi PPID</li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    Berapa lama waktu penyelesaian permintaan informasi?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Waktu penyelesaian permintaan informasi:</p>
-                    <ul>
-                        <li><strong>Maksimal 3 hari kerja</strong> untuk informasi yang tersedia langsung</li>
-                        <li><strong>Maksimal 10 hari kerja</strong> untuk informasi yang perlu penyiapan</li>
-                        <li>Dapat diperpanjang maksimal 7 hari kerja dengan pemberitahuan tertulis</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    Apakah pengajuan permintaan informasi dikenakan biaya?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Pengajuan permintaan informasi tidak dikenakan biaya. Biaya hanya dikenakan untuk:</p>
-                    <ul>
-                        <li>Penggandaan dokumen (Rp 500/lembar)</li>
-                        <li>Scan dokumen (Rp 1.000/lembar)</li>
-                        <li>Media penyimpanan (Rp 10.000/CD/DVD)</li>
-                        <li>Pengiriman dokumen sesuai ongkos kirim</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-category">
-                <i class="fas fa-gavel me-2"></i>Keberatan dan Sengketa
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    Apa yang harus dilakukan jika permintaan informasi ditolak?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Jika permintaan informasi ditolak, Anda dapat:</p>
-                    <ol>
-                        <li>Mengajukan keberatan ke PPID dalam waktu 30 hari</li>
-                        <li>Keberatan akan diproses maksimal 30 hari kerja</li>
-                        <li>Jika keberatan ditolak, dapat mengajukan sengketa ke Komisi Informasi</li>
-                        <li>Sengketa diproses maksimal 60 hari kerja</li>
-                    </ol>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    Apa saja alasan penolakan permintaan informasi?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Alasan penolakan permintaan informasi meliputi:</p>
-                    <ul>
-                        <li>Informasi yang diminta tidak ada atau tidak dikuasai</li>
-                        <li>Informasi yang dikecualikan sesuai UU KIP</li>
-                        <li>Permintaan tidak spesifik atau tidak jelas</li>
-                        <li>Pemohon tidak melengkapi persyaratan</li>
-                        <li>Informasi masih dalam proses pengolahan</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-category">
-                <i class="fas fa-shield-alt me-2"></i>Informasi Dikecualikan
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    Apa itu informasi dikecualikan?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Informasi dikecualikan adalah informasi yang tidak dapat diakses publik karena alasan tertentu yang telah ditentukan dalam Undang-Undang Keterbukaan Informasi Publik. Pengecualian bersifat sementara dan dapat dibuka kembali jika alasan pengecualian sudah tidak relevan.</p>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    Kategori informasi apa saja yang dikecualikan?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Kategori informasi dikecualikan meliputi:</p>
-                    <ul>
-                        <li>Informasi yang dapat membahayakan negara</li>
-                        <li>Rahasia negara dan pertahanan keamanan</li>
-                        <li>Privasi individu dan data pribadi</li>
-                        <li>Rahasia dagang dan kekayaan intelektual</li>
-                        <li>Informasi dalam proses pengambilan keputusan</li>
-                        <li>Informasi yang masih dalam proses peradilan</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-category">
-                <i class="fas fa-clock me-2"></i>Jadwal dan Waktu Kerja
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    Kapan jam kerja PPID?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>Jam kerja PPID PKTJ Tegal:</p>
-                    <ul>
-                        <li><strong>Senin - Kamis:</strong> 08:00 - 16:00 WIB</li>
-                        <li><strong>Jumat:</strong> 08:00 - 16:30 WIB</li>
-                        <li><strong>Sabtu - Minggu:</strong> Libur</li>
-                        <li><strong>Hotline darurat:</strong> 24 jam</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="faq-item">
-                <div class="faq-question">
-                    Apakah PPID melayani di luar jam kerja?
-                    <span></span>
-                </div>
-                <div class="faq-answer">
-                    <p>PPID menyediakan layanan hotline darurat 24 jam untuk:</p>
-                    <ul>
-                        <li>Informasi darurat dan bencana</li>
-                        <li>Kejadian yang membahayakan keselamatan</li>
-                        <li>Kasus-kasus mendesak lainnya</li>
-                        <li>Pengaduan pelayanan yang tidak normal</li>
-                    </ul>
-                    <p>Pelayanan administrasi tetap mengikuti jam kerja resmi.</p>
-                </div>
-            </div>
-        </div>
-
-        <div class="contact-help">
-            <h5><i class="fas fa-headset me-2"></i>Tidak Menemukan Jawaban?</h5>
-            <p>Jika pertanyaan Anda tidak terjawab dalam FAQ ini, silakan hubungi PPID langsung:</p>
-            <div class="mt-3">
-                <a href="permohonan-informasi.html" class="btn btn-warning me-3">
-                    <i class="fas fa-file-alt me-2"></i>Ajukan Pertanyaan
-                </a>
-                <a href="profil-kontak.html" class="btn btn-outline-primary">
-                    <i class="fas fa-phone me-2"></i>Hubungi PPID
-                </a>
+                <!-- FAQ Table -->
+                <table class="faq-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">#</th>
+                            <th style="width: 40%;">Pertanyaan</th>
+                            <th style="width: 60%;">Jawaban</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Empty State -->
+                        <tr>
+                            <td colspan="3">
+                                <div class="empty-state">
+                                    <i class="fas fa-question-circle"></i>
+                                    <h3>Belum Ada Pertanyaan</h3>
+                                    <p>Halaman FAQ sedang dalam tahap pengisian konten.</p>
+                                    <p>Pertanyaan dan jawaban akan segera tersedia.</p>
+                                    <p>Silakan hubungi kami langsung jika Anda memiliki pertanyaan.</p>
+                                    <a href="profil-kontak.html" class="btn-contact">
+                                        <i class="fas fa-envelope me-2"></i>Hubungi Kami
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -546,53 +521,22 @@
                     <h5 class="mb-3">PPID PKTJ Tegal</h5>
                     <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
                     <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="mb-3">Kontak</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: Jl. Gajah Mada No. 1, Tegal, Jawa Tengah</p>
+                    <p><i class="fas fa-phone me-2"></i>Telepon: (0283) 123456</p>
+                    <p><i class="fas fa-envelope me-2"></i>Email: ppid@pktj.ac.id</p>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
+                <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+            </div>
         </div>
-        <div class="col-md-6">
-            <h5 class="mb-3">Kontak</h5>
-            <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
-            <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
-            <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
-        </div>
-    </div>
-    <hr class="my-4 bg-light">
-    <div class="text-center">
-        <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
-        <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
-    </div>
-</footer>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-// FAQ Accordion functionality
-document.addEventListener('DOMContentLoaded', function() {
-    const faqItems = document.querySelectorAll('.faq-item');
-
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question');
-        question.addEventListener('click', () => {
-            item.classList.toggle('active');
-        });
-    });
-});
-
-// FAQ Search functionality
-document.getElementById('faqSearch').addEventListener('input', function() {
-    const searchTerm = this.value.toLowerCase();
-    const faqItems = document.querySelectorAll('.faq-item');
-
-    faqItems.forEach(item => {
-        const question = item.querySelector('.faq-question').textContent.toLowerCase();
-        const answer = item.querySelector('.faq-answer').textContent.toLowerCase();
-
-        if (question.includes(searchTerm) || answer.includes(searchTerm)) {
-            item.style.display = 'block';
-        } else {
-            item.style.display = 'none';
-        }
-    });
-});
-</script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
