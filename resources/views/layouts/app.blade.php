@@ -443,7 +443,18 @@
                             <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
                             Daftar Berita
                         </a>
+                        <a href="{{ route('admin.berita.create') }}" class="submenu-link {{ request()->routeIs('admin.berita.create') ? 'active' : '' }}">
+                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
+                            Tambah Berita
+                        </a>
                     </div>
+                </div>
+                
+                <div class="nav-item">
+                    <a href="{{ route('admin.permohonan.submissions') }}" class="nav-link {{ request()->routeIs('admin.permohonan.submissions') ? 'active' : '' }}">
+                        <i class="fas fa-list nav-icon"></i>
+                        Daftar Permohonan
+                    </a>
                 </div>
                 
                 <div class="nav-item">
@@ -562,5 +573,61 @@
                 });
             });
         </script>
+        
+        <!-- Summernote JS & CSS for all pages -->
+        <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        
+        <!-- Global Summernote initialization -->
+        <script>
+        $(document).ready(function() {
+            // Initialize Summernote for all textareas with .summernote-editor class
+            $('.summernote-editor').each(function() {
+                const $this = $(this);
+                const $container = $this.closest('div[id^="summernote-"]');
+                
+                if ($container.length > 0) {
+                    $this.summernote({
+                        height: 350,
+                        toolbar: [
+                            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                            ['font', ['strikethrough', 'superscript', 'subscript']],
+                            ['fontsize', ['fontsize']],
+                            ['color', ['color']],
+                            ['para', ['ul', 'ol', 'paragraph', 'height']],
+                            ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+                            ['view', ['fullscreen', 'codeview', 'help']]
+                        ],
+                        callbacks: {
+                            onImageUpload: function(files) {
+                                var file = files[0];
+                                var formData = new FormData();
+                                formData.append('image', file);
+                                
+                                $.ajax({
+                                    url: '/admin/upload/image',
+                                    method: 'POST',
+                                    data: formData,
+                                    processData: false,
+                                    contentType: false,
+                                    headers: {
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    success: function(response) {
+                                        $this.summernote('insertImage', response.url);
+                                    },
+                                    error: function() {
+                                        alert('Gagal mengupload gambar');
+                                    }
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+        </script>
+        
+        @stack('scripts')
     </body>
 </html>

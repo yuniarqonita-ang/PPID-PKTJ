@@ -7,6 +7,8 @@
     overflow: hidden;
     box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     background: white;
+    width: 100% !important;
+    max-width: none !important;
 }
 
 /* Toolbar */
@@ -83,7 +85,9 @@
     line-height: 1.6;
     color: #333;
     background: white;
-    min-height: 400px;
+    min-height: 500px !important;
+    height: auto !important;
+    width: 100% !important;
 }
 
 .note-editable:focus {
@@ -341,21 +345,22 @@
         padding: 10px;
         flex-wrap: wrap;
     }
-    
+
     .note-toolbar .btn-group {
         margin: 2px;
     }
-    
+
     .note-toolbar .btn {
         padding: 6px 10px;
         font-size: 12px;
     }
-    
+
     .note-editable {
         padding: 15px;
         font-size: 14px;
+        min-height: 300px !important;
     }
-    
+
     .note-modal .modal-dialog {
         margin: 20px;
         max-width: 90%;
@@ -368,12 +373,12 @@
         background: #1a1a1a;
         border-color: #333;
     }
-    
+
     .note-editable {
         background: #1a1a1a;
         color: #fff;
     }
-    
+
     .note-statusbar {
         background: #2a2a2a;
         color: #ccc;
