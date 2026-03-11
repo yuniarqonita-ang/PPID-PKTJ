@@ -22,6 +22,29 @@
         .navbar-brand img {
             height: 50px;
             margin-right: 12px;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 9999 !important;
+        }
+
+        .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 9999 !important;
+        }
+
+        /* Force logo visibility */
+        .navbar-brand img[src*="logo-pktj"] {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: auto !important;
+            height: 50px !important;
         }
 
         @media (min-width: 992px) {
@@ -51,61 +74,37 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.1;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
-            z-index: 1;
+            z-index: 2;
         }
 
         .page-title {
             color: #004a99;
-            font-size: 32px;
             font-weight: bold;
-            text-transform: uppercase;
             margin-bottom: 30px;
-            border-bottom: 3px solid #004a99;
-            display: inline-block;
-            padding-bottom: 10px;
+            text-align: center;
         }
 
-        .content-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .section-title {
-            color: #004a99;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .profil-content {
-            text-align: justify;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .form-section {
+        .form-container {
             background: white;
-            padding: 40px;
             border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            padding: 40px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            border-left: 5px solid #d4af37;
         }
 
         .form-title {
             color: #004a99;
-            font-size: 24px;
             font-weight: bold;
-            text-align: center;
-            margin-bottom: 30px;
+            margin-bottom: 25px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d4af37;
         }
 
         .form-group {
@@ -114,99 +113,52 @@
 
         .form-label {
             font-weight: 600;
-            color: #004a99;
+            color: #333;
             margin-bottom: 8px;
         }
 
         .form-control {
-            border: 2px solid #e9ecef;
-            border-radius: 8px;
-            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px 15px;
             font-size: 14px;
-        }
-
-        .form-control:focus {
-            border-color: #d4af37;
-            box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
-        }
-
-        .btn-submit {
-            background: linear-gradient(135deg, #d4af37 0%, #c99a2b 100%);
-            border: none;
-            color: white;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-weight: 600;
-            font-size: 16px;
-            text-transform: uppercase;
-            width: 100%;
-            margin-top: 20px;
             transition: all 0.3s ease;
         }
 
-        .btn-submit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);
+        .form-control:focus {
+            border-color: #004a99;
+            box-shadow: 0 0 0 0.2rem rgba(0, 74, 153, 0.25);
         }
 
-        .info-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            padding: 25px;
-            margin: 15px 0;
+        .btn-primary {
+            background-color: #004a99;
+            border-color: #004a99;
+            padding: 12px 30px;
+            font-weight: 600;
         }
 
-        .info-card i {
-            font-size: 24px;
-            color: #d4af37;
-            margin-bottom: 10px;
+        .btn-primary:hover {
+            background-color: #003d7a;
+            border-color: #003d7a;
         }
 
-        .info-card h5 {
-            color: #004a99;
+        .warning-box {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .warning-box h5 {
+            color: #856404;
             font-weight: bold;
             margin-bottom: 10px;
         }
 
-        .step-indicator {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 30px;
-        }
-
-        .step {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: #e9ecef;
-            color: #6c757d;
-            font-weight: bold;
-            margin: 0 10px;
-            position: relative;
-        }
-
-        .step.active {
-            background: #d4af37;
-            color: white;
-        }
-
-        .step::after {
-            content: '';
-            position: absolute;
-            width: 30px;
-            height: 2px;
-            background: #e9ecef;
-            right: -40px;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .step:last-child::after {
-            display: none;
+        .warning-box p {
+            color: #856404;
+            margin: 0;
         }
 
         .footer {
@@ -228,14 +180,55 @@
             border-color: #c9a227;
             color: #1a3a52;
         }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        .captcha-box {
+            background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 18px;
+            letter-spacing: 2px;
+            color: #333;
+            user-select: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .captcha-box:hover {
+            background: linear-gradient(135deg, #e8e8e8 0%, #d8d8d8 100%);
+        }
+
+        .error-message {
+            color: #dc3545;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .success-message {
+            color: #28a745;
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .loading {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="images/logo-pktj.png" alt="Logo PKTJ">
+            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/" style="display: flex !important; visibility: visible !important; opacity: 1 !important;">
+                <img src="images/logo-pktj.png" alt="Logo PKTJ" style="height: 50px; margin-right: 12px; display: block !important; visibility: visible !important; opacity: 1 !important; width: auto;">
                 <span>PPID PKTJ Tegal</span>
             </a>
 
@@ -249,57 +242,57 @@
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">PROFIL PPID</a>
                         <ul class="dropdown-menu" style="min-width: 280px;">
-                            <li><a class="dropdown-item" href="/profil/ppid">Profil PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/tugas-tanggung-jawab">Tugas dan Tanggung Jawab PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/visi-misi">Visi dan Misi</a></li>
-                            <li><a class="dropdown-item" href="/profil/struktur-organisasi">Struktur Organisasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/regulasi">Regulasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/kontak">Kontak</a></li>
+                            <li><a class="dropdown-item" href="profil-ppid.html">Profil PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-tugas-tanggung-jawab.html">Tugas dan Tanggung Jawab PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-visi-misi.html">Visi dan Misi</a></li>
+                            <li><a class="dropdown-item" href="profil-struktur-organisasi.html">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="profil-regulasi.html">Regulasi</a></li>
+                            <li><a class="dropdown-item" href="profil-kontak.html">Kontak</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">INFORMASI PUBLIK</a>
                         <ul class="dropdown-menu" style="min-width: 250px;">
-                            <li><a class="dropdown-item" href="/informasi-publik/berkala">Informasi Berkala</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/serta-merta">Informasi Serta Merta</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/setiap-saat">Informasi Setiap Saat</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/dikecualikan">Informasi Dikecualikan</a></li>
+                            <li><a class="dropdown-item" href="informasi-berkala.html">Informasi Berkala</a></li>
+                            <li><a class="dropdown-item" href="informasi-serta-merta.html">Informasi Serta Merta</a></li>
+                            <li><a class="dropdown-item" href="informasi-setiap-saat.html">Informasi Setiap Saat</a></li>
+                            <li><a class="dropdown-item" href="informasi-dikecualikan.html">Informasi Dikecualikan</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">LAYANAN INFORMASI</a>
                         <ul class="dropdown-menu" style="min-width: 320px;">
-                            <li><a class="dropdown-item" href="/layanan-informasi/daftar">Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/maklumat">Maklumat Pelayanan & Standar Biaya</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan">Laporan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-akses">Laporan Akses Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-survey">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="daftar-informasi-publik.html">Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="maklumat-pelayanan.html">Maklumat Pelayanan & Standar Biaya</a></li>
+                            <li><a class="dropdown-item" href="laporan-layanan-informasi.html">Laporan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-akses-informasi-publik.html">Laporan Akses Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-survey-kepuasan.html">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
                             <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">PROSEDUR</a>
                         <ul class="dropdown-menu" style="min-width: 380px;">
-                            <li><a class="dropdown-item" href="/prosedur/sop-permintaan-informasi">SOP Permintaan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penanganan-keberatan">SOP Penanganan Keberatan</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengajuan-sengketa">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penetapan-pemutakhiran">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengujian-konsekuensi">SOP Pengujian Konsekuensi</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pendokumentasian">SOP Pendokumentasian Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-permintaan-informasi.html">SOP Permintaan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penanganan-keberatan.html">SOP Penanganan Keberatan</a></li>
+                            <li><a class="dropdown-item" href="sop-pengajuan-sengketa.html">SOP Pengajuan Sengketa Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penetapan-pemutakhiran.html">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-pengujian-konsekuensi.html">SOP Pengujian Konsekuensi</a></li>
+                            <li><a class="dropdown-item" href="sop-pendokumentasian.html">SOP Pendokumentasian Informasi Publik</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq">FAQ</a>
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="faq.html">FAQ</a>
                     </li>
                 </ul>
 
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi">
+                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="permohonan-informasi.html">
                     PERMOHONAN INFORMASI
                 </a>
             </div>
@@ -311,214 +304,166 @@
         <div class="hero-content">
             <div class="container">
                 <h1 class="display-5 fw-bold mb-3">Permohonan Informasi Publik</h1>
-                <p class="lead">Ajukan permintaan informasi publik secara online</p>
+                <p class="lead">Ajukan permohonan informasi publik sesuai dengan ketentuan yang berlaku</p>
             </div>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="container py-5">
-        <h1 class="page-title">Formulir Permohonan Informasi Publik</h1>
-
-        <div class="content-box">
-            <h2 class="section-title">Petunjuk Pengisian Formulir</h2>
-            <div class="profil-content">
-                <p>Sebelum mengisi formulir permohonan informasi publik, pastikan Anda telah membaca dan memahami:</p>
-                <ul>
-                    <li>Maklumat Pelayanan PPID PKTJ Tegal</li>
-                    <li>Standar Biaya Pelayanan Informasi Publik</li>
-                    <li>Daftar Informasi Publik yang tersedia</li>
-                    <li>SOP Permintaan Informasi Publik</li>
-                </ul>
-                <p><strong>PENTING:</strong> Pastikan data yang diisi lengkap dan akurat. Permohonan yang tidak lengkap akan dikembalikan untuk dilengkapi.</p>
-            </div>
-        </div>
-
-        <div class="step-indicator">
-            <div class="step active">1</div>
-            <div class="step active">2</div>
-            <div class="step active">3</div>
-        </div>
-
-        <form class="form-section">
-            <h3 class="form-title"><i class="fas fa-user me-2"></i>Data Pemohon Informasi</h3>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Nama Lengkap *</label>
-                        <input type="text" class="form-control" placeholder="Masukkan nama lengkap" required>
+        <h1 class="page-title">Registrasi User Pemohon Informasi</h1>
+        
+        <div class="form-container">
+            <h3 class="form-title">PPID Kementerian Perhubungan</h3>
+            
+            <form id="registrationForm">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Username</label>
+                            <input type="text" class="form-control" id="username" placeholder="isi username" required>
+                            <div class="error-message" id="username-error"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Nama</label>
+                            <input type="text" class="form-control" id="nama" placeholder="isi nama lengkap sesuai identitas" required>
+                            <div class="error-message" id="nama-error"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Jenis Identitas *</label>
-                        <select class="form-control" required>
-                            <option value="">Pilih jenis identitas</option>
-                            <option value="ktp">KTP</option>
-                            <option value="sim">SIM</option>
-                            <option value="paspor">Paspor</option>
-                            <option value="npwp">NPWP</option>
-                        </select>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Jenis Identitas</label>
+                            <select class="form-control" id="jenisIdentitas" required>
+                                <option value="">Pilih jenis identitas</option>
+                                <option value="KTP">KTP</option>
+                                <option value="SIM">SIM</option>
+                                <option value="PASPOR">Paspor</option>
+                                <option value="NPWP">NPWP</option>
+                                <option value="KARTU PELAJAR">Kartu Pelajar</option>
+                                <option value="KARTU MAHASISWA">Kartu Mahasiswa</option>
+                            </select>
+                            <div class="error-message" id="jenisIdentitas-error"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Nomor Identitas</label>
+                            <input type="text" class="form-control" id="nomorIdentitas" placeholder="isi nomor identitas" required>
+                            <div class="error-message" id="nomorIdentitas-error"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Nomor Identitas *</label>
-                        <input type="text" class="form-control" placeholder="Masukkan nomor identitas" required>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Alamat</label>
+                            <textarea class="form-control" id="alamat" rows="3" placeholder="isi alamat" required></textarea>
+                            <div class="error-message" id="alamat-error"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">No. Telp/HP</label>
+                            <input type="tel" class="form-control" id="noTelp" placeholder="isi no telp/hp" required>
+                            <div class="error-message" id="noTelp-error"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Pekerjaan *</label>
-                        <input type="text" class="form-control" placeholder="Masukkan pekerjaan" required>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Pekerjaan</label>
+                            <input type="text" class="form-control" id="pekerjaan" placeholder="isi pekerjaan" required>
+                            <div class="error-message" id="pekerjaan-error"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Instansi</label>
+                            <input type="text" class="form-control" id="instansi" placeholder="isi instansi">
+                            <div class="error-message" id="instansi-error"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Alamat Lengkap *</label>
-                        <textarea class="form-control" rows="3" placeholder="Masukkan alamat lengkap" required></textarea>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" placeholder="isi email" required>
+                            <div class="error-message" id="email-error"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" class="form-control" id="password" placeholder="isi password" required>
+                            <div class="error-message" id="password-error"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Email *</label>
-                        <input type="email" class="form-control" placeholder="nama@email.com" required>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Konfirmasi Password</label>
+                            <input type="password" class="form-control" id="konfirmasiPassword" placeholder="isi konfirmasi password" required>
+                            <div class="error-message" id="konfirmasiPassword-error"></div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label">Nomor Telepon *</label>
-                        <input type="tel" class="form-control" placeholder="08123456789" required>
-                    </div>
-                </div>
-            </div>
-
-            <h3 class="form-title mt-5"><i class="fas fa-file-alt me-2"></i>Rincian Informasi Yang Diminta</h3>
-
-            <div class="form-group">
-                <label class="form-label">Jenis Permintaan *</label>
-                <select class="form-control" required>
-                    <option value="">Pilih jenis permintaan</option>
-                    <option value="tersedia">Informasi yang tersedia langsung</option>
-                    <option value="penyiapan">Informasi yang perlu penyiapan</option>
-                    <option value="keberatan">Pengajuan keberatan</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label class="form-label">Rincian Informasi Yang Diminta *</label>
-                <textarea class="form-control" rows="4" placeholder="Jelaskan secara spesifik informasi yang Anda minta. Semakin detail penjelasan Anda, akan semakin mudah PPID memproses permintaan Anda." required></textarea>
-            </div>
-
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Tujuan Penggunaan Informasi *</label>
-                        <select class="form-control" required>
-                            <option value="">Pilih tujuan penggunaan</option>
-                            <option value="pribadi">Keperluan pribadi</option>
-                            <option value="pendidikan">Keperluan pendidikan</option>
-                            <option value="penelitian">Keperluan penelitian</option>
-                            <option value="bisnis">Keperluan bisnis</option>
-                            <option value="jurnalistik">Keperluan jurnalistik</option>
-                            <option value="organisasi">Keperluan organisasi</option>
-                            <option value="lainnya">Lainnya</option>
-                        </select>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Captcha</label>
+                            <div class="d-flex align-items-center">
+                                <div class="captcha-box" id="captchaBox" onclick="generateCaptcha()">
+                                    ABC123
+                                </div>
+                                <input type="text" class="form-control ms-3" id="captcha" placeholder="Masukkan captcha" required>
+                            </div>
+                            <div class="error-message" id="captcha-error"></div>
+                        </div>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="form-label">Cara Memperoleh Informasi *</label>
-                        <select class="form-control" required>
-                            <option value="">Pilih cara memperoleh</option>
-                            <option value="lihat">Melihat/membaca/mendengarkan/mencatat</option>
-                            <option value="salin">Mendapatkan salinan informasi</option>
-                            <option value="email">Mengirim via email</option>
-                            <option value="pos">Mengirim via pos</option>
-                            <option value="pickup">Mengambil langsung</option>
-                        </select>
-                    </div>
+
+                <div class="warning-box">
+                    <h5><i class="fas fa-exclamation-triangle me-2"></i>Peringatan!</h5>
+                    <p>Saya menyatakan bahwa data yang diunggah adalah benar dan dapat dipertanggungjawabkan.</p>
+                    <p>Pastikan data yang diunggah telah sesuai dengan ketentuan yang berlaku.</p>
                 </div>
-            </div>
 
-            <h3 class="form-title mt-5"><i class="fas fa-money-bill-wave me-2"></i>Persetujuan Biaya</h3>
-
-            <div class="info-card">
-                <i class="fas fa-info-circle"></i>
-                <h5>Informasi Biaya Pelayanan</h5>
-                <p>Biaya pelayanan informasi publik PPID PKTJ Tegal ditetapkan berdasarkan:</p>
-                <ul class="mb-0">
-                    <li>Biaya gratis untuk informasi umum dan berkala</li>
-                    <li>Rp 500/lembar untuk penggandaan dokumen</li>
-                    <li>Rp 1.000/lembar untuk scan dokumen</li>
-                    <li>Rp 10.000/CD untuk media penyimpanan</li>
-                    <li>Biaya kirim sesuai ongkos pos/jasa kurir</li>
-                </ul>
-            </div>
-
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="biayaCheck" required>
-                    <label class="form-check-label" for="biayaCheck">
-                        Saya menyetujui untuk membayar biaya pelayanan sesuai ketentuan yang berlaku *
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" id="declaration" required>
+                    <label class="form-check-label" for="declaration">
+                        Saya menyetujui pernyataan di atas
                     </label>
+                    <div class="error-message" id="declaration-error"></div>
                 </div>
-            </div>
 
-            <h3 class="form-title mt-5"><i class="fas fa-shield-alt me-2"></i>Pernyataan dan Persetujuan</h3>
-
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="pernyataanCheck" required>
-                    <label class="form-check-label" for="pernyataanCheck">
-                        Saya menyatakan bahwa data yang saya berikan adalah benar dan akurat. Saya bertanggung jawab atas kebenaran data tersebut. *
-                    </label>
+                <div class="success-message" id="success-message">
+                    <i class="fas fa-check-circle me-2"></i>Registrasi berhasil! Anda akan diarahkan ke halaman login.
                 </div>
-            </div>
 
-            <div class="form-group">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="privasiCheck" required>
-                    <label class="form-check-label" for="privasiCheck">
-                        Saya menyetujui bahwa data pribadi saya akan digunakan sesuai ketentuan perundang-undangan keterbukaan informasi publik. *
-                    </label>
+                <div class="d-flex justify-content-between">
+                    <button type="button" class="btn btn-secondary" onclick="resetForm()">
+                        <i class="fas fa-redo me-2"></i>Reset
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <span class="loading">
+                            <i class="fas fa-spinner fa-spin me-2"></i>Processing...
+                        </span>
+                        <span class="btn-text">
+                            <i class="fas fa-paper-plane me-2"></i>Daftar
+                        </span>
+                    </button>
                 </div>
-            </div>
-
-            <button type="submit" class="btn-submit">
-                <i class="fas fa-paper-plane me-2"></i>Kirim Permohonan Informasi
-            </button>
-        </form>
-
-        <div class="content-box">
-            <h2 class="section-title">Informasi Penting</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="info-card">
-                        <i class="fas fa-clock"></i>
-                        <h5>Jangka Waktu Penyelesaian</h5>
-                        <ul class="mb-0">
-                            <li>Maksimal 10 hari kerja untuk informasi tersedia</li>
-                            <li>Maksimal 30 hari kerja untuk informasi perlu penyiapan</li>
-                            <li>Dapat diperpanjang dengan pemberitahuan tertulis</li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="info-card">
-                        <i class="fas fa-phone"></i>
-                        <h5>Kontak PPID</h5>
-                        <p class="mb-1"><strong>Telepon:</strong> (021) 3847790</p>
-                        <p class="mb-1"><strong>Email:</strong> ppid@pktj.dephub.go.id</p>
-                        <p class="mb-0"><strong>Jam Kerja:</strong> Senin-Jumat, 08:00-16:00 WIB</p>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
     </div>
 
@@ -530,58 +475,172 @@
                     <h5 class="mb-3">PPID PKTJ Tegal</h5>
                     <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
                     <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="mb-3">Kontak</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: Jl. Gajah Mada No. 1, Tegal, Jawa Tengah</p>
+                    <p><i class="fas fa-phone me-2"></i>Telepon: (0283) 123456</p>
+                    <p><i class="fas fa-envelope me-2"></i>Email: ppid@pktj.ac.id</p>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
+                <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+            </div>
         </div>
-        <div class="col-md-6">
-            <h5 class="mb-3">Kontak</h5>
-            <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
-            <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
-            <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
-        </div>
-    </div>
-    <hr class="my-4 bg-light">
-    <div class="text-center">
-        <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
-        <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
-    </div>
-</footer>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-<script>
-    // Form validation
-    document.querySelector('form').addEventListener('submit', function(e) {
-        e.preventDefault();
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        let currentCaptcha = '';
 
-        // Basic validation
-        const requiredFields = document.querySelectorAll('input[required], select[required], textarea[required]');
-        let isValid = true;
-
-        requiredFields.forEach(field => {
-            if (!field.value.trim()) {
-                field.style.borderColor = '#dc3545';
-                isValid = false;
-            } else {
-                field.style.borderColor = '#d4af37';
+        // Generate random captcha
+        function generateCaptcha() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let captcha = '';
+            for (let i = 0; i < 6; i++) {
+                captcha += chars.charAt(Math.floor(Math.random() * chars.length));
             }
-        });
-
-        // Check checkboxes
-        const checkboxes = document.querySelectorAll('input[type="checkbox"][required]');
-        checkboxes.forEach(checkbox => {
-            if (!checkbox.checked) {
-                checkbox.parentElement.style.color = '#dc3545';
-                isValid = false;
-            } else {
-                checkbox.parentElement.style.color = '#333';
-            }
-        });
-
-        if (isValid) {
-            alert('Permohonan informasi berhasil dikirim! Anda akan menerima konfirmasi melalui email.');
-            // Here you would normally submit the form data to a server
-        } else {
-            alert('Mohon lengkapi semua field yang wajib diisi.');
+            currentCaptcha = captcha;
+            document.getElementById('captchaBox').textContent = captcha;
         }
-    });
-</script>
+
+        // Initialize captcha on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            generateCaptcha();
+        });
+
+        // Form validation and submission
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Clear previous errors
+            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+            document.getElementById('success-message').style.display = 'none';
+            
+            let isValid = true;
+            
+            // Validate username
+            const username = document.getElementById('username').value.trim();
+            if (username.length < 3) {
+                showError('username-error', 'Username minimal 3 karakter');
+                isValid = false;
+            }
+            
+            // Validate nama
+            const nama = document.getElementById('nama').value.trim();
+            if (nama.length < 3) {
+                showError('nama-error', 'Nama minimal 3 karakter');
+                isValid = false;
+            }
+            
+            // Validate jenis identitas
+            const jenisIdentitas = document.getElementById('jenisIdentitas').value;
+            if (!jenisIdentitas) {
+                showError('jenisIdentitas-error', 'Pilih jenis identitas');
+                isValid = false;
+            }
+            
+            // Validate nomor identitas
+            const nomorIdentitas = document.getElementById('nomorIdentitas').value.trim();
+            if (nomorIdentitas.length < 5) {
+                showError('nomorIdentitas-error', 'Nomor identitas minimal 5 karakter');
+                isValid = false;
+            }
+            
+            // Validate alamat
+            const alamat = document.getElementById('alamat').value.trim();
+            if (alamat.length < 10) {
+                showError('alamat-error', 'Alamat minimal 10 karakter');
+                isValid = false;
+            }
+            
+            // Validate no telp
+            const noTelp = document.getElementById('noTelp').value.trim();
+            if (!/^[0-9+\-\s]+$/.test(noTelp) || noTelp.length < 8) {
+                showError('noTelp-error', 'Nomor telepon tidak valid');
+                isValid = false;
+            }
+            
+            // Validate pekerjaan
+            const pekerjaan = document.getElementById('pekerjaan').value.trim();
+            if (pekerjaan.length < 2) {
+                showError('pekerjaan-error', 'Pekerjaan minimal 2 karakter');
+                isValid = false;
+            }
+            
+            // Validate email
+            const email = document.getElementById('email').value.trim();
+            if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showError('email-error', 'Email tidak valid');
+                isValid = false;
+            }
+            
+            // Validate password
+            const password = document.getElementById('password').value;
+            if (password.length < 6) {
+                showError('password-error', 'Password minimal 6 karakter');
+                isValid = false;
+            }
+            
+            // Validate konfirmasi password
+            const konfirmasiPassword = document.getElementById('konfirmasiPassword').value;
+            if (password !== konfirmasiPassword) {
+                showError('konfirmasiPassword-error', 'Password dan konfirmasi password tidak cocok');
+                isValid = false;
+            }
+            
+            // Validate captcha
+            const captchaInput = document.getElementById('captcha').value.trim().toUpperCase();
+            if (captchaInput !== currentCaptcha) {
+                showError('captcha-error', 'Captcha tidak cocok');
+                generateCaptcha(); // Generate new captcha
+                isValid = false;
+            }
+            
+            // Validate declaration
+            const declaration = document.getElementById('declaration').checked;
+            if (!declaration) {
+                showError('declaration-error', 'Anda harus menyetujui pernyataan');
+                isValid = false;
+            }
+            
+            if (isValid) {
+                // Show loading
+                document.querySelector('.loading').style.display = 'inline';
+                document.querySelector('.btn-text').style.display = 'none';
+                
+                // Simulate API call
+                setTimeout(function() {
+                    // Hide loading
+                    document.querySelector('.loading').style.display = 'none';
+                    document.querySelector('.btn-text').style.display = 'inline';
+                    
+                    // Show success message
+                    document.getElementById('success-message').style.display = 'block';
+                    
+                    // Reset form after 2 seconds
+                    setTimeout(function() {
+                        resetForm();
+                        document.getElementById('success-message').style.display = 'none';
+                    }, 2000);
+                }, 1500);
+            }
+        });
+        
+        function showError(elementId, message) {
+            const errorElement = document.getElementById(elementId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+        
+        function resetForm() {
+            document.getElementById('registrationForm').reset();
+            document.querySelectorAll('.error-message').forEach(el => el.style.display = 'none');
+            document.getElementById('success-message').style.display = 'none';
+            generateCaptcha();
+        }
+    </script>
 </body>
 </html>
