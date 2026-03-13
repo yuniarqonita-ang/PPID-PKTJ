@@ -102,20 +102,19 @@
                     <!-- Konten Section -->
                     <div class="group">
                         <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white flex items-center justify-center mr-3">
-                                <i class="fas fa-pen-fancy text-sm"></i>
+                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 text-white flex items-center justify-center mr-3">
+                                <i class="fas fa-align-justify text-sm"></i>
                             </span>
-                            Konten Lengkap
+                            Konten Lengkap *
                         </label>
-                        <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner">
-                            <textarea id="editor" name="konten" class="w-full p-6 border-0 outline-none resize-none" style="min-height: 300px;">
-Tulis konten di sini...
-                            </textarea>
+                        <div id="summernote-konten">
+                            <textarea name="konten" 
+                                      rows="12"
+                                      class="summernote-editor"
+                                      placeholder="Tulis konten informasi berkala di sini..."
+                                      required>{{ old('konten', '') }}</textarea>
                         </div>
-                        <p class="text-sm text-slate-500 mt-2">
-                            <i class="fas fa-info-circle mr-1"></i>
-                            Gunakan formatting lengkap (bold, italic, list, tabel, dll)
-                        </p>
+                        <p class="text-sm text-slate-500 mt-2">Gunakan formatting lengkap untuk konten yang menarik</p>
                     </div>
 
                     <!-- Tanggal Section -->
@@ -209,7 +208,7 @@ Tulis konten di sini...
                     <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 border-2 border-blue-200 p-6 shadow-lg">
                         <div class="absolute -top-8 -right-8 w-24 h-24 bg-blue-200/20 rounded-full blur-3xl"></div>
                         <div class="relative z-10">
-                            <div class="flex items-center mb-3">
+                            <div class="flex items-center mb-4">
                                 <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-400 to-indigo-500 text-white flex items-center justify-center mr-3">
                                     <i class="fas fa-info-circle"></i>
                                 </div>
@@ -254,39 +253,52 @@ Tulis konten di sini...
     </div>
 </div>
 
-<!-- Summernote Editor Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Initialize Summernote for Konten Lengkap
-            $('#editor').summernote({
-                height: 300,
-                placeholder: 'Tulis konten lengkap di sini...',
-                toolbar: [
-                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
-                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
-                ]
-            });
-        });
-    </script>
+<!-- Summernote JS & CSS -->
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-<style>
-    .form-control.form-editor {
-        min-height: 250px;
-    }
-    .display-5 {
-        font-size: 2rem;
-        font-weight: 600;
-    }
-    .ck-editor__editable { min-height: 250px; }
-</style>
-</div>
-</div>
+@push('scripts')
+<script>
+$(document).ready(function() {
+    // Initialize Summernote for konten
+    $('#summernote-konten textarea').summernote({
+        height: 400,
+        toolbar: [
+            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+            ['font', ['strikethrough', 'superscript', 'subscript']],
+            ['fontsize', ['fontsize']],
+            ['color', ['color']],
+            ['para', ['ul', 'ol', 'paragraph', 'height']],
+            ['insert', ['picture', 'link', 'video', 'table', 'hr']],
+            ['view', ['fullscreen', 'codeview', 'help']]
+        ],
+        callbacks: {
+            onImageUpload: function(files) {
+                var file = files[0];
+                var formData = new FormData();
+                formData.append('image', file);
+                
+                $.ajax({
+                    url: '{{ route("admin.upload.image") }}',
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#summernote-konten textarea').summernote('insertImage', response.url);
+                    },
+                    error: function() {
+                        alert('Gagal mengupload gambar');
+                    }
+                });
+            }
+        }
+    });
+});
+</script>
+@endpush
+
 @endsection

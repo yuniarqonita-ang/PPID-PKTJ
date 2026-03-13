@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Profil;
+use App\Models\ProfilPpid;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -17,11 +17,10 @@ class ProfilPpidController extends Controller
      */
     public function index(): View
     {
-        $profils = Profil::all();
         $profilesData = [];
         
         foreach ($this->types as $type) {
-            $profilesData[$type] = $profils->where('tipe', $type)->first() ?? new Profil(['tipe' => $type]);
+            $profilesData[$type] = ProfilPpid::where('type', $type)->first() ?? new ProfilPpid(['type' => $type]);
         }
         
         return view('admin.profil.index', compact('profilesData'));
@@ -36,7 +35,7 @@ class ProfilPpidController extends Controller
             abort(404);
         }
 
-        $profil = Profil::where('tipe', $type)->first() ?? new Profil(['tipe' => $type]);
+        $profil = ProfilPpid::where('type', $type)->first() ?? new ProfilPpid(['type' => $type]);
         return view('admin.profil.edit', compact('profil', 'type'));
     }
 
@@ -52,13 +51,15 @@ class ProfilPpidController extends Controller
         // Validation
         $validated = $request->validate([
             'judul' => 'required|string|max:255',
-            'konten' => 'required|string',
-            'status' => 'required|boolean',
+            'konten_pembuka' => 'required|string',
+            'judul_sub' => 'nullable|string|max:255',
+            'konten_detail' => 'nullable|string',
             'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:5120',
+            'link_dokumen' => 'nullable|string|max:500',
         ]);
 
-        // Get or create the profile section
-        $profil = Profil::where('tipe', $type)->firstOrNew(['tipe' => $type]);
+        // Get or create profile section
+        $profil = ProfilPpid::where('type', $type)->first() ?? new ProfilPpid(['type' => $type]);
 
         // Handle image upload
         if ($request->hasFile('gambar')) {
@@ -73,19 +74,13 @@ class ProfilPpidController extends Controller
             $profil->gambar = $filename;
         }
 
-        // Handle image deletion
-        if ($request->has('hapus_gambar') && $request->hapus_gambar == '1') {
-            if ($profil->gambar && Storage::exists('public/profil/' . $profil->gambar)) {
-                Storage::delete('public/profil/' . $profil->gambar);
-            }
-            $profil->gambar = null;
-        }
-
         // Update profile data
+        $profil->type = $type;
         $profil->judul = $validated['judul'];
-        $profil->konten = $validated['konten'];
-        $profil->status = $validated['status'];
-        $profil->aktif = true;
+        $profil->konten_pembuka = $validated['konten_pembuka'];
+        $profil->judul_sub = $validated['judul_sub'] ?? null;
+        $profil->konten_detail = $validated['konten_detail'] ?? null;
+        $profil->link_dokumen = $validated['link_dokumen'] ?? null;
 
         $profil->save();
 
@@ -102,7 +97,7 @@ class ProfilPpidController extends Controller
             abort(404);
         }
 
-        $profil = Profil::where('tipe', $type)->first();
+        $profil = ProfilPpid::where('type', $type)->first();
 
         if ($profil) {
             if ($profil->gambar && Storage::exists('public/profil/' . $profil->gambar)) {

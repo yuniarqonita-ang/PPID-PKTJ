@@ -26,7 +26,7 @@ Route::get('/', function () {
         
         return view('welcome', compact('dokumen', 'artikel')); 
     } catch (\Exception $e) {
-        // Jika error, tampilkan pesan error
+        // Jika error, tampilkan pesan error yang lebih user-friendly
         return response()->view('errors.500', [], 500);
     }
 })->name('home');
@@ -235,13 +235,22 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     
     // Permohonan Informasi routes
     Route::name('admin.permohonan.')->prefix('permohonan')->group(function () {
-        Route::get('/', function() { return view('admin.permohonan.index'); })->name('index');
+        Route::get('/', [PermohonanController::class, 'index'])->name('index');
+        Route::get('/submissions', [PermohonanController::class, 'index'])->name('submissions');
         Route::get('/form', function() { return view('admin.permohonan.form'); })->name('form');
+        Route::get('/export', [PermohonanController::class, 'exportExcel'])->name('export');
+        Route::get('/download/{id}', [PermohonanController::class, 'downloadDocument'])->name('download');
         Route::post('/store', function() { 
             // Handle form submission logic here
             return redirect()->route('admin.permohonan.index')->with('success', 'Form permohonan berhasil disimpan!');
         })->name('store');
+        Route::get('/{permohonan}', [PermohonanController::class, 'show'])->name('show');
+        Route::put('/{permohonan}', [PermohonanController::class, 'update'])->name('update');
+        Route::delete('/{permohonan}', [PermohonanController::class, 'destroy'])->name('destroy');
     });
+
+    // Image upload for Summernote
+    Route::post('/upload/image', [AdminController::class, 'uploadImage'])->name('admin.upload.image');
 
     // Link Aplikasi Terkait
     Route::get('/lpse', function() { return "Halaman LPSE"; })->name('admin.lpse.index');

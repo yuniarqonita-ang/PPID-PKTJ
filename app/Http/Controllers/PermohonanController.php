@@ -42,7 +42,65 @@ class PermohonanController extends Controller
     public function index()
     {
         $permohonan = Permohonan::latest()->paginate(10);
-        return view('admin.permohonan.index', compact('permohonan'));
+        return view('admin.permohonan.submissions', compact('permohonan'));
+    }
+
+    /**
+     * Export permohonan data to Excel
+     */
+    public function exportExcel()
+    {
+        $permohonan = Permohonan::latest()->get();
+        
+        $filename = "permohonan_informasi_" . date('Y-m-d') . ".csv";
+        
+        $headers = [
+            'Content-Type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        ];
+
+        $callback = function() use ($permohonan) {
+            $file = fopen('php://output', 'w');
+            
+            // CSV Header
+            fputcsv($file, ['ID', 'Username', 'Nama Pemohon', 'Email', 'Telepon', 'Jenis Informasi', 'Deskripsi', 'Format', 'Status', 'Tanggal Daftar']);
+            
+            // CSV Data
+            foreach ($permohonan as $item) {
+                fputcsv($file, [
+                    $item->id,
+                    $item->username,
+                    $item->nama_pemohon,
+                    $item->email,
+                    $item->nomor_telepon,
+                    $item->jenis_informasi,
+                    $item->deskripsi_permohonan,
+                    $item->format_informasi,
+                    $item->status ?? 'pending',
+                    $item->created_at->format('Y-m-d H:i:s')
+                ]);
+            }
+            
+            fclose($file);
+        };
+
+        return response()->stream($callback, 200, $headers);
+    }
+
+    /**
+     * Download document (if exists)
+     */
+    public function downloadDocument($id)
+    {
+        $permohonan = Permohonan::find($id);
+        
+        if (!$permohonan) {
+            abort(404);
+        }
+
+        // Check if there's a document associated with this permohonan
+        // This would depend on your database structure
+        return response()->json(['message' => 'Document download feature coming soon']);
     }
 
     public function show(Permohonan $permohonan)
