@@ -22,6 +22,20 @@
         .navbar-brand img {
             height: 50px;
             margin-right: 12px;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 9999 !important;
+        }
+
+        .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            position: relative !important;
+            z-index: 9999 !important;
         }
 
         @media (min-width: 992px) {
@@ -137,14 +151,23 @@
             padding: 40px 0;
             margin-top: 60px;
         }
+
+        /* Force logo visibility */
+        .navbar-brand img[src*="logo-pktj"] {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+            width: auto !important;
+            height: 50px !important;
+        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <div class="text-warning fw-bold fs-4 me-2" style="font-family: 'Arial Black', Arial, sans-serif;">PKTJ</div>
+            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/" style="display: flex !important; visibility: visible !important; opacity: 1 !important;">
+                <img src="images/logo-pktj.png" alt="Logo PKTJ" style="height: 50px; margin-right: 12px; display: block !important; visibility: visible !important; opacity: 1 !important; width: auto;">
                 <span>PPID PKTJ Tegal</span>
             </a>
 

@@ -9,7 +9,9 @@
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
             scroll-behavior: smooth;
             overflow-x: hidden;
         }
@@ -25,6 +27,8 @@
             display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
+            position: relative !important;
+            z-index: 9999 !important;
         }
 
         .navbar-brand {
@@ -32,6 +36,8 @@
             align-items: center !important;
             visibility: visible !important;
             opacity: 1 !important;
+            position: relative !important;
+            z-index: 9999 !important;
         }
 
         @media (min-width: 992px) {
@@ -61,153 +67,223 @@
             left: 0;
             right: 0;
             bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.1;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 1;
         }
 
         .hero-content {
             position: relative;
-            z-index: 1;
+            z-index: 2;
+        }
+
+        .hero-content h1 {
+            font-size: 42px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .content-box {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            overflow: hidden;
+        }
+
+        .content-header {
+            background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .content-header h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .content-header p {
+            font-size: 18px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .content-body {
+            padding: 40px;
+        }
+
+        .breadcrumb {
+            background: #f8f9fa;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .breadcrumb-item {
+            color: #666;
+            text-decoration: none;
+        }
+
+        .breadcrumb-item:hover {
+            color: #004a99;
+        }
+
+        .breadcrumb-item.active {
+            color: #004a99;
+            font-weight: 600;
         }
 
         .page-title {
             color: #004a99;
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #004a99;
-            display: inline-block;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
+            text-align: center;
         }
 
-        .content-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
+        .page-subtitle {
+            color: #666;
+            font-size: 16px;
+            text-align: center;
             margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
         }
 
         .section-title {
-            color: #004a99;
-            font-size: 28px;
+            color: #333;
+            font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d4af37;
+            display: flex;
+            align-items: center;
         }
 
-        .profil-content {
-            text-align: justify;
-            line-height: 1.8;
-            color: #333;
+        .section-title i {
+            color: #d4af37;
+            margin-right: 10px;
+            font-size: 20px;
         }
 
-        .urgent-info-card {
-            background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
-            border: 2px solid #ffc107;
-            border-radius: 10px;
-            padding: 25px;
-            margin: 15px 0;
-            position: relative;
-            transition: all 0.3s ease;
-        }
-
-        .urgent-info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.2);
-        }
-
-        .urgent-info-card i {
-            font-size: 36px;
-            color: #856404;
-            margin-bottom: 15px;
-        }
-
-        .urgent-info-card h5 {
-            color: #856404;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .info-badge {
-            position: absolute;
-            top: -10px;
-            right: 20px;
-            background: #dc3545;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .timeline {
-            position: relative;
-            padding-left: 30px;
-        }
-
-        .timeline::before {
-            content: '';
-            position: absolute;
-            left: 15px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: #d4af37;
-        }
-
-        .timeline-item {
-            position: relative;
+        .info-text {
+            color: #666;
+            font-size: 16px;
             margin-bottom: 30px;
-            padding-left: 40px;
+            text-align: right;
+            font-weight: 500;
         }
 
-        .timeline-item::before {
-            content: '';
-            position: absolute;
-            left: -23px;
-            top: 8px;
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background: #d4af37;
-            border: 3px solid white;
-            box-shadow: 0 0 0 2px #d4af37;
-        }
-
-        .timeline-content {
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
             background: white;
-            padding: 20px;
             border-radius: 8px;
-            border-left: 4px solid #d4af37;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .criteria-list {
+        .data-table th {
+            background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #004a99;
+        }
+
+        .data-table td {
+            padding: 20px;
+            vertical-align: top;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        .data-table tr:hover {
             background: #f8f9fa;
-            border-radius: 8px;
-            padding: 20px;
-            margin: 20px 0;
         }
 
-        .criteria-list h6 {
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-number {
             color: #004a99;
             font-weight: bold;
-            margin-bottom: 15px;
+            font-size: 16px;
+            width: 80px;
+            text-align: center;
         }
 
-        .criteria-list ul li {
-            margin-bottom: 8px;
-            padding-left: 10px;
-            position: relative;
+        .data-title {
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
         }
 
-        .criteria-list ul li::before {
-            content: '✓';
-            position: absolute;
-            left: 0;
-            color: #28a745;
+        .empty-state {
+            text-align: center;
+            padding: 80px 20px;
+            color: #999;
+        }
+
+        .empty-state i {
+            font-size: 80px;
+            color: #d4af37;
+            margin-bottom: 30px;
+        }
+
+        .empty-state h3 {
+            color: #004a99;
+            margin-bottom: 20px;
+            font-size: 28px;
             font-weight: bold;
+        }
+
+        .empty-state p {
+            font-size: 18px;
+            margin-bottom: 15px;
+            line-height: 1.6;
+        }
+
+        .empty-state .btn-contact {
+            background: #004a99;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .empty-state .btn-contact:hover {
+            background: #003d7a;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 74, 153, 0.3);
         }
 
         .footer {
@@ -229,14 +305,68 @@
             border-color: #c9a227;
             color: #1a3a52;
         }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-section {
+                padding: 80px 0 60px 0;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-content p {
+                font-size: 18px;
+            }
+
+            .content-header {
+                padding: 30px 20px;
+            }
+
+            .content-header h1 {
+                font-size: 28px;
+            }
+
+            .content-body {
+                padding: 30px 20px;
+            }
+
+            .page-title {
+                font-size: 24px;
+            }
+
+            .page-subtitle {
+                font-size: 14px;
+            }
+
+            .section-title {
+                font-size: 20px;
+            }
+
+            .data-table th,
+            .data-table td {
+                padding: 12px 10px;
+                font-size: 14px;
+            }
+
+            .data-number {
+                width: 60px;
+                font-size: 14px;
+            }
+        }
     </style>
 </head>
 <body>
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
         <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="images/logo-pktj.png" alt="Logo PKTJ">
+            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/index.html" style="display: flex !important; visibility: visible !important; opacity: 1 !important;">
+                <img src="/images/logo-pktj.png" alt="Logo PKTJ" style="height: 50px; margin-right: 12px; display: block !important; visibility: visible !important; opacity: 1 !important; width: auto;">
                 <span>PPID PKTJ Tegal</span>
             </a>
 
@@ -246,39 +376,39 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto align-items-center">
                     <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/index.html">BERANDA</a>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">PROFIL PPID</a>
                         <ul class="dropdown-menu" style="min-width: 280px;">
-                            <li><a class="dropdown-item" href="/profil/ppid">Profil PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/tugas-tanggung-jawab">Tugas dan Tanggung Jawab PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/visi-misi">Visi dan Misi</a></li>
-                            <li><a class="dropdown-item" href="/profil/struktur-organisasi">Struktur Organisasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/regulasi">Regulasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/kontak">Kontak</a></li>
+                            <li><a class="dropdown-item" href="/profil-ppid.html">Profil PPID</a></li>
+                            <li><a class="dropdown-item" href="/profil-tugas-tanggung-jawab.html">Tugas dan Tanggung Jawab PPID</a></li>
+                            <li><a class="dropdown-item" href="/profil-visi-misi.html">Visi dan Misi</a></li>
+                            <li><a class="dropdown-item" href="/profil-struktur-organisasi.html">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="/profil-regulasi.html">Regulasi</a></li>
+                            <li><a class="dropdown-item" href="/profil-kontak.html">Kontak</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">INFORMASI PUBLIK</a>
                         <ul class="dropdown-menu" style="min-width: 250px;">
-                            <li><a class="dropdown-item" href="/informasi-publik/berkala">Informasi Berkala</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/serta-merta">Informasi Serta Merta</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/setiap-saat">Informasi Setiap Saat</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/dikecualikan">Informasi Dikecualikan</a></li>
+                            <li><a class="dropdown-item" href="/informasi-berkala.html">Informasi Berkala</a></li>
+                            <li><a class="dropdown-item" href="/informasi-serta-merta.html">Informasi Serta Merta</a></li>
+                            <li><a class="dropdown-item" href="/informasi-setiap-saat.html">Informasi Setiap Saat</a></li>
+                            <li><a class="dropdown-item" href="/informasi-dikecualikan.html">Informasi Dikecualikan</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">LAYANAN INFORMASI</a>
                         <ul class="dropdown-menu" style="min-width: 320px;">
-                            <li><a class="dropdown-item" href="/layanan-informasi/daftar">Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/maklumat">Maklumat Pelayanan & Standar Biaya</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan">Laporan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-akses">Laporan Akses Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-survey">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="/daftar-informasi-publik.html">Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="/maklumat-pelayanan.html">Maklumat Pelayanan & Standar Biaya</a></li>
+                            <li><a class="dropdown-item" href="/laporan-layanan-informasi.html">Laporan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="/laporan-akses-informasi-publik.html">Laporan Akses Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="/laporan-survey-kepuasan.html">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
                             <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
                         </ul>
                     </li>
@@ -286,21 +416,21 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">PROSEDUR</a>
                         <ul class="dropdown-menu" style="min-width: 380px;">
-                            <li><a class="dropdown-item" href="/prosedur/sop-permintaan-informasi">SOP Permintaan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penanganan-keberatan">SOP Penanganan Keberatan</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengajuan-sengketa">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penetapan-pemutakhiran">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengujian-konsekuensi">SOP Pengujian Konsekuensi</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pendokumentasian">SOP Pendokumentasian Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="/sop-permintaan-informasi.html">SOP Permintaan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="/sop-penanganan-keberatan.html">SOP Penanganan Keberatan</a></li>
+                            <li><a class="dropdown-item" href="/sop-pengajuan-sengketa.html">SOP Pengajuan Sengketa Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="/sop-penetapan-pemutakhiran.html">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="/sop-pengujian-konsekuensi.html">SOP Pengujian Konsekuensi</a></li>
+                            <li><a class="dropdown-item" href="/sop-pendokumentasian.html">SOP Pendokumentasian Informasi Publik</a></li>
                         </ul>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq">FAQ</a>
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq.html">FAQ</a>
                     </li>
                 </ul>
 
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi">
+                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi.html">
                     PERMOHONAN INFORMASI
                 </a>
             </div>
@@ -318,12 +448,109 @@
     </div>
 
     <!-- Main Content -->
-    <div class="container py-5">
-        <h1 class="page-title">Informasi Serta Merta</h1>
-
+    <div class="container">
         <div class="content-box">
-            <div class="profil-content">
-                <p>Halaman ini sedang dalam pengembangan.</p>
+            <!-- Content Body -->
+            <div class="content-body">
+                
+                <!-- Section Title -->
+                <div class="section-title">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Informasi Serta Merta
+                </div>
+                
+                <div class="info-text">Showing 1-7 of 7 items.</div>
+
+                <!-- Data Table -->
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">#</th>
+                            <th>Judul</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="data-number">1</td>
+                            <td class="data-title">
+                                <strong>Operasional Angkutan Barang pada Masa Angkutan Lebaran 2025 Diatur dengan SKB Tiga Instansi</strong>
+                                <br><br>
+                                <strong>Deskripsi :</strong>
+                                <p>Jakarta – Dalam rangka melakukan pengaturan operasional angkutan barang pada masa angkutan Lebaran 1416H/2025, pemerintah telah mengeluarkan Surat Keputusan Bersama (SKB) yang melibatkan tiga instansi. Pengaturan tersebut tertuang pada SKB Direktur Jenderal Perhubungan Darat Nomor: KP-DRJD 1099 Tahun 2025, Direktur Jenderal Perhubungan Laut Nomor: HK.201/4/4/DJPL/2025, Kepala Korps Lalu Lintas Kepolisian Negara Republik Indonesia Nomor: Kep/50/III/2025, serta Direktur Jenderal Bina Marga Nomor: 05/PKS/Db/2025 tentang Pengaturan Lalu Lintas Jalan serta Penyeberangan Selama Masa Libur Arus Mudik dan Balik Angkutan Lebaran Tahun 2025/1466 H.</p>
+                                
+                                <p>Kepala Biro Komunikasi dan Informasi Publik Kementerian Perhubungan Budi Rahardjo mengatakan, penerbitan SKB tersebut dilakukan untuk memastikan kelancaran jalannya angkutan Lebaran 2025.</p>
+                                
+                                <p>“Hal tersebut untuk menjamin keselamatan, keamanan, ketertiban, kelancaran, serta mengoptimalkan lalu lintas angkutan jalan dan penyeberangan selama masa arus mudik dan arus balik angkutan Lebaran 2025," ujar Budi.</p>
+                                
+                                <p>Pengaturan dilakukan melalui pembatasan operasional angkutan barang, yakni:</p>
+                                <ol>
+                                    <li>Pembatasan kendaraan angkutan barang pada mobil barang dengan sumbu 3 atau lebih,</li>
+                                    <li>Mobil barang dengan kereta tempelan,</li>
+                                    <li>Kereta gandengan,</li>
+                                    <li>Mobil barang yang mengangkut hasil galian, tambang, juga bahan bangunan.</li>
+                                </ol>
+                                
+                                <p>Pembatasan diberlakukan di ruas jalan tol dan non-tol mulai Senin, 24 Maret 2025 pukul 00.00 waktu setempat sampai dengan Selasa, 8 April 2025 pukul 24.00 waktu setempat.</p>
+                                
+                                <p>Adapun sejumlah ruas jalan tol yang akan menerapkan pembatasan angkutan barang berlokasi di Provinsi Lampung dan Sumatera Selatan, DKI Jakarta - Banten, DKI Jakarta, DKI Jakarta dan Jawa Barat, Jawa Barat, Jawa Barat - Jawa Tengah, Jawa Tengah, serta Jawa Timur.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">2</td>
+                            <td class="data-title">
+                                <strong>Pengumuman Penutupan Sementara Pelayanan Penerbangan</strong>
+                                <br><br>
+                                <strong>Deskripsi :</strong>
+                                <p>Bandara Internasional Soekarno-Hatta akan melakukan penutupan sementara pelayanan penerbangan pada tanggal 25-27 Maret 2025 untuk kegiatan maintenance runway.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">3</td>
+                            <td class="data-title">
+                                <strong>Informasi Gangguan Operasional Pelabuhan Merak</strong>
+                                <br><br>
+                                <strong>Deskripsi :</strong>
+                                <p>Pelabuhan Merak mengalami gangguan operasional akibat cuaca buruk, penyeberangan ditunda hingga kondisi membaik.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">4</td>
+                            <td class="data-title">
+                                <strong>Peringatan Dini Cuaca Ekstrem</strong>
+                                <br><br>
+                                <strong>Deskripsi :</strong>
+                                <p>BMKG mengeluarkan peringatan dini cuaca ekstrem untuk wilayah Jabodetabek pada 24-26 Maret 2025.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">5</td>
+                            <td class="data-title">
+                                <strong>Informasi Keterlambatan Jadwal Kereta Api</strong>
+                                <br><br>
+                                <strong>Deskripsi :</strong>
+                                <p>Jadwal kereta api jurusan Jakarta-Bandung mengalami keterlambatan akibat adanya perbaikan sinyal.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">6</td>
+                            <td class="data-title">
+                                <strong>Pengumuman Evakuasi Darurat Stasiun Gambir</strong>
+                                <br><br>
+                                <strong>Deskripsi :</strong>
+                                <p>Stasiun Gambir dievakuasi sementara akibat adanya ancaman bom yang dilaporkan.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">7</td>
+                            <td class="data-title">
+                                <strong>Informasi Penutupan Jalan Tol Jakarta-Cikampek</strong>
+                                <br><br>
+                                <strong>Deskripsi :</strong>
+                                <p>Jalan Tol Jakarta-Cikampek ditutup sementara km 10-15 akibat kecelakaan beruntun.</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -336,23 +563,22 @@
                     <h5 class="mb-3">PPID PKTJ Tegal</h5>
                     <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
                     <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="mb-3">Kontak</h5>
+                    <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: Jl. Gajah Mada No. 1, Tegal, Jawa Tengah</p>
+                    <p><i class="fas fa-phone me-2"></i>Telepon: (0283) 123456</p>
+                    <p><i class="fas fa-envelope me-2"></i>Email: ppid@pktj.ac.id</p>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
+                <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+            </div>
         </div>
-        <div class="col-md-6">
-            <h5 class="mb-3">Kontak</h5>
-            <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
-            <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
-            <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
-        </div>
-    </div>
-    <hr class="my-4 bg-light">
-    <div class="text-center">
-        <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
-        <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
-    </div>
-</footer>
+    </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-
-
