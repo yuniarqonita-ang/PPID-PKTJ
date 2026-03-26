@@ -20,7 +20,7 @@ class InformasiPublikController extends Controller
     // Informasi Berkala
     public function informasiBerkala()
     {
-        $informasi = InformasiBerkala::where('status', 1)->orderBy('tanggal', 'desc')->get();
+        $informasi = InformasiBerkala::where('aktif', true)->orderBy('created_at', 'desc')->get();
         $settings = $this->getSettings();
         return view('informasi-berkala', compact('informasi', 'settings'));
     }
@@ -28,7 +28,7 @@ class InformasiPublikController extends Controller
     // Informasi Serta Merta
     public function informasiSertamerta()
     {
-        $informasi = InformasiSertaMerta::where('status', 1)->orderBy('tanggal', 'desc')->get();
+        $informasi = InformasiSertaMerta::where('aktif', true)->orderBy('created_at', 'desc')->get();
         $settings = $this->getSettings();
         return view('informasi-serta-merta', compact('informasi', 'settings'));
     }
@@ -36,7 +36,7 @@ class InformasiPublikController extends Controller
     // Informasi Setiap Saat
     public function informasiSetiapsaat()
     {
-        $informasi = InformasiSetiapSaat::where('status', 1)->orderBy('tanggal', 'desc')->get();
+        $informasi = InformasiSetiapSaat::where('aktif', true)->orderBy('created_at', 'desc')->get();
         $settings = $this->getSettings();
         return view('informasi-setiap-saat', compact('informasi', 'settings'));
     }
@@ -44,7 +44,7 @@ class InformasiPublikController extends Controller
     // Informasi Dikecualikan
     public function informasiDikecualikan()
     {
-        $informasi = InformasiDikecualikan::where('status', 1)->orderBy('tanggal', 'desc')->get();
+        $informasi = InformasiDikecualikan::where('aktif', true)->orderBy('created_at', 'desc')->get();
         $settings = $this->getSettings();
         return view('informasi-dikecualikan', compact('informasi', 'settings'));
     }

@@ -65,9 +65,9 @@ class ProfilPublikController extends Controller
         // Special case: Daftar Informasi Publik needs all info types
         $extraData = [];
         if ($type === 'layanan-daftar') {
-            $extraData['berkala'] = \App\Models\InformasiBerkala::where('status', 1)->orderBy('tanggal', 'desc')->get();
-            $extraData['sertamerta'] = \App\Models\InformasiSertaMerta::where('status', 1)->orderBy('tanggal', 'desc')->get();
-            $extraData['setiapsaat'] = \App\Models\InformasiSetiapSaat::where('status', 1)->orderBy('tanggal', 'desc')->get();
+            $extraData['berkala'] = \App\Models\InformasiBerkala::where('aktif', true)->orderBy('created_at', 'desc')->get();
+            $extraData['sertamerta'] = \App\Models\InformasiSertaMerta::where('aktif', true)->orderBy('created_at', 'desc')->get();
+            $extraData['setiapsaat'] = \App\Models\InformasiSetiapSaat::where('aktif', true)->orderBy('created_at', 'desc')->get();
         }
 
         // Check if view exists, otherwise use a generic skeleton

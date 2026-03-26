@@ -144,7 +144,7 @@
                         <div class="mt-4 grid grid-cols-2 gap-4">
                             <div class="bg-slate-700 rounded-lg p-3 border border-cyan-600/30">
                                 <p class="text-xs font-bold text-cyan-400">📈 Range Pengunjung</p>
-                                <p class="text-sm text-white font-semibold">10.000 - 50.000/bulan</p>
+                                <p class="text-sm text-white font-semibold">Belum ada data pengunjung</p>
                             </div>
                             <div class="bg-slate-700 rounded-lg p-3 border border-cyan-600/30">
                                 <p class="text-xs font-bold text-cyan-400">📅 Periode</p>
@@ -383,7 +383,7 @@
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
                 datasets: [{
                     label: 'Pengunjung',
-                    data: [15000, 22000, 18000, 35000, 28000, 42000, 38000, 45000, 32000, 28000, 35000, 40000],
+                    data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                     borderColor: '#22c55e',
                     backgroundColor: gradient,
                     borderWidth: 3,
@@ -407,8 +407,8 @@
                 scales: {
                     y: {
                         beginAtZero: true,
-                        min: 10000,
-                        max: 50000,
+                        min: 0,
+                        max: 100,
                         ticks: {
                             color: '#94a3b8',
                             callback: function(value) {
@@ -439,11 +439,7 @@
         document.getElementById('yearSelector').addEventListener('change', function() {
             // Simulate data update based on year
             const year = this.value;
-            const newData = year === '2024' ? 
-                [12000, 18000, 15000, 28000, 22000, 35000, 30000, 38000, 25000, 22000, 28000, 32000] :
-                year === '2025' ?
-                [14000, 20000, 17000, 32000, 26000, 40000, 35000, 42000, 29000, 26000, 32000, 38000] :
-                [15000, 22000, 18000, 35000, 28000, 42000, 38000, 45000, 32000, 28000, 35000, 40000];
+            const newData = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
             
             visitorChart.data.datasets[0].data = newData;
             visitorChart.update();

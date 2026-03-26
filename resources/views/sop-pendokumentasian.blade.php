@@ -260,79 +260,9 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="images/logo-pktj.png" alt="Logo PKTJ">
-                <span>PPID PKTJ</span>
-            </a>
+    
+    @include('navigation')
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
-                        <ul class="dropdown-menu" style="min-width: 280px;">
-                            <li><a class="dropdown-item" href="/profil/ppid">Profil PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/tugas-tanggung-jawab">Tugas dan Tanggung Jawab PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/visi-misi">Visi dan Misi</a></li>
-                            <li><a class="dropdown-item" href="/profil/struktur-organisasi">Struktur Organisasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/regulasi">Regulasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/kontak">Kontak</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
-                        <ul class="dropdown-menu" style="min-width: 250px;">
-                            <li><a class="dropdown-item" href="/informasi-publik/berkala">Informasi Berkala</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/serta-merta">Informasi Serta Merta</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/setiap-saat">Informasi Setiap Saat</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/dikecualikan">Informasi Dikecualikan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
-                        <ul class="dropdown-menu" style="min-width: 320px;">
-                            <li><a class="dropdown-item" href="/layanan-informasi/daftar">Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/maklumat">Maklumat Pelayanan & Standar Biaya</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan">Laporan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-akses">Laporan Akses Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-survey">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
-                        <ul class="dropdown-menu" style="min-width: 380px;">
-                            <li><a class="dropdown-item" href="/prosedur/sop-permintaan-informasi">SOP Permintaan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penanganan-keberatan">SOP Penanganan Keberatan</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengajuan-sengketa">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penetapan-pemutakhiran">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengujian-konsekuensi">SOP Pengujian Konsekuensi</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pendokumentasian">SOP Pendokumentasian Informasi Publik</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq">FAQ</a>
-                    </li>
-                </ul>
-
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi">
-                    PERMOHONAN INFORMASI
-                </a>
-            </div>
-        </div>
-    </nav>
 
     <!-- Hero Section -->
     <div class="hero-section">
@@ -347,238 +277,20 @@
     <!-- Main Content -->
     <div class="container py-5">
         <h1 class="page-title">SOP Pendokumentasian Informasi Publik</h1>
-
-        <div class="content-box">
-            <h2 class="section-title">Dasar Hukum</h2>
-            <div class="profil-content">
-                <p>Standar Operasional Prosedur (SOP) Pendokumentasian Informasi Publik PPID PKTJ disusun berdasarkan:</p>
-                <ul>
-                    <li>Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik</li>
-                    <li>Peraturan Pemerintah Nomor 61 Tahun 2010 tentang Pelaksanaan Undang-Undang Nomor 14 Tahun 2008</li>
-                    <li>Undang-Undang Nomor 43 Tahun 2009 tentang Kearsipan</li>
-                    <li>Peraturan Komisi Informasi Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik</li>
-                    <li>Keputusan Direktur Jenderal Perhubungan Udara Nomor KP 345 Tahun 2018 tentang SOP PPID PKTJ</li>
-                </ul>
-            </div>
+        {{-- KONTEN DARI ADMIN PANEL --}}
+        @if(isset($profil) && $profil && ($profil->konten_pembuka || $profil->gambaran))
+        <div class="content-box mb-4" style="border-left: 5px solid #d4af37;">
+            @if($profil->judul)
+                <h2 class="section-title">{{ $profil->judul }}</h2>
+            @endif
+            @if($profil->konten_pembuka)
+                <div class="profil-content">{!! $profil->konten_pembuka !!}</div>
+            @endif
+            @if($profil->gambaran)
+                <div class="profil-content mt-3">{!! $profil->gambaran !!}</div>
+            @endif
         </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Pengertian Pendokumentasian</h2>
-            <div class="profil-content">
-                <p><strong>Pendokumentasian Informasi Publik</strong> adalah proses pengumpulan, pengolahan, penyimpanan, dan pengelolaan dokumen serta informasi yang dihasilkan dari kegiatan badan publik. Pendokumentasian dilakukan secara sistematis dan terstruktur untuk memastikan informasi dapat diakses dengan mudah dan akurat.</p>
-
-                <p>Pendokumentasian informasi publik merupakan kegiatan penting dalam menjalankan amanah keterbukaan informasi publik. Dokumen yang dihasilkan dari pendokumentasian akan menjadi sumber informasi yang dapat diminta oleh masyarakat sesuai dengan ketentuan perundang-undangan.</p>
-            </div>
-        </div>
-
-        <div class="archive-types">
-            <h6>Jenis Dokumen yang Didokumentasikan:</h6>
-            <ul>
-                <li>Dokumen kebijakan dan peraturan</li>
-                <li>Berita acara rapat dan pertemuan</li>
-                <li>Laporan kegiatan dan program</li>
-                <li>Data statistik dan informasi publik</li>
-                <li>Surat-menyurat resmi</li>
-                <li>Dokumen keuangan dan pengadaan</li>
-                <li>Rekaman audio visual kegiatan</li>
-                <li>Dokumen digital dan elektronik</li>
-            </ul>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Alur Prosedur Pendokumentasian</h2>
-
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <i class="fas fa-file-alt"></i>
-                <h5>Pengumpulan Dokumen</h5>
-                <p>PPID mengumpulkan semua dokumen dan informasi yang dihasilkan dari kegiatan badan publik. Pengumpulan dilakukan secara rutin dari semua unit kerja.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <i class="fas fa-tags"></i>
-                <h5>Klasifikasi Dokumen</h5>
-                <p>Dokumen diklasifikasikan berdasarkan jenis, kategori, dan tingkat kerahasiaannya. Klasifikasi dilakukan sesuai dengan sistem klasifikasi yang berlaku.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <i class="fas fa-edit"></i>
-                <h5>Pengolahan Dokumen</h5>
-                <p>Dokumen diproses melalui tahap identifikasi, pengindeksan, dan penomoran. Dokumen digital dipindai atau dikonversi ke format yang sesuai.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <i class="fas fa-archive"></i>
-                <h5>Penyimpanan Dokumen</h5>
-                <p>Dokumen disimpan dalam sistem arsip yang aman dan terorganisir. Penyimpanan dilakukan baik dalam bentuk fisik maupun digital.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">5</div>
-                <i class="fas fa-search"></i>
-                <h5>Pengelolaan Akses</h5>
-                <p>Sistem akses dokumen ditetapkan berdasarkan klasifikasi informasi. PPID mengelola hak akses untuk setiap jenis dokumen.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">6</div>
-                <i class="fas fa-clock"></i>
-                <h5>Pemeliharaan Berkala</h5>
-                <p>Dokumen dipelihara secara berkala melalui kegiatan pemindaian, pencatatan, dan pemusnahan dokumen yang sudah tidak diperlukan.</p>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Sistem Klasifikasi Dokumen</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Berdasarkan Jenis</h6>
-                        <p>Dokumen diklasifikasikan berdasarkan jenis kegiatan: kebijakan, program, laporan, data, dll.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Berdasarkan Unit Kerja</h6>
-                        <p>Dokumen dikelompokkan berdasarkan unit kerja yang menghasilkan dokumen tersebut.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Berdasarkan Periode</h6>
-                        <p>Dokumen diorganisir berdasarkan tahun, bulan, atau periode waktu tertentu.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Berdasarkan Tingkat Kerahasiaan</h6>
-                        <p>Dokumen diklasifikasikan sebagai rahasia, terbatas, atau publik.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="requirements-box">
-            <h6><i class="fas fa-file-signature me-2"></i>Persyaratan Dokumen</h6>
-            <ul>
-                <li>Dokumen harus lengkap dan asli</li>
-                <li>Dokumen memiliki metadata yang lengkap</li>
-                <li>Dokumen dalam kondisi baik dan terbaca</li>
-                <li>Dokumen memiliki kode klasifikasi</li>
-                <li>Dokumen disimpan dalam format yang standar</li>
-                <li>Dokumen memiliki nomor registrasi</li>
-                <li>Dokumen dilengkapi dengan tanggal pembuatan</li>
-                <li>Dokumen memiliki informasi unit pembuat</li>
-            </ul>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Sistem Penyimpanan</h2>
-            <div class="profil-content">
-                <p>PPID PKTJ menggunakan sistem penyimpanan dokumen yang terintegrasi:</p>
-
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-folder-open text-primary me-2"></i>Penyimpanan Fisik</h5>
-                        <ul>
-                            <li>Lemari arsip dengan sistem klasifikasi</li>
-                            <li>Ruang arsip yang aman dan terkontrol</li>
-                            <li>Sistem pengendalian kelembaban dan suhu</li>
-                            <li>Proteksi dari kebakaran dan banjir</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-server text-success me-2"></i>Penyimpanan Digital</h5>
-                        <ul>
-                            <li>Server dengan sistem backup otomatis</li>
-                            <li>Database terintegrasi untuk metadata</li>
-                            <li>Sistem cloud storage dengan enkripsi</li>
-                            <li>Aplikasi manajemen dokumen elektronik</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Jangka Waktu Penyimpanan</h2>
-            <div class="profil-content">
-                <p>Jangka waktu penyimpanan dokumen ditentukan berdasarkan:</p>
-                <ul>
-                    <li><strong>Dokumen Aktif:</strong> 5 tahun - dokumen yang sering diakses</li>
-                    <li><strong>Dokumen Inaktif:</strong> 10 tahun - dokumen yang jarang diakses</li>
-                    <li><strong>Dokumen Permanen:</strong> Selamanya - dokumen bersejarah penting</li>
-                    <li><strong>Dokumen Rahasia:</strong> 20 tahun atau sesuai peraturan</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Pemeliharaan dan Pemindahan</h2>
-            <div class="profil-content">
-                <p>PPID melakukan pemeliharaan dokumen secara berkala:</p>
-                <ul>
-                    <li>Pembersihan dan penyusunan ulang dokumen fisik</li>
-                    <li>Verifikasi kondisi dokumen dan media penyimpanan</li>
-                    <li>Migrasi data dari media lama ke media baru</li>
-                    <li>Pembaruan sistem klasifikasi dan indeks</li>
-                    <li>Pemusnahan dokumen yang sudah tidak diperlukan</li>
-                    <li>Pembuatan laporan kondisi dokumen</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="important-note">
-            <h6><i class="fas fa-exclamation-triangle me-2"></i>PENTING</h6>
-            <p>Pendokumentasian informasi publik harus dilakukan secara akurat dan lengkap. Kesalahan dalam pendokumentasian dapat mengakibatkan kesulitan dalam mengakses informasi dan berpotensi melanggar ketentuan keterbukaan informasi publik. Semua petugas PPID wajib memahami dan melaksanakan SOP ini dengan baik.</p>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Monitoring dan Evaluasi</h2>
-            <div class="profil-content">
-                <p>PPID melakukan monitoring terhadap sistem pendokumentasian melalui:</p>
-                <ul>
-                    <li>Audit berkala terhadap sistem penyimpanan</li>
-                    <li>Evaluasi efektivitas sistem klasifikasi</li>
-                    <li>Penilaian kemudahan akses dokumen</li>
-                    <li>Laporan periodik kondisi dokumentasi</li>
-                    <li>Pelatihan petugas pendokumentasian</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Kontak dan Informasi Tambahan</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-building text-primary me-2"></i>Kantor PPID PKTJ</h5>
-                    <p>Jl. Medan Merdeka Barat No. 8<br>
-                    Jakarta Pusat 10110<br>
-                    Indonesia</p>
-                </div>
-                <div class="col-md-6">
-                    <h5><i class="fas fa-phone text-success me-2"></i>Kontak</h5>
-                    <p>Telepon: (021) 3847790<br>
-                    Fax: (021) 3847791<br>
-                    Email: ppid@pktj.dephub.go.id</p>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <a href="/layanan-informasi/daftar" class="btn btn-warning me-3">
-                    <i class="fas fa-list-alt me-2"></i>Lihat Daftar Informasi Publik
-                </a>
-                <a href="/profil/kontak" class="btn btn-outline-primary">
-                    <i class="fas fa-map-marker-alt me-2"></i>Lihat Lokasi Kantor
-                </a>
-            </div>
-        </div>
+        @endif
     </div>
 
     <!-- Footer -->
@@ -605,5 +317,38 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dropdown Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const dropdownItem = this.closest('.dropdown');
+                    const dropdownMenu = dropdownItem.querySelector('.dropdown-menu');
+                    
+                    if (dropdownMenu.style.display === 'block') {
+                        dropdownMenu.style.display = 'none';
+                    } else {
+                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                            menu.style.display = 'none';
+                        });
+                        dropdownMenu.style.display = 'block';
+                    }
+                });
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.style.display = 'none';
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

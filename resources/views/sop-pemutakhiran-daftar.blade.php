@@ -260,79 +260,9 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="images/logo-pktj.png" alt="Logo PKTJ">
-                <span>PPID PKTJ</span>
-            </a>
+    
+    @include('navigation')
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
-                        <ul class="dropdown-menu" style="min-width: 280px;">
-                            <li><a class="dropdown-item" href="/profil/ppid">Profil PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/tugas-tanggung-jawab">Tugas dan Tanggung Jawab PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/visi-misi">Visi dan Misi</a></li>
-                            <li><a class="dropdown-item" href="/profil/struktur-organisasi">Struktur Organisasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/regulasi">Regulasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/kontak">Kontak</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
-                        <ul class="dropdown-menu" style="min-width: 250px;">
-                            <li><a class="dropdown-item" href="/informasi-publik/berkala">Informasi Berkala</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/serta-merta">Informasi Serta Merta</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/setiap-saat">Informasi Setiap Saat</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/dikecualikan">Informasi Dikecualikan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
-                        <ul class="dropdown-menu" style="min-width: 320px;">
-                            <li><a class="dropdown-item" href="/layanan-informasi/daftar">Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/maklumat">Maklumat Pelayanan & Standar Biaya</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan">Laporan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-akses">Laporan Akses Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-survey">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
-                        <ul class="dropdown-menu" style="min-width: 380px;">
-                            <li><a class="dropdown-item" href="/prosedur/sop-permintaan-informasi">SOP Permintaan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penanganan-keberatan">SOP Penanganan Keberatan</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengajuan-sengketa">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penetapan-pemutakhiran">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengujian-konsekuensi">SOP Pengujian Konsekuensi</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pendokumentasian">SOP Pendokumentasian Informasi Publik</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq">FAQ</a>
-                    </li>
-                </ul>
-
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi">
-                    PERMOHONAN INFORMASI
-                </a>
-            </div>
-        </div>
-    </nav>
 
     <!-- Hero Section -->
     <div class="hero-section">
@@ -347,237 +277,20 @@
     <!-- Main Content -->
     <div class="container py-5">
         <h1 class="page-title">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</h1>
-
-        <div class="content-box">
-            <h2 class="section-title">Dasar Hukum</h2>
-            <div class="profil-content">
-                <p>Standar Operasional Prosedur (SOP) Penetapan dan Pemutakhiran Daftar Informasi Publik PPID PKTJ disusun berdasarkan:</p>
-                <ul>
-                    <li>Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik</li>
-                    <li>Peraturan Pemerintah Nomor 61 Tahun 2010 tentang Pelaksanaan Undang-Undang Nomor 14 Tahun 2008</li>
-                    <li>Peraturan Komisi Informasi Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik</li>
-                    <li>Keputusan Direktur Jenderal Perhubungan Udara Nomor KP 345 Tahun 2018 tentang SOP PPID PKTJ</li>
-                </ul>
-            </div>
+        {{-- KONTEN DARI ADMIN PANEL --}}
+        @if(isset($profil) && $profil && ($profil->konten_pembuka || $profil->gambaran))
+        <div class="content-box mb-4" style="border-left: 5px solid #d4af37;">
+            @if($profil->judul)
+                <h2 class="section-title">{{ $profil->judul }}</h2>
+            @endif
+            @if($profil->konten_pembuka)
+                <div class="profil-content">{!! $profil->konten_pembuka !!}</div>
+            @endif
+            @if($profil->gambaran)
+                <div class="profil-content mt-3">{!! $profil->gambaran !!}</div>
+            @endif
         </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Pengertian Daftar Informasi Publik</h2>
-            <div class="profil-content">
-                <p><strong>Daftar Informasi Publik</strong> adalah katalog yang berisi sekumpulan informasi yang dapat diakses oleh publik dan disusun secara sistematis. Daftar informasi publik merupakan sarana bagi pemohon informasi untuk mengetahui jenis-jenis informasi yang tersedia dan dapat diminta.</p>
-
-                <p>Daftar informasi publik wajib disusun oleh setiap badan publik dan harus selalu diperbaharui sesuai dengan perkembangan informasi yang ada. Daftar ini harus mudah diakses dan dapat diperoleh secara gratis.</p>
-            </div>
-        </div>
-
-        <div class="category-list">
-            <h6>Kategori Informasi dalam Daftar:</h6>
-            <ul>
-                <li>Informasi yang wajib disediakan dan diumumkan secara berkala</li>
-                <li>Informasi yang wajib tersedia setiap saat</li>
-                <li>Informasi yang wajib tersedia atas permintaan</li>
-                <li>Informasi yang dikecualikan dari keterbukaan</li>
-                <li>Informasi yang dapat diakses dengan permintaan tertentu</li>
-                <li>Informasi tentang kegiatan dan program badan publik</li>
-                <li>Informasi tentang keuangan dan anggaran</li>
-                <li>Informasi tentang peraturan dan kebijakan</li>
-            </ul>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Alur Prosedur Penetapan Daftar Informasi</h2>
-
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <i class="fas fa-search"></i>
-                <h5>Inventarisasi Informasi</h5>
-                <p>PPID melakukan inventarisasi seluruh informasi yang dimiliki oleh badan publik. Inventarisasi dilakukan secara menyeluruh pada semua unit kerja.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <i class="fas fa-tags"></i>
-                <h5>Klasifikasi Informasi</h5>
-                <p>Informasi yang telah diinventarisasi diklasifikasikan berdasarkan jenis, kategori, dan tingkat keterbukaannya sesuai ketentuan perundang-undangan.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <i class="fas fa-edit"></i>
-                <h5>Penyusunan Daftar</h5>
-                <p>PPID menyusun daftar informasi publik dalam format yang mudah dipahami dan diakses oleh publik.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <i class="fas fa-check-circle"></i>
-                <h5>Validasi dan Verifikasi</h5>
-                <p>Daftar informasi diverifikasi oleh pimpinan badan publik untuk memastikan keakuratan dan kelengkapan informasi.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">5</div>
-                <i class="fas fa-bullhorn"></i>
-                <h5>Penetapan dan Pengumuman</h5>
-                <p>Daftar informasi ditetapkan melalui keputusan pimpinan dan diumumkan melalui berbagai kanal komunikasi.</p>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Prosedur Pemutakhiran Daftar</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Monitoring Berkala</h6>
-                        <p>PPID melakukan monitoring terhadap perubahan informasi setiap 3 bulan sekali</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Identifikasi Perubahan</h6>
-                        <p>Mengidentifikasi informasi baru, perubahan, atau penghapusan informasi</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Update Daftar</h6>
-                        <p>Memperbaharui daftar informasi sesuai dengan perubahan yang terjadi</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Verifikasi Update</h6>
-                        <p>Melakukan verifikasi terhadap daftar yang telah diperbaharui</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Pengumuman Update</h6>
-                        <p>Mengumumkan daftar informasi yang telah diperbaharui kepada publik</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="requirements-box">
-            <h6><i class="fas fa-file-signature me-2"></i>Persyaratan Format Daftar Informasi</h6>
-            <ul>
-                <li>Format daftar harus mudah dibaca dan dipahami</li>
-                <li>Menggunakan bahasa Indonesia yang baku</li>
-                <li>Dilengkapi dengan indeks dan sistem navigasi</li>
-                <li>Tersedia dalam format cetak dan digital</li>
-                <li>Mencantumkan tanggal pembuatan dan pemutakhiran</li>
-                <li>Dilengkapi dengan penjelasan singkat setiap jenis informasi</li>
-                <li>Mencantumkan unit kerja yang mengelola informasi</li>
-                <li>Dilengkapi dengan kontak untuk mendapatkan informasi</li>
-            </ul>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Tanggung Jawab Unit Kerja</h2>
-            <div class="profil-content">
-                <p>Dalam penetapan dan pemutakhiran daftar informasi publik, setiap unit kerja memiliki tanggung jawab sebagai berikut:</p>
-
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-users text-primary me-2"></i>Unit Kerja Teknis</h5>
-                        <ul>
-                            <li>Menyediakan data dan informasi yang dikelola</li>
-                            <li>Melakukan inventarisasi informasi internal</li>
-                            <li>Menyampaikan perubahan informasi kepada PPID</li>
-                            <li>Memverifikasi keakuratan informasi dalam daftar</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-user-tie text-success me-2"></i>PPID</h5>
-                        <ul>
-                            <li>Menyusun dan mengelola daftar informasi publik</li>
-                            <li>Berkordinasi dengan unit kerja terkait</li>
-                            <li>Melakukan pemutakhiran daftar secara berkala</li>
-                            <li>Menyediakan akses mudah terhadap daftar informasi</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Sistem Pengelolaan Daftar</h2>
-            <div class="profil-content">
-                <p>PPID PKTJ menggunakan sistem pengelolaan daftar informasi publik yang terintegrasi dan dapat diakses melalui:</p>
-
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-globe text-primary me-2"></i>Media Online</h5>
-                        <ul>
-                            <li>Website resmi PPID PKTJ</li>
-                            <li>Portal data terbuka</li>
-                            <li>Aplikasi mobile (dalam pengembangan)</li>
-                            <li>Database terintegrasi</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-building text-success me-2"></i>Media Offline</h5>
-                        <ul>
-                            <li>Buku daftar informasi cetak</li>
-                            <li>Papan informasi di kantor</li>
-                            <li>Brosur dan leaflet</li>
-                            <li>CD/DVD data informasi</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="important-note">
-            <h6><i class="fas fa-exclamation-triangle me-2"></i>PENTING</h6>
-            <p>Daftar informasi publik harus selalu diperbaharui secara berkala minimal setiap 6 bulan sekali atau setiap kali terjadi perubahan signifikan. Keterlambatan pemutakhiran daftar dapat dikenai sanksi sesuai ketentuan perundang-undangan.</p>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Monitoring dan Evaluasi</h2>
-            <div class="profil-content">
-                <p>PPID melakukan monitoring dan evaluasi terhadap efektivitas daftar informasi publik melalui:</p>
-                <ul>
-                    <li>Survei kepuasan pengguna daftar informasi</li>
-                    <li>Analisis jumlah permintaan informasi dari daftar</li>
-                    <li>Evaluasi kelengkapan dan keakuratan daftar</li>
-                    <li>Penilaian kemudahan akses daftar informasi</li>
-                    <li>Laporan periodik kepada pimpinan</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Kontak dan Informasi Tambahan</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-building text-primary me-2"></i>Kantor PPID PKTJ</h5>
-                    <p>Jl. Medan Merdeka Barat No. 8<br>
-                    Jakarta Pusat 10110<br>
-                    Indonesia</p>
-                </div>
-                <div class="col-md-6">
-                    <h5><i class="fas fa-phone text-success me-2"></i>Kontak</h5>
-                    <p>Telepon: (021) 3847790<br>
-                    Fax: (021) 3847791<br>
-                    Email: ppid@pktj.dephub.go.id</p>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <a href="/layanan-informasi/daftar" class="btn btn-warning me-3">
-                    <i class="fas fa-list-alt me-2"></i>Lihat Daftar Informasi Publik
-                </a>
-                <a href="/profil/kontak" class="btn btn-outline-primary">
-                    <i class="fas fa-map-marker-alt me-2"></i>Lihat Lokasi Kantor
-                </a>
-            </div>
-        </div>
+        @endif
     </div>
 
     <!-- Footer -->
@@ -604,5 +317,38 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dropdown Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const dropdownItem = this.closest('.dropdown');
+                    const dropdownMenu = dropdownItem.querySelector('.dropdown-menu');
+                    
+                    if (dropdownMenu.style.display === 'block') {
+                        dropdownMenu.style.display = 'none';
+                    } else {
+                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                            menu.style.display = 'none';
+                        });
+                        dropdownMenu.style.display = 'block';
+                    }
+                });
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.style.display = 'none';
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

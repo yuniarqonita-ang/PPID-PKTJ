@@ -260,79 +260,9 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="images/logo-pktj.png" alt="Logo PKTJ">
-                <span>PPID PKTJ</span>
-            </a>
+    
+    @include('navigation')
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
-                        <ul class="dropdown-menu" style="min-width: 280px;">
-                            <li><a class="dropdown-item" href="/profil/ppid">Profil PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/tugas-tanggung-jawab">Tugas dan Tanggung Jawab PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/visi-misi">Visi dan Misi</a></li>
-                            <li><a class="dropdown-item" href="/profil/struktur-organisasi">Struktur Organisasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/regulasi">Regulasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/kontak">Kontak</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
-                        <ul class="dropdown-menu" style="min-width: 250px;">
-                            <li><a class="dropdown-item" href="/informasi-publik/berkala">Informasi Berkala</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/serta-merta">Informasi Serta Merta</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/setiap-saat">Informasi Setiap Saat</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/dikecualikan">Informasi Dikecualikan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
-                        <ul class="dropdown-menu" style="min-width: 320px;">
-                            <li><a class="dropdown-item" href="/layanan-informasi/daftar">Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/maklumat">Maklumat Pelayanan & Standar Biaya</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan">Laporan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-akses">Laporan Akses Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-survey">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
-                        <ul class="dropdown-menu" style="min-width: 380px;">
-                            <li><a class="dropdown-item" href="/prosedur/sop-permintaan-informasi">SOP Permintaan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penanganan-keberatan">SOP Penanganan Keberatan</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengajuan-sengketa">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penetapan-pemutakhiran">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengujian-konsekuensi">SOP Pengujian Konsekuensi</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pendokumentasian">SOP Pendokumentasian Informasi Publik</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq">FAQ</a>
-                    </li>
-                </ul>
-
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi">
-                    PERMOHONAN INFORMASI
-                </a>
-            </div>
-        </div>
-    </nav>
 
     <!-- Hero Section -->
     <div class="hero-section">
@@ -347,230 +277,20 @@
     <!-- Main Content -->
     <div class="container py-5">
         <h1 class="page-title">SOP Pengujian Konsekuensi</h1>
-
-        <div class="content-box">
-            <h2 class="section-title">Dasar Hukum</h2>
-            <div class="profil-content">
-                <p>Standar Operasional Prosedur (SOP) Pengujian Konsekuensi PPID PKTJ disusun berdasarkan:</p>
-                <ul>
-                    <li>Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik</li>
-                    <li>Peraturan Pemerintah Nomor 61 Tahun 2010 tentang Pelaksanaan Undang-Undang Nomor 14 Tahun 2008</li>
-                    <li>Peraturan Komisi Informasi Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik</li>
-                    <li>Keputusan Direktur Jenderal Perhubungan Udara Nomor KP 345 Tahun 2018 tentang SOP PPID PKTJ</li>
-                </ul>
-            </div>
+        {{-- KONTEN DARI ADMIN PANEL --}}
+        @if(isset($profil) && $profil && ($profil->konten_pembuka || $profil->gambaran))
+        <div class="content-box mb-4" style="border-left: 5px solid #d4af37;">
+            @if($profil->judul)
+                <h2 class="section-title">{{ $profil->judul }}</h2>
+            @endif
+            @if($profil->konten_pembuka)
+                <div class="profil-content">{!! $profil->konten_pembuka !!}</div>
+            @endif
+            @if($profil->gambaran)
+                <div class="profil-content mt-3">{!! $profil->gambaran !!}</div>
+            @endif
         </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Pengertian Pengujian Konsekuensi</h2>
-            <div class="profil-content">
-                <p><strong>Pengujian Konsekuensi</strong> adalah proses evaluasi mendalam terhadap potensi dampak negatif yang mungkin timbul apabila informasi yang dikecualikan dari keterbukaan informasi publik dibuka kepada masyarakat. Pengujian ini dilakukan untuk menentukan apakah alasan pengecualian informasi masih relevan atau sudah tidak berlaku.</p>
-
-                <p>Pengujian konsekuensi bersifat objektif dan dilakukan secara sistematis berdasarkan kriteria yang telah ditentukan dalam peraturan perundang-undangan. Hasil pengujian konsekuensi menjadi dasar bagi PPID dalam mengambil keputusan untuk membuka atau menolak informasi.</p>
-            </div>
-        </div>
-
-        <div class="criteria-box">
-            <h6><i class="fas fa-list-check me-2"></i>Kapan Pengujian Konsekuensi Dilakukan</h6>
-            <ul>
-                <li>Informasi yang dikecualikan berdasarkan Pasal 17 UU KIP akan dibuka</li>
-                <li>Informasi telah berubah sifatnya menjadi tidak rahasia</li>
-                <li>Kepentingan publik lebih besar daripada kepentingan yang dilindungi</li>
-                <li>Informasi telah diumumkan oleh pihak lain yang berwenang</li>
-                <li>Informasi telah menjadi pengetahuan umum</li>
-                <li>Ada perintah pengadilan untuk membuka informasi</li>
-                <li>Permintaan ulang terhadap informasi yang pernah ditolak</li>
-            </ul>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Alur Prosedur Pengujian Konsekuensi</h2>
-
-            <div class="step-card">
-                <div class="step-number">1</div>
-                <i class="fas fa-file-alt"></i>
-                <h5>Penerimaan Permintaan</h5>
-                <p>PPID menerima permintaan informasi atau permintaan ulang terhadap informasi yang pernah ditolak. Permintaan dicatat dalam register khusus.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">2</div>
-                <i class="fas fa-users"></i>
-                <h5>Pembentukan Tim Penguji</h5>
-                <p>PPID membentuk tim penguji yang terdiri dari minimal 3 orang yang memiliki kompetensi di bidangnya. Tim diketuai oleh pejabat PPID.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">3</div>
-                <i class="fas fa-search"></i>
-                <h5>Analisis Awal</h5>
-                <p>Tim penguji melakukan analisis awal terhadap informasi yang diminta, termasuk mengkaji alasan penolakan sebelumnya dan konteks permintaan.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">4</div>
-                <i class="fas fa-balance-scale"></i>
-                <h5>Pengujian Konsekuensi</h5>
-                <p>Tim melakukan pengujian konsekuensi berdasarkan kriteria yang telah ditentukan. Pengujian dilakukan secara obyektif dan sistematis.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">5</div>
-                <i class="fas fa-gavel"></i>
-                <h5>Pengambilan Keputusan</h5>
-                <p>Tim mengambil keputusan untuk membuka atau tetap menolak informasi berdasarkan hasil pengujian konsekuensi.</p>
-            </div>
-
-            <div class="step-card">
-                <div class="step-number">6</div>
-                <i class="fas fa-envelope"></i>
-                <h5>Pemberitahuan Keputusan</h5>
-                <p>PPID memberitahukan keputusan kepada pemohon informasi dengan alasan yang jelas dan dapat dipertanggungjawabkan.</p>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Kriteria Pengujian Konsekuensi</h2>
-            <div class="assessment-matrix">
-                <h6>Kriteria yang Dinilai dalam Pengujian Konsekuensi:</h6>
-                <ul>
-                    <li>Dampak terhadap keamanan negara dan stabilitas nasional</li>
-                    <li>Risiko terhadap kepentingan ekonomi nasional</li>
-                    <li>Potensi pelanggaran hak privasi individu</li>
-                    <li>Dampak terhadap proses peradilan yang sedang berlangsung</li>
-                    <li>Risiko terhadap keselamatan masyarakat</li>
-                    <li>Dampak terhadap rahasia dagang dan kekayaan intelektual</li>
-                    <li>Konsekuensi terhadap hubungan internasional</li>
-                    <li>Potensi gangguan terhadap fungsi pengawasan</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Metode Pengujian</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">1. Kajian Internal</h6>
-                        <p>Mengkaji dampak pembukaan informasi terhadap kepentingan internal badan publik</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">2. Kajian Eksternal</h6>
-                        <p>Mengkaji dampak pembukaan informasi terhadap kepentingan publik dan pihak terkait</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">3. Analisis Risiko</h6>
-                        <p>Melakukan analisis risiko terhadap berbagai skenario pembukaan informasi</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">4. Konsultasi</h6>
-                        <p>Berkonsultasi dengan unit kerja terkait dan ahli yang kompeten</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">5. Pembobotan</h6>
-                        <p>Memberikan bobot pada setiap aspek konsekuensi yang diidentifikasi</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Komposisi Tim Penguji</h2>
-            <div class="profil-content">
-                <p>Tim penguji konsekuensi terdiri dari:</p>
-                <ul>
-                    <li><strong>Ketua Tim:</strong> Pejabat PPID yang memiliki kompetensi di bidang keterbukaan informasi</li>
-                    <li><strong>Sekretaris:</strong> Staf PPID yang bertugas mencatat dan mendokumentasikan proses pengujian</li>
-                    <li><strong>Anggota:</strong> Minimal 2 orang dari unit kerja yang mengelola informasi atau ahli terkait</li>
-                    <li><strong>Observer:</strong> Perwakilan dari unit kerja terkait (jika diperlukan)</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Jangka Waktu Pengujian</h2>
-            <div class="profil-content">
-                <p>Jangka waktu pelaksanaan pengujian konsekuensi:</p>
-                <ul>
-                    <li><strong>Pembentukan Tim:</strong> Maksimal 3 hari kerja sejak permintaan diterima</li>
-                    <li><strong>Proses Pengujian:</strong> Maksimal 10 hari kerja</li>
-                    <li><strong>Pengambilan Keputusan:</strong> Maksimal 7 hari kerja setelah pengujian selesai</li>
-                    <li><strong>Total Jangka Waktu:</strong> Maksimal 20 hari kerja</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="important-note">
-            <h6><i class="fas fa-exclamation-triangle me-2"></i>PENTING</h6>
-            <p>Pengujian konsekuensi harus dilakukan secara obyektif dan profesional. Hasil pengujian harus dapat dipertanggungjawabkan secara hukum. Tim penguji dilarang menerima intervensi dari pihak manapun yang dapat mempengaruhi obyektivitas pengujian.</p>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Dokumentasi Pengujian</h2>
-            <div class="profil-content">
-                <p>PPID wajib mendokumentasikan seluruh proses pengujian konsekuensi dengan mencatat:</p>
-                <ul>
-                    <li>Identitas tim penguji dan tanggal pengujian</li>
-                    <li>Ringkasan permintaan informasi</li>
-                    <li>Hasil analisis awal dan kajian mendalam</li>
-                    <li>Argumentasi pro dan kontra pembukaan informasi</li>
-                    <li>Keputusan akhir dan alasan yang mendasarinya</li>
-                    <li>Tanda tangan seluruh anggota tim penguji</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Pelaporan dan Evaluasi</h2>
-            <div class="profil-content">
-                <p>PPID wajib:</p>
-                <ul>
-                    <li>Melaporkan hasil pengujian konsekuensi kepada pimpinan badan publik</li>
-                    <li>Menyimpan dokumentasi pengujian sebagai arsip penting</li>
-                    <li>Melakukan evaluasi terhadap proses pengujian secara berkala</li>
-                    <li>Meningkatkan kapasitas tim penguji melalui pelatihan</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Kontak dan Informasi Tambahan</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-building text-primary me-2"></i>Kantor PPID PKTJ</h5>
-                    <p>Jl. Medan Merdeka Barat No. 8<br>
-                    Jakarta Pusat 10110<br>
-                    Indonesia</p>
-                </div>
-                <div class="col-md-6">
-                    <h5><i class="fas fa-phone text-success me-2"></i>Kontak</h5>
-                    <p>Telepon: (021) 3847790<br>
-                    Fax: (021) 3847791<br>
-                    Email: ppid@pktj.dephub.go.id</p>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <a href="/informasi-publik/dikecualikan" class="btn btn-warning me-3">
-                    <i class="fas fa-shield-alt me-2"></i>Lihat Informasi Dikecualikan
-                </a>
-                <a href="/profil/kontak" class="btn btn-outline-primary">
-                    <i class="fas fa-map-marker-alt me-2"></i>Lihat Lokasi Kantor
-                </a>
-            </div>
-        </div>
+        @endif
     </div>
 
     <!-- Footer -->
@@ -597,5 +317,38 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dropdown Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const dropdownItem = this.closest('.dropdown');
+                    const dropdownMenu = dropdownItem.querySelector('.dropdown-menu');
+                    
+                    if (dropdownMenu.style.display === 'block') {
+                        dropdownMenu.style.display = 'none';
+                    } else {
+                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                            menu.style.display = 'none';
+                        });
+                        dropdownMenu.style.display = 'block';
+                    }
+                });
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.style.display = 'none';
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

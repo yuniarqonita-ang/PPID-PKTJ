@@ -16,6 +16,26 @@ use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\Auth\LoginController;
 
 // ==========================================
+// 0. REDIRECT URL LAMA (.html)
+// ==========================================
+Route::redirect('/daftar-informasi-publik.html', '/layanan-informasi/daftar');
+Route::redirect('/informasi-berkala.html', '/informasi-publik/berkala');
+Route::redirect('/informasi-dikecualikan.html', '/informasi-publik/dikecualikan');
+Route::redirect('/informasi-serta-merta.html', '/informasi-publik/serta-merta');
+Route::redirect('/informasi-setiap-saat.html', '/informasi-publik/setiap-saat');
+Route::redirect('/laporan-akses-informasi-publik.html', '/layanan-informasi/laporan-akses');
+Route::redirect('/laporan-layanan-informasi.html', '/layanan-informasi/laporan');
+Route::redirect('/laporan-survey-kepuasan.html', '/layanan-informasi/laporan-survey');
+Route::redirect('/maklumat-pelayanan.html', '/layanan-informasi/maklumat');
+Route::redirect('/sop-penanganan-keberatan.html', '/prosedur/sop-keberatan');
+Route::redirect('/sop-pendokumentasian.html', '/prosedur/sop-pendokumentasian');
+Route::redirect('/sop-pengajuan-sengketa.html', '/prosedur/sop-sengketa');
+Route::redirect('/sop-pengujian-konsekuensi.html', '/prosedur/sop-pengujian');
+Route::redirect('/sop-permintaan-informasi.html', '/prosedur/sop-permintaan');
+Route::redirect('/faq.html', '/faq');
+Route::redirect('/permohonan-informasi.html', '/permohonan-informasi');
+
+// ==========================================
 // 1. FRONT OFFICE
 // ==========================================
 Route::get('/', function () { 
