@@ -160,83 +160,86 @@
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
-<!-- SUMMERNOTE CDN - 100% FREE -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-id-ID.js"></script>
+<!-- TinyMCE Editor Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        var TINYMCE_CONFIG = {
+            license_key: 'gpl',
+            height: 500,
+            menubar: false,
+            skin: 'oxide',
+            content_css: 'default',
+            plugins: [
+                'advlist','autolink','lists','link','image','charmap',
+                'searchreplace','visualblocks','code','fullscreen',
+                'insertdatetime','media','table','help','wordcount'
+            ],
+            toolbar:
+                'undo redo | styles | bold italic underline strikethrough | ' +
+                'fontfamily fontsize forecolor backcolor | ' +
+                'alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist outdent indent | ' +
+                'table link image charmap | removeformat code fullscreen',
+            toolbar_mode: 'wrap',
+            fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 28pt 32pt 36pt 48pt 72pt',
+            font_family_formats:
+                'Arial=arial,helvetica,sans-serif;' +
+                'Arial Black=arial black,avant garde;' +
+                'Comic Sans MS=comic sans ms,sans-serif;' +
+                'Courier New=courier new,courier;' +
+                'Georgia=georgia,palatino;' +
+                'Helvetica=helvetica;' +
+                'Impact=impact,chicago;' +
+                'Inter=inter,sans-serif;' +
+                'Tahoma=tahoma,arial,helvetica,sans-serif;' +
+                'Times New Roman=times new roman,times;' +
+                'Trebuchet MS=trebuchet ms,geneva;' +
+                'Verdana=verdana,geneva',
+            style_formats: [
+                { title: 'Heading 1', block: 'h1' },
+                { title: 'Heading 2', block: 'h2' },
+                { title: 'Heading 3', block: 'h3' },
+                { title: 'Heading 4', block: 'h4' },
+                { title: 'Paragraph', block: 'p' },
+                { title: 'Blockquote', block: 'blockquote' }
+            ],
+            table_toolbar:
+                'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | ' +
+                'tableinsertcolbefore tableinsertcolafter tabledeletecol',
+            content_style:
+                'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.75; color: #1e293b; padding: 12px; } ' +
+                'table { border-collapse: collapse; width: 100%; } ' +
+                'table td, table th { border: 1px solid #ddd; padding: 8px 12px; }' +
+                'table th { background: #f1f5f9; font-weight: 600; }'
+        };
 
-<!-- CUSTOM SUMMERNOTE INITIALIZATION -->
-<script>
-$(document).ready(function() {
-    // Initialize Summernote with Indonesian language
-    $('#summernote-editor').summernote({
-        height: 500,
-        lang: 'id-ID',
-        placeholder: 'Tulis konten lengkap informasi serta merta di sini... Gunakan format yang menarik dan mudah dibaca...',
-        toolbar: [
-            // [groupName, [list of button]]
-            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph', 'height']],
-            ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-            ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
-        ],
-        callbacks: {
-            onImageUpload: function(files) {
-                // Handle image upload
-                for (let i = 0; i < files.length; i++) {
-                    uploadImage(files[i]);
+        document.addEventListener('DOMContentLoaded', function() {
+            tinymce.init(Object.assign({}, TINYMCE_CONFIG, { selector: '#summernote-editor' }));
+        });
+
+        // Auto-sync TinyMCE on form submit
+        document.querySelector('form').addEventListener('submit', function() {
+            tinymce.triggerSave();
+        });
+        
+        // Document upload handler
+        const dokumenInput = document.getElementById('dokumenInput');
+        const dokumenName = document.getElementById('dokumenName');
+        
+        dokumenInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                const file = e.target.files[0];
+                const fileSize = (file.size / 1024 / 1024).toFixed(2);
+                dokumenName.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i>File selected: ${file.name} (${fileSize} MB)`;
+                
+                // Validate file size
+                if (file.size > 15 * 1024 * 1024) {
+                    dokumenName.innerHTML = `<i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>File too large: ${file.name} (${fileSize} MB - Max: 15MB)`;
+                    dokumenInput.value = '';
                 }
-            },
-            onInit: function() {
-                console.log('Summernote initialized successfully!');
+            } else {
+                dokumenName.textContent = '';
             }
-        }
-    });
-
-    // Image upload function
-    function uploadImage(file) {
-        const data = new FormData();
-        data.append('image', file);
-        
-        // Show loading
-        const loadingImg = $('<img>').attr('src', 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTAiIGhlaWdodD0iNTAiIHZpZXdCb3g9IjAgMCA1MCA1MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPGNpcmNsZSBjeD0iMjUiIGN5PSIyNSIgcj0iMjAiIHN0cm9rZT0iIzY2N2VlYSIgc3Ryb2tlLXdpZHRoPSI0IiBzdHJva2UtZGFzaGFycmF5PSI0IDQiPgo8L2NpcmNsZT4KPC9zdmc+').css('width', '50px');
-        $('#summernote-editor').summernote('insertNode', loadingImg[0]);
-        
-        // Simulate upload (replace with actual upload endpoint)
-        setTimeout(() => {
-            // Remove loading
-            $('#summernote-editor').summernote('removeNode', loadingImg[0]);
-            
-            // Insert uploaded image (replace with actual image URL)
-            const imgUrl = URL.createObjectURL(file);
-            $('#summernote-editor').summernote('insertImage', imgUrl, file.name);
-        }, 1000);
-    }
-});
-
-// Document upload handler
-document.addEventListener('DOMContentLoaded', function() {
-    const dokumenInput = document.getElementById('dokumenInput');
-    const dokumenName = document.getElementById('dokumenName');
-    
-    dokumenInput.addEventListener('change', function(e) {
-        if (e.target.files.length > 0) {
-            const file = e.target.files[0];
-            const fileSize = (file.size / 1024 / 1024).toFixed(2);
-            dokumenName.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i>File selected: ${file.name} (${fileSize} MB)`;
-            
-            // Validate file size
-            if (file.size > 15 * 1024 * 1024) {
-                dokumenName.innerHTML = `<i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>File too large: ${file.name} (${fileSize} MB - Max: 15MB)`;
-                dokumenInput.value = '';
-            }
-        } else {
-            dokumenName.textContent = '';
-        }
-    });
-});
-</script>
+        });
+    </script>
 @endsection

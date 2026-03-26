@@ -61,7 +61,7 @@
                 <label class="block text-sm font-medium text-gray-700 mb-2">
                     <i class="fas fa-align-left text-blue-500 mr-2"></i>Isi Informasi *
                 </label>
-                <textarea name="konten" rows="6" 
+                <textarea name="konten" id="editor_setiapsaat" rows="6" 
                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                           placeholder="Tuliskan informasi yang tersedia setiap saat..." required>{{ old('konten') }}</textarea>
                 @error('konten')
@@ -150,6 +150,7 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('fileInput');
@@ -162,6 +163,62 @@ document.addEventListener('DOMContentLoaded', function() {
             fileName.textContent = '';
         }
     });
+
+    tinymce.init({
+        selector: '#editor_setiapsaat',
+        license_key: 'gpl',
+        height: 300,
+        menubar: false,
+        skin: 'oxide',
+        content_css: 'default',
+        plugins: [
+            'advlist','autolink','lists','link','image','charmap',
+            'searchreplace','visualblocks','code','fullscreen',
+            'insertdatetime','media','table','help','wordcount'
+        ],
+        toolbar:
+            'undo redo | styles | bold italic underline strikethrough | ' +
+            'fontfamily fontsize forecolor backcolor | ' +
+            'alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | ' +
+            'table link image charmap | removeformat code fullscreen',
+        toolbar_mode: 'wrap',
+        fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 28pt 32pt 36pt 48pt 72pt',
+        font_family_formats:
+            'Arial=arial,helvetica,sans-serif;' +
+            'Arial Black=arial black,avant garde;' +
+            'Comic Sans MS=comic sans ms,sans-serif;' +
+            'Courier New=courier new,courier;' +
+            'Georgia=georgia,palatino;' +
+            'Helvetica=helvetica;' +
+            'Impact=impact,chicago;' +
+            'Inter=inter,sans-serif;' +
+            'Tahoma=tahoma,arial,helvetica,sans-serif;' +
+            'Times New Roman=times new roman,times;' +
+            'Trebuchet MS=trebuchet ms,geneva;' +
+            'Verdana=verdana,geneva',
+        style_formats: [
+            { title: 'Heading 1', block: 'h1' },
+            { title: 'Heading 2', block: 'h2' },
+            { title: 'Heading 3', block: 'h3' },
+            { title: 'Heading 4', block: 'h4' },
+            { title: 'Paragraph', block: 'p' },
+            { title: 'Blockquote', block: 'blockquote' }
+        ],
+        table_toolbar:
+            'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | ' +
+            'tableinsertcolbefore tableinsertcolafter tabledeletecol',
+        content_style:
+            'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.75; color: #1e293b; padding: 12px; } ' +
+            'table { border-collapse: collapse; width: 100%; } ' +
+            'table td, table th { border: 1px solid #ddd; padding: 8px 12px; }' +
+            'table th { background: #f1f5f9; font-weight: 600; }'
+    });
+});
+
+// Auto-sync TinyMCE on form submit
+document.querySelector('form').addEventListener('submit', function() {
+    tinymce.triggerSave();
 });
 </script>
 @endsection

@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@php
+    $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+@endphp
+
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 p-8">
     <div class="space-y-8 max-w-full">
@@ -67,8 +71,36 @@
 
     <!-- ==================== FORM SECTION ==================== -->
     <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-xl p-8 border border-slate-200">
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.halaman-custom.store', 'laporan_akses') }}" method="POST" enctype="multipart/form-data">
             @csrf
+
+            <!-- ==================== HERO & LANDING PAGE SECTION ==================== -->
+            <div class="mb-12 space-y-8 bg-white p-8 rounded-2xl border-2 border-blue-100 shadow-sm">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-center shadow-lg">
+                        <i class="fas fa-rocket text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Hero & Landing Page</h2>
+                        <p class="text-slate-500">Sesuaikan tampilan awal halaman Laporan Akses di publik</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="group">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Judul Hero</label>
+                        <input type="text" name="judul_hero" 
+                               class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                               value="{{ $settings['laporan_akses_judul_hero'] ?? 'Laporan Akses Informasi Publik' }}">
+                    </div>
+                    <div class="group">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Tagline Hero</label>
+                        <input type="text" name="tagline_hero" 
+                               class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                               value="{{ $settings['laporan_akses_tagline_hero'] ?? 'Statistik akses informasi publik yang diminta oleh masyarakat' }}">
+                    </div>
+                </div>
+            </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Main Content (2 columns) -->
@@ -95,7 +127,7 @@
                                     class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm" required>
                                 <option value="">Pilih Tahun</option>
                                 @for($year = date('Y'); $year >= date('Y') - 5; $year--)
-                                    <option value="{{ $year }}">{{ $year }}</option>
+                                    <option value="{{ $year }}" {{ isset($settings['laporan_akses_tahun_laporan']) && $settings['laporan_akses_tahun_laporan'] == $year ? 'selected' : '' }}>{{ $year }}</option>
                                 @endfor
                             </select>
                         </div>
@@ -110,11 +142,12 @@
                             </label>
                             <select name="jenis_laporan" id="jenis_laporan" 
                                     class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 bg-white shadow-sm" required>
+                                @php $jenis = $settings['laporan_akses_jenis_laporan'] ?? ''; @endphp
                                 <option value="">Pilih Jenis Laporan</option>
-                                <option value="tahunan">Laporan Tahunan</option>
-                                <option value="semesteran">Laporan Semesteran</option>
-                                <option value="triwulan">Laporan Triwulan</option>
-                                <option value="bulanan">Laporan Bulanan</option>
+                                <option value="tahunan" {{ $jenis == 'tahunan' ? 'selected' : '' }}>Laporan Tahunan</option>
+                                <option value="semesteran" {{ $jenis == 'semesteran' ? 'selected' : '' }}>Laporan Semesteran</option>
+                                <option value="triwulan" {{ $jenis == 'triwulan' ? 'selected' : '' }}>Laporan Triwulan</option>
+                                <option value="bulanan" {{ $jenis == 'bulanan' ? 'selected' : '' }}>Laporan Bulanan</option>
                             </select>
                         </div>
 
@@ -129,7 +162,7 @@
                                 </label>
                                 <input type="date" name="periode_mulai" id="periode_mulai" 
                                        class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-300 bg-white shadow-sm"
-                                       required>
+                                       value="{{ $settings['laporan_akses_periode_mulai'] ?? '' }}" required>
                             </div>
                             <div class="group">
                                 <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
@@ -140,7 +173,7 @@
                                 </label>
                                 <input type="date" name="periode_selesai" id="periode_selesai" 
                                        class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-orange-500/20 focus:border-orange-500 transition-all duration-300 bg-white shadow-sm"
-                                       required>
+                                       value="{{ $settings['laporan_akses_periode_selesai'] ?? '' }}" required>
                             </div>
                         </div>
                     </div>
@@ -164,7 +197,7 @@
                             </label>
                             <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner">
                                 <textarea id="editor_ringkasan" name="ringkasan_eksekutif" class="w-full p-6 border-0 outline-none resize-none" style="min-height: 250px;" required>
-Tuliskan ringkasan eksekutif laporan akses informasi publik...
+{!! $settings['laporan_akses_ringkasan_eksekutif'] ?? 'Tuliskan ringkasan eksekutif laporan akses informasi publik...' !!}
                                 </textarea>
                             </div>
                             <p class="text-sm text-slate-500 mt-2">
@@ -183,7 +216,7 @@ Tuliskan ringkasan eksekutif laporan akses informasi publik...
                             </label>
                             <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner">
                                 <textarea id="editor_laporan" name="isi_laporan" class="w-full p-6 border-0 outline-none resize-none" style="min-height: 300px;" required>
-Tuliskan isi laporan akses informasi publik secara lengkap dan detail...
+{!! $settings['laporan_akses_isi_laporan'] ?? 'Tuliskan isi laporan akses informasi publik secara lengkap dan detail...' !!}
                                 </textarea>
                             </div>
                             <p class="text-sm text-slate-500 mt-2">
@@ -218,6 +251,14 @@ Tuliskan isi laporan akses informasi publik secara lengkap dan detail...
                                     Max 10MB
                                 </div>
                             </div>
+                            @if(isset($settings['laporan_akses_file_laporan']) && $settings['laporan_akses_file_laporan'])
+                                <div class="mt-3">
+                                    <p class="text-sm font-semibold text-slate-600 mb-2">File Terlampir:</p>
+                                    <a href="{{ asset('storage/halaman/' . $settings['laporan_akses_file_laporan']) }}" target="_blank" class="inline-flex items-center px-4 py-2 bg-slate-100 border border-slate-200 rounded-lg text-slate-700 hover:bg-slate-200 transition">
+                                        <i class="fas fa-file-download mr-2 text-teal-600"></i> Download / Lihat File
+                                    </a>
+                                </div>
+                            @endif
                             <p class="text-sm text-slate-500 mt-2">
                                 <i class="fas fa-file-alt mr-1"></i>
                                 Format: PDF, DOC, DOCX, XLS, XLSX
@@ -335,10 +376,7 @@ Tuliskan isi laporan akses informasi publik secara lengkap dan detail...
     </div>
 </div>
 
-<!-- Summernote Editor Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             // Initialize Summernote for Ringkasan Eksekutif

@@ -94,7 +94,7 @@
                             </span>
                             Deskripsi Singkat
                         </label>
-                        <textarea name="deskripsi" id="deskripsi" rows="3"
+                        <textarea name="deskripsi" id="deskripsi" rows="6"
                                   class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 bg-white shadow-sm resize-none"
                                   placeholder="Penjelasan singkat tentang informasi ini"></textarea>
                     </div>
@@ -107,13 +107,10 @@
                             </span>
                             Konten Lengkap *
                         </label>
-                        <div id="summernote-konten">
-                            <textarea name="konten" 
-                                      rows="12"
-                                      class="summernote-editor"
-                                      placeholder="Tulis konten informasi berkala di sini..."
-                                      required>{{ old('konten', '') }}</textarea>
-                        </div>
+                        <textarea id="editor_berkala_index" name="konten" 
+                                  class="w-full p-6 border-2 border-slate-300 rounded-xl bg-white shadow-sm outline-none"
+                                  placeholder="Tulis konten informasi berkala di sini..."
+                                  required>{{ old('konten', '') }}</textarea>
                         <p class="text-sm text-slate-500 mt-2">Gunakan formatting lengkap untuk konten yang menarik</p>
                     </div>
 
@@ -253,49 +250,66 @@
     </div>
 </div>
 
-<!-- Summernote JS & CSS -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- TinyMCE JS & CSS -->
+<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
 
 @push('scripts')
 <script>
-$(document).ready(function() {
-    // Initialize Summernote for konten
-    $('#summernote-konten textarea').summernote({
-        height: 400,
-        toolbar: [
-            ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-            ['font', ['strikethrough', 'superscript', 'subscript']],
-            ['fontsize', ['fontsize']],
-            ['color', ['color']],
-            ['para', ['ul', 'ol', 'paragraph', 'height']],
-            ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-            ['view', ['fullscreen', 'codeview', 'help']]
+document.addEventListener('DOMContentLoaded', function() {
+    tinymce.init({
+        selector: '#editor_berkala_index',
+        license_key: 'gpl',
+        height: 500,
+        menubar: false,
+        skin: 'oxide',
+        content_css: 'default',
+        plugins: [
+            'advlist','autolink','lists','link','image','charmap',
+            'searchreplace','visualblocks','code','fullscreen',
+            'insertdatetime','media','table','help','wordcount'
         ],
-        callbacks: {
-            onImageUpload: function(files) {
-                var file = files[0];
-                var formData = new FormData();
-                formData.append('image', file);
-                
-                $.ajax({
-                    url: '{{ route("admin.upload.image") }}',
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        $('#summernote-konten textarea').summernote('insertImage', response.url);
-                    },
-                    error: function() {
-                        alert('Gagal mengupload gambar');
-                    }
-                });
-            }
-        }
+        toolbar:
+            'undo redo | styles | bold italic underline strikethrough | ' +
+            'fontfamily fontsize forecolor backcolor | ' +
+            'alignleft aligncenter alignright alignjustify | ' +
+            'bullist numlist outdent indent | ' +
+            'table link image charmap | removeformat code fullscreen',
+        toolbar_mode: 'wrap',
+        fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 28pt 32pt 36pt 48pt 72pt',
+        font_family_formats:
+            'Arial=arial,helvetica,sans-serif;' +
+            'Arial Black=arial black,avant garde;' +
+            'Comic Sans MS=comic sans ms,sans-serif;' +
+            'Courier New=courier new,courier;' +
+            'Georgia=georgia,palatino;' +
+            'Helvetica=helvetica;' +
+            'Impact=impact,chicago;' +
+            'Inter=inter,sans-serif;' +
+            'Tahoma=tahoma,arial,helvetica,sans-serif;' +
+            'Times New Roman=times new roman,times;' +
+            'Trebuchet MS=trebuchet ms,geneva;' +
+            'Verdana=verdana,geneva',
+        style_formats: [
+            { title: 'Heading 1', block: 'h1' },
+            { title: 'Heading 2', block: 'h2' },
+            { title: 'Heading 3', block: 'h3' },
+            { title: 'Heading 4', block: 'h4' },
+            { title: 'Paragraph', block: 'p' },
+            { title: 'Blockquote', block: 'blockquote' }
+        ],
+        table_toolbar:
+            'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | ' +
+            'tableinsertcolbefore tableinsertcolafter tabledeletecol',
+        content_style:
+            'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.75; color: #1e293b; padding: 12px; } ' +
+            'table { border-collapse: collapse; width: 100%; } ' +
+            'table td, table th { border: 1px solid #ddd; padding: 8px 12px; }' +
+            'table th { background: #f1f5f9; font-weight: 600; }'
+    });
+
+    // Auto-sync TinyMCE on form submit
+    document.querySelector('form').addEventListener('submit', function() {
+        tinymce.triggerSave();
     });
 });
 </script>

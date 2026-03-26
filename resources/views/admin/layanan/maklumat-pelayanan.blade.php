@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@php
+    $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+@endphp
+
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 p-8">
     <div class="space-y-8 max-w-full">
@@ -67,7 +71,7 @@
 
     <!-- ==================== FORM SECTION ==================== -->
     <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-xl p-8 border border-slate-200">
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.halaman-custom.store', 'maklumat') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -93,7 +97,7 @@
                             </label>
                             <input type="text" name="judul_maklumat" id="judul_maklumat" 
                                    class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm"
-                                   placeholder="Masukkan judul maklumat pelayanan..." required>
+                                   placeholder="Masukkan judul maklumat pelayanan..." value="{{ $settings['maklumat_judul_maklumat'] ?? '' }}" required>
                         </div>
 
                         <!-- Isi Maklumat dengan CKEditor -->
@@ -106,7 +110,7 @@
                             </label>
                             <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner">
                                 <textarea id="editor_maklumat" name="isi_maklumat" class="w-full p-6 border-0 outline-none resize-none" style="min-height: 300px;" required>
-Tuliskan maklumat pelayanan informasi publik secara lengkap dan jelas...
+{!! $settings['maklumat_isi_maklumat'] ?? 'Tuliskan maklumat pelayanan informasi publik secara lengkap dan jelas...' !!}
                                 </textarea>
                             </div>
                             <p class="text-sm text-slate-500 mt-2">
@@ -157,7 +161,7 @@ Tuliskan maklumat pelayanan informasi publik secara lengkap dan jelas...
                             </label>
                             <input type="text" name="judul_standar" id="judul_standar" 
                                    class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-orange-500/20 focus:border-orange-500 transition-all duration-300 bg-white shadow-sm"
-                                   placeholder="Masukkan judul standar biaya..." required>
+                                   placeholder="Masukkan judul standar biaya..." value="{{ $settings['maklumat_judul_standar'] ?? '' }}" required>
                         </div>
 
                         <!-- Isi Standar Biaya dengan CKEditor -->
@@ -170,7 +174,7 @@ Tuliskan maklumat pelayanan informasi publik secara lengkap dan jelas...
                             </label>
                             <div class="bg-white rounded-xl border-2 border-slate-200 shadow-inner">
                                 <textarea id="editor_standar" name="isi_standar" class="w-full p-6 border-0 outline-none resize-none" style="min-height: 300px;" required>
-Tuliskan standar biaya pelayanan informasi publik secara lengkap...
+{!! $settings['maklumat_isi_standar'] ?? 'Tuliskan standar biaya pelayanan informasi publik secara lengkap...' !!}
                                 </textarea>
                             </div>
                             <p class="text-sm text-slate-500 mt-2">
@@ -290,10 +294,7 @@ Tuliskan standar biaya pelayanan informasi publik secara lengkap...
     </div>
 </div>
 
-<!-- Summernote Editor Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             // Initialize Summernote for Maklumat

@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal PPID PKTJ</title>
+    @php
+        $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+    @endphp
+    <title>{{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f8f9fa; 
+            background-color: {{ $settings['bg_color'] ?? '#f8f9fa' }}; 
             scroll-behavior: smooth; 
         }
         
@@ -75,7 +78,7 @@
         }
         
         .hero-section {
-            background: linear-gradient(135deg, #004a99 0%, #0066cc 100%);
+            background: linear-gradient(135deg, {{ $settings['primary_color'] ?? '#004A99' }} 0%, {{ $settings['secondary_color'] ?? '#0066CC' }} 100%);
             color: white;
             padding: 100px 0; 
             text-align: center;
@@ -196,7 +199,7 @@
         }
         
         .footer {
-            background: linear-gradient(135deg, #1a3a52 0%, #004a99 100%);
+            background: linear-gradient(135deg, {{ $settings['primary_color'] ?? '#1A3A52' }} 0%, {{ $settings['secondary_color'] ?? '#004A99' }} 100%);
             color: white;
             padding: 50px 0 30px;
             margin-top: 80px;
@@ -230,8 +233,8 @@
     <div class="hero-section">
         <div class="container">
             <div class="hero-content">
-                <h1 class="display-5 fw-bold mb-3">Selamat Datang di Portal PPID PKTJ</h1>
-                <p class="lead">Layanan Informasi Publik Terintegrasi dan Transparan</p>
+                <h1 class="display-5 fw-bold mb-3">{{ $settings['hero_title'] ?? 'Selamat Datang di Portal PPID PKTJ' }}</h1>
+                <p class="lead">{{ $settings['hero_subtitle'] ?? 'Layanan Informasi Publik Terintegrasi dan Transparan' }}</p>
                 <div class="mt-4">
                     <a href="#informasi-publik" class="btn btn-warning btn-lg fw-bold px-4">
                         <i class="fas fa-search me-2"></i>CARI INFORMASI
@@ -290,9 +293,9 @@
 
         <div class="row pt-4">
             <div class="col-md-8 mb-5">
-                <h2 class="section-title">Video Layanan Informasi</h2>
+                <h2 class="section-title">{{ $settings['video_title'] ?? 'Video Layanan Informasi' }}</h2>
                 <div class="ratio ratio-16x9 card">
-                    <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video Layanan" allowfullscreen></iframe>
+                    <iframe src="{{ $settings['video_url'] ?? 'https://www.youtube.com/embed/dQw4w9WgXcQ' }}" title="Video Layanan" allowfullscreen></iframe>
                 </div>
             </div>
             <div class="col-md-4 mb-5">
@@ -323,14 +326,14 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-4">
-                    <h5>Tentang PPID PKTJ</h5>
-                    <p>Pejabat Pengelola Informasi dan Dokumentasi Politeknik Penerbangan Indonesia Jakarta</p>
+                    <h5>Tentang {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}</h5>
+                    <p>{{ $settings['ppid_deskripsi'] ?? 'Pejabat Pengelola Informasi dan Dokumentasi Politeknik Penerbangan Indonesia Jakarta' }}</p>
                 </div>
                 <div class="col-md-4">
                     <h5>Link Cepat</h5>
                     <ul class="list-unstyled">
                         <li><a href="{{ route('home') }}">Beranda</a></li>
-                        <li><a href="{{ route('profil.ppid') }}">Profil PPID</a></li>
+                        <li><a href="{{ route('profil.ppid.html') }}">Profil PPID</a></li>
                         <li><a href="{{ route('informasi.berkala') }}">Informasi Publik</a></li>
                         <li><a href="{{ route('faq.public') }}">FAQ</a></li>
                     </ul>
@@ -344,7 +347,7 @@
             </div>
             <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
             <div class="text-center">
-                <p>&copy; 2024 PPID PKTJ. All rights reserved.</p>
+                <p>&copy; {{ date('Y') }} {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}. All rights reserved.</p>
             </div>
         </div>
     </footer>

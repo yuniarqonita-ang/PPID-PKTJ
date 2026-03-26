@@ -67,8 +67,41 @@
 
     <!-- ==================== FORM SECTION ==================== -->
     <div class="bg-gradient-to-br from-slate-50 to-slate-100 rounded-2xl shadow-xl p-8 border border-slate-200">
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.halaman-custom.store', 'laporan_survey') }}" method="POST" enctype="multipart/form-data">
             @csrf
+
+            <!-- ==================== HERO & LANDING PAGE SECTION ==================== -->
+            <div class="mb-12 space-y-8 bg-white p-8 rounded-2xl border-2 border-blue-100 shadow-sm">
+                <div class="flex items-center space-x-3 mb-2">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white flex items-center justify-center shadow-lg">
+                        <i class="fas fa-rocket text-xl"></i>
+                    </div>
+                    <div>
+                        <h2 class="text-2xl font-bold text-slate-800">Hero & Landing Page</h2>
+                        <p class="text-slate-500">Sesuaikan tampilan awal halaman Laporan Survey di publik</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="group">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Judul Hero</label>
+                        <input type="text" name="judul_hero" 
+                               class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                               value="{{ $settings['laporan_survey_judul_hero'] ?? 'Laporan Survey Kepuasan' }}">
+                    </div>
+                    <div class="group">
+                        <label class="block text-sm font-bold text-slate-700 mb-2">Tagline Hero</label>
+                        <input type="text" name="tagline_hero" 
+                               class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-500/10 transition-all"
+                               value="{{ $settings['laporan_survey_tagline_hero'] ?? 'Hasil survei kepuasan pemohon informasi publik PPID PKTJ' }}">
+                    </div>
+                </div>
+
+                <div class="group">
+                    <label class="block text-sm font-bold text-slate-700 mb-2">Metodologi Survey</label>
+                    <textarea id="editor_metodologi" name="metodologi" class="w-full">{{ $settings['laporan_survey_metodologi'] ?? '' }}</textarea>
+                </div>
+            </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- Main Content (2 columns) -->
@@ -335,12 +368,24 @@ Tuliskan isi laporan survey kepuasan layanan informasi publik secara lengkap dan
     </div>
 </div>
 
-<!-- Summernote Editor Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Initialize Summernote for Metodologi
+            $('#editor_metodologi').summernote({
+                height: 200,
+                placeholder: 'Tuliskan metodologi survey...',
+                toolbar: [
+                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
+                    ['font', ['strikethrough', 'superscript', 'subscript']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
+                    ['insert', ['link', 'table', 'hr']],
+                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
+                ]
+            });
+
             // Initialize Summernote for Ringkasan Eksekutif
             $('#editor_ringkasan').summernote({
                 height: 300,

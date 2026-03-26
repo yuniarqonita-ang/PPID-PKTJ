@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@php
+    $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+@endphp
+
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-200 via-orange-100 to-amber-200 p-8">
     <div class="space-y-8 max-w-full">
@@ -67,7 +71,7 @@
 
     <!-- ==================== FORM SECTION ==================== -->
     <div class="bg-gradient-to-br from-white to-gray-100 rounded-2xl shadow-2xl p-8 border-2 border-orange-300">
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.halaman-custom.store', 'sop_keberatan') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -103,6 +107,15 @@
                                 <i class="fas fa-info-circle mr-1 text-orange-600"></i>
                                 Format: JPG, JPEG, PNG - Gambar akan ditampilkan full halaman di publik
                             </p>
+                            
+                            @if(isset($settings['sop_keberatan_gambar_sop']) && $settings['sop_keberatan_gambar_sop'])
+                                <div class="mt-4">
+                                    <div class="relative rounded-xl overflow-hidden border-2 border-orange-400 shadow-xl">
+                                        <img src="{{ asset('storage/halaman/' . $settings['sop_keberatan_gambar_sop']) }}" alt="Gambar SOP saat ini" class="w-full h-auto">
+                                    </div>
+                                    <p class="text-sm text-gray-500 mt-1">Gambar SOP Saat Ini</p>
+                                </div>
+                            @endif
                             
                             <!-- Preview Gambar -->
                             <div id="preview_gambar_sop" class="mt-4 hidden">
@@ -147,6 +160,15 @@
                                 <i class="fas fa-info-circle mr-1 text-amber-600"></i>
                                 Format: JPG, JPEG, PNG - Gambar akan ditampilkan full halaman di publik
                             </p>
+                            
+                            @if(isset($settings['sop_keberatan_gambar_proses']) && $settings['sop_keberatan_gambar_proses'])
+                                <div class="mt-4">
+                                    <div class="relative rounded-xl overflow-hidden border-2 border-amber-400 shadow-xl">
+                                        <img src="{{ asset('storage/halaman/' . $settings['sop_keberatan_gambar_proses']) }}" alt="Gambar Proses saat ini" class="w-full h-auto">
+                                    </div>
+                                    <p class="text-sm text-gray-500 mt-1">Gambar Proses Saat Ini</p>
+                                </div>
+                            @endif
                             
                             <!-- Preview Gambar -->
                             <div id="preview_gambar_proses" class="mt-4 hidden">

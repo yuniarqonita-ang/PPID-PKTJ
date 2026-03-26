@@ -78,7 +78,7 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold text-gray-900">Profil PPID</h3>
-                        <p class="text-sm text-gray-500">{{ App\Models\Profil::count() }} halaman</p>
+                        <p class="text-sm text-gray-500">{{ App\Models\ProfilPpid::count() }} halaman</p>
                     </div>
                 </div>
             </div>
@@ -88,7 +88,7 @@
                 @endphp
                 @foreach($profilTypes as $type)
                     @php
-                        $item = App\Models\Profil::getByType($type);
+                        $item = App\Models\ProfilPpid::where('type', $type)->first();
                         $label = ucfirst($type);
                         if($type == 'profil') $label = 'Profil PPID';
                         if($type == 'tugas') $label = 'Tugas & Fungsi';
@@ -141,18 +141,18 @@
                 <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
                     <div class="flex-1">
                         <p class="text-sm font-medium text-gray-900">Informasi Serta Merta</p>
-                        <p class="text-xs text-gray-500">{{ App\Models\InformasiSertamerta::count() }} file</p>
+                        <p class="text-xs text-gray-500">{{ App\Models\InformasiSertaMerta::count() }} file</p>
                     </div>
-                    <a href="#" class="text-blue-600 hover:text-blue-800">
+                    <a href="{{ route('admin.informasi.sertamerta') }}" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
                 <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
                     <div class="flex-1">
                         <p class="text-sm font-medium text-gray-900">Informasi Setiap Saat</p>
-                        <p class="text-xs text-gray-500">{{ App\Models\InformasiSetiapsaat::count() }} file</p>
+                        <p class="text-xs text-gray-500">{{ App\Models\InformasiSetiapSaat::count() }} file</p>
                     </div>
-                    <a href="#" class="text-blue-600 hover:text-blue-800">
+                    <a href="{{ route('admin.informasi.setiapsaat') }}" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
@@ -161,7 +161,7 @@
                         <p class="text-sm font-medium text-gray-900">Informasi Dikecualikan</p>
                         <p class="text-xs text-gray-500">{{ App\Models\InformasiDikecualikan::count() }} file</p>
                     </div>
-                    <a href="#" class="text-blue-600 hover:text-blue-800">
+                    <a href="{{ route('admin.informasi.dikecualikan') }}" class="text-blue-600 hover:text-blue-800">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
@@ -169,6 +169,73 @@
             <div class="mt-4 pt-4 border-t border-gray-200">
                 <a href="{{ route('content.index') }}" class="w-full block text-center px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition">
                     Kelola Semua
+                </a>
+            </div>
+        </div>
+
+        <!-- Layanan Informasi Pages -->
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-orange-100 text-orange-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-gray-900">Layanan Informasi</h3>
+                        <p class="text-sm text-gray-500">Form & Laporan</p>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-2">
+                <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Daftar Informasi</p>
+                        <p class="text-xs text-gray-500">Daftar Informasi Publik</p>
+                    </div>
+                    <a href="{{ route('admin.layanan.daftar-informasi') }}" class="text-blue-600 hover:text-blue-800">
+                        <i class="fas fa-edit text-sm"></i>
+                    </a>
+                </div>
+                <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Maklumat Pelayanan</p>
+                        <p class="text-xs text-gray-500">Info Layanan</p>
+                    </div>
+                    <a href="{{ route('admin.profil.edit', 'maklumat-pelayanan') }}" class="text-blue-600 hover:text-blue-800">
+                        <i class="fas fa-edit text-sm"></i>
+                    </a>
+                </div>
+                <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Laporan Layanan</p>
+                        <p class="text-xs text-gray-500">Info Laporan</p>
+                    </div>
+                    <a href="{{ route('admin.profil.edit', 'laporan-layanan') }}" class="text-blue-600 hover:text-blue-800">
+                        <i class="fas fa-edit text-sm"></i>
+                    </a>
+                </div>
+                <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Laporan Akses</p>
+                        <p class="text-xs text-gray-500">Info Akses</p>
+                    </div>
+                    <a href="{{ route('admin.profil.edit', 'laporan-akses') }}" class="text-blue-600 hover:text-blue-800">
+                        <i class="fas fa-edit text-sm"></i>
+                    </a>
+                </div>
+                <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                    <div class="flex-1">
+                        <p class="text-sm font-medium text-gray-900">Laporan Survey</p>
+                        <p class="text-xs text-gray-500">Survey Kepuasan</p>
+                    </div>
+                    <a href="{{ route('admin.profil.edit', 'laporan-survey') }}" class="text-blue-600 hover:text-blue-800">
+                        <i class="fas fa-edit text-sm"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="mt-4 pt-4 border-t border-gray-200">
+                <a href="{{ route('admin.profil.edit', 'layanan-daftar') }}" class="w-full block text-center px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition">
+                    Kelola Daftar Informasi
                 </a>
             </div>
         </div>
@@ -206,14 +273,14 @@
                             <p class="text-sm font-medium text-gray-900">{{ $label }}</p>
                             <p class="text-xs text-gray-500">{{ $count }} file</p>
                         </div>
-                        <a href="#" class="text-blue-600 hover:text-blue-800">
-                            <i class="fas fa-list text-sm"></i>
+                        <a href="{{ route('admin.profil.edit', 'sop-' . $category) }}" class="text-blue-600 hover:text-blue-800">
+                            <i class="fas fa-edit text-sm"></i>
                         </a>
                     </div>
                 @endforeach
             </div>
             <div class="mt-4 pt-4 border-t border-gray-200">
-                <a href="#" class="w-full block text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
+                <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="w-full block text-center px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
                     Kelola Prosedur
                 </a>
             </div>
@@ -309,12 +376,12 @@
         <h2 class="text-xl font-semibold text-gray-900 mb-6">📊 Statistik Halaman</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div class="text-center">
-                <div class="text-3xl font-bold text-purple-600">{{ App\Models\Profil::count() }}</div>
+                <div class="text-3xl font-bold text-purple-600">{{ App\Models\ProfilPpid::count() }}</div>
                 <div class="text-sm text-gray-600">Halaman Profil</div>
             </div>
             <div class="text-center">
                 <div class="text-3xl font-bold text-yellow-600">
-                    {{ App\Models\InformasiBerkala::count() + App\Models\InformasiSertamerta::count() + App\Models\InformasiSetiapsaat::count() + App\Models\InformasiDikecualikan::count() }}
+                    {{ App\Models\InformasiBerkala::count() + App\Models\InformasiSertaMerta::count() + App\Models\InformasiSetiapSaat::count() + App\Models\InformasiDikecualikan::count() }}
                 </div>
                 <div class="text-sm text-gray-600">File Informasi</div>
             </div>

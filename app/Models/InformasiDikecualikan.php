@@ -11,14 +11,14 @@ class InformasiDikecualikan extends Model
     protected $fillable = [
         'judul',
         'deskripsi',
-        'konten',
-        'dokumen',
-        'tanggal',
-        'status'
+        'file_path',
+        'file_name',
+        'file_size',
+        'file_type',
+        'aktif'
     ];
     
     protected $casts = [
-        'status' => 'boolean',
-        'tanggal' => 'date',
+        'aktif' => 'boolean',
     ];
 }

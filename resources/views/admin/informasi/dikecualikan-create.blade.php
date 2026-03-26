@@ -298,54 +298,69 @@ Tuliskan konsekuensi atau pertimbangan jika informasi ini ditutup untuk publik..
     </div>
 </div>
 
-<!-- Summernote Editor Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<!-- TinyMCE Editor Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
     <script>
-        $(document).ready(function() {
-            // Initialize Summernote for Konsekuensi Dibuka
-            $('#editor_dibuka').summernote({
-                height: 300,
-                placeholder: 'Tuliskan konsekuensi atau pertimbangan jika informasi ini dibuka untuk publik...',
-                toolbar: [
-                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
-                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
-                ]
-            });
-            
-            // Initialize Summernote for Konsekuensi Ditutup
-            $('#editor_ditutup').summernote({
-                height: 300,
-                placeholder: 'Tuliskan konsekuensi atau pertimbangan jika informasi ini ditutup untuk publik...',
-                toolbar: [
-                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
-                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
-                ]
-            });
+        var TINYMCE_CONFIG = {
+            license_key: 'gpl',
+            height: 400,
+            menubar: false,
+            skin: 'oxide',
+            content_css: 'default',
+            plugins: [
+                'advlist','autolink','lists','link','image','charmap',
+                'searchreplace','visualblocks','code','fullscreen',
+                'insertdatetime','media','table','help','wordcount'
+            ],
+            toolbar:
+                'undo redo | styles | bold italic underline strikethrough | ' +
+                'fontfamily fontsize forecolor backcolor | ' +
+                'alignleft aligncenter alignright alignjustify | ' +
+                'bullist numlist outdent indent | ' +
+                'table link image charmap | removeformat code fullscreen',
+            toolbar_mode: 'wrap',
+            fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 28pt 32pt 36pt 48pt 72pt',
+            font_family_formats:
+                'Arial=arial,helvetica,sans-serif;' +
+                'Arial Black=arial black,avant garde;' +
+                'Comic Sans MS=comic sans ms,sans-serif;' +
+                'Courier New=courier new,courier;' +
+                'Georgia=georgia,palatino;' +
+                'Helvetica=helvetica;' +
+                'Impact=impact,chicago;' +
+                'Inter=inter,sans-serif;' +
+                'Tahoma=tahoma,arial,helvetica,sans-serif;' +
+                'Times New Roman=times new roman,times;' +
+                'Trebuchet MS=trebuchet ms,geneva;' +
+                'Verdana=verdana,geneva',
+            style_formats: [
+                { title: 'Heading 1', block: 'h1' },
+                { title: 'Heading 2', block: 'h2' },
+                { title: 'Heading 3', block: 'h3' },
+                { title: 'Heading 4', block: 'h4' },
+                { title: 'Paragraph', block: 'p' },
+                { title: 'Blockquote', block: 'blockquote' }
+            ],
+            table_toolbar:
+                'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | ' +
+                'tableinsertcolbefore tableinsertcolafter tabledeletecol',
+            content_style:
+                'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.75; color: #1e293b; padding: 12px; } ' +
+                'table { border-collapse: collapse; width: 100%; } ' +
+                'table td, table th { border: 1px solid #ddd; padding: 8px 12px; }' +
+                'table th { background: #f1f5f9; font-weight: 600; }'
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            tinymce.init(Object.assign({}, TINYMCE_CONFIG, { selector: '#editor_dibuka' }));
+            tinymce.init(Object.assign({}, TINYMCE_CONFIG, { selector: '#editor_ditutup' }));
+        });
+
+        // Auto-sync TinyMCE on form submit
+        document.querySelector('form').addEventListener('submit', function() {
+            tinymce.triggerSave();
         });
     </script>
-
-<style>
-    .form-control.form-editor {
-        min-height: 250px;
-    }
-    .display-5 {
-        font-size: 2rem;
-        font-weight: 600;
-    }
-    .ck-editor__editable { min-height: 250px; }
-</style>
 </div>
 </div>
 @endsection

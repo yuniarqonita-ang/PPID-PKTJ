@@ -49,93 +49,51 @@ Route::get('/dokumen', [DokumenController::class, 'publicList'])->name('dokumen.
 Route::get('/dokumen/{id}/view', [DokumenController::class, 'view'])->name('dokumen.view');
 Route::get('/dokumen/{id}/download', [DokumenController::class, 'download'])->name('dokumen.download');
 
-// Profil PPID (Public - Dynamic from Database)
-Route::get('/profil/ppid', function () {
+// Profil PPID (Public - Dynamic from Database matching the original HTML links)
+Route::get('/profil-ppid.html', function () {
     $profil = \App\Models\ProfilPpid::where('type', 'profil')->first();
     return view('profil-ppid', compact('profil'));
-})->name('profil.ppid');
+})->name('profil.ppid.html');
 
-Route::get('/profil/tugas-tanggung-jawab', function () {
+Route::get('/profil-tugas-tanggung-jawab.html', function () {
     $profil = \App\Models\ProfilPpid::where('type', 'tugas')->first();
     return view('profil-tugas-tanggung-jawab', compact('profil'));
-})->name('profil.tugas-tanggung-jawab');
+})->name('profil.tugas.html');
 
-Route::get('/profil/visi-misi', function () {
+Route::get('/profil-visi-misi.html', function () {
     $profil = \App\Models\ProfilPpid::where('type', 'visi')->first();
     return view('profil-visi-misi', compact('profil'));
-})->name('profil.visi-misi');
+})->name('profil.visi.html');
 
-Route::get('/profil/struktur-organisasi', function () {
+Route::get('/profil-struktur-organisasi.html', function () {
     $profil = \App\Models\ProfilPpid::where('type', 'struktur')->first();
     return view('profil-struktur-organisasi', compact('profil'));
-})->name('profil.struktur-organisasi');
+})->name('profil.struktur.html');
 
-Route::get('/profil/regulasi', function () {
+Route::get('/profil-regulasi.html', function () {
     $profil = \App\Models\ProfilPpid::where('type', 'regulasi')->first();
     return view('profil-regulasi', compact('profil'));
-})->name('profil.regulasi');
+})->name('profil.regulasi.html');
 
-Route::get('/profil/kontak', function () {
+Route::get('/profil-kontak.html', function () {
     $profil = \App\Models\ProfilPpid::where('type', 'kontak')->first();
     return view('profil-kontak', compact('profil'));
-})->name('profil.kontak');
+})->name('profil.kontak.html');
 
-// Informasi Publik (Public - Dynamic from Database)
-Route::get('/informasi-publik/berkala', function () {
-    $informasi = \App\Models\InformasiBerkala::where('status', 1)->orderBy('tanggal', 'desc')->get();
-    return view('informasi-berkala', compact('informasi'));
-})->name('informasi.berkala');
+// Informasi Publik (Public - Dynamic from Controller)
+Route::name('informasi.')->prefix('informasi-publik')->group(function () {
+    Route::get('/berkala', [InformasiPublikController::class, 'informasiBerkala'])->name('berkala');
+    Route::get('/serta-merta', [InformasiPublikController::class, 'informasiSertamerta'])->name('serta-merta');
+    Route::get('/setiap-saat', [InformasiPublikController::class, 'informasiSetiapsaat'])->name('setiap-saat');
+    Route::get('/dikecualikan', [InformasiPublikController::class, 'informasiDikecualikan'])->name('dikecualikan');
+});
 
-Route::get('/informasi-publik/serta-merta', function () {
-    $informasi = \App\Models\InformasiSertaMerta::where('status', 1)->orderBy('tanggal', 'desc')->get();
-    return view('informasi-serta-merta', compact('informasi'));
-})->name('informasi.serta-merta');
+Route::get('/layanan-informasi/daftar', [ProfilPublikController::class, 'showPage'])->defaults('type', 'layanan-daftar')->defaults('view', 'daftar-informasi-publik')->name('layanan.daftar-informasi');
+Route::get('/layanan-informasi/maklumat', [ProfilPublikController::class, 'showPage'])->defaults('type', 'maklumat-pelayanan')->defaults('view', 'maklumat-pelayanan')->name('layanan.maklumat-pelayanan');
+Route::get('/layanan-informasi/laporan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-layanan')->defaults('view', 'laporan-layanan-informasi')->name('layanan.laporan-layanan');
+Route::get('/layanan-informasi/laporan-akses', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-akses')->defaults('view', 'laporan-akses-informasi-publik')->name('layanan.laporan-akses');
+Route::get('/layanan-informasi/laporan-survey', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-survey')->defaults('view', 'laporan-survey-kepuasan')->name('layanan.laporan-survey');
 
-Route::get('/informasi-publik/setiap-saat', function () {
-    $informasi = \App\Models\InformasiSetiapSaat::where('status', 1)->orderBy('tanggal', 'desc')->get();
-    return view('informasi-setiap-saat', compact('informasi'));
-})->name('informasi.setiap-saat');
-
-Route::get('/informasi-publik/dikecualikan', function () {
-    $informasi = \App\Models\InformasiDikecualikan::where('status', 1)->orderBy('tanggal', 'desc')->get();
-    return view('informasi-dikecualikan', compact('informasi'));
-})->name('informasi.dikecualikan');
-
-Route::get('/layanan-informasi/daftar', function () { return view('daftar-informasi-publik'); })->name('layanan.daftar-informasi');
-
-Route::get('/layanan-informasi/maklumat', function () { return view('maklumat-pelayanan'); })->name('layanan.maklumat-pelayanan');
-
-Route::get('/layanan-informasi/laporan', function () { return view('laporan-layanan-informasi'); })->name('layanan.laporan-layanan');
-
-Route::get('/layanan-informasi/laporan-akses', function () { return view('laporan-akses-informasi-publik'); })->name('layanan.laporan-akses');
-
-Route::get('/layanan-informasi/laporan-survey', function () { return view('laporan-survey-kepuasan'); })->name('layanan.laporan-survey');
-
-// Prosedur (Public)
-Route::get('/prosedur/sop-permintaan-informasi', function () {
-    // Menggunakan view 'sop-permintaan' sesuai lokasi file Anda saat ini
-    return view('sop-permintaan');
-})->name('prosedur.sop-permintaan');
-
-Route::get('/prosedur/sop-penanganan-keberatan', function () {
-    return view('sop-penanganan-keberatan');
-})->name('prosedur.sop-keberatan');
-
-Route::get('/prosedur/sop-pengajuan-sengketa', function () {
-    return view('sop-sengketa');
-})->name('prosedur.sop-sengketa');
-
-Route::get('/prosedur/sop-penetapan-pemutakhiran', function () {
-    return view('sop-penetapan-pemutakhiran');
-})->name('prosedur.sop-pemutakhiran');
-
-Route::get('/prosedur/sop-pengujian-konsekuensi', function () {
-    return view('sop-pengujian-konsekuensi');
-})->name('prosedur.sop-pengujian');
-
-Route::get('/prosedur/sop-pendokumentasian', function () {
-    return view('sop-pendokumentasian');
-})->name('prosedur.sop-pendokumentasian');
 
 // ==========================================
 // 2. AUTH SYSTEM (LOGIN & LOGOUT)
@@ -186,6 +144,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/{id}', [InformasiBerkalaController::class, 'destroy'])->name('destroy');
     });
 
+    // Kelola Halaman Tambahan (CMS Dinamis untuk konten halaman)
+    Route::post('/halaman-custom/{type}', [App\Http\Controllers\HalamanCustomController::class, 'store'])->name('admin.halaman-custom.store');
+
     // Menu Layanan Informasi
     Route::name('admin.layanan.')->prefix('layanan')->group(function () {
         Route::get('/daftar-informasi', function() { return view('admin.layanan.daftar-informasi'); })->name('daftar-informasi');
@@ -214,10 +175,17 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/dikecualikan', function() { return view('admin.informasi.dikecualikan'); })->name('dikecualikan');
         
         // Create routes for upload forms
-        Route::get('/berkala/create', function() { return view('admin.informasi.berkala-create'); })->name('admin.informasi.berkala.create');
-        Route::get('/serta-merta/create', function() { return view('admin.informasi.sertamerta-create'); })->name('admin.informasi.sertamerta.create');
-        Route::get('/setiap-saat/create', function() { return view('admin.informasi.setiapsaat-create'); })->name('admin.informasi.setiapsaat.create');
-        Route::get('/dikecualikan/create', function() { return view('admin.informasi.dikecualikan-create'); })->name('admin.informasi.dikecualikan.create');
+        Route::get('/berkala/create', function() { return view('admin.informasi.berkala-create'); })->name('berkala.create');
+        Route::post('/berkala/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('berkala.store');
+        
+        Route::get('/serta-merta/create', function() { return view('admin.informasi.sertamerta-create'); })->name('sertamerta.create');
+        Route::post('/serta-merta/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('sertamerta.store');
+        
+        Route::get('/setiap-saat/create', function() { return view('admin.informasi.setiapsaat-create'); })->name('setiapsaat.create');
+        Route::post('/setiap-saat/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('setiapsaat.store');
+        
+        Route::get('/dikecualikan/create', function() { return view('admin.informasi.dikecualikan-create'); })->name('dikecualikan.create');
+        Route::post('/dikecualikan/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('dikecualikan.store');
     });
 
     // Resource CRUD
@@ -265,28 +233,25 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 // ==========================================
 Route::name('profil.')->prefix('profil')->group(function () {
     Route::get('/', [ProfilPublikController::class, 'showProfil'])->name('index');
+    Route::get('/ppid', [ProfilPublikController::class, 'showProfil'])->name('ppid');
     Route::get('/tugas', [ProfilPublikController::class, 'showTugas'])->name('tugas');
+    Route::get('/tugas-tanggung-jawab', [ProfilPublikController::class, 'showTugas'])->name('tugas-tanggung-jawab');
     Route::get('/visi', [ProfilPublikController::class, 'showVisi'])->name('visi');
+    Route::get('/visi-misi', [ProfilPublikController::class, 'showVisi'])->name('visi-misi');
     Route::get('/struktur', [ProfilPublikController::class, 'showStruktur'])->name('struktur');
+    Route::get('/struktur-organisasi', [ProfilPublikController::class, 'showStruktur'])->name('struktur-organisasi');
     Route::get('/regulasi', [ProfilPublikController::class, 'showRegulasi'])->name('regulasi');
     Route::get('/kontak', [ProfilPublikController::class, 'showKontak'])->name('kontak');
 });
 
-// Informasi Publik Routes
-Route::name('informasi.')->prefix('informasi')->group(function () {
-    Route::get('/berkala', [InformasiPublikController::class, 'informasiBerkala'])->name('berkala');
-    Route::get('/serta-merta', [InformasiPublikController::class, 'informasiSertamerta'])->name('sertamerta');
-    Route::get('/setiap-saat', [InformasiPublikController::class, 'informasiSetiapsaat'])->name('setiapsaat');
-    Route::get('/dikecualikan', [InformasiPublikController::class, 'informasiDikecualikan'])->name('dikecualikan');
-});
-
-// Prosedur Routes
+// Prosedur Routes (Public - Dynamic from Controller)
 Route::name('prosedur.')->prefix('prosedur')->group(function () {
-    Route::get('/sop-keberatan', [InformasiPublikController::class, 'prosedur'])->name('keberatan');
-    Route::get('/sop-sengketa', [InformasiPublikController::class, 'prosedur'])->name('sengketa');
-    Route::get('/sop-penetapan', [InformasiPublikController::class, 'prosedur'])->name('penetapan');
-    Route::get('/sop-pengujian', [InformasiPublikController::class, 'prosedur'])->name('pengujian');
-    Route::get('/sop-pendokumentasian', [InformasiPublikController::class, 'prosedur'])->name('pendokumentasian');
+    Route::get('/sop-permintaan-informasi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-permintaan')->defaults('view', 'sop-permintaan')->name('sop-permintaan');
+    Route::get('/sop-penanganan-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-keberatan')->defaults('view', 'sop-penanganan-keberatan')->name('sop-keberatan');
+    Route::get('/sop-pengajuan-sengketa', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-sengketa')->defaults('view', 'sop-sengketa')->name('sop-sengketa');
+    Route::get('/sop-penetapan-pemutakhiran', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-penetapan')->defaults('view', 'sop-pemutakhiran-daftar')->name('sop-penetapan');
+    Route::get('/sop-pengujian-konsekuensi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-pengujian')->defaults('view', 'sop-pengujian-konsekuensi')->name('sop-pengujian');
+    Route::get('/sop-pendokumentasian', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-pendokumentasian')->defaults('view', 'sop-pendokumentasian')->name('sop-pendokumentasian');
 });
 
 // Download Route

@@ -257,8 +257,6 @@
     </form>
 </div>
 
-<!-- Summernote JS & CSS -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 @push('scripts')

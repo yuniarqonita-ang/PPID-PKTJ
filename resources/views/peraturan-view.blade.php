@@ -123,7 +123,7 @@
             <i class="fas fa-file-pdf"></i> {{ $peraturan->judul }}
         </div>
         <div class="viewer-actions">
-            <a href="{{ route('profil.regulasi') }}" title="Kembali">
+            <a href="{{ route('profil.regulasi.html') }}" title="Kembali">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
         </div>
@@ -137,7 +137,7 @@
                 <i class="fas fa-exclamation-triangle"></i>
                 <h5>File PDF Tidak Tersedia</h5>
                 <p class="text-muted">Dokumen untuk peraturan ini belum di-upload.</p>
-                <a href="{{ route('profil.regulasi') }}" class="btn btn-primary mt-3">
+                <a href="{{ route('profil.regulasi.html') }}" class="btn btn-primary mt-3">
                     <i class="fas fa-arrow-left"></i> Kembali ke Regulasi
                 </a>
             </div>

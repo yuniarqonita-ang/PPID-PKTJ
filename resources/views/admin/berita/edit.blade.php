@@ -37,9 +37,6 @@
 
     <!-- SUMMERNOTE SCRIPTS - 100% FREE -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-id-ID.js"></script>
     <link rel="stylesheet" href="{{ asset('css/summernote-custom.css') }}">
 
     <script>

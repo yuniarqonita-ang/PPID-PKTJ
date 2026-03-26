@@ -120,7 +120,7 @@
                                 </span>
                                 Ringkasan Jawaban *
                             </label>
-                            <textarea name="deskripsi" id="deskripsi" rows="3"
+                            <textarea name="deskripsi" id="deskripsi" rows="6"
                                       placeholder="Masukkan ringkasan jawaban (maksimal 200 karakter)"
                                       maxlength="200"
                                       required
@@ -245,10 +245,7 @@
     </div>
 </div>
 
-<!-- Summernote Editor Scripts -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
             // Initialize Summernote for Konten Utama

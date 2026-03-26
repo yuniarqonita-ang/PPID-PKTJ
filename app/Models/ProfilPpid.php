@@ -11,11 +11,19 @@ class ProfilPpid extends Model
     protected $fillable = [
         'type',
         'judul',
+        'tagline_hero',
+        'image_hero',
         'konten_pembuka',
         'judul_sub',
         'konten_detail',
         'gambar',
         'link_dokumen',
+        'additional_sections',
+        'gambaran',
+    ];
+
+    protected $casts = [
+        'additional_sections' => 'array',
     ];
 
     // Helper method to get combined content

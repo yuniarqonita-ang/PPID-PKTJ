@@ -3,407 +3,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Informasi Berkala - Portal PPID PKTJ</title>
+    <title>Informasi Berkala - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
+        :root {
+            --primary-blue: {{ $settings['primary_color'] ?? '#004A99' }};
+            --secondary-gold: {{ $settings['secondary_color'] ?? '#FFC107' }};
         }
-
-        .navbar {
-            background-color: #004a99 !important;
-            border-bottom: 3px solid #ffc107;
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f8faff;
+            color: #1e293b;
         }
-
-        .navbar-brand img {
-            height: 50px;
-            margin-right: 12px;
-        }
-
-        @media (min-width: 992px) {
-            .nav-item.dropdown:hover .dropdown-menu {
-                display: block !important;
-                margin-top: 0;
-            }
-        }
-
-        .dropdown-menu {
-            z-index: 1050 !important;
-        }
-
         .hero-section {
-            background: linear-gradient(135deg, #1a3a52 0%, #2d5f8d 50%, #d4af37 100%);
+            background: linear-gradient(rgba(0, 74, 153, 0.8), rgba(0, 74, 153, 0.8)), 
+                        url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0;
             color: white;
-            padding: 100px 0;
             text-align: center;
-            position: relative;
-            overflow: hidden;
         }
-
-        .hero-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.1;
-        }
-
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
-
-        .page-title {
-            color: #004a99;
-            font-size: 32px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #004a99;
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-
         .content-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .section-title {
-            color: #004a99;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
-        }
-
-        .profil-content {
-            text-align: justify;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .info-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
-            transition: all 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-        }
-
-        .info-card i {
-            font-size: 36px;
-            color: #d4af37;
-            margin-bottom: 15px;
-        }
-
-        .info-card h5 {
-            color: #004a99;
-            font-weight: bold;
-            margin-bottom: 10px;
-        }
-
-        .info-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .info-list li {
             background: white;
-            margin: 8px 0;
-            padding: 12px 15px;
-            border-radius: 6px;
-            border-left: 3px solid #d4af37;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            margin-top: -40px;
+            position: relative;
+            z-index: 10;
         }
-
-        .footer {
-            background: #1a3a52;
+        .section-title {
+            color: var(--primary-blue);
+            font-weight: 800;
+            margin-bottom: 25px;
+            border-left: 5px solid var(--secondary-gold);
+            padding-left: 15px;
+        }
+        .info-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            transition: all 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .info-card:hover {
+            transform: translateX(10px);
+            border-color: var(--primary-blue);
+        }
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: #f1f5f9;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-blue);
+            font-size: 20px;
+            margin-right: 20px;
+        }
+        .btn-download {
+            background: var(--primary-blue);
             color: white;
-            padding: 40px 0;
-            margin-top: 60px;
-        }
-
-        .btn-warning {
-            background-color: #d4af37;
-            border-color: #d4af37;
-            color: #1a3a52;
+            padding: 8px 20px;
+            border-radius: 8px;
             font-weight: 600;
+            text-decoration: none;
         }
-
-        .btn-warning:hover {
-            background-color: #c9a227;
-            border-color: #c9a227;
-            color: #1a3a52;
-        }
+        .btn-download:hover { background: #003d80; color: white; }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="images/logo-pktj.png" alt="Logo PKTJ">
-                <span>PPID PKTJ</span>
-            </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
-                    </li>
+    @include('navigation')
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
-                        <ul class="dropdown-menu" style="min-width: 280px;">
-                            <li><a class="dropdown-item" href="/profil/ppid">Profil PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/tugas-tanggung-jawab">Tugas dan Tanggung Jawab PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/visi-misi">Visi dan Misi</a></li>
-                            <li><a class="dropdown-item" href="/profil/struktur-organisasi">Struktur Organisasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/regulasi">Regulasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/kontak">Kontak</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
-                        <ul class="dropdown-menu" style="min-width: 250px;">
-                            <li><a class="dropdown-item" href="/informasi-publik/berkala">Informasi Berkala</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/serta-merta">Informasi Serta Merta</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/setiap-saat">Informasi Setiap Saat</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/dikecualikan">Informasi Dikecualikan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
-                        <ul class="dropdown-menu" style="min-width: 320px;">
-                            <li><a class="dropdown-item" href="/layanan-informasi/daftar">Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/maklumat">Maklumat Pelayanan & Standar Biaya</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan">Laporan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-akses">Laporan Akses Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-survey">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
-                        <ul class="dropdown-menu" style="min-width: 380px;">
-                            <li><a class="dropdown-item" href="/prosedur/sop-permintaan-informasi">SOP Permintaan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penanganan-keberatan">SOP Penanganan Keberatan</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengajuan-sengketa">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penetapan-pemutakhiran">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengujian-konsekuensi">SOP Pengujian Konsekuensi</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pendokumentasian">SOP Pendokumentasian Informasi Publik</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq">FAQ</a>
-                    </li>
-                </ul>
-
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi">
-                    PERMOHONAN INFORMASI
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
     <div class="hero-section">
-        <div class="hero-content">
-            <div class="container">
-                <h1 class="display-5 fw-bold mb-3">Informasi Berkala</h1>
-                <p class="lead">Pejabat Pengelola Informasi dan Dokumentasi</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Content -->
-    <div class="container py-5">
-        <h1 class="page-title">Informasi Berkala</h1>
-
-        <div class="content-box">
-            <h2 class="section-title">Pengertian Informasi Berkala</h2>
-            <div class="profil-content">
-                <p><strong>Informasi Berkala</strong> adalah informasi yang wajib disediakan dan diumumkan secara rutin oleh badan publik. Informasi ini dapat diakses oleh publik setiap saat dan diperbaharui secara periodik sesuai dengan ketentuan yang berlaku.</p>
-
-                <p>Berdasarkan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik, setiap badan publik wajib menyediakan informasi berkala yang mencakup:</p>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="info-card text-center">
-                    <i class="fas fa-file-contract"></i>
-                    <h5>Informasi tentang Profil Badan Publik</h5>
-                    <ul class="info-list text-start">
-                        <li>Visi dan misi badan publik</li>
-                        <li>Struktur organisasi</li>
-                        <li>Tugas dan fungsi</li>
-                        <li>Program kerja</li>
-                        <li>Profil pejabat</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="info-card text-center">
-                    <i class="fas fa-chart-line"></i>
-                    <h5>Informasi tentang Kegiatan dan Laporan</h5>
-                    <ul class="info-list text-start">
-                        <li>Laporan keuangan</li>
-                        <li>Laporan kegiatan</li>
-                        <li>Laporan kinerja</li>
-                        <li>Hasil survei</li>
-                        <li>Statistik kegiatan</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col-lg-6">
-                <div class="info-card text-center">
-                    <i class="fas fa-gavel"></i>
-                    <h5>Informasi tentang Peraturan</h5>
-                    <ul class="info-list text-start">
-                        <li>Peraturan perundang-undangan</li>
-                        <li>Kebijakan internal</li>
-                        <li>Standar operasional</li>
-                        <li>Prosedur kerja</li>
-                        <li>Regulasi terkait</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="col-lg-6">
-                <div class="info-card text-center">
-                    <i class="fas fa-hand-holding-heart"></i>
-                    <h5>Informasi tentang Pelayanan Publik</h5>
-                    <ul class="info-list text-start">
-                        <li>Maklumat pelayanan</li>
-                        <li>Standar pelayanan</li>
-                        <li>Biaya/tarif</li>
-                        <li>Prosedur permohonan</li>
-                        <li>Jadwal pelayanan</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Jadwal Pemutakhiran Informasi Berkala</h2>
-            <div class="profil-content">
-                <p>PPID PKTJ melakukan pemutakhiran informasi berkala sesuai dengan jadwal sebagai berikut:</p>
-
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-calendar-alt text-primary me-2"></i>Informasi Triwulanan</h5>
-                        <ul>
-                            <li>Laporan kegiatan triwulanan</li>
-                            <li>Laporan keuangan triwulanan</li>
-                            <li>Progress program kerja</li>
-                        </ul>
-                    </div>
-                    <div class="col-md-6">
-                        <h5><i class="fas fa-calendar-check text-success me-2"></i>Informasi Tahunan</h5>
-                        <ul>
-                            <li>Laporan tahunan kegiatan</li>
-                            <li>Laporan keuangan tahunan</li>
-                            <li>Laporan kinerja tahunan</li>
-                            <li>Rencana kerja tahunan</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Cara Mengakses Informasi Berkala</h2>
-            <div class="profil-content">
-                <p>Informasi berkala PPID PKTJ dapat diakses melalui berbagai kanal:</p>
-
-                <div class="row mt-4">
-                    <div class="col-md-4 text-center">
-                        <i class="fas fa-globe fa-3x text-primary mb-3"></i>
-                        <h6>Website PPID</h6>
-                        <p>ppid.pktj.ac.id</p>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <i class="fas fa-building fa-3x text-info mb-3"></i>
-                        <h6>Kantor PPID</h6>
-                        <p>Jl. Medan Merdeka Barat No. 8</p>
-                    </div>
-                    <div class="col-md-4 text-center">
-                        <i class="fas fa-phone fa-3x text-warning mb-3"></i>
-                        <h6>Hotline PPID</h6>
-                        <p>(021) 3847790</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Permintaan Informasi Berkala</h2>
-            <div class="profil-content">
-                <p>Untuk mendapatkan informasi berkala yang belum tersedia atau memerlukan penjelasan lebih detail, dapat mengajukan permintaan informasi melalui:</p>
-
-                <div class="alert alert-info mt-3">
-                    <h6><i class="fas fa-info-circle me-2"></i>Cara Mengajukan Permintaan</h6>
-                    <ol>
-                        <li>Isi formulir permohonan informasi online</li>
-                        <li>Datang langsung ke kantor PPID dengan membawa identitas</li>
-                        <li>Mengirim surat permohonan ke alamat PPID</li>
-                        <li>Menghubungi hotline PPID untuk informasi awal</li>
-                    </ol>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Footer -->
-    <footer class="footer">
         <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5 class="mb-3">PPID PKTJ</h5>
-                    <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
-                    <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
-                </div>
-                <div class="col-md-6">
-                    <h5 class="mb-3">Kontak</h5>
-                    <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
-                    <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
-                    <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
-                </div>
-            </div>
-            <hr class="my-4 bg-light">
-            <div class="text-center">
-                <p class="mb-0">&copy; 2026 PPID PKTJ. All rights reserved.</p>
-                <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
-            </div>
+            <h1 class="display-4 fw-bold uppercase">Informasi Berkala</h1>
+            <p class="lead opacity-75">Informasi yang wajib disediakan dan diumumkan secara berkala</p>
         </div>
-    </footer>
+    </div>
+
+    <div class="container py-5 mb-5">
+        <div class="content-box">
+            <h2 class="section-title">Daftar Informasi Berkala</h2>
+            <p class="text-muted mb-5">Berikut adalah daftar informasi publik yang disediakan secara rutin oleh PPID PKTJ.</p>
+
+            @if(count($informasi) > 0)
+                <div class="row">
+                    @foreach($informasi as $item)
+                        <div class="col-12">
+                            <div class="info-card">
+                                <div class="d-flex align-items-center">
+                                    <div class="info-icon">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="fw-bold mb-1">{{ $item->judul }}</h6>
+                                        <p class="small text-muted mb-0">{{ $item->deskripsi ?? 'Tidak ada deskripsi' }}</p>
+                                        <small class="text-primary fw-bold">{{ $item->file_size ?? '' }} | {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</small>
+                                    </div>
+                                </div>
+                                <a href="{{ route('download.file', ['model' => 'berkala', 'id' => $item->id]) }}" class="btn-download">
+                                    <i class="fas fa-download me-2"></i>Download
+                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <div class="text-center py-5">
+                    <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                    <p class="text-muted">Belum ada data informasi berkala tersedia.</p>
+                </div>
+            @endif
+        </div>
+    </div>
+
+    @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

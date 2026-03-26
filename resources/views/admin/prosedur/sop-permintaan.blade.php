@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@php
+    $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+@endphp
+
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-200 via-orange-100 to-amber-200 p-8">
     <div class="space-y-8 max-w-full">
@@ -67,7 +71,7 @@
 
     <!-- ==================== FORM SECTION ==================== -->
     <div class="bg-gradient-to-br from-white to-gray-100 rounded-2xl shadow-2xl p-8 border-2 border-orange-300">
-        <form action="#" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.halaman-custom.store', 'sop_permintaan') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -103,6 +107,15 @@
                                 <i class="fas fa-info-circle mr-1 text-orange-600"></i>
                                 Format: JPG, JPEG, PNG - Gambar akan ditampilkan full halaman di publik
                             </p>
+                            
+                            @if(isset($settings['sop_permintaan_gambar_sop']) && $settings['sop_permintaan_gambar_sop'])
+                                <div class="mt-4">
+                                    <div class="relative rounded-xl overflow-hidden border-2 border-orange-400 shadow-xl">
+                                        <img src="{{ asset('storage/halaman/' . $settings['sop_permintaan_gambar_sop']) }}" alt="Gambar SOP saat ini" class="w-full h-auto">
+                                    </div>
+                                    <p class="text-sm text-gray-500 mt-1">Gambar SOP Saat Ini (Akan diganti jika Anda mengunggah file baru)</p>
+                                </div>
+                            @endif
                             
                             <!-- Preview Gambar -->
                             <div id="preview_gambar_sop" class="mt-4 hidden">
@@ -148,6 +161,15 @@
                                 Format: JPG, JPEG, PNG - Gambar akan ditampilkan full halaman di publik
                             </p>
                             
+                            @if(isset($settings['sop_permintaan_gambar_proses']) && $settings['sop_permintaan_gambar_proses'])
+                                <div class="mt-4">
+                                    <div class="relative rounded-xl overflow-hidden border-2 border-amber-400 shadow-xl">
+                                        <img src="{{ asset('storage/halaman/' . $settings['sop_permintaan_gambar_proses']) }}" alt="Gambar Proses saat ini" class="w-full h-auto">
+                                    </div>
+                                    <p class="text-sm text-gray-500 mt-1">Gambar Proses Saat Ini (Akan diganti jika Anda mengunggah file baru)</p>
+                                </div>
+                            @endif
+                            
                             <!-- Preview Gambar -->
                             <div id="preview_gambar_proses" class="mt-4 hidden">
                                 <div class="relative rounded-xl overflow-hidden border-2 border-amber-400 shadow-xl">
@@ -182,11 +204,30 @@
                             <input type="url" name="youtube_link" id="youtube_link" 
                                    placeholder="https://www.youtube.com/watch?v=..."
                                    class="w-full px-6 py-4 text-lg border-2 border-red-400 rounded-xl focus:ring-4 focus:ring-red-500/30 focus:border-red-600 transition-all duration-300 bg-white shadow-md"
-                                   required>
+                                   value="{{ $settings['sop_permintaan_youtube_link'] ?? '' }}" required>
                             <p class="text-sm text-slate-700 mt-2 font-medium">
                                 <i class="fas fa-info-circle mr-1 text-red-600"></i>
                                 Masukkan link YouTube video tutorial SOP permintaan informasi publik
                             </p>
+                            
+                            @if(isset($settings['sop_permintaan_youtube_link']) && $settings['sop_permintaan_youtube_link'])
+                                <!-- Preview Video Saat ini -->
+                                <div class="mt-4">
+                                    @php
+                                        // Cari ID dari link
+                                        preg_match('%(?:youtube(?:-nocookie)?\.com/(?:[^/]+/.+/|(?:v|e(?:mbed)?)/|.*[?&]v=)|youtu\.be/)([^"&?/\s]{11})%i', $settings['sop_permintaan_youtube_link'], $match);
+                                        $videoId = $match[1] ?? '';
+                                    @endphp
+                                    @if($videoId)
+                                        <div class="relative rounded-xl overflow-hidden border-2 border-red-400 shadow-xl bg-black">
+                                            <iframe src="https://www.youtube.com/embed/{{ $videoId }}" 
+                                                    class="w-full aspect-video"
+                                                    frameborder="0" allowfullscreen>
+                                            </iframe>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endif
                             
                             <!-- Preview Video -->
                             <div id="youtube_preview" class="mt-4 hidden">
