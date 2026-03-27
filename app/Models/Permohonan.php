@@ -25,11 +25,15 @@ class Permohonan extends Model
         'jenis_informasi',
         'deskripsi_permohonan',
         'format_informasi',
+        'foto_ktp',
+        'berkas_pendukung',
         'status',
         'tanggal_permohonan',
+        'custom_fields_data',
     ];
 
     protected $casts = [
         'tanggal_permohonan' => 'datetime',
+        'custom_fields_data' => 'array',
     ];
 }

@@ -129,7 +129,7 @@
                                 </h2>
                                 <p class="text-sm text-cyan-300 mt-1">Statistik kunjungan per bulan 📈</p>
                             </div>
-                            <select id="yearSelector" class="px-4 py-2 rounded-xl border border-cyan-600 bg-slate-700 text-cyan-400 font-bold hover:border-cyan-400 transition cursor-pointer">
+                            <select id="yearSelector" class="px-4 py-2 rounded-xl border border-cyan-600 bg-slate-700 text-cyan-400 font-bold hover:border-cyan-400 transition cursor-pointer bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">
                                 <option value="2024">Tahun 2024</option>
                                 <option value="2025">Tahun 2025</option>
                                 <option value="2026" selected>Tahun 2026</option>

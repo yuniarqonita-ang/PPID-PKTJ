@@ -1,21 +1,21 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 p-6">
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
     <div class="max-w-7xl mx-auto">
 
     <!-- ==================== HEADER SECTION ==================== -->
-    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 mb-6">
+    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-slate-200 p-6 mb-6">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25 ring-1 ring-cyan-400/30 bg-clip-text text-transparent">
                     📋 Kelola Konten Profil PPID
                 </h1>
-                <p class="text-slate-600 mt-2">Kelola semua konten profil PPID dan informasi publik dalam satu tempat</p>
+                <p class="text-slate-300 mt-2">Kelola semua konten profil PPID dan informasi publik dalam satu tempat</p>
             </div>
             <div class="flex items-center space-x-3">
                 <a href="{{ route('dashboard') }}" 
-                   class="px-6 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105 rounded-xl flex items-center">
+                   class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white ring-1 ring-cyan-400 shadow-lg shadow-cyan-500/30 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105 rounded-xl flex items-center">
                     <i class="fas fa-home mr-2"></i>Dashboard
                 </a>
             </div>
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 <div class="ml-4">
-                    <p class="text-green-800 font-bold text-lg">{{ session('success') }}</p>
+                    <p class="text-green-300 font-bold text-lg">{{ session('success') }}</p>
                 </div>
             </div>
         </div>
@@ -42,7 +42,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
         
         <!-- Profil PPID -->
-        <div class="bg-white rounded-2xl shadow-lg border-2 border-blue-200 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-blue-600/30 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
             <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
                 <div class="flex items-center">
                     <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
@@ -56,26 +56,26 @@
             </div>
             <div class="p-6">
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-2">Status Konten</p>
+                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
                     @if($profilesData['profil']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
                             <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
                         </span>
                     @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-800 border border-red-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
                             <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
                         </span>
                     @endif
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Judul</p>
-                    <p class="text-slate-800 font-medium">
+                    <p class="text-slate-300 text-sm mb-1">Judul</p>
+                    <p class="text-slate-200 font-medium">
                         {{ $profilesData['profil']->judul ?: 'Belum ada judul' }}
                     </p>
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-800 text-sm">
+                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
+                    <p class="text-slate-200 text-sm">
                         {{ $profilesData['profil']->updated_at ? $profilesData['profil']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
                     </p>
                 </div>
@@ -93,7 +93,7 @@
         </div>
 
         <!-- Tugas & Tanggung Jawab -->
-        <div class="bg-white rounded-2xl shadow-lg border-2 border-yellow-200 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-yellow-600/30 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
             <div class="bg-gradient-to-r from-yellow-500 to-orange-500 p-4">
                 <div class="flex items-center">
                     <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
@@ -107,26 +107,26 @@
             </div>
             <div class="p-6">
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-2">Status Konten</p>
+                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
                     @if($profilesData['tugas']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
                             <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
                         </span>
                     @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-800 border border-red-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
                             <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
                         </span>
                     @endif
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Judul</p>
-                    <p class="text-slate-800 font-medium">
+                    <p class="text-slate-300 text-sm mb-1">Judul</p>
+                    <p class="text-slate-200 font-medium">
                         {{ $profilesData['tugas']->judul ?: 'Belum ada judul' }}
                     </p>
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-800 text-sm">
+                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
+                    <p class="text-slate-200 text-sm">
                         {{ $profilesData['tugas']->updated_at ? $profilesData['tugas']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
                     </p>
                 </div>
@@ -144,7 +144,7 @@
         </div>
 
         <!-- Visi & Misi -->
-        <div class="bg-white rounded-2xl shadow-lg border-2 border-green-200 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-green-600/30 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
             <div class="bg-gradient-to-r from-green-500 to-emerald-500 p-4">
                 <div class="flex items-center">
                     <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
@@ -158,26 +158,26 @@
             </div>
             <div class="p-6">
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-2">Status Konten</p>
+                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
                     @if($profilesData['visi']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
                             <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
                         </span>
                     @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-800 border border-red-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
                             <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
                         </span>
                     @endif
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Judul</p>
-                    <p class="text-slate-800 font-medium">
+                    <p class="text-slate-300 text-sm mb-1">Judul</p>
+                    <p class="text-slate-200 font-medium">
                         {{ $profilesData['visi']->judul ?: 'Belum ada judul' }}
                     </p>
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-800 text-sm">
+                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
+                    <p class="text-slate-200 text-sm">
                         {{ $profilesData['visi']->updated_at ? $profilesData['visi']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
                     </p>
                 </div>
@@ -195,7 +195,7 @@
         </div>
 
         <!-- Struktur Organisasi -->
-        <div class="bg-white rounded-2xl shadow-lg border-2 border-red-200 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-red-600/30 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
             <div class="bg-gradient-to-r from-red-500 to-pink-500 p-4">
                 <div class="flex items-center">
                     <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
@@ -209,26 +209,26 @@
             </div>
             <div class="p-6">
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-2">Status Konten</p>
+                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
                     @if($profilesData['struktur']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
                             <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
                         </span>
                     @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-800 border border-red-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
                             <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
                         </span>
                     @endif
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Judul</p>
-                    <p class="text-slate-800 font-medium">
+                    <p class="text-slate-300 text-sm mb-1">Judul</p>
+                    <p class="text-slate-200 font-medium">
                         {{ $profilesData['struktur']->judul ?: 'Belum ada judul' }}
                     </p>
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-800 text-sm">
+                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
+                    <p class="text-slate-200 text-sm">
                         {{ $profilesData['struktur']->updated_at ? $profilesData['struktur']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
                     </p>
                 </div>
@@ -246,7 +246,7 @@
         </div>
 
         <!-- Regulasi -->
-        <div class="bg-white rounded-2xl shadow-lg border-2 border-purple-200 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border-2 border-purple-200 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
             <div class="bg-gradient-to-r from-purple-500 to-indigo-500 p-4">
                 <div class="flex items-center">
                     <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
@@ -260,26 +260,26 @@
             </div>
             <div class="p-6">
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-2">Status Konten</p>
+                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
                     @if($profilesData['regulasi']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
                             <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
                         </span>
                     @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-800 border border-red-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
                             <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
                         </span>
                     @endif
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Judul</p>
-                    <p class="text-slate-800 font-medium">
+                    <p class="text-slate-300 text-sm mb-1">Judul</p>
+                    <p class="text-slate-200 font-medium">
                         {{ $profilesData['regulasi']->judul ?: 'Belum ada judul' }}
                     </p>
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-800 text-sm">
+                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
+                    <p class="text-slate-200 text-sm">
                         {{ $profilesData['regulasi']->updated_at ? $profilesData['regulasi']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
                     </p>
                 </div>
@@ -297,7 +297,7 @@
         </div>
 
         <!-- Kontak -->
-        <div class="bg-white rounded-2xl shadow-lg border-2 border-cyan-200 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border-2 border-cyan-200 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
             <div class="bg-gradient-to-r from-cyan-500 to-blue-500 p-4">
                 <div class="flex items-center">
                     <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
@@ -311,26 +311,26 @@
             </div>
             <div class="p-6">
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-2">Status Konten</p>
+                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
                     @if($profilesData['kontak']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-800 border border-green-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
                             <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
                         </span>
                     @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-800 border border-red-300">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
                             <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
                         </span>
                     @endif
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Judul</p>
-                    <p class="text-slate-800 font-medium">
+                    <p class="text-slate-300 text-sm mb-1">Judul</p>
+                    <p class="text-slate-200 font-medium">
                         {{ $profilesData['kontak']->judul ?: 'Belum ada judul' }}
                     </p>
                 </div>
                 <div class="mb-4">
-                    <p class="text-slate-600 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-800 text-sm">
+                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
+                    <p class="text-slate-200 text-sm">
                         {{ $profilesData['kontak']->updated_at ? $profilesData['kontak']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
                     </p>
                 </div>
@@ -349,7 +349,7 @@
 
     {{-- ==================== SOP SECTION ==================== --}}
     <div class="mb-6">
-        <h2 class="text-xl font-bold text-slate-700 mb-4 flex items-center">
+        <h2 class="text-xl font-bold text-slate-200 mb-4 flex items-center">
             <i class="fas fa-file-alt text-orange-500 mr-3"></i>Halaman Prosedur (SOP)
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -361,7 +361,7 @@
                 ['key'=>'sop-pengujian', 'label'=>'SOP Pengujian Konsekuensi', 'url'=>'/prosedur/sop-pengujian-konsekuensi', 'icon'=>'fa-search', 'color'=>'from-indigo-400 to-indigo-600', 'border'=>'border-indigo-200'],
                 ['key'=>'sop-pendokumentasian', 'label'=>'SOP Pendokumentasian', 'url'=>'/prosedur/sop-pendokumentasian', 'icon'=>'fa-folder-open', 'color'=>'from-pink-400 to-pink-600', 'border'=>'border-pink-200'],
             ] as $sop)
-            <div class="bg-white rounded-xl shadow border-2 {{ $sop['border'] }} overflow-hidden hover:shadow-md transition-all duration-300">
+            <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden rounded-xl shadow border-2 {{ $sop['border'] }} overflow-hidden hover:shadow-md transition-all duration-300">
                 <div class="bg-gradient-to-r {{ $sop['color'] }} p-3 flex items-center">
                     <div class="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center mr-2">
                         <i class="fas {{ $sop['icon'] }} text-white"></i>
@@ -392,7 +392,7 @@
 
     {{-- ==================== LAYANAN INFORMASI SECTION ==================== --}}
     <div class="mb-6">
-        <h2 class="text-xl font-bold text-slate-700 mb-4 flex items-center">
+        <h2 class="text-xl font-bold text-slate-200 mb-4 flex items-center">
             <i class="fas fa-info-circle text-blue-500 mr-3"></i>Halaman Layanan Informasi
         </h2>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -403,7 +403,7 @@
                 ['key'=>'laporan-akses', 'label'=>'Laporan Akses Informasi', 'url'=>'/layanan-informasi/laporan-akses', 'icon'=>'fa-chart-line', 'color'=>'from-sky-400 to-sky-600', 'border'=>'border-sky-200'],
                 ['key'=>'laporan-survey', 'label'=>'Laporan Survey Kepuasan', 'url'=>'/layanan-informasi/laporan-survey', 'icon'=>'fa-star', 'color'=>'from-rose-400 to-rose-600', 'border'=>'border-rose-200'],
             ] as $layanan)
-            <div class="bg-white rounded-xl shadow border-2 {{ $layanan['border'] }} overflow-hidden hover:shadow-md transition-all duration-300">
+            <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden rounded-xl shadow border-2 {{ $layanan['border'] }} overflow-hidden hover:shadow-md transition-all duration-300">
                 <div class="bg-gradient-to-r {{ $layanan['color'] }} p-3 flex items-center">
                     <div class="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center mr-2">
                         <i class="fas {{ $layanan['icon'] }} text-white"></i>
@@ -433,17 +433,17 @@
     </div>
 
     <!-- ==================== SUMMARY SECTION ==================== -->
-    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6">
+    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-slate-200 p-6">
         <div class="flex justify-between items-center">
             <div class="flex items-center space-x-8">
                 <div class="text-center">
                     <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center mb-3">
                         <i class="fas fa-check-circle text-white text-2xl"></i>
                     </div>
-                    <p class="text-2xl font-black text-slate-800">
+                    <p class="text-2xl font-black text-slate-200">
                         {{ collect($profilesData)->filter(function($item) { return $item->judul; })->count() }}
                     </p>
-                    <p class="text-sm text-slate-600 font-medium">Konten Aktif</p>
+                    <p class="text-sm text-slate-300 font-medium">Konten Aktif</p>
                 </div>
                 <div class="text-center">
                     <div class="w-16 h-16 bg-gradient-to-r from-orange-400 to-red-500 rounded-2xl flex items-center justify-center mb-3">
@@ -452,17 +452,17 @@
                     <p class="text-2xl font-black text-orange-600">
                         {{ collect($profilesData)->filter(function($item) { return !$item->judul; })->count() }}
                     </p>
-                    <p class="text-sm text-slate-600 font-medium">Belum Diisi</p>
+                    <p class="text-sm text-slate-300 font-medium">Belum Diisi</p>
                 </div>
                 <div class="text-center">
                     <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mb-3">
                         <i class="fas fa-folder text-white text-2xl"></i>
                     </div>
                     <p class="text-2xl font-black text-blue-600">17</p>
-                    <p class="text-sm text-slate-600 font-medium">Total Halaman</p>
+                    <p class="text-sm text-slate-300 font-medium">Total Halaman</p>
                 </div>
             </div>
-            <div class="text-slate-600">
+            <div class="text-slate-300">
                 <i class="fas fa-info-circle mr-2"></i>
                 Klik tombol Edit untuk mengubah konten
             </div>

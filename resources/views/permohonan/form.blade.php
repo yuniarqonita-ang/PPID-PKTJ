@@ -181,7 +181,7 @@
             <p>Pastikan data yang diungkapkan telah sesuai dengan ketentuan yang berlaku.</p>
         </div>
 
-        <form action="{{ route('permohonan.store') }}" method="POST" novalidate>
+        <form action="{{ route('permohonan.store') }}" method="POST" enctype="multipart/form-data" novalidate>
             @csrf
 
             <!-- BAGIAN 1: DATA AKUN -->
@@ -341,6 +341,20 @@
                 </div>
             </div>
 
+            <div class="form-row full">
+                <div class="form-group">
+                    <label for="foto_ktp">
+                        Foto Identitas (KTP/Paspor/SIM) <span class="required">*</span>
+                    </label>
+                    <input type="file" class="form-control @error('foto_ktp') is-invalid @enderror" 
+                        id="foto_ktp" name="foto_ktp" accept=".jpg,.jpeg,.png,.pdf" required>
+                    <p class="text-muted mt-1" style="font-size: 11px;">Format yang didukung: JPG, PNG, PDF. Maksimal 5MB.</p>
+                    @error('foto_ktp')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
             <!-- BAGIAN 3: PERMOHONAN INFORMASI -->
             <div class="form-section-title">📄 DETAIL PERMOHONAN INFORMASI</div>
 
@@ -390,6 +404,42 @@
                     @enderror
                 </div>
             </div>
+
+            <div class="form-row full">
+                <div class="form-group">
+                    <label for="berkas_pendukung">
+                        Berkas Pendukung Permohonan (Opsional)
+                    </label>
+                    <input type="file" class="form-control @error('berkas_pendukung') is-invalid @enderror" 
+                        id="berkas_pendukung" name="berkas_pendukung" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
+                    <p class="text-muted mt-1" style="font-size: 11px;">Surat keterangan, surat tugas, atau dokumen lainnya. Maksimal 10MB.</p>
+                    @error('berkas_pendukung')
+                        <div class="invalid-feedback d-block">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
+            <!-- CUSTOM FIELDS DARI ADMIN -->
+            @if(isset($customFields) && count($customFields) > 0)
+            <div class="form-section-title mt-4" style="background-color: #2c3e50;">📋 INFORMASI TAMBAHAN</div>
+            <div class="form-row full">
+                @foreach($customFields as $field)
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label for="{{ $field['name'] }}">
+                            {{ $field['label'] }} <span class="required">*</span>
+                        </label>
+                        
+                        @if($field['type'] == 'text')
+                            <input type="text" class="form-control" id="{{ $field['name'] }}" name="custom_fields[{{ $field['name'] }}]" placeholder="Isi {{ $field['label'] }}" required>
+                        @elseif($field['type'] == 'textarea')
+                            <textarea class="form-control" id="{{ $field['name'] }}" name="custom_fields[{{ $field['name'] }}]" rows="3" placeholder="Isi {{ $field['label'] }}" required></textarea>
+                        @elseif($field['type'] == 'file')
+                            <input type="file" class="form-control" id="{{ $field['name'] }}" name="custom_fields_file[{{ $field['name'] }}]" required>
+                        @endif
+                    </div>
+                @endforeach
+            </div>
+            @endif
 
             <!-- BUTTONS -->
             <div style="margin-top: 30px; border-top: 2px solid #eee; padding-top: 20px;">

@@ -17,16 +17,16 @@
                     <div class="form-group">
                         <label>Source:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="mediaSource" placeholder="URL media">
+                            <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="mediaSource" placeholder="URL media">
                             <button class="btn btn-outline-primary"><i class="fas fa-folder-open"></i></button>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Dimensions:</label>
                         <div class="input-row">
-                            <input type="text" class="form-control" placeholder="Width" id="mediaWidth">
+                            <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="Width" id="mediaWidth">
                             <span>x</span>
-                            <input type="text" class="form-control" placeholder="Height" id="mediaHeight">
+                            <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="Height" id="mediaHeight">
                             <input type="checkbox" id="constrainProportions"> 
                             <label for="constrainProportions">Constrain proportions</label>
                         </div>
@@ -35,21 +35,21 @@
 
                 <div class="tab-content" id="embed">
                     <label>Paste your embed code below:</label>
-                    <textarea class="form-control" id="embedCode" rows="6" placeholder="Paste embed code here..."></textarea>
+                    <textarea class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="embedCode" rows="6" placeholder="Paste embed code here..."></textarea>
                 </div>
 
                 <div class="tab-content" id="advanced">
                     <div class="form-group">
                         <label>Alternative Source:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Alternative URL">
+                            <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="Alternative URL">
                             <button class="btn btn-outline-primary"><i class="fas fa-folder-open"></i></button>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Poster:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Poster URL">
+                            <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="Poster URL">
                             <button class="btn btn-outline-primary"><i class="fas fa-folder-open"></i></button>
                         </div>
                     </div>

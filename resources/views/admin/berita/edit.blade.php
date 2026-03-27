@@ -1,20 +1,20 @@
 <x-app-layout>
     <div class="py-12">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white p-8 rounded-xl shadow-lg border-t-4 border-yellow-500">
-                <h1 class="text-2xl font-bold mb-6 text-gray-800 uppercase border-b pb-4">Edit Data Berita</h1>
+            <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden p-8 rounded-xl shadow-lg border-t-4 border-yellow-500">
+                <h1 class="text-2xl font-bold mb-6 text-slate-200 uppercase border-b pb-4">Edit Data Berita</h1>
 
                 <form action="{{ route('admin.berita.update', $berita->id) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="mb-6">
-                        <label class="block font-bold mb-2 text-gray-700">JUDUL BERITA</label>
-                        <input type="text" name="judul" value="{{ old('judul', $berita->judul) }}" class="w-full border-gray-300 rounded-lg shadow-sm focus:ring-yellow-500" required>
+                        <label class="block font-bold mb-2 text-slate-300">JUDUL BERITA</label>
+                        <input type="text" name="judul" value="{{ old('judul', $berita->judul) }}" class="w-full border-slate-600 bg-slate-900/50 text-white placeholder-slate-500 rounded-lg shadow-sm focus:ring-yellow-500" required>
                     </div>
 
                     <div class="mb-6">
-                        <label class="block font-bold mb-2 text-gray-700">KATEGORI BERITA</label>
-                        <select name="kategori" class="w-full border-gray-300 rounded-lg shadow-sm" required>
+                        <label class="block font-bold mb-2 text-slate-300">KATEGORI BERITA</label>
+                        <select name="kategori" class="w-full border-slate-600 text-white placeholder-slate-500 rounded-lg shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" required>
                             <option value="Informasi Berkala" {{ old('kategori', $berita->kategori) == 'Informasi Berkala' ? 'selected' : '' }}>Informasi Berkala</option>
                             <option value="Informasi Serta Merta" {{ old('kategori', $berita->kategori) == 'Informasi Serta Merta' ? 'selected' : '' }}>Informasi Serta Merta</option>
                             <option value="Informasi Setiap Saat" {{ old('kategori', $berita->kategori) == 'Informasi Setiap Saat' ? 'selected' : '' }}>Informasi Setiap Saat</option>
@@ -22,13 +22,13 @@
                     </div>
 
                     <div class="mb-6">
-                        <label class="block font-bold mb-2 text-gray-700">ISI BERITA</label>
-                        <textarea id="summernote-editor" name="isi" class="summernote-editor">{{ old('isi', $berita->isi) }}</textarea>
+                        <label class="block font-bold mb-2 text-slate-300">ISI BERITA</label>
+                        <textarea id="summernote-editor" name="isi" class="summernote-editor bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">{{ old('isi', $berita->isi) }}</textarea>
                     </div>
 
                     <div class="flex gap-3 pt-6 border-t">
                         <button type="submit" class="bg-yellow-500 text-white px-8 py-2 rounded-lg font-bold shadow-md hover:bg-yellow-600 uppercase">Update</button>
-                        <a href="{{ route('admin.berita.index') }}" class="bg-gray-200 text-gray-700 px-8 py-2 rounded-lg font-bold uppercase text-center">Tutup</a>
+                        <a href="{{ route('admin.berita.index') }}" class="bg-gray-200 text-slate-300 px-8 py-2 rounded-lg font-bold uppercase text-center">Tutup</a>
                     </div>
                 </form>
             </div>

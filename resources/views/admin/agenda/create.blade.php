@@ -2,11 +2,11 @@
 
 @section('content')
 <div class="container mx-auto px-4 py-8">
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-        <h1 class="text-2xl font-bold text-gray-900 mb-6">Tambah Agenda</h1>
+    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
+        <h1 class="text-2xl font-bold text-white mb-6">Tambah Agenda</h1>
 
         @if($errors->any())
-            <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+            <div class="bg-red-100 border border-red-400 text-red-400 px-4 py-3 rounded mb-4">
                 <ul>
                     @foreach($errors->all() as $error)
                         <li>{{ $error }}</li>
@@ -19,34 +19,34 @@
             @csrf
 
             <div class="mb-4">
-                <label for="judul" class="block text-sm font-medium text-gray-700">Judul</label>
-                <input type="text" name="judul" id="judul" value="{{ old('judul') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                <label for="judul" class="block text-sm font-medium text-slate-300">Judul</label>
+                <input type="text" name="judul" id="judul" value="{{ old('judul') }}" class="mt-1 block w-full border-slate-600 text-white placeholder-slate-500 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" required>
             </div>
 
             <div class="mb-4">
-                <label for="konten" class="block text-sm font-medium text-gray-700">Konten</label>
-                <textarea name="konten" id="konten" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500">{{ old('konten') }}</textarea>
+                <label for="konten" class="block text-sm font-medium text-slate-300">Konten</label>
+                <textarea name="konten" id="konten" class="mt-1 block w-full border-slate-600 text-white placeholder-slate-500 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">{{ old('konten') }}</textarea>
             </div>
 
             <div class="mb-4">
-                <label for="tanggal" class="block text-sm font-medium text-gray-700">Tanggal</label>
-                <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal') }}" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" required>
+                <label for="tanggal" class="block text-sm font-medium text-slate-300">Tanggal</label>
+                <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal') }}" class="mt-1 block w-full border-slate-600 text-white placeholder-slate-500 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" required>
             </div>
 
             <div class="mb-4">
-                <label for="gambar" class="block text-sm font-medium text-gray-700">Gambar</label>
-                <input type="file" name="gambar" id="gambar" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" accept="image/*">
+                <label for="gambar" class="block text-sm font-medium text-slate-300">Gambar</label>
+                <input type="file" name="gambar" id="gambar" class="mt-1 block w-full border-slate-600 bg-slate-900/50 text-white placeholder-slate-500 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500" accept="image/*">
             </div>
 
             <div class="mb-4">
                 <label for="aktif" class="inline-flex items-center">
-                    <input type="checkbox" name="aktif" id="aktif" value="1" {{ old('aktif') ? 'checked' : '' }} class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
-                    <span class="ml-2 text-sm text-gray-700">Aktif</span>
+                    <input type="checkbox" name="aktif" id="aktif" value="1" {{ old('aktif') ? 'checked' : '' }} class="rounded border-slate-600 bg-slate-900/50 text-white placeholder-slate-500 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ml-2 text-sm text-slate-300">Aktif</span>
                 </label>
             </div>
 
             <div class="flex justify-end">
-                <a href="{{ route('admin.agenda.index') }}" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-400 mr-2">Batal</a>
+                <a href="{{ route('admin.agenda.index') }}" class="bg-gray-300 text-slate-300 px-4 py-2 rounded-lg hover:bg-gray-400 mr-2">Batal</a>
                 <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Simpan</button>
             </div>
         </form>

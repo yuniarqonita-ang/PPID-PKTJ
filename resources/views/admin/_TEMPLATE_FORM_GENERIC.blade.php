@@ -70,7 +70,7 @@
                                 <i class="fas fa-heading me-2"></i> Judul
                             </label>
                             <input type="text" 
-                                   class="form-control form-control-lg @error('judul') is-invalid @enderror" 
+                                   class="form-control form-control-lg @error('judul') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" 
                                    id="judul" 
                                    name="judul" 
                                    placeholder="Ketik judul di sini..."
@@ -86,7 +86,7 @@
                             <label for="deskripsi" class="form-label fw-bold">
                                 <i class="fas fa-align-left me-2"></i> Deskripsi Singkat
                             </label>
-                            <textarea class="form-control @error('deskripsi') is-invalid @enderror" 
+                            <textarea class="form-control @error('deskripsi') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" 
                                       id="deskripsi" 
                                       name="deskripsi" 
                                       rows="3" 
@@ -106,7 +106,7 @@
                             </small>
                             <textarea id="editor" 
                                       name="konten" 
-                                      class="form-control form-editor @error('konten') is-invalid @enderror">{{ old('konten', '') }}</textarea>
+                                      class="form-control form-editor @error('konten') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">{{ old('konten', '') }}</textarea>
                             @error('konten')
                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                             @enderror
@@ -118,7 +118,7 @@
                                 <i class="fas fa-calendar me-2"></i> Tanggal Publikasi
                             </label>
                             <input type="date" 
-                                   class="form-control @error('tanggal') is-invalid @enderror" 
+                                   class="form-control @error('tanggal') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" 
                                    id="tanggal" 
                                    name="tanggal"
                                    value="{{ old('tanggal', date('Y-m-d')) }}">

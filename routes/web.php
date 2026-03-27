@@ -152,7 +152,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     });
 
     // Agenda CRUD
-    Route::resource('agenda', AgendaController::class)->names('admin.agenda');
+    Route::resource('agenda', 'AgendaController')->names('admin.agenda');
 
     // Informasi Berkala CRUD
     Route::name('admin.informasi.berkala.')->prefix('informasi-berkala')->group(function () {
@@ -209,9 +209,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     });
 
     // Resource CRUD
-    Route::resource('berita', BeritaController::class)->names('admin.berita');
-    Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
-    Route::resource('prosedur', ProsedurController::class)->names('admin.prosedur');
+    Route::resource('berita', 'BeritaController')->names('admin.berita');
+    Route::resource('dokumen', 'DokumenController')->names('admin.dokumen');
+    Route::resource('prosedur', 'ProsedurController')->names('admin.prosedur');
     
     // Custom FAQ routes for admin
     Route::get('/faq', [FaqController::class, 'adminIndex'])->name('admin.faq.index');
@@ -225,13 +225,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::name('admin.permohonan.')->prefix('permohonan')->group(function () {
         Route::get('/', [PermohonanController::class, 'index'])->name('index');
         Route::get('/submissions', [PermohonanController::class, 'index'])->name('submissions');
-        Route::get('/form', function() { return view('admin.permohonan.form'); })->name('form');
+        Route::get('/form', [PermohonanController::class, 'adminForm'])->name('form');
+        Route::post('/form/save', [PermohonanController::class, 'saveForm'])->name('save_form');
         Route::get('/export', [PermohonanController::class, 'exportExcel'])->name('export');
         Route::get('/download/{id}', [PermohonanController::class, 'downloadDocument'])->name('download');
-        Route::post('/store', function() { 
-            // Handle form submission logic here
-            return redirect()->route('admin.permohonan.index')->with('success', 'Form permohonan berhasil disimpan!');
-        })->name('store');
         Route::get('/{permohonan}', [PermohonanController::class, 'show'])->name('show');
         Route::put('/{permohonan}', [PermohonanController::class, 'update'])->name('update');
         Route::delete('/{permohonan}', [PermohonanController::class, 'destroy'])->name('destroy');

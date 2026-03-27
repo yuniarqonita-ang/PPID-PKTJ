@@ -10,7 +10,7 @@
                 <div class="mb-3">
                     <label class="form-label" for="linkUrl"><i class="fas fa-globe"></i> URL</label>
                     <div class="input-group">
-                        <input type="url" class="form-control" id="linkUrl" placeholder="https://example.com" value="https://">
+                        <input type="url" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="linkUrl" placeholder="https://example.com" value="https://">
                         <button class="btn-file-manager" type="button">
                             <i class="fas fa-folder-open"></i>
                         </button>
@@ -19,17 +19,17 @@
 
                 <div class="mb-3">
                     <label class="form-label" for="linkText"><i class="fas fa-heading"></i> Teks yang Ditampilkan</label>
-                    <input type="text" class="form-control" id="linkText" placeholder="Teks yang akan ditampilkan di halaman">
+                    <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="linkText" placeholder="Teks yang akan ditampilkan di halaman">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="linkTitle"><i class="fas fa-info-circle"></i> Judul (Optional)</label>
-                    <input type="text" class="form-control" id="linkTitle" placeholder="Judul yang muncul saat hover">
+                    <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="linkTitle" placeholder="Judul yang muncul saat hover">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label" for="linkTarget"><i class="fas fa-crosshairs"></i> Target</label>
-                    <select class="form-select" id="linkTarget">
+                    <select class="form-select bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="linkTarget">
                         <option value="">- Pilih -</option>
                         <option value="none">None</option>
                         <option value="_blank">New Window</option>

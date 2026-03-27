@@ -1,24 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gray-50 p-8">
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
     <div class="max-w-4xl mx-auto">
 
     <!-- ==================== HEADER SECTION ==================== -->
     <div class="flex justify-between items-center mb-8">
         <div>
-            <h1 class="text-3xl font-bold text-gray-900">➕ Tambah Informasi Berkala</h1>
-            <p class="text-gray-600 mt-1">Upload informasi berkala baru</p>
+            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">➕ Tambah Informasi Berkala</h1>
+            <p class="text-slate-300 mt-1">Upload informasi berkala baru</p>
         </div>
         <div class="flex items-center space-x-3">
-            <a href="{{ route('admin.informasi.berkala') }}" class="px-4 py-2 text-gray-700 hover:text-gray-900 font-medium">
+            <a href="{{ route('admin.informasi.berkala') }}" class="px-4 py-2 text-slate-300 hover:text-white font-medium">
                 Kembali
             </a>
         </div>
     </div>
 
     <!-- ==================== FORM SECTION ==================== -->
-    <div class="bg-white rounded-lg shadow-sm border border-gray-200">
+    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
         <form action="{{ route('admin.informasi.berkala.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
@@ -26,28 +26,28 @@
                 
                 <!-- Judul -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Judul *</label>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Judul *</label>
                     <input type="text" 
                            name="judul" 
                            value="{{ old('judul') }}"
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                           class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                            placeholder="Masukkan judul informasi"
                            required>
                 </div>
 
                 <!-- Deskripsi -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Deskripsi</label>
+                    <label class="block text-sm font-medium text-slate-300 mb-2">Deskripsi</label>
                     <textarea name="deskripsi" 
                               rows="4"
-                              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                              class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                               placeholder="Masukkan deskripsi informasi">{{ old('deskripsi') }}</textarea>
                 </div>
 
                 <!-- File Upload -->
                 <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">File *</label>
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                    <label class="block text-sm font-medium text-slate-300 mb-2">File *</label>
+                    <div class="border-2 border-dashed border-slate-600 bg-slate-900/50 text-white placeholder-slate-500 rounded-lg p-6 text-center">
                         <div class="text-gray-400 mb-4">
                             <i class="fas fa-cloud-upload-alt text-4xl"></i>
                             <p class="mt-2">Klik atau drag file ke sini</p>
@@ -73,7 +73,7 @@
                 <div>
                     <label class="flex items-center">
                         <input type="checkbox" name="aktif" value="1" checked class="mr-2">
-                        <span class="text-sm font-medium text-gray-700">Tampilkan di halaman publik</span>
+                        <span class="text-sm font-medium text-slate-300">Tampilkan di halaman publik</span>
                     </label>
                 </div>
 
@@ -81,7 +81,7 @@
 
             <!-- Action Buttons -->
             <div class="bg-gray-50 px-6 py-4 flex justify-end space-x-4">
-                <a href="{{ route('admin.informasi.berkala') }}" class="px-6 py-2 text-gray-700 hover:text-gray-900 font-medium">
+                <a href="{{ route('admin.informasi.berkala') }}" class="px-6 py-2 text-slate-300 hover:text-white font-medium">
                     Batal
                 </a>
                 <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition rounded-lg">
@@ -119,7 +119,7 @@ function handleFileSelect(input) {
             <div class="flex items-center p-3 bg-green-50 border border-green-200 rounded">
                 <i class="fas fa-file text-green-600 mr-2"></i>
                 <div class="text-left">
-                    <p class="text-sm font-medium text-green-800">${file.name}</p>
+                    <p class="text-sm font-medium text-green-300">${file.name}</p>
                     <p class="text-xs text-green-600">${(file.size / 1024).toFixed(2)} KB</p>
                 </div>
             </div>

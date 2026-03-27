@@ -45,7 +45,7 @@
                         <label for="fileFilter">
                             <i class="fas fa-filter"></i> Filters:
                         </label>
-                        <input type="text" id="fileFilter" class="filter-input" placeholder="Cari file...">
+                        <input type="text" id="fileFilter" class="filter-input bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="Cari file...">
                     </div>
                 </div>
 
@@ -165,7 +165,7 @@
     border: 1px solid #ddd;
     position: relative;
     transition: all 0.3s ease;
-    color: #333;
+    color: #f8fafc; background: transparent;
     font-size: 0.95rem;
 }
 
@@ -229,7 +229,7 @@
 
 .filter-section label {
     font-weight: 600;
-    color: #333;
+    color: #f8fafc; background: transparent;
     white-space: nowrap;
 }
 
@@ -271,7 +271,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #333;
+    color: #f8fafc; background: transparent;
     transition: all 0.3s ease;
     font-size: 0.95rem;
 }
@@ -313,7 +313,7 @@
     font-size: 0.9rem;
     font-weight: 500;
     transition: all 0.3s ease;
-    color: #333;
+    color: #f8fafc; background: transparent;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -347,7 +347,7 @@
     cursor: pointer;
     transition: background 0.3s ease;
     font-size: 0.9rem;
-    color: #333;
+    color: #f8fafc; background: transparent;
 }
 
 .sort-option:hover {
@@ -403,7 +403,7 @@
 .file-name {
     margin: 0;
     font-weight: 600;
-    color: #333;
+    color: #f8fafc; background: transparent;
     font-size: 0.9rem;
     white-space: nowrap;
     overflow: hidden;

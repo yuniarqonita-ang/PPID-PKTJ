@@ -8,9 +8,11 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+
             body {
                 font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
                 min-height: 100vh;
             }
             
@@ -181,22 +183,26 @@
             .main-content {
                 margin-left: 280px;
                 min-height: 100vh;
-                background: #f8f9fa;
+                background: transparent; /* Changed from Slate 50 to transparent to show global dark mode */
             }
             
             .top-header {
-                background: #fff;
+                background: rgba(22, 27, 34, 0.85);
+                backdrop-filter: blur(12px);
+                -webkit-backdrop-filter: blur(12px);
                 padding: 20px 30px;
-                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+                box-shadow: 0 2px 15px rgba(0, 0, 0, 0.3);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
             }
             
             .page-title {
+                font-family: 'Manrope', sans-serif;
                 font-size: 24px;
-                font-weight: 600;
-                color: #2c3e50;
+                font-weight: 700;
+                color: #f0f6fc;
                 margin: 0;
             }
             
@@ -256,6 +262,74 @@
                 .mobile-menu-toggle {
                     display: none;
                 }
+            }
+            
+            /* GLOBAL ADMIN STYLES FOR PREMIUM LOOK */
+            .content-area h1, .content-area h2, .content-area h3, .content-area h4, .content-area h5, .content-area h6 {
+                font-family: 'Manrope', sans-serif;
+            }
+            
+            /* Standardize Tables for Dark Glassmorphism */
+            .content-area table {
+                border-collapse: separate;
+                border-spacing: 0;
+                width: 100%;
+            }
+            .content-area thead th {
+                font-family: 'Manrope', sans-serif;
+                background-color: rgba(15, 23, 42, 0.8) !important; /* bg-slate-900/80 */
+                color: #22d3ee !important; /* text-cyan-400 */
+                text-transform: uppercase;
+                letter-spacing: 0.05em;
+                font-weight: 700 !important;
+                border-bottom: 2px solid #334155 !important;
+            }
+            .content-area tbody tr:hover {
+                background-color: rgba(51, 65, 85, 0.5) !important; /* bg-slate-700/50 */
+            }
+            .content-area tbody td {
+                color: #e2e8f0 !important; /* text-slate-200 to prevent text clashing on dark bg */
+                border-bottom: 1px solid rgba(51, 65, 85, 0.5) !important;
+            }
+            
+            /* Standardize Buttons (Make them look crisper) */
+            .content-area button[type="submit"], .content-area .btn-primary {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+                transition: all 0.2s ease;
+            }
+            .content-area button[type="submit"]:hover, .content-area .btn-primary:hover {
+                transform: translateY(-1px);
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            }
+            
+            /* Inputs Focus Ring */
+            .content-area input:focus, .content-area select:focus, .content-area textarea:focus {
+                border-color: #3b82f6 !important;
+                box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15) !important;
+            }
+
+            /* Dark Mode Pagination Overrides */
+            nav[role="navigation"] p { color: #cbd5e1 !important; }
+            nav[role="navigation"] span, 
+            nav[role="navigation"] a {
+                background-color: rgba(30, 41, 59, 0.8) !important;
+                border-color: rgba(71, 85, 105, 0.5) !important;
+                color: #e2e8f0 !important;
+                transition: all 0.2s ease;
+            }
+            nav[role="navigation"] a:hover {
+                background-color: rgba(51, 65, 85, 0.9) !important;
+                color: #38bdf8 !important;
+            }
+            nav[role="navigation"] span[aria-current="page"] > span,
+            nav[role="navigation"] span.cursor-default {
+                background-color: rgba(56, 189, 248, 0.2) !important;
+                color: #38bdf8 !important;
+                border-color: rgba(56, 189, 248, 0.5) !important;
+            }
+            nav[role="navigation"] svg {
+                width: 1.25rem;
+                height: 1.25rem;
             }
         </style>
     </head>
@@ -450,12 +524,7 @@
                     </div>
                 </div>
                 
-                <div class="nav-item">
-                    <a href="{{ route('admin.permohonan.submissions') }}" class="nav-link {{ request()->routeIs('admin.permohonan.submissions') ? 'active' : '' }}">
-                        <i class="fas fa-list nav-icon"></i>
-                        Daftar Permohonan
-                    </a>
-                </div>
+
                 
                 <div class="nav-item">
                     <a href="{{ route('halaman.index') }}" class="nav-link {{ request()->routeIs('halaman.index') ? 'active' : '' }}">
@@ -464,31 +533,7 @@
                     </a>
                 </div>
                 
-                <div class="nav-item">
-                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-calendar nav-icon"></i>
-                        Galeri & Media
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
-                    </button>
-                    <div class="submenu">
-                        <a href="#" class="submenu-link">
-                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
-                            Agenda
-                        </a>
-                        <a href="#" class="submenu-link">
-                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
-                            Galeri
-                        </a>
-                        <a href="#" class="submenu-link">
-                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
-                            Video
-                        </a>
-                        <a href="#" class="submenu-link">
-                            <i class="fas fa-angle-right" style="margin-right: 8px; font-size: 10px;"></i>
-                            Dokumen
-                        </a>
-                    </div>
-                </div>
+
             </nav>
             
             <div style="padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
@@ -523,7 +568,7 @@
                 </h1>
                 <div class="user-menu">
                     <button style="background: none; border: none; position: relative; cursor: pointer;">
-                        <i class="fas fa-bell" style="font-size: 18px; color: #666;"></i>
+                        <i class="fas fa-bell" style="font-size: 18px; color: #94a3b8;"></i>
                         <span style="position: absolute; top: -5px; right: -5px; width: 8px; height: 8px; background: #e74c3c; border-radius: 50%;"></span>
                     </button>
                     <div class="user-avatar">
@@ -533,6 +578,7 @@
             </header>
             
             <main class="content-area">
+                {{ $slot ?? '' }}
                 @yield('content')
             </main>
         </div>
@@ -591,8 +637,8 @@
                 license_key: 'gpl',
                 height: 400,
                 menubar: false,
-                skin: 'oxide',
-                content_css: 'default',
+                skin: 'oxide-dark',
+                content_css: 'dark',
                 plugins: [
                     'advlist','autolink','lists','link','image','charmap',
                     'searchreplace','visualblocks','code','fullscreen',
@@ -631,7 +677,7 @@
                     'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | ' +
                     'tableinsertcolbefore tableinsertcolafter tabledeletecol',
                 content_style:
-                    'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.75; color: #1e293b; padding: 12px; } ' +
+                    'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.75; color: #f8fafc; background: transparent; padding: 12px; padding: 12px; } ' +
                     'table { border-collapse: collapse; width: 100%; } ' +
                     'table td, table th { border: 1px solid #ddd; padding: 8px 12px; }' +
                     'table th { background: #f1f5f9; font-weight: 600; }'

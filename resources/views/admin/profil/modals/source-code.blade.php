@@ -7,7 +7,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <textarea id="sourceCode" class="form-control" rows="15" style="font-family: monospace; font-size: 0.9rem;"></textarea>
+                <textarea id="sourceCode" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" rows="15" style="font-family: monospace; font-size: 0.9rem;"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" onclick="copySourceCode()"><i class="fas fa-copy"></i> Copy</button>

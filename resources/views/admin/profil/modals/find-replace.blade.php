@@ -9,11 +9,11 @@
             <div class="modal-body">
                 <div class="mb-3">
                     <label class="form-label">Cari:</label>
-                    <input type="text" class="form-control" id="findText" placeholder="Masukkan teks yang ingin dicari">
+                    <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="findText" placeholder="Masukkan teks yang ingin dicari">
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Ganti dengan:</label>
-                    <input type="text" class="form-control" id="replaceText" placeholder="Masukkan teks pengganti">
+                    <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="replaceText" placeholder="Masukkan teks pengganti">
                 </div>
                 <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="matchCase">
