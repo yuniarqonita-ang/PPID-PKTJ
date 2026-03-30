@@ -152,6 +152,29 @@
             font-weight: 600;
         }
 
+        .column-headers {
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #004a99;
+        }
+
+        .column-title {
+            color: #004a99;
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        .empty-state {
+            color: #666;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
         .page-title {
             color: #004a99;
             font-size: 28px;
@@ -409,7 +432,7 @@
                             <li><a class="dropdown-item" href="/laporan-layanan-informasi.html">Laporan Layanan Informasi Publik</a></li>
                             <li><a class="dropdown-item" href="/laporan-akses-informasi-publik.html">Laporan Akses Informasi Publik</a></li>
                             <li><a class="dropdown-item" href="/laporan-survey-kepuasan.html">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
+                            <li><a class="dropdown-item" href="https://jdih.dephub.go.id/" target="_blank">JDIH Kementerian Perhubungan</a></li>
                         </ul>
                     </li>
 
@@ -491,7 +514,16 @@
                                 Jika informasi ditutup, maka dapat melindungi proses pemeriksaan laporan keuangan negara
                             </td>
                             <td>1 Tahun</td>
-                            <td>PPID UTAMA</td>
+                            <td>
+                                <select class="form-select form-select-sm" style="width: auto;">
+                                    <option selected>PPID UTAMA</option>
+                                    <option>PPID PEMBANTU</option>
+                                    <option>PPID KABUPATEN/KOTA</option>
+                                    <option>PPID PROVINSI</option>
+                                    <option>PPID KEMENTERIAN</option>
+                                    <option>PPID LEMBAGA</option>
+                                </select>
+                            </td>
                         </tr>
                         <!-- Add more rows here as needed -->
                         <tr>
@@ -510,7 +542,16 @@
                                 Dapat melindungi keamanan negara dan pertahanan
                             </td>
                             <td>Selamanya</td>
-                            <td>PPID UTAMA</td>
+                            <td>
+                                <select class="form-select form-select-sm" style="width: auto;">
+                                    <option selected>PPID UTAMA</option>
+                                    <option>PPID PEMBANTU</option>
+                                    <option>PPID KABUPATEN/KOTA</option>
+                                    <option>PPID PROVINSI</option>
+                                    <option>PPID KEMENTERIAN</option>
+                                    <option>PPID LEMBAGA</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td class="data-number">3</td>
@@ -528,7 +569,16 @@
                                 Dapat menjaga hubungan diplomatik yang baik
                             </td>
                             <td>Selamanya</td>
-                            <td>PPID UTAMA</td>
+                            <td>
+                                <select class="form-select form-select-sm" style="width: auto;">
+                                    <option selected>PPID UTAMA</option>
+                                    <option>PPID PEMBANTU</option>
+                                    <option>PPID KABUPATEN/KOTA</option>
+                                    <option>PPID PROVINSI</option>
+                                    <option>PPID KEMENTERIAN</option>
+                                    <option>PPID LEMBAGA</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td class="data-number">4</td>
@@ -546,7 +596,16 @@
                                 Dapat melindungi proses penegakan hukum yang sedang berlangsung
                             </td>
                             <td>Selama proses berlangsung</td>
-                            <td>PPID UTAMA</td>
+                            <td>
+                                <select class="form-select form-select-sm" style="width: auto;">
+                                    <option selected>PPID UTAMA</option>
+                                    <option>PPID PEMBANTU</option>
+                                    <option>PPID KABUPATEN/KOTA</option>
+                                    <option>PPID PROVINSI</option>
+                                    <option>PPID KEMENTERIAN</option>
+                                    <option>PPID LEMBAGA</option>
+                                </select>
+                            </td>
                         </tr>
                         <tr>
                             <td class="data-number">5</td>
@@ -564,7 +623,16 @@
                                 Dapat melindungi keselamatan saksi dan korban
                             </td>
                             <td>Selama perlindungan berlaku</td>
-                            <td>PPID UTAMA</td>
+                            <td>
+                                <select class="form-select form-select-sm" style="width: auto;">
+                                    <option selected>PPID UTAMA</option>
+                                    <option>PPID PEMBANTU</option>
+                                    <option>PPID KABUPATEN/KOTA</option>
+                                    <option>PPID PROVINSI</option>
+                                    <option>PPID KEMENTERIAN</option>
+                                    <option>PPID LEMBAGA</option>
+                                </select>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
