@@ -203,79 +203,9 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="images/logo-pktj.png" alt="Logo PKTJ">
-                <span>PPID PKTJ</span>
-            </a>
+    
+    @include('navigation')
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
-                        <ul class="dropdown-menu" style="min-width: 280px;">
-                            <li><a class="dropdown-item" href="/profil/ppid">Profil PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/tugas-tanggung-jawab">Tugas dan Tanggung Jawab PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/visi-misi">Visi dan Misi</a></li>
-                            <li><a class="dropdown-item" href="/profil/struktur-organisasi">Struktur Organisasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/regulasi">Regulasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/kontak">Kontak</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
-                        <ul class="dropdown-menu" style="min-width: 250px;">
-                            <li><a class="dropdown-item" href="/informasi-publik/berkala">Informasi Berkala</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/serta-merta">Informasi Serta Merta</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/setiap-saat">Informasi Setiap Saat</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/dikecualikan">Informasi Dikecualikan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
-                        <ul class="dropdown-menu" style="min-width: 320px;">
-                            <li><a class="dropdown-item" href="/layanan-informasi/daftar">Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/maklumat">Maklumat Pelayanan & Standar Biaya</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan">Laporan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-akses">Laporan Akses Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-survey">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
-                        <ul class="dropdown-menu" style="min-width: 380px;">
-                            <li><a class="dropdown-item" href="/prosedur/sop-permintaan-informasi">SOP Permintaan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penanganan-keberatan">SOP Penanganan Keberatan</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengajuan-sengketa">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penetapan-pemutakhiran">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengujian-konsekuensi">SOP Pengujian Konsekuensi</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pendokumentasian">SOP Pendokumentasian Informasi Publik</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq">FAQ</a>
-                    </li>
-                </ul>
-
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi">
-                    PERMOHONAN INFORMASI
-                </a>
-            </div>
-        </div>
-    </nav>
 
     <!-- Hero Section -->
     <div class="hero-section">
@@ -298,203 +228,20 @@
     <!-- Main Content -->
     <div class="container py-5">
         <h1 class="page-title">Daftar Informasi Publik PPID PKTJ</h1>
-
-        <div class="content-box">
-            <h2 class="section-title">Pengertian Daftar Informasi Publik</h2>
-            <div class="profil-content">
-                <p><strong>Daftar Informasi Publik</strong> adalah katalog yang berisi kumpulan informasi yang tersedia dan dapat diakses oleh publik. Daftar ini disusun secara sistematis dan diklasifikasikan berdasarkan jenis, kategori, dan subyek informasi.</p>
-
-                <p>Daftar informasi publik wajib disusun oleh setiap badan publik sesuai dengan Peraturan Pemerintah Nomor 61 Tahun 2010 dan harus diperbaharui secara berkala.</p>
-            </div>
+        {{-- KONTEN DARI ADMIN PANEL --}}
+        @if(isset($profil) && $profil && ($profil->konten_pembuka || $profil->gambaran))
+        <div class="content-box mb-4" style="border-left: 5px solid #d4af37;">
+            @if($profil->judul)
+                <h2 class="section-title">{{ $profil->judul }}</h2>
+            @endif
+            @if($profil->konten_pembuka)
+                <div class="profil-content">{!! $profil->konten_pembuka !!}</div>
+            @endif
+            @if($profil->gambaran)
+                <div class="profil-content mt-3">{!! $profil->gambaran !!}</div>
+            @endif
         </div>
-
-        <div class="filter-buttons text-center">
-            <button class="btn btn-outline-primary active" onclick="filterInfo('all')">Semua</button>
-            <button class="btn btn-outline-success" onclick="filterInfo('berkala')">Berkala</button>
-            <button class="btn btn-outline-info" onclick="filterInfo('serta-merta')">Serta Merta</button>
-            <button class="btn btn-outline-warning" onclick="filterInfo('setiap-saat')">Setiap Saat</button>
-        </div>
-
-        <!-- Informasi Berkala -->
-        <div class="info-category">
-            <i class="fas fa-calendar-alt"></i>
-            <h4>Informasi Berkala</h4>
-            <p>Informasi yang wajib disediakan dan diumumkan secara rutin</p>
-        </div>
-
-        <div class="content-box">
-            <h3 class="text-primary mb-4"><i class="fas fa-building me-2"></i>Profil Badan Publik</h3>
-            <ul class="info-list" data-category="berkala">
-                <li>
-                    <strong>Visi dan Misi PPID PKTJ</strong>
-                    <small>Dokumen visi dan misi Pejabat Pengelola Informasi dan Dokumentasi</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Tugas Pokok dan Fungsi PPID</strong>
-                    <small>Deskripsi tugas dan fungsi PPID berdasarkan peraturan perundang-undangan</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Struktur Organisasi PPID</strong>
-                    <small>Diagram dan penjelasan struktur organisasi PPID PKTJ</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Profil Pejabat PPID</strong>
-                    <small>Data pejabat yang menangani pengelolaan informasi dan dokumentasi</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Program Kerja PPID</strong>
-                    <small>Rencana program kerja PPID untuk tahun berjalan</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-            </ul>
-
-            <h3 class="text-primary mb-4 mt-5"><i class="fas fa-chart-line me-2"></i>Laporan Kegiatan</h3>
-            <ul class="info-list" data-category="berkala">
-                <li>
-                    <strong>Laporan Tahunan PPID 2025</strong>
-                    <small>Laporan kegiatan PPID selama tahun 2025</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Laporan Triwulanan PPID</strong>
-                    <small>Laporan kegiatan PPID per triwulan</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Laporan Kinerja PPID</strong>
-                    <small>Evaluasi kinerja PPID dalam melayani informasi publik</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Statistik Permintaan Informasi</strong>
-                    <small>Data statistik permintaan informasi publik</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-            </ul>
-
-            <h3 class="text-primary mb-4 mt-5"><i class="fas fa-file-invoice-dollar me-2"></i>Laporan Keuangan</h3>
-            <ul class="info-list" data-category="berkala">
-                <li>
-                    <strong>Laporan Keuangan Tahunan</strong>
-                    <small>Laporan keuangan PPID tahun 2025</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Anggaran PPID</strong>
-                    <small>Rencana anggaran PPID untuk tahun berjalan</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-            </ul>
-        </div>
-
-        <!-- Informasi Setiap Saat -->
-        <div class="info-category">
-            <i class="fas fa-clock"></i>
-            <h4>Informasi Setiap Saat</h4>
-            <p>Informasi yang dapat diakses setiap saat melalui berbagai kanal</p>
-        </div>
-
-        <div class="content-box">
-            <h3 class="text-primary mb-4"><i class="fas fa-cogs me-2"></i>Pelayanan Informasi</h3>
-            <ul class="info-list" data-category="setiap-saat">
-                <li>
-                    <strong>Maklumat Pelayanan PPID</strong>
-                    <small>Informasi tentang prosedur, waktu, dan biaya pelayanan</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Standar Operasional Prosedur</strong>
-                    <small>SOP pengelolaan informasi dan dokumentasi</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Formulir Permohonan Informasi</strong>
-                    <small>Format formulir untuk mengajukan permintaan informasi</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Formulir Keberatan</strong>
-                    <small>Format formulir untuk mengajukan keberatan atas keputusan PPID</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-            </ul>
-
-            <h3 class="text-primary mb-4 mt-5"><i class="fas fa-gavel me-2"></i>Regulasi</h3>
-            <ul class="info-list" data-category="setiap-saat">
-                <li>
-                    <strong>Undang-Undang Keterbukaan Informasi Publik</strong>
-                    <small>UU Nomor 14 Tahun 2008</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Peraturan Pemerintah Nomor 61 Tahun 2010</strong>
-                    <small>PP tentang Pelaksanaan UU KIP</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Peraturan Komisi Informasi</strong>
-                    <small>Regulasi yang diterbitkan oleh Komisi Informasi Pusat</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-            </ul>
-
-            <h3 class="text-primary mb-4 mt-5"><i class="fas fa-users me-2"></i>Informasi Umum</h3>
-            <ul class="info-list" data-category="setiap-saat">
-                <li>
-                    <strong>Profil PPID PKTJ</strong>
-                    <small>Informasi lengkap tentang PPID PKTJ</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Daftar Informasi Publik</strong>
-                    <small>Katalog lengkap informasi yang tersedia</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>Kontak PPID</strong>
-                    <small>Informasi kontak dan alamat PPID</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-                <li>
-                    <strong>FAQ PPID</strong>
-                    <small>Pertanyaan yang sering diajukan</small>
-                    <br><button class="btn btn-download btn-sm">Download</button>
-                </li>
-            </ul>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Cara Mengakses Informasi</h2>
-            <div class="row">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-globe text-primary me-2"></i>Online</h5>
-                    <ul>
-                        <li>Melalui website PPID PKTJ</li>
-                        <li>Download dokumen langsung</li>
-                        <li>Pencarian informasi real-time</li>
-                        <li>Akses 24 jam</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <h5><i class="fas fa-building text-success me-2"></i>Offline</h5>
-                    <ul>
-                        <li>Datang langsung ke kantor PPID</li>
-                        <li>Mengajukan permintaan informasi</li>
-                        <li>Mendapatkan dokumen fisik</li>
-                        <li>Konsultasi langsung dengan petugas</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="alert alert-info mt-4">
-                <h6><i class="fas fa-info-circle me-2"></i>Pemberitahuan</h6>
-                <p>Daftar informasi publik ini diperbaharui secara berkala. Untuk mendapatkan informasi terkini, silakan hubungi PPID atau akses website secara berkala.</p>
-            </div>
-        </div>
+        @endif
     </div>
 
     <!-- Footer -->
@@ -542,6 +289,39 @@
                 }
             });
         }
+    </script>
+
+    <!-- Dropdown Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const dropdownItem = this.closest('.dropdown');
+                    const dropdownMenu = dropdownItem.querySelector('.dropdown-menu');
+                    
+                    if (dropdownMenu.style.display === 'block') {
+                        dropdownMenu.style.display = 'none';
+                    } else {
+                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                            menu.style.display = 'none';
+                        });
+                        dropdownMenu.style.display = 'block';
+                    }
+                });
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.style.display = 'none';
+                    });
+                }
+            });
+        });
     </script>
 </body>
 </html>

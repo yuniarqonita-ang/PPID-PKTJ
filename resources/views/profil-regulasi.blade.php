@@ -164,7 +164,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
         <div class="container">
             <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="images/logo-pktj.png" alt="Logo PKTJ">
+                <img src="/images/logo-pktj.png" alt="Logo PKTJ">
                 <span>PPID PKTJ</span>
             </a>
 

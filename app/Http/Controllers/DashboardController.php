@@ -12,17 +12,17 @@ class DashboardController extends Controller
 {
     public function index()
     {
-        // Statistics Data
+        // Statistics Data (real counts from DB)
         $stats = [
             'totalBerita'     => Schema::hasTable('beritas') ? DB::table('beritas')->count() : 0,
-            'totalGaleri'     => rand(12, 25),  // Demo data - akan diganti dengan real data nanti
-            'totalVideo'      => rand(8, 18),   // Demo data - akan diganti dengan real data nanti
-            'totalAgenda'     => rand(5, 15),   // Demo data - akan diganti dengan real data nanti
-            'totalDokumen'    => Schema::hasTable('dokumens') ? DB::table('dokumens')->count() : 0,
-            'totalFaq'        => Schema::hasTable('faqs') ? DB::table('faqs')->count() : 0,
+            'totalGaleri'     => 0,
+            'totalVideo'      => 0,
+            'totalAgenda'     => 0,
+            'totalDokumen'    => 0,
+            'totalFaq'        => 0,
         ];
 
-        // Top 5 Popular News - Safe query (order by created_at desc)
+        // Top 5 Latest News
         $topNews = collect([]);
         if (Schema::hasTable('beritas')) {
             $topNews = DB::table('beritas')
@@ -33,13 +33,13 @@ class DashboardController extends Controller
                     return [
                         'id'       => $item->id ?? 0,
                         'judul'    => $item->judul ?? 'Untitled',
-                        'views'    => rand(100, 5000),  // Demo - views column tidak ada di table
+                        'views'    => 0,
                         'created'  => isset($item->created_at) ? Carbon::parse($item->created_at)->format('d M Y') : 'Unknown'
                     ];
                 });
         }
 
-        // Visitor Statistics by Month (Current Year)
+        // Visitor Statistics by Month (all 0 — belum ada tracking pengunjung)
         $currentYear = now()->year;
         $visitorData = [];
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
@@ -47,19 +47,19 @@ class DashboardController extends Controller
         foreach (range(1, 12) as $month) {
             $visitorData[] = [
                 'bulan'    => $months[$month - 1],
-                'visitors' => rand(15000, 45000) // Demo data - ganti dengan real data nanti
+                'visitors' => 0
             ];
         }
 
-        // Visitor Website Metrics
+        // Visitor Website Metrics (all 0 — belum ada tracking pengunjung)
         $visitorMetrics = [
-            'online'           => rand(50, 200),
-            'today'            => rand(2000, 5000),
-            'hits_today'       => rand(10000, 30000),
-            'yesterday'        => rand(2000, 5000),
-            'hits_yesterday'   => rand(10000, 30000),
-            'total_visitors'   => rand(500000, 1000000),
-            'total_hits'       => rand(5000000, 10000000),
+            'online'           => 0,
+            'today'            => 0,
+            'hits_today'       => 0,
+            'yesterday'        => 0,
+            'hits_yesterday'   => 0,
+            'total_visitors'   => 0,
+            'total_hits'       => 0,
         ];
 
         $data = [

@@ -6,6 +6,12 @@
         "build": "vite build"
     },
     "devDependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "@lucide/react": "^0.262.0",
+    "@vitejs/plugin-react": "^4.0.0",
+    "recharts": "^2.12.0",
+
         "@tailwindcss/vite": "^4.0.0",
         "axios": "^1.7.4",
         "laravel-vite-plugin": "^1.1.1",

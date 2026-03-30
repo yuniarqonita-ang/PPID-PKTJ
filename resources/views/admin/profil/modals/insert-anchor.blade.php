@@ -9,7 +9,7 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="form-label">Nama Anchor:</label>
-                    <input type="text" class="form-control" id="anchorName" placeholder="Contoh: section-1">
+                    <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="anchorName" placeholder="Contoh: section-1">
                 </div>
             </div>
             <div class="modal-footer">

@@ -16,21 +16,21 @@
                     <div class="form-group">
                         <label>Source:</label>
                         <div class="input-group">
-                            <input type="text" class="form-control" id="imageSource" placeholder="URL gambar">
+                            <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="imageSource" placeholder="URL gambar">
                             <button class="btn btn-outline-primary"><i class="fas fa-folder-open"></i></button>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group">
                             <label>Image Description:</label>
-                            <input type="text" class="form-control" placeholder="Deskripsi gambar (untuk aksesibilitas)">
+                            <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="Deskripsi gambar (untuk aksesibilitas)">
                         </div>
                         <div class="form-group">
                             <label>Dimensions:</label>
                             <div class="input-row">
-                                <input type="text" class="form-control" placeholder="Width">
+                                <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="Width">
                                 <span>x</span>
-                                <input type="text" class="form-control" placeholder="Height">
+                                <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="Height">
                                 <input type="checkbox" checked> <label>Constrain proportions</label>
                             </div>
                         </div>
@@ -40,19 +40,19 @@
                 <div class="tab-content" id="advanced">
                     <div class="form-group">
                         <label>Style:</label>
-                        <input type="text" class="form-control" placeholder="CSS style">
+                        <input type="text" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="CSS style">
                     </div>
                     <div class="form-group">
                         <label>Vertical Space:</label>
-                        <input type="number" class="form-control" placeholder="0">
+                        <input type="number" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="0">
                     </div>
                     <div class="form-group">
                         <label>Border:</label>
-                        <input type="number" class="form-control" placeholder="0">
+                        <input type="number" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="0">
                     </div>
                     <div class="form-group">
                         <label>Horizontal Space:</label>
-                        <input type="number" class="form-control" placeholder="0">
+                        <input type="number" class="form-control bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" placeholder="0">
                     </div>
                 </div>
             </div>

@@ -11,7 +11,7 @@ class BeritaController extends Controller
 {
     public function index()
     {
-        $beritas = Berita::latest()->get(); // Mengambil data terbaru
+        $beritas = Berita::latest()->paginate(10);
         return view('admin.berita.index', compact('beritas'));
     }
 
@@ -36,7 +36,7 @@ class BeritaController extends Controller
             'published_at' => now(),
         ]);
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil ditambahkan');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil ditambahkan');
     }
 
     public function edit($id)
@@ -59,13 +59,13 @@ class BeritaController extends Controller
             'konten' => $request->konten,
         ]);
 
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil diperbarui');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui');
     }
 
     public function destroy($id)
     {
         Berita::findOrFail($id)->delete();
-        return redirect()->route('berita.index')->with('success', 'Berita berhasil dihapus');
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus');
     }
 
     public function sertaMerta()

@@ -63,7 +63,7 @@
 
                 <div class="mb-3">
                     <label for="status" class="form-label">Status Permohonan</label>
-                    <select class="form-select @error('status') is-invalid @enderror" id="status" name="status" required>
+                    <select class="form-select @error('status') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="status" name="status" required>
                         <option value="pending" {{ $permohonan->status == 'pending' ? 'selected' : '' }}>
                             ⏱️ Pending (Menunggu Proses)
                         </option>

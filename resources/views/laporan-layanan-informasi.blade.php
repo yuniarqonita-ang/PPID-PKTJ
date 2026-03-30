@@ -263,79 +263,9 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="images/logo-pktj.png" alt="Logo PKTJ">
-                <span>PPID PKTJ</span>
-            </a>
+    
+    @include('navigation')
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
-                        <ul class="dropdown-menu" style="min-width: 280px;">
-                            <li><a class="dropdown-item" href="/profil/ppid">Profil PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/tugas-tanggung-jawab">Tugas dan Tanggung Jawab PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/visi-misi">Visi dan Misi</a></li>
-                            <li><a class="dropdown-item" href="/profil/struktur-organisasi">Struktur Organisasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/regulasi">Regulasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/kontak">Kontak</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
-                        <ul class="dropdown-menu" style="min-width: 250px;">
-                            <li><a class="dropdown-item" href="/informasi-publik/berkala">Informasi Berkala</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/serta-merta">Informasi Serta Merta</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/setiap-saat">Informasi Setiap Saat</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/dikecualikan">Informasi Dikecualikan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
-                        <ul class="dropdown-menu" style="min-width: 320px;">
-                            <li><a class="dropdown-item" href="/layanan-informasi/daftar">Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/maklumat">Maklumat Pelayanan & Standar Biaya</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan">Laporan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-akses">Laporan Akses Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-survey">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
-                        <ul class="dropdown-menu" style="min-width: 380px;">
-                            <li><a class="dropdown-item" href="/prosedur/sop-permintaan-informasi">SOP Permintaan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penanganan-keberatan">SOP Penanganan Keberatan</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengajuan-sengketa">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penetapan-pemutakhiran">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengujian-konsekuensi">SOP Pengujian Konsekuensi</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pendokumentasian">SOP Pendokumentasian Informasi Publik</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq">FAQ</a>
-                    </li>
-                </ul>
-
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi">
-                    PERMOHONAN INFORMASI
-                </a>
-            </div>
-        </div>
-    </nav>
 
     <!-- Hero Section -->
     <div class="hero-section">
@@ -350,292 +280,20 @@
     <!-- Main Content -->
     <div class="container py-5">
         <h1 class="page-title">Laporan Layanan Informasi Publik</h1>
-
-        <div class="content-box">
-            <h2 class="section-title">Dasar Hukum</h2>
-            <div class="profil-content">
-                <p>Laporan Layanan Informasi Publik PPID PKTJ disusun berdasarkan:</p>
-                <ul>
-                    <li>Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik</li>
-                    <li>Peraturan Pemerintah Nomor 61 Tahun 2010 tentang Pelaksanaan Undang-Undang Nomor 14 Tahun 2008</li>
-                    <li>Peraturan Komisi Informasi Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik</li>
-                    <li>Keputusan Direktur Jenderal Perhubungan Udara Nomor KP 345 Tahun 2018</li>
-                </ul>
-            </div>
+        {{-- KONTEN DARI ADMIN PANEL --}}
+        @if(isset($profil) && $profil && ($profil->konten_pembuka || $profil->gambaran))
+        <div class="content-box mb-4" style="border-left: 5px solid #d4af37;">
+            @if($profil->judul)
+                <h2 class="section-title">{{ $profil->judul }}</h2>
+            @endif
+            @if($profil->konten_pembuka)
+                <div class="profil-content">{!! $profil->konten_pembuka !!}</div>
+            @endif
+            @if($profil->gambaran)
+                <div class="profil-content mt-3">{!! $profil->gambaran !!}</div>
+            @endif
         </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Statistik Layanan Tahun 2024</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">1,247</div>
-                    <div class="stat-label">Total Permintaan</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">98.5%</div>
-                    <div class="stat-label">Tingkat Pemenuhan</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">4.2</div>
-                    <div class="stat-label">Rata-rata Waktu (hari)</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">4.7/5</div>
-                    <div class="stat-label">Indeks Kepuasan</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Kategori Permintaan Informasi</h2>
-
-            <div class="report-card">
-                <i class="fas fa-chart-pie"></i>
-                <h5>Distribusi Permintaan Berdasarkan Kategori</h5>
-                <div class="chart-container">
-                    <img src="https://via.placeholder.com/600x300/004a99/white?text=Chart+Kategori+Permintaan" alt="Chart Kategori" class="img-fluid">
-                    <p class="text-muted mt-2">Grafik distribusi permintaan informasi berdasarkan kategori tahun 2024</p>
-                </div>
-            </div>
-
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Kategori</th>
-                            <th>Jumlah Permintaan</th>
-                            <th>Persentase</th>
-                            <th>Status Pemenuhan</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><i class="fas fa-building text-primary me-2"></i>Profil Organisasi</td>
-                            <td>342</td>
-                            <td>27.4%</td>
-                            <td><span class="badge bg-success">100%</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-file-contract text-success me-2"></i>Regulasi & Kebijakan</td>
-                            <td>298</td>
-                            <td>23.9%</td>
-                            <td><span class="badge bg-success">98%</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-chart-line text-warning me-2"></i>Data & Statistik</td>
-                            <td>234</td>
-                            <td>18.8%</td>
-                            <td><span class="badge bg-success">97%</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-users text-info me-2"></i>Layanan Publik</td>
-                            <td>187</td>
-                            <td>15.0%</td>
-                            <td><span class="badge bg-success">99%</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-gavel text-danger me-2"></i>Pengadaan & Kontrak</td>
-                            <td>156</td>
-                            <td>12.5%</td>
-                            <td><span class="badge bg-warning">95%</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-shield-alt text-secondary me-2"></i>Lainnya</td>
-                            <td>30</td>
-                            <td>2.4%</td>
-                            <td><span class="badge bg-success">100%</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Kinerja Layanan</h2>
-
-            <div class="report-card">
-                <i class="fas fa-clock"></i>
-                <h5>Waktu Penyelesaian Permintaan</h5>
-                <div class="chart-container">
-                    <img src="https://via.placeholder.com/600x300/d4af37/white?text=Chart+Waktu+Penyelesaian" alt="Chart Waktu" class="img-fluid">
-                    <p class="text-muted mt-2">Grafik waktu penyelesaian permintaan informasi tahun 2024</p>
-                </div>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-check-circle text-success me-2"></i>Permintaan Diselesaikan</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-check text-success me-2"></i>Informasi tersedia langsung: 876 (70.2%)</li>
-                        <li><i class="fas fa-check text-success me-2"></i>Informasi perlu penyiapan: 312 (25.0%)</li>
-                        <li><i class="fas fa-check text-success me-2"></i>Permintaan ditolak: 59 (4.7%)</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <h5><i class="fas fa-clock text-warning me-2"></i>Rata-rata Waktu Penyelesaian</h5>
-                    <ul class="list-unstyled">
-                        <li><i class="fas fa-clock text-info me-2"></i>Informasi tersedia: 1.2 hari</li>
-                        <li><i class="fas fa-clock text-warning me-2"></i>Informasi penyiapan: 8.7 hari</li>
-                        <li><i class="fas fa-clock text-danger me-2"></i>Penolakan: 2.1 hari</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Kepuasan Pemohon</h2>
-
-            <div class="report-card">
-                <i class="fas fa-star"></i>
-                <h5>Indeks Kepuasan Layanan</h5>
-                <div class="chart-container">
-                    <img src="https://via.placeholder.com/600x300/28a745/white?text=Chart+Kepuasan" alt="Chart Kepuasan" class="img-fluid">
-                    <p class="text-muted mt-2">Grafik indeks kepuasan pemohon informasi tahun 2024</p>
-                </div>
-            </div>
-
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-number">4.7</div>
-                    <div class="stat-label">Kualitas Informasi</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">4.5</div>
-                    <div class="stat-label">Kecepatan Layanan</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">4.8</div>
-                    <div class="stat-label">Keramahan Petugas</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">4.6</div>
-                    <div class="stat-label">Kemudahan Akses</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Pengaduan dan Keberatan</h2>
-
-            <div class="report-card">
-                <i class="fas fa-exclamation-triangle"></i>
-                <h5>Statistik Pengaduan</h5>
-                <p>Total pengaduan yang diterima PPID PKTJ tahun 2024</p>
-            </div>
-
-            <div class="table-responsive">
-                <table class="table table-striped">
-                    <thead>
-                        <tr>
-                            <th>Jenis Pengaduan</th>
-                            <th>Jumlah</th>
-                            <th>Persentase</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><i class="fas fa-clock text-warning me-2"></i>Keterlambatan Penyelesaian</td>
-                            <td>23</td>
-                            <td>45.1%</td>
-                            <td><span class="badge bg-success">Diselesaikan</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-times-circle text-danger me-2"></i>Penolakan Permintaan</td>
-                            <td>15</td>
-                            <td>29.4%</td>
-                            <td><span class="badge bg-success">Diselesaikan</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-user-tie text-info me-2"></i>Pelayanan Petugas</td>
-                            <td>8</td>
-                            <td>15.7%</td>
-                            <td><span class="badge bg-success">Diselesaikan</span></td>
-                        </tr>
-                        <tr>
-                            <td><i class="fas fa-file-alt text-secondary me-2"></i>Kualitas Informasi</td>
-                            <td>5</td>
-                            <td>9.8%</td>
-                            <td><span class="badge bg-success">Diselesaikan</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Inisiatif Peningkatan Layanan</h2>
-            <div class="timeline">
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Januari 2024</h6>
-                        <p>Peluncuran sistem permohonan informasi online untuk mempercepat proses pengajuan dan tracking status permintaan.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Maret 2024</h6>
-                        <p>Peningkatan kapasitas petugas PPID melalui pelatihan keterampilan komunikasi dan manajemen informasi publik.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">Juni 2024</h6>
-                        <p>Pengembangan portal data terbuka untuk memudahkan akses informasi publik yang sering diminta.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">September 2024</h6>
-                        <p>Implementasi sistem survey kepuasan otomatis untuk mendapatkan feedback langsung dari pemohon informasi.</p>
-                    </div>
-                </div>
-
-                <div class="timeline-item">
-                    <div class="timeline-content">
-                        <h6 class="text-primary">November 2024</h6>
-                        <p>Optimalisasi kanal komunikasi dengan penambahan layanan WhatsApp Business untuk respons cepat.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Download Laporan Lengkap</h2>
-            <div class="profil-content">
-                <p>Untuk mendapatkan laporan lengkap dan detail statistik layanan informasi publik PPID PKTJ, silakan download dokumen berikut:</p>
-
-                <div class="row mt-4">
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-center p-3 border rounded">
-                            <i class="fas fa-file-pdf text-danger me-3" style="font-size: 24px;"></i>
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">Laporan Tahunan 2024</h6>
-                                <small class="text-muted">PDF • 2.4 MB • 145 halaman</small>
-                            </div>
-                            <button class="download-btn">
-                                <i class="fas fa-download me-1"></i>Download
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="d-flex align-items-center p-3 border rounded">
-                            <i class="fas fa-file-excel text-success me-3" style="font-size: 24px;"></i>
-                            <div class="flex-grow-1">
-                                <h6 class="mb-1">Data Statistik 2024</h6>
-                                <small class="text-muted">Excel • 1.8 MB • Dataset lengkap</small>
-                            </div>
-                            <button class="download-btn">
-                                <i class="fas fa-download me-1"></i>Download
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        @endif
     </div>
 
     <!-- Footer -->
@@ -662,5 +320,38 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Dropdown Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
+            
+            dropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const dropdownItem = this.closest('.dropdown');
+                    const dropdownMenu = dropdownItem.querySelector('.dropdown-menu');
+                    
+                    if (dropdownMenu.style.display === 'block') {
+                        dropdownMenu.style.display = 'none';
+                    } else {
+                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                            menu.style.display = 'none';
+                        });
+                        dropdownMenu.style.display = 'block';
+                    }
+                });
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.dropdown')) {
+                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                        menu.style.display = 'none';
+                    });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

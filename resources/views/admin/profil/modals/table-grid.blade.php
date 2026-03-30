@@ -47,7 +47,7 @@
 
 .grid-info {
     font-weight: 600;
-    color: #333;
+    color: #f8fafc; background: transparent;
     font-size: 1.1rem;
     min-height: 30px;
 }

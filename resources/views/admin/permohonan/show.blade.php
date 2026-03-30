@@ -32,7 +32,7 @@
             min-width: 200px;
         }
         .detail-value {
-            color: #333;
+            color: #f8fafc; background: transparent;
             flex: 1;
         }
         .status-badge {
@@ -87,6 +87,17 @@
                 <div class="detail-value">{{ $permohonan->nomor_identitas }}</div>
             </div>
 
+            @if($permohonan->foto_ktp)
+            <div class="detail-row">
+                <div class="detail-label">Foto Identitas (KTP/dll)</div>
+                <div class="detail-value">
+                    <a href="{{ Storage::url($permohonan->foto_ktp) }}" target="_blank" class="btn btn-sm btn-outline-primary shadow-sm" style="border-radius: 8px;">
+                        <i class="fas fa-id-card"></i> Lihat Dokumen Identitas
+                    </a>
+                </div>
+            </div>
+            @endif
+
             <div class="detail-row">
                 <div class="detail-label">Nomor Telepon</div>
                 <div class="detail-value">{{ $permohonan->nomor_telepon }}</div>
@@ -135,10 +146,44 @@
                 </div>
             </div>
 
+            @if($permohonan->berkas_pendukung)
+            <div class="detail-row">
+                <div class="detail-label">Berkas Pendukung</div>
+                <div class="detail-value">
+                    <a href="{{ Storage::url($permohonan->berkas_pendukung) }}" target="_blank" class="btn btn-sm btn-outline-success shadow-sm" style="border-radius: 8px;">
+                        <i class="fas fa-file-download"></i> Unduh Berkas Lampiran
+                    </a>
+                </div>
+            </div>
+            @endif
+
             <div class="detail-row">
                 <div class="detail-label">Tanggal Permohonan</div>
-                <div class="detail-value">{{ $permohonan->tanggal_permohonan->format('d MMMM Y pukul H:i') }}</div>
+                <div class="detail-value">{{ $permohonan->tanggal_permohonan ? $permohonan->tanggal_permohonan->format('d MMMM Y pukul H:i') : $permohonan->created_at->format('d M Y') }}</div>
             </div>
+
+            @if($permohonan->custom_fields_data && is_array($permohonan->custom_fields_data) && count($permohonan->custom_fields_data) > 0)
+            <div class="mt-4 pt-3 border-t border-slate-700/50">
+                <div class="badge bg-warning text-dark mb-3 px-3 py-2 fw-bold" style="border-radius: 6px;"><i class="fas fa-star"></i> FIELD CUSTOM TAMBAHAN</div>
+                
+                @foreach($permohonan->custom_fields_data as $key => $value)
+                <div class="detail-row">
+                    <div class="detail-label" style="text-transform: capitalize; color: #f39c12;">
+                        {{ str_replace('_', ' ', preg_replace('/^custom_|_\\d+$/', '', $key)) }}
+                    </div>
+                    <div class="detail-value">
+                        @if(is_string($value) && str_starts_with($value, 'permohonan/custom'))
+                            <a href="{{ Storage::url($value) }}" target="_blank" class="btn btn-sm btn-outline-warning shadow-sm" style="border-radius: 8px;">
+                                <i class="fas fa-file-download"></i> Unduh File
+                            </a>
+                        @else
+                            {{ is_array($value) ? json_encode($value) : $value }}
+                        @endif
+                    </div>
+                </div>
+                @endforeach
+            </div>
+            @endif
         </div>
 
         <div class="d-flex gap-2">

@@ -6,19 +6,19 @@ use Illuminate\Database\Eloquent\Model;
 
 class InformasiSertaMerta extends Model
 {
-    protected $table = 'informasi_serta_mertas';
+    protected $table = 'informasi_sertamertas';
     
     protected $fillable = [
         'judul',
         'deskripsi',
-        'konten',
-        'dokumen',
-        'tanggal',
-        'status'
+        'file_path',
+        'file_name',
+        'file_size',
+        'file_type',
+        'aktif'
     ];
     
     protected $casts = [
-        'status' => 'boolean',
-        'tanggal' => 'date',
+        'aktif' => 'boolean',
     ];
 }

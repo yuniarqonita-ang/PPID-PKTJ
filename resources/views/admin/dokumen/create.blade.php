@@ -29,7 +29,7 @@
                             
                             <div class="mb-3">
                                 <label class="form-label">Judul Dokumen *</label>
-                                <input type="text" name="judul" class="form-control @error('judul') is-invalid @enderror" 
+                                <input type="text" name="judul" class="form-control @error('judul') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" 
                                        value="{{ old('judul') }}" required>
                                 @error('judul')
                                     <div class="invalid-feedback">{{ $message }}</div>
@@ -38,7 +38,7 @@
 
                             <div class="mb-3">
                                 <label class="form-label">Kategori</label>
-                                <select name="kategori" class="form-select">
+                                <select name="kategori" class="form-select bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">
                                     <option value="">Pilih Kategori (Opsional)</option>
                                     <option value="Laporan">Laporan</option>
                                     <option value="Surat">Surat</option>

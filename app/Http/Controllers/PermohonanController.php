@@ -4,13 +4,36 @@ namespace App\Http\Controllers;
 
 use App\Models\Permohonan;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 
 class PermohonanController extends Controller
 {
+    private function getFormSchema()
+    {
+        if (Storage::disk('public')->exists('form_schema.json')) {
+            return json_decode(Storage::disk('public')->get('form_schema.json'), true);
+        }
+        return [];
+    }
+
     public function form()
     {
-        return view('permohonan.form');
+        $customFields = $this->getFormSchema();
+        return view('permohonan.form', compact('customFields'));
+    }
+
+    public function adminForm()
+    {
+        $customFields = $this->getFormSchema();
+        return view('admin.permohonan.form', compact('customFields'));
+    }
+
+    public function saveForm(Request $request)
+    {
+        $schema = func_get_args()[0]->input('schema', []);
+        Storage::disk('public')->put('form_schema.json', json_encode($schema));
+        return response()->json(['success' => true]);
     }
 
     public function store(Request $request)
@@ -29,7 +52,31 @@ class PermohonanController extends Controller
             'jenis_informasi' => 'nullable|string|max:255',
             'deskripsi_permohonan' => 'nullable|string',
             'format_informasi' => 'nullable|in:digital,cetak,keduanya',
+            'foto_ktp' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+            'berkas_pendukung' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:10240',
         ]);
+
+        if ($request->hasFile('foto_ktp')) {
+            $validated['foto_ktp'] = $request->file('foto_ktp')->store('permohonan/ktp', 'public');
+        }
+
+        if ($request->hasFile('berkas_pendukung')) {
+            $validated['berkas_pendukung'] = $request->file('berkas_pendukung')->store('permohonan/berkas', 'public');
+        }
+
+        // Handle Custom Dynamic Fields
+        $customData = [];
+        if ($request->has('custom_fields')) {
+            foreach ($request->input('custom_fields') as $key => $val) {
+                $customData[$key] = $val;
+            }
+        }
+        if ($request->hasFile('custom_fields_file')) {
+            foreach ($request->file('custom_fields_file') as $key => $file) {
+                $customData[$key] = $file->store('permohonan/custom', 'public');
+            }
+        }
+        $validated['custom_fields_data'] = $customData;
 
         // Hash password sebelum disimpan
         $validated['password'] = Hash::make($validated['password']);
@@ -116,7 +163,7 @@ class PermohonanController extends Controller
     public function update(Request $request, Permohonan $permohonan)
     {
         $validated = $request->validate([
-            'status' => 'required|in:pending,diproses,selesai,ditolak',
+            'status' => 'required|in:pending,approved,completed,rejected',
         ]);
 
         $permohonan->update($validated);

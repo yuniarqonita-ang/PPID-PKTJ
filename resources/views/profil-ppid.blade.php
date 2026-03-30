@@ -98,15 +98,19 @@
         <!-- SECTION: GAMBARAN SINGKAT PPID -->
         <div class="content-box">
             <h2 class="section-title">GAMBARAN SINGKAT PEMBENTUKAN PPID KEMENHUB</h2>
-            <p style="margin-bottom: 15px;">
-                Sejalan dengan amanah Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik, Kementerian Perhubungan telah membentukan Pejabat Pengelola Informasi dan Dokumentasi (PPID) dan Pedoman pelaksanaan layanan informasi publik yang ditetapkan melalui Peraturan Menteri Perhubungan Nomor PM. 46 Tahun 2018 Tentang Pedoman Pengelolaan Informasi dan Dokumentasi di lingkungan Kementerian Perhubungan serta dalam menjalankan layanan informasi yang sesuai standar, PPID Kementerian Perhubungan menerbitkan Keputusan Menteri Perhubungan Nomor KM 117 Tahun 2022 tentang Standar Operasional Prosedur Pejabat Pengelola Informasi dan Dokumentasi di lingkungan Kementerian Perhubungan.
-            </p>
-            <p style="margin-bottom: 15px;">
-                Dengan terbentuknya pelaksanaan PPID Kementerian Perhubungan dapat mewujudkan penyelenggaraan pemerintahan yang baik, yaitu yang transparan, efektif dan efisien, akuntabel serta dapat dipertanggungjawabkan dan meningkatkan pengelolaan dan pelayanan informasi dan dokumentasi di Kementerian Perhubungan untuk menghasilkan layanan Informasi dan dokumentasi yang berkualitas.
-            </p>
-            <p>
-                Dengan lebih dari 500 Unit Pelaksana Teknis (UPT) Kementerian Perhubungan di seluruh Indonesia, dalam sistem pelaksanaannya, PPID Kementerian Perhubungan mengambil konsep desentralisasi, dimana UPT Kementerian Perhubungan di seluruh Indonesia dapat melakukan pelayanan informasi secara mandiri. Hal ini bertujuan untuk mendekatkan masyarakat dalam melakukan permohonan informasi dimanapun mereka berada.
-            </p>
+            @if($profil && $profil->gambaran)
+                {!! $profil->gambaran !!}
+            @else
+                <p style="margin-bottom: 15px;">
+                    Sejalan dengan amanah Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik, Kementerian Perhubungan telah membentukan Pejabat Pengelola Informasi dan Dokumentasi (PPID) dan Pedoman pelaksanaan layanan informasi publik yang ditetapkan melalui Peraturan Menteri Perhubungan Nomor PM. 46 Tahun 2018 Tentang Pedoman Pengelolaan Informasi dan Dokumentasi di lingkungan Kementerian Perhubungan serta dalam menjalankan layanan informasi yang sesuai standar, PPID Kementerian Perhubungan menerbitkan Keputusan Menteri Perhubungan Nomor KM 117 Tahun 2022 tentang Standar Operasional Prosedur Pejabat Pengelola Informasi dan Dokumentasi di lingkungan Kementerian Perhubungan.
+                </p>
+                <p style="margin-bottom: 15px;">
+                    Dengan terbentuknya pelaksanaan PPID Kementerian Perhubungan dapat mewujudkan penyelenggaraan pemerintahan yang baik, yaitu yang transparan, efektif dan efisien, akuntabel serta dapat dipertanggungjawabkan dan meningkatkan pengelolaan dan pelayanan informasi dan dokumentasi di Kementerian Perhubungan untuk menghasilkan layanan Informasi dan dokumentasi yang berkualitas.
+                </p>
+                <p>
+                    Dengan lebih dari 500 Unit Pelaksana Teknis (UPT) Kementerian Perhubungan di seluruh Indonesia, dalam sistem pelaksanaannya, PPID Kementerian Perhubungan mengambil konsep desentralisasi, dimana UPT Kementerian Perhubungan di seluruh Indonesia dapat melakukan pelayanan informasi secara mandiri. Hal ini bertujuan untuk mendekatkan masyarakat dalam melakukan permohonan informasi dimanapun mereka berada.
+                </p>
+            @endif
         </div>
     </div>
 

@@ -20,7 +20,12 @@ class Berita extends Model
         'konten',
         'gambar',
         'kategori_id',
+        'user_id',
+        'status',
+        'published_at',
+        'tanggal',
         'is_published',
+        'aktif',
         'views'
     ];
 

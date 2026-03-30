@@ -14,7 +14,7 @@
 
         <!-- FORM CARD -->
         <div class="relative">
-            <div class="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur opacity-25"></div>
+            <div class="absolute -inset-1 bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25 ring-1 ring-cyan-400/30 rounded-2xl blur opacity-25"></div>
             <div class="relative bg-slate-800 rounded-2xl p-8 shadow-2xl">
                 
                 <form action="{{ route('berita.store') }}" method="POST" enctype="multipart/form-data">
@@ -26,7 +26,7 @@
                             <i class="fas fa-heading"></i> Judul Berita
                         </label>
                         <input type="text" name="judul" 
-                               class="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-white placeholder-slate-400 focus:border-blue-400 focus:outline-none transition"
+                               class="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-white placeholder-slate-400 focus:border-blue-400 focus:outline-none transition bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                                placeholder="Masukkan judul berita yang menarik..." 
                                value="{{ old('judul') }}" required>
                         <small class="text-slate-400 text-sm">Maksimal 100 karakter</small>
@@ -45,7 +45,7 @@
                                 <small class="text-slate-400">Disarankan ukuran 700px x 350px</small>
                             </div>
                             <button type="button" onclick="document.getElementById('gambar').click()" 
-                                    class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:from-blue-500 hover:to-purple-500 transition transform hover:scale-105 shadow-lg">
+                                    class="px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25 ring-1 ring-cyan-400/30 text-white rounded-xl hover:from-blue-500 hover:to-purple-500 transition transform hover:scale-105 shadow-lg">
                                 <i class="fas fa-upload"></i> Pilih Gambar
                             </button>
                             <input type="file" id="gambar" name="gambar" class="d-none @error('gambar') border-red-400 @enderror" 
@@ -63,7 +63,7 @@
                             <i class="fas fa-folder"></i> Kategori Berita
                         </label>
                         <select name="kategori" 
-                                class="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-white focus:border-blue-400 focus:outline-none transition"
+                                class="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-white focus:border-blue-400 focus:outline-none transition bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                                 required>
                             <option value="">-- Pilih Kategori --</option>
                             <option value="Informasi Setiap Saat">Informasi Setiap Saat</option>
@@ -81,7 +81,7 @@
                             <i class="fas fa-edit"></i> Isi Berita
                         </label>
                         <div class="bg-slate-700 rounded-xl border border-slate-600 overflow-hidden">
-                            <textarea id="summernote-editor" name="isi" class="summernote-editor">{{ old('isi') }}</textarea>
+                            <textarea id="summernote-editor" name="isi" class="summernote-editor bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">{{ old('isi') }}</textarea>
                         </div>
                         <small class="text-slate-400 text-sm">Powered by Summernote - 100% Gratis</small>
                         @error('isi')
@@ -95,7 +95,7 @@
                             <i class="fas fa-tags"></i> Tag Berita
                         </label>
                         <input type="text" name="tags" 
-                               class="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-white placeholder-slate-400 focus:border-blue-400 focus:outline-none transition"
+                               class="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-white placeholder-slate-400 focus:border-blue-400 focus:outline-none transition bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                                placeholder="PPID, PKTJ, Transportasi, Jalan..." 
                                value="{{ old('tags') }}">
                         <small class="text-slate-400 text-sm">Pisahkan dengan koma (,)</small>
@@ -107,7 +107,7 @@
                             <i class="fas fa-calendar"></i> Tanggal Berita
                         </label>
                         <input type="date" name="tanggal" 
-                               class="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-white focus:border-blue-400 focus:outline-none transition"
+                               class="w-full px-4 py-3 rounded-xl bg-slate-700 border border-slate-600 text-white focus:border-blue-400 focus:outline-none transition bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                                value="{{ date('Y-m-d') }}" required>
                     </div>
 
@@ -150,10 +150,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- SUMMERNOTE CDN - 100% FREE -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-lite.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/lang/summernote-id-ID.js"></script>
-
 <!-- CUSTOM SUMMERNOTE INITIALIZATION -->
 <script>
 $(document).ready(function() {

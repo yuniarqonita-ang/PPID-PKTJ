@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-purple-100 p-8">
+<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
     <div class="max-w-7xl mx-auto">
 
     <!-- ==================== HEADER SECTION ==================== -->
-    <div class="bg-white rounded-2xl shadow-lg border border-slate-200 p-6 mb-6">
+    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-slate-600/30 p-6 mb-6">
         <div class="flex justify-between items-center">
             <div>
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+                <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25 ring-1 ring-cyan-400/30 bg-clip-text text-transparent">
                     ✏️ Kelola Konten Dinamis
                 </h1>
-                <p class="text-slate-600 mt-2">Buat konten dengan beberapa bagian yang dapat ditambahkan secara dinamis</p>
+                <p class="text-slate-300 mt-2">Buat konten dengan beberapa bagian yang dapat ditambahkan secara dinamis</p>
             </div>
             <div class="flex items-center space-x-3">
                 <a href="{{ url('/') }}" target="_blank"
@@ -32,8 +32,8 @@
                     </div>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-lg font-bold text-red-800">Ada kesalahan!</h3>
-                    <div class="mt-2 text-sm text-red-700">
+                    <h3 class="text-lg font-bold text-red-300">Ada kesalahan!</h3>
+                    <div class="mt-2 text-sm text-red-400">
                         <ul class="list-disc list-inside space-y-1">
                             @foreach($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -54,8 +54,8 @@
                     </div>
                 </div>
                 <div class="ml-4">
-                    <h3 class="text-lg font-bold text-green-800">Berhasil!</h3>
-                    <div class="mt-2 text-sm text-green-700">
+                    <h3 class="text-lg font-bold text-green-300">Berhasil!</h3>
+                    <div class="mt-2 text-sm text-green-400">
                         {{ session('success') }}
                     </div>
                 </div>
@@ -67,7 +67,7 @@
     <form action="{{ route('admin.content.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
-        <div class="bg-white rounded-2xl shadow-lg border border-slate-200 overflow-hidden">
+        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-slate-600/30 overflow-hidden">
             <div class="p-8">
 
                 <!-- ==================== MAIN INFO ==================== -->
@@ -77,36 +77,36 @@
                             <i class="fas fa-info-circle text-white text-xl"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold text-slate-800">Informasi Utama</h2>
-                            <p class="text-slate-600">Informasi dasar konten</p>
+                            <h2 class="text-2xl font-bold text-slate-200">Informasi Utama</h2>
+                            <p class="text-slate-300">Informasi dasar konten</p>
                         </div>
                     </div>
 
-                    <div class="bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl p-6 border border-slate-200">
+                    <div class="bg-gradient-to-r from-slate-50 to-blue-50 rounded-xl p-6 border border-slate-600/30">
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <!-- Judul Utama -->
                             <div class="lg:col-span-2">
-                                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                                <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
                                     <span class="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg flex items-center justify-center mr-3">
                                         <i class="fas fa-heading text-sm"></i>
                                     </span>
                                     Judul Utama *
                                 </label>
                                 <input type="text" name="judul_utama" value="{{ old('judul_utama') }}"
-                                       class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm"
+                                       class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:border-cyan-500 focus:ring-cyan-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                                        placeholder="Masukkan judul utama" required>
                             </div>
 
                             <!-- Deskripsi -->
                             <div class="lg:col-span-2">
-                                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                                <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
                                     <span class="w-8 h-8 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white rounded-lg flex items-center justify-center mr-3">
                                         <i class="fas fa-align-left text-sm"></i>
                                     </span>
                                     Deskripsi Singkat *
                                 </label>
                                 <textarea name="deskripsi" rows="3"
-                                          class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-300 bg-white shadow-sm"
+                                          class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                                           placeholder="Masukkan deskripsi singkat konten" required>{{ old('deskripsi') }}</textarea>
                             </div>
                         </div>
@@ -121,8 +121,8 @@
                                 <i class="fas fa-layer-group text-white text-xl"></i>
                             </div>
                             <div>
-                                <h2 class="text-2xl font-bold text-slate-800">Bagian Konten</h2>
-                                <p class="text-slate-600">Tambahkan beberapa bagian konten</p>
+                                <h2 class="text-2xl font-bold text-slate-200">Bagian Konten</h2>
+                                <p class="text-slate-300">Tambahkan beberapa bagian konten</p>
                             </div>
                         </div>
                         <button type="button" onclick="addSection()"
@@ -133,9 +133,9 @@
 
                     <div id="sections-container" class="space-y-6">
                         <!-- Initial section if no data -->
-                        <div class="section-item bg-gradient-to-r from-slate-50 to-purple-50 rounded-xl p-6 border border-slate-200">
+                        <div class="section-item bg-gradient-to-r from-slate-50 to-purple-50 rounded-xl p-6 border border-slate-600/30">
                             <div class="flex items-center justify-between mb-4">
-                                <h3 class="text-lg font-bold text-slate-800 flex items-center">
+                                <h3 class="text-lg font-bold text-slate-200 flex items-center">
                                     <span class="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg flex items-center justify-center mr-3 text-sm">
                                         1
                                     </span>
@@ -150,27 +150,27 @@
                             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                                 <!-- Judul Bagian -->
                                 <div class="lg:col-span-2">
-                                    <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                                    <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
                                         <span class="w-8 h-8 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-lg flex items-center justify-center mr-3">
                                             <i class="fas fa-heading text-sm"></i>
                                         </span>
                                         Judul Bagian *
                                     </label>
                                     <input type="text" name="sections[0][judul]" value="{{ old('sections.0.judul') }}"
-                                           class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all duration-300 bg-white shadow-sm"
+                                           class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                                            placeholder="Masukkan judul bagian" required>
                                 </div>
 
                                 <!-- Konten Bagian -->
                                 <div class="lg:col-span-2">
-                                    <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                                    <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
                                         <span class="w-8 h-8 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-lg flex items-center justify-center mr-3">
                                             <i class="fas fa-align-justify text-sm"></i>
                                         </span>
                                         Konten Bagian *
                                     </label>
                                     <div id="summernote-section-0">
-                                        <textarea name="sections[0][konten]" rows="6" class="summernote-editor"
+                                        <textarea name="sections[0][konten]" rows="6" class="summernote-editor bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                                                   placeholder="Tulis konten bagian ini..." required>{{ old('sections.0.konten') }}</textarea>
                                     </div>
                                 </div>
@@ -186,16 +186,16 @@
                             <i class="fas fa-cog text-white text-xl"></i>
                         </div>
                         <div>
-                            <h2 class="text-2xl font-bold text-slate-800">Pengaturan Publikasi</h2>
-                            <p class="text-slate-600">Atur status dan pengaturan publikasi</p>
+                            <h2 class="text-2xl font-bold text-slate-200">Pengaturan Publikasi</h2>
+                            <p class="text-slate-300">Atur status dan pengaturan publikasi</p>
                         </div>
                     </div>
 
-                    <div class="bg-gradient-to-r from-slate-50 to-green-50 rounded-xl p-6 border border-slate-200">
+                    <div class="bg-gradient-to-r from-slate-50 to-green-50 rounded-xl p-6 border border-slate-600/30">
                         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <!-- Status -->
                             <div>
-                                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                                <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
                                     <span class="w-8 h-8 bg-gradient-to-r from-green-500 to-green-600 text-white rounded-lg flex items-center justify-center mr-3">
                                         <i class="fas fa-eye text-sm"></i>
                                     </span>
@@ -208,20 +208,20 @@
                                     </label>
                                     <label class="flex items-center cursor-pointer">
                                         <input type="radio" name="status" value="published" class="mr-2" {{ old('status') == 'published' ? 'checked' : 'checked' }}>
-                                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Terbit</span>
+                                        <span class="px-3 py-1 bg-green-100 text-green-300 rounded-full text-sm font-medium">Terbit</span>
                                     </label>
                                 </div>
                             </div>
 
                             <!-- Kategori -->
                             <div>
-                                <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                                <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
                                     <span class="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-lg flex items-center justify-center mr-3">
                                         <i class="fas fa-tag text-sm"></i>
                                     </span>
                                     Kategori
                                 </label>
-                                <select name="kategori" class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-blue-500/20 focus:border-blue-500 transition-all duration-300 bg-white shadow-sm">
+                                <select name="kategori" class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:border-cyan-500 focus:ring-cyan-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">
                                     <option value="umum" {{ old('kategori') == 'umum' ? 'selected' : '' }}>Umum</option>
                                     <option value="berita" {{ old('kategori') == 'berita' ? 'selected' : '' }}>Berita</option>
                                     <option value="informasi" {{ old('kategori') == 'informasi' ? 'selected' : '' }}>Informasi</option>
@@ -235,15 +235,15 @@
             </div>
 
             <!-- ==================== ACTION BUTTONS ==================== -->
-            <div class="bg-gradient-to-r from-slate-50 to-blue-50 px-8 py-6 border-t border-slate-200">
+            <div class="bg-gradient-to-r from-slate-50 to-blue-50 px-8 py-6 border-t border-slate-600/30">
                 <div class="flex justify-between items-center">
-                    <div class="text-sm text-slate-600">
+                    <div class="text-sm text-slate-300">
                         <i class="fas fa-info-circle mr-2 text-blue-500"></i>
                         Konten akan tersimpan sebagai beberapa bagian yang dapat ditampilkan di halaman publik
                     </div>
                     <div class="flex items-center space-x-4">
                         <a href="{{ route('admin.dashboard') }}"
-                           class="px-6 py-3 bg-gradient-to-r from-gray-200 to-gray-300 text-gray-700 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105 rounded-xl flex items-center">
+                           class="px-6 py-3 bg-gradient-to-r from-slate-700 to-slate-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105 rounded-xl flex items-center">
                             <i class="fas fa-times mr-2"></i>Batal
                         </a>
                         <button type="submit"
@@ -257,8 +257,6 @@
     </form>
 </div>
 
-<!-- Summernote JS & CSS -->
-<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 @push('scripts')
@@ -270,9 +268,9 @@ function addSection() {
     const sectionIndex = sectionCount;
 
     const sectionHTML = `
-        <div class="section-item bg-gradient-to-r from-slate-50 to-purple-50 rounded-xl p-6 border border-slate-200">
+        <div class="section-item bg-gradient-to-r from-slate-50 to-purple-50 rounded-xl p-6 border border-slate-600/30">
             <div class="flex items-center justify-between mb-4">
-                <h3 class="text-lg font-bold text-slate-800 flex items-center">
+                <h3 class="text-lg font-bold text-slate-200 flex items-center">
                     <span class="w-8 h-8 bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-lg flex items-center justify-center mr-3 text-sm">
                         ${sectionCount + 1}
                     </span>
@@ -287,27 +285,27 @@ function addSection() {
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 <!-- Judul Bagian -->
                 <div class="lg:col-span-2">
-                    <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                    <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
                         <span class="w-8 h-8 bg-gradient-to-r from-cyan-500 to-cyan-600 text-white rounded-lg flex items-center justify-center mr-3">
                             <i class="fas fa-heading text-sm"></i>
                         </span>
                         Judul Bagian *
                     </label>
                     <input type="text" name="sections[${sectionIndex}][judul]" value=""
-                           class="w-full px-6 py-4 text-lg border-2 border-slate-300 rounded-xl focus:ring-4 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all duration-300 bg-white shadow-sm"
+                           class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-cyan-500/20 focus:border-cyan-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                            placeholder="Masukkan judul bagian" required>
                 </div>
 
                 <!-- Konten Bagian -->
                 <div class="lg:col-span-2">
-                    <label class="block text-lg font-bold text-slate-700 mb-3 flex items-center">
+                    <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
                         <span class="w-8 h-8 bg-gradient-to-r from-teal-500 to-teal-600 text-white rounded-lg flex items-center justify-center mr-3">
                             <i class="fas fa-align-justify text-sm"></i>
                         </span>
                         Konten Bagian *
                     </label>
                     <div id="summernote-section-${sectionIndex}">
-                        <textarea name="sections[${sectionIndex}][konten]" rows="6" class="summernote-editor"
+                        <textarea name="sections[${sectionIndex}][konten]" rows="6" class="summernote-editor bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
                                   placeholder="Tulis konten bagian ini..." required></textarea>
                     </div>
                 </div>
