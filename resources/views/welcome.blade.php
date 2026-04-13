@@ -156,6 +156,121 @@
             background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
             border-radius: 2px;
         }
+
+        /* ===== Informasi Publik Icon Section ===== */
+        .info-publik-section {
+            background: #f5f6fa;
+            padding: 70px 0 60px;
+        }
+
+        .info-publik-section .section-title {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 55px;
+        }
+
+        .info-icon-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.3s ease;
+        }
+
+        .info-icon-wrapper:hover {
+            transform: translateY(-8px);
+        }
+
+        .info-icon-circle {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #2c3e60 0%, #3d5280 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2), inset 0 2px 4px rgba(255,255,255,0.08);
+            transition: box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-icon-circle::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 50%;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .info-icon-wrapper:hover .info-icon-circle {
+            box-shadow: 0 18px 40px rgba(0,0,0,0.28), inset 0 2px 4px rgba(255,255,255,0.1);
+        }
+
+        .info-icon-circle img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-icon-label {
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 1.2px;
+            color: #3a3a5c;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .divider-line {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, #6b48c8, #9b6ee8);
+            border-radius: 2px;
+            margin: 30px auto 50px;
+        }
+
+        /* ===== Ada Pertanyaan Section ===== */
+        .ada-pertanyaan-section {
+            background: #f5f6fa;
+            padding: 0 0 70px;
+            text-align: center;
+        }
+
+        .ada-pertanyaan-section h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1a1a2e;
+            margin-bottom: 22px;
+        }
+
+        .btn-permohonan {
+            background: linear-gradient(135deg, #f5c518 0%, #e6b800 100%);
+            border: none;
+            color: #1a1a2e;
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: 0.5px;
+            padding: 14px 40px;
+            border-radius: 50px;
+            box-shadow: 0 6px 24px rgba(230,184,0,0.35);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-permohonan:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 32px rgba(230,184,0,0.45);
+            background: linear-gradient(135deg, #ffd23a 0%, #f5c518 100%);
+            color: #1a1a2e;
+        }
         
         .card {
             border: none;
@@ -244,31 +359,107 @@
         </div>
     </div>
 
-    <div class="container py-5">
-        <section id="informasi-publik" class="mb-5">
+    <!-- ===== INFORMASI PUBLIK ICON SECTION ===== -->
+    <section class="info-publik-section" id="informasi-publik">
+        <div class="container">
             <h2 class="section-title">Informasi Publik</h2>
-            <div class="row g-4">
-                @forelse($dokumen as $doc)
-                <div class="col-md-4">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex align-items-center mb-2">
-                                <span class="badge me-2"><i class="fas fa-file-alt me-1"></i>Dokumen</span>
-                                <small class="text-muted">{{ $doc->kategori }}</small>
-                            </div>
-                            <h6 class="fw-bold">{{ $doc->nama_dokumen }}</h6>
-                            <a href="{{ asset('storage/'.$doc->file_path) }}" class="btn btn-outline-primary btn-sm mt-auto">
-                                <i class="fas fa-eye me-1"></i>Lihat Selengkapnya
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div class="col-12 text-center text-muted">Belum ada dokumen publik yang diunggah.</div>
-                @endforelse
-            </div>
-        </section>
 
+            <div class="row justify-content-center g-5">
+                <!-- Informasi Berkala -->
+                <div class="col-auto">
+                    <a href="{{ route('informasi.berkala') }}" class="info-icon-wrapper">
+                        <div class="info-icon-circle">
+                            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Badge BERKALA -->
+                                <ellipse cx="40" cy="40" rx="30" ry="30" fill="#4a5a8a" opacity="0.5"/>
+                                <!-- Puzzle/circular badge icon -->
+                                <circle cx="40" cy="40" r="26" fill="#3b82f6" opacity="0.15"/>
+                                <!-- Yellow badge shape -->
+                                <path d="M20 36 Q20 28 28 28 L52 28 Q60 28 60 36 L60 44 Q60 52 52 52 L28 52 Q20 52 20 44 Z" fill="#fbbf24"/>
+                                <text x="40" y="45" text-anchor="middle" fill="#1a1a1a" font-size="10" font-weight="900" font-family="Arial" letter-spacing="0.5">BERKALA</text>
+                                <!-- Puzzle piece top -->
+                                <path d="M34 28 Q34 22 40 22 Q46 22 46 28" fill="#3b82f6" opacity="0.7"/>
+                                <!-- Puzzle piece bottom -->
+                                <path d="M34 52 Q34 58 40 58 Q46 58 46 52" fill="#3b82f6" opacity="0.7"/>
+                                <!-- Puzzle piece left -->
+                                <path d="M20 34 Q14 34 14 40 Q14 46 20 46" fill="#3b82f6" opacity="0.7"/>
+                                <!-- Puzzle piece right -->
+                                <path d="M60 34 Q66 34 66 40 Q66 46 60 46" fill="#3b82f6" opacity="0.7"/>
+                            </svg>
+                        </div>
+                        <span class="info-icon-label">Informasi Berkala</span>
+                    </a>
+                </div>
+
+                <!-- Informasi Setiap Saat -->
+                <div class="col-auto">
+                    <a href="{{ route('informasi.setiap-saat') }}" class="info-icon-wrapper">
+                        <div class="info-icon-circle">
+                            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Document background -->
+                                <rect x="15" y="10" width="42" height="55" rx="4" fill="#e2e8f0"/>
+                                <rect x="15" y="10" width="42" height="55" rx="4" fill="white" opacity="0.9"/>
+                                <!-- Blue header bar -->
+                                <rect x="15" y="10" width="42" height="14" rx="4" fill="#3b82f6"/>
+                                <rect x="15" y="20" width="42" height="4" fill="#3b82f6"/>
+                                <!-- Lines -->
+                                <rect x="22" y="32" width="28" height="3" rx="1.5" fill="#94a3b8"/>
+                                <rect x="22" y="40" width="20" height="3" rx="1.5" fill="#94a3b8"/>
+                                <rect x="22" y="48" width="24" height="3" rx="1.5" fill="#94a3b8"/>
+                                <!-- Orange accent box -->
+                                <rect x="42" y="36" width="14" height="16" rx="2" fill="#f97316"/>
+                                <rect x="45" y="39" width="8" height="2" rx="1" fill="white" opacity="0.8"/>
+                                <rect x="45" y="43" width="8" height="2" rx="1" fill="white" opacity="0.8"/>
+                                <rect x="45" y="47" width="5" height="2" rx="1" fill="white" opacity="0.8"/>
+                            </svg>
+                        </div>
+                        <span class="info-icon-label">Informasi Setiap Saat</span>
+                    </a>
+                </div>
+
+                <!-- Informasi Serta Merta -->
+                <div class="col-auto">
+                    <a href="{{ route('informasi.serta-merta') }}" class="info-icon-wrapper">
+                        <div class="info-icon-circle">
+                            <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Megaphone body -->
+                                <path d="M18 30 L42 22 L42 55 L18 47 Z" fill="#e2e8f0"/>
+                                <path d="M18 30 L42 22 L42 55 L18 47 Z" fill="#d1d5db"/>
+                                <!-- Megaphone body highlight -->
+                                <path d="M20 30 L40 23 L40 53 L20 46 Z" fill="#e5e7eb"/>
+                                <!-- Handle/mouth piece -->
+                                <rect x="12" y="31" width="8" height="15" rx="3" fill="#9ca3af"/>
+                                <!-- Bell end -->
+                                <ellipse cx="45" cy="38.5" rx="4" ry="16.5" fill="#d1d5db"/>
+                                <ellipse cx="45" cy="38.5" rx="3" ry="14" fill="#e5e7eb"/>
+                                <!-- String/cord -->
+                                <path d="M20 47 L22 60 L28 60 L26 47" fill="#9ca3af"/>
+                                <!-- Sound waves -->
+                                <path d="M52 28 Q58 34 58 38.5 Q58 43 52 49" stroke="#fbbf24" stroke-width="3" fill="none" stroke-linecap="round"/>
+                                <path d="M55 23 Q64 31 64 38.5 Q64 46 55 54" stroke="#fbbf24" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+                            </svg>
+                        </div>
+                        <span class="info-icon-label">Informasi Serta Merta</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Divider -->
+            <div class="divider-line"></div>
+        </div>
+    </section>
+
+    <!-- ===== ADA PERTANYAAN SECTION ===== -->
+    <section class="ada-pertanyaan-section">
+        <div class="container">
+            <h2>Ada Pertanyaan?</h2>
+            <a href="{{ route('permohonan.form') }}" class="btn-permohonan">
+                Ajukan Permohonan Informasi Publik
+            </a>
+        </div>
+    </section>
+
+    <div class="container py-5">
         <section class="mb-5">
             <h2 class="section-title">Artikel & Dokumentasi Kegiatan</h2>
             <div class="row g-4">
