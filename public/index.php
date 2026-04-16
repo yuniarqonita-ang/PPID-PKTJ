@@ -1,53 +1,437 @@
-<?php
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><?php echo $page['title'] ?? 'Portal PPID PKTJ Tegal'; ?></title>
+    <meta name="description" content="<?php echo $page['meta_description'] ?? 'Portal PPID PKTJ Tegal - Layanan Informasi Publik yang terintegrasi dan transparan'; ?>">
+    <meta name="keywords" content="<?php echo $page['meta_keywords'] ?? 'PPID, PKTJ, Tegal, Informasi Publik, Keterbukaan Informasi'; ?>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
 
-define('LARAVEL_START', microtime(true));
+        .navbar {
+            background-color: #004a99 !important;
+            border-bottom: 3px solid #ffc107;
+        }
 
-/*
-|--------------------------------------------------------------------------
-| Check If The Application Is Under Maintenance
-|--------------------------------------------------------------------------
-|
-| If the application is in maintenance / demo mode via the "down" command
-| we will load this view so that the end-user is aware of the maintenance.
-| This view will provide the user with a clear message as well as a link
-| back to the login page when the application is available again.
-|
-*/
+        .navbar-brand img {
+            height: 50px;
+            margin-right: 12px;
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
 
-if (file_exists(__DIR__.'/../storage/framework/maintenance.php')) {
-    require __DIR__.'/../storage/framework/maintenance.php';
-}
+        .navbar-brand {
+            display: flex !important;
+            align-items: center !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
 
-/*
-|--------------------------------------------------------------------------
-| Register The Auto Loader
-|--------------------------------------------------------------------------
-|
-| Composer provides a automatically generated class loader that is
-| dynamically registered when we are running our application. This just
-| simplifies the process and makes sure we have all the dependencies.
-|
-*/
+        @media (min-width: 992px) {
+            .nav-item.dropdown:hover .dropdown-menu {
+                display: block !important;
+                margin-top: 0;
+            }
+        }
 
-require __DIR__.'/../vendor/autoload.php';
+        .dropdown-menu {
+            z-index: 1050 !important;
+        }
 
-/*
-|--------------------------------------------------------------------------
-| Run The Application
-|--------------------------------------------------------------------------
-|
-| Once we have the application, we can handle the incoming request
-| through the kernel, and send the associated response back to
-| the client's browser allowing them to enjoy our application.
-|
-*/
+        .hero-section {
+            background: linear-gradient(135deg, #1a3a52 0%, #2d5f8d 50%, #d4af37 100%);
+            color: white;
+            padding: 100px 0;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
 
-$app = require_once __DIR__.'/../bootstrap/app.php';
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill="%23ffffff" fill-opacity="0.1" d="M0,96L48,112C96,128,192,160,288,160C384,160,480,128,576,122.7C672,117,768,139,864,133.3C960,128,1056,96,1152,90.7C1248,85,1344,107,1392,117.3L1440,128L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z"></path></svg>') no-repeat bottom;
+            background-size: cover;
+        }
 
-$kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            position: relative;
+            z-index: 1;
+        }
 
-$response = $kernel->handle(
-    $request = Illuminate\Http\Request::capture()
-)->send();
+        .hero-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            position: relative;
+            z-index: 1;
+        }
 
-$kernel->terminate($request, $response);
+        .btn-hero {
+            background: linear-gradient(135deg, #ffc107 0%, #ffb300 100%);
+            color: #1a3a52;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            border: none;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-hero:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 193, 7, 0.4);
+            color: #1a3a52;
+        }
+
+        .content-section {
+            padding: 80px 0;
+            background: white;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #004a99;
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(135deg, #d4af37 0%, #ffc107 100%);
+            border-radius: 2px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #f0f0f0;
+            height: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            border-color: #d4af37;
+        }
+
+        .service-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #004a99 0%, #2d5f8d 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            color: white;
+        }
+
+        .service-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #004a99;
+            margin-bottom: 1rem;
+        }
+
+        .service-card p {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%;
+            height: 0;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 15px;
+        }
+
+        .footer {
+            background-color: #1a3a52;
+            color: white;
+            padding: 40px 0;
+            margin-top: 0;
+        }
+
+        .btn-warning {
+            background-color: #d4af37;
+            border-color: #d4af37;
+            color: #1a3a52;
+            font-weight: 600;
+        }
+
+        .btn-warning:hover {
+            background-color: #c9a227;
+            border-color: #c9a227;
+            color: #1a3a52;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .service-card {
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <?php require_once '../includes/database.php'; ?>
+    <?php $page = getPageBySlug('index'); ?>
+    
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
+        <div class="container">
+            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
+                <img src="images/logo-pktj.png" alt="Logo PKTJ">
+                <span>PPID PKTJ Tegal</span>
+            </a>
+
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto align-items-center">
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">PROFIL PPID</a>
+                        <ul class="dropdown-menu" style="min-width: 280px;">
+                            <li><a class="dropdown-item" href="profil-ppid.php">Profil PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-tugas-tanggung-jawab.php">Tugas dan Tanggung Jawab PPID</a></li>
+                            <li><a class="dropdown-item" href="profil-visi-misi.php">Visi dan Misi</a></li>
+                            <li><a class="dropdown-item" href="profil-struktur-organisasi.php">Struktur Organisasi</a></li>
+                            <li><a class="dropdown-item" href="profil-regulasi.php">Regulasi</a></li>
+                            <li><a class="dropdown-item" href="profil-kontak.php">Kontak</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">INFORMASI PUBLIK</a>
+                        <ul class="dropdown-menu" style="min-width: 250px;">
+                            <li><a class="dropdown-item" href="informasi-berkala.php">Informasi Berkala</a></li>
+                            <li><a class="dropdown-item" href="informasi-serta-merta.php">Informasi Serta Merta</a></li>
+                            <li><a class="dropdown-item" href="informasi-setiap-saat.php">Informasi Setiap Saat</a></li>
+                            <li><a class="dropdown-item" href="informasi-dikecualikan.php">Informasi Dikecualikan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">LAYANAN INFORMASI</a>
+                        <ul class="dropdown-menu" style="min-width: 320px;">
+                            <li><a class="dropdown-item" href="daftar-informasi-publik.php">Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="maklumat-pelayanan.php">Maklumat Pelayanan & Standar Biaya</a></li>
+                            <li><a class="dropdown-item" href="laporan-layanan-informasi.php">Laporan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-akses-informasi-publik.php">Laporan Akses Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="laporan-survey-kepuasan.php">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="https://jdih.dephub.go.id/" target="_blank">JDIH Kementerian Perhubungan</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" data-bs-toggle="dropdown" href="#">PROSEDUR</a>
+                        <ul class="dropdown-menu" style="min-width: 380px;">
+                            <li><a class="dropdown-item" href="sop-permintaan-informasi.php">SOP Permintaan Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penanganan-keberatan.php">SOP Penanganan Keberatan</a></li>
+                            <li><a class="dropdown-item" href="sop-pengajuan-sengketa.php">SOP Pengajuan Sengketa Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-penetapan-pemutakhiran.php">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
+                            <li><a class="dropdown-item" href="sop-pengujian-konsekuensi.php">SOP Pengujian Konsekuensi</a></li>
+                            <li><a class="dropdown-item" href="sop-pendokumentasian.php">SOP Pendokumentasian Informasi Publik</a></li>
+                        </ul>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link text-white px-3 fw-bold uppercase" href="faq.php">FAQ</a>
+                    </li>
+                </ul>
+
+                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="permohonan-informasi.php">
+                    PERMOHONAN INFORMASI
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <div class="container">
+                <h1 class="display-5 fw-bold mb-3"><?php echo $page['hero_title'] ?? 'Selamat datang di Portal PPID PKTJ'; ?></h1>
+                <p class="lead"><?php echo $page['hero_subtitle'] ?? 'Layanan Informasi Publik yang terintegrasi dan transparan'; ?></p>
+                <div class="d-flex justify-content-center flex-wrap">
+                    <a href="daftar-informasi-publik.php" class="btn btn-hero">
+                        <i class="fas fa-search me-2"></i>Cari Informasi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Informasi Publik Section -->
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">Informasi Publik</h2>
+            <div class="row">
+                <?php
+                $kategori_info = [
+                    'berkala' => ['icon' => 'fa-calendar-alt', 'title' => 'Informasi Berkala'],
+                    'setiap_saat' => ['icon' => 'fa-clock', 'title' => 'Informasi Setiap Saat'],
+                    'serta_merta' => ['icon' => 'fa-exclamation-triangle', 'title' => 'Informasi Serta Merta']
+                ];
+                
+                foreach ($kategori_info as $kategori => $info) {
+                    echo '<div class="col-lg-4 col-md-6 mb-4">';
+                    echo '<div class="service-card">';
+                    echo '<div class="service-icon">';
+                    echo '<i class="fas ' . $info['icon'] . '"></i>';
+                    echo '</div>';
+                    echo '<h3>' . $info['title'] . '</h3>';
+                    echo '</div>';
+                    echo '</div>';
+                }
+                ?>
+            </div>
+        </div>
+    </section>
+
+    <!-- Video Section -->
+    <section class="content-section">
+        <div class="container">
+            <h2 class="section-title">VIDEO LAYANAN INFORMASI PUBLIK</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h3 class="mb-4" style="color: #004a99; font-weight: 600;">Tentang Layanan Informasi Publik</h3>
+                    <p class="lead mb-4"><?php echo $page['video_description'] ?? 'Video ini menjelaskan berbagai layanan informasi publik yang tersedia di PPID PKTJ Tegal, mulai dari cara mengakses informasi hingga prosedur permohonan yang harus dilakukan.'; ?></p>
+                    <ul class="list-unstyled">
+                        <?php
+                        $video_features = $page['video_features'] ?? [
+                            'Panduan lengkap akses informasi publik',
+                            'Prosedur permohonan informasi online',
+                            'Jenis-jenis informasi yang tersedia',
+                            'Hak dan kewajiban pemohon informasi'
+                        ];
+                        
+                        foreach ($video_features as $feature) {
+                            echo '<li class="mb-3"><i class="fas fa-play-circle text-primary me-3"></i>' . $feature . '</li>';
+                        }
+                        ?>
+                    </ul>
+                </div>
+                <div class="col-lg-6">
+                    <div class="video-container">
+                        <iframe src="<?php echo $page['video_url'] ?? 'https://www.youtube.com/embed/dQw4w9WgXcQ'; ?>" 
+                                title="Video Layanan Informasi Publik PPID PKTJ Tegal" 
+                                allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h5 class="mb-3">PPID PKTJ Tegal</h5>
+                    <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
+                    <p><?php echo $page['footer_description'] ?? 'Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.'; ?></p>
+                </div>
+                <div class="col-md-6">
+                    <h5 class="mb-3">Kontak</h5>
+                    <?php
+                    $kontak = getKontak();
+                    foreach ($kontak as $item) {
+                        $icon = '';
+                        switch($item['jenis']) {
+                            case 'alamat':
+                                $icon = 'fa-map-marker-alt';
+                                break;
+                            case 'telepon':
+                                $icon = 'fa-phone';
+                                break;
+                            case 'email':
+                                $icon = 'fa-envelope';
+                                break;
+                            case 'website':
+                                $icon = 'fa-globe';
+                                break;
+                        }
+                        echo '<p><i class="fas ' . $icon . ' me-2"></i>' . $item['nilai'] . '</p>';
+                    }
+                    ?>
+                </div>
+            </div>
+            <hr class="my-4 bg-light">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2026 PPID PKTJ Tegal. All rights reserved.</p>
+                <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

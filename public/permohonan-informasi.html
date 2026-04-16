@@ -185,6 +185,22 @@
             text-transform: uppercase;
         }
 
+        .section-header {
+            background: linear-gradient(135deg, #004a99 0%, #2d5f8d 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 25px 0 20px 0;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 74, 153, 0.2);
+        }
+
+        .section-header h4 {
+            margin: 0;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
         .captcha-box {
             background: linear-gradient(135deg, #f0f0f0 0%, #e0e0e0 100%);
             border: 2px solid #ddd;
@@ -311,116 +327,141 @@
 
     <!-- Main Content -->
     <div class="container py-5">
-        <h1 class="page-title">Registrasi User Pemohon Informasi</h1>
+        <h1 class="page-title">Formulir Permohonan Informasi</h1>
         
         <div class="form-container">
-            <h3 class="form-title">PPID Kementerian Perhubungan</h3>
+            <h3 class="form-title">PPID PKTJ Tegal</h3>
             
-            <form id="registrationForm">
+            <form id="permohonanForm">
+                <!-- Informasi Pemohon -->
+                <div class="section-header">
+                    <h4><i class="fas fa-user me-2"></i>Informasi Pemohon</h4>
+                </div>
+                
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" placeholder="isi username" required>
-                            <div class="error-message" id="username-error"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Nama</label>
-                            <input type="text" class="form-control" id="nama" placeholder="isi nama lengkap sesuai identitas" required>
+                            <label class="form-label">Nama <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="nama" placeholder="Masukkan nama lengkap" required>
                             <div class="error-message" id="nama-error"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label class="form-label">Jenis Identitas</label>
-                            <select class="form-control" id="jenisIdentitas" required>
-                                <option value="">Pilih jenis identitas</option>
-                                <option value="KTP">KTP</option>
-                                <option value="SIM">SIM</option>
-                                <option value="PASPOR">Paspor</option>
-                                <option value="NPWP">NPWP</option>
-                                <option value="KARTU PELAJAR">Kartu Pelajar</option>
-                                <option value="KARTU MAHASISWA">Kartu Mahasiswa</option>
-                            </select>
-                            <div class="error-message" id="jenisIdentitas-error"></div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Nomor Identitas</label>
-                            <input type="text" class="form-control" id="nomorIdentitas" placeholder="isi nomor identitas" required>
-                            <div class="error-message" id="nomorIdentitas-error"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">Alamat</label>
-                            <textarea class="form-control" id="alamat" rows="3" placeholder="isi alamat" required></textarea>
+                            <label class="form-label">Alamat <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="alamat" rows="3" placeholder="Masukkan alamat lengkap" required></textarea>
                             <div class="error-message" id="alamat-error"></div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label class="form-label">No. Telp/HP</label>
-                            <input type="tel" class="form-control" id="noTelp" placeholder="isi no telp/hp" required>
-                            <div class="error-message" id="noTelp-error"></div>
-                        </div>
-                    </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label">Pekerjaan</label>
-                            <input type="text" class="form-control" id="pekerjaan" placeholder="isi pekerjaan" required>
+                            <label class="form-label">Pekerjaan <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="pekerjaan" placeholder="Masukkan pekerjaan" required>
                             <div class="error-message" id="pekerjaan-error"></div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
-                            <label class="form-label">Instansi</label>
-                            <input type="text" class="form-control" id="instansi" placeholder="isi instansi">
-                            <div class="error-message" id="instansi-error"></div>
+                            <label class="form-label">NPWP <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="npwp" placeholder="Masukkan nomor NPWP" required>
+                            <div class="error-message" id="npwp-error"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">No. Telepon <span class="text-danger">*</span></label>
+                            <input type="tel" class="form-control" id="noTelepon" placeholder="Masukkan nomor telepon" required>
+                            <div class="error-message" id="noTelepon-error"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="isi email" required>
+                            <label class="form-label">Email <span class="text-danger">*</span></label>
+                            <input type="email" class="form-control" id="email" placeholder="Masukkan alamat email" required>
                             <div class="error-message" id="email-error"></div>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                </div>
+
+                <!-- Rincian Informasi yang Dimohon -->
+                <div class="section-header">
+                    <h4><i class="fas fa-info-circle me-2"></i>Rincian Informasi yang Dimohon</h4>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" placeholder="isi password" required>
-                            <div class="error-message" id="password-error"></div>
+                            <label class="form-label">Rincian Informasi yang Dibutuhkan <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="rincianInformasi" rows="4" placeholder="Jelaskan rincian informasi yang dibutuhkan secara lengkap" required></textarea>
+                            <div class="error-message" id="rincianInformasi-error"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <div class="form-group">
-                            <label class="form-label">Konfirmasi Password</label>
-                            <input type="password" class="form-control" id="konfirmasiPassword" placeholder="isi konfirmasi password" required>
-                            <div class="error-message" id="konfirmasiPassword-error"></div>
+                            <label class="form-label">Tujuan Penggunaan Informasi <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="tujuanPenggunaan" rows="3" placeholder="Jelaskan tujuan penggunaan informasi" required></textarea>
+                            <div class="error-message" id="tujuanPenggunaan-error"></div>
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Status Informasi Dibawah Penguasaan <span class="text-danger">*</span></label>
+                            <select class="form-control" id="statusInformasi" required>
+                                <option value="">Pilih status</option>
+                                <option value="ya">Ya</option>
+                                <option value="tidak">Tidak</option>
+                            </select>
+                            <div class="error-message" id="statusInformasi-error"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Bentuk Informasi yang Dikuasai <span class="text-danger">*</span></label>
+                            <select class="form-control" id="bentukInformasi" required>
+                                <option value="">Pilih bentuk informasi</option>
+                                <option value="softcopy">Softcopy</option>
+                                <option value="hardcopy">Hardcopy</option>
+                            </select>
+                            <div class="error-message" id="bentukInformasi-error"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Jenis Permohonan <span class="text-danger">*</span></label>
+                            <select class="form-control" id="jenisPermohonan" required>
+                                <option value="">Pilih jenis permohonan</option>
+                                <option value="melihat_mendengar">Melihat/Mendengar</option>
+                                <option value="meminta_salinan">Meminta Salinan</option>
+                            </select>
+                            <div class="error-message" id="jenisPermohonan-error"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Verifikasi -->
+                <div class="section-header">
+                    <h4><i class="fas fa-shield-alt me-2"></i>Verifikasi</h4>
+                </div>
+
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label class="form-label">Captcha</label>
+                            <label class="form-label">Captcha <span class="text-danger">*</span></label>
                             <div class="d-flex align-items-center">
                                 <div class="captcha-box" id="captchaBox" onclick="generateCaptcha()">
                                     ABC123
@@ -433,21 +474,21 @@
                 </div>
 
                 <div class="warning-box">
-                    <h5><i class="fas fa-exclamation-triangle me-2"></i>Peringatan!</h5>
-                    <p>Saya menyatakan bahwa data yang diunggah adalah benar dan dapat dipertanggungjawabkan.</p>
-                    <p>Pastikan data yang diunggah telah sesuai dengan ketentuan yang berlaku.</p>
+                    <h5><i class="fas fa-exclamation-triangle me-2"></i>Pernyataan</h5>
+                    <p>Saya menyatakan bahwa data yang saya berikan adalah benar dan dapat dipertanggungjawabkan.</p>
+                    <p>Saya menyetujui untuk mematuhi semua ketentuan yang berlaku dalam proses permohonan informasi ini.</p>
                 </div>
 
                 <div class="form-check mb-3">
                     <input class="form-check-input" type="checkbox" id="declaration" required>
                     <label class="form-check-label" for="declaration">
-                        Saya menyetujui pernyataan di atas
+                        Saya menyetujui pernyataan di atas <span class="text-danger">*</span>
                     </label>
                     <div class="error-message" id="declaration-error"></div>
                 </div>
 
                 <div class="success-message" id="success-message">
-                    <i class="fas fa-check-circle me-2"></i>Registrasi berhasil! Anda akan diarahkan ke halaman login.
+                    <i class="fas fa-check-circle me-2"></i>Permohonan informasi berhasil dikirim! Kami akan memproses permohonan Anda.
                 </div>
 
                 <div class="d-flex justify-content-between">
@@ -459,7 +500,7 @@
                             <i class="fas fa-spinner fa-spin me-2"></i>Processing...
                         </span>
                         <span class="btn-text">
-                            <i class="fas fa-paper-plane me-2"></i>Daftar
+                            <i class="fas fa-paper-plane me-2"></i>Kirim Permohonan
                         </span>
                     </button>
                 </div>
