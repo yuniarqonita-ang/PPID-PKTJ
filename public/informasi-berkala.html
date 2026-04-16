@@ -70,82 +70,112 @@
             z-index: 1;
         }
 
-        .page-title {
-            color: #004a99;
-            font-size: 32px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #004a99;
-            display: inline-block;
-            padding-bottom: 10px;
+        .content-box {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin: 30px auto;
+            overflow: hidden;
         }
 
-        .content-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        .content-header {
+            background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .content-header h1 {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+        }
+
+        .content-header p {
+            font-size: 18px;
+            margin: 0;
+            opacity: 0.9;
+        }
+
+        .content-body {
+            padding: 40px;
         }
 
         .section-title {
-            color: #004a99;
-            font-size: 28px;
+            color: #333;
+            font-size: 24px;
             font-weight: bold;
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #d4af37;
+            display: flex;
+            align-items: center;
         }
 
-        .profil-content {
-            text-align: justify;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .info-card {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border: 2px solid #d4af37;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 15px 0;
-            transition: all 0.3s ease;
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
-        }
-
-        .info-card i {
-            font-size: 36px;
+        .section-title i {
             color: #d4af37;
-            margin-bottom: 15px;
+            margin-right: 10px;
+            font-size: 20px;
         }
 
-        .info-card h5 {
+        .info-text {
+            color: #666;
+            font-size: 16px;
+            margin-bottom: 30px;
+            text-align: right;
+            font-weight: 500;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .data-table th {
+            background: linear-gradient(135deg, #004a99 0%, #003d7a 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 16px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 2px solid #004a99;
+        }
+
+        .data-table td {
+            padding: 15px;
+            vertical-align: top;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+        }
+
+        .data-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .data-number {
             color: #004a99;
             font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 16px;
+            width: 80px;
+            text-align: center;
         }
 
-        .info-list {
-            list-style: none;
-            padding: 0;
-        }
-
-        .info-list li {
-            background: white;
-            margin: 8px 0;
-            padding: 12px 15px;
-            border-radius: 6px;
-            border-left: 3px solid #d4af37;
-        }
-
-        .footer {
-            background: #1a3a52;
-            color: white;
-            padding: 40px 0;
-            margin-top: 60px;
+        .data-title {
+            color: #333;
+            font-weight: 600;
+            font-size: 15px;
         }
 
         .btn-warning {
@@ -210,7 +240,7 @@
                             <li><a class="dropdown-item" href="laporan-layanan-informasi.html">Laporan Layanan Informasi Publik</a></li>
                             <li><a class="dropdown-item" href="laporan-akses-informasi-publik.html">Laporan Akses Informasi Publik</a></li>
                             <li><a class="dropdown-item" href="laporan-survey-kepuasan.html">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
+                            <li><a class="dropdown-item" href="https://jdih.dephub.go.id/" target="_blank">JDIH Kementerian Perhubungan</a></li>
                         </ul>
                     </li>
 
@@ -250,11 +280,63 @@
 
     <!-- Main Content -->
     <div class="container py-5">
-        <h1 class="page-title">Informasi Berkala</h1>
-
         <div class="content-box">
-            <div class="profil-content">
-                <p>Halaman ini sedang dalam pengembangan.</p>
+            <!-- Content Body -->
+            <div class="content-body">
+                <!-- Section Title -->
+                <div class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    Informasi Berkala
+                </div>
+                
+                <div class="info-text">Showing 1-17 of 17 items.</div>
+
+                <!-- Data Table -->
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 80px;">#</th>
+                            <th>Judul</th>
+                            <th>Deskripsi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="data-number">1</td>
+                            <td class="data-title">
+                                <strong>Profil Kementerian Perhubungan</strong>
+                            </td>
+                            <td>
+                                <p><strong>Deskripsi :</strong></p>
+                                <p>Kementerian Perhubungan memiliki struktur organisasi yang efisien dan terkoordinasi untuk menjalankan tugasnya. Berdasarkan Peraturan Menteri Perhubungan Nomor 4 Tahun 2025 tentang Organisasi dan Tata Kerja Kementerian Perhubungan, terdapat beberapa unit organisasi, yaitu Sekretariat Jenderal, Direktorat Jenderal, Badan, Inspektorat Jenderal, Staf Ahli, serta Pusat. Setiap unit Ini bertanggung jawab langsung kepada Menteri Perhubungan.</p>
+                                <p>Menteri Perhubungan bertugas merumuskan, menetapkan, dan menjalankan kebijakan di bidang transportasi, yang mencakup pelayanan, keselamatan, keamanan, aksesibilitas, dan konektivitas. Menteri juga memberikan bimbingan teknis dan supervisi pelayanan transportasi di daerah untuk memastikan mobilitas masyarakat dan distribusi barang serta jasa berjalan lancar.</p>
+                                <p>Wakil Menteri Perhubungan membantu Menteri dalam memimpin pelaksanaan tugas kementerian. Tugas dan wewenangnya meliputi membantu perumusan dan pelaksanaan kebijakan, mengoordinasikan pencapaian kebijakan strategis antar-unit organisasi, mewakili Menteri pada acara tertentu, dan menjalankan tugas lain yang diberikan oleh Menteri.</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">2</td>
+                            <td class="data-title">
+                                <strong>Profile Pejabat Kementerian Perhubungan</strong>
+                            </td>
+                            <td>
+                                <p><strong>Deskripsi :</strong></p>
+                                <p>Informasi mengenai Profil Pejabat Kementerian Perhubungan berupa Nama, Jabatan, Sejarah Karir, Sejarah Pendidikan, Penghargaan dan Laporan Kekayaan</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">3</td>
+                            <td class="data-title">
+                                <strong>Kegiatan, Program dan Rencana</strong>
+                            </td>
+                            <td>
+                                <p><strong>Deskripsi :</strong></p>
+                                <p>Informasi mengenai Ringkasan Program dan Rencana Kegiatan yang di jalankan di lingkungan Kementerian Perhubungan :</p>
+                                <p><strong>Rencana Jangka Panjang;</strong></p>
+                                <p>Unduh Rencana Pembangunan Jangka Panjang Kementerian Perhubungan 2005-2025</p>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

@@ -244,6 +244,162 @@
             border-color: #c9a227;
             color: #1a3a52;
         }
+
+        .btn-group {
+            display: flex;
+            gap: 5px;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sm:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1050;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.6);
+            backdrop-filter: blur(5px);
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-dialog {
+            position: relative;
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            animation: modalSlideIn 0.3s ease-out;
+        }
+
+        @keyframes modalSlideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            overflow: hidden;
+            border: 1px solid rgba(0,74,153,0.1);
+        }
+
+        .modal-header {
+            padding: 24px 30px;
+            border-bottom: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+
+        .modal-title {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+            color: #004a99;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-title i {
+            color: #d4af37;
+            font-size: 18px;
+        }
+
+        .btn-close {
+            background: none;
+            border: none;
+            font-size: 28px;
+            cursor: pointer;
+            color: #6c757d;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .btn-close:hover {
+            background: #f8f9fa;
+            color: #004a99;
+            transform: rotate(90deg);
+        }
+
+        .modal-body {
+            padding: 0;
+            background: #ffffff;
+        }
+
+        .modal-footer {
+            padding: 24px 30px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        }
+
+        .preview-container {
+            text-align: center;
+            background: #ffffff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .preview-container iframe {
+            border: none;
+            width: 100%;
+            min-height: 600px;
+            border-radius: 8px;
+        }
+
+        .data-table td {
+            vertical-align: middle;
+        }
+
+        .data-table tr:hover {
+            background: #f8f9fa;
+            transform: scale(1.01);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .action-buttons .btn {
+            min-width: 80px;
+        }
     </style>
 </head>
 <body>
@@ -294,7 +450,7 @@
                             <li><a class="dropdown-item" href="laporan-layanan-informasi.html">Laporan Layanan Informasi Publik</a></li>
                             <li><a class="dropdown-item" href="laporan-akses-informasi-publik.html">Laporan Akses Informasi Publik</a></li>
                             <li><a class="dropdown-item" href="laporan-survey-kepuasan.html">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
+                            <li><a class="dropdown-item" href="https://jdih.dephub.go.id/" target="_blank">JDIH Kementerian Perhubungan</a></li>
                         </ul>
                     </li>
 
@@ -327,308 +483,348 @@
         <div class="hero-content">
             <div class="container">
                 <h1 class="display-5 fw-bold mb-3">Laporan Layanan Informasi Publik</h1>
-                <p class="lead">Laporan periodik kinerja PPID dalam melayani masyarakat</p>
             </div>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="container py-5">
-        <h1 class="page-title">Laporan Layanan Informasi Publik</h1>
-
         <div class="content-box">
-            <h2 class="section-title">Ringkasan Kinerja 2024</h2>
-            <div class="stats-grid">
-                <div class="stat-card">
+            <!-- Content Body -->
+            <div class="content-body">
+                <!-- Section Title -->
+                <div class="section-title">
                     <i class="fas fa-file-alt"></i>
-                    <h3>1,247</h3>
-                    <p>Permintaan Informasi</p>
+                    Laporan Tahunan Layanan Informasi Publik Kementerian Perhubungan
                 </div>
-                <div class="stat-card">
-                    <i class="fas fa-check-circle"></i>
-                    <h3>98.5%</h3>
-                    <p>Tingkat Pemenuhan</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-clock"></i>
-                    <h3>4.2</h3>
-                    <p>Rata-rata Waktu (Hari)</p>
-                </div>
-                <div class="stat-card">
-                    <i class="fas fa-star"></i>
-                    <h3>4.7/5</h3>
-                    <p>Indeks Kepuasan</p>
-                </div>
-            </div>
-        </div>
+                
+                <div class="info-text">Showing 1-16 of 16 items.</div>
 
-        <div class="content-box">
-            <h2 class="section-title">Laporan Triwulanan</h2>
-            <div class="table-responsive">
-                <table class="table">
+                <!-- Data Table -->
+                <table class="data-table">
                     <thead>
                         <tr>
-                            <th>Triwulan</th>
-                            <th>Permintaan</th>
-                            <th>Dipenuhi</th>
-                            <th>Ditolak</th>
-                            <th>Tingkat Pemenuhan</th>
-                            <th>Rata-rata Waktu</th>
+                            <th style="width: 80px;">#</th>
+                            <th>Judul Laporan</th>
+                            <th>Format</th>
+                            <th>Ukuran</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Triwulan I (Jan-Mar)</td>
-                            <td>312</td>
-                            <td>305</td>
-                            <td>7</td>
-                            <td>97.8%</td>
-                            <td>3.8 hari</td>
+                            <td class="data-number">1</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2025</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>2.5 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Triwulan II (Apr-Jun)</td>
-                            <td>298</td>
-                            <td>294</td>
-                            <td>4</td>
-                            <td>98.7%</td>
-                            <td>4.1 hari</td>
+                            <td class="data-number">2</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2024</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>2.3 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Triwulan III (Jul-Sep)</td>
-                            <td>334</td>
-                            <td>330</td>
-                            <td>4</td>
-                            <td>98.8%</td>
-                            <td>4.3 hari</td>
+                            <td class="data-number">3</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2023</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>2.1 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
-                            <td>Triwulan IV (Okt-Des)</td>
-                            <td>303</td>
-                            <td>298</td>
-                            <td>5</td>
-                            <td>98.3%</td>
-                            <td>4.2 hari</td>
+                            <td class="data-number">4</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2022</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>1.9 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
-                        <tr style="background: #004a99; color: white; font-weight: bold;">
-                            <td>TOTAL</td>
-                            <td>1,247</td>
-                            <td>1,227</td>
-                            <td>20</td>
-                            <td>98.5%</td>
-                            <td>4.2 hari</td>
+                        <tr>
+                            <td class="data-number">5</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2021</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>1.8 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">6</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2020</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>1.7 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">7</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2019</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>1.6 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">8</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2018</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>1.5 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">9</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2017</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>1.4 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">10</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2016</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>1.3 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">11</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2015</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>1.2 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">12</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2014</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>1.1 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">13</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2013</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>1.0 MB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">14</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2012</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>980 KB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">15</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2011</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>950 KB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="data-number">16</td>
+                            <td class="data-title">
+                                <strong>Laporan Tahunan Layanan Informasi Publik Tahun 2010</strong>
+                            </td>
+                            <td>PDF</td>
+                            <td>920 KB</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <a href="#" class="btn btn-sm btn-primary" onclick="showPreview(1)">
+                                        <i class="fas fa-eye"></i> Preview
+                                    </a>
+                                    <a href="#" class="btn btn-sm btn-success">
+                                        <i class="fas fa-download"></i> Download
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
         </div>
+    </div>
 
-        <div class="content-box">
-            <h2 class="section-title">Kategori Permintaan Informasi</h2>
-            <div class="chart-container">
-                <i class="fas fa-chart-pie"></i>
-                <h5>Grafik Kategori Permintaan</h5>
-                <p>Grafik interaktif kategori permintaan informasi publik</p>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-building text-primary me-2"></i>Informasi Organisasi (35%)</h5>
-                    <ul>
-                        <li>Struktur organisasi</li>
-                        <li>Tugas dan fungsi</li>
-                        <li>Profil pejabat</li>
-                        <li>Program kerja</li>
-                    </ul>
+    <!-- Document Preview Modal -->
+    <div class="modal fade" id="documentPreviewModal" tabindex="-1" aria-labelledby="documentPreviewModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="documentPreviewModalLabel">Preview Dokumen</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="col-md-6">
-                    <h5><i class="fas fa-file-contract text-success me-2"></i>Informasi Peraturan (28%)</h5>
-                    <ul>
-                        <li>Peraturan internal</li>
-                        <li>Standar operasional</li>
-                        <li>Kebijakan organisasi</li>
-                        <li>Regulasi terkait</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-chart-line text-warning me-2"></i>Informasi Keuangan (20%)</h5>
-                    <ul>
-                        <li>Laporan keuangan</li>
-                        <li>Anggaran dan realisasi</li>
-                        <li>Sumber pendapatan</li>
-                        <li>Penggunaan anggaran</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <h5><i class="fas fa-users text-info me-2"></i>Informasi Lainnya (17%)</h5>
-                    <ul>
-                        <li>Data statistik</li>
-                        <li>Informasi umum</li>
-                        <li>Informasi khusus</li>
-                        <li>Pertanyaan lainnya</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Alasan Penolakan Permintaan</h2>
-            <div class="chart-container">
-                <i class="fas fa-chart-bar"></i>
-                <h5>Grafik Alasan Penolakan</h5>
-                <p>Distribusi alasan penolakan permintaan informasi</p>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-ban text-danger me-2"></i>Informasi Dikecualikan (60%)</h5>
-                    <ul>
-                        <li>Rahasia negara</li>
-                        <li>Privasi individu</li>
-                        <li>Rahasia dagang</li>
-                        <li>Proses pengambilan keputusan</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <h5><i class="fas fa-search text-warning me-2"></i>Tidak Ditemukan (25%)</h5>
-                    <ul>
-                        <li>Informasi tidak ada</li>
-                        <li>Informasi belum tercatat</li>
-                        <li>Pemintaan tidak spesifik</li>
-                        <li>Kesalahan identifikasi</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="row mt-3">
-                <div class="col-md-6">
-                    <h5><i class="fas fa-clock text-info me-2"></i>Dalam Proses (10%)</h5>
-                    <ul>
-                        <li>Masih dalam pembahasan</li>
-                        <li>Belum final</li>
-                        <li>Dalam tahap penyusunan</li>
-                    </ul>
-                </div>
-                <div class="col-md-6">
-                    <h5><i class="fas fa-exclamation-triangle text-secondary me-2"></i>Lainnya (5%)</h5>
-                    <ul>
-                        <li>Pemohon tidak lengkapi syarat</li>
-                        <li>Permintaan tidak wajar</li>
-                        <li>Kesalahan administratif</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Indeks Kepuasan Masyarakat</h2>
-            <div class="chart-container">
-                <i class="fas fa-star-half-alt"></i>
-                <h5>Grafik Indeks Kepuasan</h5>
-                <p>Hasil survei kepuasan pemohon informasi publik</p>
-            </div>
-
-            <div class="row mt-4">
-                <div class="col-md-4 text-center">
-                    <div class="stat-card">
-                        <i class="fas fa-thumbs-up"></i>
-                        <h3>4.7/5</h3>
-                        <p>Kepuasan Umum</p>
+                <div class="modal-body">
+                    <div class="preview-container">
+                        <iframe id="documentFrame" style="width: 100%; height: 500px; border: none;"></iframe>
                     </div>
                 </div>
-                <div class="col-md-4 text-center">
-                    <div class="stat-card">
-                        <i class="fas fa-clock"></i>
-                        <h3>4.5/5</h3>
-                        <p>Kecepatan Layanan</p>
-                    </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+                    <a href="#" class="btn btn-primary" id="downloadBtn">
+                        <i class="fas fa-download"></i> Download
+                    </a>
                 </div>
-                <div class="col-md-4 text-center">
-                    <div class="stat-card">
-                        <i class="fas fa-user-tie"></i>
-                        <h3>4.8/5</h3>
-                        <p>Keramahan Petugas</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Pengaduan dan Keberatan</h2>
-            <div class="table-responsive">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Jenis</th>
-                            <th>Diterima</th>
-                            <th>Ditanggapi</th>
-                            <th>Tingkat Penyelesaian</th>
-                            <th>Rata-rata Waktu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>Keberatan</td>
-                            <td>15</td>
-                            <td>15</td>
-                            <td>100%</td>
-                            <td>25 hari</td>
-                        </tr>
-                        <tr>
-                            <td>Pengaduan</td>
-                            <td>8</td>
-                            <td>8</td>
-                            <td>100%</td>
-                            <td>7 hari</td>
-                        </tr>
-                        <tr>
-                            <td>Sengketa</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>100%</td>
-                            <td>45 hari</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <div class="download-section">
-            <h5><i class="fas fa-download me-2"></i>Download Laporan Lengkap</h5>
-            <p>Unduh laporan lengkap kinerja PPID PKTJ Tegal tahun 2024</p>
-            <a href="#" class="download-btn">
-                <i class="fas fa-file-pdf me-1"></i>Download PDF
-            </a>
-            <a href="#" class="download-btn">
-                <i class="fas fa-file-excel me-1"></i>Download Excel
-            </a>
-            <a href="#" class="download-btn">
-                <i class="fas fa-file-word me-1"></i>Download Word
-            </a>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Kesimpulan dan Rekomendasi</h2>
-            <div class="profil-content">
-                <h5><i class="fas fa-check-circle text-success me-2"></i>Pencapaian Positif</h5>
-                <ul>
-                    <li>Tingkat pemenuhan permintaan mencapai 98.5%</li>
-                    <li>Rata-rata waktu penyelesaian 4.2 hari sesuai standar</li>
-                    <li>Indeks kepuasan masyarakat mencapai 4.7/5</li>
-                    <li>Semua pengaduan dan keberatan terselesaikan 100%</li>
-                    <li>Pelayanan informasi berjalan efektif dan efisien</li>
-                </ul>
-
-                <h5 class="mt-4"><i class="fas fa-lightbulb text-warning me-2"></i>Rekomendasi Perbaikan</h5>
-                <ul>
-                    <li>Meningkatkan sosialisasi UU KIP kepada masyarakat</li>
-                    <li>Mengembangkan sistem informasi yang lebih modern</li>
-                    <li>Melakukan pelatihan berkala kepada petugas PPID</li>
-                    <li>Memperluas kanal komunikasi dengan masyarakat</li>
-                    <li>Meningkatkan kualitas dokumentasi informasi</li>
-                </ul>
             </div>
         </div>
     </div>
@@ -657,6 +853,100 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+function showPreview(docId) {
+    // Sample document URLs - replace with actual document paths
+    const documents = {
+        1: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        2: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        3: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        4: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        5: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        6: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        7: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        8: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        9: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        10: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        11: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        12: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        13: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        14: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        15: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        16: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
+    };
+    
+    const modal = document.getElementById('documentPreviewModal');
+    const iframe = document.getElementById('documentFrame');
+    const downloadBtn = document.getElementById('downloadBtn');
+    
+    // Set iframe source
+    iframe.src = documents[docId] || documents[1];
+    
+    // Set download button href
+    downloadBtn.href = documents[docId] || documents[1];
+    
+    // Show modal
+    modal.classList.add('show');
+}
+
+// Close modal when clicking outside or close button
+document.addEventListener('click', function(event) {
+    const modal = document.getElementById('documentPreviewModal');
+    if (event.target === modal || event.target.classList.contains('btn-close')) {
+        modal.classList.remove('show');
+        // Reset iframe src when closing
+        document.getElementById('documentFrame').src = '';
+    }
+});
+
+// Enhanced modal show function with animation
+function showPreview(docId) {
+    const documents = {
+        1: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        2: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        3: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        4: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        5: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        6: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        7: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        8: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        9: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        10: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        11: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        12: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        13: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        14: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        15: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf',
+        16: 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf'
+    };
+    
+    const modal = document.getElementById('documentPreviewModal');
+    const iframe = document.getElementById('documentFrame');
+    const downloadBtn = document.getElementById('downloadBtn');
+    
+    // Set iframe source with loading indicator
+    iframe.src = documents[docId] || documents[1];
+    downloadBtn.href = documents[docId] || documents[1];
+    
+    // Show modal with animation
+    modal.classList.add('show');
+    
+    // Add loading state
+    iframe.style.opacity = '0.5';
+    setTimeout(() => {
+        iframe.style.opacity = '1';
+    }, 500);
+}
+
+// Add keyboard support for closing modal
+document.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape') {
+        const modal = document.getElementById('documentPreviewModal');
+        modal.classList.remove('show');
+        document.getElementById('documentFrame').src = '';
+    }
+});
+</script>
 </body>
 </html>
 
