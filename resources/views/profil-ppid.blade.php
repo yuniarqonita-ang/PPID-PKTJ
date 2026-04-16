@@ -62,16 +62,23 @@
             @if($profil)
                 <h2 class="section-title">{{ $profil->judul }}</h2>
                 <div class="content">
+                    <div class="content">
                     @if($profil->konten_pembuka)
-                        {!! $profil->konten_pembuka !!}
+                        <h4>Konten Pembuka:</h4>
+                        <div style="background: white; padding: 15px; border: 1px solid #ddd; margin: 10px 0; border-radius: 5px; line-height: 1.6;">
+                            {!! $profil->konten_pembuka !!}
+                        </div>
                     @endif
                     
                     @if($profil->judul_sub)
-                        <h3>{{ $profil->judul_sub }}</h3>
+                        <h3 style="color: #004a99; margin: 20px 0 10px 0;">{{ $profil->judul_sub }}</h3>
                     @endif
                     
                     @if($profil->konten_detail)
-                        {!! $profil->konten_detail !!}
+                        <h4>Konten Detail:</h4>
+                        <div style="background: white; padding: 15px; border: 1px solid #ddd; margin: 10px 0; border-radius: 5px; line-height: 1.6;">
+                            {!! $profil->konten_detail !!}
+                        </div>
                     @endif
                     
                     @if($profil->gambar)
