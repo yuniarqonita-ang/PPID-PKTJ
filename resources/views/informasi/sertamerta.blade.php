@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Informasi Serta Merta - PPID PKTJ')
 
@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h2 class="fw-bold text-warning">⚡ Informasi Serta Merta</h2>
+                    <h2 class="fw-bold text-warning">⚠️¡ Informasi Serta Merta</h2>
                     <p class="text-muted">Informasi yang dapat mendesak kepentingan publik</p>
                 </div>
                 <a href="{{ url('/') }}" class="btn btn-outline-secondary">

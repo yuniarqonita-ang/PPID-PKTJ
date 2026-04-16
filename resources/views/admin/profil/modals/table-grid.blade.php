@@ -1,4 +1,4 @@
-<!-- Table Grid Modal -->
+﻿<!-- Table Grid Modal -->
 <div class="modal fade" id="tableGridModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
@@ -12,7 +12,7 @@
                     <div id="gridPreview"></div>
                 </div>
                 <p class="grid-info text-center mt-3">
-                    <span id="selectedGrid">0 × 0</span>
+                    <span id="selectedGrid">0 Ã— 0</span>
                 </p>
             </div>
             <div class="modal-footer">
@@ -90,7 +90,7 @@ function highlightGridCells(rows, cols) {
 function selectTableGrid(rows, cols) {
     selectedRows = rows;
     selectedCols = cols;
-    document.getElementById('selectedGrid').textContent = `${cols} × ${rows}`;
+    document.getElementById('selectedGrid').textContent = `${cols} Ã— ${rows}`;
     highlightGridCells(rows, cols);
 }
 

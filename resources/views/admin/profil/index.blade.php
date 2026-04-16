@@ -1,473 +1,154 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-    <div class="max-w-7xl mx-auto">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6">
+    <div class="max-w-7xl mx-auto space-y-8">
 
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-slate-200 p-6 mb-6">
-        <div class="flex justify-between items-center">
+        <!-- HEADER SECTION -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25 ring-1 ring-cyan-400/30 bg-clip-text text-transparent">
-                    📋 Kelola Konten Profil PPID
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
+                    <i class="fas fa-th-large mr-2"></i> Pusat Kelola Halaman
                 </h1>
-                <p class="text-slate-300 mt-2">Kelola semua konten profil PPID dan informasi publik dalam satu tempat</p>
+                <p class="text-gray-500 font-medium mt-1">Kelola konten statis, profil, regulasi, dan SOP dalam satu dashboard terpadu</p>
             </div>
-            <div class="flex items-center space-x-3">
-                <a href="{{ route('dashboard') }}" 
-                   class="px-6 py-3 bg-gradient-to-r from-blue-600 to-blue-700 text-white ring-1 ring-cyan-400 shadow-lg shadow-cyan-500/30 font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105 rounded-xl flex items-center">
-                    <i class="fas fa-home mr-2"></i>Dashboard
+            <div class="flex items-center gap-3">
+                <a href="{{ route('dashboard') }}" class="px-6 py-3 bg-white border border-gray-200 text-[#004a99] font-bold rounded-xl shadow-sm hover:bg-gray-50 transition-all flex items-center">
+                    <i class="fas fa-home mr-2"></i> Ke Dashboard
                 </a>
             </div>
         </div>
+
+        @if(session('success'))
+            <div class="bg-green-100 border-l-4 border-green-500 p-4 rounded-xl shadow-sm flex items-center animate-fade-in-down">
+                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
+                <p class="text-green-800 font-bold">{{ session('success') }}</p>
+            </div>
+        @endif
+
+        <!-- SECTION: PROFIL UTAMA -->
+        <div class="space-y-4">
+            <h2 class="text-xs font-black text-gray-400 uppercase tracking-[0.2em] flex items-center">
+                <span class="w-8 h-[2px] bg-[#ffc107] mr-3"></span> Profil Lembaga
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                @foreach([
+                    ['key' => 'profil', 'label' => 'Gambaran Umum', 'icon' => 'fa-university', 'color' => 'bg-blue-500'],
+                    ['key' => 'tugas', 'label' => 'Tugas & Fungsi', 'icon' => 'fa-tasks', 'color' => 'bg-indigo-500'],
+                    ['key' => 'visi', 'label' => 'Visi & Misi', 'icon' => 'fa-bullseye', 'color' => 'bg-emerald-500'],
+                    ['key' => 'struktur', 'label' => 'Struktur Org', 'icon' => 'fa-sitemap', 'color' => 'bg-rose-500'],
+                    ['key' => 'regulasi', 'label' => 'Dasar Hukum', 'icon' => 'fa-gavel', 'color' => 'bg-purple-500'],
+                    ['key' => 'kontak', 'label' => 'Kontak PPID', 'icon' => 'fa-phone-alt', 'color' => 'bg-cyan-500'],
+                ] as $item)
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 group hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
+                        <div class="flex items-start justify-between mb-4">
+                            <div class="w-12 h-12 {{ $item['color'] }} rounded-xl flex items-center justify-center text-white text-xl shadow-lg">
+                                <i class="fas {{ $item['icon'] }}"></i>
+                            </div>
+                            @if($profilesData[$item['key']]->judul)
+                                <span class="text-[10px] font-black text-green-500 bg-green-50 px-2 py-1 rounded-md border border-green-100">AKTIF</span>
+                            @else
+                                <span class="text-[10px] font-black text-gray-400 bg-gray-50 px-2 py-1 rounded-md border border-gray-100">KOSONG</span>
+                            @endif
+                        </div>
+                        <h3 class="text-sm font-bold text-[#004a99] mb-1">{{ $item['label'] }}</h3>
+                        <p class="text-xs text-gray-400 mb-6 font-medium italic">
+                            Update: {{ $profilesData[$item['key']]->updated_at ? $profilesData[$item['key']]->updated_at->diffForHumans() : 'Belum ada' }}
+                        </p>
+                        <div class="flex gap-2">
+                            <a href="{{ route('admin.profil.edit', $item['key']) }}" class="flex-1 py-2 bg-[#004a99] text-white text-[10px] font-black uppercase text-center rounded-lg hover:bg-blue-800 transition-colors shadow-sm">
+                                <i class="fas fa-edit mr-1"></i> Edit
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- SECTION: SOP / PROSEDUR -->
+        <div class="space-y-4">
+            <h2 class="text-xs font-black text-gray-400 uppercase tracking-[0.2em] flex items-center">
+                <span class="w-8 h-[2px] bg-[#004a99] mr-3"></span> Standar Operasional (SOP)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                @foreach([
+                    ['key'=>'sop-permintaan', 'label'=>'Permintaan', 'icon'=>'fa-file-signature'],
+                    ['key'=>'sop-keberatan', 'label'=>'Keberatan', 'icon'=>'fa-exclamation-triangle'],
+                    ['key'=>'sop-sengketa', 'label'=>'Sengketa', 'icon'=>'fa-balance-scale'],
+                    ['key'=>'sop-penetapan', 'label'=>'Penetapan', 'icon'=>'fa-check-double'],
+                    ['key'=>'sop-pengujian', 'label'=>'Pengujian', 'icon'=>'fa-microscope'],
+                    ['key'=>'sop-pendokumentasian', 'label'=>'Dokumen', 'icon'=>'fa-archive'],
+                ] as $sop)
+                    <div class="bg-white rounded-xl border border-gray-200 p-4 hover:border-[#004a99] transition-all group">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-8 h-8 rounded-lg bg-gray-50 text-[#004a99] flex items-center justify-center group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm border border-gray-100">
+                                <i class="fas {{ $sop['icon'] }} text-xs"></i>
+                            </div>
+                            <h4 class="text-[10px] font-black text-gray-700 uppercase">{{ $sop['label'] }}</h4>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            @if($profilesData[$sop['key']]->judul)
+                                <div class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
+                            @else
+                                <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+                            @endif
+                            <a href="{{ route('admin.profil.edit', $sop['key']) }}" class="text-[10px] font-bold text-[#004a99] hover:underline">
+                                KELOLA <i class="fas fa-chevron-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- SECTION: LAYANAN INFORMASI -->
+        <div class="space-y-4">
+            <h2 class="text-xs font-black text-gray-400 uppercase tracking-[0.2em] flex items-center">
+                <span class="w-8 h-[2px] bg-[#ffc107] mr-3"></span> Layanan & Laporan
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+                @foreach([
+                    ['key'=>'layanan-daftar', 'label'=>'Daftar Info Publik', 'icon'=>'fa-list-ol'],
+                    ['key'=>'maklumat-pelayanan', 'label'=>'Maklumat Pelayanan', 'icon'=>'fa-award'],
+                    ['key'=>'laporan-layanan', 'label'=>'Laporan Layanan', 'icon'=>'fa-file-invoice'],
+                    ['key'=>'laporan-akses', 'label'=>'Laporan Akses', 'icon'=>'fa-chart-area'],
+                    ['key'=>'laporan-survey', 'label'=>'Hasil Survey SKM', 'icon'=>'fa-star-half-alt'],
+                ] as $layanan)
+                    <a href="{{ route('admin.profil.edit', $layanan['key']) }}" class="bg-white p-4 rounded-xl border-l-4 border-gray-200 hover:border-[#ffc107] shadow-sm flex items-center justify-between group transition-all">
+                        <div class="flex items-center gap-3">
+                            <i class="fas {{ $layanan['icon'] }} text-gray-300 group-hover:text-[#ffc107] transition-colors"></i>
+                            <span class="text-xs font-bold text-gray-600 group-hover:text-[#004a99]">{{ $layanan['label'] }}</span>
+                        </div>
+                        <i class="fas fa-edit text-xs text-gray-100 group-hover:text-gray-300"></i>
+                    </a>
+                @endforeach
+            </div>
+        </div>
+
+        <!-- SUMMARY INFO -->
+        <div class="bg-[#004a99] rounded-2xl p-6 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-6">
+                <div class="text-center md:text-left">
+                    <p class="text-xs font-black text-blue-200 uppercase tracking-widest mb-1">Konten Terisi</p>
+                    <p class="text-4xl font-black">
+                        {{ collect($profilesData)->filter(function($item) { return $item->judul; })->count() }} 
+                        <span class="text-lg opacity-50">/ 17</span>
+                    </p>
+                </div>
+                <div class="h-12 w-[1px] bg-white/20 hidden md:block"></div>
+                <div class="hidden md:block">
+                    <p class="text-xs font-bold text-blue-200 leading-relaxed max-w-xs">
+                        Seluruh perubahan pada halaman ini akan langsung berdampak pada menu profil di website publik.
+                    </p>
+                </div>
+            </div>
+            <div class="w-full md:w-auto">
+                <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="w-full px-6 py-3 bg-white/10 hover:bg-white/20 rounded-xl text-xs font-black uppercase transition-all tracking-widest border border-white/20">
+                    <i class="fas fa-arrow-up mr-2 text-[#ffc107]"></i> Kembali Ke Atas
+                </button>
+            </div>
+        </div>
+
     </div>
-
-    <!-- ==================== ALERTS SECTION ==================== -->
-    @if(session('success'))
-        <div class="bg-gradient-to-r from-green-50 to-emerald-50 border-2 border-green-300 rounded-2xl p-6 mb-6 shadow-lg">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full flex items-center justify-center">
-                        <i class="fas fa-check text-white text-xl"></i>
-                    </div>
-                </div>
-                <div class="ml-4">
-                    <p class="text-green-300 font-bold text-lg">{{ session('success') }}</p>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    <!-- ==================== CONTENT CARDS ==================== -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
-        
-        <!-- Profil PPID -->
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-blue-600/30 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-            <div class="bg-gradient-to-r from-blue-500 to-blue-600 p-4">
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
-                        <i class="fas fa-user-tie text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">Profil PPID</h3>
-                        <p class="text-blue-100 text-sm">Informasi utama PPID</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-6">
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
-                    @if($profilesData['profil']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
-                            <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
-                        </span>
-                    @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
-                            <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
-                        </span>
-                    @endif
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Judul</p>
-                    <p class="text-slate-200 font-medium">
-                        {{ $profilesData['profil']->judul ?: 'Belum ada judul' }}
-                    </p>
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-200 text-sm">
-                        {{ $profilesData['profil']->updated_at ? $profilesData['profil']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
-                    </p>
-                </div>
-                <div class="flex space-x-2">
-                    <a href="{{ url('/profil/profil') }}" target="_blank" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-eye mr-1"></i>Lihat
-                    </a>
-                    <a href="{{ route('admin.profil.edit', 'profil') }}" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Tugas & Tanggung Jawab -->
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-yellow-600/30 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-            <div class="bg-gradient-to-r from-yellow-500 to-orange-500 p-4">
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
-                        <i class="fas fa-tasks text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">Tugas PPID</h3>
-                        <p class="text-yellow-100 text-sm">Fungsi PPID</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-6">
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
-                    @if($profilesData['tugas']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
-                            <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
-                        </span>
-                    @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
-                            <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
-                        </span>
-                    @endif
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Judul</p>
-                    <p class="text-slate-200 font-medium">
-                        {{ $profilesData['tugas']->judul ?: 'Belum ada judul' }}
-                    </p>
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-200 text-sm">
-                        {{ $profilesData['tugas']->updated_at ? $profilesData['tugas']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
-                    </p>
-                </div>
-                <div class="flex space-x-2">
-                    <a href="{{ url('/profil/tugas') }}" target="_blank" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-eye mr-1"></i>Lihat
-                    </a>
-                    <a href="{{ route('admin.profil.edit', 'tugas') }}" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Visi & Misi -->
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-green-600/30 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-            <div class="bg-gradient-to-r from-green-500 to-emerald-500 p-4">
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
-                        <i class="fas fa-lightbulb text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">Visi dan Misi</h3>
-                        <p class="text-green-100 text-sm">Tujuan dan arah PPID</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-6">
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
-                    @if($profilesData['visi']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
-                            <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
-                        </span>
-                    @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
-                            <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
-                        </span>
-                    @endif
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Judul</p>
-                    <p class="text-slate-200 font-medium">
-                        {{ $profilesData['visi']->judul ?: 'Belum ada judul' }}
-                    </p>
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-200 text-sm">
-                        {{ $profilesData['visi']->updated_at ? $profilesData['visi']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
-                    </p>
-                </div>
-                <div class="flex space-x-2">
-                    <a href="{{ url('/profil/visi') }}" target="_blank" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-eye mr-1"></i>Lihat
-                    </a>
-                    <a href="{{ route('admin.profil.edit', 'visi') }}" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Struktur Organisasi -->
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-red-600/30 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-            <div class="bg-gradient-to-r from-red-500 to-pink-500 p-4">
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
-                        <i class="fas fa-sitemap text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">Struktur Organisasi</h3>
-                        <p class="text-red-100 text-sm">Hierarki PPID PKTJ</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-6">
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
-                    @if($profilesData['struktur']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
-                            <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
-                        </span>
-                    @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
-                            <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
-                        </span>
-                    @endif
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Judul</p>
-                    <p class="text-slate-200 font-medium">
-                        {{ $profilesData['struktur']->judul ?: 'Belum ada judul' }}
-                    </p>
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-200 text-sm">
-                        {{ $profilesData['struktur']->updated_at ? $profilesData['struktur']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
-                    </p>
-                </div>
-                <div class="flex space-x-2">
-                    <a href="{{ url('/profil/struktur') }}" target="_blank" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-eye mr-1"></i>Lihat
-                    </a>
-                    <a href="{{ route('admin.profil.edit', 'struktur') }}" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Regulasi -->
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border-2 border-purple-200 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-            <div class="bg-gradient-to-r from-purple-500 to-indigo-500 p-4">
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
-                        <i class="fas fa-file-contract text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">Regulasi</h3>
-                        <p class="text-purple-100 text-sm">Aturan dan kebijakan</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-6">
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
-                    @if($profilesData['regulasi']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
-                            <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
-                        </span>
-                    @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
-                            <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
-                        </span>
-                    @endif
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Judul</p>
-                    <p class="text-slate-200 font-medium">
-                        {{ $profilesData['regulasi']->judul ?: 'Belum ada judul' }}
-                    </p>
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-200 text-sm">
-                        {{ $profilesData['regulasi']->updated_at ? $profilesData['regulasi']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
-                    </p>
-                </div>
-                <div class="flex space-x-2">
-                    <a href="{{ url('/profil/regulasi') }}" target="_blank" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-eye mr-1"></i>Lihat
-                    </a>
-                    <a href="{{ route('admin.profil.edit', 'regulasi') }}" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Kontak -->
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border-2 border-cyan-200 overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105">
-            <div class="bg-gradient-to-r from-cyan-500 to-blue-500 p-4">
-                <div class="flex items-center">
-                    <div class="w-12 h-12 bg-white/20 rounded-xl flex items-center justify-center mr-3">
-                        <i class="fas fa-phone text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-bold text-lg">Kontak</h3>
-                        <p class="text-cyan-100 text-sm">Hubungi PPID</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-6">
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-2">Status Konten</p>
-                    @if($profilesData['kontak']->judul)
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-green-100 to-emerald-100 text-green-300 border border-green-300">
-                            <i class="fas fa-check-circle mr-1"></i>Konten Tersedia
-                        </span>
-                    @else
-                        <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-red-100 to-pink-100 text-red-300 border border-red-300">
-                            <i class="fas fa-times-circle mr-1"></i>Belum Ada Konten
-                        </span>
-                    @endif
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Judul</p>
-                    <p class="text-slate-200 font-medium">
-                        {{ $profilesData['kontak']->judul ?: 'Belum ada judul' }}
-                    </p>
-                </div>
-                <div class="mb-4">
-                    <p class="text-slate-300 text-sm mb-1">Terakhir Update</p>
-                    <p class="text-slate-200 text-sm">
-                        {{ $profilesData['kontak']->updated_at ? $profilesData['kontak']->updated_at->format('d M Y, H:i') : 'Belum pernah' }}
-                    </p>
-                </div>
-                <div class="flex space-x-2">
-                    <a href="{{ url('/profil/kontak') }}" target="_blank" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-green-500 to-green-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-eye mr-1"></i>Lihat
-                    </a>
-                    <a href="{{ route('admin.profil.edit', 'kontak') }}" 
-                       class="flex-1 px-4 py-2 bg-gradient-to-r from-blue-500 to-blue-600 text-white text-sm font-bold rounded-lg hover:shadow-lg transition-all duration-300 text-center">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </a>
-                </div>
-            </div>
-        </div>    </div>
-
-    {{-- ==================== SOP SECTION ==================== --}}
-    <div class="mb-6">
-        <h2 class="text-xl font-bold text-slate-200 mb-4 flex items-center">
-            <i class="fas fa-file-alt text-orange-500 mr-3"></i>Halaman Prosedur (SOP)
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            @foreach([
-                ['key'=>'sop-permintaan', 'label'=>'SOP Permintaan Informasi', 'url'=>'/prosedur/sop-permintaan-informasi', 'icon'=>'fa-file-alt', 'color'=>'from-orange-400 to-orange-600', 'border'=>'border-orange-200'],
-                ['key'=>'sop-keberatan', 'label'=>'SOP Penanganan Keberatan', 'url'=>'/prosedur/sop-penanganan-keberatan', 'icon'=>'fa-exclamation-circle', 'color'=>'from-amber-400 to-amber-600', 'border'=>'border-amber-200'],
-                ['key'=>'sop-sengketa', 'label'=>'SOP Pengajuan Sengketa', 'url'=>'/prosedur/sop-pengajuan-sengketa', 'icon'=>'fa-gavel', 'color'=>'from-red-400 to-red-600', 'border'=>'border-red-200'],
-                ['key'=>'sop-penetapan', 'label'=>'SOP Penetapan Pemutakhiran', 'url'=>'/prosedur/sop-penetapan-pemutakhiran', 'icon'=>'fa-sync-alt', 'color'=>'from-teal-400 to-teal-600', 'border'=>'border-teal-200'],
-                ['key'=>'sop-pengujian', 'label'=>'SOP Pengujian Konsekuensi', 'url'=>'/prosedur/sop-pengujian-konsekuensi', 'icon'=>'fa-search', 'color'=>'from-indigo-400 to-indigo-600', 'border'=>'border-indigo-200'],
-                ['key'=>'sop-pendokumentasian', 'label'=>'SOP Pendokumentasian', 'url'=>'/prosedur/sop-pendokumentasian', 'icon'=>'fa-folder-open', 'color'=>'from-pink-400 to-pink-600', 'border'=>'border-pink-200'],
-            ] as $sop)
-            <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden rounded-xl shadow border-2 {{ $sop['border'] }} overflow-hidden hover:shadow-md transition-all duration-300">
-                <div class="bg-gradient-to-r {{ $sop['color'] }} p-3 flex items-center">
-                    <div class="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center mr-2">
-                        <i class="fas {{ $sop['icon'] }} text-white"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-bold text-sm">{{ $sop['label'] }}</h3>
-                        @if($profilesData[$sop['key']]->judul)
-                            <span class="text-xs text-white/80">✓ Ada konten</span>
-                        @else
-                            <span class="text-xs text-white/80">⚠ Belum diisi</span>
-                        @endif
-                    </div>
-                </div>
-                <div class="p-3 flex space-x-2">
-                    <a href="{{ url($sop['url']) }}" target="_blank"
-                       class="flex-1 px-3 py-2 bg-green-500 text-white text-xs font-bold rounded-lg text-center hover:bg-green-600 transition">
-                        <i class="fas fa-eye mr-1"></i>Lihat
-                    </a>
-                    <a href="{{ route('admin.profil.edit', $sop['key']) }}"
-                       class="flex-1 px-3 py-2 bg-blue-500 text-white text-xs font-bold rounded-lg text-center hover:bg-blue-600 transition">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </a>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-
-    {{-- ==================== LAYANAN INFORMASI SECTION ==================== --}}
-    <div class="mb-6">
-        <h2 class="text-xl font-bold text-slate-200 mb-4 flex items-center">
-            <i class="fas fa-info-circle text-blue-500 mr-3"></i>Halaman Layanan Informasi
-        </h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            @foreach([
-                ['key'=>'layanan-daftar', 'label'=>'Daftar Informasi Publik', 'url'=>'/layanan-informasi/daftar', 'icon'=>'fa-list', 'color'=>'from-blue-400 to-blue-600', 'border'=>'border-blue-200'],
-                ['key'=>'maklumat-pelayanan', 'label'=>'Maklumat Pelayanan', 'url'=>'/layanan-informasi/maklumat', 'icon'=>'fa-certificate', 'color'=>'from-violet-400 to-violet-600', 'border'=>'border-violet-200'],
-                ['key'=>'laporan-layanan', 'label'=>'Laporan Layanan Informasi', 'url'=>'/layanan-informasi/laporan', 'icon'=>'fa-chart-bar', 'color'=>'from-emerald-400 to-emerald-600', 'border'=>'border-emerald-200'],
-                ['key'=>'laporan-akses', 'label'=>'Laporan Akses Informasi', 'url'=>'/layanan-informasi/laporan-akses', 'icon'=>'fa-chart-line', 'color'=>'from-sky-400 to-sky-600', 'border'=>'border-sky-200'],
-                ['key'=>'laporan-survey', 'label'=>'Laporan Survey Kepuasan', 'url'=>'/layanan-informasi/laporan-survey', 'icon'=>'fa-star', 'color'=>'from-rose-400 to-rose-600', 'border'=>'border-rose-200'],
-            ] as $layanan)
-            <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden rounded-xl shadow border-2 {{ $layanan['border'] }} overflow-hidden hover:shadow-md transition-all duration-300">
-                <div class="bg-gradient-to-r {{ $layanan['color'] }} p-3 flex items-center">
-                    <div class="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center mr-2">
-                        <i class="fas {{ $layanan['icon'] }} text-white"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-white font-bold text-sm">{{ $layanan['label'] }}</h3>
-                        @if($profilesData[$layanan['key']]->judul)
-                            <span class="text-xs text-white/80">✓ Ada konten</span>
-                        @else
-                            <span class="text-xs text-white/80">⚠ Belum diisi</span>
-                        @endif
-                    </div>
-                </div>
-                <div class="p-3 flex space-x-2">
-                    <a href="{{ url($layanan['url']) }}" target="_blank"
-                       class="flex-1 px-3 py-2 bg-green-500 text-white text-xs font-bold rounded-lg text-center hover:bg-green-600 transition">
-                        <i class="fas fa-eye mr-1"></i>Lihat
-                    </a>
-                    <a href="{{ route('admin.profil.edit', $layanan['key']) }}"
-                       class="flex-1 px-3 py-2 bg-blue-500 text-white text-xs font-bold rounded-lg text-center hover:bg-blue-600 transition">
-                        <i class="fas fa-edit mr-1"></i>Edit
-                    </a>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
-
-    <!-- ==================== SUMMARY SECTION ==================== -->
-    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-lg border border-slate-200 p-6">
-        <div class="flex justify-between items-center">
-            <div class="flex items-center space-x-8">
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-green-600 rounded-2xl flex items-center justify-center mb-3">
-                        <i class="fas fa-check-circle text-white text-2xl"></i>
-                    </div>
-                    <p class="text-2xl font-black text-slate-200">
-                        {{ collect($profilesData)->filter(function($item) { return $item->judul; })->count() }}
-                    </p>
-                    <p class="text-sm text-slate-300 font-medium">Konten Aktif</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-gradient-to-r from-orange-400 to-red-500 rounded-2xl flex items-center justify-center mb-3">
-                        <i class="fas fa-exclamation-triangle text-white text-2xl"></i>
-                    </div>
-                    <p class="text-2xl font-black text-orange-600">
-                        {{ collect($profilesData)->filter(function($item) { return !$item->judul; })->count() }}
-                    </p>
-                    <p class="text-sm text-slate-300 font-medium">Belum Diisi</p>
-                </div>
-                <div class="text-center">
-                    <div class="w-16 h-16 bg-gradient-to-r from-blue-400 to-blue-600 rounded-2xl flex items-center justify-center mb-3">
-                        <i class="fas fa-folder text-white text-2xl"></i>
-                    </div>
-                    <p class="text-2xl font-black text-blue-600">17</p>
-                    <p class="text-sm text-slate-300 font-medium">Total Halaman</p>
-                </div>
-            </div>
-            <div class="text-slate-300">
-                <i class="fas fa-info-circle mr-2"></i>
-                Klik tombol Edit untuk mengubah konten
-            </div>
-        </div>
-    </div>
-
 </div>
-@endsection
+@endsection

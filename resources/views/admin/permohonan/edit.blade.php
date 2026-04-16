@@ -65,16 +65,16 @@
                     <label for="status" class="form-label">Status Permohonan</label>
                     <select class="form-select @error('status') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" id="status" name="status" required>
                         <option value="pending" {{ $permohonan->status == 'pending' ? 'selected' : '' }}>
-                            ⏱️ Pending (Menunggu Proses)
+                            Pending (Menunggu Proses)
                         </option>
                         <option value="diproses" {{ $permohonan->status == 'diproses' ? 'selected' : '' }}>
-                            ⚙️ Diproses (Sedang Dikerjakan)
+                            Diproses (Sedang Dikerjakan)
                         </option>
                         <option value="selesai" {{ $permohonan->status == 'selesai' ? 'selected' : '' }}>
-                            ✅ Selesai (Sudah Ditanggapi)
+                            Selesai (Sudah Ditanggapi)
                         </option>
                         <option value="ditolak" {{ $permohonan->status == 'ditolak' ? 'selected' : '' }}>
-                            ❌ Ditolak (Tidak Dapat Diberikan)
+                            Ditolak (Tidak Dapat Diberikan)
                         </option>
                     </select>
                     @error('status')

@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Prosedur - PPID PKTJ')
 
@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h2 class="fw-bold text-success">⚙️ Prosedur {{ ucfirst($kategori) }}</h2>
+                    <h2 class="fw-bold text-success">⚠️™ï¸ Prosedur {{ ucfirst($kategori) }}</h2>
                     <p class="text-muted">Standar operasional prosedur {{ $kategori }}</p>
                 </div>
                 <a href="{{ url('/') }}" class="btn btn-outline-secondary">

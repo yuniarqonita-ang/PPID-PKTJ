@@ -1,245 +1,182 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-    <div class="max-w-5xl mx-auto">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
+    <div class="max-w-5xl mx-auto space-y-6">
         
-        <!-- HEADER -->
-        <div class="text-center mb-10">
-            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-red-500 to-orange-500 rounded-full mb-4 shadow-lg">
-                <i class="fas fa-exclamation-triangle text-white text-3xl"></i>
+        <!-- HEADER SECTION -->
+        <div class="flex items-center justify-between gap-4">
+            <div>
+                <a href="{{ route('admin.informasi.sertamerta') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Panel
+                </a>
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
+                    <i class="fas fa-bolt mr-2 text-[#ffc107]"></i> Buat Pengumuman Serta Merta
+                </h1>
+                <p class="text-gray-500 font-medium mt-1">Sediakan informasi penting yang harus segera diketahui publik</p>
             </div>
-            <h1 class="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-red-600 to-orange-600 mb-3">
-                Upload Informasi Serta Merta
-            </h1>
-            <p class="text-slate-300 text-lg">Tambahkan informasi penting yang harus segera disampaikan kepada publik</p>
         </div>
 
         <!-- FORM CARD -->
-        <div class="relative">
-            <div class="absolute -inset-1 bg-gradient-to-r from-red-600 to-orange-600 rounded-3xl blur opacity-30"></div>
-            <div class="relative bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
+        <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-4 border-[#ffc107]">
+            <form action="{{ route('admin.informasi.sertamerta.store') }}" method="POST" enctype="multipart/form-data" class="p-6 md:p-10 space-y-8">
+                @csrf
                 
-                <form action="{{ route('informasi.sertamerta.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    
-                    <!-- JUDUL INFORMASI -->
-                    <div class="mb-8">
-                        <label class="block text-slate-200 font-bold text-lg mb-3">
-                            <i class="fas fa-heading text-red-500 mr-3"></i>Judul Informasi
-                        </label>
-                        <input type="text" name="judul" value="{{ old('judul') }}" 
-                               class="w-full px-5 py-4 rounded-2xl bg-gray-50 border-2 border-slate-600/30 placeholder-gray-400 focus:border-red-400 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all text-lg bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                               placeholder="Masukkan judul informasi serta merta yang jelas dan informatif..." required>
-                        <small class="text-slate-400 text-sm mt-2 block">Maksimal 150 karakter, gunakan judul yang mudah dipahami</small>
-                        @error('judul')
-                            <div class="mt-2 text-red-500 text-sm font-medium">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- DESKRIPSI SINGKAT -->
-                    <div class="mb-8">
-                        <label class="block text-slate-200 font-bold text-lg mb-3">
-                            <i class="fas fa-align-left text-red-500 mr-3"></i>Deskripsi Singkat
-                        </label>
-                        <textarea name="deskripsi_singkat" rows="3" 
-                                  class="w-full px-5 py-4 rounded-2xl bg-gray-50 border-2 border-slate-600/30 placeholder-gray-400 focus:border-red-400 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all text-lg resize-none bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                  placeholder="Tuliskan deskripsi singkat yang menjelaskan inti dari informasi...">{{ old('deskripsi_singkat') }}</textarea>
-                        <small class="text-slate-400 text-sm mt-2 block">Maksimal 250 karakter, akan ditampilkan di halaman daftar informasi</small>
-                        @error('deskripsi_singkat')
-                            <div class="mt-2 text-red-500 text-sm font-medium">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <!-- KONTEN LENGKAP (SUMMERNOTE) -->
-                    <div class="mb-8">
-                        <label class="block text-slate-200 font-bold text-lg mb-3">
-                            <i class="fas fa-file-alt text-red-500 mr-3"></i>Konten Lengkap
-                        </label>
-                        <div class="bg-gray-50 rounded-2xl border-2 border-slate-600/30 overflow-hidden">
-                            <textarea id="summernote-editor" name="konten" class="summernote-editor bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">{{ old('konten') }}</textarea>
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+                    <!-- MAIN FIELDS -->
+                    <div class="lg:col-span-2 space-y-6">
+                        
+                        <!-- JUDUL -->
+                        <div class="space-y-2">
+                            <label for="judul" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                Judul Pengumuman <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="judul" id="judul" value="{{ old('judul') }}" required
+                                class="w-full px-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-[#004a99]/10 focus:border-[#004a99] focus:outline-none transition-all shadow-sm"
+                                placeholder="Contoh: Pemberitahuan Penutupan Jalur Utama">
+                            @error('judul') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>
-                        <small class="text-slate-400 text-sm mt-2 block">Tulis informasi lengkap dengan format yang menarik dan mudah dibaca</small>
-                        @error('konten')
-                            <div class="mt-2 text-red-500 text-sm font-medium">{{ $message }}</div>
-                        @enderror
-                    </div>
 
-                    <!-- TANGGAL PUBLIKASI -->
-                    <div class="mb-8">
-                        <label class="block text-slate-200 font-bold text-lg mb-3">
-                            <i class="fas fa-calendar-alt text-red-500 mr-3"></i>Tanggal Publikasi
-                        </label>
-                        <input type="datetime-local" name="tanggal_publikasi" 
-                               class="w-full px-5 py-4 rounded-2xl bg-gray-50 border-2 border-slate-600/30 text-slate-200 focus:border-red-400 focus:outline-none focus:ring-4 focus:ring-red-100 transition-all text-lg"
-                               value="{{ old('tanggal_publikasi', now()->format('Y-m-d\TH:i')) }}" required>
-                        <small class="text-slate-400 text-sm mt-2 block">Pilih tanggal dan waktu ketika informasi ini akan dipublikasikan</small>
-                        @error('tanggal_publikasi')
-                            <div class="mt-2 text-red-500 text-sm font-medium">{{ $message }}</div>
-                        @enderror
-                    </div>
+                        <!-- DESKRIPSI -->
+                        <div class="space-y-2">
+                            <label for="deskripsi_singkat" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                Deskripsi Singkat
+                            </label>
+                            <textarea name="deskripsi_singkat" id="deskripsi_singkat" rows="3"
+                                class="w-full px-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-[#004a99]/10 focus:border-[#004a99] focus:outline-none transition-all shadow-sm resize-none"
+                                placeholder="Tuliskan ringkasan informasi di sini...">{{ old('deskripsi_singkat') }}</textarea>
+                            @error('deskripsi_singkat') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                        </div>
 
-                    <!-- DOKUMEN TERKAIT -->
-                    <div class="mb-8">
-                        <label class="block text-slate-200 font-bold text-lg mb-3">
-                            <i class="fas fa-paperclip text-red-500 mr-3"></i>Dokumen Terkait
-                        </label>
-                        <div class="border-2 border-dashed border-slate-600 bg-slate-900/50 text-white placeholder-slate-500 rounded-2xl p-8 text-center hover:border-red-400 transition-all bg-gray-50">
-                            <div class="text-gray-400 mb-4">
-                                <i class="fas fa-file-pdf text-6xl"></i>
+                        <!-- KONTEN LENGKAP -->
+                        <div class="space-y-2">
+                            <label class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                Konten Lengkap / Detail <span class="text-red-500">*</span>
+                            </label>
+                            <div class="rounded-2xl overflow-hidden border border-gray-300">
+                                <textarea name="konten" id="editor_sertamerta" class="tinymce-editor">{{ old('konten') }}</textarea>
                             </div>
-                            <input type="file" name="dokumen" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="hidden" id="dokumenInput">
-                            <button type="button" onclick="document.getElementById('dokumenInput').click()" 
-                                    class="px-6 py-3 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-2xl hover:from-red-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg font-medium">
-                                <i class="fas fa-upload mr-2"></i>Pilih Dokumen
-                            </button>
-                            <p class="text-sm text-slate-400 mt-3">Format: PDF, DOC, DOCX, JPG, PNG (Max: 15MB)</p>
-                            <div id="dokumenName" class="mt-3 text-sm text-green-600 font-medium"></div>
+                            @error('konten') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>
-                        @error('dokumen')
-                            <div class="mt-2 text-red-500 text-sm font-medium">{{ $message }}</div>
-                        @enderror
+
                     </div>
 
-                    <!-- TINGKAT KESEGERAAN -->
-                    <div class="mb-8">
-                        <label class="block text-slate-200 font-bold text-lg mb-3">
-                            <i class="fas fa-exclamation-circle text-red-500 mr-3"></i>Tingkat Kesegeraan
-                        </label>
-                        <div class="grid grid-cols-3 gap-4">
-                            <label class="relative cursor-pointer">
-                                <input type="radio" name="tingkat" value="normal" {{ old('tingkat', 'normal') == 'normal' ? 'checked' : '' }} class="peer sr-only" required>
-                                <div class="p-4 border-2 border-slate-600/30 rounded-2xl hover:border-red-400 peer-checked:border-red-500 peer-checked:bg-red-50 transition-all">
-                                    <div class="text-center">
-                                        <i class="fas fa-clock text-2xl text-gray-400 peer-checked:text-red-500 mb-2"></i>
-                                        <p class="font-medium text-slate-300 peer-checked:text-red-400">Normal</p>
-                                        <p class="text-xs text-slate-400">1-24 jam</p>
-                                    </div>
-                                </div>
-                            </label>
-                            <label class="relative cursor-pointer">
-                                <input type="radio" name="tingkat" value="segera" {{ old('tingkat') == 'segera' ? 'checked' : '' }} class="peer sr-only">
-                                <div class="p-4 border-2 border-slate-600/30 rounded-2xl hover:border-orange-400 peer-checked:border-orange-500 peer-checked:bg-orange-50 transition-all">
-                                    <div class="text-center">
-                                        <i class="fas fa-exclamation text-2xl text-gray-400 peer-checked:text-orange-500 mb-2"></i>
-                                        <p class="font-medium text-slate-300 peer-checked:text-orange-400">Segera</p>
-                                        <p class="text-xs text-slate-400">1-6 jam</p>
-                                    </div>
-                                </div>
-                            </label>
-                            <label class="relative cursor-pointer">
-                                <input type="radio" name="tingkat" value="darurat" {{ old('tingkat') == 'darurat' ? 'checked' : '' }} class="peer sr-only">
-                                <div class="p-4 border-2 border-slate-600/30 rounded-2xl hover:border-red-600 peer-checked:border-red-600 peer-checked:bg-red-100 transition-all">
-                                    <div class="text-center">
-                                        <i class="fas fa-bolt text-2xl text-gray-400 peer-checked:text-red-600 mb-2"></i>
-                                        <p class="font-medium text-slate-300 peer-checked:text-red-400">Darurat</p>
-                                        <p class="text-xs text-slate-400">Langsung</p>
-                                    </div>
-                                </div>
-                            </label>
+                    <!-- SIDEBAR / SETTINGS -->
+                    <div class="space-y-6">
+                        
+                        <!-- URGENCY SELECTOR -->
+                        <div class="bg-gray-50 rounded-3xl p-6 border border-gray-200 shadow-inner">
+                            <h3 class="text-xs font-black text-[#004a99] mb-4 uppercase tracking-[0.2em] flex items-center">
+                                <i class="fas fa-exclamation-circle mr-2 text-[#ffc107]"></i> Tingkat Urgensi
+                            </h3>
+                            
+                            <div class="space-y-3">
+                                @foreach([
+                                    ['val' => 'normal', 'label' => 'Normal', 'icon' => 'fa-info-circle', 'color' => 'blue'],
+                                    ['val' => 'segera', 'label' => 'Segera', 'icon' => 'fa-exclamation-triangle', 'color' => 'orange'],
+                                    ['val' => 'darurat', 'label' => 'Darurat', 'icon' => 'fa-bolt', 'color' => 'red'],
+                                ] as $urgency)
+                                    <label class="relative flex items-center p-3 bg-white rounded-xl border border-gray-200 cursor-pointer hover:border-blue-400 transition-all group">
+                                        <input type="radio" name="tingkat" value="{{ $urgency['val'] }}" {{ old('tingkat', 'normal') == $urgency['val'] ? 'checked' : '' }} class="sr-only peer">
+                                        <div class="w-8 h-8 rounded-lg bg-gray-50 text-gray-400 flex items-center justify-center mr-3 peer-checked:bg-{{ $urgency['color'] }}-500 peer-checked:text-white transition-all">
+                                            <i class="fas {{ $urgency['icon'] }} text-xs"></i>
+                                        </div>
+                                        <span class="text-xs font-black uppercase text-gray-500 peer-checked:text-[#004a99] transition-all">{{ $urgency['label'] }}</span>
+                                        <div class="ml-auto opacity-0 peer-checked:opacity-100 text-[#004a99]">
+                                            <i class="fas fa-check-circle"></i>
+                                        </div>
+                                    </label>
+                                @endforeach
+                            </div>
                         </div>
-                        @error('tingkat')
-                            <div class="mt-2 text-red-500 text-sm font-medium">{{ $message }}</div>
-                        @enderror
-                    </div>
 
-                    <!-- ACTION BUTTONS -->
-                    <div class="flex justify-end space-x-4 pt-6 border-t border-slate-600/30">
-                        <a href="{{ route('admin.informasi.sertamerta') }}" class="px-8 py-4 bg-gray-200 text-slate-300 rounded-2xl hover:bg-gray-300 transition-all font-medium text-lg">
-                            <i class="fas fa-times mr-3"></i>Batal
-                        </a>
-                        <button type="submit" class="px-8 py-4 bg-gradient-to-r from-red-500 to-orange-500 text-white rounded-2xl hover:from-red-600 hover:to-orange-600 transition-all transform hover:scale-105 shadow-lg font-medium text-lg">
-                            <i class="fas fa-save mr-3"></i>Simpan Informasi
-                        </button>
+                        <!-- TIME PANEL -->
+                        <div class="bg-gray-50 rounded-3xl p-6 border border-gray-200">
+                            <h3 class="text-xs font-black text-[#004a99] mb-4 uppercase tracking-[0.2em] flex items-center">
+                                <i class="fas fa-clock mr-2 text-[#ffc107]"></i> Waktu Publikasi
+                            </h3>
+                            <input type="datetime-local" name="tanggal_publikasi" required
+                                class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-700 focus:ring-2 focus:ring-[#004a99] focus:outline-none shadow-sm"
+                                value="{{ old('tanggal_publikasi', now()->format('Y-m-d\TH:i')) }}">
+                        </div>
+
+                        <!-- DOCUMENTS PANEL -->
+                        <div class="bg-gray-50 rounded-3xl p-6 border border-gray-200">
+                            <h3 class="text-xs font-black text-[#004a99] mb-4 uppercase tracking-[0.2em] flex items-center">
+                                <i class="fas fa-paperclip mr-2 text-[#ffc107]"></i> Berkas Pendukung
+                            </h3>
+                            <div class="space-y-3">
+                                <div class="relative group cursor-pointer border-2 border-dashed border-gray-300 rounded-2xl p-6 bg-white hover:border-[#004a99] hover:bg-blue-50/50 transition-all text-center" 
+                                     onclick="document.getElementById('dokumenInput').click()">
+                                    <div class="w-10 h-10 bg-blue-50 text-[#004a99] rounded-xl flex items-center justify-center mx-auto mb-2 transition-transform group-hover:scale-110">
+                                        <i class="fas fa-file-upload"></i>
+                                    </div>
+                                    <p class="text-[9px] font-black text-gray-400 uppercase">Klik Untuk Unggah</p>
+                                    <input type="file" name="dokumen" id="dokumenInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="hidden" onchange="handleFileSelect(this)">
+                                </div>
+                                <div id="dokumen-info" class="hidden animate-fade-in-down">
+                                    <div class="flex items-center p-3 bg-white rounded-xl border border-green-200 text-green-600">
+                                        <i class="fas fa-check-circle mr-2"></i>
+                                        <span id="dokumen-name" class="text-[9px] font-black truncate"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
-                </form>
-            </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-end gap-3 text-gray-800">
+                    <button type="button" onclick="history.back()" class="px-8 py-4 bg-gray-100 text-gray-600 font-bold rounded-2xl hover:bg-gray-200 transition-all">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-10 py-4 bg-[#004a99] text-white font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transform hover:scale-[1.02] transition-all flex items-center justify-center">
+                        <i class="fas fa-paper-plane mr-2 text-[#ffc107]"></i> Publikasikan Informasi
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '.tinymce-editor',
+        plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link image table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 400,
+        branding: false,
+        elementpath: false,
+        menubar: false,
+        promotion: false
+    });
 
-<!-- TinyMCE Editor Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        var TINYMCE_CONFIG = {
-            license_key: 'gpl',
-            height: 500,
-            menubar: false,
-            skin: 'oxide-dark',
-            content_css: 'dark',
-            plugins: [
-                'advlist','autolink','lists','link','image','charmap',
-                'searchreplace','visualblocks','code','fullscreen',
-                'insertdatetime','media','table','help','wordcount'
-            ],
-            toolbar:
-                'undo redo | styles | bold italic underline strikethrough | ' +
-                'fontfamily fontsize forecolor backcolor | ' +
-                'alignleft aligncenter alignright alignjustify | ' +
-                'bullist numlist outdent indent | ' +
-                'table link image charmap | removeformat code fullscreen',
-            toolbar_mode: 'wrap',
-            fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 28pt 32pt 36pt 48pt 72pt',
-            font_family_formats:
-                'Arial=arial,helvetica,sans-serif;' +
-                'Arial Black=arial black,avant garde;' +
-                'Comic Sans MS=comic sans ms,sans-serif;' +
-                'Courier New=courier new,courier;' +
-                'Georgia=georgia,palatino;' +
-                'Helvetica=helvetica;' +
-                'Impact=impact,chicago;' +
-                'Inter=inter,sans-serif;' +
-                'Tahoma=tahoma,arial,helvetica,sans-serif;' +
-                'Times New Roman=times new roman,times;' +
-                'Trebuchet MS=trebuchet ms,geneva;' +
-                'Verdana=verdana,geneva',
-            style_formats: [
-                { title: 'Heading 1', block: 'h1' },
-                { title: 'Heading 2', block: 'h2' },
-                { title: 'Heading 3', block: 'h3' },
-                { title: 'Heading 4', block: 'h4' },
-                { title: 'Paragraph', block: 'p' },
-                { title: 'Blockquote', block: 'blockquote' }
-            ],
-            table_toolbar:
-                'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | ' +
-                'tableinsertcolbefore tableinsertcolafter tabledeletecol',
-            content_style:
-                'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.75; color: #f8fafc; background: transparent; padding: 12px; padding: 12px; } ' +
-                'table { border-collapse: collapse; width: 100%; } ' +
-                'table td, table th { border: 1px solid #ddd; padding: 8px 12px; }' +
-                'table th { background: #f1f5f9; font-weight: 600; }'
-        };
-
-        document.addEventListener('DOMContentLoaded', function() {
-            tinymce.init(Object.assign({}, TINYMCE_CONFIG, { selector: '#summernote-editor' }));
-        });
-
-        // Auto-sync TinyMCE on form submit
-        document.querySelector('form').addEventListener('submit', function() {
-            tinymce.triggerSave();
-        });
-        
-        // Document upload handler
-        const dokumenInput = document.getElementById('dokumenInput');
-        const dokumenName = document.getElementById('dokumenName');
-        
-        dokumenInput.addEventListener('change', function(e) {
-            if (e.target.files.length > 0) {
-                const file = e.target.files[0];
-                const fileSize = (file.size / 1024 / 1024).toFixed(2);
-                dokumenName.innerHTML = `<i class="fas fa-check-circle text-green-500 mr-2"></i>File selected: ${file.name} (${fileSize} MB)`;
-                
-                // Validate file size
-                if (file.size > 15 * 1024 * 1024) {
-                    dokumenName.innerHTML = `<i class="fas fa-exclamation-triangle text-red-500 mr-2"></i>File too large: ${file.name} (${fileSize} MB - Max: 15MB)`;
-                    dokumenInput.value = '';
-                }
-            } else {
-                dokumenName.textContent = '';
+    function handleFileSelect(input) {
+        if (input.files && input.files[0]) {
+            const file = input.files[0];
+            const info = document.getElementById('dokumen-info');
+            const nameEl = document.getElementById('dokumen-name');
+            
+            if (file.size > 15 * 1024 * 1024) {
+                alert('Ukuran file terlalu besar! Maksimal 15MB.');
+                input.value = '';
+                return;
             }
-        });
-    </script>
+
+            nameEl.innerText = file.name;
+            info.classList.remove('hidden');
+        }
+    }
+</script>
+
+<style>
+    .animate-fade-in-down { animation: fadeInDown 0.4s ease-out; }
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 @endsection

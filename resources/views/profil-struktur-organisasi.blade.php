@@ -226,133 +226,105 @@
     <div class="hero-section">
         <div class="hero-content">
             <div class="container">
-                <h1 class="display-5 fw-bold mb-3">Struktur Organisasi PPID</h1>
-                <p class="lead">Pejabat Pengelola Informasi dan Dokumentasi</p>
+                <h1 class="display-5 fw-bold mb-3">{{ $profil->judul ?? 'Struktur Organisasi PPID' }}</h1>
+                <p class="lead">{{ $profil->tagline_hero ?? 'Pejabat Pengelola Informasi dan Dokumentasi' }}</p>
             </div>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="container py-5">
-        <h1 class="page-title">Struktur Organisasi PPID</h1>
+        <h1 class="page-title">{{ $profil->judul ?? 'Struktur Organisasi PPID' }}</h1>
 
+        @if($profil->konten_pembuka)
         <div class="content-box">
             <h2 class="section-title">Dasar Hukum Pembentukan</h2>
             <div class="profil-content">
-                <p>Struktur organisasi PPID PKTJ dibentuk berdasarkan:</p>
-                <ul>
-                    <li>Peraturan Menteri Perhubungan Nomor PM 123 Tahun 2017 tentang Pejabat Pengelola Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan</li>
-                    <li>Keputusan Menteri Perhubungan Nomor KM 234 Tahun 2018 tentang Pembentukan PPID di Lingkungan Kementerian Perhubungan</li>
-                    <li>Keputusan Direktur Jenderal Perhubungan Udara Nomor KP 345 Tahun 2018 tentang Struktur Organisasi PPID PKTJ</li>
-                </ul>
+                {!! $profil->konten_pembuka !!}
             </div>
         </div>
+        @endif
 
-        <div class="content-box">
-            <h2 class="section-title">Diagram Struktur Organisasi</h2>
-            <div class="org-chart">
-                <!-- Direktur -->
-                <div class="org-level">
-                    <div class="org-box director">
-                        <strong>DIREKTUR PKTJ</strong><br>
-                        <small>Pembina PPID</small>
-                    </div>
-                </div>
+        @if($profil->additional_sections)
+            @foreach($profil->additional_sections as $section)
+                <div class="content-box">
+                    <h2 class="section-title">{{ $section['title'] }}</h2>
+                    
+                    @if(($section['layout'] ?? 'default') === 'diagram')
+                        <div class="org-chart">
+                            <!-- Direktur -->
+                            <div class="org-level">
+                                <div class="org-box director">
+                                    <strong>DIREKTUR PKTJ</strong><br>
+                                    <small>Pembina PPID</small>
+                                </div>
+                            </div>
 
-                <!-- Garis vertikal -->
-                <div class="org-line"></div>
+                            <!-- Garis vertikal -->
+                            <div class="org-line"></div>
 
-                <!-- Koordinator PPID -->
-                <div class="org-level">
-                    <div class="org-box">
-                        <strong>KOORDINATOR PPID</strong><br>
-                        <small>Kepala Bagian/Program</small>
-                    </div>
-                </div>
+                            <!-- Koordinator PPID -->
+                            <div class="org-level">
+                                <div class="org-box">
+                                    <strong>KOORDINATOR PPID</strong><br>
+                                    <small>Kepala Bagian/Program</small>
+                                </div>
+                            </div>
 
-                <!-- Garis vertikal -->
-                <div class="org-line"></div>
+                            <!-- Garis vertikal -->
+                            <div class="org-line"></div>
 
-                <!-- Tim PPID -->
-                <div class="org-level">
-                    <div class="org-box">
-                        <strong>TIM PPID</strong><br>
-                        <small>Staff Teknis</small>
-                    </div>
-                    <div class="org-box">
-                        <strong>TIM PPID</strong><br>
-                        <small>Staff Teknis</small>
-                    </div>
-                    <div class="org-box">
-                        <strong>TIM PPID</strong><br>
-                        <small>Staff Teknis</small>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Koordinator PPID</h2>
-            <div class="profil-content">
-                <p>Koordinator PPID PKTJ dijabat oleh seorang pejabat struktural yang memiliki kompetensi di bidang pengelolaan informasi dan dokumentasi. Koordinator PPID bertanggung jawab langsung kepada Direktur PKTJ.</p>
-
-                <p><strong>Tugas Koordinator PPID:</strong></p>
-                <ul>
-                    <li>Merencanakan dan mengkoordinasikan kegiatan PPID</li>
-                    <li>Mengawasi pelaksanaan tugas anggota tim PPID</li>
-                    <li>Melaporkan kegiatan PPID kepada Direktur PKTJ</li>
-                    <li>Menyampaikan laporan keterbukaan informasi kepada Komisi Informasi</li>
-                    <li>Menetapkan kebijakan teknis pengelolaan informasi dan dokumentasi</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Tim PPID</h2>
-            <div class="profil-content">
-                <p>Tim PPID terdiri dari pegawai yang memiliki kompetensi di bidang pengelolaan informasi, dokumentasi, dan teknologi informasi. Tim PPID bekerja di bawah koordinasi Koordinator PPID.</p>
-
-                <p><strong>Tugas Tim PPID:</strong></p>
-                <ul>
-                    <li>Mengumpulkan dan mendokumentasikan informasi publik</li>
-                    <li>Mengelola sistem informasi dan dokumentasi</li>
-                    <li>Melayani permintaan informasi publik</li>
-                    <li>Mengembangkan konten website PPID</li>
-                    <li>Melakukan pengujian dan klasifikasi informasi</li>
-                    <li>Menyusun laporan pelaksanaan keterbukaan informasi</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="content-box">
-            <h2 class="section-title">Kompetensi Tim PPID</h2>
-            <div class="profil-content">
-                <p>Tim PPID harus memiliki kompetensi dalam bidang:</p>
-                <div class="row mt-4">
-                    <div class="col-md-4 mb-3">
-                        <div class="text-center">
-                            <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
-                            <h5 class="text-primary fw-bold">PENGELOLAAN DOKUMEN</h5>
-                            <p>Kemampuan mengelola arsip dan dokumentasi</p>
+                            <!-- Tim PPID -->
+                            <div class="org-level">
+                                <div class="org-box">
+                                    <strong>TIM PPID</strong><br>
+                                    <small>Staff Teknis</small>
+                                </div>
+                                <div class="org-box">
+                                    <strong>TIM PPID</strong><br>
+                                    <small>Staff Teknis</small>
+                                </div>
+                                <div class="org-box">
+                                    <strong>TIM PPID</strong><br>
+                                    <small>Staff Teknis</small>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="text-center">
-                            <i class="fas fa-search fa-3x text-info mb-3"></i>
-                            <h5 class="text-info fw-bold">INFORMASI PUBLIK</h5>
-                            <p>Pemahaman UU KIP dan regulasi terkait</p>
+                    @elseif(($section['layout'] ?? 'default') === 'cards')
+                        <div class="profil-content">
+                            {!! $section['content'] !!}
+                            <div class="row mt-4">
+                                <div class="col-md-4 mb-3">
+                                    <div class="text-center">
+                                        <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
+                                        <h5 class="text-primary fw-bold">PENGELOLAAN DOKUMEN</h5>
+                                        <p>Kemampuan mengelola arsip dan dokumentasi</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="text-center">
+                                        <i class="fas fa-search fa-3x text-info mb-3"></i>
+                                        <h5 class="text-info fw-bold">INFORMASI PUBLIK</h5>
+                                        <p>Pemahaman UU KIP dan regulasi terkait</p>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <div class="text-center">
+                                        <i class="fas fa-laptop fa-3x text-warning mb-3"></i>
+                                        <h5 class="text-warning fw-bold">TEKNOLOGI INFORMASI</h5>
+                                        <p>Kemampuan mengelola sistem informasi</p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-                    <div class="col-md-4 mb-3">
-                        <div class="text-center">
-                            <i class="fas fa-laptop fa-3x text-warning mb-3"></i>
-                            <h5 class="text-warning fw-bold">TEKNOLOGI INFORMASI</h5>
-                            <p>Kemampuan mengelola sistem informasi</p>
+                    @else
+                        <div class="profil-content">
+                            {!! $section['content'] !!}
                         </div>
-                    </div>
+                    @endif
                 </div>
-            </div>
-        </div>
+            @endforeach
+        @endif
     </div>
 
     <!-- Footer -->
@@ -374,7 +346,7 @@
             <hr class="my-4 bg-light">
             <div class="text-center">
                 <p class="mb-0">&copy; 2026 PPID PKTJ. All rights reserved.</p>
-                <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+                <p class="mb-0">Dikembangkan dengan â¤ï¸ untuk kemudahan akses informasi publik</p>
             </div>
         </div>
     </footer>

@@ -12,26 +12,52 @@ class PermohonanController extends Controller
     private function getFormSchema()
     {
         if (Storage::disk('public')->exists('form_schema.json')) {
-            return json_decode(Storage::disk('public')->get('form_schema.json'), true);
+            $data = json_decode(Storage::disk('public')->get('form_schema.json'), true);
+            
+            // Handle old format (array of fields)
+            if (is_array($data) && array_values($data) === $data) {
+                return [
+                    'section_title' => 'INFORMASI TAMBAHAN',
+                    'fields' => $data
+                ];
+            }
+            
+            // New format (object with section_title and fields)
+            return array_merge([
+                'section_title' => 'INFORMASI TAMBAHAN',
+                'fields' => []
+            ], (array)$data);
         }
-        return [];
+        
+        return [
+            'section_title' => 'INFORMASI TAMBAHAN',
+            'fields' => []
+        ];
     }
 
     public function form()
     {
-        $customFields = $this->getFormSchema();
-        return view('permohonan.form', compact('customFields'));
+        $schema = $this->getFormSchema();
+        $sectionTitle = $schema['section_title'];
+        $customFields = $schema['fields'];
+        return view('permohonan.form', compact('customFields', 'sectionTitle'));
     }
 
     public function adminForm()
     {
-        $customFields = $this->getFormSchema();
-        return view('admin.permohonan.form', compact('customFields'));
+        $schema = $this->getFormSchema();
+        $sectionTitle = $schema['section_title'];
+        $customFields = $schema['fields'];
+        return view('admin.permohonan.form', compact('customFields', 'sectionTitle'));
     }
 
     public function saveForm(Request $request)
     {
-        $schema = func_get_args()[0]->input('schema', []);
+        $schema = [
+            'section_title' => $request->input('section_title', 'INFORMASI TAMBAHAN'),
+            'fields' => $request->input('fields', [])
+        ];
+        
         Storage::disk('public')->put('form_schema.json', json_encode($schema));
         return response()->json(['success' => true]);
     }
@@ -83,7 +109,7 @@ class PermohonanController extends Controller
 
         Permohonan::create($validated);
 
-        return redirect()->back()->with('success', 'Registrasi dan permohonan informasi berhasil dikirimkan. Silakan tunggu konfirmasi kami melalui email.');
+        return redirect()->route('home')->with('success', 'Registrasi dan permohonan informasi Anda berhasil dikirimkan! Akun Anda telah dibuat. Silakan tunggu konfirmasi lebih lanjut melalui email yang terdaftar.');
     }
 
     public function index()

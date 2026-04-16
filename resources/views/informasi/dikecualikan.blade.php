@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('title', 'Informasi Dikecualikan - PPID PKTJ')
 
@@ -8,7 +8,7 @@
         <div class="col-12">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <div>
-                    <h2 class="fw-bold text-danger">🔒 Informasi Dikecualikan</h2>
+                    <h2 class="fw-bold text-danger">ðŸ”’ Informasi Dikecualikan</h2>
                     <p class="text-muted">Informasi yang dikecualikan dari keterbukaan</p>
                 </div>
                 <a href="{{ url('/') }}" class="btn btn-outline-secondary">

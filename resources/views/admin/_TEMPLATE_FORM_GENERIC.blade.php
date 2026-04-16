@@ -1,210 +1,136 @@
 {{-- 
-    TEMPLATE FORM GENERIK UNTUK ADMIN PANEL
+    TEMPLATE FORM GENERIK UNTUK ADMIN PANEL (VERSI PKTJ BRIGHT CORPORATE)
     Guna: Copy-paste template ini untuk membuat form baru
-    Editor: CKEditor 5 Community Edition (Gratis, No API Key)
-    
-    INSTRUKSI PENGGUNAAN:
-    1. Copy file ini menjadi blade file baru
-    2. Ubah judul, icon, dan deskripsi sesuai kebutuhan
-    3. Sesuaikan field form dengan requirements
-    4. Update route action="{{ route('...') }}"
-    5. Integrasikan dengan controller & database
+    Editor: TinyMCE (Modern, clean, and reliable)
 --}}
 
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-5 mb-5">
-    <!-- Header Section -->
-    <div class="row mb-4">
-        <div class="col-12">
-            <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-sm mb-3">
-                <i class="fas fa-arrow-left me-2"></i> Kembali ke Dashboard
-            </a>
-            <h2 class="display-5 fw-bold text-primary">
-                {{-- UBAH ICON --}}
-                <i class="fas fa-file me-2"></i> 
-                {{-- UBAH JUDUL --}}
-                Nama Menu Admin
-            </h2>
-            {{-- UBAH DESKRIPSI --}}
-            <p class="text-muted">Deskripsi menu dan fungsinya...</p>
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6">
+    <div class="max-w-5xl mx-auto space-y-6">
+        
+        <!-- HEADER SECTION -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Dashboard
+                </a>
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
+                    <i class="fas fa-edit mr-2"></i> Nama Menu Admin
+                </h1>
+                <p class="text-gray-500 font-medium">Deskripsi menu dan fungsinya di sini...</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="px-3 py-1 bg-blue-100 text-[#004a99] rounded-full text-xs font-bold uppercase tracking-wider">Draft Mode</span>
+            </div>
         </div>
-    </div>
 
-    <!-- Alert Messages -->
-    @if($errors->any())
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <h5 class="alert-heading"><i class="fas fa-exclamation-circle me-2"></i> Terjadi Kesalahan!</h5>
-            <ul class="mb-0">
-                @foreach($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    @if(session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i> {{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-    @endif
-
-    <!-- Main Form Card -->
-    <div class="card border-0 shadow-lg">
-        <div class="card-body p-5">
-            {{-- UBAH route action --}}
-            <form action="{{ route('example.route') }}" method="POST" enctype="multipart/form-data">
+        <!-- FORM SECTION -->
+        <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-4 border-[#ffc107]">
+            <form action="{{ route('dashboard') }}" method="POST" enctype="multipart/form-data" class="p-6 md:p-10">
                 @csrf
-                @method('PUT') {{-- Gunakan PUT untuk update, hapus untuk create --}}
+                {{-- @method('PUT') --}}
 
-                <div class="row">
-                    <!-- Left Column: Main Content (75%) -->
-                    <div class="col-lg-8">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- LEFT COLUMN: MAIN CONTENT -->
+                    <div class="lg:col-span-2 space-y-6">
                         
-                        <!-- Field 1: Judul -->
-                        <div class="mb-4">
-                            <label for="judul" class="form-label fw-bold">
-                                <i class="fas fa-heading me-2"></i> Judul
+                        <!-- FIELD 1: JUDUL -->
+                        <div class="space-y-2">
+                            <label for="judul" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                <i class="fas fa-heading mr-2 text-[#ffc107]"></i> Judul Konten
                             </label>
-                            <input type="text" 
-                                   class="form-control form-control-lg @error('judul') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" 
-                                   id="judul" 
-                                   name="judul" 
-                                   placeholder="Ketik judul di sini..."
-                                   value="{{ old('judul', '') }}"
-                                   required>
-                            @error('judul')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            <input type="text" name="judul" id="judul" 
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent transition-all shadow-sm"
+                                placeholder="Ketik judul di sini..." value="{{ old('judul') }}" required>
+                            @error('judul') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>
 
-                        <!-- Field 2: Deskripsi Singkat -->
-                        <div class="mb-4">
-                            <label for="deskripsi" class="form-label fw-bold">
-                                <i class="fas fa-align-left me-2"></i> Deskripsi Singkat
+                        <!-- FIELD 2: DESKRIPSI SINGKAT -->
+                        <div class="space-y-2">
+                            <label for="deskripsi" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                <i class="fas fa-align-left mr-2 text-[#ffc107]"></i> Deskripsi Singkat
                             </label>
-                            <textarea class="form-control @error('deskripsi') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" 
-                                      id="deskripsi" 
-                                      name="deskripsi" 
-                                      rows="3" 
-                                      placeholder="Penjelasan singkat...">{{ old('deskripsi', '') }}</textarea>
-                            @error('deskripsi')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
+                            <textarea name="deskripsi" id="deskripsi" rows="3"
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent transition-all shadow-sm"
+                                placeholder="Tulis ringkasan singkat...">{{ old('deskripsi') }}</textarea>
                         </div>
 
-                        <!-- Field 3: Konten Utama (dengan CKEditor) -->
-                        <div class="mb-4">
-                            <label for="konten" class="form-label fw-bold">
-                                <i class="fas fa-pen-fancy me-2"></i> Konten Lengkap
+                        <!-- FIELD 3: KONTEN LENGKAP -->
+                        <div class="space-y-2">
+                            <label for="editor" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                <i class="fas fa-pen-fancy mr-2 text-[#ffc107]"></i> Isi Konten Lengkap
                             </label>
-                            <small class="d-block text-muted mb-2">
-                                Gunakan editor di bawah untuk formatting lengkap: bold, italic, list, tabel, link, gambar, dll
-                            </small>
-                            <textarea id="editor" 
-                                      name="konten" 
-                                      class="form-control form-editor @error('konten') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">{{ old('konten', '') }}</textarea>
-                            @error('konten')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Field 4: Tanggal (Optional) -->
-                        <div class="mb-4">
-                            <label for="tanggal" class="form-label fw-bold">
-                                <i class="fas fa-calendar me-2"></i> Tanggal Publikasi
-                            </label>
-                            <input type="date" 
-                                   class="form-control @error('tanggal') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" 
-                                   id="tanggal" 
-                                   name="tanggal"
-                                   value="{{ old('tanggal', date('Y-m-d')) }}">
-                            @error('tanggal')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Field 5: File Upload (Optional) -->
-                        <div class="mb-4">
-                            <label for="dokumen" class="form-label fw-bold">
-                                <i class="fas fa-file-upload me-2"></i> Upload Dokumen (Opsional)
-                            </label>
-                            <div class="input-group">
-                                <input type="file" 
-                                       class="form-control @error('dokumen') is-invalid @enderror" 
-                                       id="dokumen" 
-                                       name="dokumen">
-                                <span class="input-group-text">Max 10MB</span>
+                            <div class="rounded-xl overflow-hidden border border-gray-300">
+                                <textarea name="konten" id="editor" class="tinymce-editor">{{ old('konten') }}</textarea>
                             </div>
-                            <small class="d-block text-muted mt-2">
-                                Format yang didukung: PDF, DOC, DOCX, XLS, XLSX, ZIP
-                            </small>
-                            @error('dokumen')
-                                <div class="invalid-feedback d-block">{{ $message }}</div>
-                            @enderror
                         </div>
 
                     </div>
 
-                    <!-- Right Column: Info & Sidebar (25%) -->
-                    <div class="col-lg-4">
+                    <!-- RIGHT COLUMN: SIDEBAR -->
+                    <div class="space-y-6">
                         
-                        <!-- Info Card -->
-                        <div class="card bg-light">
-                            <div class="card-body">
-                                <h6 class="card-title fw-bold mb-3">
-                                    <i class="fas fa-lightbulb text-warning me-2"></i> Panduan Pengisian
-                                </h6>
-                                <div class="small text-muted">
-                                    <p>
-                                        <strong>Judul:</strong><br>
-                                        Singkat, jelas, dan deskriptif. Hindari judul yang terlalu panjang.
-                                    </p>
-                                    <p>
-                                        <strong>Deskripsi:</strong><br>
-                                        Ringkasan maksimal 100-150 kata yang menjelaskan isi konten.
-                                    </p>
-                                    <p>
-                                        <strong>Konten:</strong><br>
-                                        Gunakan formatting (bold, italic, list, tabel) untuk memperjelas.
-                                    </p>
-                                    <p>
-                                        <strong>Tanggal:</strong><br>
-                                        Kapan konten ini dipublikasikan?
-                                    </p>
-                                    <p>
-                                        <strong>Dokumen:</strong><br>
-                                        File pendukung jika ada (opsional).
-                                    </p>
+                        <!-- PUBLICATION SETTINGS -->
+                        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                            <h3 class="text-md font-bold text-[#004a99] mb-4 uppercase flex items-center">
+                                <i class="fas fa-cog mr-2"></i> Pengaturan
+                            </h3>
+                            
+                            <div class="space-y-4">
+                                <div>
+                                    <label for="tanggal" class="block text-xs font-bold text-gray-500 uppercase mb-1">Tanggal</label>
+                                    <input type="date" name="tanggal" id="tanggal" 
+                                        class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                                        value="{{ date('Y-m-d') }}">
+                                </div>
+                                
+                                <div>
+                                    <label for="kategori" class="block text-xs font-bold text-gray-500 uppercase mb-1">Kategori</label>
+                                    <select name="kategori_id" id="kategori" class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]">
+                                        <option value="">-- Pilih --</option>
+                                    </select>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Highlight Card -->
-                        <div class="card bg-info bg-opacity-10 border-info mt-3">
-                            <div class="card-body small">
-                                <i class="fas fa-info-circle text-info me-2"></i>
-                                <strong>Catatan:</strong> Semua konten akan ditampilkan di halaman publik. 
-                                Pastikan konten akurat dan sesuai dengan regulasi.
+                        <!-- FILE ATTACHMENT -->
+                        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
+                            <h3 class="text-md font-bold text-[#004a99] mb-4 uppercase flex items-center">
+                                <i class="fas fa-paperclip mr-2 text-[#ffc107]"></i> Lampiran
+                            </h3>
+                            <div class="flex flex-col items-center justify-center border-2 border-dashed border-gray-300 rounded-xl p-4 bg-white hover:bg-gray-50 transition-colors cursor-pointer group" onclick="document.getElementById('file-input').click()">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-gray-300 group-hover:text-[#004a99] mb-2 transition-colors"></i>
+                                <span class="text-xs text-gray-500 font-medium">Klik untuk upload file</span>
+                                <input type="file" id="file-input" name="file" class="hidden">
                             </div>
+                            <p class="text-[10px] text-gray-400 mt-2 text-center">PDF, DOCX, atau Gambar (Max 10MB)</p>
+                        </div>
+
+                        <!-- HELP CARD -->
+                        <div class="bg-[#004a99] rounded-2xl p-6 text-white shadow-lg">
+                            <h4 class="font-bold mb-2 flex items-center">
+                                <i class="fas fa-lightbulb mr-2 text-[#ffc107]"></i> Tips
+                            </h4>
+                            <ul class="text-xs space-y-2 opacity-90 leading-relaxed">
+                                <li>• Gunakan <strong>Heading</strong> untuk membagi konten.</li>
+                                <li>• Tambahkan link internal untuk navigasi user.</li>
+                                <li>• Pastikan gambar memiliki resolusi yang baik.</li>
+                            </ul>
                         </div>
 
                     </div>
                 </div>
 
-                <!-- Form Actions -->
-                <div class="row mt-5">
-                    <div class="col-12 d-flex gap-2 justify-content-end">
-                        <a href="{{ route('dashboard') }}" class="btn btn-secondary btn-lg">
-                            <i class="fas fa-times me-2"></i> Batal
-                        </a>
-                        <button type="submit" class="btn btn-primary btn-lg">
-                            <i class="fas fa-save me-2"></i> Simpan Perubahan
-                        </button>
-                    </div>
+                <!-- ACTIONS -->
+                <div class="mt-10 pt-6 border-t border-gray-200 flex flex-col md:flex-row justify-end gap-3">
+                    <button type="button" onclick="history.back()" class="px-6 py-3 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-all flex items-center justify-center">
+                        <i class="fas fa-times mr-2"></i> Batal
+                    </button>
+                    <button type="submit" class="px-8 py-3 bg-gradient-to-r from-[#004a99] to-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transform hover:scale-[1.02] transition-all flex items-center justify-center">
+                        <i class="fas fa-save mr-2 text-[#ffc107]"></i> Simpan Perubahan
+                    </button>
                 </div>
 
             </form>
@@ -212,128 +138,30 @@
     </div>
 </div>
 
-<!-- CKEditor 5 Community Edition -->
-<script src="https://cdn.ckeditor.com/ckeditor5/41.0.0/classic/ckeditor.js"></script>
+{{-- INCLUDE TINYMCE --}}
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        ClassicEditor
-            .create(document.querySelector('#editor'), {
-                // Toolbar Configuration
-                toolbar: {
-                    items: [
-                        'heading', '|',
-                        'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', '|',
-                        'bold', 'italic', 'underline', 'strikethrough', '|',
-                        'alignment', 'outdent', 'indent', '|',
-                        'bulletedList', 'numberedList', '|',
-                        'link', 'imageUpload', 'insertTable', '|',
-                        'blockQuote', 'codeBlock', '|',
-                        'undo', 'redo'
-                    ],
-                    shouldNotGroupWhenFull: true
-                },
-                
-                // Heading Options
-                heading: {
-                    options: [
-                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-                        { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' }
-                    ]
-                },
-                
-                // Font Size Options
-                fontSize: {
-                    options: [ 10, 12, 14, 'default', 18, 20, 22, 24 ],
-                    supportAllValues: true
-                },
-                
-                // Font Family Options
-                fontFamily: {
-                    options: [
-                        'default',
-                        'Arial, sans-serif',
-                        'Georgia, serif',
-                        'Courier New, monospace',
-                        'Segoe UI, sans-serif'
-                    ]
-                },
-                
-                // Table Configuration
-                table: {
-                    contentToolbar: [ 'tableColumn', 'tableRow', 'mergeTableCells' ]
-                },
-                
-                // Image Configuration
-                image: {
-                    toolbar: [ 'imageTextAlternative', 'imageStyle:alignLeft', 'imageStyle:alignCenter', 'imageStyle:alignRight' ],
-                    styles: [ 'full', 'side', 'alignLeft', 'alignCenter', 'alignRight' ]
-                },
-                
-                // Link Configuration
-                link: {
-                    decorators: {
-                        addTargetToExternalLinks: true,
-                        defaultProtocol: 'https://',
-                        toggleDownloadable: {
-                            mode: 'manual',
-                            label: 'Downloadable',
-                            attributes: { download: 'file' }
-                        }
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('CKEditor Error:', error);
-            });
+    tinymce.init({
+        selector: '.tinymce-editor',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 400,
+        skin: 'oxide',
+        content_css: 'default',
+        branding: false,
+        elementpath: false,
+        menubar: false,
+        promotion: false
     });
 </script>
 
-<!-- Form Styles -->
 <style>
-    /* Editor Height */
-    .form-control.form-editor {
-        min-height: 300px;
-        border: 1px solid #dee2e6;
-        border-radius: 0.375rem;
-        padding: 0.75rem 1.25rem;
+    /* Styling for TinyMCE inside the rounded container */
+    .tox-tinymce {
+        border: none !important;
     }
-    
-    /* Display 5 Heading Style */
-    .display-5 {
-        font-size: 2rem;
-        font-weight: 600;
-        letter-spacing: -0.015em;
-    }
-    
-    /* CKEditor Custom Styling */
-    .ck-editor__editable {
-        min-height: 300px;
-        font-size: 15px;
-        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
-    
-    /* Form Control Styling */
-    .form-control-lg {
-        font-size: 1.0625rem;
-        padding: 0.75rem 1rem;
-        border-radius: 0.375rem;
-        border: 2px solid #e5e7eb;
-        transition: all 0.3s ease;
-    }
-    
-    .form-control-lg:focus {
-        border-color: #3b82f6;
-        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-    }
-    
-    /* Responsive Grid */
-    @media (max-width: 991px) {
-        .col-lg-8, .col-lg-4 {
-            margin-bottom: 2rem;
-        }
+    .tox .tox-toolbar-overlord {
+        background-color: #f8f9fa !important;
     }
 </style>
-
 @endsection

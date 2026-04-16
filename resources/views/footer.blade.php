@@ -1,4 +1,4 @@
-<footer class="mt-5 pt-5 pb-4" style="background-color: #1a1c2e; color: #cbd5e1;">
+﻿<footer class="mt-5 pt-5 pb-4" style="background-color: #1a1c2e; color: #cbd5e1;">
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-4">

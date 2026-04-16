@@ -1,4 +1,4 @@
-<!-- Numbered List Modal -->
+﻿<!-- Numbered List Modal -->
 <div class="modal fade" id="numberedListModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

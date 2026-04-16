@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
@@ -7,7 +7,7 @@
         <!-- HEADER -->
         <div class="text-center mb-8">
             <h1 class="text-4xl font-black text-white drop-shadow-lg mb-2">
-                📝 Buat Berita Baru
+                ðŸ“ Buat Berita Baru
             </h1>
             <p class="text-cyan-300">Tulis dan publikasikan berita terbaru PPID PKTJ</p>
         </div>

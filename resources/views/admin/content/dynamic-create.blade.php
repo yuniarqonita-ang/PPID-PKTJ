@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
@@ -9,7 +9,7 @@
         <div class="flex justify-between items-center">
             <div>
                 <h1 class="text-3xl font-bold bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25 ring-1 ring-cyan-400/30 bg-clip-text text-transparent">
-                    ✏️ Kelola Konten Dinamis
+                    ✓ï¸ Kelola Konten Dinamis
                 </h1>
                 <p class="text-slate-300 mt-2">Buat konten dengan beberapa bagian yang dapat ditambahkan secara dinamis</p>
             </div>

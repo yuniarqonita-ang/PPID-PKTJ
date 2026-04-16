@@ -1,4 +1,4 @@
-<!-- Insert Anchor Modal -->
+﻿<!-- Insert Anchor Modal -->
 <div class="modal fade" id="insertAnchorModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

@@ -1,227 +1,148 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-[#0D1117] via-[#161B22] to-[#0D1117] p-6 text-slate-300">
-    <div class="max-w-5xl mx-auto">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
+    <div class="max-w-5xl mx-auto space-y-8">
 
-    <!-- HEADER -->
-    <div class="flex justify-between items-center mb-8">
-        <div>
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-300 drop-shadow-md">Form Builder: Permohonan Informasi</h1>
-            <p class="text-sm mt-2 text-slate-400">Atur dan modifikasi form registrasi yang tampil di halaman publik.</p>
+        <!-- HEADER SECTION -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <a href="{{ route('admin.permohonan.index') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Panel
+                </a>
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
+                    <i class="fas fa-tools mr-2 text-[#ffc107]"></i> Form Builder PPID
+                </h1>
+                <p class="text-gray-500 font-medium mt-1 uppercase tracking-widest text-[10px]">Modifikasi formulir registrasi untuk pemohon informasi</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button id="btn-save-form" class="px-8 py-3 bg-[#004a99] text-white font-black uppercase tracking-widest rounded-2xl shadow-lg hover:bg-blue-800 transition-all flex items-center justify-center">
+                    <i class="fas fa-save mr-2 text-[#ffc107]"></i> Simpan Perubahan
+                </button>
+            </div>
         </div>
-        <div class="flex space-x-3">
-            <a href="{{ route('admin.permohonan.index') }}" class="px-5 py-2.5 rounded-lg border border-slate-700 bg-slate-800 text-slate-300 hover:bg-slate-700 transition duration-300 flex items-center gap-2">
-                <i class="fas fa-times"></i> Batal
-            </a>
-            <button class="px-5 py-2.5 rounded-lg bg-gradient-to-r from-blue-600 to-cyan-600 text-white font-medium hover:from-blue-500 hover:to-cyan-500 transition duration-300 shadow-[0_0_15px_rgba(6,182,212,0.4)] flex items-center gap-2">
-                <i class="fas fa-save"></i> Simpan Form
-            </button>
-        </div>
-    </div>
 
-    <!-- MAIN BUILDER WORKSPACE -->
-    <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
-        
-        <!-- SIDEBAR TOOLS -->
-        <div class="lg:col-span-1 space-y-4">
-            <div class="bg-[#161B22]/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-5 shadow-xl">
-                <h3 class="text-white font-bold mb-4 flex items-center gap-2">
-                    <i class="fas fa-toolbox text-cyan-400"></i> Komponen Form
-                </h3>
-                
-                <div class="space-y-3">
-                    <div class="p-3 border border-slate-700/50 bg-slate-800/50 rounded-lg cursor-not-allowed opacity-60 flex items-center gap-3">
-                        <i class="fas fa-font text-slate-400 w-5"></i>
-                        <span class="text-sm">Teks Singkat</span>
-                    </div>
-                    <div class="p-3 border border-slate-700/50 bg-slate-800/50 rounded-lg cursor-not-allowed opacity-60 flex items-center gap-3">
-                        <i class="fas fa-align-left text-slate-400 w-5"></i>
-                        <span class="text-sm">Paragraf</span>
-                    </div>
-                    <div class="p-3 border border-slate-700/50 bg-slate-800/50 rounded-lg cursor-not-allowed opacity-60 flex items-center gap-3">
-                        <i class="fas fa-check-square text-slate-400 w-5"></i>
-                        <span class="text-sm">Pilihan Ganda</span>
-                    </div>
-                    <div class="p-3 border border-slate-700/50 bg-slate-800/50 rounded-lg cursor-not-allowed opacity-60 flex items-center gap-3">
-                        <i class="fas fa-upload text-slate-400 w-5"></i>
-                        <span class="text-sm">Upload File</span>
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- TOOLBOX (Left) -->
+            <div class="lg:col-span-1 space-y-6">
+                <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 p-6 border-t-4 border-[#ffc107]">
+                    <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] mb-4 flex items-center text-gray-800">
+                        <i class="fas fa-cube mr-2 text-gray-400"></i> Field Dasar
+                    </h3>
+                    <div class="space-y-2 opacity-60">
+                        <div class="p-3 bg-gray-50 border border-gray-100 rounded-xl text-[10px] font-bold text-gray-500 flex items-center gap-3 cursor-not-allowed">
+                            <i class="fas fa-font"></i> Teks Singkat (Locked)
+                        </div>
+                        <div class="p-3 bg-gray-50 border border-gray-100 rounded-xl text-[10px] font-bold text-gray-500 flex items-center gap-3 cursor-not-allowed">
+                            <i class="fas fa-paragraph"></i> Paragraf (Locked)
+                        </div>
+                        <div class="p-3 bg-gray-50 border border-gray-100 rounded-xl text-[10px] font-bold text-gray-500 flex items-center gap-3 cursor-not-allowed">
+                            <i class="fas fa-file-upload"></i> Unggah File (Locked)
+                        </div>
                     </div>
                 </div>
-                
-                <div class="mt-4 pt-4 border-t border-slate-700/50">
-                    <p class="text-xs text-yellow-500/90 leading-relaxed">
-                        <i class="fas fa-info-circle mr-1"></i> Form builder saat ini dalam mode <b>System Locked</b> untuk menjaga integritas database. Field dasar tidak dapat dihapus.
+
+                <div class="bg-blue-600 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden">
+                    <div class="absolute -right-10 -top-10 w-32 h-32 bg-white/10 rounded-full blur-2xl font-bold"></div>
+                    <h3 class="text-[11px] font-black uppercase tracking-[0.2em] mb-3 relative z-10 text-gray-800">
+                        <i class="fas fa-info-circle mr-2 text-[#ffc107]"></i> Info Builder
+                    </h3>
+                    <p class="text-[10px] opacity-90 leading-relaxed font-medium relative z-10 text-gray-800">
+                        Field inti seperti Nama, Email, dan Identitas tidak dapat dihapus untuk menjaga integritas sistem pengajuan.
                     </p>
                 </div>
+
+                <a href="{{ url('/permohonan-informasi') }}" target="_blank" class="w-full flex items-center justify-center p-4 bg-white border border-gray-100 rounded-2xl text-[#004a99] font-black text-[10px] uppercase tracking-widest hover:bg-gray-50 transition-all shadow-md">
+                    <i class="fas fa-external-link-alt mr-2 text-gray-800"></i> Lihat Preview Publik
+                </a>
             </div>
-            
-            <a href="http://ppid.pktj.ac.id/permohonan-informasi" target="_blank" class="w-full block text-center p-3 rounded-lg border border-cyan-500/30 bg-cyan-900/20 text-cyan-400 hover:bg-cyan-900/40 transition">
-                <i class="fas fa-external-link-alt mr-2"></i> Preview Form Publik
-            </a>
+
+            <!-- CANVAS (Right) -->
+            <div class="lg:col-span-3 space-y-8">
+                
+                <!-- SECTION: CORE FIELDS PREVIEW -->
+                <div class="bg-gray-100/50 rounded-3xl p-8 border-2 border-dashed border-gray-200 space-y-8 opacity-70">
+                    <div class="flex items-center gap-3 mb-4">
+                        <span class="px-3 py-1 bg-white border border-gray-200 text-[#004a99] rounded-lg text-[9px] font-black tracking-widest">SYSTEM SECTION</span>
+                        <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest text-gray-800">Data Pemohon (Wajib)</h4>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <div class="w-full h-12 bg-white rounded-xl border border-gray-100 px-4 flex items-center gap-3 shadow-inner">
+                                <i class="fas fa-user text-gray-200"></i>
+                                <span class="text-[11px] font-bold text-gray-300">NAMA LENGKAP *</span>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <div class="w-full h-12 bg-white rounded-xl border border-gray-100 px-4 flex items-center gap-3 shadow-inner">
+                                <i class="fas fa-envelope text-gray-200"></i>
+                                <span class="text-[11px] font-bold text-gray-300">EMAIL PEMOHON *</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC SECTION BUILDER -->
+                <div class="space-y-6">
+                    <!-- SECTION TITLE EDITOR -->
+                    <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-[#ffc107]">
+                        <div class="p-6 md:p-8 flex items-center gap-6">
+                            <div class="w-16 h-16 bg-[#004a99] rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shrink-0">
+                                <i class="fas fa-edit"></i>
+                            </div>
+                            <div class="flex-1">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block text-gray-800">Judul Bagian Tambahan (Kuesioner)</label>
+                                <input type="text" id="section-title-input" value="{{ $sectionTitle ?? 'INFORMASI TAMBAHAN' }}" 
+                                    class="w-full bg-transparent border-none p-0 text-xl md:text-2xl font-black text-[#004a99] focus:ring-0 uppercase placeholder-gray-200"
+                                    placeholder="CONTOH: DATA PENUNJANG">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FIELDS LIST -->
+                    <div id="custom-fields-container" class="space-y-4">
+                        @if(isset($customFields) && count($customFields) > 0)
+                            @foreach($customFields as $index => $field)
+                            <div class="custom-field bg-white rounded-3xl shadow-lg ring-1 ring-gray-200 overflow-hidden group hover:ring-[#004a99] transition-all animate-fade-in-down" data-id="{{ $index }}">
+                                <div class="p-6 flex flex-col md:flex-row items-center gap-4">
+                                    <div class="drag-handle p-4 text-gray-200 cursor-move hover:text-[#ffc107] transition-colors">
+                                        <i class="fas fa-grip-vertical text-xl"></i>
+                                    </div>
+                                    <div class="flex-1 space-y-1">
+                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Label Kuesioner</label>
+                                        <input type="text" class="field-label w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-700 focus:bg-white focus:ring-2 focus:ring-[#004a99]/10 focus:border-[#004a99] outline-none transition-all uppercase" value="{{ $field['label'] ?? '' }}">
+                                    </div>
+                                    <div class="w-full md:w-1/4 space-y-1">
+                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest text-gray-800">Tipe Input</label>
+                                        <select class="field-type w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-[#004a99] focus:bg-white focus:ring-2 focus:ring-[#004a99]/10 outline-none transition-all appearance-none cursor-pointer">
+                                            <option value="text" {{ ($field['type'] ?? '') == 'text' ? 'selected' : '' }}>TEKS PENDEK</option>
+                                            <option value="textarea" {{ ($field['type'] ?? '') == 'textarea' ? 'selected' : '' }}>PARAGRAF</option>
+                                            <option value="file" {{ ($field['type'] ?? '') == 'file' ? 'selected' : '' }}>UNGGAH BERKAS</option>
+                                        </select>
+                                    </div>
+                                    <button type="button" class="btn-delete-field p-4 text-red-200 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all">
+                                        <i class="fas fa-trash-alt text-lg"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            @endforeach
+                        @endif
+                    </div>
+
+                    <!-- ADD BUTTON -->
+                    <button type="button" id="btn-add-field" class="w-full py-8 bg-white border-2 border-dashed border-gray-200 rounded-3xl text-gray-400 hover:border-[#004a99] hover:text-[#004a99] hover:bg-blue-50/50 transition-all flex flex-col items-center justify-center gap-3 group">
+                        <div class="w-12 h-12 bg-gray-50 text-gray-300 rounded-2xl flex items-center justify-center text-xl group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm">
+                            <i class="fas fa-plus"></i>
+                        </div>
+                        <span class="text-xs font-black uppercase tracking-widest">Tambah Field Kuesioner Baru</span>
+                    </button>
+                </div>
+
+            </div>
         </div>
-        
-        <!-- BUILDER CANVAS -->
-        <div class="lg:col-span-3 space-y-4">
-            
-            <!-- SECTION: PERINGATAN -->
-            <div class="bg-[#161B22]/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 overflow-hidden shadow-xl transition hover:border-blue-500/30">
-                <div class="bg-rose-900/20 border-l-4 border-rose-500 p-4 m-5 rounded flex justify-between items-start">
-                    <div>
-                        <input type="text" class="bg-transparent border-0 text-rose-400 font-bold text-lg focus:ring-0 p-0 w-full mb-2" value="⚠️ Peringatan!">
-                        <textarea class="bg-transparent border border-transparent hover:border-slate-700 focus:border-blue-500 focus:bg-[#0D1117] focus:ring-0 text-sm text-rose-300 w-full rounded p-2 transition" rows="2">Saya menyatakan bahwa data yang diungkapkan adalah benar dan dapat dipertanggungjawabkan. Pastikan data yang diungkapkan telah sesuai dengan ketentuan yang berlaku.</textarea>
-                    </div>
-                    <div class="text-slate-500 flex gap-2">
-                        <button class="hover:text-blue-400"><i class="fas fa-edit"></i></button>
-                    </div>
-                </div>
-            </div>
 
-            <!-- SECTION: DATA AKUN -->
-            <div class="bg-[#161B22]/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 shadow-xl relative mt-8">
-                <div class="absolute -top-3.5 left-6 bg-blue-600 text-white px-4 py-1 text-xs font-bold tracking-wider rounded-full shadow-[0_0_10px_rgba(37,99,235,0.5)]">
-                    DATA AKUN
-                </div>
-                
-                <div class="grid grid-cols-2 gap-6 mt-4">
-                    <!-- Username -->
-                    <div class="relative group">
-                        <label class="block text-xs font-semibold text-slate-400 mb-1">Label Field</label>
-                        <input type="text" class="w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500 transition" value="Username *">
-                        <div class="absolute right-3 top-9 text-slate-500 group-hover:text-blue-400 transition cursor-help" title="System Field - Cannot delete"><i class="fas fa-lock"></i></div>
-                    </div>
-                    
-                    <!-- Email -->
-                    <div class="relative group">
-                        <label class="block text-xs font-semibold text-slate-400 mb-1">Label Field</label>
-                        <input type="text" class="w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-blue-500 transition" value="Email *">
-                        <div class="absolute right-3 top-9 text-slate-500 group-hover:text-blue-400 transition cursor-help" title="System Field - Cannot delete"><i class="fas fa-lock"></i></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION: DATA PRIBADI -->
-            <div class="bg-[#161B22]/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 shadow-xl relative mt-8">
-                <div class="absolute -top-3.5 left-6 bg-cyan-600 text-white px-4 py-1 text-xs font-bold tracking-wider rounded-full shadow-[0_0_10px_rgba(8,145,178,0.5)]">
-                    DATA PRIBADI
-                </div>
-                
-                <div class="grid grid-cols-2 gap-6 mt-4">
-                    <!-- Nama Lengkap -->
-                    <div class="col-span-2 relative group">
-                        <label class="block text-xs font-semibold text-slate-400 mb-1">Label Field</label>
-                        <input type="text" class="w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 transition" value="Nama Lengkap *">
-                        <div class="absolute right-3 top-9 text-slate-500 group-hover:text-cyan-400 transition"><i class="fas fa-lock"></i></div>
-                    </div>
-                    
-                    <!-- Jenis Identitas -->
-                    <div class="relative group">
-                        <label class="block text-xs font-semibold text-slate-400 mb-1">Label Field (Dropdown)</label>
-                        <input type="text" class="w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 transition" value="Jenis Identitas *">
-                        <div class="absolute right-3 top-9 text-slate-500"><i class="fas fa-lock"></i></div>
-                    </div>
-                    
-                    <!-- No Identitas -->
-                    <div class="relative group">
-                        <label class="block text-xs font-semibold text-slate-400 mb-1">Label Field</label>
-                        <input type="text" class="w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-cyan-500 transition" value="Nomor Identitas *">
-                        <div class="absolute right-3 top-9 text-slate-500"><i class="fas fa-lock"></i></div>
-                    </div>
-
-                    <!-- FOTO KTP TGL 27 MARET -->
-                    <div class="col-span-2 relative group p-1 border border-dashed border-emerald-500/50 rounded-xl bg-emerald-900/10">
-                        <div class="p-3">
-                            <div class="flex justify-between items-center mb-2">
-                                <label class="block text-xs font-semibold text-emerald-400">File Upload Field (Baru)</label>
-                                <div class="flex gap-2">
-                                    <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">NEW</span>
-                                    <i class="fas fa-cog text-slate-400 hover:text-emerald-400 cursor-pointer"></i>
-                                </div>
-                            </div>
-                            <input type="text" class="w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-emerald-500 transition" value="Foto Identitas (KTP/Paspor/SIM) *">
-                            <div class="mt-2 text-xs text-slate-500 flex items-center gap-2">
-                                <i class="fas fa-file-image"></i> Diterima: JPG, PNG, PDF (Max 5MB)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- SECTION: DETAIL PERMOHONAN -->
-            <div class="bg-[#161B22]/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 shadow-xl relative mt-8">
-                <div class="absolute -top-3.5 left-6 bg-purple-600 text-white px-4 py-1 text-xs font-bold tracking-wider rounded-full shadow-[0_0_10px_rgba(147,51,234,0.5)]">
-                    DETAIL PERMOHONAN
-                </div>
-                
-                <div class="grid grid-cols-1 gap-6 mt-4">
-                    <!-- Jenis Informasi -->
-                    <div class="relative group">
-                        <label class="block text-xs font-semibold text-slate-400 mb-1">Label Field</label>
-                        <input type="text" class="w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-purple-500 transition" value="Jenis Informasi yang Diminta *">
-                    </div>
-                    
-                    <!-- Uraian -->
-                    <div class="relative group">
-                        <label class="block text-xs font-semibold text-slate-400 mb-1">Label Field (Textarea)</label>
-                        <input type="text" class="w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-purple-500 transition" value="Deskripsi/Uraian Permohonan *">
-                    </div>
-
-                    <!-- BERKAS PENDUKUNG -->
-                    <div class="relative group p-1 border border-dashed border-emerald-500/50 rounded-xl bg-emerald-900/10 mt-2">
-                        <div class="p-3">
-                            <div class="flex justify-between items-center mb-2">
-                                <label class="block text-xs font-semibold text-emerald-400">File Upload Field (Baru)</label>
-                                <div class="flex gap-2">
-                                    <span class="text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded">NEW</span>
-                                    <i class="fas fa-cog text-slate-400 hover:text-emerald-400 cursor-pointer"></i>
-                                </div>
-                            </div>
-                            <input type="text" class="w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-emerald-500 transition" value="Berkas Pendukung Permohonan (Opsional)">
-                            <div class="mt-2 text-xs text-slate-500 flex items-center gap-2">
-                                <i class="fas fa-file-pdf"></i> Diterima: JPG, PNG, PDF, DOCX (Max 10MB)
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- CONTANER CUSTOM FIELDS DISINI -->
-            <div id="custom-fields-container" class="space-y-4 mt-8">
-                @if(isset($customFields) && count($customFields) > 0)
-                    @foreach($customFields as $index => $field)
-                        <div class="custom-field bg-[#161B22]/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 shadow-xl relative" data-id="{{ $index }}">
-                            <div class="absolute -top-3.5 left-6 bg-orange-600 text-white px-4 py-1 text-xs font-bold tracking-wider rounded-full shadow-[0_0_10px_rgba(234,88,12,0.5)]">
-                                FIELD CUSTOM
-                            </div>
-                            <div class="flex justify-between items-center mb-4 mt-2">
-                                <div class="w-2/3">
-                                    <label class="block text-xs font-semibold text-slate-400 mb-1">Label Field</label>
-                                    <input type="text" class="field-label w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-orange-500 transition" value="{{ $field['label'] ?? '' }}">
-                                </div>
-                                <div class="w-1/4">
-                                    <label class="block text-xs font-semibold text-slate-400 mb-1">Tipe Input</label>
-                                    <select class="field-type w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-orange-500 transition">
-                                        <option value="text" {{ ($field['type'] ?? '') == 'text' ? 'selected' : '' }}>Teks Pendek</option>
-                                        <option value="textarea" {{ ($field['type'] ?? '') == 'textarea' ? 'selected' : '' }}>Paragraf</option>
-                                        <option value="file" {{ ($field['type'] ?? '') == 'file' ? 'selected' : '' }}>Upload File</option>
-                                    </select>
-                                </div>
-                                <button type="button" class="btn-delete-field text-rose-500 hover:text-rose-400 pt-5 transition">
-                                    <i class="fas fa-trash-alt text-xl"></i>
-                                </button>
-                            </div>
-                        </div>
-                    @endforeach
-                @endif
-            </div>
-
-            <!-- ADD SECTION BUTTON -->
-            <div id="btn-add-field" class="mt-6 border-2 border-dashed border-slate-700 rounded-2xl p-6 text-center hover:bg-slate-800/30 hover:border-blue-500/50 transition cursor-pointer group">
-                <i class="fas fa-plus-circle text-2xl text-slate-500 group-hover:text-blue-400 transition mb-2 block"></i>
-                <span class="text-sm font-medium text-slate-400 group-hover:text-blue-300 transition">Tambah Field Custom Pilihan Admin</span>
-            </div>
-
-        </div>
     </div>
 </div>
 
@@ -229,47 +150,29 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
-        // Tombol Batal
-        $('.fa-times').closest('a').click(function(e) {
-            e.preventDefault();
-            Swal.fire({
-                title: 'Batal mengubah form?',
-                icon: 'warning',
-                showCancelButton: true,
-                confirmButtonColor: '#3085d6',
-                cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, tinggalkan',
-                cancelButtonText: 'Batal'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    window.location.href = $(this).attr('href');
-                }
-            });
-        });
-
         // Add New Field
         $('#btn-add-field').click(function() {
             let id = new Date().getTime();
             let html = `
-                <div class="custom-field bg-[#161B22]/80 backdrop-blur-xl rounded-2xl border border-slate-700/50 p-6 shadow-xl relative" data-id="${id}" style="display:none;">
-                    <div class="absolute -top-3.5 left-6 bg-orange-600 text-white px-4 py-1 text-xs font-bold tracking-wider rounded-full shadow-[0_0_10px_rgba(234,88,12,0.5)]">
-                        FIELD CUSTOM
-                    </div>
-                    <div class="flex justify-between items-center mb-4 mt-2">
-                        <div class="w-2/3">
-                            <label class="block text-xs font-semibold text-slate-400 mb-1">Label Field</label>
-                            <input type="text" class="field-label w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-orange-500 transition" placeholder="Cth: Dokumen Tambahan" value="">
+                <div class="custom-field bg-white rounded-3xl shadow-lg ring-1 ring-gray-200 overflow-hidden group hover:ring-[#004a99] transition-all animate-fade-in-down" data-id="${id}" style="display:none;">
+                    <div class="p-6 flex flex-col md:flex-row items-center gap-4">
+                        <div class="drag-handle p-4 text-gray-200 cursor-move hover:text-[#ffc107] transition-colors">
+                            <i class="fas fa-grip-vertical text-xl"></i>
                         </div>
-                        <div class="w-1/4">
-                            <label class="block text-xs font-semibold text-slate-400 mb-1">Tipe Input</label>
-                            <select class="field-type w-full bg-[#0D1117] border border-slate-700 rounded-lg px-3 py-2 text-white outline-none focus:border-orange-500 transition">
-                                <option value="text">Teks Pendek</option>
-                                <option value="textarea">Paragraf</option>
-                                <option value="file">Upload File</option>
+                        <div class="flex-1 space-y-1">
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest text-gray-800">Label Kuesioner</label>
+                            <input type="text" class="field-label w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-700 focus:bg-white focus:ring-2 focus:ring-[#004a99]/10 focus:border-[#004a99] outline-none transition-all uppercase" placeholder="Masukkan Label Field...">
+                        </div>
+                        <div class="w-full md:w-1/4 space-y-1">
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest text-gray-800">Tipe Input</label>
+                            <select class="field-type w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-[#004a99] focus:bg-white focus:ring-2 focus:ring-[#004a99]/10 outline-none transition-all appearance-none cursor-pointer">
+                                <option value="text">TEKS PENDEK</option>
+                                <option value="textarea">PARAGRAF</option>
+                                <option value="file">UNGGAH BERKAS</option>
                             </select>
                         </div>
-                        <button type="button" class="btn-delete-field text-rose-500 hover:text-rose-400 pt-5 transition">
-                            <i class="fas fa-trash-alt text-xl"></i>
+                        <button type="button" class="btn-delete-field p-4 text-red-200 hover:text-red-500 hover:bg-red-50 rounded-2xl transition-all">
+                            <i class="fas fa-trash-alt text-lg"></i>
                         </button>
                     </div>
                 </div>
@@ -282,60 +185,55 @@
         // Delete field
         $(document).on('click', '.btn-delete-field', function() {
             let $el = $(this).closest('.custom-field');
-            $el.slideUp(300, function() {
-                $(this).remove();
-            });
+            $el.slideUp(300, function() { $(this).remove(); });
         });
 
-        // Save Form Logic
-        $('.fa-save').parent('button').click(function() {
-            let schema = [];
+        // Save Form
+        $('#btn-save-form').click(function() {
+            let sectionTitle = $('#section-title-input').val().trim().toUpperCase() || 'INFORMASI TAMBAHAN';
+            let fields = [];
             $('.custom-field').each(function() {
-                let label = $(this).find('.field-label').val();
+                let label = $(this).find('.field-label').val().trim();
                 let type = $(this).find('.field-type').val();
-                if(label.trim() !== '') {
-                    schema.push({
-                        label: label.trim(),
+                if(label !== '') {
+                    fields.push({
+                        label: label,
                         type: type,
                         name: 'custom_' + label.toLowerCase().replace(/[^a-z0-9]/g, '_') + '_' + Math.floor(Math.random()*100)
                     });
                 }
             });
 
-            // Ganti Button Icon ke loading
             let $btn = $(this);
-            let btnText = $btn.html();
-            $btn.html('<i class="fas fa-spinner fa-spin"></i> Menyimpan...');
-            $btn.prop('disabled', true);
+            let originalContent = $btn.html();
+            $btn.html('<i class="fas fa-spinner fa-spin mr-2"></i> MENYIMPAN...').prop('disabled', true);
 
             $.ajax({
                 url: "{{ route('admin.permohonan.save_form') }}",
                 type: 'POST',
                 data: {
                     _token: "{{ csrf_token() }}",
-                    schema: schema
+                    section_title: sectionTitle,
+                    fields: fields
                 },
                 success: function(response) {
-                    $btn.html(btnText);
-                    $btn.prop('disabled', false);
+                    $btn.html(originalContent).prop('disabled', false);
                     Swal.fire({
                         icon: 'success',
-                        title: 'Tersimpan!',
-                        text: 'Skema custom fields berhasil disimpan dan langsung tayang di portal publik.',
-                        background: '#161B22',
-                        color: '#fff',
-                        confirmButtonColor: '#0ea5e9'
+                        title: 'BERHASIL DISIMPAN!',
+                        text: 'Skema formulir publik telah diperbarui.',
+                        background: '#fff',
+                        confirmButtonColor: '#004a99',
+                        customClass: { title: 'text-[#004a99] font-black uppercase' }
                     });
                 },
                 error: function() {
-                    $btn.html(btnText);
-                    $btn.prop('disabled', false);
+                    $btn.html(originalContent).prop('disabled', false);
                     Swal.fire({
                         icon: 'error',
-                        title: 'Oops...',
-                        text: 'Terjadi kesalahan saat menyimpan form.',
-                        background: '#161B22',
-                        color: '#fff'
+                        title: 'GAGAL MENYIMPAN',
+                        text: 'Terjadi kesalahan sistem, silakan coba lagi.',
+                        confirmButtonColor: '#ef4444'
                     });
                 }
             });
@@ -343,7 +241,11 @@
     });
 </script>
 
-        </div>
-    </div>
-</div>
+<style>
+    .animate-fade-in-down { animation: fadeInDown 0.4s ease-out; }
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 @endsection

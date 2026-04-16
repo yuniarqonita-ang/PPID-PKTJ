@@ -5,312 +5,126 @@
 @endphp
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-    <div class="space-y-8 max-w-full">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
+    <div class="max-w-7xl mx-auto space-y-8 uppercase">
 
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-4xl font-black text-orange-300 drop-shadow-lg">
-                📋 SOP Pengujian Konsekuensi
-            </h1>
-            <p class="text-slate-200 mt-1 font-medium">Kelola SOP pengujian konsekuensi yang tersedia</p>
-        </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ route('dashboard') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 text-white font-bold hover:shadow-lg transition transform hover:scale-105">
-                <i class="fas fa-arrow-left mr-2"></i>Kembali
-            </a>
-        </div>
-    </div>
-
-    <!-- ==================== ALERTS SECTION ==================== -->
-    @if($errors->any())
-        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-100 to-red-200 border-2 border-red-400 p-6 shadow-xl">
-            <div class="absolute -top-4 -right-4 w-16 h-16 bg-red-300/40 rounded-full blur-2xl"></div>
-            <div class="relative z-10">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-red-600 text-white flex items-center justify-center shadow-lg">
-                            <i class="fas fa-exclamation-circle text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-red-900 mb-2">🚨 Terjadi Kesalahan!</h3>
-                        <ul class="space-y-1 text-red-300">
-                            @foreach($errors->all() as $error)
-                                <li class="flex items-center space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-red-600 rounded-full"></span>
-                                    <span>{{ $error }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
+        <!-- HEADER SECTION -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 font-bold text-gray-800">
+            <div>
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold font-bold">
+                    <i class="fas fa-arrow-left mr-2"></i> Dashboard
+                </a>
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
+                    <i class="fas fa-microscope mr-2 text-[#ffc107]"></i> SOP Pengujian Konsekuensi
+                </h1>
+                <p class="text-gray-500 font-medium mt-1 uppercase tracking-widest text-[10px]">Manajemen Prosedur Pengujian Dampak Informasi Dikecualikan</p>
+            </div>
+            <div class="flex gap-3">
+                <a href="{{ url('/prosedur/sop-pengujian') }}" target="_blank" class="px-6 py-3 bg-white border border-gray-200 text-[#004a99] font-bold rounded-xl shadow-sm hover:bg-gray-50 transition-all flex items-center">
+                    <i class="fas fa-eye mr-2 text-gray-800 font-bold"></i> Lihat Publik
+                </a>
             </div>
         </div>
-    @endif
 
-    @if(session('success'))
-        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-100 to-green-200 border-2 border-green-400 p-6 shadow-xl">
-            <div class="absolute -top-4 -right-4 w-16 h-16 bg-green-300/40 rounded-full blur-2xl"></div>
-            <div class="relative z-10">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-green-600 text-white flex items-center justify-center animate-pulse shadow-lg">
-                            <i class="fas fa-check-circle text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-green-900">✅ Berhasil!</h3>
-                        <p class="text-green-300">{{ session('success') }}</p>
-                    </div>
+        @if(session('success'))
+            <div class="bg-indigo-100 border-l-4 border-indigo-500 p-4 rounded-xl shadow-sm flex items-center animate-fade-in-down mb-6">
+                <div class="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center mr-3 shadow-lg shadow-indigo-500/20">
+                    <i class="fas fa-check text-white"></i>
                 </div>
+                <p class="text-indigo-800 font-bold text-xs">{{ session('success') }}</p>
             </div>
-        </div>
-    @endif
+        @endif
 
-    <!-- ==================== FORM SECTION ==================== -->
-    <div class="bg-gradient-to-br from-slate-800/80 to-slate-900/80 rounded-2xl shadow-2xl p-8 border-2 border-orange-300">
         <form action="{{ route('admin.halaman-custom.store', 'sop_pengujian') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Main Content (2 columns) -->
-                <div class="lg:col-span-2 space-y-8">
-                    
-                    <!-- ==================== GAMBAR SOP UTAMA ==================== -->
-                    <div class="space-y-6">
-                        <div class="flex items-center space-x-3 mb-6">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-orange-600 to-orange-700 text-white flex items-center justify-center shadow-lg">
-                                <span class="text-lg font-bold">1</span>
-                            </div>
-                            <h2 class="text-2xl font-bold text-white">Gambar SOP Utama</h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 uppercase font-bold text-gray-800">
+                
+                <!-- COLUMN 1: IMAGE SOP -->
+                <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-8 border-[#004a99] group text-gray-800">
+                    <div class="p-8 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center">
+                                <i class="fas fa-image mr-3 text-[#ffc107]"></i> Dokumen SOP Utama
+                            </h3>
+                            <button type="button" onclick="document.getElementById('gambar_sop').click()" class="px-4 py-2 bg-gray-50 text-[9px] font-black text-[#004a99] rounded-lg border border-gray-100 hover:bg-gray-100 transition-all text-gray-800 uppercase font-bold">UPLOAD BARU</button>
                         </div>
 
-                        <!-- Upload Gambar SOP -->
-                        <div class="group">
-                            <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                                <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-orange-600 to-orange-700 text-white flex items-center justify-center mr-3 shadow-md">
-                                    <i class="fas fa-image text-sm"></i>
-                                </span>
-                                Gambar SOP (Full Page) *
-                            </label>
-                            <div class="relative">
-                                <input type="file" name="gambar_sop" id="gambar_sop" 
-                                       class="w-full px-6 py-4 text-lg border-2 border-orange-400 rounded-xl focus:ring-4 focus:ring-orange-500/30 focus:border-orange-600 transition-all duration-300 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-md file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-100 file:text-orange-300 hover:file:bg-orange-200"
-                                       accept=".jpg,.jpeg,.png" required>
-                                <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-300 text-sm font-medium">
-                                    Max 5MB
-                                </div>
-                            </div>
-                            <p class="text-sm text-slate-200 mt-2 font-medium">
-                                <i class="fas fa-info-circle mr-1 text-orange-600"></i>
-                                Format: JPG, JPEG, PNG - Gambar akan ditampilkan full halaman di publik
-                            </p>
-                            
-                            @if(isset($settings['sop_pengujian_gambar_sop']) && $settings['sop_pengujian_gambar_sop'])
-                                <div class="mt-4">
-                                    <div class="relative rounded-xl overflow-hidden border-2 border-orange-400 shadow-xl">
-                                        <img src="{{ asset('storage/halaman/' . $settings['sop_pengujian_gambar_sop']) }}" alt="Gambar SOP saat ini" class="w-full h-auto">
-                                    </div>
-                                    <p class="text-sm text-slate-400 mt-1">Gambar SOP Saat Ini</p>
+                        <div class="relative aspect-[3/4] bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 group-hover:border-[#004a99]/20 transition-all shadow-inner">
+                            @if(isset($settings['sop_pengujian_gambar_sop']))
+                                <img id="preview_sop" src="{{ asset('storage/halaman/' . $settings['sop_pengujian_gambar_sop']) }}" class="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-all">
+                            @else
+                                <div class="w-full h-full flex flex-col items-center justify-center text-gray-300">
+                                    <i class="fas fa-file-image text-5xl mb-3 text-gray-800 opacity-60"></i>
+                                    <p class="text-[10px] font-black uppercase tracking-widest text-gray-800">Gambar Belum Tersedia</p>
                                 </div>
                             @endif
-                            
-                            <!-- Preview Gambar -->
-                            <div id="preview_gambar_sop" class="mt-4 hidden">
-                                <div class="relative rounded-xl overflow-hidden border-2 border-orange-400 shadow-xl">
-                                    <img id="img_preview_gambar_sop" src="" alt="Preview Gambar SOP" class="w-full h-auto">
-                                    <div class="absolute top-2 right-2">
-                                        <button type="button" onclick="removeImage('gambar_sop')" class="w-8 h-8 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors shadow-lg">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- ==================== GAMBAR PROSES ==================== -->
-                    <div class="space-y-6 pt-8 border-t-2 border-orange-300">
-                        <div class="flex items-center space-x-3 mb-6">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-amber-600 to-amber-700 text-white flex items-center justify-center shadow-lg">
-                                <span class="text-lg font-bold">2</span>
-                            </div>
-                            <h2 class="text-2xl font-bold text-white">Gambar Proses</h2>
-                        </div>
-
-                        <!-- Upload Gambar Proses -->
-                        <div class="group">
-                            <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                                <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-amber-600 to-amber-700 text-white flex items-center justify-center mr-3 shadow-md">
-                                    <i class="fas fa-images text-sm"></i>
-                                </span>
-                                Gambar Proses (Full Page) *
-                            </label>
-                            <div class="relative">
-                                <input type="file" name="gambar_proses" id="gambar_proses" 
-                                       class="w-full px-6 py-4 text-lg border-2 border-amber-400 rounded-xl focus:ring-4 focus:ring-amber-500/30 focus:border-amber-600 transition-all duration-300 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-md file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-amber-100 file:text-amber-800 hover:file:bg-amber-200"
-                                       accept=".jpg,.jpeg,.png" required>
-                                <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-300 text-sm font-medium">
-                                    Max 5MB
-                                </div>
-                            </div>
-                            <p class="text-sm text-slate-200 mt-2 font-medium">
-                                <i class="fas fa-info-circle mr-1 text-amber-600"></i>
-                                Format: JPG, JPEG, PNG - Gambar akan ditampilkan full halaman di publik
-                            </p>
-                            
-                            @if(isset($settings['sop_pengujian_gambar_proses']) && $settings['sop_pengujian_gambar_proses'])
-                                <div class="mt-4">
-                                    <div class="relative rounded-xl overflow-hidden border-2 border-amber-400 shadow-xl">
-                                        <img src="{{ asset('storage/halaman/' . $settings['sop_pengujian_gambar_proses']) }}" alt="Gambar Proses saat ini" class="w-full h-auto">
-                                    </div>
-                                    <p class="text-sm text-slate-400 mt-1">Gambar Proses Saat Ini</p>
-                                </div>
-                            @endif
-                            
-                            <!-- Preview Gambar -->
-                            <div id="preview_gambar_proses" class="mt-4 hidden">
-                                <div class="relative rounded-xl overflow-hidden border-2 border-amber-400 shadow-xl">
-                                    <img id="img_preview_gambar_proses" src="" alt="Preview Gambar Proses" class="w-full h-auto">
-                                    <div class="absolute top-2 right-2">
-                                        <button type="button" onclick="removeImage('gambar_proses')" class="w-8 h-8 bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors shadow-lg">
-                                            <i class="fas fa-times"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+                            <input type="file" name="gambar_sop" id="gambar_sop" class="hidden" onchange="previewImage(this, 'preview_sop')">
                         </div>
                     </div>
                 </div>
 
-                <!-- Sidebar (1 column) -->
-                <div class="space-y-6">
-                    <!-- Panduan Card -->
-                    <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-orange-100 to-amber-100 border-2 border-orange-400 p-6 shadow-xl">
-                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-orange-300/30 rounded-full blur-3xl"></div>
-                        <div class="relative z-10">
-                            <div class="flex items-center mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-orange-500 to-amber-600 text-white flex items-center justify-center mr-3 shadow-lg">
-                                    <i class="fas fa-lightbulb"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-orange-900">Panduan Pengisian</h3>
-                            </div>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-600 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-900">Gambar SOP:</strong>
-                                        <p class="text-orange-300">Upload gambar SOP utama</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-600 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-900">Gambar Proses:</strong>
-                                        <p class="text-orange-300">Upload gambar proses SOP</p>
-                                    </div>
-                                </div>
-                            </div>
+                <!-- COLUMN 2: IMAGE PROSES -->
+                <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-8 border-[#ffc107] group">
+                    <div class="p-8 space-y-6">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center">
+                                <i class="fas fa-project-diagram mr-3 text-[#ffc107]"></i> Infografis Alur Pengujian
+                            </h3>
+                            <button type="button" onclick="document.getElementById('gambar_proses').click()" class="px-4 py-2 bg-gray-50 text-[9px] font-black text-[#004a99] rounded-lg border border-gray-100 hover:bg-gray-100 transition-all font-bold">UPLOAD BARU</button>
                         </div>
-                    </div>
 
-                    <!-- Info Card -->
-                    <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-100 to-indigo-100 border-2 border-blue-400 p-6 shadow-xl">
-                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-blue-300/30 rounded-full blur-3xl"></div>
-                        <div class="relative z-10">
-                            <div class="flex items-center mb-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white flex items-center justify-center mr-3 shadow-lg">
-                                    <i class="fas fa-info-circle"></i>
+                        <div class="relative aspect-[3/4] bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 group-hover:border-[#ffc107]/20 transition-all shadow-inner">
+                            @if(isset($settings['sop_pengujian_gambar_proses']))
+                                <img id="preview_proses" src="{{ asset('storage/halaman/' . $settings['sop_pengujian_gambar_proses']) }}" class="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-all">
+                            @else
+                                <div class="w-full h-full flex flex-col items-center justify-center text-gray-300">
+                                    <i class="fas fa-images text-5xl mb-3 text-gray-800 opacity-60"></i>
+                                    <p class="text-[10px] font-black uppercase tracking-widest text-gray-800">Alur Belum Tersedia</p>
                                 </div>
-                                <h3 class="text-lg font-bold text-blue-900">Tentang SOP Pengujian</h3>
-                            </div>
-                            <p class="text-sm text-blue-300 leading-relaxed">
-                                SOP Pengujian Konsekuensi adalah standar operasional prosedur yang mengatur tata cara pengujian konsekuensi atas informasi yang dikecualikan sesuai peraturan perundang-undangan yang berlaku.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-green-500 to-green-700 p-4 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden/20 rounded-full blur-xl"></div>
-                            <div class="relative z-10">
-                                <p class="text-2xl font-black">7</p>
-                                <p class="text-xs text-white/90 font-medium">Total SOP</p>
-                            </div>
-                        </div>
-                        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500 to-purple-700 p-4 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105">
-                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden/20 rounded-full blur-xl"></div>
-                            <div class="relative z-10">
-                                <p class="text-2xl font-black">3</p>
-                                <p class="text-xs text-white/90 font-medium">Bulan Ini</p>
-                            </div>
+                            @endif
+                            <input type="file" name="gambar_proses" id="gambar_proses" class="hidden" onchange="previewImage(this, 'preview_proses')">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex justify-end space-x-4 mt-8 pt-8 border-t-2 border-slate-600/30">
-                <a href="{{ route('dashboard') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <i class="fas fa-times mr-2"></i>Batal
-                </a>
-                <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-orange-600 to-amber-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <i class="fas fa-save mr-2"></i>Simpan SOP
-                </button>
+            <!-- ACTION BAR -->
+            <div class="bg-white h-24 rounded-3xl shadow-2xl ring-1 ring-gray-200 px-8 flex items-center justify-between sticky bottom-6 z-50 animate-fade-in-up mt-12 text-gray-800">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center shadow-sm">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest text-gray-800">Keamanan Data Informasi Terjamin</p>
+                </div>
+                <div class="flex gap-4">
+                    <button type="button" onclick="history.back()" class="px-8 py-3 bg-gray-100 text-gray-500 font-black text-[10px] rounded-xl hover:bg-gray-200 transition-all tracking-widest uppercase font-bold text-gray-800">BATAL</button>
+                    <button type="submit" class="px-10 py-3 bg-[#004a99] text-white font-black text-[10px] rounded-xl shadow-lg shadow-blue-500/20 transform hover:scale-105 transition-all tracking-widest text-gray-800 font-bold">
+                        <i class="fas fa-save mr-2 text-[#ffc107]"></i> SIMPAN SOP PENGUJIAN
+                    </button>
+                </div>
             </div>
         </form>
     </div>
 </div>
 
-<!-- JavaScript for Preview -->
 <script>
-    // Image Preview Functions
-    document.getElementById('gambar_sop').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
+    function previewImage(input, previewId) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
             reader.onload = function(e) {
-                document.getElementById('img_preview_gambar_sop').src = e.target.result;
-                document.getElementById('preview_gambar_sop').classList.remove('hidden');
+                document.getElementById(previewId).src = e.target.result;
             }
-            reader.readAsDataURL(file);
-        }
-    });
-
-    document.getElementById('gambar_proses').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('img_preview_gambar_proses').src = e.target.result;
-                document.getElementById('preview_gambar_proses').classList.remove('hidden');
-            }
-            reader.readAsDataURL(file);
-        }
-    });
-
-    // Remove Functions
-    function removeImage(type) {
-        if (type === 'gambar_sop') {
-            document.getElementById('gambar_sop').value = '';
-            document.getElementById('preview_gambar_sop').classList.add('hidden');
-            document.getElementById('img_preview_gambar_sop').src = '';
-        } else if (type === 'gambar_proses') {
-            document.getElementById('gambar_proses').value = '';
-            document.getElementById('preview_gambar_proses').classList.add('hidden');
-            document.getElementById('img_preview_gambar_proses').src = '';
+            reader.readAsDataURL(input.files[0]);
         }
     }
 </script>
 
 <style>
-    .ck-editor__editable { 
-        min-height: 250px; 
+    .animate-fade-in-up { animation: fadeInUp 0.5s ease-out; }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
-</div>
-</div>
 @endsection

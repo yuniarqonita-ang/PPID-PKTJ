@@ -14,6 +14,8 @@ use App\Http\Controllers\ProfilPublikController;
 use App\Http\Controllers\ProfilPpidController;
 use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
 
 // ==========================================
 // 0. REDIRECT URL LAMA (.html)
@@ -57,9 +59,11 @@ Route::get('/', function () {
 // Profil Publik
 Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');
 
-// Permohonan Informasi (Public)
+// Permohonan Informasi Routes (Public)
 Route::get('/permohonan-informasi', [PermohonanController::class, 'form'])->name('permohonan.form');
+Route::get('/permohonan', [PermohonanController::class, 'form']); // Alias for shorter URL
 Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->name('permohonan.store');
+Route::post('/permohonan', [PermohonanController::class, 'store']); // Alias for shorter URL form submission
 
 // FAQ (Public)
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
@@ -142,8 +146,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     // Menu Profil PPID
     Route::name('admin.profil.')->prefix('profil')->group(function () {
-        // Dashboard menunjukkan semua profil sections
-        Route::get('/', [ProfilPpidController::class, 'index'])->name('index');
+        // Dashboard menunjukkan semua profil sections (Redirect to Halaman hub)
+        Route::get('/', function() { return redirect()->route('halaman.index'); })->name('index');
         
         // CRUD untuk setiap tipe profil
         Route::get('/{type}', [ProfilPpidController::class, 'edit'])->name('edit');
@@ -241,7 +245,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/lpse', function() { return "Halaman LPSE"; })->name('admin.lpse.index');
     Route::get('/jdih', function() { return "Halaman JDIH"; })->name('admin.jdih.index');
 
-    Route::get('/user-management', [DashboardController::class, 'users'])->name('admin.users');
+    Route::resource('/user-management', 'UserController')->names('admin.users')->parameters(['user-management' => 'user']);
     Route::get('/settings', [DashboardController::class, 'settings'])->name('admin.settings');
 });
 
@@ -275,4 +279,3 @@ Route::name('prosedur.')->prefix('prosedur')->group(function () {
 Route::get('/download/{model}/{id}', [InformasiPublikController::class, 'downloadFile'])->name('download.file');
 
 Route::get('/faq', [FaqController::class, 'index'])->name('faq.public');
-Route::get('/permohonan', function() { return view('permohonan'); })->name('permohonan.form');

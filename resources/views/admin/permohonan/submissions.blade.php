@@ -1,232 +1,196 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-    <div class="space-y-8 max-w-full">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
+    <div class="max-w-7xl mx-auto space-y-8">
 
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">
-                📋 Daftar Permohonan Informasi
-            </h1>
-            <p class="text-slate-300 mt-1">Kelola semua permohonan informasi yang masuk</p>
-        </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ route('admin.permohonan.export') }}" class="px-6 py-3 bg-green-600 text-white font-medium hover:bg-green-700 transition rounded-lg">
-                <i class="fas fa-file-excel mr-2"></i>Export Excel
-            </a>
-            <a href="{{ route('admin.permohonan.form') }}" class="px-6 py-3 bg-blue-600 text-white font-medium hover:bg-blue-700 transition rounded-lg">
-                <i class="fas fa-plus mr-2"></i>Buat Formulir Baru
-            </a>
-        </div>
-    </div>
-
-    <!-- ==================== ALERTS SECTION ==================== -->
-    @if(session('success'))
-        <div class="rounded-2xl bg-gradient-to-r from-green-900/20 to-green-900/30 border border-green-600/30 p-4">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <i class="fas fa-check-circle text-green-400 text-xl"></i>
-                </div>
-                <div class="ml-3">
-                    <p class="text-green-300 font-medium">{{ session('success') }}</p>
-                </div>
+        <!-- HEADER SECTION -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight text-gray-800">
+                    <i class="fas fa-inbox mr-2 text-[#ffc107]"></i> Permohonan Informasi
+                </h1>
+                <p class="text-gray-500 font-medium mt-1 uppercase tracking-[0.2em] text-[10px]">Pusat Kendali Pengajuan Informasi Publik</p>
             </div>
-        </div>
-    @endif
-
-    <!-- ==================== STATS SECTION ==================== -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-file-alt text-blue-600"></i>
-                    </div>
-                </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="text-sm font-medium text-slate-400 truncate">Total Permohonan</dt>
-                        <dd class="text-lg font-medium text-white">{{ $permohonan->total() }}</dd>
-                    </dl>
-                </div>
+            <div class="flex items-center gap-3">
+                <a href="{{ route('admin.permohonan.export') }}" class="px-6 py-3 bg-white border border-gray-200 text-[#004a99] font-bold rounded-xl shadow-sm hover:bg-gray-50 transition-all flex items-center">
+                    <i class="fas fa-file-excel mr-2 text-green-600"></i> Export Data
+                </a>
+                <a href="{{ route('admin.permohonan.form') }}" class="px-6 py-3 bg-[#004a99] text-white font-bold rounded-xl shadow-lg hover:bg-blue-800 transition-all flex items-center">
+                    <i class="fas fa-cog mr-2 text-[#ffc107]"></i> Pengaturan Form
+                </a>
             </div>
         </div>
 
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-yellow-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-clock text-yellow-600"></i>
-                    </div>
+        @if(session('success'))
+            <div class="bg-green-100 border-l-4 border-green-500 p-4 rounded-xl shadow-sm flex items-center animate-fade-in-down">
+                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3 shadow-lg shadow-green-500/20">
+                    <i class="fas fa-check text-white"></i>
                 </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="text-sm font-medium text-slate-400 truncate">Menunggu</dt>
-                        <dd class="text-lg font-medium text-white">{{ $permohonan->where('status', 'pending')->count() }}</dd>
-                    </dl>
+                <p class="text-green-800 font-bold">{{ session('success') }}</p>
+            </div>
+        @endif
+
+        <!-- STATS SECTION -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            @php
+                $stats = [
+                    ['label' => 'Total Masuk', 'val' => $permohonan->total(), 'icon' => 'fa-clipboard-list', 'color' => 'blue'],
+                    ['label' => 'Menunggu', 'val' => $permohonan->where('status', 'pending')->count(), 'icon' => 'fa-clock', 'color' => 'yellow'],
+                    ['label' => 'Disetujui', 'val' => $permohonan->where('status', 'approved')->count(), 'icon' => 'fa-check-double', 'color' => 'green'],
+                    ['label' => 'Ditolak', 'val' => $permohonan->where('status', 'rejected')->count(), 'icon' => 'fa-times-circle', 'color' => 'red'],
+                ];
+            @endphp
+            @foreach($stats as $stat)
+            <div class="bg-white p-6 rounded-3xl shadow-xl ring-1 ring-gray-200 flex items-center gap-4 group hover:shadow-2xl transition-all border-b-4 border-{{ $stat['color'] }}-500">
+                <div class="w-14 h-14 bg-{{ $stat['color'] }}-50 text-{{ $stat['color'] }}-500 rounded-2xl flex items-center justify-center text-2xl transition-transform group-hover:scale-110">
+                    <i class="fas {{ $stat['icon'] }}"></i>
+                </div>
+                <div>
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">{{ $stat['label'] }}</p>
+                    <h3 class="text-2xl font-black text-[#004a99]">{{ $stat['val'] }}</h3>
                 </div>
             </div>
+            @endforeach
         </div>
 
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-green-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-check text-green-600"></i>
-                    </div>
-                </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="text-sm font-medium text-slate-400 truncate">Disetujui</dt>
-                        <dd class="text-lg font-medium text-white">{{ $permohonan->where('status', 'approved')->count() }}</dd>
-                    </dl>
-                </div>
-            </div>
-        </div>
-
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <div class="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                        <i class="fas fa-times text-red-600"></i>
-                    </div>
-                </div>
-                <div class="ml-5 w-0 flex-1">
-                    <dl>
-                        <dt class="text-sm font-medium text-slate-400 truncate">Ditolak</dt>
-                        <dd class="text-lg font-medium text-white">{{ $permohonan->where('status', 'rejected')->count() }}</dd>
-                    </dl>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- ==================== CONTENT SECTION ==================== -->
-    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-        <div class="overflow-x-auto">
-            <table class="w-full">
-                <thead class="bg-slate-900/80 border-b border-slate-700">
-                    <tr>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">ID</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">Nama Pemohon</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">Email</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">Telepon</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">Judul Permohonan</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">Tanggal</th>
-                        <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">Status</th>
-                        <th class="px-6 py-3 text-center text-xs font-medium text-cyan-400 uppercase tracking-wider">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class=" divide-y divide-slate-700/50">
-                    @forelse($permohonan as $item)
-                        <tr class="hover:bg-slate-700/50 transition-colors group">
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-white">{{ $item->id }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-white">{{ $item->nama_pemohon }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">{{ $item->email }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">{{ $item->nomor_telepon }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm font-medium text-white">{{ $item->jenis_informasi }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">{{ $item->created_at->format('d M Y') }}</td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                @switch($item->status ?? 'pending')
-                                    @case('pending')
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-500/20 text-yellow-400 border border-yellow-500/30">
-                                            Menunggu
-                                        </span>
-                                    @break
-                                    @case('approved')
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-500/20 text-green-400 border border-green-500/30">
-                                            Disetujui
-                                        </span>
-                                    @break
-                                    @case('completed')
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-500/20 text-blue-400 border border-blue-500/30">
-                                            Selesai
-                                        </span>
-                                    @break
-                                    @case('rejected')
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-500/20 text-red-400 border border-red-500/30">
-                                            Ditolak
-                                        </span>
-                                    @break
-                                    @default
-                                        <span class="px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-slate-500/20 text-slate-400 border border-slate-500/30">
-                                            {{ $item->status }}
-                                        </span>
-                                @endswitch
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap text-center text-sm font-medium">
-                                <a href="{{ route('admin.permohonan.show', $item->id) }}" class="text-blue-600 hover:text-blue-900 mr-3">
-                                    <i class="fas fa-eye mr-1"></i>Detail
-                                </a>
-                                @if($item->dokumen)
-                                    <a href="{{ route('admin.permohonan.download', $item->id) }}" class="text-green-600 hover:text-green-900 mr-3">
-                                        <i class="fas fa-download mr-1"></i>Download
-                                    </a>
-                                @endif
-                                <form action="{{ route('admin.permohonan.update', $item->id) }}" method="POST" class="inline">
-                                    @csrf
-                                    @method('PUT')
-                                    <select name="status" class="text-sm border border-slate-600 text-white placeholder-slate-500 rounded px-2 py-1 mr-2 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" onchange="this.form.submit()">
-                                        <option value="pending" {{ ($item->status ?? 'pending') == 'pending' ? 'selected' : '' }}>Menunggu</option>
-                                        <option value="approved" {{ ($item->status ?? 'pending') == 'approved' ? 'selected' : '' }}>Disetujui</option>
-                                        <option value="completed" {{ ($item->status ?? 'pending') == 'completed' ? 'selected' : '' }}>Selesai</option>
-                                        <option value="rejected" {{ ($item->status ?? 'pending') == 'rejected' ? 'selected' : '' }}>Ditolak</option>
-                                    </select>
-                                </form>
-                            </td>
+        <!-- TABLE CARD -->
+        <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border border-gray-100">
+            <div class="overflow-x-auto">
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-[#004a99] text-white">
+                            <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-center">ID</th>
+                            <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest">Pemohon</th>
+                            <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest hidden lg:table-cell">Permohonan</th>
+                            <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-center">Status</th>
+                            <th class="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-right">Aksi</th>
                         </tr>
-                    @empty
-                        <tr>
-                            <td colspan="8" class="px-6 py-8 text-center text-slate-400">
-                                <div class="flex flex-col items-center">
-                                    <i class="fas fa-inbox text-4xl text-gray-300 mb-4"></i>
-                                    <p class="text-lg font-medium">Belum ada permohonan informasi</p>
-                                    <p class="text-sm text-gray-400 mt-1">Permohonan yang masuk akan muncul di sini</p>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100 uppercase">
+                        @forelse($permohonan as $item)
+                        <tr class="hover:bg-blue-50/50 transition-colors group">
+                            <td class="px-6 py-4 text-center font-bold text-gray-400 text-xs">#{{ $item->id }}</td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 font-black text-xs uppercase transition-colors group-hover:bg-[#004a99] group-hover:text-white">
+                                        {{ substr($item->nama_pemohon, 0, 1) }}
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-bold text-gray-800 uppercase tracking-wide">{{ $item->nama_pemohon }}</h4>
+                                        <p class="text-[9px] text-gray-400 lowercase font-medium">{{ $item->email }}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 hidden lg:table-cell">
+                                <h4 class="text-xs font-bold text-[#004a99] uppercase truncate max-w-xs">{{ $item->jenis_informasi }}</h4>
+                                <p class="text-[10px] text-gray-400 mt-1 font-bold">
+                                    <i class="fas fa-calendar-day mr-1"></i> {{ $item->created_at->format('d M Y') }}
+                                </p>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                @php
+                                    $statusColors = [
+                                        'pending' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-600', 'label' => 'MENUNGGU'],
+                                        'approved' => ['bg' => 'bg-green-100', 'text' => 'text-green-600', 'label' => 'DISETUJUI'],
+                                        'completed' => ['bg' => 'bg-blue-600', 'text' => 'text-white', 'label' => 'SELESAI'],
+                                        'rejected' => ['bg' => 'bg-red-100', 'text' => 'text-red-600', 'label' => 'DITOLAK'],
+                                    ];
+                                    $st = $statusColors[$item->status ?? 'pending'] ?? ['bg' => 'bg-gray-100', 'text' => 'text-gray-400', 'label' => strtoupper($item->status ?? 'pending')];
+                                @endphp
+                                <span class="inline-flex items-center px-3 py-1 {{ $st['bg'] }} {{ $st['text'] }} rounded-full text-[9px] font-black uppercase">
+                                    {{ $st['label'] }}
+                                </span>
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center justify-end gap-2">
+                                    <a href="{{ route('admin.permohonan.show', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    
+                                    <form action="{{ route('admin.permohonan.update', $item->id) }}" method="POST" class="inline">
+                                        @csrf
+                                        @method('PUT')
+                                        <select name="status" class="px-3 py-1.5 bg-gray-50 border border-gray-200 rounded-lg text-[10px] font-black text-[#004a99] focus:ring-2 focus:ring-[#004a99] focus:outline-none cursor-pointer hover:bg-white transition-all" onchange="this.form.submit()">
+                                            <option value="pending" {{ ($item->status ?? 'pending') == 'pending' ? 'selected' : '' }}>MENUNGGU</option>
+                                            <option value="approved" {{ ($item->status ?? 'pending') == 'approved' ? 'selected' : '' }}>DISETUJUI</option>
+                                            <option value="completed" {{ ($item->status ?? 'pending') == 'completed' ? 'selected' : '' }}>SELESAI</option>
+                                            <option value="rejected" {{ ($item->status ?? 'pending') == 'rejected' ? 'selected' : '' }}>DITOLAK</option>
+                                        </select>
+                                    </form>
+
+                                    <button onclick="confirmDelete('{{ $item->id }}')" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
-                    @endforelse
-                </tbody>
-            </table>
+                        @empty
+                        <tr>
+                            <td colspan="5" class="px-6 py-20 text-center">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4 text-gray-200 text-4xl">
+                                        <i class="fas fa-inbox text-gray-800"></i>
+                                    </div>
+                                    <h3 class="text-lg font-black text-gray-300 uppercase tracking-widest">Belum Ada Permohonan</h3>
+                                    <p class="text-gray-400 text-sm mt-1 uppercase tracking-widest text-[10px]">Seluruh pengajuan informasi publik akan muncul di sini</p>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- PAGINATION -->
+        @if($permohonan->hasPages())
+            <div class="px-4 py-8">
+                {{ $permohonan->links() }}
+            </div>
+        @endif
+
+    </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div id="deleteModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4 transform scale-95 transition-transform duration-300">
+        <div class="text-center">
+            <div class="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-lg">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="text-xl font-black text-[#004a99] uppercase mb-2">Konfirmasi Hapus</h3>
+            <p class="text-gray-500 text-sm mb-8 font-medium">Apakah Anda yakin ingin menghapus permohonan ini secara permanen? Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="flex gap-3">
+                <button onclick="closeDeleteModal()" class="flex-1 py-3 bg-gray-100 text-gray-500 font-bold rounded-xl hover:bg-gray-200 transition-all">Batal</button>
+                <form id="deleteForm" method="POST" class="flex-1">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="w-full py-3 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-all shadow-lg shadow-red-500/20">Ya, Hapus</button>
+                </form>
+            </div>
         </div>
     </div>
-
-    <!-- ==================== PAGINATION ==================== -->
-    @if($permohonan->hasPages())
-        <div class="bg-slate-800/80 px-4 py-3 flex items-center justify-between border-t border-slate-600/30 sm:px-6 rounded-b-2xl">
-            <div class="flex-1 flex justify-between sm:hidden">
-                <a href="{{ $permohonan->previousPageUrl() }}" class="relative inline-flex items-center px-4 py-2 border border-slate-600/50 bg-slate-900/50 text-white placeholder-slate-500 text-sm font-medium rounded-md text-slate-300 bg-slate-900/60 border border-slate-600 hover:bg-slate-700/50 transition-colors group shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400 transition-all">
-                    Previous
-                </a>
-                <a href="{{ $permohonan->nextPageUrl() }}" class="relative ml-3 inline-flex items-center px-4 py-2 border border-slate-600/50 bg-slate-900/50 text-white placeholder-slate-500 text-sm font-medium rounded-md text-slate-300 bg-slate-900/60 border border-slate-600 hover:bg-slate-700/50 transition-colors group shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400 transition-all">
-                    Next
-                </a>
-            </div>
-            <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
-                <div>
-                    <p class="text-sm text-slate-300">
-                        Showing
-                        <span class="font-medium">{{ $permohonan->firstItem() }}</span>
-                        to
-                        <span class="font-medium">{{ $permohonan->lastItem() }}</span>
-                        of
-                        <span class="font-medium">{{ $permohonan->total() }}</span>
-                        results
-                    </p>
-                </div>
-                <div>
-                    {{ $permohonan->links() }}
-                </div>
-            </div>
-        </div>
-    @endif
-</div>
 </div>
 
+<script>
+    function confirmDelete(id) {
+        const modal = document.getElementById('deleteModal');
+        const form = document.getElementById('deleteForm');
+        form.action = `/admin/permohonan/${id}`;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.add('opacity-100');
+            modal.querySelector('div').classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeDeleteModal() {
+        const modal = document.getElementById('deleteModal');
+        modal.classList.remove('opacity-100');
+        modal.querySelector('div').classList.remove('scale-100');
+        setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+</script>
 @endsection

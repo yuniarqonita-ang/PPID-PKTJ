@@ -1,158 +1,102 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-    <div class="space-y-8 max-w-full">
-
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-pink-400 to-purple-400 drop-shadow-lg">
-                ✏️ Edit FAQ
-            </h1>
-            <p class="text-slate-400 mt-1 font-medium">Edit pertanyaan dan jawaban FAQ</p>
-        </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ route('admin.faq.index') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 text-white font-bold hover:shadow-lg transition transform hover:scale-105">
-                <i class="fas fa-arrow-left mr-2"></i>Kembali
-            </a>
-        </div>
-    </div>
-
-    <!-- ==================== ALERTS SECTION ==================== -->
-    @if($errors->any())
-        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-900/20 to-red-900/30 border border-red-600/30 p-6 shadow-lg">
-            <div class="relative z-10">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center">
-                            <i class="fas fa-exclamation-circle text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-red-300 mb-2">🚨 Terjadi Kesalahan!</h3>
-                        <ul class="space-y-1 text-red-400">
-                            @foreach($errors->all() as $error)
-                                <li class="flex items-center space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-                                    <span>{{ $error }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    @if(session('success'))
-        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-900/20 to-green-900/30 border border-green-600/30 p-6 shadow-lg">
-            <div class="relative z-10">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center animate-pulse">
-                            <i class="fas fa-check-circle text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-green-300">✅ Berhasil!</h3>
-                        <p class="text-green-400">{{ session('success') }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    <!-- ==================== FORM SECTION ==================== -->
-    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 p-8 relative overflow-hidden">
-        <form action="{{ route('admin.faq.update', $faq) }}" method="POST">
-            @csrf
-            @method('PUT')
-
-            <div class="space-y-8">
-                <!-- Pertanyaan Section -->
-                <div class="group">
-                    <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                        <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-pink-500 to-pink-600 text-white flex items-center justify-center mr-3 shadow-md">
-                            <i class="fas fa-question text-sm"></i>
-                        </span>
-                        Pertanyaan *
-                    </label>
-                    <input type="text" name="pertanyaan" id="pertanyaan" 
-                           value="{{ old('pertanyaan', $faq->pertanyaan) }}" 
-                           placeholder="Masukkan pertanyaan FAQ"
-                           required
-                           class="w-full px-6 py-4 text-lg rounded-xl transition-all duration-300 bg-slate-900/60 border border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">
-                    @error('pertanyaan')
-                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
-                <!-- Jawaban Section -->
-                <div class="group">
-                    <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                        <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center mr-3 shadow-md">
-                            <i class="fas fa-comment-dots text-sm"></i>
-                        </span>
-                        Jawaban *
-                    </label>
-                    <textarea name="jawaban" id="editor_faq_edit" 
-                              placeholder="Masukkan jawaban lengkap..."
-                              required
-                              class="w-full px-6 py-4 text-lg rounded-xl bg-slate-900/60 border border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" 
-                              style="min-height: 300px;">{{ old('jawaban', $faq->jawaban) }}</textarea>
-                    @error('jawaban')
-                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex justify-end space-x-4 mt-8 pt-8 border-t border-slate-600/30">
-                <a href="{{ route('admin.faq.index') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <i class="fas fa-times mr-2"></i>Batal
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6">
+    <div class="max-w-5xl mx-auto space-y-6">
+        
+        <!-- HEADER SECTION -->
+        <div class="flex items-center justify-between gap-4">
+            <div>
+                <a href="{{ route('admin.faq.index') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Daftar FAQ
                 </a>
-                <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105 shadow-lg shadow-emerald-500/25">
-                    <i class="fas fa-save mr-2"></i>Perbarui FAQ
-                </button>
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
+                    <i class="fas fa-edit mr-2"></i> Edit FAQ
+                </h1>
+                <p class="text-gray-500 font-medium font-medium mt-1">Lakukan penyesuaian pada FAQ yang sudah ada</p>
             </div>
-        </form>
+        </div>
+
+        <!-- FORM CARD -->
+        <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-4 border-[#ffc107]">
+            <form action="{{ route('admin.faq.update', $faq) }}" method="POST" class="p-6 md:p-10">
+                @csrf
+                @method('PUT')
+                
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- MAIN CONTENT -->
+                    <div class="lg:col-span-2 space-y-6">
+                        
+                        <!-- PERTANYAAN -->
+                        <div class="space-y-2">
+                            <label for="pertanyaan" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                <i class="fas fa-question text-[#ffc107] mr-1"></i> Pertanyaan <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="pertanyaan" id="pertanyaan" value="{{ old('pertanyaan', $faq->pertanyaan) }}" required
+                                class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-800 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent transition-all shadow-sm"
+                                placeholder="Masukkan pertanyaan...">
+                            @error('pertanyaan') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                        </div>
+
+                        <!-- JAWABAN (TinyMCE) -->
+                        <div class="space-y-2">
+                            <label for="editor_faq_edit" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                <i class="fas fa-comment-dots text-[#ffc107] mr-1"></i> Jawaban Lengkap <span class="text-red-500">*</span>
+                            </label>
+                            <div class="rounded-xl overflow-hidden border border-gray-300">
+                                <textarea name="jawaban" id="editor_faq_edit" class="tinymce-editor">{{ old('jawaban', $faq->jawaban) }}</textarea>
+                            </div>
+                            @error('jawaban') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                        </div>
+
+                    </div>
+
+                    <!-- SIDEBAR INFO -->
+                    <div class="space-y-6">
+                        <div class="bg-blue-50 border-l-4 border-[#004a99] p-6 rounded-r-2xl">
+                            <h3 class="text-md font-bold text-[#004a99] mb-3 uppercase flex items-center">
+                                <i class="fas fa-history mr-2"></i> Info Update
+                            </h3>
+                            <div class="text-xs text-blue-800 space-y-2 font-medium">
+                                <p><strong>Dibuat:</strong> {{ $faq->created_at->translatedFormat('d F Y') }}</p>
+                                <p><strong>Update Terakhir:</strong> {{ $faq->updated_at->diffForHumans() }}</p>
+                            </div>
+                        </div>
+
+                        <div class="bg-[#004a99] rounded-2xl p-6 text-white shadow-lg">
+                            <p class="text-xs opacity-90 leading-relaxed font-medium">
+                                <i class="fas fa-lightbulb mr-1 text-[#ffc107]"></i> Tips: Usahakan jawaban tidak terlalu panjang agar mudah dibaca di tampilan mobile.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="mt-10 pt-6 border-t border-gray-100 flex flex-col md:flex-row justify-end gap-3">
+                    <button type="button" onclick="window.location='{{ route('admin.faq.index') }}'" class="px-6 py-3 bg-gray-100 text-gray-600 font-bold rounded-xl hover:bg-gray-200 transition-all flex items-center justify-center">
+                        <i class="fas fa-times mr-2"></i> Batal
+                    </button>
+                    <button type="submit" class="px-8 py-3 bg-gradient-to-r from-[#004a99] to-blue-700 text-white font-bold rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/40 transform hover:scale-[1.02] transition-all flex items-center justify-center">
+                        <i class="fas fa-save mr-2 text-[#ffc107]"></i> Simpan Perubahan FAQ
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
 </div>
-</div>
 
-<!-- TinyMCE Editor -->
-<script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        tinymce.init({
-            selector: '#editor_faq_edit',
-            license_key: 'gpl',
-            height: 400,
-            menubar: false,
-            skin: 'oxide-dark',
-            content_css: 'dark',
-            plugins: [
-                'advlist','autolink','lists','link','image','charmap',
-                'searchreplace','visualblocks','code','fullscreen',
-                'insertdatetime','media','table','help','wordcount'
-            ],
-            toolbar:
-                'undo redo | styles | bold italic underline | ' +
-                'alignleft aligncenter alignright alignjustify | ' +
-                'bullist numlist outdent indent | ' +
-                'table link | removeformat code fullscreen',
-            toolbar_mode: 'wrap',
-            content_style:
-                'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.75; color: #f8fafc; background: transparent; padding: 12px; } ' +
-                'table { border-collapse: collapse; width: 100%; } ' +
-                'table td, table th { border: 1px solid #ddd; padding: 8px 12px; }' +
-                'table th { background: #f1f5f9; font-weight: 600; }'
-        });
-
-        document.querySelector('form').addEventListener('submit', function() {
-            tinymce.triggerSave();
-        });
+    tinymce.init({
+        selector: '.tinymce-editor',
+        plugins: 'lists link anchor autolink charmap emoticons wordcount',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 400,
+        branding: false,
+        elementpath: false,
+        menubar: false,
+        promotion: false
     });
 </script>
 @endsection

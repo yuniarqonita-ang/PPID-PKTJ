@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 
 @php
     use App\Models\Dashboard;
@@ -11,7 +11,7 @@
     <!-- ==================== HEADER SECTION ==================== -->
     <div class="flex justify-between items-center mb-8">
         <div>
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">🎨 Edit Dashboard Publik</h1>
+            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">ðŸŽ¨ Edit Dashboard Publik</h1>
             <p class="text-slate-300 mt-1">Sesuaikan tampilan halaman publik PPID PKTJ</p>
         </div>
         <div class="flex items-center space-x-3">

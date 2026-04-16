@@ -64,6 +64,7 @@ class ProfilPpidController extends Controller
             'link_dokumen'        => 'nullable|url|max:500',
             'additional_title'    => 'nullable|array',
             'additional_content'  => 'nullable|array',
+            'additional_layout'   => 'nullable|array',
             'gambaran'            => 'nullable|string',
         ]);
 
@@ -106,7 +107,8 @@ class ProfilPpidController extends Controller
                 if ($title || isset($request->additional_content[$index])) {
                     $sections[] = [
                         'title'   => $title,
-                        'content' => $request->additional_content[$index] ?? ''
+                        'content' => $request->additional_content[$index] ?? '',
+                        'layout'  => $request->additional_layout[$index] ?? 'default'
                     ];
                 }
             }

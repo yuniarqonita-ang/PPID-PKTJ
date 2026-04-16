@@ -1,4 +1,4 @@
-<!-- Find & Replace Modal -->
+﻿<!-- Find & Replace Modal -->
 <div class="modal fade" id="findReplaceModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

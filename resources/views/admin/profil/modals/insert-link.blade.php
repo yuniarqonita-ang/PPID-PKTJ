@@ -1,4 +1,4 @@
-<!-- Insert Link Modal -->
+﻿<!-- Insert Link Modal -->
 <div class="modal fade" id="insertLinkModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

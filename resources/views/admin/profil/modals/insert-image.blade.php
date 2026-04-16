@@ -1,4 +1,4 @@
-<!-- Insert Image Modal -->
+﻿<!-- Insert Image Modal -->
 <div class="modal fade" id="insertImageModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">

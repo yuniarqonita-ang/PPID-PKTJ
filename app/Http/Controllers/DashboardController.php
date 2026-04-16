@@ -101,7 +101,7 @@ class DashboardController extends Controller
             Dashboard::updateOrCreate(
                 ['key' => $key],
                 [
-                    'value' => $value,
+                    'value' => $value ?? '',
                     'type' => 'text',
                     'description' => $this->getDescription($key),
                     'aktif' => true
@@ -109,7 +109,7 @@ class DashboardController extends Controller
             );
         }
 
-        return redirect()->route('admin.dashboard.edit')->with('success', 'Dashboard berhasil diperbarui!');
+        return redirect()->route('dashboard.edit')->with('success', 'Dashboard berhasil diperbarui!');
     }
 
     private function getDescription($key)

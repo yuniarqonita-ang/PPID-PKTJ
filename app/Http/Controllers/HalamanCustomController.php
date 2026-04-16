@@ -42,12 +42,12 @@ class HalamanCustomController extends Controller
                 if(!is_array($value)) {
                     Dashboard::updateOrCreate(
                         ['key' => $settingKey],
-                        ['value' => $value, 'type' => 'text', 'description' => "Teks dinamis untuk $type $key"]
+                        ['value' => $value ?? '', 'type' => 'text', 'description' => "Teks dinamis untuk $type $key"]
                     );
                 }
             }
         }
 
-        return back()->with('success', 'Informasi pada halaman ' . str_replace('-', ' ', title_case($type)) . ' berhasil diperbarui!');
+        return back()->with('success', 'Informasi pada halaman ' . ucwords(str_replace('-', ' ', $type)) . ' berhasil diperbarui!');
     }
 }

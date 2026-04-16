@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -434,7 +434,7 @@
             <hr class="my-4 bg-light">
             <div class="text-center">
                 <p class="mb-0">&copy; 2026 PPID PKTJ. All rights reserved.</p>
-                <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+                <p class="mb-0">Dikembangkan dengan â¤ï¸ untuk kemudahan akses informasi publik</p>
             </div>
         </div>
     </footer>

@@ -1,12 +1,14 @@
 <x-app-layout>
     <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
+<x-app-layout>
+    <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative group">
                 <div class="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-[22px] blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
                 <div class="bg-slate-800/90 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden transition-all duration-300">
                 <!-- Header -->
                 <div class="bg-gradient-to-r from-blue-600 to-blue-800 px-6 py-4">
-                    <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">📞 Edit Kontak PPID</h1>
+                    <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg"><i class="fas fa-phone-alt mr-2"></i> Edit Kontak PPID</h1>
                 </div>
 
                 <!-- Content -->
@@ -44,10 +46,10 @@
 
                         <div class="flex gap-4">
                             <button type="submit" class="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 text-white font-bold hover:from-emerald-400 hover:to-teal-500 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(16,185,129,0.4)] border border-emerald-400/30">
-                                💾 Simpan Perubahan
+                                <i class="fas fa-save"></i> Simpan Perubahan
                             </button>
                             <a href="{{ route('dashboard') }}" class="inline-flex items-center gap-2 px-8 py-3 rounded-xl bg-gradient-to-r from-slate-600 to-slate-700 text-white font-bold hover:from-slate-500 hover:to-slate-600 transition-all duration-300 transform hover:-translate-y-1 hover:shadow-[0_8px_20px_rgba(71,85,105,0.4)] border border-slate-500/30">
-                                ← Kembali
+                                <i class="fas fa-arrow-left"></i> Kembali
                             </a>
                         </div>
                     </form>

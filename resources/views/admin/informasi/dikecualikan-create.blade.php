@@ -1,366 +1,166 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-    <div class="space-y-8 max-w-full">
-
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">
-                🔒 Informasi Dikecualikan
-            </h1>
-            <p class="text-slate-400 mt-1">Kelola informasi yang dikecualikan sesuai peraturan perundang-undangan</p>
-        </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ route('dashboard') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 text-white font-bold hover:shadow-lg transition transform hover:scale-105">
-                <i class="fas fa-arrow-left mr-2"></i>Kembali
-            </a>
-        </div>
-    </div>
-
-    <!-- ==================== ALERTS SECTION ==================== -->
-    @if($errors->any())
-        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-900/20 to-red-900/30 border border-red-600/30 p-6 shadow-lg">
-            <div class="absolute -top-4 -right-4 w-16 h-16 bg-red-200/20 rounded-full blur-2xl"></div>
-            <div class="relative z-10">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center">
-                            <i class="fas fa-exclamation-circle text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-red-300 mb-2">🚨 Terjadi Kesalahan!</h3>
-                        <ul class="space-y-1 text-red-400">
-                            @foreach($errors->all() as $error)
-                                <li class="flex items-center space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-                                    <span>{{ $error }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    @if(session('success'))
-        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-900/20 to-green-900/30 border border-green-600/30 p-6 shadow-lg">
-            <div class="absolute -top-4 -right-4 w-16 h-16 bg-green-200/20 rounded-full blur-2xl"></div>
-            <div class="relative z-10">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center animate-pulse">
-                            <i class="fas fa-check-circle text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-green-300">✅ Berhasil!</h3>
-                        <p class="text-green-400">{{ session('success') }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    <!-- ==================== FORM SECTION ==================== -->
-    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm border border-slate-600/30 p-8">
-        <form action="#" method="POST" enctype="multipart/form-data">
-            @csrf
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Main Content (2 columns) -->
-                <div class="lg:col-span-2 space-y-8">
-                    <!-- Informasi Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center mr-3">
-                                <i class="fas fa-heading text-sm"></i>
-                            </span>
-                            Informasi *
-                        </label>
-                        <input type="text" name="informasi" id="informasi" 
-                               class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:border-cyan-500 focus:ring-cyan-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                               placeholder="Masukkan judul informasi yang dikecualikan..." required>
-                    </div>
-
-                    <!-- Dasar Hukum Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center mr-3">
-                                <i class="fas fa-gavel text-sm"></i>
-                            </span>
-                            Dasar Hukum Pengecualian Informasi *
-                        </label>
-                        <textarea name="dasar_hukum" id="dasar_hukum" rows="3"
-                                  class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm resize-none bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                  placeholder="Contoh: UU No. 14 Tahun 2008 Pasal 17 Huruf b..." required></textarea>
-                    </div>
-
-                    <!-- Konsekuensi Dibuka Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white flex items-center justify-center mr-3">
-                                <i class="fas fa-eye text-sm"></i>
-                            </span>
-                            Konsekuensi/Pertimbangan Dibuka Bagi Publik *
-                        </label>
-                        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-                            <textarea id="editor_dibuka" name="konsekuensi_dibuka" class="w-full p-6 border-0 outline-none resize-none bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" style="min-height: 300px;" required>
-Tuliskan konsekuensi atau pertimbangan jika informasi ini dibuka untuk publik...
-                            </textarea>
-                        </div>
-                        <p class="text-sm text-slate-400 mt-2">
-                            <i class="fas fa-info-circle mr-1"></i>
-                            Jelaskan dampak yang akan terjadi jika informasi ini dibuka
-                        </p>
-                    </div>
-
-                    <!-- Konsekuensi Ditutup Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-center mr-3">
-                                <i class="fas fa-eye-slash text-sm"></i>
-                            </span>
-                            Konsekuensi/Pertimbangan Ditutup Bagi Publik *
-                        </label>
-                        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-                            <textarea id="editor_ditutup" name="konsekuensi_ditutup" class="w-full p-6 border-0 outline-none resize-none bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" style="min-height: 300px;" required>
-Tuliskan konsekuensi atau pertimbangan jika informasi ini ditutup untuk publik...
-                            </textarea>
-                        </div>
-                        <p class="text-sm text-slate-400 mt-2">
-                            <i class="fas fa-info-circle mr-1"></i>
-                            Jelaskan alasan mengapa informasi ini perlu ditutup
-                        </p>
-                    </div>
-
-                    <!-- Jangka Waktu Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center mr-3">
-                                <i class="fas fa-clock text-sm"></i>
-                            </span>
-                            Jangka Waktu Pengecualian *
-                        </label>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">Mulai Tanggal</label>
-                                <input type="date" name="tanggal_mulai" id="tanggal_mulai" 
-                                       class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:border-cyan-500 focus:ring-cyan-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                       required>
-                            </div>
-                            <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">Sampai Tanggal</label>
-                                <input type="date" name="tanggal_selesai" id="tanggal_selesai" 
-                                       class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:border-cyan-500 focus:ring-cyan-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                       required>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Penanggung Jawab Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 text-white flex items-center justify-center mr-3">
-                                <i class="fas fa-user-tie text-sm"></i>
-                            </span>
-                            Penanggung Jawab *
-                        </label>
-                        <input type="text" name="penanggung_jawab" id="penanggung_jawab" 
-                               class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                               placeholder="Nama penanggung jawab informasi..." required>
-                    </div>
-
-                    <!-- Dokumen Pendukung Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white flex items-center justify-center mr-3">
-                                <i class="fas fa-file text-sm"></i>
-                            </span>
-                            Dokumen Pendukung (Opsional)
-                        </label>
-                        <div class="relative">
-                            <input type="file" name="dokumen" id="dokumen" 
-                                   class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-red-50 file:text-red-400 hover:file:bg-red-100"
-                                   accept=".pdf,.doc,.docx">
-                            <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm">
-                                Max 10MB
-                            </div>
-                        </div>
-                        <p class="text-sm text-slate-400 mt-2">
-                            <i class="fas fa-file-alt mr-1"></i>
-                            Format: PDF, DOC, DOCX
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Sidebar (1 column) -->
-                <div class="space-y-6">
-                    <!-- Panduan Card -->
-                    <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border border-yellow-600/30 p-6 shadow-lg">
-                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-yellow-200/20 rounded-full blur-3xl"></div>
-                        <div class="relative z-10">
-                            <div class="flex items-center mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 text-white flex items-center justify-center mr-3">
-                                    <i class="fas fa-lightbulb"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-orange-300">Panduan Pengisian</h3>
-                            </div>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Informasi:</strong>
-                                        <p class="text-orange-400">Judul informasi yang dikecualikan</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Dasar Hukum:</strong>
-                                        <p class="text-orange-400">UUD/UU yang menjadi acuan</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Konsekuensi:</strong>
-                                        <p class="text-orange-400">Dampak jika dibuka/ditutup</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Jangka Waktu:</strong>
-                                        <p class="text-orange-400">Periode pengecualian</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Penanggung Jawab:</strong>
-                                        <p class="text-orange-400">PIC informasi</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Info Card -->
-                    <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-900/20 to-indigo-900/20 border border-blue-600/30 p-6 shadow-lg">
-                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-blue-200/20 rounded-full blur-3xl"></div>
-                        <div class="relative z-10">
-                            <div class="flex items-center mb-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-400 to-indigo-500 text-white flex items-center justify-center mr-3">
-                                    <i class="fas fa-info-circle"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-blue-300">Tentang Informasi Dikecualikan</h3>
-                            </div>
-                            <p class="text-sm text-blue-400 leading-relaxed">
-                                Informasi Dikecualikan adalah informasi yang tidak dapat diakses oleh publik karena dapat membahayakan kepentingan negara, keamanan, atau melanggar hak privasi sesuai peraturan perundang-undangan yang berlaku.
-                            </p>
-                        </div>
-                    </div>
-
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-red-400 to-red-600 p-4 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden/20 rounded-full blur-xl"></div>
-                            <div class="relative z-10">
-                                <p class="text-2xl font-black">3</p>
-                                <p class="text-xs text-white/80">Total Item</p>
-                            </div>
-                        </div>
-                        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-orange-400 to-orange-600 p-4 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden/20 rounded-full blur-xl"></div>
-                            <div class="relative z-10">
-                                <p class="text-2xl font-black">1</p>
-                                <p class="text-xs text-white/80">Bulan Ini</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="flex justify-end space-x-4 mt-8 pt-8 border-t-2 border-slate-600/30">
-                <a href="{{ route('dashboard') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <i class="fas fa-times mr-2"></i>Batal
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
+    <div class="max-w-5xl mx-auto space-y-6">
+        
+        <!-- HEADER SECTION -->
+        <div class="flex items-center justify-between gap-4">
+            <div>
+                <a href="{{ route('admin.informasi.dikecualikan') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold text-gray-800">
+                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Panel
                 </a>
-                <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25 ring-1 ring-cyan-400/30 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <i class="fas fa-save mr-2"></i>Simpan Informasi
-                </button>
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
+                    <i class="fas fa-user-shield mr-2 text-[#ffc107]"></i> Klasifikasi Informasi Dikecualikan
+                </h1>
+                <p class="text-gray-500 font-medium mt-1 uppercase tracking-widest text-[10px]">Lakukan uji konsekuensi dan unggah berkas klasifikasi terbaru</p>
             </div>
-        </form>
+        </div>
+
+        <!-- FORM CARD -->
+        <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-4 border-red-500">
+            <form action="{{ route('admin.informasi.dikecualikan.store') }}" method="POST" enctype="multipart/form-data" class="p-6 md:p-10 space-y-10">
+                @csrf
+                
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
+                    <!-- MAIN DATA (Left) -->
+                    <div class="lg:col-span-3 space-y-8">
+                        
+                        <!-- INFORMASI & DASAR HUKUM -->
+                        <div class="grid grid-cols-1 gap-6">
+                            <div class="space-y-2">
+                                <label for="informasi" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                    Nama / Judul Informasi <span class="text-red-500">*</span>
+                                </label>
+                                <input type="text" name="informasi" id="informasi" value="{{ old('informasi') }}" required
+                                    class="w-full px-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-red-500/10 focus:border-red-500 focus:outline-none transition-all shadow-sm"
+                                    placeholder="Contoh: Dokumen Pengadaan Barang Strategis">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label for="dasar_hukum" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                    Dasar Hukum Pengecualian <span class="text-red-500">*</span>
+                                </label>
+                                <textarea name="dasar_hukum" id="dasar_hukum" rows="2" required
+                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-red-500/10 focus:border-red-500 focus:outline-none transition-all shadow-sm resize-none"
+                                    placeholder="UU No. 14 Tahun 2008 Pasal 17 Huruf b...">{{ old('dasar_hukum') }}</textarea>
+                            </div>
+                        </div>
+
+                        <!-- KONSEKUENSI SECTION -->
+                        <div class="space-y-6">
+                            <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center bg-blue-50/50 p-3 rounded-xl border border-blue-100">
+                                <i class="fas fa-balance-scale mr-3 text-[#ffc107]"></i> Uji Konsekuensi (Detail Pertimbangan)
+                            </h3>
+                            
+                            <div class="space-y-6">
+                                <div class="space-y-2">
+                                    <label class="block text-[11px] font-black text-green-600 uppercase tracking-widest pl-1">
+                                        <i class="fas fa-check-circle mr-1"></i> Jika Informasi Dibuka
+                                    </label>
+                                    <div class="rounded-2xl overflow-hidden border border-gray-300 bg-white">
+                                        <textarea name="konsekuensi_dibuka" id="editor_dibuka" class="tinymce-editor text-gray-800">{{ old('konsekuensi_dibuka') }}</textarea>
+                                    </div>
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="block text-[11px] font-black text-red-600 uppercase tracking-widest pl-1">
+                                        <i class="fas fa-times-circle mr-1 text-gray-800"></i> Jika Informasi Ditutup
+                                    </label>
+                                    <div class="rounded-2xl overflow-hidden border border-gray-300 bg-white">
+                                        <textarea name="konsekuensi_ditutup" id="editor_ditutup" class="tinymce-editor">{{ old('konsekuensi_ditutup') }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- SIDEBAR (Right) -->
+                    <div class="space-y-8">
+                        
+                        <!-- JANGKA WAKTU -->
+                        <div class="bg-gray-50 rounded-3xl p-6 border border-gray-200">
+                            <h3 class="text-xs font-black text-[#004a99] mb-6 uppercase tracking-[0.2em] flex items-center">
+                                <i class="fas fa-hourglass-half mr-2 text-[#ffc107]"></i> Jangka Waktu
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase ml-1">Mulai</label>
+                                    <input type="date" name="tanggal_mulai" required class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-700 focus:ring-2 focus:ring-[#004a99]">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-gray-400 uppercase ml-1 text-gray-800">Selesai</label>
+                                    <input type="date" name="tanggal_selesai" required class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-700 focus:ring-2 focus:ring-[#004a99]">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PIC -->
+                        <div class="bg-gray-50 rounded-3xl p-6 border border-gray-200">
+                            <h3 class="text-xs font-black text-[#004a99] mb-4 uppercase tracking-[0.2em] flex items-center">
+                                <i class="fas fa-user-edit mr-2 text-[#ffc107]"></i> Penanggung Jawab
+                            </h3>
+                            <input type="text" name="penanggung_jawab" value="{{ old('penanggung_jawab') }}" required
+                                class="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-700 focus:ring-2 focus:ring-[#004a99] focus:outline-none"
+                                placeholder="Nama & Jabatan PIC">
+                        </div>
+
+                        <!-- UPLOAD PANEL -->
+                        <div class="bg-white rounded-3xl p-6 border-2 border-dashed border-gray-200 hover:border-red-400 transition-all text-center group cursor-pointer" onclick="document.getElementById('fileInput').click()">
+                            <div class="w-12 h-12 bg-gray-50 text-gray-300 rounded-2xl flex items-center justify-center mx-auto mb-3 group-hover:bg-red-50 group-hover:text-red-500 transition-all">
+                                <i class="fas fa-file-shield text-xl"></i>
+                            </div>
+                            <p class="text-[10px] font-black uppercase text-gray-400 group-hover:text-red-500">Unggah Berkas Uji</p>
+                            <input type="file" name="file" id="fileInput" accept=".pdf,.doc,.docx" class="hidden" onchange="handleFile(this)">
+                            <div id="fileInfo" class="hidden mt-3 p-2 bg-red-50 rounded-xl text-[9px] font-bold text-red-500 border border-red-100 animate-fade-in-down truncate"></div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- ACTIONS -->
+                <div class="pt-10 border-t border-gray-100 flex flex-col md:flex-row justify-end gap-3 text-gray-800">
+                    <button type="button" onclick="history.back()" class="px-8 py-4 bg-gray-100 text-gray-600 font-bold rounded-2xl hover:bg-gray-200 transition-all">
+                        Batal
+                    </button>
+                    <button type="submit" class="px-10 py-4 bg-red-500 text-white font-black uppercase tracking-widest rounded-2xl shadow-lg shadow-red-500/20 hover:bg-red-600 transition-all transform hover:scale-[1.02] flex items-center justify-center">
+                        <i class="fas fa-lock mr-2 text-white"></i> Simpan Data Rahasia
+                    </button>
+                </div>
+
+            </form>
+        </div>
     </div>
 </div>
 
-<!-- TinyMCE Editor Scripts -->
-    <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
-    <script>
-        var TINYMCE_CONFIG = {
-            license_key: 'gpl',
-            height: 400,
-            menubar: false,
-            skin: 'oxide-dark',
-            content_css: 'dark',
-            plugins: [
-                'advlist','autolink','lists','link','image','charmap',
-                'searchreplace','visualblocks','code','fullscreen',
-                'insertdatetime','media','table','help','wordcount'
-            ],
-            toolbar:
-                'undo redo | styles | bold italic underline strikethrough | ' +
-                'fontfamily fontsize forecolor backcolor | ' +
-                'alignleft aligncenter alignright alignjustify | ' +
-                'bullist numlist outdent indent | ' +
-                'table link image charmap | removeformat code fullscreen',
-            toolbar_mode: 'wrap',
-            fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 16pt 18pt 20pt 24pt 28pt 32pt 36pt 48pt 72pt',
-            font_family_formats:
-                'Arial=arial,helvetica,sans-serif;' +
-                'Arial Black=arial black,avant garde;' +
-                'Comic Sans MS=comic sans ms,sans-serif;' +
-                'Courier New=courier new,courier;' +
-                'Georgia=georgia,palatino;' +
-                'Helvetica=helvetica;' +
-                'Impact=impact,chicago;' +
-                'Inter=inter,sans-serif;' +
-                'Tahoma=tahoma,arial,helvetica,sans-serif;' +
-                'Times New Roman=times new roman,times;' +
-                'Trebuchet MS=trebuchet ms,geneva;' +
-                'Verdana=verdana,geneva',
-            style_formats: [
-                { title: 'Heading 1', block: 'h1' },
-                { title: 'Heading 2', block: 'h2' },
-                { title: 'Heading 3', block: 'h3' },
-                { title: 'Heading 4', block: 'h4' },
-                { title: 'Paragraph', block: 'p' },
-                { title: 'Blockquote', block: 'blockquote' }
-            ],
-            table_toolbar:
-                'tableprops tabledelete | tableinsertrowbefore tableinsertrowafter tabledeleterow | ' +
-                'tableinsertcolbefore tableinsertcolafter tabledeletecol',
-            content_style:
-                'body { font-family: Inter, sans-serif; font-size: 15px; line-height: 1.75; color: #f8fafc; background: transparent; padding: 12px; padding: 12px; } ' +
-                'table { border-collapse: collapse; width: 100%; } ' +
-                'table td, table th { border: 1px solid #ddd; padding: 8px 12px; }' +
-                'table th { background: #f1f5f9; font-weight: 600; }'
-        };
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '.tinymce-editor',
+        plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link image table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 250,
+        branding: false,
+        elementpath: false,
+        menubar: false,
+        promotion: false
+    });
 
-        document.addEventListener('DOMContentLoaded', function() {
-            tinymce.init(Object.assign({}, TINYMCE_CONFIG, { selector: '#editor_dibuka' }));
-            tinymce.init(Object.assign({}, TINYMCE_CONFIG, { selector: '#editor_ditutup' }));
-        });
+    function handleFile(input) {
+        if (input.files && input.files[0]) {
+            const info = document.getElementById('fileInfo');
+            info.innerText = 'TERPILIH: ' + input.files[0].name;
+            info.classList.remove('hidden');
+        }
+    }
+</script>
 
-        // Auto-sync TinyMCE on form submit
-        document.querySelector('form').addEventListener('submit', function() {
-            tinymce.triggerSave();
-        });
-    </script>
-</div>
-</div>
+<style>
+    .animate-fade-in-down { animation: fadeInDown 0.4s ease-out; }
+    @keyframes fadeInDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 @endsection

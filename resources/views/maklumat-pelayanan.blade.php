@@ -236,20 +236,7 @@
     <!-- Main Content -->
     <div class="container py-5">
         <h1 class="page-title">Maklumat Pelayanan PPID PKTJ</h1>
-        {{-- KONTEN DARI ADMIN PANEL --}}
-        @if(isset($profil) && $profil && ($profil->konten_pembuka || $profil->gambaran))
-        <div class="content-box mb-4" style="border-left: 5px solid #d4af37;">
-            @if($profil->judul)
-                <h2 class="section-title">{{ $profil->judul }}</h2>
-            @endif
-            @if($profil->konten_pembuka)
-                <div class="profil-content">{!! $profil->konten_pembuka !!}</div>
-            @endif
-            @if($profil->gambaran)
-                <div class="profil-content mt-3">{!! $profil->gambaran !!}</div>
-            @endif
-        </div>
-        @endif
+        @include('components.konten-dinamis', ['prefix' => 'maklumat'])
     </div>
 
     <!-- Footer -->
@@ -271,7 +258,7 @@
             <hr class="my-4 bg-light">
             <div class="text-center">
                 <p class="mb-0">&copy; 2026 PPID PKTJ. All rights reserved.</p>
-                <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
+                <p class="mb-0">Dikembangkan dengan â¤ï¸ untuk kemudahan akses informasi publik</p>
             </div>
         </div>
     </footer>

@@ -172,7 +172,6 @@
             </table>
         </div>
 
-<<<<<<< Updated upstream
         @if($profil && $profil->konten_detail)
             <div class="content-box mt-4">
                 <h3 class="mb-3">{{ $profil->judul_sub ?? 'Detail Informasi Tambahan' }}</h3>
@@ -180,9 +179,6 @@
             </div>
         @endif
     </div>
-=======
-        </div>
->>>>>>> Stashed changes
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     

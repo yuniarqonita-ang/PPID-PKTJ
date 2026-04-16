@@ -47,18 +47,12 @@
         .hero-section::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
+            top: 0; left: 0; right: 0; bottom: 0;
             background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
             opacity: 0.1;
         }
 
-        .hero-content {
-            position: relative;
-            z-index: 1;
-        }
+        .hero-content { position: relative; z-index: 1; }
 
         .page-title {
             color: #004a99;
@@ -98,9 +92,7 @@
             color: #1a3a52 !important;
         }
 
-        .accordion-button:focus {
-            box-shadow: none;
-        }
+        .accordion-button:focus { box-shadow: none; }
 
         .accordion-body {
             background-color: #f8f9fa;
@@ -147,83 +139,22 @@
             border-color: #c9a227;
             color: #1a3a52;
         }
+
+        .faq-empty {
+            text-align: center;
+            padding: 50px 20px;
+        }
+
+        .faq-empty i {
+            font-size: 60px;
+            color: #d4af37;
+            margin-bottom: 20px;
+            display: block;
+        }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="/images/logo-pktj.png" alt="Logo PKTJ">
-                <span>PPID PKTJ</span>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
-                        <ul class="dropdown-menu" style="min-width: 280px;">
-                            <li><a class="dropdown-item" href="/profil/ppid">Profil PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/tugas-tanggung-jawab">Tugas dan Tanggung Jawab PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/visi-misi">Visi dan Misi</a></li>
-                            <li><a class="dropdown-item" href="/profil/struktur-organisasi">Struktur Organisasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/regulasi">Regulasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/kontak">Kontak</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
-                        <ul class="dropdown-menu" style="min-width: 250px;">
-                            <li><a class="dropdown-item" href="/informasi-publik/berkala">Informasi Berkala</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/serta-merta">Informasi Serta Merta</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/setiap-saat">Informasi Setiap Saat</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/dikecualikan">Informasi Dikecualikan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
-                        <ul class="dropdown-menu" style="min-width: 320px;">
-                            <li><a class="dropdown-item" href="/layanan-informasi/daftar">Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/maklumat">Maklumat Pelayanan & Standar Biaya</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan">Laporan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-akses">Laporan Akses Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-survey">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
-                        <ul class="dropdown-menu" style="min-width: 380px;">
-                            <li><a class="dropdown-item" href="/prosedur/sop-permintaan-informasi">SOP Permintaan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penanganan-keberatan">SOP Penanganan Keberatan</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengajuan-sengketa">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penetapan-pemutakhiran">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengujian-konsekuensi">SOP Pengujian Konsekuensi</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pendokumentasian">SOP Pendokumentasian Informasi Publik</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq">FAQ</a>
-                    </li>
-                </ul>
-
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi">
-                    PERMOHONAN INFORMASI
-                </a>
-            </div>
-        </div>
-    </nav>
+    @include('navigation')
 
     <!-- Hero Section -->
     <div class="hero-section">
@@ -244,195 +175,35 @@
             <h4>Pertanyaan Umum tentang PPID</h4>
         </div>
 
+        @if($faqs->count() > 0)
         <div class="accordion" id="faqAccordion">
+            @foreach($faqs as $index => $faq)
             <div class="accordion-item">
                 <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
-                        <i class="fas fa-question me-2"></i>Apa itu PPID?
+                    <button class="accordion-button {{ $index > 0 ? 'collapsed' : '' }}" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#faqItem{{ $faq->id }}">
+                        <i class="fas fa-question me-2"></i>{{ $faq->pertanyaan }}
                     </button>
                 </h2>
-                <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                <div id="faqItem{{ $faq->id }}" class="accordion-collapse collapse {{ $index === 0 ? 'show' : '' }}"
+                     data-bs-parent="#faqAccordion">
                     <div class="accordion-body">
-                        PPID adalah singkatan dari Pejabat Pengelola Informasi dan Dokumentasi. PPID adalah pejabat yang bertanggung jawab di bidang penyimpanan, pendokumentasian, penyediaan, dan/atau pelayanan informasi di badan publik sesuai dengan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik.
+                        {!! $faq->jawaban !!}
                     </div>
                 </div>
             </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
-                        <i class="fas fa-question me-2"></i>Apa tugas PPID?
-                    </button>
-                </h2>
-                <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        PPID bertugas untuk menyimpan, mendokumentasikan, menyediakan, dan/atau melayani permintaan informasi publik; membuat dan mengembangkan sistem informasi dan dokumentasi; mengkoordinasikan pengumpulan bahan informasi dan dokumentasi; serta menyediakan informasi dan dokumentasi yang diperlukan oleh masyarakat.
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
-                        <i class="fas fa-question me-2"></i>Bagaimana cara mengajukan permintaan informasi?
-                    </button>
-                </h2>
-                <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Permintaan informasi dapat diajukan melalui beberapa cara:
-                        <ul>
-                            <li>Mengisi formulir permohonan informasi online di website PPID</li>
-                            <li>Datang langsung ke kantor PPID dengan membawa identitas diri</li>
-                            <li>Mengirim surat permohonan ke alamat PPID</li>
-                            <li>Menghubungi hotline PPID untuk informasi awal</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq4">
-                        <i class="fas fa-question me-2"></i>Berapa lama waktu penyelesaian permintaan informasi?
-                    </button>
-                </h2>
-                <div id="faq4" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Berdasarkan Undang-Undang KIP, waktu penyelesaian permintaan informasi adalah:
-                        <ul>
-                            <li>Maksimal 10 hari kerja untuk informasi yang tersedia dan dapat langsung diberikan</li>
-                            <li>Maksimal 30 hari kerja untuk informasi yang perlu pencarian dan/atau penyiapan</li>
-                            <li>Dapat diperpanjang maksimal 30 hari kerja dengan pemberitahuan tertulis</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq5">
-                        <i class="fas fa-question me-2"></i>Apakah ada biaya untuk mendapatkan informasi?
-                    </button>
-                </h2>
-                <div id="faq5" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        <p>Untuk permintaan informasi yang berkaitan dengan kepentingan umum, PPID memberikan informasi tanpa biaya. Namun, untuk permintaan informasi yang memerlukan penggandaan atau pengiriman dokumen, pemohon informasi dapat dikenakan biaya sesuai dengan Standar Biaya Pelayanan Informasi Publik yang telah ditetapkan.</p>
-                        <p>Biaya yang mungkin dikenakan meliputi:</p>
-                        <ul>
-                            <li>Biaya penggandaan dokumen</li>
-                            <li>Biaya pengiriman dokumen</li>
-                            <li>Biaya penyediaan media penyimpanan</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq6">
-                        <i class="fas fa-question me-2"></i>Informasi apa saja yang tidak dapat diakses?
-                    </button>
-                </h2>
-                <div id="faq6" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Informasi yang dikecualikan dari keterbukaan informasi publik meliputi:
-                        <ul>
-                            <li>Informasi yang dapat membahayakan negara</li>
-                            <li>Informasi yang berkaitan dengan rahasia dagang</li>
-                            <li>Informasi yang berkaitan dengan hak kekayaan intelektual</li>
-                            <li>Informasi yang berkaitan dengan data pribadi</li>
-                            <li>Informasi yang masih dalam proses pengolahan</li>
-                        </ul>
-                        <p>Pengecualian informasi harus berdasarkan alasan yang sah dan tidak bersifat mutlak.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq7">
-                        <i class="fas fa-question me-2"></i>Apa yang harus dilakukan jika permintaan informasi ditolak?
-                    </button>
-                </h2>
-                <div id="faq7" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Jika permintaan informasi ditolak, pemohon informasi dapat:
-                        <ul>
-                            <li>Mengajukan keberatan kepada PPID dalam waktu 30 hari kerja</li>
-                            <li>Mengajukan sengketa informasi ke Komisi Informasi</li>
-                            <li>Mengajukan gugatan ke Pengadilan Tata Usaha Negara</li>
-                        </ul>
-                        <p>Proses keberatan dan sengketa informasi diatur dalam Undang-Undang KIP dan peraturan pelaksanaannya.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq8">
-                        <i class="fas fa-question me-2"></i>Kapan jam kerja PPID?
-                    </button>
-                </h2>
-                <div id="faq8" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        PPID PKTJ melayani permintaan informasi pada hari dan jam kerja sebagai berikut:
-                        <ul>
-                            <li><strong>Hari kerja:</strong> Senin - Jumat</li>
-                            <li><strong>Jam kerja:</strong> 08:00 - 16:00 WIB</li>
-                            <li><strong>Istirahat:</strong> 12:00 - 13:00 WIB</li>
-                            <li><strong>Hari libur:</strong> Sabtu, Minggu, dan hari libur nasional</li>
-                        </ul>
-                        <p>Untuk keadaan darurat, dapat menghubungi hotline PPID 24 jam.</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq9">
-                        <i class="fas fa-question me-2"></i>Bagaimana cara menghubungi PPID?
-                    </button>
-                </h2>
-                <div id="faq9" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        PPID PKTJ dapat dihubungi melalui berbagai kanal:
-                        <div class="row mt-3">
-                            <div class="col-md-6">
-                                <h6><i class="fas fa-map-marker-alt text-primary me-2"></i>Alamat Kantor</h6>
-                                <p>Jl. Medan Merdeka Barat No. 8<br>
-                                Jakarta Pusat 10110<br>
-                                Indonesia</p>
-                            </div>
-                            <div class="col-md-6">
-                                <h6><i class="fas fa-phone text-success me-2"></i>Kontak</h6>
-                                <p>Telp: (021) 3847790<br>
-                                Fax: (021) 3847791<br>
-                                Email: ppid@pktj.dephub.go.id</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="accordion-item">
-                <h2 class="accordion-header">
-                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq10">
-                        <i class="fas fa-question me-2"></i>Apa saja jenis informasi publik yang tersedia?
-                    </button>
-                </h2>
-                <div id="faq10" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
-                    <div class="accordion-body">
-                        Jenis informasi publik yang tersedia di PPID PKTJ meliputi:
-                        <ul>
-                            <li><strong>Informasi Berkala:</strong> Laporan tahunan, laporan keuangan, profil organisasi</li>
-                            <li><strong>Informasi Serta Merta:</strong> Informasi yang berkaitan dengan hajat hidup orang banyak</li>
-                            <li><strong>Informasi Setiap Saat:</strong> Daftar informasi publik, maklumat pelayanan</li>
-                            <li><strong>Informasi Dikecualikan:</strong> Informasi yang dikecualikan berdasarkan alasan yang sah</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
+        @else
+        <div class="content-box faq-empty">
+            <i class="fas fa-question-circle"></i>
+            <h3 style="color: #004a99;">Belum Ada FAQ</h3>
+            <p class="text-muted">FAQ akan segera diperbarui oleh tim PPID PKTJ.</p>
+            <a href="/permohonan-informasi" class="btn btn-warning mt-3">
+                <i class="fas fa-file-alt me-2"></i>Ajukan Pertanyaan Langsung
+            </a>
+        </div>
+        @endif
 
         <div class="content-box mt-4">
             <h2 class="section-title">Tidak Menemukan Jawaban?</h2>
@@ -441,11 +212,13 @@
                 <p>Jika pertanyaan Anda tidak terjawab dalam FAQ ini, silakan hubungi PPID PKTJ melalui:</p>
                 <div class="row mt-3">
                     <div class="col-md-6">
-                        <p><i class="fas fa-phone text-success me-2"></i><strong>Hotline:</strong> (021) 3847790</p>
-                        <p><i class="fas fa-envelope text-info me-2"></i><strong>Email:</strong> ppid@pktj.dephub.go.id</p>
+                        <p><i class="fas fa-phone text-success me-2"></i><strong>Hotline:</strong>
+                            @php $kontak = \App\Models\ProfilPpid::where('type','kontak')->first(); @endphp
+                            {{ $kontak && $kontak->konten_pembuka ? strip_tags($kontak->konten_pembuka, '<br>') : '(Info kontak tersedia di halaman Kontak)' }}
+                        </p>
                     </div>
                     <div class="col-md-6">
-                        <p><i class="fas fa-building text-warning me-2"></i><strong>Kantor:</strong> Jl. Medan Merdeka Barat No. 8</p>
+                        <p><i class="fas fa-building text-warning me-2"></i><strong>Kantor:</strong> PPID PKTJ</p>
                         <p><i class="fas fa-clock text-danger me-2"></i><strong>Jam Kerja:</strong> 08:00 - 16:00 WIB</p>
                     </div>
                 </div>
@@ -462,28 +235,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5 class="mb-3">PPID PKTJ</h5>
-                    <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
-                    <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
-                </div>
-                <div class="col-md-6">
-                    <h5 class="mb-3">Kontak</h5>
-                    <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
-                    <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
-                    <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
-                </div>
-            </div>
-            <hr class="my-4 bg-light">
-            <div class="text-center">
-                <p class="mb-0">&copy; 2026 PPID PKTJ. All rights reserved.</p>
-                <p class="mb-0">Dikembangkan dengan ❤️ untuk kemudahan akses informasi publik</p>
-            </div>
-        </div>
-    </footer>
+    @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

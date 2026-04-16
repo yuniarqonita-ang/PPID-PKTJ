@@ -1,155 +1,132 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-    <div class="max-w-7xl mx-auto">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6">
+    <div class="max-w-7xl mx-auto space-y-8">
 
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center mb-8">
-        <div>
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">📋 Informasi Berkala</h1>
-            <p class="text-slate-300 mt-1">Kelola informasi berkala yang wajib disediakan</p>
-        </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ url('/informasi/berkala') }}" target="_blank" class="px-4 py-2 bg-green-600 text-white font-medium hover:bg-green-700 transition rounded-lg">
-                <i class="fas fa-eye mr-2"></i>Lihat Publik
-            </a>
-            <a href="{{ route('admin.informasi.berkala.create') }}" class="px-4 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition rounded-lg">
-                <i class="fas fa-plus mr-2"></i>Tambah Baru
-            </a>
-        </div>
-    </div>
-
-    <!-- ==================== ALERTS SECTION ==================== -->
-    @if(session('success'))
-        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
-                </div>
-                <div class="ml-3">
-                    <p class="text-green-300 font-medium">{{ session('success') }}</p>
-                </div>
+        <!-- HEADER SECTION -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
+                    <i class="fas fa-calendar-alt mr-2 text-[#ffc107]"></i> Informasi Berkala
+                </h1>
+                <p class="text-gray-500 font-medium mt-1">Daftar dokumen yang disediakan secara rutin kepada publik</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="{{ url('/informasi/berkala') }}" target="_blank" class="px-6 py-3 bg-white border border-gray-200 text-[#004a99] font-bold rounded-xl shadow-sm hover:bg-gray-50 transition-all flex items-center">
+                    <i class="fas fa-eye mr-2"></i> Lihat Publik
+                </a>
+                <a href="{{ route('admin.informasi.berkala.create') }}" class="px-6 py-3 bg-[#004a99] text-white font-bold rounded-xl shadow-lg hover:bg-blue-800 transition-all flex items-center">
+                    <i class="fas fa-plus mr-2 text-[#ffc107]"></i> Tambah Data
+                </a>
             </div>
         </div>
-    @endif
 
-    <!-- ==================== TABLE SECTION ==================== -->
-    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-        <div class="p-6">
+        @if(session('success'))
+            <div class="bg-green-100 border-l-4 border-green-500 p-4 rounded-xl shadow-sm flex items-center animate-fade-in-down">
+                <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center mr-3 shadow-lg shadow-green-500/20">
+                    <i class="fas fa-check text-white"></i>
+                </div>
+                <p class="text-green-800 font-bold">{{ session('success') }}</p>
+            </div>
+        @endif
+
+        <!-- TABLE CARD -->
+        <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-slate-700/50">
-                    <thead class="bg-slate-900/80">
-                        <tr>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">
-                                Judul
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">
-                                Deskripsi
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">
-                                File
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">
-                                Status
-                            </th>
-                            <th class="px-6 py-3 text-left text-xs font-medium text-cyan-400 uppercase tracking-wider">
-                                Tanggal
-                            </th>
-                            <th class="px-6 py-3 text-right text-xs font-medium text-cyan-400 uppercase tracking-wider">
-                                Aksi
-                            </th>
+                <table class="w-full text-left">
+                    <thead>
+                        <tr class="bg-[#004a99] text-white">
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest">Informasi / Dokumen</th>
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest hidden lg:table-cell">Deskripsi</th>
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Status</th>
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class=" divide-y divide-slate-700/50">
+                    <tbody class="divide-y divide-gray-100">
                         @php
                             $items = App\Models\InformasiBerkala::latest()->get();
                         @endphp
                         @forelse($items as $item)
-                            <tr class="hover:bg-slate-700/50 transition-colors group">
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm font-medium text-white">{{ $item->judul }}</div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="text-sm text-slate-400">{{ Str::limit($item->deskripsi ?? '', 100) }}</div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="flex items-center">
-                                        <div class="flex-shrink-0 h-10 w-10 flex items-center justify-center bg-blue-100 rounded-full">
-                                            <i class="fas fa-file text-blue-600"></i>
-                                        </div>
-                                        <div class="ml-4">
-                                            <div class="text-sm font-medium text-white">{{ $item->file_name }}</div>
-                                            <div class="text-sm text-slate-400">{{ $item->file_size }}</div>
-                                        </div>
+                        <tr class="hover:bg-blue-50/30 transition-colors group">
+                            <td class="px-6 py-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 bg-blue-50 text-[#004a99] rounded-xl flex items-center justify-center text-xl group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm">
+                                        <i class="fas fa-file-pdf"></i>
                                     </div>
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap">
-                                    @if($item->aktif)
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-300">
-                                            Aktif
-                                        </span>
-                                    @else
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-300">
-                                            Nonaktif
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-sm text-slate-400">
-                                    {{ $item->created_at->format('d M Y') }}
-                                </td>
-                                <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <div class="flex items-center justify-end space-x-2">
-                                        <a href="{{ route('admin.informasi.berkala.edit', $item->id) }}" class="text-blue-600 hover:text-blue-900">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <button onclick="confirmDelete({{ $item->id }})" class="text-red-600 hover:text-red-900">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
+                                    <div>
+                                        <h3 class="text-sm font-bold text-gray-800">{{ $item->judul }}</h3>
+                                        <p class="text-[10px] text-gray-400 font-bold uppercase mt-1">
+                                            <i class="fas fa-hdd mr-1"></i> {{ $item->file_size }} | 
+                                            <i class="fas fa-calendar-day ml-2 mr-1"></i> {{ $item->created_at->format('d M Y') }}
+                                        </p>
                                     </div>
-                                </td>
-                            </tr>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 hidden lg:table-cell">
+                                <p class="text-xs text-gray-500 leading-relaxed line-clamp-2 max-w-xs italic font-medium">
+                                    {{ $item->deskripsi ?: 'Tidak ada deskripsi singkat.' }}
+                                </p>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                @if($item->aktif)
+                                    <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-600 rounded-full text-[10px] font-black uppercase">
+                                        <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-2 animate-pulse"></span> AKTIF
+                                    </span>
+                                @else
+                                    <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-400 rounded-full text-[10px] font-black uppercase">
+                                        DRAFT
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a href="{{ route('admin.informasi.berkala.edit', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button onclick="confirmDelete('{{ $item->id }}')" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
                         @empty
-                            <tr>
-                                <td colspan="6" class="px-6 py-12 text-center">
-                                    <div class="text-gray-400">
-                                        <i class="fas fa-folder-open text-4xl mb-4"></i>
-                                        <p class="text-lg font-medium">Belum ada data</p>
-                                        <p class="text-sm mt-1">Tambahkan informasi berkala pertama</p>
+                        <tr>
+                            <td colspan="4" class="px-6 py-20 text-center">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
+                                        <i class="fas fa-folder-open text-gray-200 text-4xl"></i>
                                     </div>
-                                </td>
-                            </tr>
+                                    <h3 class="text-lg font-bold text-gray-400 uppercase tracking-widest">Belum Ada Data</h3>
+                                    <p class="text-gray-400 text-sm mt-1">Silahkan tambahkan informasi berkala pertama Anda</p>
+                                    <a href="{{ route('admin.informasi.berkala.create') }}" class="mt-6 px-6 py-2 bg-[#004a99] text-white font-bold rounded-xl text-xs uppercase tracking-widest">Tambah Data</a>
+                                </div>
+                            </td>
+                        </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
         </div>
+
     </div>
-
-</div>
 </div>
 
-<!-- Delete Confirmation Modal -->
-<div id="deleteModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden overflow-y-auto h-full w-full z-50">
-    <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-        <div class="mt-3 text-center">
-            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                <i class="fas fa-exclamation-triangle text-red-600"></i>
+<!-- DELETE MODAL -->
+<div id="deleteModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4 transform scale-95 transition-transform duration-300">
+        <div class="text-center">
+            <div class="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-lg shadow-red-500/10">
+                <i class="fas fa-exclamation-triangle"></i>
             </div>
-            <h3 class="text-lg leading-6 font-medium text-white mt-4">Hapus Informasi</h3>
-            <div class="mt-2 px-7 py-3">
-                <p class="text-sm text-slate-400">Apakah Anda yakin ingin menghapus informasi ini? Tindakan ini tidak dapat dibatalkan.</p>
-            </div>
-            <div class="items-center px-4 py-3">
-                <form id="deleteForm" method="POST">
+            <h3 class="text-xl font-black text-[#004a99] uppercase mb-2">Konfirmasi Hapus</h3>
+            <p class="text-gray-500 text-sm mb-8 font-medium">Apakah Anda yakin ingin menghapus informasi ini secara permanen? Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="flex gap-3">
+                <button onclick="closeDeleteModal()" class="flex-1 py-3 bg-gray-100 text-gray-500 font-bold rounded-xl hover:bg-gray-200 transition-all">Batal</button>
+                <form id="deleteForm" method="POST" class="flex-1">
                     @csrf
                     @method('DELETE')
-                    <button type="button" onclick="closeDeleteModal()" class="px-4 py-2 bg-gray-300 text-slate-200 rounded-md hover:bg-gray-400 mr-2">
-                        Batal
-                    </button>
-                    <button type="submit" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">
-                        Hapus
-                    </button>
+                    <button type="submit" class="w-full py-3 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-all shadow-lg shadow-red-500/20">Ya, Hapus</button>
                 </form>
             </div>
         </div>
@@ -157,16 +134,22 @@
 </div>
 
 <script>
-function confirmDelete(id) {
-    const modal = document.getElementById('deleteModal');
-    const form = document.getElementById('deleteForm');
-    
-    form.action = '/admin/informasi-berkala/' + id;
-    modal.classList.remove('hidden');
-}
+    function confirmDelete(id) {
+        const modal = document.getElementById('deleteModal');
+        const form = document.getElementById('deleteForm');
+        form.action = `/admin/informasi-berkala/${id}`;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.add('opacity-100');
+            modal.querySelector('div').classList.add('scale-100');
+        }, 10);
+    }
 
-function closeDeleteModal() {
-    document.getElementById('deleteModal').classList.add('hidden');
-}
+    function closeDeleteModal() {
+        const modal = document.getElementById('deleteModal');
+        modal.classList.remove('opacity-100');
+        modal.querySelector('div').classList.remove('scale-100');
+        setTimeout(() => modal.classList.add('hidden'), 300);
+    }
 </script>
 @endsection

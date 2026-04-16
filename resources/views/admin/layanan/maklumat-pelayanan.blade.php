@@ -5,340 +5,180 @@
 @endphp
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-    <div class="space-y-8 max-w-full">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
+    <div class="max-w-7xl mx-auto space-y-8">
 
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">
-                📋 Maklumat Pelayanan dan Standar Biaya
-            </h1>
-            <p class="text-slate-400 mt-1">Kelola maklumat pelayanan dan standar biaya informasi publik</p>
-        </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ route('dashboard') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 text-white font-bold hover:shadow-lg transition transform hover:scale-105">
-                <i class="fas fa-arrow-left mr-2"></i>Kembali
-            </a>
-        </div>
-    </div>
-
-    <!-- ==================== ALERTS SECTION ==================== -->
-    @if($errors->any())
-        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-900/20 to-red-900/30 border border-red-600/30 p-6 shadow-lg">
-            <div class="absolute -top-4 -right-4 w-16 h-16 bg-red-200/20 rounded-full blur-2xl"></div>
-            <div class="relative z-10">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-red-500 text-white flex items-center justify-center">
-                            <i class="fas fa-exclamation-circle text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-red-300 mb-2">🚨 Terjadi Kesalahan!</h3>
-                        <ul class="space-y-1 text-red-400">
-                            @foreach($errors->all() as $error)
-                                <li class="flex items-center space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-                                    <span>{{ $error }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
+        <!-- HEADER SECTION -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div>
+                <a href="{{ route('dashboard') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold">
+                    <i class="fas fa-arrow-left mr-2 font-black"></i> Dashboard
+                </a>
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
+                    <i class="fas fa-bullhorn mr-2 text-[#ffc107]"></i> Maklumat & Standar Biaya
+                </h1>
+                <p class="text-gray-500 font-medium mt-1 uppercase tracking-widest text-[10px]">Pusat Kendali Maklumat Pelayanan dan Transparansi Biaya</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="{{ url('/maklumat-pelayanan') }}" target="_blank" class="px-6 py-3 bg-white border border-gray-200 text-[#004a99] font-bold rounded-xl shadow-sm hover:bg-gray-50 transition-all flex items-center">
+                    <i class="fas fa-eye mr-2 text-gray-800"></i> Lihat Publik
+                </a>
             </div>
         </div>
-    @endif
 
-    @if(session('success'))
-        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-900/20 to-green-900/30 border border-green-600/30 p-6 shadow-lg">
-            <div class="absolute -top-4 -right-4 w-16 h-16 bg-green-200/20 rounded-full blur-2xl"></div>
-            <div class="relative z-10">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-green-500 text-white flex items-center justify-center animate-pulse">
-                            <i class="fas fa-check-circle text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-green-300">✅ Berhasil!</h3>
-                        <p class="text-green-400">{{ session('success') }}</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
-    <!-- ==================== FORM SECTION ==================== -->
-    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm border border-slate-600/30 p-8">
-        <form action="{{ route('admin.halaman-custom.store', 'maklumat') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.halaman-custom.store', 'maklumat') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
             @csrf
-
+            
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Main Content (2 columns) -->
+                
+                <!-- MAIN EDITORS (Left) -->
                 <div class="lg:col-span-2 space-y-8">
                     
-                    <!-- ==================== MAKLUMAT PELAYANAN SECTION ==================== -->
-                    <div class="space-y-6">
-                        <div class="flex items-center space-x-3 mb-6">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center">
-                                <span class="text-lg font-bold">1</span>
+                    <!-- MAKLUMAT SECTION -->
+                    <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-8 border-[#004a99]">
+                        <div class="p-8 space-y-6">
+                            <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center mb-6">
+                                <i class="fas fa-signature mr-3 text-[#ffc107]"></i> Konten Maklumat Pelayanan
+                            </h3>
+                            
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Judul Maklumat</label>
+                                <input type="text" name="judul_maklumat" value="{{ $settings['maklumat_judul_maklumat'] ?? '' }}" required
+                                    class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-800 font-bold focus:bg-white focus:ring-4 focus:ring-[#004a99]/5 focus:border-[#004a99] outline-none transition-all uppercase placeholder-gray-200">
                             </div>
-                            <h2 class="text-2xl font-bold text-slate-200">Maklumat Pelayanan</h2>
-                        </div>
 
-                        <!-- Judul Maklumat -->
-                        <div class="group">
-                            <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                                <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-white flex items-center justify-center mr-3">
-                                    <i class="fas fa-heading text-sm"></i>
-                                </span>
-                                Judul Maklumat *
-                            </label>
-                            <input type="text" name="judul_maklumat" id="judul_maklumat" 
-                                   class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:border-cyan-500 focus:ring-cyan-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                   placeholder="Masukkan judul maklumat pelayanan..." value="{{ $settings['maklumat_judul_maklumat'] ?? '' }}" required>
-                        </div>
-
-                        <!-- Isi Maklumat dengan CKEditor -->
-                        <div class="group">
-                            <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                                <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-white flex items-center justify-center mr-3">
-                                    <i class="fas fa-file-alt text-sm"></i>
-                                </span>
-                                Isi Maklumat *
-                            </label>
-                            <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-                                <textarea id="editor_maklumat" name="isi_maklumat" class="w-full p-6 border-0 outline-none resize-none bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" style="min-height: 300px;" required>
-{!! $settings['maklumat_isi_maklumat'] ?? 'Tuliskan maklumat pelayanan informasi publik secara lengkap dan jelas...' !!}
-                                </textarea>
-                            </div>
-                            <p class="text-sm text-slate-400 mt-2">
-                                <i class="fas fa-info-circle mr-1"></i>
-                                Jelaskan maklumat pelayanan secara detail dan mudah dipahami
-                            </p>
-                        </div>
-
-                        <!-- Gambar Maklumat -->
-                        <div class="group">
-                            <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                                <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-white flex items-center justify-center mr-3">
-                                    <i class="fas fa-image text-sm"></i>
-                                </span>
-                                Gambar Maklumat
-                            </label>
-                            <div class="relative">
-                                <input type="file" name="gambar_maklumat" id="gambar_maklumat" 
-                                       class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all duration-300 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-green-50 file:text-green-400 hover:file:bg-green-100"
-                                       accept="image/*">
-                                <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm">
-                                    Max 5MB
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Detail Isi Maklumat</label>
+                                <div class="rounded-2xl overflow-hidden border border-gray-100">
+                                    <textarea name="isi_maklumat" id="editor_maklumat" class="tinymce-editor">{!! $settings['maklumat_isi_maklumat'] ?? '' !!}</textarea>
                                 </div>
                             </div>
-                            <p class="text-sm text-slate-400 mt-2">
-                                <i class="fas fa-image mr-1"></i>
-                                Format: JPG, PNG, GIF (Opsional)
-                            </p>
                         </div>
                     </div>
 
-                    <!-- ==================== STANDAR BIAYA SECTION ==================== -->
-                    <div class="space-y-6 pt-8 border-t-2 border-slate-600/30">
-                        <div class="flex items-center space-x-3 mb-6">
-                            <div class="w-10 h-10 rounded-full bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-center">
-                                <span class="text-lg font-bold">2</span>
+                    <!-- STANDAR BIAYA SECTION -->
+                    <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-8 border-[#ffc107]">
+                        <div class="p-8 space-y-6">
+                            <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center mb-6">
+                                <i class="fas fa-coins mr-3 text-[#ffc107]"></i> Informasi Standar Biaya
+                            </h3>
+                            
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Judul Standar Biaya</label>
+                                <input type="text" name="judul_standar" value="{{ $settings['maklumat_judul_standar'] ?? '' }}" required
+                                    class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-800 font-bold focus:bg-white focus:ring-4 focus:ring-[#ffc107]/5 focus:border-[#ffc107] outline-none transition-all uppercase placeholder-gray-200 font-bold">
                             </div>
-                            <h2 class="text-2xl font-bold text-slate-200">Standar Biaya</h2>
-                        </div>
 
-                        <!-- Judul Standar Biaya -->
-                        <div class="group">
-                            <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                                <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-white flex items-center justify-center mr-3">
-                                    <i class="fas fa-heading text-sm"></i>
-                                </span>
-                                Judul Standar Biaya *
-                            </label>
-                            <input type="text" name="judul_standar" id="judul_standar" 
-                                   class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-orange-500/20 focus:border-orange-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                   placeholder="Masukkan judul standar biaya..." value="{{ $settings['maklumat_judul_standar'] ?? '' }}" required>
-                        </div>
-
-                        <!-- Isi Standar Biaya dengan CKEditor -->
-                        <div class="group">
-                            <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                                <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-white flex items-center justify-center mr-3">
-                                    <i class="fas fa-file-alt text-sm"></i>
-                                </span>
-                                Isi Standar Biaya *
-                            </label>
-                            <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-                                <textarea id="editor_standar" name="isi_standar" class="w-full p-6 border-0 outline-none resize-none bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" style="min-height: 300px;" required>
-{!! $settings['maklumat_isi_standar'] ?? 'Tuliskan standar biaya pelayanan informasi publik secara lengkap...' !!}
-                                </textarea>
-                            </div>
-                            <p class="text-sm text-slate-400 mt-2">
-                                <i class="fas fa-info-circle mr-1"></i>
-                                Jelaskan standar biaya secara detail dan transparan
-                            </p>
-                        </div>
-
-                        <!-- Gambar Standar Biaya -->
-                        <div class="group">
-                            <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                                <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 text-white flex items-center justify-center mr-3">
-                                    <i class="fas fa-image text-sm"></i>
-                                </span>
-                                Gambar Standar Biaya
-                            </label>
-                            <div class="relative">
-                                <input type="file" name="gambar_standar" id="gambar_standar" 
-                                       class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-300 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
-                                       accept="image/*">
-                                <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-slate-400 text-sm">
-                                    Max 5MB
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Rincian Biaya Informasi</label>
+                                <div class="rounded-2xl overflow-hidden border border-gray-100">
+                                    <textarea name="isi_standar" id="editor_standar" class="tinymce-editor">{!! $settings['maklumat_isi_standar'] ?? '' !!}</textarea>
                                 </div>
                             </div>
-                            <p class="text-sm text-slate-400 mt-2">
-                                <i class="fas fa-image mr-1"></i>
-                                Format: JPG, PNG, GIF (Opsional)
-                            </p>
                         </div>
                     </div>
+
                 </div>
 
-                <!-- Sidebar (1 column) -->
-                <div class="space-y-6">
-                    <!-- Panduan Card -->
-                    <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border border-yellow-600/30 p-6 shadow-lg">
-                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-yellow-200/20 rounded-full blur-3xl"></div>
-                        <div class="relative z-10">
-                            <div class="flex items-center mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 text-white flex items-center justify-center mr-3">
-                                    <i class="fas fa-lightbulb"></i>
+                <!-- SIDEBAR / VISUALS (Right) -->
+                <div class="space-y-8">
+                    
+                    <!-- UPLOAD IMAGES -->
+                    <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 p-8 space-y-8">
+                        <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center border-b pb-4 text-gray-800">
+                            <i class="fas fa-images mr-3 text-[#ffc107]"></i> Aset Visual
+                        </h3>
+                        
+                        <div class="space-y-6">
+                            <div class="space-y-3">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Gambar Maklumat</label>
+                                <div class="relative group cursor-pointer border-2 border-dashed border-gray-100 rounded-2xl p-4 hover:border-[#004a99] hover:bg-blue-50/50 transition-all text-center" onclick="document.getElementById('img_maklumat').click()">
+                                    <i class="fas fa-cloud-upload-alt text-2xl text-gray-200 mb-2 group-hover:text-[#004a99] transition-colors"></i>
+                                    <p class="text-[9px] font-bold text-gray-300 group-hover:text-[#004a99]">UPLOAD IMAGE</p>
+                                    <input type="file" name="gambar_maklumat" id="img_maklumat" class="hidden">
                                 </div>
-                                <h3 class="text-lg font-bold text-orange-300">Panduan Pengisian</h3>
+                                @if(isset($settings['maklumat_gambar_maklumat']))
+                                <div class="relative rounded-xl overflow-hidden shadow-md group">
+                                    <img src="{{ Storage::url($settings['maklumat_gambar_maklumat']) }}" class="w-full h-32 object-cover opacity-80 group-hover:opacity-100 transition-all">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                                        <span class="text-[8px] font-black text-white uppercase tracking-widest">AKTIF</span>
+                                    </div>
+                                </div>
+                                @endif
                             </div>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Maklumat:</strong>
-                                        <p class="text-orange-400">Judul dan isi maklumat pelayanan</p>
+
+                            <div class="space-y-3">
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Gambar Standar Biaya</label>
+                                <div class="relative group cursor-pointer border-2 border-dashed border-gray-100 rounded-2xl p-4 hover:border-[#ffc107] hover:bg-yellow-50/50 transition-all text-center" onclick="document.getElementById('img_standar').click()">
+                                    <i class="fas fa-file-invoice-dollar text-2xl text-gray-200 mb-2 group-hover:text-[#ffc107] transition-colors"></i>
+                                    <p class="text-[9px] font-bold text-gray-300 group-hover:text-[#ffc107]">UPLOAD STANDAR BIAYA</p>
+                                    <input type="file" name="gambar_standar" id="img_standar" class="hidden">
+                                </div>
+                                @if(isset($settings['maklumat_gambar_standar']))
+                                <div class="relative rounded-xl overflow-hidden shadow-md group">
+                                    <img src="{{ Storage::url($settings['maklumat_gambar_standar']) }}" class="w-full h-32 object-cover opacity-80 group-hover:opacity-100 transition-all">
+                                    <div class="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
+                                        <span class="text-[8px] font-black text-white uppercase tracking-widest">AKTIF</span>
                                     </div>
                                 </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Standar Biaya:</strong>
-                                        <p class="text-orange-400">Judul dan isi standar biaya</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Gambar:</strong>
-                                        <p class="text-orange-400">Dokumentasi pendukung</p>
-                                    </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
 
-                    <!-- Info Card -->
-                    <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-900/20 to-indigo-900/20 border border-blue-600/30 p-6 shadow-lg">
-                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-blue-200/20 rounded-full blur-3xl"></div>
-                        <div class="relative z-10">
-                            <div class="flex items-center mb-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-400 to-indigo-500 text-white flex items-center justify-center mr-3">
-                                    <i class="fas fa-info-circle"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-blue-300">Tentang Maklumat Pelayanan</h3>
-                            </div>
-                            <p class="text-sm text-blue-400 leading-relaxed">
-                                Maklumat Pelayanan dan Standar Biaya adalah informasi wajib yang disediakan untuk memberikan transparansi tentang layanan dan biaya yang berlaku sesuai peraturan perundang-undangan.
-                            </p>
-                        </div>
+                    <!-- TIPS -->
+                    <div class="bg-gradient-to-br from-[#004a99] to-blue-800 rounded-3xl p-8 text-white shadow-2xl relative overflow-hidden">
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-3xl"></div>
+                        <h4 class="text-xs font-black uppercase tracking-widest mb-4 flex items-center text-gray-800">
+                            <i class="fas fa-lightbulb mr-2 text-[#ffc107]"></i> Tips Admin
+                        </h4>
+                        <p class="text-[10px] leading-relaxed opacity-80 font-medium text-gray-800">
+                            Gunakan bahasa yang inklusif dan pastikan standar biaya yang diinput sesuai dengan Peraturan Pemerintah terbaru mengenai PNBP.
+                        </p>
                     </div>
 
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-green-400 to-green-600 p-4 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden/20 rounded-full blur-xl"></div>
-                            <div class="relative z-10">
-                                <p class="text-2xl font-black">2</p>
-                                <p class="text-xs text-white/80">Maklumat</p>
-                            </div>
-                        </div>
-                        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 p-4 text-white shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden/20 rounded-full blur-xl"></div>
-                            <div class="relative z-10">
-                                <p class="text-2xl font-black">3</p>
-                                <p class="text-xs text-white/80">Standar Biaya</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex justify-end space-x-4 mt-8 pt-8 border-t-2 border-slate-600/30">
-                <a href="{{ route('dashboard') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <i class="fas fa-times mr-2"></i>Batal
-                </a>
-                <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25 ring-1 ring-cyan-400/30 text-white font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <i class="fas fa-save mr-2"></i>Simpan Informasi
-                </button>
+            <!-- ACTION BAR -->
+            <div class="bg-white h-24 rounded-3xl shadow-2xl ring-1 ring-gray-200 px-8 flex items-center justify-between sticky bottom-6 z-50 animate-fade-in-up">
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 bg-green-50 text-green-500 rounded-full flex items-center justify-center animate-pulse shadow-sm">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Draft Terverifikasi</p>
+                </div>
+                <div class="flex gap-4 uppercase font-bold text-gray-800">
+                    <a href="{{ route('dashboard') }}" class="px-8 py-3 bg-gray-100 text-gray-500 font-black text-[10px] rounded-xl hover:bg-gray-200 transition-all tracking-widest">BATAL</a>
+                    <button type="submit" class="px-10 py-3 bg-[#004a99] text-white font-black text-[10px] rounded-xl shadow-lg shadow-blue-500/20 transform hover:scale-105 transition-all tracking-widest">
+                        <i class="fas fa-rocket mr-2 text-[#ffc107]"></i> PUBLIKASIKAN PERUBAHAN
+                    </button>
+                </div>
             </div>
         </form>
+
     </div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Initialize Summernote for Maklumat
-            $('#editor_maklumat').summernote({
-                height: 300,
-                placeholder: 'Tuliskan maklumat pelayanan informasi publik secara lengkap dan jelas...',
-                toolbar: [
-                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
-                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
-                ]
-            });
-            
-            // Initialize Summernote for Standar Biaya
-            $('#editor_standar').summernote({
-                height: 300,
-                placeholder: 'Tuliskan standar biaya pelayanan informasi publik secara lengkap dan jelas...',
-                toolbar: [
-                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
-                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
-                ]
-            });
-        });
-    </script>
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '.tinymce-editor',
+        plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link image table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 350,
+        branding: false,
+        elementpath: false,
+        menubar: false,
+        promotion: false
+    });
+</script>
 
 <style>
-    .form-control.form-editor {
-        min-height: 250px;
+    .animate-fade-in-up { animation: fadeInUp 0.5s ease-out; }
+    @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
-    .display-5 {
-        font-size: 2rem;
-        font-weight: 600;
-    }
-    .ck-editor__editable { min-height: 250px; }
 </style>
-</div>
-</div>
 @endsection
