@@ -268,40 +268,20 @@
     <div class="hero-section">
         <div class="hero-content">
             <div class="container">
-                <h1 class="display-5 fw-bold mb-3">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</h1>
-                <p class="lead">Standar Operasional Prosedur Pengelolaan Daftar Informasi Publik</p>
+                <h1 class="display-5 fw-bold mb-3">{{ $settings['sop_pemutakhiran_judul_hero'] ?? 'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' }}</h1>
+                <p class="lead">{{ $settings['sop_pemutakhiran_tagline_hero'] ?? 'Standar Operasional Prosedur Pengelolaan Daftar Informasi Publik' }}</p>
             </div>
         </div>
     </div>
 
     <!-- Main Content -->
     <div class="container py-5">
-        <h1 class="page-title">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</h1>
+        <h1 class="page-title">{{ $settings['sop_pemutakhiran_judul_hero'] ?? 'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' }}</h1>
         @include('components.konten-dinamis', ['prefix' => 'sop_pemutakhiran'])
     </div>
 
     <!-- Footer -->
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6">
-                    <h5 class="mb-3">PPID PKTJ</h5>
-                    <p>Pejabat Pengelola Informasi dan Dokumentasi</p>
-                    <p>Menyediakan layanan informasi publik yang transparan dan akuntabel sesuai peraturan perundang-undangan.</p>
-        </div>
-        <div class="col-md-6">
-            <h5 class="mb-3">Kontak</h5>
-            <p><i class="fas fa-map-marker-alt me-2"></i>Alamat: [Alamat Lengkap]</p>
-            <p><i class="fas fa-phone me-2"></i>Telepon: [Nomor Telepon]</p>
-            <p><i class="fas fa-envelope me-2"></i>Email: info@pktj.ac.id</p>
-        </div>
-    </div>
-    <hr class="my-4 bg-light">
-    <div class="text-center">
-        <p class="mb-0">&copy; 2026 PPID PKTJ. All rights reserved.</p>
-        <p class="mb-0">Dikembangkan dengan â¤ï¸ untuk kemudahan akses informasi publik</p>
-    </div>
-</footer>
+    @include('footer')
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 

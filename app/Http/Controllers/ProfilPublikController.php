@@ -11,12 +11,8 @@ class ProfilPublikController extends Controller
     public function showProfil()
     {
         $profil = ProfilPpid::where('type', 'profil')->first();
-<<<<<<< Updated upstream
         $settings = Dashboard::pluck('value', 'key')->toArray();
         return view('profil-ppid', compact('profil', 'settings'));
-=======
-        return view('profil-ppid', ['profil' => $profil]);
->>>>>>> Stashed changes
     }
 
     public function showTugas()

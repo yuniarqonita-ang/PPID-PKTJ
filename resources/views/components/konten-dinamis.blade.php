@@ -25,6 +25,13 @@
     $youtubeLink    = $d[$pfx . '_youtube_link'] ?? null;
     $customKonten   = $d[$pfx . '_konten'] ?? null;
     
+    // Khusus Laporan
+    $ringkasanEks   = $d[$pfx . '_ringkasan_eksekutif'] ?? null;
+    $isiLaporan     = $d[$pfx . '_isi_laporan'] ?? null;
+    $tahunLaporan   = $d[$pfx . '_tahun_laporan'] ?? null;
+    $jenisLaporan   = $d[$pfx . '_jenis_laporan'] ?? null;
+    $fileLaporan    = $d[$pfx . '_file_laporan'] ?? null;
+    
     // Parse YouTube video ID
     $videoId = '';
     if ($youtubeLink) {
@@ -40,7 +47,7 @@
     // Cek apakah ada konten apapun yang perlu ditampilkan
     $adaKonten = $isiMaklumat || $judulMaklumat || $isiStandar || $judulStandar || 
                  $isiKonten || $judulKonten || $gambarSop || $gambarProses || 
-                 $gambarMaklumat || $youtubeLink || $customKonten ||
+                 $gambarMaklumat || $youtubeLink || $customKonten || $ringkasanEks || $isiLaporan ||
                  (isset($profil) && $profil && ($profil->konten_pembuka || $profil->gambaran || $profil->judul));
 @endphp
 
@@ -136,6 +143,30 @@
             <img src="{{ asset('storage/halaman/' . $gambarProses) }}" alt="Alur Proses" class="img-fluid rounded shadow" style="max-height: 700px;">
         </div>
     </div>
+    @endif
+</div>
+@endif
+
+{{-- Section Laporan --}}
+@if($ringkasanEks || $isiLaporan)
+<div class="content-box mb-4" style="border-left: 5px solid #ffc107;">
+    @if($jenisLaporan || $tahunLaporan)
+        <h2 class="section-title">Laporan {{ ucfirst($jenisLaporan) }} Tahun {{ $tahunLaporan }}</h2>
+    @endif
+    @if($ringkasanEks)
+        <h3 style="color:#004a99; font-size:20px; margin-bottom:15px;">Ringkasan Eksekutif</h3>
+        <div class="profil-content">{!! $ringkasanEks !!}</div>
+    @endif
+    @if($isiLaporan)
+        <h3 style="color:#004a99; font-size:20px; margin-bottom:15px; margin-top:30px;">Detail Laporan</h3>
+        <div class="profil-content">{!! $isiLaporan !!}</div>
+    @endif
+    @if($fileLaporan)
+        <div class="mt-4">
+            <a href="{{ asset('storage/halaman/' . $fileLaporan) }}" target="_blank" class="btn btn-warning text-dark fw-bold">
+                <i class="fas fa-file-pdf me-2"></i> Download Dokumen Laporan
+            </a>
+        </div>
     @endif
 </div>
 @endif

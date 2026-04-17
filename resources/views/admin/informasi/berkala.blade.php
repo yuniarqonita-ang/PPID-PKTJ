@@ -1,5 +1,8 @@
 @extends('layouts.app')
 
+    $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+@endphp
+
 @section('content')
 <div class="min-h-screen bg-[#f8f9fa] p-6">
     <div class="space-y-8 max-w-full">
@@ -64,8 +67,40 @@
     @endif
 
     <!-- ==================== FORM SECTION ==================== -->
-    <div class="bg-white rounded-2xl shadow-2xl ring-1 ring-gray-200 relative p-8">
-        <form action="#" method="POST" enctype="multipart/form-data">
+    <div class="space-y-8">
+        <!-- HERO CONFIGURATION -->
+        <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-[#ffc107]">
+            <div class="p-8">
+                <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center mb-6">
+                    <i class="fas fa-window-maximize mr-3 text-[#ffc107]"></i> Konfigurasi Hero Banner
+                </h3>
+                <form action="{{ route('admin.halaman-custom.store', 'informasi_berkala') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    @csrf
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Judul Hero</label>
+                        <input type="text" name="judul_hero" value="{{ $settings['informasi_berkala_judul_hero'] ?? 'Informasi Berkala' }}"
+                            class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-800 font-bold focus:bg-white focus:ring-4 focus:ring-[#004a99]/5 focus:border-[#004a99] outline-none transition-all uppercase">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Tagline Hero</label>
+                        <input type="text" name="tagline_hero" value="{{ $settings['informasi_berkala_tagline_hero'] ?? 'Informasi yang wajib disediakan dan diumumkan secara berkala' }}"
+                            class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-800 font-bold focus:bg-white focus:ring-4 focus:ring-[#004a99]/5 focus:border-[#004a99] outline-none transition-all uppercase">
+                    </div>
+                    <div class="md:col-span-2 flex justify-end">
+                        <button type="submit" class="px-8 py-3 bg-[#004a99] text-white font-black text-[10px] rounded-xl shadow-lg shadow-blue-500/20 transform hover:scale-105 transition-all tracking-widest">
+                            SIMPAN KONFIGURASI HERO
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- LIST DATA (Existing logic or placeholder for management) -->
+        <div class="bg-white rounded-2xl shadow-2xl ring-1 ring-gray-200 relative p-8">
+            <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center mb-6">
+                <i class="fas fa-plus-circle mr-3 text-[#ffc107]"></i> Tambah Data Informasi Berkala
+            </h3>
+            <form action="{{ route('admin.informasi.berkala.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">

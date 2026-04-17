@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -85,15 +85,15 @@
 
     <div class="hero-section">
         <div class="container">
-            <h1 class="display-4 fw-bold uppercase">Informasi Berkala</h1>
-            <p class="lead opacity-75">Informasi yang wajib disediakan dan diumumkan secara berkala</p>
+            <h1 class="display-4 fw-bold uppercase">{{ $settings['informasi_berkala_judul_hero'] ?? 'Informasi Berkala' }}</h1>
+            <p class="lead opacity-75">{{ $settings['informasi_berkala_tagline_hero'] ?? 'Informasi yang wajib disediakan dan diumumkan secara berkala' }}</p>
         </div>
     </div>
 
     <div class="container py-5 mb-5">
         <div class="content-box">
-            <h2 class="section-title">Daftar Informasi Berkala</h2>
-            <p class="text-muted mb-5">Berikut adalah daftar informasi publik yang disediakan secara rutin oleh PPID PKTJ.</p>
+            <h2 class="section-title">{{ $settings['informasi_berkala_judul_daftar'] ?? 'Daftar Informasi Berkala' }}</h2>
+            <p class="text-muted mb-5">{{ $settings['informasi_berkala_deskripsi_daftar'] ?? 'Berikut adalah daftar informasi publik yang disediakan secara rutin oleh PPID PKTJ.' }}</p>
 
             @if(count($informasi) > 0)
                 <div class="row">

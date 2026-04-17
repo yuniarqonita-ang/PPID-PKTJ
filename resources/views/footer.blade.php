@@ -1,4 +1,10 @@
-﻿<footer class="mt-5 pt-5 pb-4" style="background-color: #1a1c2e; color: #cbd5e1;">
+@php
+    if(!isset($settings)) {
+        $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+    }
+@endphp
+
+<footer class="mt-5 pt-5 pb-4" style="background-color: #1a1c2e; color: #cbd5e1;">
     <div class="container">
         <div class="row g-4">
             <div class="col-lg-4">
@@ -7,20 +13,20 @@
                     <h5 class="fw-bold mb-0 text-white">PPID PKTJ</h5>
                 </div>
                 <p class="small opacity-75">
-                    Pejabat Pengelola Informasi dan Dokumentasi (PPID) Politeknik Keselamatan Transportasi Jalan (PKTJ) berkomitmen memberikan layanan informasi publik yang transparan dan akuntabel.
+                    {{ $settings['deskripsi'] ?? 'Pejabat Pengelola Informasi dan Dokumentasi (PPID) Politeknik Keselamatan Transportasi Jalan (PKTJ) berkomitmen memberikan layanan informasi publik yang transparan dan akuntabel.' }}
                 </p>
                 <div class="d-flex gap-3 mt-4">
                     <a href="#" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-facebook-f"></i></a>
                     <a href="#" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-instagram"></i></a>
                     <a href="#" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-youtube"></i></a>
+                    <a href="{{ $settings['youtube_link'] ?? '#' }}" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>
             <div class="col-lg-2 offset-lg-1">
                 <h6 class="fw-bold text-white mb-4">Akses Cepat</h6>
                 <ul class="list-unstyled small">
                     <li class="mb-2"><a href="/" class="text-decoration-none text-reset opacity-75">Beranda</a></li>
-                    <li class="mb-2"><a href="/profil/ppid" class="text-decoration-none text-reset opacity-75">Profil PPID</a></li>
+                    <li class="mb-2"><a href="/profil-ppid.html" class="text-decoration-none text-reset opacity-75">Profil PPID</a></li>
                     <li class="mb-2"><a href="/informasi-publik/berkala" class="text-decoration-none text-reset opacity-75">Informasi Publik</a></li>
                     <li class="mb-2"><a href="/prosedur/sop-permintaan-informasi" class="text-decoration-none text-reset opacity-75">Prosedur SOP</a></li>
                 </ul>
@@ -39,15 +45,15 @@
                 <ul class="list-unstyled small opacity-75">
                     <li class="mb-3 d-flex align-items-start">
                         <i class="fas fa-map-marker-alt mt-1 me-3 text-warning"></i>
-                        <span>Jl. Semeru No.3, Tegal, Jawa Tengah 52131</span>
+                        <span>{{ $settings['kontak_alamat'] ?? 'Jl. Semeru No.3, Tegal, Jawa Tengah 52131' }}</span>
                     </li>
                     <li class="mb-3 d-flex align-items-center">
                         <i class="fas fa-phone me-3 text-warning"></i>
-                        <span>(0283) 351061</span>
+                        <span>{{ $settings['kontak_telepon'] ?? '(0283) 351061' }}</span>
                     </li>
                     <li class="mb-0 d-flex align-items-center">
                         <i class="fas fa-envelope me-3 text-warning"></i>
-                        <span>ppid@pktj.ac.id</span>
+                        <span>{{ $settings['kontak_email'] ?? 'ppid@pktj.ac.id' }}</span>
                     </li>
                 </ul>
             </div>

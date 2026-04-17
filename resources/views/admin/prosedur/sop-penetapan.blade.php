@@ -38,6 +38,27 @@
         <form action="{{ route('admin.halaman-custom.store', 'sop_penetapan') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
+            <!-- HERO CONFIGURATION -->
+            <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-[#ffc107] mb-8">
+                <div class="p-8">
+                    <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center mb-6">
+                        <i class="fas fa-window-maximize mr-3 text-[#ffc107]"></i> Konfigurasi Hero Banner
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Judul Hero</label>
+                            <input type="text" name="judul_hero" value="{{ $settings['sop_penetapan_judul_hero'] ?? 'SOP Penetapan dan Pemutakhiran Daftar Informasi' }}"
+                                class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-800 font-bold focus:bg-white focus:ring-4 focus:ring-[#004a99]/5 focus:border-[#004a99] outline-none transition-all uppercase">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Tagline Hero</label>
+                            <input type="text" name="tagline_hero" value="{{ $settings['sop_penetapan_tagline_hero'] ?? 'Standar Operasional Prosedur Pengelolaan dan Pemutakhiran Daftar Informasi Publik' }}"
+                                class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-800 font-bold focus:bg-white focus:ring-4 focus:ring-[#004a99]/5 focus:border-[#004a99] outline-none transition-all uppercase">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
                 <!-- COLUMN 1: IMAGE SOP -->

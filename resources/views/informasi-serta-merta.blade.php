@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -86,15 +86,15 @@
 
     <div class="hero-section">
         <div class="container">
-            <h1 class="display-4 fw-bold uppercase">Informasi Serta Merta</h1>
-            <p class="lead opacity-75">Informasi yang berkaitan dengan hajat hidup orang banyak</p>
+            <h1 class="display-4 fw-bold uppercase">{{ $settings['informasi_sertamerta_judul_hero'] ?? 'Informasi Serta Merta' }}</h1>
+            <p class="lead opacity-75">{{ $settings['informasi_sertamerta_tagline_hero'] ?? 'Informasi yang berkaitan dengan hajat hidup orang banyak' }}</p>
         </div>
     </div>
 
     <div class="container py-5 mb-5">
         <div class="content-box">
-            <h2 class="section-title">Daftar Informasi Serta Merta</h2>
-            <p class="text-muted mb-5">Informasi terkait situasi darurat, bencana, atau kebijakan yang berdampak luas.</p>
+            <h2 class="section-title">{{ $settings['informasi_sertamerta_judul_daftar'] ?? 'Daftar Informasi Serta Merta' }}</h2>
+            <p class="text-muted mb-5">{{ $settings['informasi_sertamerta_deskripsi_daftar'] ?? 'Informasi terkait situasi darurat, bencana, atau kebijakan yang berdampak luas.' }}</p>
 
             @if(count($informasi) > 0)
                 <div class="row">

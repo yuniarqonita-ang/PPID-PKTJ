@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -494,13 +494,13 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title"><i class="fas fa-envelope me-2"></i>Email</h5>
-                        <p class="card-text">ppid@pktj.ac.id</p>
+                        <p class="card-text">{{ $settings['kontak_email'] ?? 'ppid@pktj.ac.id' }}</p>
                         
                         <h5 class="card-title"><i class="fas fa-phone me-2"></i>Telepon</h5>
-                        <p class="card-text">(021) 1234-5678</p>
+                        <p class="card-text">{{ $settings['kontak_telepon'] ?? '(021) 1234-5678' }}</p>
                         
                         <h5 class="card-title"><i class="fas fa-map-marker-alt me-2"></i>Alamat</h5>
-                        <p class="card-text">Jl. Pendidikan No. 123, Jakarta</p>
+                        <p class="card-text">{{ $settings['kontak_alamat'] ?? 'Jl. Pendidikan No. 123, Jakarta' }}</p>
                         
                         <div class="mt-3">
                             <a href="{{ route('permohonan.form') }}" class="btn btn-warning btn-lg w-100">
@@ -513,35 +513,7 @@
         </div>
     </div>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <h5>Tentang {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}</h5>
-                    <p>{{ $settings['ppid_deskripsi'] ?? 'Pejabat Pengelola Informasi dan Dokumentasi Politeknik Penerbangan Indonesia Jakarta' }}</p>
-                </div>
-                <div class="col-md-4">
-                    <h5>Link Cepat</h5>
-                    <ul class="list-unstyled">
-                        <li><a href="{{ route('home') }}">Beranda</a></li>
-                        <li><a href="{{ route('profil.ppid.html') }}">Profil PPID</a></li>
-                        <li><a href="{{ route('informasi.berkala') }}">Informasi Publik</a></li>
-                        <li><a href="{{ route('faq.public') }}">FAQ</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-4">
-                    <h5>Kontak</h5>
-                    <p><i class="fas fa-envelope me-2"></i> ppid@pktj.ac.id</p>
-                    <p><i class="fas fa-phone me-2"></i> (021) 1234-5678</p>
-                    <p><i class="fas fa-map-marker-alt me-2"></i> Jl. Pendidikan No. 123, Jakarta</p>
-                </div>
-            </div>
-            <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
-            <div class="text-center">
-                <p>&copy; {{ date('Y') }} {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}. All rights reserved.</p>
-            </div>
-        </div>
-    </footer>
+    @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     

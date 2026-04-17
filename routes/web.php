@@ -74,35 +74,12 @@ Route::get('/dokumen/{id}/view', [DokumenController::class, 'view'])->name('doku
 Route::get('/dokumen/{id}/download', [DokumenController::class, 'download'])->name('dokumen.download');
 
 // Profil PPID (Public - Dynamic from Database matching the original HTML links)
-Route::get('/profil-ppid.html', function () {
-    $profil = \App\Models\ProfilPpid::where('type', 'profil')->first();
-    return view('profil-ppid', compact('profil'));
-})->name('profil.ppid.html');
-
-Route::get('/profil-tugas-tanggung-jawab.html', function () {
-    $profil = \App\Models\ProfilPpid::where('type', 'tugas')->first();
-    return view('profil-tugas-tanggung-jawab', compact('profil'));
-})->name('profil.tugas.html');
-
-Route::get('/profil-visi-misi.html', function () {
-    $profil = \App\Models\ProfilPpid::where('type', 'visi')->first();
-    return view('profil-visi-misi', compact('profil'));
-})->name('profil.visi.html');
-
-Route::get('/profil-struktur-organisasi.html', function () {
-    $profil = \App\Models\ProfilPpid::where('type', 'struktur')->first();
-    return view('profil-struktur-organisasi', compact('profil'));
-})->name('profil.struktur.html');
-
-Route::get('/profil-regulasi.html', function () {
-    $profil = \App\Models\ProfilPpid::where('type', 'regulasi')->first();
-    return view('profil-regulasi', compact('profil'));
-})->name('profil.regulasi.html');
-
-Route::get('/profil-kontak.html', function () {
-    $profil = \App\Models\ProfilPpid::where('type', 'kontak')->first();
-    return view('profil-kontak', compact('profil'));
-})->name('profil.kontak.html');
+Route::get('/profil-ppid.html', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil'])->name('profil.ppid.html');
+Route::get('/profil-tugas-tanggung-jawab.html', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas'])->name('profil.tugas.html');
+Route::get('/profil-visi-misi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showVisi'])->name('profil.visi.html');
+Route::get('/profil-struktur-organisasi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur'])->name('profil.struktur.html');
+Route::get('/profil-regulasi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showRegulasi'])->name('profil.regulasi.html');
+Route::get('/profil-kontak.html', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak'])->name('profil.kontak.html');
 
 // Informasi Publik (Public - Dynamic from Controller)
 Route::name('informasi.')->prefix('informasi-publik')->group(function () {

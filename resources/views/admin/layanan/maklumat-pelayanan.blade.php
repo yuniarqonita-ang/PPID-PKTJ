@@ -34,6 +34,27 @@
                 <!-- MAIN EDITORS (Left) -->
                 <div class="lg:col-span-2 space-y-8">
                     
+                    <!-- HERO CONFIG -->
+                    <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-[#ffc107]">
+                        <div class="p-8 space-y-6">
+                            <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center mb-6">
+                                <i class="fas fa-window-maximize mr-3 text-[#ffc107]"></i> Konfigurasi Hero Banner
+                            </h3>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Judul Hero (Banner)</label>
+                                    <input type="text" name="judul_hero" value="{{ $settings['maklumat_judul_hero'] ?? 'Maklumat Pelayanan' }}" required
+                                        class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-800 font-bold focus:bg-white focus:ring-4 focus:ring-[#004a99]/5 focus:border-[#004a99] outline-none transition-all uppercase placeholder-gray-200">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Tagline Hero</label>
+                                    <input type="text" name="tagline_hero" value="{{ $settings['maklumat_tagline_hero'] ?? 'Standar Pelayanan Informasi Publik PPID PKTJ' }}" required
+                                        class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-800 font-bold focus:bg-white focus:ring-4 focus:ring-[#004a99]/5 focus:border-[#004a99] outline-none transition-all uppercase placeholder-gray-200">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
                     <!-- MAKLUMAT SECTION -->
                     <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-8 border-[#004a99]">
                         <div class="p-8 space-y-6">
