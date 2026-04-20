@@ -22,9 +22,9 @@
             <form action="{{ route('admin.agenda.store') }}" method="POST" enctype="multipart/form-data" class="p-6 md:p-10">
                 @csrf
                 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="space-y-8">
                     <!-- MAIN CONTENT -->
-                    <div class="lg:col-span-2 space-y-6">
+                    <div class="space-y-6">
                         
                         <!-- JUDUL -->
                         <div class="space-y-2">
@@ -50,8 +50,8 @@
 
                     </div>
 
-                    <!-- SIDEBAR INFO & SETTINGS -->
-                    <div class="space-y-6">
+                    <!-- SIDEBAR INFO & SETTINGS (BELOW) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
                         
                         <!-- TIME & STATUS PANEL -->
                         <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200 shadow-inner">
@@ -118,12 +118,13 @@
     tinymce.init({
         selector: '.tinymce-editor',
         plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link image table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 400,
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link image table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 600,
         branding: false,
         elementpath: false,
         menubar: false,
-        promotion: false
+        promotion: false,
+        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #475569; text-align: justify; }'
     });
 
     function previewImage(input) {

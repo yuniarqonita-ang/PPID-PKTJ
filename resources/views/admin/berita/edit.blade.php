@@ -22,9 +22,8 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
-            
-            <div class="lg:col-span-8 space-y-8">
+        <div class="space-y-8 mt-8">
+            <div class="space-y-8">
                 
                 <!-- CONTENT CARD -->
                 <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 overflow-hidden">
@@ -57,8 +56,8 @@
                 </div>
             </div>
 
-            <!-- SIDEBAR SETTINGS -->
-            <div class="lg:col-span-4 space-y-8">
+            <!-- SIDEBAR SETTINGS (NOW MOVED BELOW) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
                 
                 <!-- METADATA CARD -->
                 <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 p-8 space-y-8">
@@ -129,12 +128,13 @@
     tinymce.init({
         selector: '.tinymce-editor',
         plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link image table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 500,
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link image table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 600,
         branding: false,
         elementpath: false,
         menubar: false,
-        promotion: false
+        promotion: false,
+        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #475569; text-align: justify; }'
     });
 
     function previewImage(input) {

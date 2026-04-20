@@ -55,10 +55,10 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div class="space-y-8">
             
-            <!-- LEFT: REPORT UPLOAD -->
-            <div class="lg:col-span-2 space-y-10">
+            <!-- MAIN CONTENT AREA (FULL WIDTH) -->
+            <div class="space-y-10">
                 <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 p-10">
                     <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8 mb-10">
                         <h4 class="text-xl font-black text-[#002b5c] uppercase tracking-widest flex items-center">
@@ -103,10 +103,10 @@
                     </h4>
                     <textarea name="ringkasan_eksekutif" class="tinymce-editor">{{ $settings['layanan_akses_ringkasan_eksekutif'] ?? '' }}</textarea>
                 </div>
-            </div>
+                </div>
 
-            <!-- RIGHT: PREVIEW/INFO -->
-            <div class="space-y-10">
+                <!-- SIDEBAR CONFIG (NOW MOVED BELOW) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
                 <div class="bg-emerald-50 rounded-[2.5rem] p-10 border-2 border-emerald-100">
                     <div class="w-16 h-16 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-3xl mb-8 shadow-lg">
                         <i class="fas fa-shield-alt"></i>
@@ -117,11 +117,27 @@
                     </p>
                 </div>
 
-                <button type="submit" class="w-full py-7 bg-[#002b5c] text-white font-black text-lg uppercase tracking-[3px] rounded-[2rem] shadow-2xl hover:bg-black transition-all border-none cursor-pointer">
-                    <i class="fas fa-save mr-4 text-[#ffc107]"></i> SIMPAN LAPORAN
-                </button>
+                    <button type="submit" class="w-full py-7 bg-[#002b5c] text-white font-black text-lg uppercase tracking-[3px] rounded-[2rem] shadow-2xl hover:bg-black transition-all border-none cursor-pointer">
+                        <i class="fas fa-save mr-4 text-[#ffc107]"></i> SIMPAN LAPORAN
+                    </button>
+                </div>
             </div>
         </div>
     </form>
 </div>
+
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '.tinymce-editor',
+        plugins: 'lists link anchor autolink charmap emoticons wordcount table',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 600,
+        branding: false,
+        elementpath: false,
+        menubar: false,
+        promotion: false,
+        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #002b5c; text-align: justify; }'
+    });
+</script>
 @endsection

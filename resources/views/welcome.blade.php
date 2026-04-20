@@ -78,7 +78,9 @@
         }
         
         .hero-section {
-            background: linear-gradient(135deg, {{ $settings['primary_color'] ?? '#004A99' }} 0%, {{ $settings['secondary_color'] ?? '#0066CC' }} 100%);
+            background: linear-gradient(-45deg, {{ $settings['primary_color'] ?? '#004A99' }}, {{ $settings['secondary_color'] ?? '#0066CC' }}, #1A3A52, #002b5c);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
             color: white;
             padding: 120px 0; 
             text-align: center;
@@ -89,12 +91,18 @@
             min-height: 450px;
         }
 
-        /* Dark Overlay for better contrast */
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Dark Overlay for better contrast - slightly lighter to keep colors vibrant */
         .hero-section::after {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+            background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.4) 100%);
             z-index: 0;
         }
         
@@ -354,7 +362,11 @@
 
         /* Video Thumbnail Style */
         .video-container {
-            position: relative;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             cursor: pointer;
             overflow: hidden;
             border-radius: 15px;
@@ -572,15 +584,15 @@
                     @endphp
 
                     @if($hasThumbnail)
-                        <div class="video-container" onclick="this.innerHTML = '<iframe src=\'{{ $videoUrl }}\' title=\'Video Layanan\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
+                        <div class="video-container" onclick="this.innerHTML = '<iframe src=\'{{ $videoUrl }}\' style=\'width:100%; height:100%; border:0;\' title=\'Video Layanan\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
                             <img src="{{ asset('storage/' . $thumbnail) }}" class="video-thumbnail" alt="Thumbnail Video">
                             <div class="play-overlay">
                                 <i class="fas fa-play ml-1"></i>
                             </div>
                         </div>
                     @else
-                        <div class="card overflow-hidden shadow-lg border-0" style="border-radius: 15px;">
-                            <iframe src="{{ str_replace('?autoplay=1', '', $videoUrl) }}" style="border-radius: 15px;" title="Video Layanan" allowfullscreen></iframe>
+                        <div class="video-container">
+                            <iframe src="{{ str_replace('?autoplay=1', '', $videoUrl) }}" style="width: 100%; height: 100%; border: 0; border-radius: 15px;" title="Video Layanan" allowfullscreen></iframe>
                         </div>
                     @endif
                 </div>

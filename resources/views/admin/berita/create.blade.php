@@ -22,9 +22,8 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
-            
-            <div class="lg:col-span-8 space-y-8">
+        <div class="space-y-8 mt-8">
+            <div class="space-y-8">
                 
                 <!-- CONTENT CARD -->
                 <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 overflow-hidden">
@@ -56,16 +55,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- SIDEBAR SETTINGS -->
-            <div class="lg:col-span-4 space-y-8">
-                
-                <!-- ATTRIBUTES CARD -->
-                <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 p-8 space-y-8">
-                    <h4 class="text-xs font-black text-[#002b5c] uppercase tracking-widest border-b border-slate-50 pb-6 flex items-center">
-                        <span class="w-2 h-5 bg-[#ffc107] rounded-full mr-3"></span>
-                        Pengaturan Berita
                     </h4>
 
                     <div class="space-y-6">
@@ -130,12 +119,13 @@
     tinymce.init({
         selector: '.tinymce-editor',
         plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link image table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 500,
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link image table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 600,
         branding: false,
         elementpath: false,
         menubar: false,
-        promotion: false
+        promotion: false,
+        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #475569; text-align: justify; }'
     });
 
     function previewImage(input) {

@@ -5,7 +5,7 @@
 @endphp
 
 @section('content')
-<div class="space-y-8 animate-fade-in lg:px-8">
+<div class="max-w-7xl mx-auto space-y-8 animate-fade-in lg:px-8">
     
     <!-- HEADER SECTION - ULTRA CLARITY -->
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">

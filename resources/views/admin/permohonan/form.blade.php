@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
-    <div class="max-w-5xl mx-auto space-y-8">
+    <div class="max-w-7xl mx-auto space-y-8">
 
         <!-- HEADER SECTION -->
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -86,14 +86,55 @@
 
                 <!-- DYNAMIC SECTION BUILDER -->
                 <div class="space-y-6">
+                    <!-- NEW: PAGE CONTENT EDITOR -->
+                    <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-[#004a99]">
+                        <div class="p-8 space-y-6">
+                            <div class="flex items-center gap-3 mb-2">
+                                <div class="w-10 h-10 bg-[#004a99]/10 rounded-xl flex items-center justify-center text-[#004a99]">
+                                    <i class="fas fa-file-alt"></i>
+                                </div>
+                                <h4 class="text-xs font-black text-[#004a99] uppercase tracking-widest">Informasi Halaman Publik</h4>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 gap-6">
+                                <div>
+                                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Judul Utama Halaman</label>
+                                    <input type="text" id="permohonan-title-input" value="{{ $settings['permohonan_title'] ?? 'Permohonan Informasi Publik' }}" 
+                                        class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-sm font-bold text-gray-700 focus:bg-white focus:ring-2 focus:ring-[#004a99]/10 focus:border-[#004a99] outline-none transition-all uppercase"
+                                        placeholder="Cth: LAYANAN PERMOHONAN INFORMASI">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Sub-judul Halaman</label>
+                                    <textarea id="permohonan-subtitle-input" 
+                                        class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-medium text-gray-600 focus:bg-white focus:ring-2 focus:ring-[#004a99]/10 focus:border-[#004a99] outline-none transition-all"
+                                        rows="2" placeholder="Cth: Silakan lengkapi formulir di bawah ini...">{{ $settings['permohonan_subtitle'] ?? 'Silakan lengkapi formulir di bawah ini dengan data yang benar untuk mengajukan permohonan informasi ke PPID PKTJ Tegal.' }}</textarea>
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Judul Banner Peringatan</label>
+                                        <input type="text" id="permohonan-warning-title-input" value="{{ $settings['permohonan_warning_title'] ?? 'Pernyataan & Pertanggungjawaban' }}" 
+                                            class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-red-600 focus:bg-white focus:ring-2 focus:ring-red-100 focus:border-red-400 outline-none transition-all"
+                                            placeholder="Cth: PERHATIAN PENTING">
+                                    </div>
+                                    <div>
+                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Teks Banner Peringatan</label>
+                                        <textarea id="permohonan-warning-text-input" 
+                                            class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-[11px] font-medium text-red-500 focus:bg-white focus:ring-2 focus:ring-red-100 focus:border-red-400 outline-none transition-all"
+                                            rows="1" placeholder="Cth: Saya menyatakan bahwa...">{{ $settings['permohonan_warning_text'] ?? 'Saya menyatakan bahwa data yang diungkapkan adalah benar dan dapat dipertanggungjawabkan sesuai ketentuan yang berlaku.' }}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- SECTION TITLE EDITOR -->
                     <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-[#ffc107]">
                         <div class="p-6 md:p-8 flex items-center gap-6">
                             <div class="w-16 h-16 bg-[#004a99] rounded-2xl flex items-center justify-center text-white text-2xl shadow-lg shrink-0">
-                                <i class="fas fa-edit"></i>
+                                <i class="fas fa-plus-circle"></i>
                             </div>
                             <div class="flex-1">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block text-gray-800">Judul Bagian Tambahan (Kuesioner)</label>
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Judul Bagian Kuesioner (Field Tambahan)</label>
                                 <input type="text" id="section-title-input" value="{{ $sectionTitle ?? 'INFORMASI TAMBAHAN' }}" 
                                     class="w-full bg-transparent border-none p-0 text-xl md:text-2xl font-black text-[#004a99] focus:ring-0 uppercase placeholder-gray-200"
                                     placeholder="CONTOH: DATA PENUNJANG">
@@ -191,6 +232,11 @@
         // Save Form
         $('#btn-save-form').click(function() {
             let sectionTitle = $('#section-title-input').val().trim().toUpperCase() || 'INFORMASI TAMBAHAN';
+            let permohonanTitle = $('#permohonan-title-input').val().trim();
+            let permohonanSubtitle = $('#permohonan-subtitle-input').val().trim();
+            let permohonanWarningTitle = $('#permohonan-warning-title-input').val().trim();
+            let permohonanWarningText = $('#permohonan-warning-text-input').val().trim();
+
             let fields = [];
             $('.custom-field').each(function() {
                 let label = $(this).find('.field-label').val().trim();
@@ -214,6 +260,10 @@
                 data: {
                     _token: "{{ csrf_token() }}",
                     section_title: sectionTitle,
+                    permohonan_title: permohonanTitle,
+                    permohonan_subtitle: permohonanSubtitle,
+                    permohonan_warning_title: permohonanWarningTitle,
+                    permohonan_warning_text: permohonanWarningText,
                     fields: fields
                 },
                 success: function(response) {

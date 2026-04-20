@@ -55,10 +55,10 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div class="space-y-8">
             
-            <!-- LEFT: REPORT UPLOAD -->
-            <div class="lg:col-span-2 space-y-10">
+            <!-- MAIN CONTENT AREA (FULL WIDTH) -->
+            <div class="space-y-10">
                 <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 p-10">
                     <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8 mb-10">
                         <h4 class="text-xl font-black text-[#002b5c] uppercase tracking-widest flex items-center">
@@ -103,10 +103,10 @@
                     </h4>
                     <textarea name="ringkasan_eksekutif" class="tinymce-editor">{{ $settings['layanan_survey_ringkasan_eksekutif'] ?? '' }}</textarea>
                 </div>
-            </div>
+                </div>
 
-            <!-- RIGHT: PREVIEW/INFO -->
-            <div class="space-y-10">
+                <!-- SIDEBAR CONFIG (NOW MOVED BELOW) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
                 <div class="bg-amber-50 rounded-[2.5rem] p-10 border-2 border-amber-200">
                     <div class="w-16 h-16 bg-[#ffc107] text-[#002b5c] rounded-2xl flex items-center justify-center text-3xl mb-8 shadow-lg">
                         <i class="fas fa-award"></i>
@@ -117,12 +117,28 @@
                     </p>
                 </div>
 
-                <button type="submit" class="w-full py-8 bg-[#002b5c] text-white font-black text-xl uppercase tracking-[3px] rounded-[2.5rem] shadow-2xl hover:bg-black transition-all border-none cursor-pointer">
-                    <i class="fas fa-save mr-4 text-[#ffc107]"></i> SIMPAN HASIL SURVEY
-                </button>
-                <p class="text-sm text-center text-slate-500 font-black uppercase tracking-widest">Perubahan akan langsung tampil di menu Layanan</p>
+                    <button type="submit" class="w-full py-8 bg-[#002b5c] text-white font-black text-xl uppercase tracking-[3px] rounded-[2.5rem] shadow-2xl hover:bg-black transition-all border-none cursor-pointer">
+                        <i class="fas fa-save mr-4 text-[#ffc107]"></i> SIMPAN HASIL SURVEY
+                    </button>
+                    <p class="text-sm text-center text-slate-500 font-black uppercase tracking-widest">Perubahan akan langsung tampil di menu Layanan</p>
+                </div>
             </div>
         </div>
     </form>
 </div>
+
+<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+<script>
+    tinymce.init({
+        selector: '.tinymce-editor',
+        plugins: 'lists link anchor autolink charmap emoticons wordcount table',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 600,
+        branding: false,
+        elementpath: false,
+        menubar: false,
+        promotion: false,
+        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #002b5c; text-align: justify; }'
+    });
+</script>
 @endsection

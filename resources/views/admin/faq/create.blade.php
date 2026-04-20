@@ -22,9 +22,9 @@
             <form action="{{ route('admin.faq.store') }}" method="POST" class="p-6 md:p-10">
                 @csrf
                 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="space-y-8">
                     <!-- MAIN CONTENT -->
-                    <div class="lg:col-span-2 space-y-6">
+                    <div class="space-y-6">
                         
                         <!-- PERTANYAAN -->
                         <div class="space-y-2">
@@ -50,8 +50,10 @@
 
                     </div>
 
-                    <!-- SIDEBAR INFO -->
-                    <div class="space-y-6">
+                    </div>
+
+                    <!-- SIDEBAR INFO (BELOW) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
                         <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                             <h3 class="text-md font-bold text-[#004a99] mb-4 uppercase flex items-center">
                                 <i class="fas fa-info-circle mr-2 text-[#ffc107]"></i> Panduan FAQ
@@ -91,12 +93,13 @@
     tinymce.init({
         selector: '.tinymce-editor',
         plugins: 'lists link anchor autolink charmap emoticons wordcount',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 350,
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 600,
         branding: false,
         elementpath: false,
         menubar: false,
-        promotion: false
+        promotion: false,
+        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #475569; text-align: justify; }'
     });
 </script>
 @endsection

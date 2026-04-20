@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Permohonan;
+use App\Models\Dashboard;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
@@ -40,7 +41,8 @@ class PermohonanController extends Controller
         $schema = $this->getFormSchema();
         $sectionTitle = $schema['section_title'];
         $customFields = $schema['fields'];
-        return view('permohonan.form', compact('customFields', 'sectionTitle'));
+        $settings = Dashboard::pluck('value', 'key')->toArray();
+        return view('permohonan.form', compact('customFields', 'sectionTitle', 'settings'));
     }
 
     public function adminForm()
@@ -48,17 +50,41 @@ class PermohonanController extends Controller
         $schema = $this->getFormSchema();
         $sectionTitle = $schema['section_title'];
         $customFields = $schema['fields'];
-        return view('admin.permohonan.form', compact('customFields', 'sectionTitle'));
+        $settings = Dashboard::pluck('value', 'key')->toArray();
+        return view('admin.permohonan.form', compact('customFields', 'sectionTitle', 'settings'));
     }
 
     public function saveForm(Request $request)
     {
+        // Save Custom Fields to JSON
         $schema = [
             'section_title' => $request->input('section_title', 'INFORMASI TAMBAHAN'),
             'fields' => $request->input('fields', [])
         ];
-        
         Storage::disk('public')->put('form_schema.json', json_encode($schema));
+
+        // Save Page Content to Dashboard Table
+        $contentSettings = [
+            'permohonan_title' => $request->input('permohonan_title'),
+            'permohonan_subtitle' => $request->input('permohonan_subtitle'),
+            'permohonan_warning_title' => $request->input('permohonan_warning_title'),
+            'permohonan_warning_text' => $request->input('permohonan_warning_text'),
+        ];
+
+        foreach ($contentSettings as $key => $value) {
+            if ($value !== null) {
+                Dashboard::updateOrCreate(
+                    ['key' => $key],
+                    [
+                        'value' => $value,
+                        'type' => 'text',
+                        'description' => 'Konten Halaman Permohonan',
+                        'aktif' => true
+                    ]
+                );
+            }
+        }
+
         return response()->json(['success' => true]);
     }
 

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
-    <div class="max-w-4xl mx-auto space-y-8 text-gray-800">
+    <div class="max-w-7xl mx-auto space-y-8 text-gray-800">
 
         <!-- HEADER SECTION -->
         <div class="flex items-center justify-between text-gray-800">
@@ -88,13 +88,13 @@
     tinymce.init({
         selector: '.tinymce-editor',
         plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link image table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 400,
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link image table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 600,
         branding: false,
         elementpath: false,
         menubar: false,
         promotion: false,
-        content_style: 'body { font-family:"Inter",sans-serif; font-size:14px; color: #1e293b; }'
+        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #1e293b; text-align: justify; }'
     });
 
     function updateFileName(input) {
