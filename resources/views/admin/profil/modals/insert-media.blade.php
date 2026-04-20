@@ -1,4 +1,4 @@
-﻿<!-- Insert Media Modal -->
+<!-- Insert Media Modal -->
 <div class="modal fade" id="insertMediaModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">

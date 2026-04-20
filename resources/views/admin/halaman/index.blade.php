@@ -11,8 +11,8 @@
             <p class="text-gray-600 mt-1">Kelola konten halaman publik PPID PKTJ</p>
         </div>
         <div class="flex items-center space-x-3">
-            <a href="{{ url('/') }}" target="_blank" class="px-4 py-2 bg-green-600 text-[#004a99] font-medium hover:bg-green-700 transition rounded-lg">
-                <i class="fas fa-eye mr-2"></i>Lihat Publik
+            <a href="http://ppid.pktj.ac.id" target="_blank" class="px-6 py-3 bg-emerald-600 text-white font-black hover:bg-emerald-700 transition rounded-xl shadow-lg flex items-center uppercase tracking-widest text-xs">
+                <i class="fas fa-external-link-alt mr-2"></i>Lihat Portal Publik
             </a>
         </div>
     </div>
@@ -168,8 +168,8 @@
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-slate-600/30">
-                <a href="{{ route('content.index') }}" class="w-full block text-center px-4 py-2 bg-yellow-600 text-[#004a99] rounded-lg hover:bg-yellow-700 transition">
-                    Kelola Semua
+                <a href="{{ route('content.index') }}" class="w-full block text-center px-4 py-2 bg-amber-500 text-white font-black rounded-lg hover:bg-amber-600 transition uppercase tracking-widest text-xs">
+                    Kelola Semua Data
                 </a>
             </div>
         </div>
@@ -235,8 +235,8 @@
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-slate-600/30">
-                <a href="{{ route('admin.profil.edit', 'layanan-daftar') }}" class="w-full block text-center px-4 py-2 bg-orange-600 text-[#004a99] rounded-lg hover:bg-orange-700 transition">
-                    Kelola Daftar Informasi
+                <a href="{{ route('admin.layanan.daftar-informasi') }}" class="w-full block text-center px-4 py-2 bg-orange-600 text-white font-black rounded-lg hover:bg-orange-700 transition uppercase tracking-widest text-xs">
+                    Kelola Daftar Informasi (DIP)
                 </a>
             </div>
         </div>
@@ -281,8 +281,8 @@
                 @endforeach
             </div>
             <div class="mt-4 pt-4 border-t border-slate-600/30">
-                <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="w-full block text-center px-4 py-2 bg-green-600 text-[#004a99] rounded-lg hover:bg-green-700 transition">
-                    Kelola Prosedur
+                <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="w-full block text-center px-4 py-2 bg-emerald-600 text-white font-black rounded-lg hover:bg-emerald-700 transition uppercase tracking-widest text-xs">
+                    Buka Modul Prosedur
                 </a>
             </div>
         </div>

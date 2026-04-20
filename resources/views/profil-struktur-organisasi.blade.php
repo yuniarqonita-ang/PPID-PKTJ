@@ -236,14 +236,17 @@
     <div class="container py-5">
         <h1 class="page-title">{{ $profil->judul ?? 'Struktur Organisasi PPID' }}</h1>
 
-        @if($profil->konten_pembuka)
+        @if($profil && $profil->konten_pembuka)
         <div class="content-box">
-            <h2 class="section-title">Dasar Hukum Pembentukan</h2>
+            @if($type === 'struktur' || $profil->judul_sub)
+                <h2 class="section-title">{{ $profil->judul_sub ?: 'Dasar Hukum' }}</h2>
+            @endif
             <div class="profil-content">
                 {!! $profil->konten_pembuka !!}
             </div>
         </div>
         @endif
+
 
         @if($profil->additional_sections)
             @foreach($profil->additional_sections as $section)
@@ -255,8 +258,8 @@
                             <!-- Direktur -->
                             <div class="org-level">
                                 <div class="org-box director">
-                                    <strong>DIREKTUR PKTJ</strong><br>
-                                    <small>Pembina PPID</small>
+                                    <strong>{{ $settings['struktur_role_1'] ?? 'DIREKTUR PKTJ' }}</strong><br>
+                                    <small>{{ $settings['struktur_sub_1'] ?? 'Pembina PPID' }}</small>
                                 </div>
                             </div>
 
@@ -266,8 +269,8 @@
                             <!-- Koordinator PPID -->
                             <div class="org-level">
                                 <div class="org-box">
-                                    <strong>KOORDINATOR PPID</strong><br>
-                                    <small>Kepala Bagian/Program</small>
+                                    <strong>{{ $settings['struktur_role_2'] ?? 'KOORDINATOR PPID' }}</strong><br>
+                                    <small>{{ $settings['struktur_sub_2'] ?? 'Kepala Bagian/Program' }}</small>
                                 </div>
                             </div>
 
@@ -277,16 +280,16 @@
                             <!-- Tim PPID -->
                             <div class="org-level">
                                 <div class="org-box">
-                                    <strong>TIM PPID</strong><br>
-                                    <small>Staff Teknis</small>
+                                    <strong>{{ $settings['struktur_role_3'] ?? 'TIM PPID' }}</strong><br>
+                                    <small>{{ $settings['struktur_sub_3'] ?? 'Staff Teknis' }}</small>
                                 </div>
                                 <div class="org-box">
-                                    <strong>TIM PPID</strong><br>
-                                    <small>Staff Teknis</small>
+                                    <strong>{{ $settings['struktur_role_4'] ?? 'TIM PPID' }}</strong><br>
+                                    <small>{{ $settings['struktur_sub_4'] ?? 'Staff Teknis' }}</small>
                                 </div>
                                 <div class="org-box">
-                                    <strong>TIM PPID</strong><br>
-                                    <small>Staff Teknis</small>
+                                    <strong>{{ $settings['struktur_role_5'] ?? 'TIM PPID' }}</strong><br>
+                                    <small>{{ $settings['struktur_sub_5'] ?? 'Staff Teknis' }}</small>
                                 </div>
                             </div>
                         </div>

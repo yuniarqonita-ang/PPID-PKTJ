@@ -16,9 +16,9 @@
                     {{ $settings['deskripsi'] ?? 'Pejabat Pengelola Informasi dan Dokumentasi (PPID) Politeknik Keselamatan Transportasi Jalan (PKTJ) berkomitmen memberikan layanan informasi publik yang transparan dan akuntabel.' }}
                 </p>
                 <div class="d-flex gap-3 mt-4">
-                    <a href="#" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-twitter"></i></a>
+                    <a href="{{ $settings['facebook_link'] ?? '#' }}" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-facebook-f"></i></a>
+                    <a href="{{ $settings['instagram_link'] ?? '#' }}" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ $settings['twitter_link'] ?? '#' }}" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-twitter"></i></a>
                     <a href="{{ $settings['youtube_link'] ?? '#' }}" class="text-white opacity-50 hover-opacity-100 transition"><i class="fab fa-youtube"></i></a>
                 </div>
             </div>

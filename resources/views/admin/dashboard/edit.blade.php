@@ -1,259 +1,159 @@
-﻿@extends('layouts.app')
-
-@php
-    use App\Models\Dashboard;
-@endphp
+@extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-    <div class="max-w-6xl mx-auto">
-
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center mb-8">
+<div class="max-w-5xl mx-auto space-y-8 animate-fade-in">
+    
+    <!-- HEADER -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">ðŸŽ¨ Edit Dashboard Publik</h1>
-            <p class="text-slate-300 mt-1">Sesuaikan tampilan halaman publik PPID PKTJ</p>
+            <h2 class="text-2xl font-black text-[#002b5c] tracking-tight">Pusat Pengaturan Website</h2>
+            <p class="text-slate-500 text-sm font-medium">Kelola informasi global, media sosial, dan kontak resmi PPID</p>
         </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ route('dashboard') }}" class="px-4 py-2 text-slate-300 hover:text-white font-medium">
-                Kembali
+        <div class="flex items-center gap-3">
+            <a href="{{ route('dashboard') }}" class="px-5 py-2.5 bg-white border border-slate-200 text-slate-600 rounded-xl font-bold text-xs hover:bg-slate-50 transition-all">
+                <i class="fas fa-arrow-left mr-2"></i>Kembali
             </a>
-            <a href="{{ url('/') }}" target="_blank" class="px-4 py-2 bg-green-600 text-white font-medium hover:bg-green-700 transition rounded-lg">
-                <i class="fas fa-eye mr-2"></i>Lihat Publik
+            <a href="http://ppid.pktj.ac.id" target="_blank" class="px-5 py-2.5 bg-emerald-500 text-white rounded-xl font-bold text-xs hover:bg-emerald-600 shadow-lg shadow-emerald-500/20 transition-all text-gray-800">
+                <i class="fas fa-eye mr-2 text-gray-800"></i>Lihat Website
             </a>
         </div>
     </div>
 
-    <!-- ==================== ALERTS SECTION ==================== -->
     @if(session('success'))
-        <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-            <div class="flex items-center">
-                <div class="flex-shrink-0">
-                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
-                </div>
-                <div class="ml-3">
-                    <p class="text-green-300 font-medium">{{ session('success') }}</p>
-                </div>
-            </div>
-        </div>
+    <div class="bg-emerald-50 border border-emerald-100 text-emerald-700 px-6 py-4 rounded-2xl flex items-center gap-4 text-gray-800">
+        <i class="fas fa-check-circle text-xl text-gray-800"></i>
+        <p class="font-bold text-gray-800">{{ session('success') }}</p>
+    </div>
     @endif
 
-    <!-- ==================== FORM SECTION ==================== -->
-    <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-        <form action="{{ route('dashboard.update') }}" method="POST">
-            @csrf
-            @method('PUT')
+    <form action="{{ route('dashboard.update') }}" method="POST" enctype="multipart/form-data">
+        @csrf
+        @method('PUT')
 
-            <div class="p-6 space-y-8">
+        <div class="grid grid-cols-1 gap-8">
+            
+            <!-- SECTION: HERO & VISUAL -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-[#004a99] rounded-xl flex items-center justify-center text-white text-sm">
+                        <i class="fas fa-image"></i>
+                    </div>
+                    <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Tampilan & Hero Utama</h3>
+                </div>
+                <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6 border-b border-slate-50">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Judul Utama Beranda</label>
+                        <input type="text" name="hero_title" value="{{ old('hero_title', \App\Models\Dashboard::getValue('hero_title', 'Selamat Datang')) }}"
+                               class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] focus:bg-white transition-all font-semibold text-slate-700">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sub-Judul Beranda</label>
+                        <input type="text" name="hero_subtitle" value="{{ old('hero_subtitle', \App\Models\Dashboard::getValue('hero_subtitle', '')) }}"
+                               class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] focus:bg-white transition-all font-semibold text-slate-700">
+                    </div>
+                </div>
                 
-                <!-- Hero Section -->
-                <div class="border-b border-slate-600/30 pb-8">
-                    <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
-                        <span class="w-8 h-8 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center mr-3">
-                            <i class="fas fa-home text-sm"></i>
-                        </span>
-                        Hero Section
-                    </h2>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Judul Utama</label>
-                            <input type="text" 
-                                   name="hero_title" 
-                                   value="{{ old('hero_title', Dashboard::getValue('hero_title', 'Selamat Datang di Portal PPID PKTJ')) }}"
-                                   class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                   placeholder="Masukkan judul utama">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Subjudul</label>
-                            <input type="text" 
-                                   name="hero_subtitle" 
-                                   value="{{ old('hero_subtitle', Dashboard::getValue('hero_subtitle', 'Layanan Informasi Publik Terintegrasi dan Transparan')) }}"
-                                   class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                   placeholder="Masukkan subjudul">
-                        </div>
+                <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/20">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-[#004a99] uppercase tracking-widest flex items-center">
+                            <i class="fab fa-youtube mr-2"></i> Link Video YouTube Profil
+                        </label>
+                        <input type="url" name="video_url" value="{{ old('video_url', \App\Models\Dashboard::getValue('video_url', '')) }}"
+                               placeholder="Contoh: https://www.youtube.com/watch?v=..."
+                               class="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ffc107] transition-all font-semibold text-slate-700">
+                        <p class="text-[10px] text-slate-400 italic">Anda bisa memasukkan link YouTube biasa, sistem akan otomatis menyesuaikannya.</p>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-[#004a99] uppercase tracking-widest flex items-center">
+                            <i class="fas fa-image mr-2"></i> Foto Thumbnail Video Halaman Depan
+                        </label>
+                        <input type="file" name="video_thumbnail" accept="image/*"
+                               class="w-full px-5 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ffc107] transition-all text-xs font-bold text-slate-500">
+                        @if($thumb = \App\Models\Dashboard::getValue('video_thumbnail'))
+                            <div class="mt-2 flex items-center gap-3 p-2 bg-blue-50 rounded-lg border border-blue-100">
+                                <img src="{{ asset('storage/' . $thumb) }}" class="w-16 h-10 object-cover rounded shadow-sm">
+                                <span class="text-[10px] font-bold text-blue-700 uppercase tracking-tighter">Foto Aktif Digunakan</span>
+                            </div>
+                        @else
+                            <p class="text-[10px] text-slate-400 italic">Unggah foto (Rekomendasi: 1280x720px) untuk dijadikan sampul video di beranda.</p>
+                        @endif
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Judul Di Atas Video</label>
+                        <input type="text" name="video_title" value="{{ old('video_title', \App\Models\Dashboard::getValue('video_title', 'Video Profil PKTJ Tegal')) }}"
+                               class="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700">
                     </div>
                 </div>
+            </div>
 
-                <!-- Warna Tema -->
-                <div class="border-b border-slate-600/30 pb-8">
-                    <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
-                        <span class="w-8 h-8 bg-purple-100 text-purple-600 rounded-full flex items-center justify-center mr-3">
-                            <i class="fas fa-palette text-sm"></i>
-                        </span>
-                        Warna Tema
-                    </h2>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Warna Primer</label>
-                            <div class="flex items-center space-x-3">
-                                <input type="color" 
-                                       name="primary_color" 
-                                       value="{{ old('primary_color', Dashboard::getValue('primary_color', '#1a3a52')) }}"
-                                       class="h-10 w-20 border border-slate-600 bg-slate-900/50 text-white placeholder-slate-500 rounded cursor-pointer">
-                                <input type="text" 
-                                       name="primary_color_text" 
-                                       value="{{ old('primary_color_text', Dashboard::getValue('primary_color', '#1a3a52')) }}"
-                                       class="flex-1 px-3 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg text-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                       placeholder="#1a3a52">
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Warna Sekunder</label>
-                            <div class="flex items-center space-x-3">
-                                <input type="color" 
-                                       name="secondary_color" 
-                                       value="{{ old('secondary_color', Dashboard::getValue('secondary_color', '#d4af37')) }}"
-                                       class="h-10 w-20 border border-slate-600 bg-slate-900/50 text-white placeholder-slate-500 rounded cursor-pointer">
-                                <input type="text" 
-                                       name="secondary_color_text" 
-                                       value="{{ old('secondary_color_text', Dashboard::getValue('secondary_color', '#d4af37')) }}"
-                                       class="flex-1 px-3 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg text-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                       placeholder="#d4af37">
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Warna Background</label>
-                            <div class="flex items-center space-x-3">
-                                <input type="color" 
-                                       name="bg_color" 
-                                       value="{{ old('bg_color', Dashboard::getValue('bg_color', '#f8f9fa')) }}"
-                                       class="h-10 w-20 border border-slate-600 bg-slate-900/50 text-white placeholder-slate-500 rounded cursor-pointer">
-                                <input type="text" 
-                                       name="bg_color_text" 
-                                       value="{{ old('bg_color_text', Dashboard::getValue('bg_color', '#f8f9fa')) }}"
-                                       class="flex-1 px-3 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg text-sm bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                       placeholder="#f8f9fa">
-                            </div>
-                        </div>
+            <!-- SECTION: MEDIA SOSIAL -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-white text-sm">
+                        <i class="fas fa-share-alt"></i>
+                    </div>
+                    <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Media Sosial (Link Footer)</h3>
+                </div>
+                <div class="p-8 grid grid-cols-2 md:grid-cols-4 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest"><i class="fab fa-facebook mr-1"></i> Facebook Link</label>
+                        <input type="url" name="facebook_link" value="{{ old('facebook_link', \App\Models\Dashboard::getValue('facebook_link', '#')) }}"
+                               class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-blue-600 focus:bg-white transition-all font-semibold text-slate-700">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest"><i class="fab fa-instagram mr-1"></i> Instagram Link</label>
+                        <input type="url" name="instagram_link" value="{{ old('instagram_link', \App\Models\Dashboard::getValue('instagram_link', '#')) }}"
+                               class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-pink-600 focus:bg-white transition-all font-semibold text-slate-700">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest"><i class="fab fa-twitter mr-1"></i> Twitter Link</label>
+                        <input type="url" name="twitter_link" value="{{ old('twitter_link', \App\Models\Dashboard::getValue('twitter_link', '#')) }}"
+                               class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-sky-500 focus:bg-white transition-all font-semibold text-slate-700">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest"><i class="fab fa-youtube mr-1"></i> YouTube Link</label>
+                        <input type="url" name="youtube_link" value="{{ old('youtube_link', \App\Models\Dashboard::getValue('youtube_link', '#')) }}"
+                               class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-red-600 focus:bg-white transition-all font-semibold text-slate-700">
                     </div>
                 </div>
+            </div>
 
-                <!-- Video Section -->
-                <div class="border-b border-slate-600/30 pb-8">
-                    <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
-                        <span class="w-8 h-8 bg-red-100 text-red-600 rounded-full flex items-center justify-center mr-3">
-                            <i class="fas fa-video text-sm"></i>
-                        </span>
-                        Video Layanan
-                    </h2>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">URL Video YouTube</label>
-                            <input type="url" 
-                                   name="video_url" 
-                                   value="{{ old('video_url', Dashboard::getValue('video_url', 'https://www.youtube.com/embed/dQw4w9WgXcQ')) }}"
-                                   class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                   placeholder="https://www.youtube.com/embed/VIDEO_ID">
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Judul Video</label>
-                            <input type="text" 
-                                   name="video_title" 
-                                   value="{{ old('video_title', Dashboard::getValue('video_title', 'Video Layanan Informasi')) }}"
-                                   class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                   placeholder="Masukkan judul video">
-                        </div>
+            <!-- SECTION: KONTAK -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center text-white text-sm">
+                        <i class="fas fa-id-card"></i>
                     </div>
+                    <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Informasi Kontak Resmi</h3>
                 </div>
-
-                <!-- Aplikasi Terkait -->
-                <div class="pb-8">
-                    <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
-                        <span class="w-8 h-8 bg-green-100 text-green-600 rounded-full flex items-center justify-center mr-3">
-                            <i class="fas fa-link text-sm"></i>
-                        </span>
-                        Aplikasi Terkait
-                    </h2>
-                    
-                    <div class="space-y-4">
-                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                            <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">E-PPID Kemenhub</label>
-                                <input type="url" 
-                                       name="app_eppid" 
-                                       value="{{ old('app_eppid', Dashboard::getValue('app_eppid', 'https://ppid.dephub.go.id')) }}"
-                                       class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                       placeholder="https://ppid.dephub.go.id">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">LPSE PKTJ</label>
-                                <input type="url" 
-                                       name="app_lpse" 
-                                       value="{{ old('app_lpse', Dashboard::getValue('app_lpse', '#')) }}"
-                                       class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                       placeholder="URL LPSE PKTJ">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">JDIH PKTJ</label>
-                                <input type="url" 
-                                       name="app_jdih" 
-                                       value="{{ old('app_jdih', Dashboard::getValue('app_jdih', '#')) }}"
-                                       class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                       placeholder="URL JDIH PKTJ">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-slate-300 mb-2">Sistem Informasi PKTJ</label>
-                                <input type="url" 
-                                       name="app_sistem" 
-                                       value="{{ old('app_sistem', Dashboard::getValue('app_sistem', '#')) }}"
-                                       class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                       placeholder="URL Sistem Informasi PKTJ">
-                            </div>
-                        </div>
+                <div class="p-8 space-y-6">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Alamat Kantor</label>
+                        <input type="text" name="kontak_alamat" value="{{ old('kontak_alamat', \App\Models\Dashboard::getValue('kontak_alamat', '')) }}"
+                               class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700">
                     </div>
-                </div>
-
-                <!-- PPID Info -->
-                <div>
-                    <h2 class="text-xl font-semibold text-white mb-6 flex items-center">
-                        <span class="w-8 h-8 bg-indigo-100 text-indigo-600 rounded-full flex items-center justify-center mr-3">
-                            <i class="fas fa-info-circle text-sm"></i>
-                        </span>
-                        Informasi PPID
-                    </h2>
-                    
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Nama PPID</label>
-                            <input type="text" 
-                                   name="ppid_nama" 
-                                   value="{{ old('ppid_nama', Dashboard::getValue('ppid_nama', 'PPID Pelaksana')) }}"
-                                   class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                   placeholder="PPID Pelaksana">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Nomor Telepon</label>
+                            <input type="text" name="kontak_telepon" value="{{ old('kontak_telepon', \App\Models\Dashboard::getValue('kontak_telepon', '')) }}"
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700">
                         </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-slate-300 mb-2">Deskripsi PPID</label>
-                            <textarea name="ppid_deskripsi" 
-                                      rows="2"
-                                      class="w-full px-4 py-2 border border-slate-600 text-white placeholder-slate-500 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-cyan-500 focus:ring-cyan-500 bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                                      placeholder="Politeknik Keselamatan Transportasi Jalan Tegal">{{ old('ppid_deskripsi', Dashboard::getValue('ppid_deskripsi', 'Politeknik Keselamatan Transportasi Jalan Tegal')) }}</textarea>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Email PPID</label>
+                            <input type="email" name="kontak_email" value="{{ old('kontak_email', \App\Models\Dashboard::getValue('kontak_email', '')) }}"
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="bg-gray-50 px-6 py-4 flex justify-end space-x-4">
-                <a href="{{ route('dashboard') }}" class="px-6 py-2 text-slate-300 hover:text-white font-medium">
-                    Batal
-                </a>
-                <button type="submit" class="px-6 py-2 bg-blue-600 text-white font-medium hover:bg-blue-700 transition rounded-lg">
-                    <i class="fas fa-save mr-2"></i>Simpan Perubahan
+            <!-- SAVE BAR -->
+            <div class="flex items-center justify-end gap-4 pb-10">
+                <button type="submit" class="px-10 py-4 bg-[#ffc107] text-[#002b5c] rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all">
+                    Simpan Perubahan
                 </button>
             </div>
-        </form>
-    </div>
-</div>
+        </div>
+    </form>
 </div>
 @endsection

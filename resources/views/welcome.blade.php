@@ -80,10 +80,22 @@
         .hero-section {
             background: linear-gradient(135deg, {{ $settings['primary_color'] ?? '#004A99' }} 0%, {{ $settings['secondary_color'] ?? '#0066CC' }} 100%);
             color: white;
-            padding: 100px 0; 
+            padding: 120px 0; 
             text-align: center;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            min-height: 450px;
+        }
+
+        /* Dark Overlay for better contrast */
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.5) 100%);
+            z-index: 0;
         }
         
         .hero-section::before {
@@ -339,6 +351,56 @@
         .bg-primary {
             background-color: #1a3a52 !important;
         }
+
+        /* Video Thumbnail Style */
+        .video-container {
+            position: relative;
+            cursor: pointer;
+            overflow: hidden;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+        .video-container:hover {
+            transform: scale(1.01);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.3);
+        }
+        .video-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.5s ease;
+        }
+        .video-container:hover .video-thumbnail {
+            filter: brightness(0.7);
+        }
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 193, 7, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #002b5c;
+            font-size: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4);
+        }
+        .video-container:hover .play-overlay {
+            transform: translate(-50%, -50%) scale(1.1);
+            background: #ffc107;
+            box-shadow: 0 0 0 15px rgba(255, 193, 7, 0);
+            animation: pulse-border 1.5s infinite;
+        }
+        @keyframes pulse-border {
+            0% { box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.4); }
+            100% { box-shadow: 0 0 0 20px rgba(255, 193, 7, 0); }
+        }
     </style>
 </head>
 <body>
@@ -362,7 +424,7 @@
     <!-- ===== INFORMASI PUBLIK ICON SECTION ===== -->
     <section class="info-publik-section" id="informasi-publik">
         <div class="container">
-            <h2 class="section-title">Informasi Publik</h2>
+            <h2 class="section-title">{{ $settings['info_publik_title'] ?? 'Informasi Publik' }}</h2>
 
             <div class="row justify-content-center g-5">
                 <!-- Informasi Berkala -->
@@ -387,7 +449,7 @@
                                 <path d="M60 34 Q66 34 66 40 Q66 46 60 46" fill="#3b82f6" opacity="0.7"/>
                             </svg>
                         </div>
-                        <span class="info-icon-label">Informasi Berkala</span>
+                        <span class="info-icon-label">{{ $settings['info_berkala_label'] ?? 'Informasi Berkala' }}</span>
                     </a>
                 </div>
 
@@ -413,7 +475,7 @@
                                 <rect x="45" y="47" width="5" height="2" rx="1" fill="white" opacity="0.8"/>
                             </svg>
                         </div>
-                        <span class="info-icon-label">Informasi Setiap Saat</span>
+                        <span class="info-icon-label">{{ $settings['info_setiap_saat_label'] ?? 'Informasi Setiap Saat' }}</span>
                     </a>
                 </div>
 
@@ -439,7 +501,7 @@
                                 <path d="M55 23 Q64 31 64 38.5 Q64 46 55 54" stroke="#fbbf24" stroke-width="2.5" fill="none" stroke-linecap="round" opacity="0.6"/>
                             </svg>
                         </div>
-                        <span class="info-icon-label">Informasi Serta Merta</span>
+                        <span class="info-icon-label">{{ $settings['info_serta_merta_label'] ?? 'Informasi Serta Merta' }}</span>
                     </a>
                 </div>
             </div>
@@ -452,9 +514,9 @@
     <!-- ===== ADA PERTANYAAN SECTION ===== -->
     <section class="ada-pertanyaan-section">
         <div class="container">
-            <h2>Ada Pertanyaan?</h2>
+            <h2>{{ $settings['question_title'] ?? 'Ada Pertanyaan?' }}</h2>
             <a href="{{ route('permohonan.form') }}" class="btn-permohonan">
-                Ajukan Permohonan Informasi Publik
+                {{ $settings['question_button_text'] ?? 'Ajukan Permohonan Informasi Publik' }}
             </a>
         </div>
     </section>
@@ -484,9 +546,43 @@
 
         <div class="row pt-4">
             <div class="col-md-8 mb-5">
-                <h2 class="section-title">{{ $settings['video_title'] ?? 'Video Layanan Informasi' }}</h2>
-                <div class="ratio ratio-16x9 card">
-                    <iframe src="{{ $settings['video_url'] ?? 'https://www.youtube.com/embed/dQw4w9WgXcQ' }}" title="Video Layanan" allowfullscreen></iframe>
+                <h2 class="section-title text-start">{{ $settings['video_title'] ?? 'Video Layanan Informasi' }}</h2>
+                <div class="ratio ratio-16x9">
+                    @php
+                        $videoUrl = $settings['video_url'] ?? 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+                        $thumbnail = $settings['video_thumbnail'] ?? null;
+                        
+                        // Check if thumbnail physically exists
+                        $hasThumbnail = false;
+                        if ($thumbnail && file_exists(public_path('storage/' . $thumbnail))) {
+                            $hasThumbnail = true;
+                        }
+
+                        // Convert YouTube URL to Embed URL
+                        if (strpos($videoUrl, 'youtube.com/watch?v=') !== false) {
+                            $parts = parse_url($videoUrl);
+                            if (isset($parts['query'])) {
+                                parse_str($parts['query'], $query);
+                                if (isset($query['v'])) { $videoUrl = "https://www.youtube.com/embed/" . $query['v'] . "?autoplay=1"; }
+                            }
+                        } elseif (strpos($videoUrl, 'youtu.be/') !== false) {
+                            $videoId = substr(parse_url($videoUrl, PHP_URL_PATH), 1);
+                            $videoUrl = "https://www.youtube.com/embed/" . $videoId . "?autoplay=1";
+                        }
+                    @endphp
+
+                    @if($hasThumbnail)
+                        <div class="video-container" onclick="this.innerHTML = '<iframe src=\'{{ $videoUrl }}\' title=\'Video Layanan\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
+                            <img src="{{ asset('storage/' . $thumbnail) }}" class="video-thumbnail" alt="Thumbnail Video">
+                            <div class="play-overlay">
+                                <i class="fas fa-play ml-1"></i>
+                            </div>
+                        </div>
+                    @else
+                        <div class="card overflow-hidden shadow-lg border-0" style="border-radius: 15px;">
+                            <iframe src="{{ str_replace('?autoplay=1', '', $videoUrl) }}" style="border-radius: 15px;" title="Video Layanan" allowfullscreen></iframe>
+                        </div>
+                    @endif
                 </div>
             </div>
             <div class="col-md-4 mb-5">

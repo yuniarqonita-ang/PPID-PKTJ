@@ -13,62 +13,62 @@
                 <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
                     <i class="fas fa-plus-circle mr-2"></i> Buat Berita Baru
                 </h1>
-                <p class="text-gray-500 font-medium font-medium mt-1">Publikasikan informasi atau kegiatan terbaru PPID PKTJ</p>
+                <p class="text-slate-500 text-sm font-medium mt-1">Tulis dan terbitkan artikel informasi resmi ke portal publik</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <button type="submit" class="px-8 py-4 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-[#002b5c] hover:scale-105 active:scale-95 transition-all flex items-center border-none">
+                    <i class="fas fa-paper-plane mr-2 text-[#ffc107]"></i> Terbitkan Sekarang
+                </button>
             </div>
         </div>
 
-        <!-- FORM CARD -->
-        <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-4 border-[#ffc107]">
-            <form action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data" class="p-6 md:p-10">
-                @csrf
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-8">
+            
+            <div class="lg:col-span-8 space-y-8">
                 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- MAIN CONTENT -->
-                    <div class="lg:col-span-2 space-y-6">
-                        
-                        <!-- JUDUL -->
-                        <div class="space-y-2">
-                            <label for="judul" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
-                                <i class="fas fa-heading text-[#ffc107] mr-1"></i> Judul Berita <span class="text-red-500">*</span>
-                            </label>
-                            <input type="text" name="judul" id="judul" value="{{ old('judul') }}" required
-                                class="w-full px-4 py-3 bg-gray-50 border border-gray-300 rounded-xl text-gray-800 focus:outline-none focus:ring-2 focus:ring-[#004a99] focus:border-transparent transition-all shadow-sm"
-                                placeholder="Masukkan judul berita utama">
-                            @error('judul') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
-                        </div>
-
-                        <!-- ISI BERITA (TinyMCE) -->
-                        <div class="space-y-2">
-                            <label for="editor_berita_create" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
-                                <i class="fas fa-pen-nib text-[#ffc107] mr-1"></i> Isi Konten Berita <span class="text-red-500">*</span>
-                            </label>
-                            <div class="rounded-xl overflow-hidden border border-gray-300">
-                                <textarea name="konten" id="editor_berita_create" class="tinymce-editor">{{ old('konten') }}</textarea>
-                            </div>
-                            @error('konten') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
-                        </div>
-
-                    </div>
-
-                    <!-- SIDEBAR INFO & SETTINGS -->
-                    <div class="space-y-6">
-                        
-                        <!-- PUBLICATION PANEL -->
-                        <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200 shadow-inner">
-                            <h3 class="text-md font-bold text-[#004a99] mb-4 uppercase flex items-center">
-                                <i class="fas fa-paper-plane mr-2 text-[#ffc107]"></i> Publikasi
+                <!-- CONTENT CARD -->
+                <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 overflow-hidden">
+                    <div class="p-8 md:p-10 space-y-8">
+                        <div class="flex items-center justify-between border-b border-slate-50 pb-6">
+                            <h3 class="text-sm font-black text-[#002b5c] uppercase tracking-widest flex items-center">
+                                <span class="w-8 h-8 bg-[#004a99] text-white rounded-lg flex items-center justify-center mr-3 text-xs">
+                                    <i class="fas fa-edit"></i>
+                                </span>
+                                Isi Konten Berita
                             </h3>
-                            
-                            <div class="space-y-4">
-                                <div>
-                                    <label for="tanggal" class="block text-xs font-bold text-gray-500 uppercase mb-1">Tanggal Berita</label>
-                                    <input type="date" name="tanggal" id="tanggal" 
-                                        class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
-                                        value="{{ old('tanggal', date('Y-m-d')) }}">
+                            <span class="text-[10px] font-bold text-slate-300 uppercase tracking-widest">Wajib Diisi</span>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 gap-8">
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Judul Berita</label>
+                                <input type="text" name="judul" value="{{ old('judul') }}" required
+                                    class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-[#004a99] focus:bg-white transition-all font-semibold text-slate-700 text-lg"
+                                    placeholder="Masukkan judul berita yang menarik...">
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 block">Isi Berita Lengkap</label>
+                                <div class="rounded-2xl overflow-hidden border border-slate-200">
+                                    <textarea name="konten" id="editor" class="tinymce-editor">{!! old('konten') !!}</textarea>
                                 </div>
-                                
-                                <div>
-                                    <label class="block text-xs font-bold text-gray-500 uppercase mb-2">Status Terbit</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SIDEBAR SETTINGS -->
+            <div class="lg:col-span-4 space-y-8">
+                
+                <!-- ATTRIBUTES CARD -->
+                <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 p-8 space-y-8">
+                    <h4 class="text-xs font-black text-[#002b5c] uppercase tracking-widest border-b border-slate-50 pb-6 flex items-center">
+                        <span class="w-2 h-5 bg-[#ffc107] rounded-full mr-3"></span>
+                        Pengaturan Berita
+                    </h4>
+
+                    <div class="space-y-6">
                                     <div class="flex items-center gap-4">
                                         <label class="flex items-center cursor-pointer group">
                                             <input type="radio" name="status" value="published" class="sr-only" checked>

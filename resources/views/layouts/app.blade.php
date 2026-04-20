@@ -4,390 +4,356 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Admin PPID PKTJ</title>
+        <title>Admin PPID PKTJ | Executive Panel</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700;900&display=swap');
+            
             body {
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                background-color: #f8f9fa;
-                color: #333;
+                font-family: 'Inter', sans-serif;
+                background-color: #f4f7fa;
+                color: #0f172a; /* Deep Navy - Jauh lebih jelas */
                 min-height: 100vh;
             }
             
             .sidebar {
-                width: 280px;
-                background-color: #004a99; /* Navy Blue Utama PPID */
-                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
+                width: 300px; /* Diperlebar sedikit agar lebih lega */
+                background: linear-gradient(180deg, #002b5c 0%, #00152e 100%);
                 position: fixed;
                 left: 0;
                 top: 0;
                 height: 100vh;
                 z-index: 1000;
-                overflow-y: auto;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 10px 0 30px rgba(0,0,0,0.1);
+                border-right: 1px solid rgba(255,255,255,0.05);
             }
-            
-            .sidebar::-webkit-scrollbar { width: 6px; }
-            .sidebar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); }
-            .sidebar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 3px; }
-            
+
             .logo-section {
-                padding: 30px 20px;
-                border-bottom: 2px solid #ffc107; /* Warning Yellow Accent */
+                padding: 50px 30px; /* Jarak lebih luas agar tidak "nabrak" */
                 text-align: center;
-                background-color: rgba(0, 0, 0, 0.1);
+                border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+                margin-bottom: 10px;
             }
             
             .logo-section img {
-                width: 70px;
-                height: 70px;
-                object-fit: contain;
-                margin-bottom: 12px;
-                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+                height: 60px; /* Ukuran proporsional */
+                width: auto;
+                margin: 0 auto 20px;
+                display: block;
             }
             
             .logo-title {
-                color: #fff;
-                font-size: 22px;
+                color: #ffffff;
+                font-size: 26px; /* Lebih besar dan mantap */
                 font-weight: 800;
-                margin-bottom: 2px;
-                letter-spacing: 1px;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                margin-bottom: 4px;
+                line-height: 1.2;
             }
             
             .logo-subtitle {
                 color: #ffc107;
-                font-size: 11px;
-                text-transform: uppercase;
-                letter-spacing: 1.5px;
-                font-weight: 700;
+                font-size: 13px;
+                font-weight: 800;
+                letter-spacing: 4px;
+                opacity: 0.9;
+            }
+
+            .sidebar-scroll {
+                flex: 1;
+                overflow-y: auto;
+                padding: 10px 20px;
             }
             
-            .nav-menu { padding: 15px 0; }
-            .nav-item { margin-bottom: 2px; }
+            /* Global Contrast Fix for unreadable text */
+            .text-slate-400, .text-slate-300, .text-gray-400, .text-gray-300 {
+                color: #334155 !important; /* Gunakan Abu-abu sangat tua jika di background putih */
+            }
+
+            .sidebar-scroll::-webkit-scrollbar { width: 5px; }
+            .sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
             
             .nav-link {
                 display: flex;
                 align-items: center;
-                padding: 14px 25px;
-                color: rgba(255, 255, 255, 0.8);
+                padding: 14px 20px;
+                color: #e2e8f0; /* Putih kebiruan terang - SANGAT JELAS */
                 text-decoration: none;
-                transition: all 0.2s ease;
-                font-size: 14px;
-                font-weight: 500;
-                position: relative;
+                transition: all 0.3s;
+                font-size: 14px; /* Diperbesar */
+                font-weight: 600;
+                border-radius: 12px;
+                margin-bottom: 6px;
             }
             
             .nav-link:hover {
-                color: #fff;
                 background: rgba(255, 255, 255, 0.1);
-                padding-left: 28px;
+                color: #ffffff;
             }
             
             .nav-link.active {
-                color: #004a99;
-                background-color: #ffc107;
-                font-weight: 700;
-                box-shadow: inset 4px 0 0 #fff;
+                background: #ffc107;
+                color: #002b5c; /* Kontras maksimal */
+                font-weight: 800;
+                box-shadow: 0 8px 20px rgba(255, 193, 7, 0.3);
             }
             
             .nav-icon {
                 margin-right: 15px;
-                font-size: 16px;
-                width: 20px;
+                font-size: 18px;
+                width: 25px;
                 text-align: center;
             }
             
             .accordion-toggle {
+                width: 100%;
                 background: none;
                 border: none;
-                color: rgba(255, 255, 255, 0.8);
-                cursor: pointer;
-                width: 100%;
-                text-align: left;
-                font-size: 14px;
-                font-weight: 500;
-                padding: 14px 25px;
-                transition: all 0.2s ease;
                 display: flex;
                 align-items: center;
+                padding: 14px 20px;
+                color: #e2e8f0;
+                cursor: pointer;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 600;
+                transition: 0.3s;
+                margin-bottom: 4px;
             }
             
             .accordion-toggle:hover {
-                color: #fff;
                 background: rgba(255, 255, 255, 0.1);
-                padding-left: 28px;
+                color: #ffffff;
             }
-            
+
             .accordion-toggle.active {
-                color: #fff;
-                background: rgba(255, 255, 255, 0.15);
-                border-left: 4px solid #ffc107;
+                color: #ffc107;
+                background: rgba(255, 255, 255, 0.05);
             }
             
             .submenu {
                 max-height: 0;
                 overflow: hidden;
-                transition: max-height 0.3s ease;
+                transition: all 0.4s ease-out;
                 background: rgba(0, 0, 0, 0.2);
+                border-radius: 10px;
+                margin-bottom: 5px;
             }
-            .submenu.open { max-height: 1000px; }
+            .submenu.open { max-height: 500px; padding: 5px 0; }
             
             .submenu-link {
                 display: block;
-                padding: 10px 25px 10px 60px;
+                padding: 10px 20px 10px 55px;
                 color: rgba(255, 255, 255, 0.7);
                 text-decoration: none;
-                font-size: 13px;
-                transition: color 0.2s;
+                font-size: 13px; /* Diperbesar */
+                border-radius: 8px;
+                transition: 0.2s;
             }
             
-            .submenu-link:hover {
+            .submenu-link:hover, .submenu-link.active {
                 color: #ffc107;
             }
             
-            .submenu-link.active {
-                color: #ffc107;
-                font-weight: 600;
+            .sidebar-footer {
+                padding: 25px;
+                background: rgba(0, 0, 0, 0.3); /* Membedakan bagian profil */
+                border-top: 1px solid rgba(255,255,255,0.1);
+            }
+
+            .user-avatar {
+                width: 45px;
+                height: 45px;
+                background: #ffc107;
+                color: #002b5c;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-weight: 900;
+                font-size: 20px;
+                box-shadow: 0 4px 10px rgba(0,0,0,0.2);
             }
             
             .main-content {
                 margin-left: 280px;
                 min-height: 100vh;
-                background-color: #f8f9fa;
+                display: flex;
+                flex-direction: column;
             }
             
             .top-header {
+                height: 80px;
                 background: #ffffff;
-                padding: 15px 30px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+                padding: 0 40px;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
-                border-bottom: 1px solid #e9ecef;
+                border-bottom: 1px solid #e2e8f0;
+                position: sticky;
+                top: 0;
+                z-index: 900;
             }
             
             .page-title {
-                font-family: 'Manrope', sans-serif;
                 font-size: 22px;
                 font-weight: 800;
-                color: #004a99;
-                margin: 0;
-                text-transform: uppercase;
-            }
-            
-            .user-avatar {
-                width: 40px;
-                height: 40px;
-                border-radius: 50%;
-                background-color: #004a99;
+                color: #002b5c;
                 display: flex;
                 align-items: center;
-                justify-content: center;
-                color: #fff;
-                font-weight: 700;
-                font-size: 16px;
-                border: 2px solid #ffc107;
+                gap: 10px;
             }
+
+            .page-title span { color: #ffc107; background: #002b5c; padding: 2px 8px; border-radius: 6px; }
             
-            .content-area { padding: 30px; }
+            .content-area {
+                padding: 40px;
+                flex: 1;
+            }
+
+            /* Fix all small fonts in content area */
+            .text-xs { font-size: 12px !important; }
+            .text-[10px], .text-[9px], .text-[11px] { font-size: 13px !important; font-weight: 700 !important; }
             
-            @media (max-width: 768px) {
-                .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
+            @media (max-width: 1024px) {
+                .sidebar { transform: translateX(-100%); transition: transform 0.3s; }
                 .sidebar.open { transform: translateX(0); }
                 .main-content { margin-left: 0; }
-                .mobile-menu-toggle { display: block; position: fixed; top: 15px; left: 15px; z-index: 1001; background: #004a99; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
             }
-            @media (min-width: 769px) { .mobile-menu-toggle { display: none; } }
-            
-            /* Overrides to kill Dark Theme Elements if leftover */
-            .content-area h1, .content-area h2, .content-area h3 { color: #004a99 !important; }
-            .content-area table { background: #fff; }
-            .content-area thead th { background-color: #004a99 !important; color: #fff !important; }
-            .content-area tbody td { color: #333 !important; }
-            .content-area tbody tr:hover { background-color: #f1f5f9 !important; }
         </style>
     </head>
     <body class="antialiased">
-        <div class="mobile-menu-toggle" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-        </div>
         
+        <!-- SIDEBAR -->
         <div class="sidebar" id="sidebar">
             <div class="logo-section">
                 <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ">
                 <div class="logo-title">PPID PKTJ</div>
-                <div class="logo-subtitle">Management Panel</div>
+                <div class="logo-subtitle">PANEL DASHBOARD</div>
             </div>
             
-            <nav class="nav-menu">
-                <div class="nav-item">
+            <div class="sidebar-scroll">
+                <nav class="py-6">
                     <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home nav-icon"></i>
-                        Dashboard
+                        <i class="fas fa-home nav-icon"></i> BERANDA
                     </a>
-                </div>
-                
-                <div class="nav-item">
-                    <a href="{{ route('halaman.index') }}" class="nav-link {{ request()->routeIs('halaman.index') || request()->is('admin/halaman*') ? 'active' : '' }}">
-                        <i class="fas fa-file nav-icon"></i> Halaman
-                    </a>
-                </div>
 
-                {{-- PROFIL PPID --}}
-                <div class="nav-item">
                     <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-users nav-icon"></i>
-                        Profil PPID
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                        <i class="fas fa-university nav-icon"></i> PROFIL PPID
+                        <i class="fas fa-chevron-down ml-auto opacity-50"></i>
                     </button>
                     <div class="submenu">
-                        <a href="{{ route('admin.profil.edit', 'profil') }}" class="submenu-link {{ request()->is('admin/profil/profil/edit') || request()->get('type') == 'profil' ? 'active' : '' }}">Profil PPID</a>
-                        <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link {{ request()->get('type') == 'tugas' ? 'active' : '' }}">Tugas dan Tanggung Jawab</a>
-                        <a href="{{ route('admin.profil.edit', 'visi') }}" class="submenu-link {{ request()->get('type') == 'visi' ? 'active' : '' }}">Visi dan Misi</a>
-                        <a href="{{ route('admin.profil.edit', 'struktur') }}" class="submenu-link {{ request()->get('type') == 'struktur' ? 'active' : '' }}">Struktur Organisasi</a>
-                        <a href="{{ route('admin.profil.edit', 'regulasi') }}" class="submenu-link {{ request()->get('type') == 'regulasi' ? 'active' : '' }}">Regulasi</a>
-                        <a href="{{ route('admin.profil.edit', 'kontak') }}" class="submenu-link {{ request()->get('type') == 'kontak' ? 'active' : '' }}">Kontak</a>
+                        <a href="{{ route('admin.profil.edit', 'profil') }}" class="submenu-link">Profil PPID</a>
+                        <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link">Tugas dan Tanggung Jawab PPID</a>
+                        <a href="{{ route('admin.profil.edit', 'visi') }}" class="submenu-link">Visi dan Misi</a>
+                        <a href="{{ route('admin.profil.edit', 'struktur') }}" class="submenu-link">Struktur Organisasi</a>
+                        <a href="{{ route('admin.profil.edit', 'regulasi') }}" class="submenu-link">Regulasi</a>
+                        <a href="{{ route('admin.profil.edit', 'kontak') }}" class="submenu-link">Kontak</a>
                     </div>
-                </div>
 
-                {{-- INFORMASI PUBLIK --}}
-                <div class="nav-item">
                     <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-newspaper nav-icon"></i>
-                        Informasi Publik
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                        <i class="fas fa-database nav-icon"></i> INFORMASI PUBLIK
+                        <i class="fas fa-chevron-down ml-auto opacity-50"></i>
                     </button>
                     <div class="submenu">
-                        <a href="{{ route('admin.informasi.berkala') }}" class="submenu-link {{ request()->routeIs('admin.informasi.berkala*') ? 'active' : '' }}">Berkala</a>
-                        <a href="{{ route('admin.informasi.sertamerta') }}" class="submenu-link {{ request()->routeIs('admin.informasi.sertamerta*') ? 'active' : '' }}">Serta Merta</a>
-                        <a href="{{ route('admin.informasi.setiapsaat') }}" class="submenu-link {{ request()->routeIs('admin.informasi.setiapsaat*') ? 'active' : '' }}">Setiap Saat</a>
-                        <a href="{{ route('admin.informasi.dikecualikan') }}" class="submenu-link {{ request()->routeIs('admin.informasi.dikecualikan*') ? 'active' : '' }}">Dikecualikan</a>
+                        <a href="{{ route('admin.informasi.berkala') }}" class="submenu-link">Informasi Berkala</a>
+                        <a href="{{ route('admin.informasi.sertamerta') }}" class="submenu-link">Informasi Serta Merta</a>
+                        <a href="{{ route('admin.informasi.setiapsaat') }}" class="submenu-link">Informasi Setiap Saat</a>
+                        <a href="{{ route('admin.informasi.dikecualikan') }}" class="submenu-link">Informasi Dikecualikan</a>
                     </div>
-                </div>
 
-                {{-- LAYANAN INFORMASI --}}
-                <div class="nav-item">
                     <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-info-circle nav-icon"></i>
-                        Layanan Informasi
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                        <i class="fas fa-concierge-bell nav-icon"></i> LAYANAN INFORMASI
+                        <i class="fas fa-chevron-down ml-auto opacity-50"></i>
                     </button>
                     <div class="submenu">
-                        <a href="{{ route('admin.layanan.daftar-informasi') }}" class="submenu-link">Daftar Informasi</a>
-                        <a href="{{ route('admin.layanan.maklumat-pelayanan') }}" class="submenu-link">Maklumat Pelayanan</a>
-                        <a href="{{ route('admin.layanan.laporan-layanan') }}" class="submenu-link">Laporan Layanan</a>
-                        <a href="{{ route('admin.layanan.laporan-akses') }}" class="submenu-link">Laporan Akses</a>
-                        <a href="{{ route('admin.layanan.laporan-survey') }}" class="submenu-link">Laporan Survey</a>
+                        <a href="{{ route('admin.layanan.daftar-informasi') }}" class="submenu-link">Daftar Informasi Publik</a>
+                        <a href="{{ route('admin.layanan.maklumat-pelayanan') }}" class="submenu-link">Maklumat Pelayanan & Standar Biaya</a>
+                        <a href="{{ route('admin.layanan.laporan-layanan') }}" class="submenu-link">Laporan Layanan Informasi Publik</a>
+                        <a href="{{ route('admin.layanan.laporan-akses') }}" class="submenu-link">Laporan Akses Informasi Publik</a>
+                        <a href="{{ route('admin.layanan.laporan-survey') }}" class="submenu-link">Laporan Survey Kepuasan Layanan</a>
+                        <a href="{{ route('admin.jdih.index') }}" class="submenu-link">JDIH Kementerian Perhubungan</a>
                     </div>
-                </div>
 
-                {{-- PROSEDUR --}}
-                <div class="nav-item">
                     <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-list-ol nav-icon"></i>
-                        Prosedur
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
+                        <i class="fas fa-file-signature nav-icon"></i> PROSEDUR
+                        <i class="fas fa-chevron-down ml-auto opacity-50"></i>
                     </button>
                     <div class="submenu">
-                        <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="submenu-link">Permintaan Informasi</a>
-                        <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="submenu-link">Pengajuan Keberatan</a>
-                        <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="submenu-link">Sengketa Informasi</a>
-                        <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="submenu-link">Penetapan & Pemutakhiran</a>
-                        <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="submenu-link">Pengujian Konsekuensi</a>
-                        <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="submenu-link">Pendokumentasian</a>
+                        <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="submenu-link">SOP Permintaan Informasi Publik</a>
+                        <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="submenu-link">SOP Penanganan Keberatan</a>
+                        <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="submenu-link">SOP Pengajuan Sengketa</a>
+                        <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="submenu-link">SOP Penetapan dan Pemutakhiran DIP</a>
+                        <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="submenu-link">SOP Pengujian Konsekuensi</a>
+                        <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="submenu-link">SOP Pendokumentasian Informasi</a>
                     </div>
-                </div>
 
-                <div class="nav-item">
                     <a href="{{ route('admin.faq.index') }}" class="nav-link {{ request()->is('admin/faq*') ? 'active' : '' }}">
                         <i class="fas fa-question-circle nav-icon"></i> FAQ
                     </a>
-                </div>
 
-                <div class="nav-item">
-                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-envelope nav-icon"></i>
-                        Permohonan Info
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
-                    </button>
-                    <div class="submenu">
-                        <a href="{{ route('admin.permohonan.index') }}" class="submenu-link">Daftar Permohonan</a>
-                        <a href="{{ route('admin.permohonan.form') }}" class="submenu-link">Form Permohonan</a>
+                    <a href="{{ route('admin.permohonan.index') }}" class="nav-link {{ request()->is('admin/permohonan*') ? 'active' : '' }}">
+                        <i class="fas fa-envelope-open-text nav-icon"></i> PERMOHONAN INFORMASI
+                    </a>
+
+                    <div class="mt-10 px-6 py-4 border-t border-white/5">
+                        <h4 class="text-[10px] font-black text-slate-400 uppercase tracking-[3px] mb-4">MANAJEMEN ADMIN</h4>
+                        <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
+                            <i class="fas fa-newspaper nav-icon"></i> Berita PKTJ
+                        </a>
+                        <a href="{{ route('admin.agenda.index') }}" class="nav-link">
+                            <i class="fas fa-calendar-alt nav-icon"></i> Agenda Kegiatan
+                        </a>
+                        <a href="{{ route('admin.users.index') }}" class="nav-link">
+                            <i class="fas fa-users-cog nav-icon"></i> User Management
+                        </a>
+                        <a href="{{ route('dashboard.edit') }}" class="nav-link">
+                            <i class="fas fa-image nav-icon"></i> Pengaturan Banner
+                        </a>
                     </div>
-                </div>
-
-                <div class="nav-item">
-                    <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->is('admin/berita*') ? 'active' : '' }}">
-                        <i class="fas fa-newspaper nav-icon"></i> Berita
-                    </a>
-                </div>
-
-                <div class="nav-item">
-                    <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->is('admin/user-management*') ? 'active' : '' }}">
-                        <i class="fas fa-users-cog nav-icon"></i> User Management
-                    </a>
-                </div>
-            </nav>
+                </nav>
+            </div>
             
-            <div style="padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-                <div style="display: flex; align-items: center; gap: 15px;">
+            <!-- FOOTER SIDEBAR - TIDAK AKAN PERNAH TUMPUK -->
+            <div class="sidebar-footer">
+                <div class="flex items-center gap-4">
                     <div class="user-avatar">{{ substr(Auth::user()->name, 0, 1) }}</div>
-                    <div style="flex: 1;">
-                        <div style="color: #fff; font-weight: 600; font-size: 14px;">{{ Auth::user()->name }}</div>
-                        <div style="color: #a0a0a0; font-size: 11px;">
-                            @if(isset(Auth::user()->role) && Auth::user()->role === 'operator')
-                                Operator Panel
-                            @else
-                                Admin Panel
-                            @endif
-                        </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="text-white text-sm font-bold truncate">{{ Auth::user()->name }}</div>
+                        <form action="{{ route('logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="text-[#ffc107] text-[11px] font-bold uppercase tracking-wider hover:underline border-none bg-transparent p-0 cursor-pointer">KELUAR SISTEM</button>
+                        </form>
                     </div>
-                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" style="background: none; border: none; color: #a0a0a0; cursor: pointer;" title="Logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
-                    </form>
                 </div>
             </div>
         </div>
         
+        <!-- MAIN CONTENT -->
         <div class="main-content">
             <header class="top-header">
                 <h1 class="page-title">
-                    @yield('title')
-                    @if(!View::hasSection('title'))
-                        @if(request()->routeIs('dashboard')) Dashboard 
-                        @elseif(request()->is('admin/halaman*')) Kelola Halaman
-                        @elseif(request()->is('admin/profil*')) 
-                            @php
-                                $type = request()->route('type');
-                                if(!$type) echo 'Kelola Profil';
-                                else {
-                                    $labels = [
-                                        'profil' => 'Profil PPID',
-                                        'tugas' => 'Tugas dan Fungsi',
-                                        'visi' => 'Visi dan Misi',
-                                        'struktur' => 'Struktur Organisasi',
-                                        'regulasi' => 'Regulasi',
-                                        'kontak' => 'Kontak'
-                                    ];
-                                    echo $labels[$type] ?? ucfirst($type);
-                                }
-                            @endphp
-                        @else 
-                            {{ ucfirst(request()->segment(2) ?? request()->segment(1)) }} 
-                        @endif
-                    @endif
+                    PPID <span>PKTJ</span> CONTROL
                 </h1>
-                <div class="user-menu">
-                    <div class="user-avatar">{{ substr(Auth::user()->name, 0, 1) }}</div>
+                <div class="flex items-center gap-6">
+                    <div class="hidden md:flex flex-col text-right">
+                        <span class="text-sm font-black text-[#002b5c] uppercase tracking-wider">{{ Auth::user()->name }}</span>
+                        <span class="text-[11px] font-bold text-slate-500 uppercase tracking-widest">Administrator Utama</span>
+                    </div>
+                    <div class="w-12 h-12 bg-slate-50 border-2 border-slate-100 rounded-xl flex items-center justify-center text-[#002b5c] text-xl shadow-sm">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
                 </div>
             </header>
             
             <main class="content-area">
-                @yield('content')
+                <div class="animate-fade-in">
+                    @yield('content')
+                </div>
             </main>
         </div>
         
@@ -395,43 +361,43 @@
         <script>
             function toggleAccordion(button) {
                 const submenu = button.nextElementSibling;
-                submenu.classList.toggle('open');
-                const icon = button.querySelector('.fa-chevron-down');
-                if (icon) icon.style.transform = submenu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
-            }
-            function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-            
-            document.addEventListener('DOMContentLoaded', function() {
-                document.querySelectorAll('.submenu-link.active').forEach(link => {
-                    const submenu = link.parentElement;
+                const isOpening = !submenu.classList.contains('open');
+                
+                // Menutup submenu lainnya untuk merapikan
+                document.querySelectorAll('.submenu').forEach(s => s.classList.remove('open'));
+                document.querySelectorAll('.accordion-toggle').forEach(b => b.classList.remove('active'));
+                
+                if (isOpening) {
                     submenu.classList.add('open');
-                    const btn = submenu.previousElementSibling;
-                    const icon = btn.querySelector('.fa-chevron-down');
-                    if(icon) icon.style.transform = 'rotate(180deg)';
+                    button.classList.add('active');
+                }
+            }
+            
+            $(document).ready(function() {
+                $('.submenu-link.active').each(function() {
+                    $(this).closest('.submenu').addClass('open');
+                    $(this).closest('.submenu').prev('.accordion-toggle').addClass('active');
                 });
             });
         </script>
         
-        <!-- TinyMCE -->
+        <!-- TinyMCE - SET TO LIGHT CLEAR SKIN -->
         <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
         <script>
-        $(document).ready(function() {
             tinymce.init({
-                selector: '.tinymce-editor, .summernote-editor, #editor, #summernote-editor, [id^="editor_"]',
+                selector: '.tinymce-editor, #editor, [id^="editor_"]',
                 license_key: 'gpl',
                 height: 480,
                 menubar: false,
-                skin: 'oxide-dark',
-                content_css: 'dark',
-                plugins: ['advlist','autolink','lists','link','image','charmap','code','table','wordcount','fullscreen'],
-                toolbar: 'undo redo | styles | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table link image | code fullscreen',
-                content_style: 'body { font-family: Inter, sans-serif; font-size: 15px; color: #1e293b; background: #ffffff; padding: 12px; }'
+                skin: 'oxide', // LIGHT SKIN
+                content_css: 'default',
+                plugins: ['advlist','autolink','lists','link','image','code','table','fullscreen'],
+                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline forecolor | alignleft aligncenter alignright | bullist numlist outdent indent | table link image | removeformat fullscreen',
+                content_style: 'body { font-family: Inter, sans-serif; font-size: 15px; color: #0f172a; background: #ffffff; padding: 20px; }',
+                branding: false
             });
-
-            $(document).on('submit', 'form', function() {
-                if (typeof tinymce !== 'undefined') tinymce.triggerSave();
-            });
-        });
+            
+            $(document).on('submit', 'form', function() { if (typeof tinymce !== 'undefined') tinymce.triggerSave(); });
         </script>
         @stack('scripts')
     </body>

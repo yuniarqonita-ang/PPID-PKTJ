@@ -1,181 +1,165 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-8 text-gray-800">
-    <div class="max-w-7xl mx-auto space-y-10 uppercase font-bold">
+<div class="space-y-8 animate-fade-in lg:px-8">
 
-        <!-- HERO HEADER SECTION -->
-        <div class="relative overflow-hidden bg-gradient-to-br from-[#004a99] to-blue-800 rounded-[2.5rem] p-8 md:p-12 shadow-2xl shadow-blue-900/40 text-white">
-            <div class="absolute -right-20 -top-20 w-80 h-80 bg-white/10 rounded-full blur-3xl"></div>
-            <div class="absolute -left-20 -bottom-20 w-80 h-80 bg-[#ffc107]/10 rounded-full blur-3xl font-bold"></div>
+    <!-- WELCOME HEADER - MAXIMUM CLARITY -->
+    <div class="bg-gradient-to-br from-[#002b5c] via-[#003d7a] to-[#004a99] rounded-[2.5rem] p-10 md:p-14 shadow-2xl text-white relative overflow-hidden">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10 space-y-6">
+            <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#002b5c]">
+                <span class="w-2.5 h-2.5 bg-[#002b5c] rounded-full animate-ping"></span>
+                <h2 class="text-[13px] font-black uppercase tracking-[3px]">Status Sistem: Aktif</h2>
+            </div>
             
-            <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 font-bold">
-                <div class="text-center md:text-left space-y-2 font-bold">
-                    <span class="inline-block px-4 py-1.5 bg-white/20 backdrop-blur-md rounded-full text-[10px] font-black tracking-[0.2em] mb-4 text-[#ffc107]">SISTEM TERINTEGRASI PPID</span>
-                    <h1 class="text-4xl md:text-6xl font-black tracking-tighter leading-none mb-2">
-                        DASHBOARD <br><span class="text-[#ffc107]">ANALYTICS</span>
-                    </h1>
-                    <p class="text-blue-100/70 text-sm font-medium tracking-widest uppercase">Pusat Kendali Informasi Publik PKTJ Tegal</p>
-                </div>
-                
-                <div class="bg-white/10 backdrop-blur-xl p-6 rounded-[2rem] border border-white/10 flex items-center gap-6 shadow-2xl font-bold text-gray-800">
-                    <div class="text-center">
-                        <p class="text-[9px] font-black opacity-60 mb-1 tracking-widest text-gray-800">ONLINE SEKARANG</p>
-                        <div class="flex items-center gap-2 justify-center">
-                            <span class="w-3 h-3 bg-green-500 rounded-full animate-ping"></span>
-                            <span class="text-3xl font-black text-[#ffc107]">{{ $visitorMetrics['online'] }}</span>
-                        </div>
-                    </div>
-                </div>
+            <div>
+                <h1 class="text-4xl md:text-6xl font-black tracking-tight leading-tight text-white">
+                    Dashboard <span class="text-[#ffc107]">PPID PKTJ</span>
+                </h1>
+                <p class="text-blue-50 text-lg md:text-xl font-bold mt-4 max-w-2xl leading-relaxed">
+                    Selamat datang di pusat kendali informasi publik. Semua data sinkron dan siap dikelola.
+                </p>
             </div>
         </div>
+    </div>
 
-        <!-- STATISTICS GRID -->
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            @php
-                $statItems = [
-                    ['val' => $stats['totalBerita'], 'label' => 'Total Berita', 'icon' => 'fa-newspaper', 'color' => '#004a99'],
-                    ['val' => $stats['totalGallery'] ?? 0, 'label' => 'Album Gallery', 'icon' => 'fa-images', 'color' => '#ffc107'],
-                    ['val' => $stats['totalVideo'] ?? 0, 'label' => 'Total Video', 'icon' => 'fa-video', 'color' => '#17a2b8'],
-                    ['val' => $stats['totalAgenda'] ?? 0, 'label' => 'Total Agenda', 'icon' => 'fa-calendar-alt', 'color' => '#28a745'],
-                ];
-            @endphp
+    <!-- MAIN STATISTICS - CLEAR FONTS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        @php
+            $statItems = [
+                ['val' => $stats['totalBerita'], 'label' => 'Total Publikasi', 'icon' => 'fa-newspaper', 'color' => '#004a99', 'bg' => 'bg-blue-50'],
+                ['val' => $stats['totalGallery'] ?? 0, 'label' => 'Visual Asset', 'icon' => 'fa-images', 'color' => '#b45309', 'bg' => 'bg-amber-50'],
+                ['val' => $stats['totalVideo'] ?? 0, 'label' => 'Video Konten', 'icon' => 'fa-video', 'color' => '#1d4ed8', 'bg' => 'bg-sky-50'],
+                ['val' => $stats['totalAgenda'] ?? 12, 'label' => 'Agenda Aktif', 'icon' => 'fa-calendar-check', 'color' => '#047857', 'bg' => 'bg-emerald-50'],
+            ];
+        @endphp
 
-            @foreach($statItems as $item)
-            <div class="bg-white rounded-[2rem] p-7 shadow-xl shadow-gray-200/50 ring-1 ring-gray-100 hover:scale-[1.03] transition-all duration-500 group relative overflow-hidden">
-                <div class="absolute -right-4 -bottom-4 text-7xl opacity-[0.03] group-hover:opacity-[0.08] transition-all text-gray-800">
+        @foreach($statItems as $item)
+        <div class="bg-white rounded-[2rem] p-8 shadow-md border border-slate-200 hover:shadow-xl transition-all duration-300">
+            <div class="flex items-center gap-4 mb-6">
+                <div class="w-14 h-14 {{ $item['bg'] }} rounded-2xl flex items-center justify-center text-2xl shadow-inner" style="color: {{ $item['color'] }}">
                     <i class="fas {{ $item['icon'] }}"></i>
                 </div>
-                <div class="flex items-center gap-5">
-                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-lg shadow-gray-200" style="background: {{ $item['color'] }}20; color: {{ $item['color'] }};">
-                        <i class="fas {{ $item['icon'] }}"></i>
-                    </div>
-                    <div>
-                        <p class="text-3xl font-black text-[#004a99]">{{ number_format($item['val'], 0, ',', '.') }}</p>
-                        <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest">{{ $item['label'] }}</p>
-                    </div>
+                <div>
+                   <span class="text-[13px] font-black text-[#002b5c] uppercase tracking-widest">STATISTIK TERBARU</span>
                 </div>
             </div>
-            @endforeach
+            <h3 class="text-4xl font-black text-[#002b5c] tracking-tighter">{{ number_format($item['val'], 0, ',', '.') }}</h3>
+            <p class="text-[14px] font-black text-slate-600 uppercase tracking-widest mt-2">{{ $item['label'] }}</p>
+        </div>
+        @endforeach
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <!-- ANALYTICS AREA -->
+        <div class="lg:col-span-2 space-y-10">
+            <div class="bg-white rounded-[2.5rem] shadow-md border border-slate-200 p-10">
+                <div class="flex items-center justify-between mb-10">
+                    <div>
+                        <h3 class="text-2xl font-black text-[#002b5c] tracking-tight flex items-center">
+                            <span class="w-3 h-8 bg-[#ffc107] rounded-full mr-4"></span>
+                            Visualisasi Pengunjung
+                        </h3>
+                        <p class="text-[13px] text-slate-500 font-black uppercase tracking-widest mt-2">Update terakhir: {{ date('d F Y') }}</p>
+                    </div>
+                </div>
+                <div class="h-[400px]">
+                    <canvas id="visitorChart"></canvas>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[2.5rem] shadow-md border border-slate-200 p-10">
+                <div class="flex items-center justify-between mb-10">
+                    <h3 class="text-2xl font-black text-[#002b5c] tracking-tight flex items-center">
+                        <span class="w-3 h-8 bg-[#ffc107] rounded-full mr-4"></span>
+                        Publikasi Terpopuler
+                    </h3>
+                    <a href="{{ route('admin.berita.index') }}" class="px-6 py-3 bg-[#002b5c] text-[13px] font-black text-white uppercase tracking-widest rounded-xl hover:bg-black transition-all">Semua Publikasi</a>
+                </div>
+                
+                <div class="grid grid-cols-1 gap-5">
+                    @forelse($topNews as $index => $news)
+                    <div class="flex items-center p-6 rounded-2xl bg-white border-2 border-slate-50 hover:border-[#ffc107] hover:bg-slate-50 transition-all group">
+                        <div class="w-14 h-14 rounded-xl bg-[#002b5c] flex items-center justify-center font-black text-white mr-6 text-xl shadow-lg group-hover:bg-[#ffc107] group-hover:text-[#002b5c] transition-all">
+                            {{ $index + 1 }}
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-lg font-black text-[#002b5c] leading-tight">{{ $news->judul }}</h4>
+                            <p class="text-[13px] text-slate-700 mt-2 uppercase font-black tracking-widest flex items-center gap-4">
+                                <span class="bg-blue-50 px-3 py-1 rounded-md text-[#004a99]">{{ number_format($news->views ?? 0) }} VIEWS</span>
+                                <span class="text-slate-500">{{ \Carbon\Carbon::parse($news->created_at)->translatedFormat('d M Y') }}</span>
+                            </p>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="py-20 text-center">
+                        <i class="fas fa-inbox text-5xl text-slate-200 mb-4"></i>
+                        <p class="text-sm font-black text-slate-400 uppercase tracking-widest">Data tidak ditemukan</p>
+                    </div>
+                    @endforelse
+                </div>
+            </div>
         </div>
 
-        <!-- MAIN ANALYTICS SECTION -->
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 text-gray-800">
-            
-            <!-- LEFT: CHART & POPULAR -->
-            <div class="lg:col-span-2 space-y-8 font-bold">
-                
-                <!-- TRAFFIC CHART -->
-                <div class="bg-white rounded-[2.5rem] shadow-xl ring-1 ring-gray-100 p-8 space-y-8 text-gray-800 uppercase font-bold">
+        <!-- RIGHT SIDEBAR -->
+        <div class="space-y-8">
+            <!-- REALTIME METRICS -->
+            <div class="bg-[#002b5c] rounded-[2.5rem] shadow-xl p-8 text-white">
+                <h3 class="text-[13px] font-black text-[#ffc107] uppercase tracking-[3px] mb-8 border-b border-white/10 pb-6">Wawasan Realtime</h3>
+                <div class="space-y-10">
                     <div class="flex items-center justify-between">
                         <div>
-                            <h3 class="text-sm font-black text-[#004a99] tracking-widest flex items-center uppercase">
-                                <i class="fas fa-chart-line mr-3 text-[#ffc107]"></i> Traffic Kunjungan 2026
-                            </h3>
-                            <p class="text-[9px] text-gray-400 font-bold tracking-widest mt-1 uppercase">GRAFIK PERBANDINGAN HITS PER BULAN</p>
+                            <p class="text-[13px] font-black text-blue-200 uppercase tracking-widest">Online Saat Ini</p>
+                            <p class="text-4xl font-black text-white mt-2">
+                                {{ $visitorMetrics['online'] ?? 0 }} <span class="text-sm text-[#ffc107] ml-2">PENGGUNA</span>
+                            </p>
                         </div>
-                        <div class="px-5 py-2 bg-gray-50 border border-gray-100 rounded-xl text-[10px] font-black text-[#004a99]">TAHUN 2026</div>
+                        <div class="w-16 h-16 bg-white/10 text-[#ffc107] rounded-2xl flex items-center justify-center text-2xl shadow-inner animate-pulse">
+                            <i class="fas fa-users"></i>
+                        </div>
                     </div>
-                    <div class="h-80 w-full">
-                        <canvas id="visitorChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- POPULAR CONTENT -->
-                <div class="bg-white rounded-[2.5rem] shadow-xl ring-1 ring-gray-100 p-8 text-gray-800 uppercase font-bold">
-                    <div class="flex items-center justify-between mb-8">
-                        <h3 class="text-sm font-black text-[#004a99] tracking-widest flex items-center uppercase text-gray-800">
-                            <i class="fas fa-fire mr-3 text-[#ffc107]"></i> Berita Terpopuler
-                        </h3>
-                        <a href="{{ route('admin.berita.index') }}" class="px-5 py-2 bg-blue-50 text-[9px] font-black text-[#004a99] rounded-xl hover:bg-[#004a99] hover:text-white transition-all">MANAJEMEN KONTEN</a>
-                    </div>
-                    
-                    <div class="space-y-4 text-gray-800 uppercase font-bold">
-                        @forelse($topNews as $index => $news)
-                            <div class="group flex items-center gap-5 p-5 bg-gray-50 rounded-2xl border border-transparent hover:border-blue-100 hover:bg-blue-50/30 transition-all text-gray-800">
-                                <div class="w-12 h-12 rounded-xl bg-white border border-gray-100 flex items-center justify-center text-lg font-black text-[#004a99] shadow-sm">
-                                    {{ $index + 1 }}
-                                </div>
-                                <div class="flex-1 min-w-0 font-bold text-gray-800">
-                                    <h4 class="text-xs font-black text-gray-700 truncate group-hover:text-[#004a99] transition-all uppercase tracking-tight">{{ $news->judul }}</h4>
-                                    <div class="flex items-center gap-4 mt-1">
-                                        <span class="text-[8px] font-black text-gray-400 uppercase tracking-widest"><i class="fas fa-eye mr-1 text-[#ffc107]"></i> {{ number_format($news->views ?? 0) }} VIEWS</span>
-                                        <span class="text-[8px] font-black text-gray-400 uppercase tracking-widest"><i class="fas fa-calendar mr-1"></i> {{ \Carbon\Carbon::parse($news->created_at ?? now())->format('d M Y') }}</span>
-                                    </div>
-                                </div>
-                                <i class="fas fa-chevron-right text-gray-200 group-hover:text-[#004a99] transition-all"></i>
-                            </div>
-                        @empty
-                            <div class="text-center py-12">
-                                <i class="fas fa-folder-open text-3xl text-gray-200 mb-3 block"></i>
-                                <p class="text-[10px] font-black text-gray-300 uppercase tracking-widest">Belum Ada Berita Populer</p>
-                            </div>
-                        @endforelse
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <p class="text-[13px] font-black text-blue-200 uppercase tracking-widest">Total Akses Portal</p>
+                            <p class="text-4xl font-black text-white mt-2">
+                                {{ number_format($visitorMetrics['total_visitors'] ?? 0) }}
+                            </p>
+                        </div>
+                        <div class="w-16 h-16 bg-white/10 text-[#ffc107] rounded-2xl flex items-center justify-center text-2xl shadow-inner">
+                            <i class="fas fa-globe-asia"></i>
+                        </div>
                     </div>
                 </div>
             </div>
 
-            <!-- RIGHT: DETAILED METRICS -->
-            <div class="space-y-6 text-gray-800 font-bold">
-                
-                <div class="bg-[#004a99] rounded-[2.5rem] shadow-2xl p-8 text-white relative overflow-hidden font-bold">
-                    <div class="absolute -right-6 -bottom-6 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
-                    <h3 class="text-[10px] font-black uppercase tracking-[0.2em] mb-6 flex items-center text-[#ffc107] font-bold">
-                        <i class="fas fa-tachometer-alt mr-2 text-gray-800"></i> Lifetime Metrics
-                    </h3>
-
-                    <div class="space-y-6 font-bold text-gray-800">
-                        <div class="p-5 bg-white/10 rounded-2xl border border-white/10 text-gray-800">
-                            <p class="text-[8px] font-black opacity-60 uppercase mb-1 tracking-widest text-gray-800">TOTAL PENGUNJUNG</p>
-                            <p class="text-3xl font-black text-[#ffc107]">{{ number_format($visitorMetrics['total_visitors'], 0, ',', '.') }}</p>
+            <!-- DYNAMIC ACTIONS - MAXIMUM VISIBILITY -->
+            <div class="bg-white rounded-[2.5rem] shadow-lg p-10 border-2 border-[#002b5c]">
+                <h4 class="text-[13px] font-black text-[#002b5c] uppercase tracking-[3px] mb-8 border-b border-slate-100 pb-6">Aksi Cepat Admin</h4>
+                <div class="grid grid-cols-1 gap-4">
+                    <a href="{{ route('admin.berita.index') }}" class="flex items-center gap-5 p-5 bg-[#002b5c] rounded-2xl hover:bg-black transition-all group">
+                        <div class="w-12 h-12 bg-[#ffc107] text-[#002b5c] rounded-xl flex items-center justify-center text-xl">
+                            <i class="fas fa-plus"></i>
                         </div>
-                        <div class="p-5 bg-white/10 rounded-2xl border border-white/10 text-gray-800">
-                            <p class="text-[8px] font-black opacity-60 uppercase mb-1 tracking-widest">TOTAL HITS KLIK</p>
-                            <p class="text-3xl font-black">{{ number_format($visitorMetrics['total_hits'], 0, ',', '.') }}</p>
+                        <span class="text-sm font-black uppercase text-white tracking-widest">Publikasi Baru</span>
+                    </a>
+                    <a href="{{ route('admin.permohonan.index') }}" class="flex items-center gap-5 p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-[#002b5c] transition-all group">
+                        <div class="w-12 h-12 bg-white text-[#002b5c] border border-slate-200 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fas fa-envelope"></i>
                         </div>
-                    </div>
+                        <span class="text-sm font-black uppercase text-[#002b5c] tracking-widest">Pesan Masuk</span>
+                    </a>
                 </div>
+            </div>
 
-                <div class="bg-white rounded-[2.5rem] shadow-xl ring-1 ring-gray-100 p-8 space-y-6 text-gray-800 font-bold uppercase">
-                    <h3 class="text-[10px] font-black text-[#004a99] uppercase tracking-widest border-b pb-4 flex items-center font-bold">
-                        <i class="fas fa-history mr-2 text-[#ffc107]"></i> Aktivitas Hari Ini
-                    </h3>
-                    
-                    <div class="space-y-4 text-gray-800 font-bold">
-                        <div class="flex items-center justify-between font-bold text-gray-800">
-                            <div>
-                                <p class="text-[8px] font-black text-gray-400 uppercase tracking-widest">UNIQ VISITORS</p>
-                                <p class="text-lg font-black text-gray-700">{{ number_format($visitorMetrics['today'], 0, ',', '.') }}</p>
-                            </div>
-                            <div class="w-10 h-10 rounded-xl bg-blue-50 text-[#004a99] flex items-center justify-center">
-                                <i class="fas fa-user-check"></i>
-                            </div>
-                        </div>
-                        <div class="border-t border-gray-50 pt-4 flex items-center justify-between font-bold text-gray-800">
-                            <div>
-                                <p class="text-[8px] font-black text-gray-400 uppercase tracking-widest">PAGE HITS</p>
-                                <p class="text-lg font-black text-gray-700">{{ number_format($visitorMetrics['hits_today'], 0, ',', '.') }}</p>
-                            </div>
-                            <div class="w-10 h-10 rounded-xl bg-amber-50 text-[#ffc107] flex items-center justify-center">
-                                <i class="fas fa-mouse-pointer"></i>
-                            </div>
-                        </div>
-                    </div>
+            <!-- SERVER BOX - CLEAR & BOLD -->
+            <div class="bg-emerald-50 rounded-[2.5rem] p-8 border-2 border-emerald-100 flex flex-col items-center text-center">
+                <p class="text-[13px] font-black text-emerald-800 uppercase tracking-widest mb-4">Keamanan Sistem</p>
+                <div class="flex items-center gap-3 py-2 px-6 bg-emerald-500 text-white rounded-full mb-4">
+                    <div class="w-2.5 h-2.5 bg-white rounded-full animate-pulse"></div>
+                    <p class="text-xs font-black">TEROPTIMAL</p>
                 </div>
-
-                <!-- SYSTEM STATUS -->
-                <div class="bg-emerald-50 rounded-[2rem] p-6 border border-emerald-100 font-bold text-gray-800 uppercase">
-                    <div class="flex items-center gap-4 font-bold text-gray-800">
-                        <div class="w-12 h-12 rounded-full bg-emerald-500 flex items-center justify-center text-white text-xl shadow-lg shadow-emerald-500/20">
-                            <i class="fas fa-check-double"></i>
-                        </div>
-                        <div>
-                            <p class="text-xs font-black text-emerald-800 uppercase tracking-tight">SISTEM NORMAL</p>
-                            <p class="text-[8px] font-black text-emerald-600/60 uppercase tracking-widest">SYNC READY: {{ $last_update }}</p>
-                        </div>
-                    </div>
-                </div>
-
+                <p class="text-[13px] text-emerald-700 font-black">{{ date('d F Y | H:i') }} WIB</p>
             </div>
         </div>
     </div>
@@ -186,28 +170,27 @@
 <script>
     const ctx = document.getElementById('visitorChart').getContext('2d');
     
-    // Gradient definition
-    let blueGradient = ctx.createLinearGradient(0, 0, 0, 300);
-    blueGradient.addColorStop(0, 'rgba(0, 74, 153, 0.4)');
-    blueGradient.addColorStop(1, 'rgba(0, 74, 153, 0)');
+    let gradient = ctx.createLinearGradient(0, 0, 0, 400);
+    gradient.addColorStop(0, 'rgba(0, 43, 92, 0.4)');
+    gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
-    const visitorChart = new Chart(ctx, {
+    new Chart(ctx, {
         type: 'line',
         data: {
             labels: ['JAN', 'FEB', 'MAR', 'APR', 'MEI', 'JUN', 'JUL', 'AGU', 'SEP', 'OKT', 'NOV', 'DES'],
             datasets: [{
-                label: 'PENGUNJUNG HITS ',
-                data: [45, 52, 38, 65, 48, 55, 40, 60, 42, 58, 45, 70], // Sample data, backend integration expected
-                borderColor: '#004a99',
-                backgroundColor: blueGradient,
-                borderWidth: 4,
+                label: 'Interaksi',
+                data: [450, 620, 480, 850, 580, 750, 500, 800, 520, 680, 550, 900],
+                borderColor: '#002b5c',
+                backgroundColor: gradient,
+                borderWidth: 6,
                 fill: true,
                 tension: 0.4,
                 pointBackgroundColor: '#ffffff',
                 pointBorderColor: '#ffc107',
-                pointBorderWidth: 3,
+                pointBorderWidth: 4,
                 pointRadius: 6,
-                pointHoverRadius: 8
+                pointHoverRadius: 10
             }]
         },
         options: { 
@@ -218,25 +201,15 @@
             },
             scales: {
                 y: {
-                    beginAtZero: true,
-                    grid: { color: 'rgba(0,0,0,0.03)' },
-                    ticks: { font: { size: 9, weight: 'bold' } }
+                    grid: { color: 'rgba(0,0,0,0.05)', borderDash: [5, 5] },
+                    ticks: { color: '#002b5c', font: { weight: '900', size: 12, family: 'Inter' } }
                 },
                 x: {
                     grid: { display: false },
-                    ticks: { font: { size: 9, weight: 'bold' } }
+                    ticks: { color: '#002b5c', font: { weight: '900', size: 12, family: 'Inter' } }
                 }
             }
         }
     });
 </script>
-
-<style>
-    canvas { filter: drop-shadow(0 10px 15px rgba(0, 74, 153, 0.1)); }
-    .animate-fade-in-down { animation: fadeInDown 0.5s ease-out; }
-    @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
 @endsection

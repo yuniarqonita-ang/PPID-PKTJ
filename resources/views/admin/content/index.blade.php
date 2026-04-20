@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('content')
 <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
@@ -7,7 +7,7 @@
     <!-- ==================== HEADER SECTION ==================== -->
     <div class="flex justify-between items-center mb-8">
         <div>
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">📂 Kelola Konten Publik</h1>
+            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">?? Kelola Konten Publik</h1>
             <p class="text-slate-300 mt-1">Lihat dan kelola semua konten yang ditampilkan di halaman publik</p>
         </div>
         <div class="flex items-center space-x-3">
@@ -322,7 +322,7 @@
 
     <!-- ==================== STATISTICS SECTION ==================== -->
     <div class="mt-8 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-        <h2 class="text-xl font-semibold text-white mb-6">📊 Statistik Konten</h2>
+        <h2 class="text-xl font-semibold text-white mb-6">?? Statistik Konten</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div class="text-center">
                 <div class="text-3xl font-bold text-blue-600">{{ App\Models\InformasiBerkala::count() }}</div>

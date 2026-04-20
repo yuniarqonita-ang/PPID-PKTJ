@@ -170,23 +170,37 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     // Menu Informasi Publik
     Route::name('admin.informasi.')->prefix('informasi')->group(function () {
-        Route::get('/berkala', function() { return view('admin.informasi.berkala'); })->name('berkala');
-        Route::get('/serta-merta', function() { return view('admin.informasi.sertamerta'); })->name('sertamerta');
-        Route::get('/setiap-saat', function() { return view('admin.informasi.setiapsaat'); })->name('setiapsaat');
-        Route::get('/dikecualikan', function() { return view('admin.informasi.dikecualikan'); })->name('dikecualikan');
+        // Berkala (Sudah ada di atas, tapi kita rapikan di sini agar konsisten)
+        Route::get('/berkala', [InformasiBerkalaController::class, 'index'])->name('berkala');
+        Route::get('/berkala/create', [InformasiBerkalaController::class, 'create'])->name('berkala.create');
+        Route::post('/berkala', [InformasiBerkalaController::class, 'store'])->name('berkala.store');
+        Route::get('/berkala/{id}/edit', [InformasiBerkalaController::class, 'edit'])->name('berkala.edit');
+        Route::put('/berkala/{id}', [InformasiBerkalaController::class, 'update'])->name('berkala.update');
+        Route::delete('/berkala/{id}', [InformasiBerkalaController::class, 'destroy'])->name('berkala.destroy');
+
+        // Serta Merta
+        Route::get('/serta-merta', [InformasiSertaMertaController::class, 'index'])->name('sertamerta');
+        Route::get('/serta-merta/create', [InformasiSertaMertaController::class, 'create'])->name('sertamerta.create');
+        Route::post('/serta-merta', [InformasiSertaMertaController::class, 'store'])->name('sertamerta.store');
+        Route::get('/serta-merta/{id}/edit', [InformasiSertaMertaController::class, 'edit'])->name('sertamerta.edit');
+        Route::put('/serta-merta/{id}', [InformasiSertaMertaController::class, 'update'])->name('sertamerta.update');
+        Route::delete('/serta-merta/{id}', [InformasiSertaMertaController::class, 'destroy'])->name('sertamerta.destroy');
         
-        // Create routes for upload forms
-        Route::get('/berkala/create', function() { return view('admin.informasi.berkala-create'); })->name('berkala.create');
-        Route::post('/berkala/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('berkala.store');
+        // Setiap Saat
+        Route::get('/setiap-saat', [InformasiSetiapSaatController::class, 'index'])->name('setiapsaat');
+        Route::get('/setiap-saat/create', [InformasiSetiapSaatController::class, 'create'])->name('setiapsaat.create');
+        Route::post('/setiap-saat', [InformasiSetiapSaatController::class, 'store'])->name('setiapsaat.store');
+        Route::get('/setiap-saat/{id}/edit', [InformasiSetiapSaatController::class, 'edit'])->name('setiapsaat.edit');
+        Route::put('/setiap-saat/{id}', [InformasiSetiapSaatController::class, 'update'])->name('setiapsaat.update');
+        Route::delete('/setiap-saat/{id}', [InformasiSetiapSaatController::class, 'destroy'])->name('setiapsaat.destroy');
         
-        Route::get('/serta-merta/create', function() { return view('admin.informasi.sertamerta-create'); })->name('sertamerta.create');
-        Route::post('/serta-merta/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('sertamerta.store');
-        
-        Route::get('/setiap-saat/create', function() { return view('admin.informasi.setiapsaat-create'); })->name('setiapsaat.create');
-        Route::post('/setiap-saat/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('setiapsaat.store');
-        
-        Route::get('/dikecualikan/create', function() { return view('admin.informasi.dikecualikan-create'); })->name('dikecualikan.create');
-        Route::post('/dikecualikan/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('dikecualikan.store');
+        // Dikecualikan
+        Route::get('/dikecualikan', [InformasiDikecualikanController::class, 'index'])->name('dikecualikan');
+        Route::get('/dikecualikan/create', [InformasiDikecualikanController::class, 'create'])->name('dikecualikan.create');
+        Route::post('/dikecualikan', [InformasiDikecualikanController::class, 'store'])->name('dikecualikan.store');
+        Route::get('/dikecualikan/{id}/edit', [InformasiDikecualikanController::class, 'edit'])->name('dikecualikan.edit');
+        Route::put('/dikecualikan/{id}', [InformasiDikecualikanController::class, 'update'])->name('dikecualikan.update');
+        Route::delete('/dikecualikan/{id}', [InformasiDikecualikanController::class, 'destroy'])->name('dikecualikan.destroy');
     });
 
     // Resource CRUD

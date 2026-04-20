@@ -45,6 +45,7 @@
             </div>
         @endif
 
+
         @if($profil && $profil->judul_sub)
             <div class="content-box">
                 <h2 class="section-title">{{ $profil->judul_sub }}</h2>
@@ -54,11 +55,6 @@
             </div>
         @endif
 
-        @if($profil && $profil->gambaran)
-            <div class="content-box">
-                <div class="profil-content">{!! $profil->gambaran !!}</div>
-            </div>
-        @endif
 
         @if($profil && $profil->additional_sections)
             @foreach($profil->additional_sections as $section)

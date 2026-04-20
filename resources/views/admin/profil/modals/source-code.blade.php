@@ -1,4 +1,4 @@
-﻿<!-- Source Code Modal -->
+<!-- Source Code Modal -->
 <div class="modal fade" id="sourceCodeModal" tabindex="-1">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">

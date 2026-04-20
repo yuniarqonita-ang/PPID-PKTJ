@@ -1,4 +1,4 @@
-﻿<!-- Row Properties Modal -->
+<!-- Row Properties Modal -->
 <div class="modal fade" id="rowPropertiesModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

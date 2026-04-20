@@ -5,128 +5,116 @@
 @endphp
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
-    <div class="max-w-7xl mx-auto space-y-8 uppercase">
+<div class="space-y-8 animate-fade-in lg:px-8">
+    
+    <!-- HEADER SECTION - ULTRA CLARITY -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div>
+            <h1 class="text-4xl font-black text-[#002b5c] tracking-tight">
+                SOP <span class="text-[#004a99]">Pengujian Konsekuensi</span>
+            </h1>
+            <p class="text-slate-700 text-lg font-bold mt-2">Prosedur Uji Konsekuensi Informasi Di Kecualikan</p>
+        </div>
+        <div class="flex items-center gap-4">
+            <a href="{{ route('dashboard') }}" class="inline-flex items-center text-[#002b5c] hover:text-black transition-colors text-sm font-black uppercase tracking-widest">
+                <i class="fas fa-arrow-left mr-3"></i> DASHBOARD
+            </a>
+            <a href="http://ppid.pktj.ac.id/prosedur/sop-pengujian-konsekuensi" target="_blank" class="px-6 py-4 bg-white border-2 border-slate-200 text-[#002b5c] font-black rounded-xl shadow-md hover:bg-slate-50 transition-all flex items-center text-sm">
+                <i class="fas fa-eye mr-3"></i> LIHAT PUBLIK
+            </a>
+        </div>
+    </div>
 
-        <!-- HEADER SECTION -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 font-bold text-gray-800">
-            <div>
-                <a href="{{ route('dashboard') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold font-bold">
-                    <i class="fas fa-arrow-left mr-2"></i> Dashboard
-                </a>
-                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
-                    <i class="fas fa-microscope mr-2 text-[#ffc107]"></i> SOP Pengujian Konsekuensi
-                </h1>
-                <p class="text-gray-500 font-medium mt-1 uppercase tracking-widest text-[10px]">Manajemen Prosedur Pengujian Dampak Informasi Dikecualikan</p>
-            </div>
-            <div class="flex gap-3">
-                <a href="{{ url('/prosedur/sop-pengujian') }}" target="_blank" class="px-6 py-3 bg-white border border-gray-200 text-[#004a99] font-bold rounded-xl shadow-sm hover:bg-gray-50 transition-all flex items-center">
-                    <i class="fas fa-eye mr-2 text-gray-800 font-bold"></i> Lihat Publik
-                </a>
+    <form action="{{ route('admin.halaman-custom.store', 'sop_pengujian') }}" method="POST" enctype="multipart/form-data" class="space-y-10">
+        @csrf
+
+        <!-- HERO CONFIGURATION -->
+        <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden">
+            <div class="p-10 space-y-10">
+                <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8">
+                    <h3 class="text-xl font-black text-[#002b5c] uppercase tracking-widest flex items-center">
+                        <span class="w-10 h-10 bg-[#ffc107] text-[#002b5c] rounded-xl flex items-center justify-center mr-4 text-sm">
+                            <i class="fas fa-microscope"></i>
+                        </span>
+                        Konfigurasi Landing Page
+                    </h3>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                    <div class="space-y-3">
+                        <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Judul Banner Utama</label>
+                        <input type="text" name="judul_hero" value="{{ $settings['sop_pengujian_judul_hero'] ?? 'SOP Pengujian Konsekuensi Informasi' }}"
+                            class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]">
+                    </div>
+                    <div class="space-y-3">
+                        <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Tagline Kutipan</label>
+                        <input type="text" name="tagline_hero" value="{{ $settings['sop_pengujian_tagline_hero'] ?? '' }}"
+                            class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]">
+                    </div>
+                </div>
             </div>
         </div>
 
-        @if(session('success'))
-            <div class="bg-indigo-100 border-l-4 border-indigo-500 p-4 rounded-xl shadow-sm flex items-center animate-fade-in-down mb-6">
-                <div class="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center mr-3 shadow-lg shadow-indigo-500/20">
-                    <i class="fas fa-check text-white"></i>
-                </div>
-                <p class="text-indigo-800 font-bold text-xs">{{ session('success') }}</p>
-            </div>
-        @endif
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
+            
+            <!-- COLUMN 1: POSTER -->
+            <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden">
+                <div class="p-10 space-y-8">
+                    <div class="flex items-center justify-between border-b-2 border-slate-50 pb-6">
+                        <h4 class="text-lg font-black text-[#002b5c] uppercase tracking-widest">
+                            <i class="fas fa-image mr-3 text-[#ffc107]"></i> POSTER SOP UTAMA
+                        </h4>
+                        <button type="button" onclick="document.getElementById('gambar_sop').click()" class="px-5 py-2 bg-[#002b5c] text-white font-black text-sm uppercase tracking-widest rounded-xl hover:bg-black transition-all border-none cursor-pointer">UPLOAD</button>
+                    </div>
 
-        <form action="{{ route('admin.halaman-custom.store', 'sop_pengujian') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-
-            <!-- HERO CONFIGURATION -->
-            <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-[#ffc107] mb-8">
-                <div class="p-8">
-                    <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center mb-6">
-                        <i class="fas fa-window-maximize mr-3 text-[#ffc107]"></i> Konfigurasi Hero Banner
-                    </h3>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Judul Hero</label>
-                            <input type="text" name="judul_hero" value="{{ $settings['sop_pengujian_judul_hero'] ?? 'SOP Pengujian Konsekuensi Informasi' }}"
-                                class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-800 font-bold focus:bg-white focus:ring-4 focus:ring-[#004a99]/5 focus:border-[#004a99] outline-none transition-all uppercase">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Tagline Hero</label>
-                            <input type="text" name="tagline_hero" value="{{ $settings['sop_pengujian_tagline_hero'] ?? 'Standar Operasional Prosedur Pengujian Dampak Informasi yang Dikecualikan' }}"
-                                class="w-full px-5 py-4 bg-gray-50 border border-gray-100 rounded-2xl text-gray-800 font-bold focus:bg-white focus:ring-4 focus:ring-[#004a99]/5 focus:border-[#004a99] outline-none transition-all uppercase">
-                        </div>
+                    <div class="relative aspect-[3/4] bg-slate-50 rounded-[2rem] overflow-hidden border-2 border-dashed border-slate-200 flex items-center justify-center">
+                        @if(isset($settings['sop_pengujian_gambar_sop']))
+                            <img id="preview_sop" src="{{ asset('storage/halaman/' . $settings['sop_pengujian_gambar_sop']) }}" class="w-full h-full object-contain">
+                        @else
+                            <div class="text-center">
+                                <i class="fas fa-file-image text-6xl text-slate-200 mb-4"></i>
+                                <p class="text-sm font-black text-slate-400 uppercase tracking-widest">Belum Ada Poster</p>
+                            </div>
+                        @endif
+                        <input type="file" name="gambar_sop" id="gambar_sop" class="hidden" onchange="previewImage(this, 'preview_sop')">
                     </div>
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 uppercase font-bold text-gray-800">
-                
-                <!-- COLUMN 1: IMAGE SOP -->
-                <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-8 border-[#004a99] group text-gray-800">
-                    <div class="p-8 space-y-6">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center">
-                                <i class="fas fa-image mr-3 text-[#ffc107]"></i> Dokumen SOP Utama
-                            </h3>
-                            <button type="button" onclick="document.getElementById('gambar_sop').click()" class="px-4 py-2 bg-gray-50 text-[9px] font-black text-[#004a99] rounded-lg border border-gray-100 hover:bg-gray-100 transition-all text-gray-800 uppercase font-bold">UPLOAD BARU</button>
-                        </div>
-
-                        <div class="relative aspect-[3/4] bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 group-hover:border-[#004a99]/20 transition-all shadow-inner">
-                            @if(isset($settings['sop_pengujian_gambar_sop']))
-                                <img id="preview_sop" src="{{ asset('storage/halaman/' . $settings['sop_pengujian_gambar_sop']) }}" class="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-all">
-                            @else
-                                <div class="w-full h-full flex flex-col items-center justify-center text-gray-300">
-                                    <i class="fas fa-file-image text-5xl mb-3 text-gray-800 opacity-60"></i>
-                                    <p class="text-[10px] font-black uppercase tracking-widest text-gray-800">Gambar Belum Tersedia</p>
-                                </div>
-                            @endif
-                            <input type="file" name="gambar_sop" id="gambar_sop" class="hidden" onchange="previewImage(this, 'preview_sop')">
-                        </div>
+            <!-- COLUMN 2: INFOGRAFIS -->
+            <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden">
+                <div class="p-10 space-y-8">
+                    <div class="flex items-center justify-between border-b-2 border-slate-50 pb-6">
+                        <h4 class="text-lg font-black text-[#002b5c] uppercase tracking-widest">
+                            <i class="fas fa-project-diagram mr-3 text-[#ffc107]"></i> INFOGRAFIS ALUR
+                        </h4>
+                        <button type="button" onclick="document.getElementById('gambar_proses').click()" class="px-5 py-2 bg-[#002b5c] text-white font-black text-sm uppercase tracking-widest rounded-xl hover:bg-black transition-all border-none cursor-pointer">UPLOAD</button>
                     </div>
-                </div>
 
-                <!-- COLUMN 2: IMAGE PROSES -->
-                <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-8 border-[#ffc107] group">
-                    <div class="p-8 space-y-6">
-                        <div class="flex items-center justify-between">
-                            <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] flex items-center">
-                                <i class="fas fa-project-diagram mr-3 text-[#ffc107]"></i> Infografis Alur Pengujian
-                            </h3>
-                            <button type="button" onclick="document.getElementById('gambar_proses').click()" class="px-4 py-2 bg-gray-50 text-[9px] font-black text-[#004a99] rounded-lg border border-gray-100 hover:bg-gray-100 transition-all font-bold">UPLOAD BARU</button>
-                        </div>
-
-                        <div class="relative aspect-[3/4] bg-gray-50 rounded-2xl overflow-hidden border border-gray-100 group-hover:border-[#ffc107]/20 transition-all shadow-inner">
-                            @if(isset($settings['sop_pengujian_gambar_proses']))
-                                <img id="preview_proses" src="{{ asset('storage/halaman/' . $settings['sop_pengujian_gambar_proses']) }}" class="w-full h-full object-contain opacity-90 group-hover:opacity-100 transition-all">
-                            @else
-                                <div class="w-full h-full flex flex-col items-center justify-center text-gray-300">
-                                    <i class="fas fa-images text-5xl mb-3 text-gray-800 opacity-60"></i>
-                                    <p class="text-[10px] font-black uppercase tracking-widest text-gray-800">Alur Belum Tersedia</p>
-                                </div>
-                            @endif
-                            <input type="file" name="gambar_proses" id="gambar_proses" class="hidden" onchange="previewImage(this, 'preview_proses')">
-                        </div>
+                    <div class="relative aspect-[3/4] bg-slate-50 rounded-[2rem] overflow-hidden border-2 border-dashed border-slate-200 flex items-center justify-center">
+                        @if(isset($settings['sop_pengujian_gambar_proses']))
+                            <img id="preview_proses" src="{{ asset('storage/halaman/' . $settings['sop_pengujian_gambar_proses']) }}" class="w-full h-full object-contain">
+                        @else
+                            <div class="text-center">
+                                <i class="fas fa-project-diagram text-6xl text-slate-200 mb-4"></i>
+                                <p class="text-sm font-black text-slate-400 uppercase tracking-widest">Belum Ada Infografis</p>
+                            </div>
+                        @endif
+                        <input type="file" name="gambar_proses" id="gambar_proses" class="hidden" onchange="previewImage(this, 'preview_proses')">
                     </div>
                 </div>
             </div>
+            
+        </div>
 
-            <!-- ACTION BAR -->
-            <div class="bg-white h-24 rounded-3xl shadow-2xl ring-1 ring-gray-200 px-8 flex items-center justify-between sticky bottom-6 z-50 animate-fade-in-up mt-12 text-gray-800">
-                <div class="flex items-center gap-4">
-                    <div class="w-10 h-10 bg-indigo-50 text-indigo-500 rounded-full flex items-center justify-center shadow-sm">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <p class="text-[10px] font-black text-gray-400 uppercase tracking-widest text-gray-800">Keamanan Data Informasi Terjamin</p>
-                </div>
-                <div class="flex gap-4">
-                    <button type="button" onclick="history.back()" class="px-8 py-3 bg-gray-100 text-gray-500 font-black text-[10px] rounded-xl hover:bg-gray-200 transition-all tracking-widest uppercase font-bold text-gray-800">BATAL</button>
-                    <button type="submit" class="px-10 py-3 bg-[#004a99] text-white font-black text-[10px] rounded-xl shadow-lg shadow-blue-500/20 transform hover:scale-105 transition-all tracking-widest text-gray-800 font-bold">
-                        <i class="fas fa-save mr-2 text-[#ffc107]"></i> SIMPAN SOP PENGUJIAN
-                    </button>
-                </div>
-            </div>
-        </form>
-    </div>
+        <!-- ACTION BAR -->
+        <div class="flex justify-end gap-6 pt-10">
+            <button type="button" onclick="history.back()" class="px-8 py-4 bg-white border-2 border-slate-200 text-[#002b5c] font-black text-sm rounded-xl hover:bg-slate-50 transition-all tracking-widest border-none cursor-pointer uppercase">BATAL</button>
+            <button type="submit" class="px-12 py-4 bg-[#002b5c] text-white font-black text-sm rounded-xl shadow-2xl hover:bg-black transition-all tracking-widest border-none cursor-pointer uppercase">
+                <i class="fas fa-save mr-3 text-[#ffc107]"></i> SIMPAN PROSEDUR PENGUJIAN
+            </button>
+        </div>
+    </form>
 </div>
 
 <script>
@@ -140,12 +128,4 @@
         }
     }
 </script>
-
-<style>
-    .animate-fade-in-up { animation: fadeInUp 0.5s ease-out; }
-    @keyframes fadeInUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-</style>
 @endsection
