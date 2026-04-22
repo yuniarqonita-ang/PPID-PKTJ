@@ -3,334 +3,190 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Struktur Organisasi PPID - Portal PPID PKTJ</title>
+    <title>{{ $profil->judul ?? 'Struktur Organisasi' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f8f9fa;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
+        :root {
+            --primary-blue: {{ $settings['primary_color'] ?? '#004A99' }};
+            --secondary-gold: {{ $settings['secondary_color'] ?? '#FFC107' }};
+        }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8faff; 
+            color: #1e293b;
+            line-height: 1.6;
         }
 
-        .navbar {
-            background-color: #004a99 !important;
-            border-bottom: 3px solid #ffc107;
-        }
+        .outfit { font-family: 'Outfit', sans-serif; }
 
-        .navbar-brand img {
-            height: 50px;
-            margin-right: 12px;
-        }
-
-        @media (min-width: 992px) {
-            .nav-item.dropdown:hover .dropdown-menu {
-                display: block !important;
-                margin-top: 0;
-            }
-        }
-
-        .dropdown-menu {
-            z-index: 1050 !important;
-        }
-
+        /* Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, #1a3a52 0%, #2d5f8d 50%, #d4af37 100%);
-            color: white;
+            background: linear-gradient(-45deg, var(--primary-blue), #0066CC, #1A3A52, #002b5c);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
             padding: 100px 0;
+            color: white;
             text-align: center;
             position: relative;
             overflow: hidden;
         }
 
-        .hero-section::before {
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero-section::after {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.1;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.1);
         }
 
-        .hero-content {
+        .hero-content { position: relative; z-index: 10; }
+
+        .content-card {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0, 74, 153, 0.05);
+            margin-top: -60px;
+            border: 1px solid rgba(0, 74, 153, 0.05);
             position: relative;
-            z-index: 1;
-        }
-
-        .page-title {
-            color: #004a99;
-            font-size: 32px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #004a99;
-            display: inline-block;
-            padding-bottom: 10px;
-        }
-
-        .content-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            z-index: 20;
+            margin-bottom: 50px;
         }
 
         .section-title {
-            color: #004a99;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
+            color: var(--primary-blue);
+            font-weight: 900;
+            margin-bottom: 30px;
+            border-left: 6px solid var(--secondary-gold);
+            padding-left: 20px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
         }
 
-        .profil-content {
-            text-align: justify;
-            line-height: 1.8;
-            color: #333;
-        }
-
-        .org-chart {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        .org-level {
-            margin: 30px 0;
-        }
-
+        /* Organizational Chart Styling */
+        .org-chart { text-align: center; padding: 40px 0; }
+        .org-level { margin: 30px 0; }
         .org-box {
-            background: linear-gradient(135deg, #004a99 0%, #0066cc 100%);
-            color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin: 10px;
+            background: white;
+            color: var(--primary-blue);
+            padding: 25px;
+            border-radius: 20px;
             display: inline-block;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 74, 153, 0.1);
+            min-width: 250px;
+            border: 2px solid var(--primary-blue);
+            transition: transform 0.3s ease;
         }
-
+        .org-box:hover { transform: translateY(-5px); }
         .org-box.director {
-            background: linear-gradient(135deg, #d4af37 0%, #c9a227 100%);
-            color: #1a3a52;
-            font-weight: bold;
-        }
-
-        .org-line {
-            border-left: 2px solid #d4af37;
-            height: 30px;
-            margin: 0 auto;
-            width: 2px;
-        }
-
-        .footer {
-            background: #1a3a52;
+            background: var(--primary-blue);
             color: white;
-            padding: 40px 0;
-            margin-top: 60px;
+            border: 2px solid var(--secondary-gold);
         }
-
-        .btn-warning {
-            background-color: #d4af37;
-            border-color: #d4af37;
-            color: #1a3a52;
-            font-weight: 600;
+        .org-line {
+            border-left: 3px dashed var(--secondary-gold);
+            height: 40px;
+            margin: 0 auto;
+            width: 3px;
         }
-
-        .btn-warning:hover {
-            background-color: #c9a227;
-            border-color: #c9a227;
-            color: #1a3a52;
-        }
+        .org-box strong { display: block; font-size: 1.1rem; margin-bottom: 5px; font-family: 'Outfit', sans-serif; }
+        .org-box small { opacity: 0.8; font-weight: 500; }
     </style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark shadow-sm">
-        <div class="container">
-            <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="/">
-                <img src="/images/logo-pktj.png" alt="Logo PKTJ">
-                <span>PPID PKTJ</span>
-            </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto align-items-center">
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/">BERANDA</a>
-                    </li>
+    @include('navigation')
 
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
-                        <ul class="dropdown-menu" style="min-width: 280px;">
-                            <li><a class="dropdown-item" href="/profil/ppid">Profil PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/tugas-tanggung-jawab">Tugas dan Tanggung Jawab PPID</a></li>
-                            <li><a class="dropdown-item" href="/profil/visi-misi">Visi dan Misi</a></li>
-                            <li><a class="dropdown-item" href="/profil/struktur-organisasi">Struktur Organisasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/regulasi">Regulasi</a></li>
-                            <li><a class="dropdown-item" href="/profil/kontak">Kontak</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
-                        <ul class="dropdown-menu" style="min-width: 250px;">
-                            <li><a class="dropdown-item" href="/informasi-publik/berkala">Informasi Berkala</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/serta-merta">Informasi Serta Merta</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/setiap-saat">Informasi Setiap Saat</a></li>
-                            <li><a class="dropdown-item" href="/informasi-publik/dikecualikan">Informasi Dikecualikan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
-                        <ul class="dropdown-menu" style="min-width: 320px;">
-                            <li><a class="dropdown-item" href="/layanan-informasi/daftar">Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/maklumat">Maklumat Pelayanan & Standar Biaya</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan">Laporan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-akses">Laporan Akses Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/layanan-informasi/laporan-survey">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="#">JDIH Kementerian Perhubungan</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
-                        <ul class="dropdown-menu" style="min-width: 380px;">
-                            <li><a class="dropdown-item" href="/prosedur/sop-permintaan-informasi">SOP Permintaan Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penanganan-keberatan">SOP Penanganan Keberatan</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengajuan-sengketa">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-penetapan-pemutakhiran">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pengujian-konsekuensi">SOP Pengujian Konsekuensi</a></li>
-                            <li><a class="dropdown-item" href="/prosedur/sop-pendokumentasian">SOP Pendokumentasian Informasi Publik</a></li>
-                        </ul>
-                    </li>
-
-                    <li class="nav-item">
-                        <a class="nav-link text-white px-3 fw-bold uppercase" href="/faq">FAQ</a>
-                    </li>
-                </ul>
-
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="/permohonan-informasi">
-                    PERMOHONAN INFORMASI
-                </a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Hero Section -->
     <div class="hero-section">
-        <div class="hero-content">
-            <div class="container">
-                <h1 class="display-5 fw-bold mb-3">{{ $profil->judul ?? 'Struktur Organisasi PPID' }}</h1>
-                <p class="lead">{{ $profil->tagline_hero ?? 'Pejabat Pengelola Informasi dan Dokumentasi' }}</p>
-            </div>
+        <div class="container hero-content">
+            <h1 class="display-4 fw-bold outfit uppercase mb-3">{{ $profil->judul ?? 'Struktur Organisasi' }}</h1>
+            <p class="lead opacity-75">{{ $profil->tagline_hero ?? 'Susunan Organisasi Pejabat Pengelola Informasi dan Dokumentasi' }}</p>
         </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="container py-5">
-        <h1 class="page-title">{{ $profil->judul ?? 'Struktur Organisasi PPID' }}</h1>
-
-        @if($profil && $profil->konten_pembuka)
-        <div class="content-box">
-            @if($type === 'struktur' || $profil->judul_sub)
-                <h2 class="section-title">{{ $profil->judul_sub ?: 'Dasar Hukum' }}</h2>
-            @endif
-            <div class="profil-content">
-                {!! $profil->konten_pembuka !!}
-            </div>
-        </div>
-        @endif
-
-
-        @if($profil->additional_sections)
-            @foreach($profil->additional_sections as $section)
-                <div class="content-box">
-                    <h2 class="section-title">{{ $section['title'] }}</h2>
-                    
-                    @if(($section['layout'] ?? 'default') === 'diagram')
-                        <div class="org-chart">
-                            <!-- Direktur -->
-                            <div class="org-level">
-                                <div class="org-box director">
-                                    <strong>{{ $settings['struktur_role_1'] ?? 'DIREKTUR PKTJ' }}</strong><br>
-                                    <small>{{ $settings['struktur_sub_1'] ?? 'Pembina PPID' }}</small>
-                                </div>
-                            </div>
-
-                            <!-- Garis vertikal -->
-                            <div class="org-line"></div>
-
-                            <!-- Koordinator PPID -->
-                            <div class="org-level">
-                                <div class="org-box">
-                                    <strong>{{ $settings['struktur_role_2'] ?? 'KOORDINATOR PPID' }}</strong><br>
-                                    <small>{{ $settings['struktur_sub_2'] ?? 'Kepala Bagian/Program' }}</small>
-                                </div>
-                            </div>
-
-                            <!-- Garis vertikal -->
-                            <div class="org-line"></div>
-
-                            <!-- Tim PPID -->
-                            <div class="org-level">
-                                <div class="org-box">
-                                    <strong>{{ $settings['struktur_role_3'] ?? 'TIM PPID' }}</strong><br>
-                                    <small>{{ $settings['struktur_sub_3'] ?? 'Staff Teknis' }}</small>
-                                </div>
-                                <div class="org-box">
-                                    <strong>{{ $settings['struktur_role_4'] ?? 'TIM PPID' }}</strong><br>
-                                    <small>{{ $settings['struktur_sub_4'] ?? 'Staff Teknis' }}</small>
-                                </div>
-                                <div class="org-box">
-                                    <strong>{{ $settings['struktur_role_5'] ?? 'TIM PPID' }}</strong><br>
-                                    <small>{{ $settings['struktur_sub_5'] ?? 'Staff Teknis' }}</small>
-                                </div>
-                            </div>
+    <div class="container mb-5">
+        <div class="content-card">
+            @if($profil)
+                @if($profil->konten_pembuka)
+                    <div class="mb-5 rich-content">
+                        <h2 class="section-title">Dasar Struktur</h2>
+                        <div class="text-justify">
+                            {!! $profil->konten_pembuka !!}
                         </div>
-                    @elseif(($section['layout'] ?? 'default') === 'cards')
-                        <div class="profil-content">
-                            {!! $section['content'] !!}
-                            <div class="row mt-4">
-                                <div class="col-md-4 mb-3">
-                                    <div class="text-center">
-                                        <i class="fas fa-file-alt fa-3x text-primary mb-3"></i>
-                                        <h5 class="text-primary fw-bold">PENGELOLAAN DOKUMEN</h5>
-                                        <p>Kemampuan mengelola arsip dan dokumentasi</p>
+                    </div>
+                @endif
+
+                @if($profil->additional_sections)
+                    @foreach($profil->additional_sections as $section)
+                        <div class="mb-5">
+                            <h2 class="section-title">{{ $section['title'] }}</h2>
+                            
+                            @if(($section['layout'] ?? 'default') === 'diagram')
+                                <div class="org-chart">
+                                    <div class="org-level">
+                                        <div class="org-box director">
+                                            <strong>{{ $settings['struktur_role_1'] ?? 'DIREKTUR PKTJ' }}</strong>
+                                            <small>{{ $settings['struktur_sub_1'] ?? 'Pembina PPID' }}</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="org-line"></div>
+
+                                    <div class="org-level">
+                                        <div class="org-box">
+                                            <strong>{{ $settings['struktur_role_2'] ?? 'KOORDINATOR PPID' }}</strong>
+                                            <small>{{ $settings['struktur_sub_2'] ?? 'Kepala Bagian/Program' }}</small>
+                                        </div>
+                                    </div>
+
+                                    <div class="org-line"></div>
+
+                                    <div class="org-level d-flex flex-wrap justify-content-center gap-4">
+                                        <div class="org-box">
+                                            <strong>{{ $settings['struktur_role_3'] ?? 'TIM PPID' }}</strong>
+                                            <small>{{ $settings['struktur_sub_3'] ?? 'Staff Teknis' }}</small>
+                                        </div>
+                                        <div class="org-box">
+                                            <strong>{{ $settings['struktur_role_4'] ?? 'TIM PPID' }}</strong>
+                                            <small>{{ $settings['struktur_sub_4'] ?? 'Staff Teknis' }}</small>
+                                        </div>
+                                        <div class="org-box">
+                                            <strong>{{ $settings['struktur_role_5'] ?? 'TIM PPID' }}</strong>
+                                            <small>{{ $settings['struktur_sub_5'] ?? 'Staff Teknis' }}</small>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="text-center">
-                                        <i class="fas fa-search fa-3x text-info mb-3"></i>
-                                        <h5 class="text-info fw-bold">INFORMASI PUBLIK</h5>
-                                        <p>Pemahaman UU KIP dan regulasi terkait</p>
-                                    </div>
+                            @else
+                                <div class="rich-content">
+                                    {!! $section['content'] !!}
                                 </div>
-                                <div class="col-md-4 mb-3">
-                                    <div class="text-center">
-                                        <i class="fas fa-laptop fa-3x text-warning mb-3"></i>
-                                        <h5 class="text-warning fw-bold">TEKNOLOGI INFORMASI</h5>
-                                        <p>Kemampuan mengelola sistem informasi</p>
-                                    </div>
-                                </div>
-                            </div>
+                            @endif
                         </div>
-                    @else
-                        <div class="profil-content">
-                            {!! $section['content'] !!}
-                        </div>
-                    @endif
+                    @endforeach
+                @endif
+            @else
+                <div class="text-center py-5">
+                    <i class="fas fa-sitemap fa-4x text-muted mb-4"></i>
+                    <h3 class="text-muted">Bagan Belum Tersedia</h3>
+                    <p class="text-muted">Administrator sedang menyusun bagan organisasi terbaru.</p>
                 </div>
-            @endforeach
-        @endif
+            @endif
+        </div>
     </div>
 
-    <!-- Footer -->
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

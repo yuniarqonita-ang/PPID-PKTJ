@@ -16,6 +16,10 @@ use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\InformasiSertaMertaController;
+use App\Http\Controllers\InformasiSetiapSaatController;
+use App\Http\Controllers\InformasiDikecualikanController;
+use App\Http\Controllers\HalamanCustomController;
 
 // ==========================================
 // 0. REDIRECT URL LAMA (.html)
@@ -220,8 +224,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::name('admin.permohonan.')->prefix('permohonan')->group(function () {
         Route::get('/', [PermohonanController::class, 'index'])->name('index');
         Route::get('/submissions', [PermohonanController::class, 'index'])->name('submissions');
+        Route::get('/report', [PermohonanController::class, 'report'])->name('report');
+        Route::get('/report/export', [PermohonanController::class, 'exportReport'])->name('report.export');
         Route::get('/form', [PermohonanController::class, 'adminForm'])->name('form');
         Route::post('/form/save', [PermohonanController::class, 'saveForm'])->name('save_form');
+        Route::get('/export/register', [PermohonanController::class, 'exportExcelRegister'])->name('export.register');
+        Route::get('/export/{id}/reject', [PermohonanController::class, 'exportWordReject'])->name('export.reject');
         Route::get('/export', [PermohonanController::class, 'exportExcel'])->name('export');
         Route::get('/download/{id}', [PermohonanController::class, 'downloadDocument'])->name('download');
         Route::get('/{permohonan}', [PermohonanController::class, 'show'])->name('show');
@@ -238,11 +246,24 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     Route::resource('/user-management', 'UserController')->names('admin.users')->parameters(['user-management' => 'user']);
     Route::get('/settings', [DashboardController::class, 'settings'])->name('admin.settings');
+
+    // Keberatan Management routes
+    Route::name('admin.keberatan.')->prefix('keberatan')->group(function () {
+        Route::get('/', [KeberatanController::class, 'index'])->name('index');
+        Route::get('/{keberatan}', [KeberatanController::class, 'show'])->name('show');
+        Route::get('/{keberatan}/edit', [KeberatanController::class, 'edit'])->name('edit');
+        Route::put('/{keberatan}', [KeberatanController::class, 'update'])->name('update');
+        Route::delete('/{keberatan}', [KeberatanController::class, 'destroy'])->name('destroy');
+        Route::get('/export/excel', [KeberatanController::class, 'exportExcel'])->name('export.excel');
+        Route::get('/export/{id}/word', [KeberatanController::class, 'exportWord'])->name('export.word');
+    });
 });
 
 // ==========================================
 // 4. FRONTEND USER (PUBLIC PAGES)
 // ==========================================
+Route::get('/keberatan/ajukan', [KeberatanController::class, 'createPublic'])->name('keberatan.create');
+Route::post('/keberatan/ajukan', [KeberatanController::class, 'storePublic'])->name('keberatan.store');
 Route::name('profil.')->prefix('profil')->group(function () {
     Route::get('/', [ProfilPublikController::class, 'showProfil'])->name('index');
     Route::get('/ppid', [ProfilPublikController::class, 'showProfil'])->name('ppid');

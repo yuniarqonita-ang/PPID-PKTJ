@@ -3,115 +3,181 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Profil PPID - Portal PPID PKTJ</title>
+    <title>{{ $profil->judul ?? 'Profil PPID' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
+        :root {
+            --primary-blue: {{ $settings['primary_color'] ?? '#004A99' }};
+            --secondary-gold: {{ $settings['secondary_color'] ?? '#FFC107' }};
+        }
+        
         body { 
-            font-family: 'Arial', sans-serif; 
-            background-color: #f8f9fa; 
-            scroll-behavior: smooth; 
+            font-family: 'Inter', sans-serif; 
+            background-color: #f8faff; 
+            color: #1e293b;
+            line-height: 1.6;
         }
-        @media (min-width: 992px) { 
-            .nav-item.dropdown:hover .dropdown-menu { 
-                display: block !important; 
-                margin-top: 0; 
-            } 
+
+        .outfit { font-family: 'Outfit', sans-serif; }
+
+        /* Hero Section */
+        .hero-section {
+            background: linear-gradient(-45deg, var(--primary-blue), #0066CC, #1A3A52, #002b5c);
+            background-size: 400% 400%;
+            animation: gradient-animation 15s ease infinite;
+            padding: 100px 0;
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
         }
-        .dropdown-menu {
-            z-index: 1050 !important;
+
+        @keyframes gradient-animation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        .page-title {
-            color: #004a99;
-            font-size: 32px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 30px;
-            border-bottom: 3px solid #004a99;
-            display: inline-block;
-            padding-bottom: 10px;
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.1);
         }
-        .content-box {
-            background-color: white;
-            padding: 30px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+        .hero-content { position: relative; z-index: 10; }
+
+        .content-card {
+            background: white;
+            padding: 50px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0, 74, 153, 0.05);
+            margin-top: -60px;
+            border: 1px solid rgba(0, 74, 153, 0.05);
+            position: relative;
+            z-index: 20;
         }
+
         .section-title {
-            color: #004a99;
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 20px;
+            color: var(--primary-blue);
+            font-weight: 900;
+            margin-bottom: 30px;
+            border-left: 6px solid var(--secondary-gold);
+            padding-left: 20px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.2rem;
         }
-        p {
-            text-align: justify;
-            line-height: 1.8;
-            color: #333;
+
+        .text-justify { text-align: justify; }
+
+        .image-container {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            margin: 30px 0;
         }
+
+        .btn-download {
+            background: var(--primary-blue);
+            color: white;
+            border-radius: 12px;
+            padding: 12px 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .btn-download:hover {
+            background: #003770;
+            transform: translateY(-3px);
+            color: white;
+            box-shadow: 0 10px 20px rgba(0, 74, 153, 0.2);
+        }
+
+        /* Rich Editor Content Styling */
+        .rich-content {
+            font-size: 1.05rem;
+            color: #334155;
+        }
+        
+        .rich-content p { margin-bottom: 1.5rem; }
     </style>
 </head>
 <body>
 
     @include('navigation')
 
-    <div class="container py-5">
-        <h1 class="page-title">Profil PPID</h1>
+    <div class="hero-section">
+        <div class="container hero-content">
+            <h1 class="display-4 fw-bold outfit uppercase mb-3">{{ $profil->judul ?? 'Profil PPID' }}</h1>
+            <p class="lead opacity-75">{{ $profil->tagline_hero ?? 'Mengenal Lebih Dekat Pejabat Pengelola Informasi dan Dokumentasi' }}</p>
+        </div>
+    </div>
 
-        <!-- SECTION: PROFILE PPID -->
-        <div class="content-box">
+    <div class="container mb-5">
+        <div class="content-card">
             @if($profil)
                 <h2 class="section-title">{{ $profil->judul }}</h2>
-                <div class="content">
-                    <div class="content">
+                
+                <div class="rich-content">
                     @if($profil->konten_pembuka)
-                        <h4>Konten Pembuka:</h4>
-                        <div style="background: white; padding: 15px; border: 1px solid #ddd; margin: 10px 0; border-radius: 5px; line-height: 1.6;">
+                        <div class="text-justify mb-4">
                             {!! $profil->konten_pembuka !!}
                         </div>
                     @endif
                     
                     @if($profil->judul_sub)
-                        <h3 style="color: #004a99; margin: 20px 0 10px 0;">{{ $profil->judul_sub }}</h3>
+                        <h3 class="outfit fw-bold text-dark mb-3 mt-5">{{ $profil->judul_sub }}</h3>
                     @endif
                     
                     @if($profil->konten_detail)
-                        <h4>Konten Detail:</h4>
-                        <div style="background: white; padding: 15px; border: 1px solid #ddd; margin: 10px 0; border-radius: 5px; line-height: 1.6;">
+                        <div class="text-justify">
                             {!! $profil->konten_detail !!}
                         </div>
                     @endif
                     
                     @if($profil->gambar)
-                        <img src="{{ asset('storage/' . $profil->gambar) }}" alt="{{ $profil->judul }}" class="img-fluid mt-3">
+                        <div class="image-container">
+                            <img src="{{ asset('storage/' . $profil->gambar) }}" alt="{{ $profil->judul }}" class="w-100 h-auto">
+                        </div>
                     @endif
                     
                     @if($profil->link_dokumen)
-                        <a href="{{ $profil->link_dokumen }}" target="_blank" class="btn btn-primary mt-3">
-                            <i class="fas fa-download"></i> Download Dokumen
-                        </a>
+                        <div class="mt-5 text-center">
+                            <a href="{{ $profil->link_dokumen }}" target="_blank" class="btn-download btn-lg">
+                                <i class="fas fa-file-pdf me-2"></i> Download Dokumen Profil Lengkap
+                            </a>
+                        </div>
                     @endif
                 </div>
+
+                @if($profil->gambaran)
+                    <div class="mt-5 pt-4 border-top">
+                        <h3 class="section-title" style="font-size: 1.8rem;">Gambaran Umum</h3>
+                        <div class="rich-content text-justify">
+                            {!! $profil->gambaran !!}
+                        </div>
+                    </div>
+                @endif
             @else
-                <h2 class="section-title">Profil PPID</h2>
-                <p style="margin-bottom: 15px;">
-                    Sejak Undang-Undang Nomor 14 Tahun 2008 Tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan tonggak atau dasar bagi seluruh rakyat Indonesia untuk bersama-sama mengawasi secara langsung pelayanan publik yang diselenggarakan oleh Badan Publik.
-                </p>
-                <p>
-                    Keterbukaan informasi adalah salah satu pilar penting yang akan mendorong terciptanya iklim transparansi. Terlebih di era yang serba terbuka ini, keinginan masyarakat untuk memperoleh informasi semakin tinggi. Diberlakukannya UU KIP merupakan perubahan yang mendasar dalam kehidupan bermasyarakat, berbangsa dan bernegara, oleh sebab itu perlu adanya kesadaran dari seluruh elemen bangsa agar setiap lembaga dan badan pemerintah dalam pengelolaan informasi harus dengan prinsip good governance, tata kelola yang baik dan akuntabilitas.
-                </p>
+                <div class="text-center py-5">
+                    <i class="fas fa-info-circle fa-4x text-muted mb-4"></i>
+                    <h3 class="text-muted">Konten Belum Tersedia</h3>
+                    <p class="text-muted">Administrator sedang mempersiapkan informasi profil untuk Anda.</p>
+                </div>
             @endif
         </div>
-
-        <!-- SECTION: GAMBARAN SINGKAT PPID -->
-        @if($profil && $profil->gambaran)
-        <div class="content-box">
-            <h2 class="section-title">GAMBARAN SINGKAT PEMBENTUKAN PPID KEMENHUB</h2>
-            <div class="content">
-                {!! $profil->gambaran !!}
-            </div>
-        </div>
-        @endif
     </div>
+
+    @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     

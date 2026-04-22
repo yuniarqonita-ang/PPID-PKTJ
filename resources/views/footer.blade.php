@@ -38,6 +38,7 @@
                     <li class="mb-2"><a href="/layanan-informasi/laporan" class="text-decoration-none text-reset opacity-75">Laporan Tahunan</a></li>
                     <li class="mb-2"><a href="/faq" class="text-decoration-none text-reset opacity-75">FAQ</a></li>
                     <li class="mb-2"><a href="/permohonan-informasi" class="text-decoration-none text-reset opacity-75">Permohonan Informasi</a></li>
+                    <li class="mb-2"><a href="/keberatan/ajukan" class="text-decoration-none text-reset opacity-75">Ajukan Keberatan</a></li>
                 </ul>
             </div>
             <div class="col-lg-3">
@@ -61,7 +62,7 @@
         <hr class="my-4" style="border-color: rgba(255,255,255,0.1);">
         <div class="row align-items-center">
             <div class="col-md-6 text-center text-md-start">
-                <p class="small mb-0 opacity-50">&copy; {{ date('Y') }} PPID PKTJ. All rights reserved.</p>
+                <p class="small mb-0 opacity-50">&copy; {{ date('Y') }} PPID PKTJ. Hak cipta dilindungi undang-undang.</p>
             </div>
             <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
                 <p class="small mb-0 opacity-50">Standardized by Antigravity AI</p>

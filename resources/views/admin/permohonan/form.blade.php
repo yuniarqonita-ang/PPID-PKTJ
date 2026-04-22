@@ -61,24 +61,128 @@
             <!-- CANVAS (Right) -->
             <div class="lg:col-span-3 space-y-8">
                 
-                <!-- SECTION: CORE FIELDS PREVIEW -->
-                <div class="bg-gray-100/50 rounded-3xl p-8 border-2 border-dashed border-gray-200 space-y-8 opacity-70">
-                    <div class="flex items-center gap-3 mb-4">
-                        <span class="px-3 py-1 bg-white border border-gray-200 text-[#004a99] rounded-lg text-[9px] font-black tracking-widest">SYSTEM SECTION</span>
-                        <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest text-gray-800">Data Pemohon (Wajib)</h4>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <div class="w-full h-12 bg-white rounded-xl border border-gray-100 px-4 flex items-center gap-3 shadow-inner">
-                                <i class="fas fa-user text-gray-200"></i>
-                                <span class="text-[11px] font-bold text-gray-300">NAMA LENGKAP *</span>
+                <!-- SECTION: CORE FIELDS MANAGEMENT -->
+                <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-cyan-500">
+                    <div class="p-8 space-y-8">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center text-cyan-600">
+                                    <i class="fas fa-id-card"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-black text-cyan-600 uppercase tracking-widest leading-none">Pengaturan Field Utama</h4>
+                                    <p class="text-[10px] text-gray-400 font-bold uppercase mt-1">Sesuaikan label dan visibilitas kolom identitas</p>
+                                </div>
                             </div>
+                            <span class="px-3 py-1 bg-cyan-50 text-cyan-600 rounded-lg text-[9px] font-black tracking-widest">IDENTITY SECTION</span>
                         </div>
-                        <div class="space-y-2">
-                            <div class="w-full h-12 bg-white rounded-xl border border-gray-100 px-4 flex items-center gap-3 shadow-inner">
-                                <i class="fas fa-envelope text-gray-200"></i>
-                                <span class="text-[11px] font-bold text-gray-300">EMAIL PEMOHON *</span>
+                        
+                        <div class="space-y-8">
+                            <!-- Kelompok 1: Akun -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                                <div class="col-span-2">
+                                    <label class="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] mb-3 block border-b border-gray-100 pb-1">1. Bagian Kredensial Akun</label>
+                                    <div class="flex gap-4">
+                                        <div class="flex-1">
+                                            <input type="text" id="label-title-akun" value="{{ $settings['permohonan_label_title_akun'] ?? 'Kredensial Akun' }}" 
+                                                class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-xs font-black text-gray-700 outline-none focus:ring-2 focus:ring-cyan-100" placeholder="Judul Bagian Akun">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Username</label>
+                                    <input type="text" id="label-username" value="{{ $settings['permohonan_label_username'] ?? 'Username Akses' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Email</label>
+                                    <input type="text" id="label-email" value="{{ $settings['permohonan_label_email'] ?? 'Alamat Kontak Email' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Password</label>
+                                    <input type="text" id="label-password" value="{{ $settings['permohonan_label_password'] ?? 'Kata Sandi Baru' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Konfirmasi</label>
+                                    <input type="text" id="label-password-confirm" value="{{ $settings['permohonan_label_password_confirmation'] ?? 'Ulangi Kata Sandi' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                            </div>
+
+                            <!-- Kelompok 2: Identitas -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 pt-4">
+                                <div class="col-span-2">
+                                    <label class="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] mb-3 block border-b border-gray-100 pb-1">2. Bagian Identitas Pemohon</label>
+                                    <input type="text" id="label-title-identitas" value="{{ $settings['permohonan_label_title_identitas'] ?? 'Data Identitas Pemohon' }}" 
+                                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-xs font-black text-gray-700 outline-none focus:ring-2 focus:ring-cyan-100" placeholder="Judul Bagian Identitas">
+                                </div>
+                                <div class="space-y-1 col-span-2">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Nama Lengkap</label>
+                                    <input type="text" id="label-nama" value="{{ $settings['permohonan_label_nama'] ?? 'Nama Lengkap (Sesuai Identitas)' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Jenis ID</label>
+                                    <input type="text" id="label-jenis-identitas" value="{{ $settings['permohonan_label_jenis_identitas'] ?? 'Jenis Kartu Identitas' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Nomor ID</label>
+                                    <input type="text" id="label-nomor-identitas" value="{{ $settings['permohonan_label_nomor_identitas'] ?? 'Nomor ID Card / NIK' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1 col-span-2">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Alamat</label>
+                                    <input type="text" id="label-alamat" value="{{ $settings['permohonan_label_alamat'] ?? 'Alamat Domisili Sekarang' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label No. HP/WA</label>
+                                    <input type="text" id="label-telepon" value="{{ $settings['permohonan_label_telepon'] ?? 'Nomor WhatsApp Aktif' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Upload KTP</label>
+                                    <input type="text" id="label-ktp" value="{{ $settings['permohonan_label_ktp'] ?? 'Unggah Scan/Foto Identitas Resmi' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+
+                                <!-- Field Opsional dengan Toggle -->
+                                <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-between">
+                                    <div>
+                                        <label class="text-[9px] font-black text-gray-400 uppercase block">Label Pekerjaan</label>
+                                        <input type="text" id="label-pekerjaan" value="{{ $settings['permohonan_label_pekerjaan'] ?? 'Pekerjaan Utama' }}" class="bg-transparent border-0 p-0 text-xs font-bold text-gray-700 focus:ring-0">
+                                    </div>
+                                    <div class="form-check form-switch p-0">
+                                        <input class="form-check-input h-5 w-10 cursor-pointer" type="checkbox" id="show-pekerjaan" {{ ($settings['permohonan_show_pekerjaan'] ?? 'yes') == 'yes' ? 'checked' : '' }}>
+                                    </div>
+                                </div>
+                                <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-between">
+                                    <div>
+                                        <label class="text-[9px] font-black text-gray-400 uppercase block">Label Lembaga</label>
+                                        <input type="text" id="label-lembaga" value="{{ $settings['permohonan_label_lembaga'] ?? 'Nama Lembaga (Opsional)' }}" class="bg-transparent border-0 p-0 text-xs font-bold text-gray-700 focus:ring-0">
+                                    </div>
+                                    <div class="form-check form-switch p-0">
+                                        <input class="form-check-input h-5 w-10 cursor-pointer" type="checkbox" id="show-lembaga" {{ ($settings['permohonan_show_lembaga'] ?? 'yes') == 'yes' ? 'checked' : '' }}>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Kelompok 3: Detail Permohonan -->
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6 pt-4">
+                                <div class="col-span-2">
+                                    <label class="text-[10px] font-black text-gray-300 uppercase tracking-[0.2em] mb-3 block border-b border-gray-100 pb-1">3. Bagian Detail Permohonan</label>
+                                    <input type="text" id="label-title-permohonan" value="{{ $settings['permohonan_label_title_permohonan'] ?? 'Rincian Informasi Yang Dimohon' }}" 
+                                        class="w-full px-4 py-2 bg-gray-50 border border-gray-100 rounded-xl text-xs font-black text-gray-700 outline-none focus:ring-2 focus:ring-cyan-100" placeholder="Judul Bagian Detail">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Judul Informasi</label>
+                                    <input type="text" id="label-judul-informasi" value="{{ $settings['permohonan_label_judul_informasi'] ?? 'Nama / Judul Informasi' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Tujuan Penggunaan</label>
+                                    <input type="text" id="label-tujuan" value="{{ $settings['permohonan_label_tujuan'] ?? 'Tujuan Penggunaan Informasi' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Metode</label>
+                                    <input type="text" id="label-metode" value="{{ $settings['permohonan_label_metode'] ?? 'Metode Perolehan Informasi' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
+                                <div class="space-y-1">
+                                    <label class="text-[9px] font-black text-gray-400 uppercase">Label Dokumen Pendukung</label>
+                                    <input type="text" id="label-pendukung" value="{{ $settings['permohonan_label_pendukung'] ?? 'Dokumen Pendukung Tambahan' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -86,6 +190,28 @@
 
                 <!-- DYNAMIC SECTION BUILDER -->
                 <div class="space-y-6">
+                    <!-- NEW: HAK-HAK PEMOHON EDITOR -->
+                    <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-emerald-500">
+                        <div class="p-8 space-y-6">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center text-emerald-600">
+                                        <i class="fas fa-gavel"></i>
+                                    </div>
+                                    <h4 class="text-xs font-black text-emerald-600 uppercase tracking-widest">Hak-hak Pemohon Informasi</h4>
+                                </div>
+                                <span class="px-3 py-1 bg-emerald-50 text-emerald-600 rounded-lg text-[9px] font-black tracking-widest uppercase">Legal Section</span>
+                            </div>
+                            
+                            <div class="space-y-4">
+                                <p class="text-[10px] text-gray-500 font-bold uppercase">Konten Undang-undang & Hak Pemohon (Akan tampil sebagai tombol klik di form publik)</p>
+                                <textarea id="permohonan-hak-hak-editor" class="tinymce-editor">
+                                    {!! $settings['permohonan_hak_hak'] ?? '' !!}
+                                </textarea>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- NEW: PAGE CONTENT EDITOR -->
                     <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-[#004a99]">
                         <div class="p-8 space-y-6">
@@ -93,7 +219,7 @@
                                 <div class="w-10 h-10 bg-[#004a99]/10 rounded-xl flex items-center justify-center text-[#004a99]">
                                     <i class="fas fa-file-alt"></i>
                                 </div>
-                                <h4 class="text-xs font-black text-[#004a99] uppercase tracking-widest">Informasi Halaman Publik</h4>
+                                <h4 class="text-xs font-black text-[#004a99] uppercase tracking-widest">Konten Banner & Narasi Halaman</h4>
                             </div>
                             
                             <div class="grid grid-cols-1 gap-6">
@@ -134,7 +260,7 @@
                                 <i class="fas fa-plus-circle"></i>
                             </div>
                             <div class="flex-1">
-                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Judul Bagian Kuesioner (Field Tambahan)</label>
+                                <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Judul Bagian Kuesioner (Field Tambahan Custom)</label>
                                 <input type="text" id="section-title-input" value="{{ $sectionTitle ?? 'INFORMASI TAMBAHAN' }}" 
                                     class="w-full bg-transparent border-none p-0 text-xl md:text-2xl font-black text-[#004a99] focus:ring-0 uppercase placeholder-gray-200"
                                     placeholder="CONTOH: DATA PENUNJANG">
@@ -152,11 +278,11 @@
                                         <i class="fas fa-grip-vertical text-xl"></i>
                                     </div>
                                     <div class="flex-1 space-y-1">
-                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest">Label Kuesioner</label>
+                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">Label Field Kuesioner</label>
                                         <input type="text" class="field-label w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-700 focus:bg-white focus:ring-2 focus:ring-[#004a99]/10 focus:border-[#004a99] outline-none transition-all uppercase" value="{{ $field['label'] ?? '' }}">
                                     </div>
                                     <div class="w-full md:w-1/4 space-y-1">
-                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest text-gray-800">Tipe Input</label>
+                                        <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest leading-none">Tipe Data</label>
                                         <select class="field-type w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-[#004a99] focus:bg-white focus:ring-2 focus:ring-[#004a99]/10 outline-none transition-all appearance-none cursor-pointer">
                                             <option value="text" {{ ($field['type'] ?? '') == 'text' ? 'selected' : '' }}>TEKS PENDEK</option>
                                             <option value="textarea" {{ ($field['type'] ?? '') == 'textarea' ? 'selected' : '' }}>PARAGRAF</option>
@@ -237,6 +363,31 @@
             let permohonanWarningTitle = $('#permohonan-warning-title-input').val().trim();
             let permohonanWarningText = $('#permohonan-warning-text-input').val().trim();
 
+            // Core Field Settings
+            let coreSettings = {
+                permohonan_label_title_akun: $('#label-title-akun').val().trim(),
+                permohonan_label_username: $('#label-username').val().trim(),
+                permohonan_label_email: $('#label-email').val().trim(),
+                permohonan_label_password: $('#label-password').val().trim(),
+                permohonan_label_password_confirmation: $('#label-password-confirm').val().trim(),
+                permohonan_label_title_identitas: $('#label-title-identitas').val().trim(),
+                permohonan_label_nama: $('#label-nama').val().trim(),
+                permohonan_label_jenis_identitas: $('#label-jenis-identitas').val().trim(),
+                permohonan_label_nomor_identitas: $('#label-nomor-identitas').val().trim(),
+                permohonan_label_alamat: $('#label-alamat').val().trim(),
+                permohonan_label_telepon: $('#label-telepon').val().trim(),
+                permohonan_label_pekerjaan: $('#label-pekerjaan').val().trim(),
+                permohonan_label_lembaga: $('#label-lembaga').val().trim(),
+                permohonan_label_ktp: $('#label-ktp').val().trim(),
+                permohonan_label_title_permohonan: $('#label-title-permohonan').val().trim(),
+                permohonan_label_judul_informasi: $('#label-judul-informasi').val().trim(),
+                permohonan_label_tujuan: $('#label-tujuan').val().trim(),
+                permohonan_label_metode: $('#label-metode').val().trim(),
+                permohonan_label_pendukung: $('#label-pendukung').val().trim(),
+                permohonan_show_pekerjaan: $('#show-pekerjaan').is(':checked') ? 'yes' : 'no',
+                permohonan_show_lembaga: $('#show-lembaga').is(':checked') ? 'yes' : 'no'
+            };
+
             let fields = [];
             $('.custom-field').each(function() {
                 let label = $(this).find('.field-label').val().trim();
@@ -254,6 +405,12 @@
             let originalContent = $btn.html();
             $btn.html('<i class="fas fa-spinner fa-spin mr-2"></i> MENYIMPAN...').prop('disabled', true);
 
+            // Get TinyMCE content for Hak-hak Pemohon
+            let permohonanHakHak = '';
+            if (typeof tinymce !== 'undefined' && tinymce.get('permohonan-hak-hak-editor')) {
+                permohonanHakHak = tinymce.get('permohonan-hak-hak-editor').getContent();
+            }
+
             $.ajax({
                 url: "{{ route('admin.permohonan.save_form') }}",
                 type: 'POST',
@@ -264,6 +421,8 @@
                     permohonan_subtitle: permohonanSubtitle,
                     permohonan_warning_title: permohonanWarningTitle,
                     permohonan_warning_text: permohonanWarningText,
+                    permohonan_hak_hak: permohonanHakHak,
+                    core_settings: coreSettings,
                     fields: fields
                 },
                 success: function(response) {

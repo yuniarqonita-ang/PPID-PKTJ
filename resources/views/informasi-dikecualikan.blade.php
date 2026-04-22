@@ -102,7 +102,7 @@
                                     <div>
                                         <h6 class="fw-bold mb-1 text-muted">{{ $item->judul }}</h6>
                                         <p class="small text-muted mb-0">{{ $item->deskripsi ?? 'Informasi Rahasia' }}</p>
-                                        <small class="text-secondary">{{ \Carbon\Carbon::parse($item->tanggal)->format('Y') }}</small>
+                                        <small class="text-secondary">{{ \Carbon\Carbon::parse($item->created_at)->format('Y') }}</small>
                                     </div>
                                 </div>
                                 <div class="badge-locked">

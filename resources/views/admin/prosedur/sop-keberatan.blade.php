@@ -7,21 +7,33 @@
 @section('content')
 <div class="max-w-7xl mx-auto space-y-8 animate-fade-in lg:px-8">
     
-    <!-- HEADER SECTION - ULTRA CLARITY -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-            <h1 class="text-4xl font-black text-[#002b5c] tracking-tight">
-                SOP <span class="text-[#004a99]">Keberatan Informasi</span>
-            </h1>
-            <p class="text-slate-700 text-lg font-bold mt-2">Prosedur Pengajuan & Penanganan Keberatan Publik</p>
-        </div>
-        <div class="flex items-center gap-4">
-            <a href="{{ route('dashboard') }}" class="inline-flex items-center text-[#002b5c] hover:text-black transition-colors text-sm font-black uppercase tracking-widest">
-                <i class="fas fa-arrow-left mr-3"></i> DASHBOARD
-            </a>
-            <a href="http://ppid.pktj.ac.id/prosedur/sop-penanganan-keberatan" target="_blank" class="px-6 py-4 bg-white border-2 border-slate-200 text-[#002b5c] font-black rounded-xl shadow-md hover:bg-slate-50 transition-all flex items-center text-sm">
-                <i class="fas fa-eye mr-3"></i> LIHAT PUBLIK
-            </a>
+    <!-- DASHBOARD-STYLE HEADER SECTION -->
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Sistem SOP: Aktif</h2>
+                </div>
+                
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
+                        SOP <span class="text-[#ffc107]">Keberatan Informasi</span>
+                    </h1>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Prosedur Pengajuan & Penanganan Keberatan Publik.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="http://ppid.pktj.ac.id/prosedur/sop-penanganan-keberatan" target="_blank" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                    <i class="fas fa-eye mr-3"></i> Lihat Publik
+                </a>
+                <button type="submit" form="sop-form" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
+                    <i class="fas fa-save mr-3"></i> Simpan Prosedur
+                </button>
+            </div>
         </div>
     </div>
 
@@ -29,11 +41,11 @@
         @csrf
 
         <!-- HERO CONFIGURATION -->
-        <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden">
+        <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 overflow-hidden">
             <div class="p-10 space-y-10">
                 <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8">
-                    <h3 class="text-xl font-black text-[#002b5c] uppercase tracking-widest flex items-center">
-                        <span class="w-10 h-10 bg-[#ffc107] text-[#002b5c] rounded-xl flex items-center justify-center mr-4 text-sm">
+                    <h3 class="text-xl font-black text-[#004a99] uppercase tracking-widest flex items-center">
+                        <span class="w-10 h-10 bg-[#ffc107] text-[#004a99] rounded-xl flex items-center justify-center mr-4 text-sm">
                             <i class="fas fa-window-maximize"></i>
                         </span>
                         Konfigurasi Banner Prosedur
@@ -42,14 +54,14 @@
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                     <div class="space-y-3">
-                        <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Judul Banner Utama</label>
+                        <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Judul Banner Utama</label>
                         <input type="text" name="judul_hero" value="{{ $settings['sop_keberatan_judul_hero'] ?? 'SOP Penanganan Keberatan Informasi' }}"
-                            class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]">
+                            class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 text-lg font-bold text-[#004a99]">
                     </div>
                     <div class="space-y-3">
-                        <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Tagline Kutipan</label>
+                        <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Tagline Kutipan</label>
                         <input type="text" name="tagline_hero" value="{{ $settings['sop_keberatan_tagline_hero'] ?? '' }}"
-                            class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]">
+                            class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 text-lg font-bold text-[#004a99]">
                     </div>
                 </div>
             </div>
@@ -58,13 +70,13 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
             
             <!-- COLUMN 1: POSTER -->
-            <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden">
+            <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 overflow-hidden">
                 <div class="p-10 space-y-8">
                     <div class="flex items-center justify-between border-b-2 border-slate-50 pb-6">
-                        <h4 class="text-lg font-black text-[#002b5c] uppercase tracking-widest">
+                        <h4 class="text-lg font-black text-[#004a99] uppercase tracking-widest">
                             <i class="fas fa-image mr-3 text-[#ffc107]"></i> POSTER SOP UTAMA
                         </h4>
-                        <button type="button" onclick="document.getElementById('gambar_sop').click()" class="px-5 py-2 bg-[#002b5c] text-white font-black text-sm uppercase tracking-widest rounded-xl hover:bg-black transition-all border-none cursor-pointer">UPLOAD</button>
+                        <button type="button" onclick="document.getElementById('gambar_sop').click()" class="px-5 py-2 bg-[#004a99] text-white font-black text-sm uppercase tracking-widest rounded-xl hover:bg-black transition-all border-none cursor-pointer">UPLOAD</button>
                     </div>
 
                     <div class="relative aspect-[3/4] bg-slate-50 rounded-[2rem] overflow-hidden border-2 border-dashed border-slate-200 flex items-center justify-center">
@@ -82,13 +94,13 @@
             </div>
 
             <!-- COLUMN 2: INFOGRAFIS -->
-            <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden">
+            <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 overflow-hidden">
                 <div class="p-10 space-y-8">
                     <div class="flex items-center justify-between border-b-2 border-slate-50 pb-6">
-                        <h4 class="text-lg font-black text-[#002b5c] uppercase tracking-widest">
+                        <h4 class="text-lg font-black text-[#004a99] uppercase tracking-widest">
                             <i class="fas fa-project-diagram mr-3 text-[#ffc107]"></i> INFOGRAFIS ALUR
                         </h4>
-                        <button type="button" onclick="document.getElementById('gambar_proses').click()" class="px-5 py-2 bg-[#002b5c] text-white font-black text-sm uppercase tracking-widest rounded-xl hover:bg-black transition-all border-none cursor-pointer">UPLOAD</button>
+                        <button type="button" onclick="document.getElementById('gambar_proses').click()" class="px-5 py-2 bg-[#004a99] text-white font-black text-sm uppercase tracking-widest rounded-xl hover:bg-black transition-all border-none cursor-pointer">UPLOAD</button>
                     </div>
 
                     <div class="relative aspect-[3/4] bg-slate-50 rounded-[2rem] overflow-hidden border-2 border-dashed border-slate-200 flex items-center justify-center">
@@ -109,8 +121,8 @@
 
         <!-- ACTION BAR -->
         <div class="flex justify-end gap-6 pt-10">
-            <button type="button" onclick="history.back()" class="px-8 py-4 bg-white border-2 border-slate-200 text-[#002b5c] font-black text-sm rounded-xl hover:bg-slate-50 transition-all tracking-widest border-none cursor-pointer uppercase">BATAL</button>
-            <button type="submit" class="px-12 py-4 bg-[#002b5c] text-white font-black text-sm rounded-xl shadow-2xl hover:bg-black transition-all tracking-widest border-none cursor-pointer uppercase">
+            <button type="button" onclick="history.back()" class="px-8 py-4 bg-white border-2 border-slate-200 text-[#004a99] font-black text-sm rounded-xl hover:bg-slate-50 transition-all tracking-widest border-none cursor-pointer uppercase">BATAL</button>
+            <button type="submit" class="px-12 py-4 bg-[#004a99] text-white font-black text-sm rounded-xl shadow-2xl hover:bg-black transition-all tracking-widest border-none cursor-pointer uppercase">
                 <i class="fas fa-save mr-3 text-[#ffc107]"></i> SIMPAN PERUBAHAN SOP
             </button>
         </div>

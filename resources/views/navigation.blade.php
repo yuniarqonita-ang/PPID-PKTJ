@@ -1,4 +1,4 @@
-﻿<nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0;">
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0;">
     <div class="container">
         <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="{{ route('home') }}">
             <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ" style="height: 50px; margin-right: 12px;">
@@ -62,9 +62,14 @@
                 </li>
             </ul>
 
-            <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="{{ route('permohonan.form') }}" style="font-size: 13px;">
-                PERMOHONAN INFORMASI
-            </a>
+            <div class="d-flex gap-2">
+                <a class="btn btn-warning fw-bold px-3 py-2 text-dark rounded-1 shadow-sm" href="{{ route('permohonan.form') }}" style="font-size: 11px;">
+                    PERMOHONAN INFORMASI
+                </a>
+                <a class="btn btn-danger fw-bold px-3 py-2 text-white rounded-1 shadow-sm" href="{{ route('keberatan.create') }}" style="font-size: 11px;">
+                    AJUKAN KEBERATAN
+                </a>
+            </div>
         </div>
     </div>
 </nav>

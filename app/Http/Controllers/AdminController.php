@@ -8,20 +8,24 @@ use Illuminate\Support\Facades\Storage;
 class AdminController extends Controller
 {
     /**
-     * Upload image for Summernote
+     * Upload image for TinyMCE 6
      */
     public function uploadImage(Request $request)
     {
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
             $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
-            $file->storeAs('public/summernote', $filename);
             
-            return response()->json([
-                'url' => asset('storage/summernote/' . $filename)
-            ]);
+            // Store in storage/app/public/editor_uploads
+            $path = $file->storeAs('public/editor_uploads', $filename);
+            
+            if ($path) {
+                return response()->json([
+                    'location' => asset('storage/editor_uploads/' . $filename)
+                ]);
+            }
         }
         
-        return response()->json(['error' => 'No image uploaded'], 400);
+        return response()->json(['error' => 'Gagal mengupload gambar. Pastikan file valid.'], 400);
     }
 }

@@ -4,12 +4,12 @@
 <div class="space-y-8 animate-fade-in lg:px-8">
 
     <!-- WELCOME HEADER - MAXIMUM CLARITY -->
-    <div class="bg-gradient-to-br from-[#002b5c] via-[#003d7a] to-[#004a99] rounded-[2.5rem] p-10 md:p-14 shadow-2xl text-white relative overflow-hidden">
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden">
         <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
         
         <div class="relative z-10 space-y-6">
-            <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#002b5c]">
-                <span class="w-2.5 h-2.5 bg-[#002b5c] rounded-full animate-ping"></span>
+            <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
                 <h2 class="text-[13px] font-black uppercase tracking-[3px]">Status Sistem: Aktif</h2>
             </div>
             
@@ -42,10 +42,10 @@
                     <i class="fas {{ $item['icon'] }}"></i>
                 </div>
                 <div>
-                   <span class="text-[13px] font-black text-[#002b5c] uppercase tracking-widest">STATISTIK TERBARU</span>
+                   <span class="text-[13px] font-black text-[#004a99] uppercase tracking-widest">STATISTIK TERBARU</span>
                 </div>
             </div>
-            <h3 class="text-4xl font-black text-[#002b5c] tracking-tighter">{{ number_format($item['val'], 0, ',', '.') }}</h3>
+            <h3 class="text-4xl font-black text-[#004a99] tracking-tighter">{{ number_format($item['val'], 0, ',', '.') }}</h3>
             <p class="text-[14px] font-black text-slate-600 uppercase tracking-widest mt-2">{{ $item['label'] }}</p>
         </div>
         @endforeach
@@ -57,7 +57,7 @@
             <div class="bg-white rounded-[2.5rem] shadow-md border border-slate-200 p-10">
                 <div class="flex items-center justify-between mb-10">
                     <div>
-                        <h3 class="text-2xl font-black text-[#002b5c] tracking-tight flex items-center">
+                        <h3 class="text-2xl font-black text-[#004a99] tracking-tight flex items-center">
                             <span class="w-3 h-8 bg-[#ffc107] rounded-full mr-4"></span>
                             Visualisasi Pengunjung
                         </h3>
@@ -71,21 +71,21 @@
 
             <div class="bg-white rounded-[2.5rem] shadow-md border border-slate-200 p-10">
                 <div class="flex items-center justify-between mb-10">
-                    <h3 class="text-2xl font-black text-[#002b5c] tracking-tight flex items-center">
+                    <h3 class="text-2xl font-black text-[#004a99] tracking-tight flex items-center">
                         <span class="w-3 h-8 bg-[#ffc107] rounded-full mr-4"></span>
                         Publikasi Terpopuler
                     </h3>
-                    <a href="{{ route('admin.berita.index') }}" class="px-6 py-3 bg-[#002b5c] text-[13px] font-black text-white uppercase tracking-widest rounded-xl hover:bg-black transition-all">Semua Publikasi</a>
+                    <a href="{{ route('admin.berita.index') }}" class="px-6 py-3 bg-[#004a99] text-[13px] font-black text-white uppercase tracking-widest rounded-xl hover:bg-black transition-all">Semua Publikasi</a>
                 </div>
                 
                 <div class="grid grid-cols-1 gap-5">
                     @forelse($topNews as $index => $news)
                     <div class="flex items-center p-6 rounded-2xl bg-white border-2 border-slate-50 hover:border-[#ffc107] hover:bg-slate-50 transition-all group">
-                        <div class="w-14 h-14 rounded-xl bg-[#002b5c] flex items-center justify-center font-black text-white mr-6 text-xl shadow-lg group-hover:bg-[#ffc107] group-hover:text-[#002b5c] transition-all">
+                        <div class="w-14 h-14 rounded-xl bg-[#004a99] flex items-center justify-center font-black text-white mr-6 text-xl shadow-lg group-hover:bg-[#ffc107] group-hover:text-[#004a99] transition-all">
                             {{ $index + 1 }}
                         </div>
                         <div class="flex-1">
-                            <h4 class="text-lg font-black text-[#002b5c] leading-tight">{{ $news->judul }}</h4>
+                            <h4 class="text-lg font-black text-[#004a99] leading-tight">{{ $news->judul }}</h4>
                             <p class="text-[13px] text-slate-700 mt-2 uppercase font-black tracking-widest flex items-center gap-4">
                                 <span class="bg-blue-50 px-3 py-1 rounded-md text-[#004a99]">{{ number_format($news->views ?? 0) }} VIEWS</span>
                                 <span class="text-slate-500">{{ \Carbon\Carbon::parse($news->created_at)->translatedFormat('d M Y') }}</span>
@@ -105,7 +105,7 @@
         <!-- RIGHT SIDEBAR -->
         <div class="space-y-8">
             <!-- REALTIME METRICS -->
-            <div class="bg-[#002b5c] rounded-[2.5rem] shadow-xl p-8 text-white">
+            <div class="bg-[#004a99] rounded-[2.5rem] shadow-xl p-8 text-white">
                 <h3 class="text-[13px] font-black text-[#ffc107] uppercase tracking-[3px] mb-8 border-b border-white/10 pb-6">Wawasan Realtime</h3>
                 <div class="space-y-10">
                     <div class="flex items-center justify-between">
@@ -134,20 +134,20 @@
             </div>
 
             <!-- DYNAMIC ACTIONS - MAXIMUM VISIBILITY -->
-            <div class="bg-white rounded-[2.5rem] shadow-lg p-10 border-2 border-[#002b5c]">
-                <h4 class="text-[13px] font-black text-[#002b5c] uppercase tracking-[3px] mb-8 border-b border-slate-100 pb-6">Aksi Cepat Admin</h4>
+            <div class="bg-white rounded-[2.5rem] shadow-lg p-10 border-2 border-[#004a99]">
+                <h4 class="text-[13px] font-black text-[#004a99] uppercase tracking-[3px] mb-8 border-b border-slate-100 pb-6">Aksi Cepat Admin</h4>
                 <div class="grid grid-cols-1 gap-4">
-                    <a href="{{ route('admin.berita.index') }}" class="flex items-center gap-5 p-5 bg-[#002b5c] rounded-2xl hover:bg-black transition-all group">
-                        <div class="w-12 h-12 bg-[#ffc107] text-[#002b5c] rounded-xl flex items-center justify-center text-xl">
+                    <a href="{{ route('admin.berita.index') }}" class="flex items-center gap-5 p-5 bg-[#004a99] rounded-2xl hover:bg-black transition-all group">
+                        <div class="w-12 h-12 bg-[#ffc107] text-[#004a99] rounded-xl flex items-center justify-center text-xl">
                             <i class="fas fa-plus"></i>
                         </div>
                         <span class="text-sm font-black uppercase text-white tracking-widest">Publikasi Baru</span>
                     </a>
-                    <a href="{{ route('admin.permohonan.index') }}" class="flex items-center gap-5 p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-[#002b5c] transition-all group">
-                        <div class="w-12 h-12 bg-white text-[#002b5c] border border-slate-200 rounded-xl flex items-center justify-center text-xl">
+                    <a href="{{ route('admin.permohonan.index') }}" class="flex items-center gap-5 p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-[#004a99] transition-all group">
+                        <div class="w-12 h-12 bg-white text-[#004a99] border border-slate-200 rounded-xl flex items-center justify-center text-xl">
                             <i class="fas fa-envelope"></i>
                         </div>
-                        <span class="text-sm font-black uppercase text-[#002b5c] tracking-widest">Pesan Masuk</span>
+                        <span class="text-sm font-black uppercase text-[#004a99] tracking-widest">Permohonan Informasi</span>
                     </a>
                 </div>
             </div>

@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6">
-    <div class="max-w-6xl mx-auto space-y-6">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 w-full">
+    <div class="w-full space-y-6">
         
         <!-- HEADER SECTION -->
         <div class="flex items-center justify-between gap-4">
@@ -16,7 +16,7 @@
                 <p class="text-slate-500 text-sm font-medium mt-1">Perbarui detail artikel dan sesuaikan informasi publikasinya</p>
             </div>
             <div class="flex items-center gap-3">
-                <button type="submit" class="px-8 py-4 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-[#002b5c] hover:scale-105 active:scale-95 transition-all flex items-center border-none">
+                <button type="submit" class="px-8 py-4 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-[#004a99] hover:scale-105 active:scale-95 transition-all flex items-center border-none">
                     <i class="fas fa-save mr-2 text-[#ffc107]"></i> Simpan Perubahan
                 </button>
             </div>
@@ -26,10 +26,10 @@
             <div class="space-y-8">
                 
                 <!-- CONTENT CARD -->
-                <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 overflow-hidden">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
                     <div class="p-8 md:p-10 space-y-8">
                         <div class="flex items-center justify-between border-b border-slate-50 pb-6">
-                            <h3 class="text-sm font-black text-[#002b5c] uppercase tracking-widest flex items-center">
+                            <h3 class="text-sm font-black text-[#004a99] uppercase tracking-widest flex items-center">
                                 <span class="w-8 h-8 bg-[#004a99] text-white rounded-lg flex items-center justify-center mr-3 text-xs">
                                     <i class="fas fa-pen-nib"></i>
                                 </span>
@@ -60,8 +60,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
                 
                 <!-- METADATA CARD -->
-                <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 p-8 space-y-8">
-                    <h4 class="text-xs font-black text-[#002b5c] uppercase tracking-widest border-b border-slate-50 pb-6 flex items-center">
+                <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 p-8 space-y-8">
+                    <h4 class="text-xs font-black text-[#004a99] uppercase tracking-widest border-b border-slate-50 pb-6 flex items-center">
                         <span class="w-2 h-5 bg-[#ffc107] rounded-full mr-3"></span>
                         Status & Media
                     </h4>
@@ -123,20 +123,8 @@
     </div>
 </div>
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+@push('scripts')
 <script>
-    tinymce.init({
-        selector: '.tinymce-editor',
-        plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link image table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 600,
-        branding: false,
-        elementpath: false,
-        menubar: false,
-        promotion: false,
-        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #475569; text-align: justify; }'
-    });
-
     function previewImage(input) {
         const preview = document.getElementById('image-preview');
         const img = preview.querySelector('img');
@@ -150,4 +138,4 @@
         }
     }
 </script>
-@endsection
+@endpush

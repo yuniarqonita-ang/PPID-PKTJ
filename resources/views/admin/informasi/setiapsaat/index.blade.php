@@ -1,26 +1,37 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6">
-    <div class="max-w-7xl mx-auto space-y-8">
-
-        <!-- HEADER SECTION -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
-                    <i class="fas fa-clock mr-2 text-[#ffc107]"></i> Informasi Setiap Saat
-                </h1>
-                <p class="text-gray-500 font-medium mt-1">Daftar informasi yang wajib tersedia setiap saat bila diminta oleh masyarakat</p>
+<div class="space-y-8 animate-fade-in lg:px-8">
+    
+    <!-- DASHBOARD-STYLE HEADER SECTION -->
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Sistem Setiap Saat: Aktif</h2>
+                </div>
+                
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
+                        Informasi <span class="text-[#ffc107]">Setiap Saat</span>
+                    </h1>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Daftar informasi yang wajib tersedia setiap saat bila diminta oleh masyarakat.</p>
+                </div>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="http://ppid.pktj.ac.id/informasi-publik/setiap-saat" target="_blank" class="px-6 py-3 bg-white border border-gray-200 text-[#004a99] font-bold rounded-xl shadow-sm hover:bg-gray-50 transition-all flex items-center">
-                    <i class="fas fa-eye mr-2"></i> Lihat Publik
+
+            <div class="flex items-center gap-4">
+                <a href="http://ppid.pktj.ac.id/informasi-publik/setiap-saat" target="_blank" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                    <i class="fas fa-eye mr-3"></i> Lihat Publik
                 </a>
-                <a href="{{ route('admin.informasi.setiapsaat.create') }}" class="px-6 py-3 bg-[#004a99] text-white font-bold rounded-xl shadow-lg hover:bg-blue-800 transition-all flex items-center">
-                    <i class="fas fa-plus mr-2 text-[#ffc107]"></i> Tambah Data
+                <a href="{{ route('admin.informasi.setiapsaat.create') }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
+                    <i class="fas fa-plus mr-3"></i> Tambah Data
                 </a>
             </div>
         </div>
+    </div>
 
         @if(session('success'))
             <div class="bg-green-100 border-l-4 border-green-500 p-4 rounded-xl shadow-sm flex items-center animate-fade-in-down">

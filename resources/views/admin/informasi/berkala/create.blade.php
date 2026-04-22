@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
-    <div class="max-w-5xl mx-auto space-y-6">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 w-full text-gray-800">
+    <div class="w-full space-y-6">
         
         <!-- HEADER SECTION -->
         <div class="flex items-center justify-between gap-4">
@@ -43,7 +43,7 @@
                                 Deskripsi Singkat (Opsional)
                             </label>
                             <textarea name="deskripsi" id="deskripsi" rows="4"
-                                class="w-full px-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-[#004a99]/10 focus:border-[#004a99] focus:outline-none transition-all shadow-sm resize-none"
+                                class="w-full px-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-[#004a99]/10 focus:border-[#004a99] focus:outline-none transition-all shadow-sm tinymce-editor"
                                 placeholder="Jelaskan secara singkat isi dari dokumen ini...">{{ old('deskripsi') }}</textarea>
                             @error('deskripsi') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>
@@ -126,6 +126,7 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
     function handleFileSelect(input) {
         if (input.files && input.files[0]) {
@@ -154,6 +155,7 @@
         info.classList.add('hidden');
     }
 </script>
+@endpush
 
 <style>
     .animate-fade-in-down { animation: fadeInDown 0.4s ease-out; }

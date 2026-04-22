@@ -3,18 +3,30 @@
 @section('content')
 <div class="space-y-8 animate-fade-in lg:px-8">
     
-    <!-- HEADER SECTION -->
-    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
-        <div>
-            <h1 class="text-4xl font-black text-[#002b5c] tracking-tight">
-                Tambah <span class="text-[#004a99]">Master DIP</span>
-            </h1>
-            <p class="text-slate-700 text-lg font-bold mt-2">Registrasi Inventaris Master Daftar Informasi Publik - Baru</p>
-        </div>
-        <div class="flex items-center gap-4">
-            <a href="{{ route('admin.layanan.daftar-informasi.index') }}" class="inline-flex items-center text-[#002b5c] hover:text-black transition-colors text-sm font-black uppercase tracking-widest leading-loose">
-                <i class="fas fa-arrow-left mr-3"></i> KEMBALI KE DAFTAR
-            </a>
+    <!-- DASHBOARD-STYLE HEADER SECTION -->
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Master DIP: Aktif</h2>
+                </div>
+                
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
+                        Tambah <span class="text-[#ffc107]">Data DIP</span>
+                    </h1>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Registrasi Inventaris Master Daftar Informasi Publik - Baru secara terpusat.</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-4">
+                <a href="{{ route('admin.layanan.daftar-informasi') }}" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                    <i class="fas fa-arrow-left mr-3"></i> Kembali
+                </a>
+            </div>
         </div>
     </div>
 
@@ -195,18 +207,4 @@
     </form>
 </div>
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-    tinymce.init({
-        selector: '.tinymce-editor',
-        plugins: 'lists link anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 600,
-        branding: false,
-        elementpath: false,
-        menubar: false,
-        promotion: false,
-        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #002b5c; text-align: justify; }'
-    });
-</script>
 @endsection
