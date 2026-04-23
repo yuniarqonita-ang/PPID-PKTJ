@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-blue: #004a99;
@@ -16,64 +17,100 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8faff;
             color: #1e293b;
+            line-height: 1.6;
         }
+
+        .outfit { font-family: 'Outfit', sans-serif; }
+
+        /* Hero Section */
         .hero-section {
-            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.9)), 
+            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.8)), 
                         url('https://images.unsplash.com/photo-1579546673336-0ca77063065b?q=80&w=2070');
             background-size: cover;
             background-position: center;
-            padding: 60px 0;
+            padding: 120px 0;
             color: white;
         }
-        .content-box {
+
+        .hero-content { position: relative; z-index: 10; }
+
+        .content-card {
             background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-            margin-top: -30px;
+            padding: 60px;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0, 74, 153, 0.1);
+            margin-top: -80px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
-            z-index: 10;
+            z-index: 20;
+            margin-bottom: 80px;
         }
-        .pagination-info {
-            font-size: 0.85rem;
-            color: #64748b;
-            margin-bottom: 10px;
-        }
-        .table-container {
-            border: 1px solid #e2e8f0;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .table {
-            margin-bottom: 0;
-        }
-        .table thead {
-            background-color: #f1f5f9;
-        }
-        .table thead th {
-            font-weight: 700;
+
+        .section-title {
             color: var(--primary-blue);
-            border-bottom: 2px solid #e2e8f0;
-            padding: 15px;
+            font-weight: 900;
+            margin-bottom: 40px;
+            border-left: 8px solid var(--secondary-gold);
+            padding-left: 25px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
         }
-        .table tbody td {
-            padding: 15px;
-            vertical-align: middle;
-            border-bottom: 1px solid #f1f5f9;
+
+        .info-item {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
-        .item-judul {
+
+        .info-item:hover {
+            transform: translateY(-10px);
+            background: white;
+            border-color: #f59e0b;
+            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.1);
+        }
+
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(245, 158, 11, 0.1);
+            color: #f59e0b;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 25px;
+            flex-shrink: 0;
+        }
+
+        .btn-download-premium {
+            background: var(--primary-blue);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 15px;
             font-weight: 700;
-            color: #1e293b;
-            display: block;
             text-decoration: none;
-            font-size: 1.05rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
-        .item-judul:hover { color: var(--primary-blue); }
-        .item-deskripsi {
-            font-style: italic;
-            font-size: 0.85rem;
+
+        .btn-download-premium:hover {
+            background: var(--secondary-gold);
+            color: var(--primary-blue);
+            transform: scale(1.05);
+        }
+
+        .rich-content {
             color: #64748b;
-            margin-top: 2px;
+            font-size: 1rem;
+            line-height: 1.8;
         }
     </style>
 </head>
@@ -82,50 +119,57 @@
     @include('navigation')
 
     <div class="hero-section">
-        <div class="container text-center">
-            <h1 class="display-5 fw-bold uppercase">Informasi Serta Merta</h1>
-            <p class="lead opacity-75">Informasi yang berkaitan dengan hajat hidup orang banyak dan situasi darurat.</p>
+        <div class="container text-center hero-content">
+            <h1 class="display-3 fw-black outfit uppercase">Informasi Serta Merta</h1>
+            <p class="lead opacity-75 mb-0">Informasi yang berkaitan dengan hajat hidup orang banyak dan situasi darurat.</p>
         </div>
     </div>
 
-    <div class="container py-5 mb-5">
-        <div class="content-box">
-            <h2 class="fw-bold mb-1" style="font-size: 2.2rem; color: #1e293b;">Informasi Serta Merta</h2>
-            <div class="pagination-info mb-4">
-                Showing <b>1-{{ count($informasi) }}</b> of <b>{{ count($informasi) }}</b> items.
-            </div>
+    <div class="container">
+        <div class="content-card">
+            <h2 class="section-title">Pengumuman Penting</h2>
 
-            <div class="table-container">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th style="width: 60px;" class="ps-4">#</th>
-                            <th>Judul</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($informasi as $index => $item)
-                            <tr>
-                                <td class="text-muted ps-4">{{ $index + 1 }}</td>
-                                <td>
-                                    <a href="{{ route('download.file', ['model' => 'sertamerta', 'id' => $item->id]) }}" class="item-judul">
-                                        {{ $item->judul }}
-                                    </a>
-                                    <div class="item-deskripsi">
-                                        Deskripsi : {{ $item->deskripsi ?? '-' }}
+            @include('components.konten-dinamis', ['prefix' => 'informasi_sertamerta'])
+
+            <div class="row mt-4">
+                @forelse($informasi as $item)
+                    <div class="col-12">
+                        <div class="info-item">
+                            <div class="d-flex align-items-start">
+                                <div class="info-icon">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h4 class="fw-bold outfit text-dark mb-3">{{ $item->judul }}</h4>
+                                    <div class="rich-content mb-4">
+                                        {!! $item->deskripsi ?? 'Tidak ada deskripsi terperinci untuk informasi ini.' !!}
                                     </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="2" class="text-center py-5">
-                                    <i class="fas fa-check-circle d-block mb-3 text-success opacity-25" style="font-size: 3rem;"></i>
-                                    Saat ini tidak ada informasi serta merta yang perlu diumumkan.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+                                    <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+                                        <div class="d-flex gap-3">
+                                            <span class="badge bg-light text-warning border px-3 py-2 rounded-pill">
+                                                <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->format('d M Y') }}
+                                            </span>
+                                            @if(isset($item->file_size))
+                                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">
+                                                <i class="fas fa-file-pdf me-1"></i> {{ $item->file_size }}
+                                            </span>
+                                            @endif
+                                        </div>
+                                        <a href="{{ route('download.file', ['model' => 'sertamerta', 'id' => $item->id]) }}" class="btn-download-premium">
+                                            <i class="fas fa-download"></i> Download Dokumen
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-check-circle fa-4x text-success mb-4 opacity-25"></i>
+                        <h3 class="text-muted">Data Belum Tersedia</h3>
+                        <p class="text-muted">Saat ini tidak ada informasi serta merta yang perlu diumumkan.</p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
@@ -135,3 +179,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

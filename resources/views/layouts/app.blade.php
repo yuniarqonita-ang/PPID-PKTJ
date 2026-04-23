@@ -411,7 +411,7 @@
                 image_advtab: true,
                 relative_urls: false,
                 remove_script_host: false,
-                convert_urls: true,
+                convert_urls: false,
                 // Handle CSRF Token for local uploads
                 images_upload_handler: function (blobInfo, progress) {
                     return new Promise((resolve, reject) => {

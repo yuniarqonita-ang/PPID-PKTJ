@@ -6,6 +6,8 @@ use App\Models\Keberatan;
 use App\Models\Permohonan;
 use App\Models\Dashboard;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Log;
 
 class KeberatanController extends Controller
 {
@@ -38,46 +40,58 @@ class KeberatanController extends Controller
      */
     public function storePublic(Request $request)
     {
-        $validated = $request->validate([
-            'nomor_registrasi_permohonan' => 'required',
-            'nama_pemohon' => 'required|string|max:255',
-            'pekerjaan' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'nomor_telepon' => 'required|string|max:50',
-            'email' => 'required|email|max:255',
-            'nama_kuasa' => 'nullable|string|max:255',
-            'alamat_kuasa' => 'nullable|string',
-            'nomor_telepon_kuasa' => 'nullable|string|max:50',
-            'alasan_keberatan_list' => 'required|array',
-            'alasan_keberatan_lainnya' => 'nullable|string',
-            'kasus_posisi' => 'nullable|string',
-            'file_ktp' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'file_surat_kuasa' => 'nullable|file|mimes:pdf|max:2048',
-        ]);
+        try {
+            $validated = $request->validate([
+                'nomor_registrasi_permohonan' => 'nullable|string',
+                'nama_pemohon' => 'required|string|max:255',
+                'pekerjaan' => 'required|string|max:255',
+                'alamat' => 'required|string',
+                'nomor_telepon' => 'required|string|max:50',
+                'email' => 'required|email|max:255',
+                'nama_kuasa' => 'nullable|string|max:255',
+                'alamat_kuasa' => 'nullable|string',
+                'nomor_telepon_kuasa' => 'nullable|string|max:50',
+                'alasan_keberatan_list' => 'required|array',
+                'alasan_keberatan_lainnya' => 'nullable|string',
+                'kasus_posisi' => 'nullable|string',
+                'file_ktp' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+                'file_surat_kuasa' => 'nullable|file|mimes:pdf|max:5120',
+            ]);
 
-        $permohonan = Permohonan::find($validated['nomor_registrasi_permohonan']);
+            // Create unique registration code for objection
+            $nomorKeberatan = 'KEB-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4));
 
-        $keberatan = new Keberatan($validated);
-        
-        if ($permohonan) {
-            $keberatan->permohonan_id = $permohonan->id;
+            // Find associated permohonan if exists (can be ID or username/reg code)
+            $permohonan = null;
+            if (!empty($validated['nomor_registrasi_permohonan'])) {
+                $permohonan = Permohonan::where('id', $validated['nomor_registrasi_permohonan'])
+                    ->orWhere('username', $validated['nomor_registrasi_permohonan'])
+                    ->first();
+            }
+
+            // Prepare data for model (exclude files and permohonan_id for now)
+            $data = Arr::except($validated, ['nomor_registrasi_permohonan', 'file_ktp', 'file_surat_kuasa']);
+            $data['nomor_registrasi_keberatan'] = $nomorKeberatan;
+            $data['permohonan_id'] = $permohonan ? $permohonan->id : null;
+            $data['tanggal_keberatan'] = now();
+            $data['status'] = 'Pending';
+
+            // Store files and add paths to data array
+            if ($request->hasFile('file_ktp')) {
+                $data['file_ktp'] = $request->file('file_ktp')->store('keberatan/ktp', 'public');
+            }
+            if ($request->hasFile('file_surat_kuasa')) {
+                $data['file_surat_kuasa'] = $request->file('file_surat_kuasa')->store('keberatan/kuasa', 'public');
+            }
+
+            $keberatan = Keberatan::create($data);
+
+            return redirect()->back()->with('success', 'Keberatan Anda telah berhasil diajukan dengan Nomor Registrasi: ' . $nomorKeberatan);
+
+        } catch (\Exception $e) {
+            Log::error('Keberatan Submission Error: ' . $e->getMessage());
+            return redirect()->back()->withInput()->with('error', 'Terjadi kesalahan saat mengirim keberatan: ' . $e->getMessage());
         }
-        
-        $keberatan->tanggal_keberatan = now();
-        $keberatan->nomor_registrasi_keberatan = 'KEB-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4));
-        
-        // Handle file uploads
-        if ($request->hasFile('file_ktp')) {
-            $keberatan->file_ktp = $request->file('file_ktp')->store('keberatan/ktp', 'public');
-        }
-
-        if ($request->hasFile('file_surat_kuasa')) {
-            $keberatan->file_surat_kuasa = $request->file('file_surat_kuasa')->store('keberatan/kuasa', 'public');
-        }
-
-        $keberatan->save();
-
-        return redirect()->back()->with('success', 'Keberatan Anda telah berhasil diajukan dengan Nomor Registrasi: ' . $keberatan->nomor_registrasi_keberatan);
     }
 
     /**

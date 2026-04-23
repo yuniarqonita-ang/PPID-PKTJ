@@ -22,7 +22,7 @@
                     <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
                         SOP <span class="text-[#ffc107]">Pengujian Konsekuensi</span>
                     </h1>
-                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Prosedur Uji Konsekuensi Informasi Di Kecualikan.</p>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Manajemen Prosedur Operasional Standar Pelayanan Publik.</p>
                 </div>
             </div>
 
@@ -37,7 +37,14 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.halaman-custom.store', 'sop_pengujian') }}" method="POST" enctype="multipart/form-data" class="space-y-10">
+    @if(session('success'))
+    <div class="bg-emerald-50 border-2 border-emerald-200 text-emerald-900 px-8 py-5 rounded-[2rem] flex items-center gap-5 shadow-sm">
+        <i class="fas fa-check-circle text-3xl text-emerald-500"></i>
+        <p class="font-black uppercase tracking-widest">{{ session('success') }}</p>
+    </div>
+    @endif
+
+    <form id="sop-form" action="{{ route('admin.halaman-custom.store', 'sop_pengujian') }}" method="POST" enctype="multipart/form-data" class="space-y-10">
         @csrf
 
         <!-- HERO CONFIGURATION -->
@@ -46,16 +53,16 @@
                 <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8">
                     <h3 class="text-xl font-black text-[#004a99] uppercase tracking-widest flex items-center">
                         <span class="w-10 h-10 bg-[#ffc107] text-[#004a99] rounded-xl flex items-center justify-center mr-4 text-sm">
-                            <i class="fas fa-microscope"></i>
+                            <i class="fas fa-window-maximize"></i>
                         </span>
-                        Konfigurasi Landing Page
+                        Konfigurasi Banner
                     </h3>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                     <div class="space-y-3">
                         <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Judul Banner Utama</label>
-                        <input type="text" name="judul_hero" value="{{ $settings['sop_pengujian_judul_hero'] ?? 'SOP Pengujian Konsekuensi Informasi' }}"
+                        <input type="text" name="judul_hero" value="{{ $settings['sop_pengujian_judul_hero'] ?? 'SOP Pengujian Konsekuensi' }}"
                             class="w-full px-6 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 text-lg font-bold text-[#004a99]">
                     </div>
                     <div class="space-y-3">
@@ -68,7 +75,6 @@
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            
             <!-- COLUMN 1: POSTER -->
             <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 overflow-hidden">
                 <div class="p-10 space-y-8">
@@ -108,7 +114,7 @@
                             <img id="preview_proses" src="{{ asset('storage/halaman/' . $settings['sop_pengujian_gambar_proses']) }}" class="w-full h-full object-contain">
                         @else
                             <div class="text-center">
-                                <i class="fas fa-project-diagram text-6xl text-slate-200 mb-4"></i>
+                                <i class="fas fa-images text-6xl text-slate-200 mb-4"></i>
                                 <p class="text-sm font-black text-slate-400 uppercase tracking-widest">Belum Ada Infografis</p>
                             </div>
                         @endif
@@ -116,19 +122,35 @@
                     </div>
                 </div>
             </div>
-            
+
+            <!-- FULL WIDTH: RICH TEXT CONTENT -->
+            <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl border-2 border-slate-100 p-10">
+                <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8 mb-10">
+                    <h4 class="text-xl font-black text-[#004a99] uppercase tracking-widest flex items-center">
+                        <i class="fas fa-edit mr-4 text-[#ffc107]"></i> Narasi Prosedur Lengkap
+                    </h4>
+                </div>
+                <div class="space-y-4">
+                    <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Detail Penjelasan Prosedur</label>
+                    <textarea name="konten" class="tinymce-editor">{{ $settings['sop_pengujian_konten'] ?? '' }}</textarea>
+                    <p class="text-sm font-bold text-slate-500 mt-2 uppercase tracking-widest">Gunakan editor ini untuk merinci langkah-langkah prosedur secara tekstual.</p>
+                </div>
+            </div>
         </div>
 
-        <!-- ACTION BAR -->
+        <!-- ACTION BAR - EXECUTIVE STYLE -->
         <div class="flex justify-end gap-6 pt-10">
-            <button type="button" onclick="history.back()" class="px-8 py-4 bg-white border-2 border-slate-200 text-[#004a99] font-black text-sm rounded-xl hover:bg-slate-50 transition-all tracking-widest border-none cursor-pointer uppercase">BATAL</button>
-            <button type="submit" class="px-12 py-4 bg-[#004a99] text-white font-black text-sm rounded-xl shadow-2xl hover:bg-black transition-all tracking-widest border-none cursor-pointer uppercase">
-                <i class="fas fa-save mr-3 text-[#ffc107]"></i> SIMPAN PROSEDUR PENGUJIAN
+            <button type="button" onclick="history.back()" class="px-10 py-5 bg-white border-2 border-slate-200 text-[#004a99] font-black text-sm rounded-2xl hover:bg-slate-50 transition-all tracking-widest border-none cursor-pointer uppercase">BATALKAN</button>
+            <button type="submit" class="px-16 py-5 bg-[#004a99] text-white font-black text-sm rounded-2xl shadow-2xl hover:bg-black transition-all tracking-widest border-none cursor-pointer uppercase">
+                <i class="fas fa-check-circle mr-3 text-[#ffc107]"></i> SIMPAN SELURUH PROSEDUR
             </button>
         </div>
     </form>
 </div>
 
+@endsection
+
+@push('scripts')
 <script>
     function previewImage(input, previewId) {
         if (input.files && input.files[0]) {
@@ -140,4 +162,4 @@
         }
     }
 </script>
-@endsection
+@endpush

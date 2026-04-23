@@ -8,9 +8,9 @@
         <div class="flex items-center justify-between text-gray-800">
             <div class="text-gray-800">
                 <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight text-gray-800">
-                    <i class="fas fa-plus-circle mr-2 text-[#ffc107] text-gray-800"></i> Buat Informasi <span class="text-gray-800">Dikecualikan</span>
+                    <i class="fas fa-lock mr-2 text-[#ffc107] text-gray-800"></i> Buat Informasi <span class="text-gray-800">Dikecualikan</span>
                 </h1>
-                <p class="text-gray-500 font-medium mt-1">Tambahkan data informasi yang bersifat rahasia/terbatas</p>
+                <p class="text-gray-500 font-medium mt-1">Tambahkan dokumen yang bersifat rahasia/terbatas</p>
             </div>
             <a href="{{ route('admin.informasi.dikecualikan') }}" class="text-xs font-black text-gray-400 hover:text-[#004a99] uppercase tracking-widest transition-all">
                 <i class="fas fa-times mr-2"></i> Batalkan
@@ -25,7 +25,7 @@
                     
                     <!-- Title Field -->
                     <div class="space-y-3">
-                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Judul Informasi</label>
+                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Judul Informasi</label>
                         <input type="text" name="judul" required value="{{ old('judul') }}"
                             class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-lg text-[#002b5c]">
                     </div>
@@ -39,7 +39,7 @@
 
                     <!-- Content/Description Field -->
                     <div class="space-y-3 text-gray-800">
-                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Ringkasan / Alasan Pengecualian</label>
+                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Deskripsi / Detail Informasi</label>
                         <div class="rounded-3xl overflow-hidden border-2 border-slate-100 text-gray-800">
                             <textarea name="deskripsi" id="editor" class="tinymce-editor text-gray-800">{{ old('deskripsi') }}</textarea>
                         </div>
@@ -75,7 +75,7 @@
 
             <div class="flex justify-end gap-4 pt-4 text-gray-800">
                 <button type="submit" class="px-16 py-6 bg-[#004a99] text-white font-black text-xs uppercase tracking-[3px] rounded-[2rem] shadow-2xl shadow-blue-900/20 hover:bg-black hover:-translate-y-1 transition-all border-none cursor-pointer">
-                    <i class="fas fa-shield-alt mr-3 text-[#ffc107]"></i> Simpan Informasi Rahasia
+                    <i class="fas fa-check-circle mr-3 text-[#ffc107]"></i> Simpan Dokumen
                 </button>
             </div>
 
@@ -83,20 +83,7 @@
     </div>
 </div>
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    tinymce.init({
-        selector: '.tinymce-editor',
-        plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link image table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 600,
-        branding: false,
-        elementpath: false,
-        menubar: false,
-        promotion: false,
-        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #1e293b; text-align: justify; }'
-    });
-
     function updateFileName(input) {
         const display = document.getElementById('file-name-display');
         if (input.files && input.files[0]) {

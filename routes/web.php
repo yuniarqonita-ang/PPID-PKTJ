@@ -20,6 +20,8 @@ use App\Http\Controllers\InformasiSertaMertaController;
 use App\Http\Controllers\InformasiSetiapSaatController;
 use App\Http\Controllers\InformasiDikecualikanController;
 use App\Http\Controllers\HalamanCustomController;
+use App\Http\Controllers\DaftarInformasiController;
+use App\Http\Controllers\KeberatanController;
 
 // ==========================================
 // 0. REDIRECT URL LAMA (.html)
@@ -154,8 +156,14 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     // Menu Layanan Informasi
     Route::name('admin.layanan.')->prefix('layanan')->group(function () {
-        Route::get('/daftar-informasi', function() { return view('admin.layanan.daftar-informasi'); })->name('daftar-informasi');
-        Route::get('/daftar-informasi/create', function() { return view('admin.layanan.daftar-informasi-create'); })->name('daftar-informasi.create');
+        // Daftar Informasi CRUD
+        Route::get('/daftar-informasi', [DaftarInformasiController::class, 'index'])->name('daftar-informasi');
+        Route::get('/daftar-informasi/create', [DaftarInformasiController::class, 'create'])->name('daftar-informasi.create');
+        Route::post('/daftar-informasi', [DaftarInformasiController::class, 'store'])->name('daftar-informasi.store');
+        Route::get('/daftar-informasi/{id}/edit', [DaftarInformasiController::class, 'edit'])->name('daftar-informasi.edit');
+        Route::put('/daftar-informasi/{id}', [DaftarInformasiController::class, 'update'])->name('daftar-informasi.update');
+        Route::delete('/daftar-informasi/{id}', [DaftarInformasiController::class, 'destroy'])->name('daftar-informasi.destroy');
+
         Route::get('/maklumat-pelayanan', function() { return view('admin.layanan.maklumat-pelayanan'); })->name('maklumat-pelayanan');
         Route::get('/laporan-layanan', function() { return view('admin.layanan.laporan-layanan'); })->name('laporan-layanan');
         Route::get('/laporan-akses', function() { return view('admin.layanan.laporan-akses'); })->name('laporan-akses');

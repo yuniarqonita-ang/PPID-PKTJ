@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-blue: #004a99;
@@ -16,83 +17,98 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8faff;
             color: #1e293b;
+            line-height: 1.6;
         }
+
+        .outfit { font-family: 'Outfit', sans-serif; }
+
+        /* Hero Section */
         .hero-section {
-            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.9)), 
+            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.8)), 
                         url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070');
             background-size: cover;
             background-position: center;
-            padding: 50px 0;
+            padding: 120px 0;
             color: white;
         }
-        .content-box {
+
+        .hero-content { position: relative; z-index: 10; }
+
+        .content-card {
             background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-            margin-top: -30px;
+            padding: 60px;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0, 74, 153, 0.1);
+            margin-top: -80px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
-            z-index: 10;
+            z-index: 20;
+            margin-bottom: 80px;
         }
-        .search-section {
-            background: #fff;
-            padding: 0;
+
+        .section-title {
+            color: var(--primary-blue);
+            font-weight: 900;
             margin-bottom: 40px;
+            border-left: 8px solid var(--secondary-gold);
+            padding-left: 25px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
         }
-        .form-label {
-            font-weight: 500;
+
+        .info-item {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-item:hover {
+            transform: translateY(-10px);
+            background: white;
+            border-color: #ef4444;
+            box-shadow: 0 20px 40px rgba(239, 68, 68, 0.1);
+        }
+
+        .info-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 25px;
+            flex-shrink: 0;
+        }
+
+        .badge-locked {
+            background: #f1f5f9;
             color: #64748b;
-            font-size: 0.95rem;
-            margin-bottom: 8px;
-        }
-        .form-control, .form-select {
-            padding: 12px 15px;
-            border-radius: 8px;
-            border: 1px solid #e2e8f0;
-            background-color: #fff;
-        }
-        .btn-cari {
-            background-color: #28a745;
-            color: white;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 6px;
-            font-weight: 600;
-            transition: all 0.3s;
-        }
-        .btn-cari:hover { background-color: #218838; color: white; }
-        
-        .table-container {
-            border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            overflow-x: auto;
-        }
-        .table {
-            margin-bottom: 0;
-            min-width: 1300px;
-        }
-        .table thead th {
-            background-color: #f1f5f9;
-            color: #004a99;
-            font-weight: 700;
-            text-align: center;
-            vertical-align: middle;
-            padding: 15px 10px;
-            border: 1px solid #e2e8f0;
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             font-size: 0.85rem;
+            border: 1px solid #e2e8f0;
         }
-        .table tbody td {
-            padding: 15px 10px;
-            vertical-align: top;
-            border: 1px solid #f1f5f9;
-            font-size: 0.85rem;
-            color: #334155;
-            line-height: 1.6;
-        }
-        .pagination-info {
-            font-size: 0.85rem;
+
+        .rich-content {
             color: #64748b;
-            margin-bottom: 10px;
+            font-size: 1rem;
+            line-height: 1.8;
         }
     </style>
 </head>
@@ -101,83 +117,57 @@
     @include('navigation')
 
     <div class="hero-section">
-        <div class="container text-center">
-            <h1 class="display-5 fw-bold uppercase">Informasi Dikecualikan</h1>
-            <p class="lead opacity-75">Daftar informasi yang tidak dapat dibuka untuk umum berdasarkan pengujian konsekuensi.</p>
+        <div class="container text-center hero-content">
+            <h1 class="display-3 fw-black outfit uppercase">Informasi Dikecualikan</h1>
+            <p class="lead opacity-75 mb-0">Daftar informasi yang tidak dapat dibuka untuk umum berdasarkan pengujian konsekuensi.</p>
         </div>
     </div>
 
-    <div class="container py-5 mb-5">
-        <div class="content-box">
-            <h2 class="fw-bold mb-4" style="font-size: 2.2rem; color: #1e293b;">Informasi Dikecualikan</h2>
+    <div class="container">
+        <div class="content-card">
+            <h2 class="section-title">Dokumen Terbatas</h2>
 
-            <form class="search-section row g-3">
-                <div class="col-md-4">
-                    <label class="form-label">Informasi</label>
-                    <input type="text" class="form-control" placeholder="">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Dasar Hukum Pengecualian</label>
-                    <input type="text" class="form-control" placeholder="">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Penanggung Jawab</label>
-                    <select class="form-select">
-                        <option value="">- Pilih Penanggung Jawab -</option>
-                        <option>PPID UTAMA</option>
-                        <option>Inspektorat Jenderal Kementerian Perhubungan</option>
-                        <option>Direktorat Jenderal Perhubungan Darat</option>
-                        <option>Direktorat Jenderal Perhubungan Laut</option>
-                        <option>Direktorat Jenderal Perhubungan Udara</option>
-                        <option>Direktorat Jenderal Perkeretaapian</option>
-                        <option>Badan Kebijakan Transportasi</option>
-                        <option>Badan Pengembangan Sumber Daya Manusia Perhubungan</option>
-                        <option>Badan Pengelola Transportasi Jabodetabek</option>
-                    </select>
-                </div>
-                <div class="col-12 mt-4">
-                    <button type="submit" class="btn-cari">Cari</button>
-                </div>
-            </form>
+            @include('components.konten-dinamis', ['prefix' => 'informasi_dikecualikan'])
 
-            <div class="pagination-info mt-5">
-                Showing <b>1-{{ count($informasi) }}</b> of <b>{{ count($informasi) }}</b> items.
-            </div>
-
-            <div class="table-container">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th style="width: 50px;">#</th>
-                            <th style="width: 250px;">Informasi</th>
-                            <th style="width: 200px;">Dasar Hukum Pengecualian Informasi</th>
-                            <th style="width: 200px;">Konsekuensi/Pertimbangan Dibuka Bagi Publik</th>
-                            <th style="width: 200px;">Konsekuensi/Pertimbangan Ditutup Bagi Publik</th>
-                            <th style="width: 150px;">Jangka Waktu</th>
-                            <th style="width: 200px;">Penanggung Jawab</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($informasi as $index => $item)
-                            <tr>
-                                <td class="text-center">{{ $index + 1 }}</td>
-                                <td class="fw-bold" style="color: #004a99;">{{ $item->judul }}</td>
-                                <td>{{ $item->dasar_hukum ?? '-' }}</td>
-                                <td>{{ $item->konsekuensi_buka ?? '-' }}</td>
-                                <td>{{ $item->konsekuensi_tutup ?? '-' }}</td>
-                                <td>{{ $item->jangka_waktu ?? '-' }}</td>
-                                <td>{{ $item->penanggung_jawab ?? '-' }}</td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="7" class="text-center py-5">
-                                    <i class="fas fa-shield-alt d-block mb-3 opacity-25" style="font-size: 3rem;"></i>
-                                    Belum ada data informasi dikecualikan tersedia.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+            <div class="row mt-4">
+                @forelse($informasi as $item)
+                    <div class="col-12">
+                        <div class="info-item">
+                            <div class="d-flex align-items-start">
+                                <div class="info-icon">
+                                    <i class="fas fa-lock"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <h4 class="fw-bold outfit text-dark mb-3">{{ $item->judul }}</h4>
+                                    <div class="rich-content mb-4">
+                                        {!! $item->deskripsi ?? 'Informasi ini dikecualikan berdasarkan ketentuan yang berlaku.' !!}
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between pt-3 border-top">
+                                        <div class="d-flex gap-3">
+                                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">
+                                                <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->format('d M Y') }}
+                                            </span>
+                                            @if(isset($item->jangka_waktu))
+                                            <span class="badge bg-light text-danger border px-3 py-2 rounded-pill">
+                                                <i class="fas fa-clock me-1"></i> {{ $item->jangka_waktu }}
+                                            </span>
+                                            @endif
+                                        </div>
+                                        <div class="badge-locked">
+                                            <i class="fas fa-shield-alt"></i> DIKECUALIKAN
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-shield-alt fa-4x text-muted mb-4 opacity-25"></i>
+                        <h3 class="text-muted">Data Belum Tersedia</h3>
+                        <p class="text-muted">Belum ada data informasi dikecualikan tersedia saat ini.</p>
+                    </div>
+                @endforelse
             </div>
         </div>
     </div>
@@ -187,3 +177,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+

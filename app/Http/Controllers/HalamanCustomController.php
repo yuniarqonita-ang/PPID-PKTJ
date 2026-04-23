@@ -13,38 +13,43 @@ class HalamanCustomController extends Controller
      */
     public function store(Request $request, $type)
     {
-        $data = $request->except(['_token', '_method']);
+        // 1. Handle regular inputs (text, date, tinymce html)
+        $inputs = $request->except(['_token', '_method']);
         
-        foreach ($data as $key => $value) {
+        foreach ($inputs as $key => $value) {
+            // Skip keys that are actually files
+            if ($request->hasFile($key)) continue;
+
             $settingKey = $type . '_' . $key;
             
-            // Handle file uploads
-            if ($request->hasFile($key)) {
-                $file = $request->file($key);
+            if(!is_array($value)) {
+                Dashboard::updateOrCreate(
+                    ['key' => $settingKey],
+                    ['value' => $value ?? '', 'type' => 'text', 'description' => "Teks dinamis untuk $type $key"]
+                );
+            }
+        }
+
+        // 2. Handle file uploads
+        foreach ($request->allFiles() as $key => $file) {
+            $settingKey = $type . '_' . $key;
+            
+            if (!is_array($file) && $file->isValid()) {
+                $filename = time() . '_' . $settingKey . '.' . $file->getClientOriginalExtension();
                 
-                if (!is_array($file)) {
-                    $filename = time() . '_' . $settingKey . '.' . $file->getClientOriginalExtension();
-                    $file->storeAs('public/halaman', $filename);
-                    
-                    // Delete old file if exists
-                    $old = Dashboard::where('key', $settingKey)->first();
-                    if ($old && $old->value && Storage::exists('public/halaman/' . $old->value)) {
-                        Storage::delete('public/halaman/' . $old->value);
-                    }
-                    
-                    Dashboard::updateOrCreate(
-                        ['key' => $settingKey],
-                        ['value' => $filename, 'type' => 'file', 'description' => "File untuk $type $key"]
-                    );
+                // Store in storage/app/public/halaman
+                $file->storeAs('halaman', $filename, 'public');
+                
+                // Delete old file if exists
+                $old = Dashboard::where('key', $settingKey)->first();
+                if ($old && $old->value && Storage::disk('public')->exists('halaman/' . $old->value)) {
+                    Storage::disk('public')->delete('halaman/' . $old->value);
                 }
-            } else {
-                // Regular inputs (text, date, tinymce html)
-                if(!is_array($value)) {
-                    Dashboard::updateOrCreate(
-                        ['key' => $settingKey],
-                        ['value' => $value ?? '', 'type' => 'text', 'description' => "Teks dinamis untuk $type $key"]
-                    );
-                }
+                
+                Dashboard::updateOrCreate(
+                    ['key' => $settingKey],
+                    ['value' => $filename, 'type' => 'file', 'description' => "File untuk $type $key"]
+                );
             }
         }
 

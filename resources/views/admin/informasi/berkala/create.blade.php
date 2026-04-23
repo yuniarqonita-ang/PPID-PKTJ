@@ -126,6 +126,8 @@
     </div>
 </div>
 
+@endsection
+
 @push('scripts')
 <script>
     function handleFileSelect(input) {

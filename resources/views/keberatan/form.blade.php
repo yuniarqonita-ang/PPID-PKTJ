@@ -259,8 +259,8 @@
                     <div class="row g-4">
                         <div class="col-12">
                             <div class="form-group">
-                                <label for="nomor_registrasi_permohonan">ID Permohonan (Referensi)<span class="required-star">*</span></label>
-                                <input type="number" class="form-control" name="nomor_registrasi_permohonan" placeholder="Masukkan ID permohonan yang diajukan keberatan..." required>
+                                <label for="nomor_registrasi_permohonan">ID Permohonan (Referensi - Opsional)</label>
+                                <input type="text" class="form-control" name="nomor_registrasi_permohonan" placeholder="Masukkan ID permohonan yang diajukan keberatan (jika ada)..." value="{{ old('nomor_registrasi_permohonan') }}">
                                 @error('nomor_registrasi_permohonan') <div class="invalid-feedback">{{ $message }}</div> @enderror
                             </div>
                         </div>
@@ -420,7 +420,7 @@
         </div>
     </div>
 
-    @include('layouts.footer')
+    @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
