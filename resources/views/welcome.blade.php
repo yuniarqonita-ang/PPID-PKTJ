@@ -49,35 +49,13 @@
         }
 
         /* Hero Section - The WOW Factor */
-        .hero-section {
-            background: linear-gradient(-45deg, var(--primary-blue), #0066CC, #1A3A52, #002b5c);
-            background-size: 400% 400%;
-            animation: gradient-animation 15s ease infinite;
-            min-height: 85vh;
-            display: flex;
-            align-items: center;
-            position: relative;
-            padding: 100px 0;
-            overflow: hidden;
-        }
-
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* SVG Waves & Patterns */
-        .hero-shapes {
-            position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .hero-content-wrapper {
-            position: relative;
-            z-index: 10;
+                .hero-section {
+            background: linear-gradient(rgba(0, 74, 153, 0.8), rgba(0, 74, 153, 0.8)), 
+                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0;
+            color: white;
             text-align: center;
         }
 

@@ -365,6 +365,37 @@ class PermohonanController extends Controller
 
         return response()->stream($callback, 200, $headers);
     }
+    public function exportReportWord(Request $request)
+    {
+        $startDate = $request->input('start_date', date('Y-m-01'));
+        $endDate = $request->input('end_date', date('Y-m-t'));
+
+        $submissions = Permohonan::whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
+            ->orderBy('created_at', 'asc')
+            ->get();
+
+        $settings = Dashboard::pluck('value', 'key')->toArray();
+
+        $ppid_name = $settings['report_ppid_name'] ?? '..........................';
+        $ppid_nip = $settings['report_ppid_nip'] ?? '..........................';
+        $menteri_name = $settings['report_menteri_name'] ?? 'BUDI KARYA SUMADI';
+
+        $header = "
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head><meta charset='utf-8'><title>Laporan Bulanan PPID</title></head>
+            <body>
+        ";
+        $footer = "</body></html>";
+
+        $content = view('admin.reports.templates.laporan_bulanan_word', compact('submissions', 'startDate', 'endDate', 'ppid_name', 'ppid_nip', 'menteri_name'))->render();
+
+        $filename = "Laporan_Bulanan_PPID_" . $startDate . "_sd_" . $endDate . ".doc";
+
+        return response($header . $content . $footer)
+            ->header('Content-Type', 'application/msword')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
+
     public function destroy(Permohonan $permohonan)
     {
         $permohonan->delete();

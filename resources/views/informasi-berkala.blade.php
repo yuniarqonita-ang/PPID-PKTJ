@@ -16,9 +16,9 @@
             background-color: #f8faff;
             color: #1e293b;
         }
-        .hero-section {
+                .hero-section {
             background: linear-gradient(rgba(0, 74, 153, 0.8), rgba(0, 74, 153, 0.8)), 
-                        url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070');
+                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069');
             background-size: cover;
             background-position: center;
             padding: 80px 0;

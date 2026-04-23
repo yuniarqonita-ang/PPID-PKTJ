@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0;">
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0; position: relative; z-index: 1050;">
     <div class="container">
         <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="{{ route('home') }}">
             <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ" style="height: 50px; margin-right: 12px;">
@@ -12,7 +12,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROFIL PPID</a>
+                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">PROFIL PPID</a>
                     <ul class="dropdown-menu" style="min-width: 280px;">
                         <li><a class="dropdown-item" href="{{ route('profil.ppid.html') }}">Profil PPID</a></li>
                         <li><a class="dropdown-item" href="{{ route('profil.tugas.html') }}">Tugas dan Tanggung Jawab PPID</a></li>
@@ -24,7 +24,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">INFORMASI PUBLIK</a>
+                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">INFORMASI PUBLIK</a>
                     <ul class="dropdown-menu" style="min-width: 250px;">
                         <li><a class="dropdown-item" href="{{ route('informasi.berkala') }}">Informasi Berkala</a></li>
                         <li><a class="dropdown-item" href="{{ route('informasi.serta-merta') }}">Informasi Serta Merta</a></li>
@@ -34,7 +34,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">LAYANAN INFORMASI</a>
+                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">LAYANAN INFORMASI</a>
                     <ul class="dropdown-menu" style="min-width: 320px;">
                         <li><a class="dropdown-item" href="{{ route('layanan.daftar-informasi') }}">Daftar Informasi Publik</a></li>
                         <li><a class="dropdown-item" href="{{ route('layanan.maklumat-pelayanan') }}">Maklumat Pelayanan & Standar Biaya</a></li>
@@ -46,7 +46,7 @@
                 </li>
 
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#">PROSEDUR</a>
+                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">PROSEDUR</a>
                     <ul class="dropdown-menu" style="min-width: 380px;">
                         <li><a class="dropdown-item" href="{{ route('prosedur.sop-permintaan') }}">SOP Permintaan Informasi Publik</a></li>
                         <li><a class="dropdown-item" href="{{ route('prosedur.sop-keberatan') }}">SOP Penanganan Keberatan</a></li>
