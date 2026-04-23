@@ -3,182 +3,97 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $settings['layanan_daftar_judul_hero'] ?? 'Daftar Informasi Publik' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Daftar Informasi Publik - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: {{ $settings['primary_color'] ?? '#004A99' }};
-            --secondary-gold: {{ $settings['secondary_color'] ?? '#FFC107' }};
+            --primary-blue: #004a99;
+            --secondary-gold: #ffc107;
         }
-        
         body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f8faff; 
+            font-family: 'Inter', sans-serif;
+            background-color: #f8faff;
             color: #1e293b;
         }
-
-        .outfit { font-family: 'Outfit', sans-serif; }
-
-        /* Hero Section */
         .hero-section {
-            background: linear-gradient(-45deg, var(--primary-blue), #0066CC, #1A3A52, #002b5c);
-            background-size: 400% 400%;
-            animation: gradient-animation 15s ease infinite;
-            padding: 100px 0;
+            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.9)), 
+                        url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            padding: 50px 0;
             color: white;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
         }
-
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.1);
-        }
-
-        .hero-content { position: relative; z-index: 10; }
-
-        .search-container {
-            max-width: 600px;
-            margin: 30px auto 0;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            padding: 10px;
-            border-radius: 25px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            display: flex;
-            gap: 10px;
-        }
-
-        .search-input {
-            background: transparent;
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            width: 100%;
-            font-weight: 600;
-        }
-
-        .search-input::placeholder { color: rgba(255,255,255,0.7); }
-        .search-input:focus { outline: none; }
-
-        .btn-search {
-            background: var(--secondary-gold);
-            color: var(--primary-blue);
-            border: none;
-            padding: 10px 25px;
-            border-radius: 18px;
-            font-weight: 800;
-            transition: all 0.3s ease;
-        }
-
-        .btn-search:hover { transform: scale(1.05); background: #fff; }
-
-        .content-card {
+        .content-box {
             background: white;
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0, 74, 153, 0.05);
-            margin-top: -60px;
-            border: 1px solid rgba(0, 74, 153, 0.05);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            margin-top: -30px;
             position: relative;
-            z-index: 20;
-            margin-bottom: 50px;
+            z-index: 10;
         }
-
-        .section-title {
-            color: var(--primary-blue);
-            font-weight: 900;
-            margin-bottom: 30px;
-            border-left: 6px solid var(--secondary-gold);
-            padding-left: 20px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
+        .search-section {
+            background: #fff;
+            padding: 0;
+            margin-bottom: 40px;
         }
-
-        .info-item {
-            background: #f8fafc;
-            border-radius: 20px;
-            padding: 25px;
-            margin-bottom: 20px;
-            border: 1px solid #e2e8f0;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .info-item:hover {
-            transform: translateX(10px);
-            border-color: var(--primary-blue);
-            background: white;
-            box-shadow: 0 10px 25px rgba(0, 74, 153, 0.05);
-        }
-
-        .info-icon {
-            width: 50px;
-            height: 50px;
-            background: var(--primary-blue);
-            color: white;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            margin-right: 20px;
-        }
-
-        .btn-download-premium {
-            background: var(--secondary-gold);
-            color: var(--primary-blue);
-            font-weight: 800;
-            padding: 10px 20px;
-            border-radius: 12px;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .btn-download-premium:hover {
-            background: var(--primary-blue);
-            color: white;
-            transform: scale(1.05);
-        }
-
-        .filter-badge {
-            padding: 8px 16px;
-            border-radius: 50px;
-            background: #f1f5f9;
+        .form-label {
+            font-weight: 500;
             color: #64748b;
-            font-weight: 700;
-            font-size: 0.8rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-right: 10px;
-            border: 1px solid transparent;
-            cursor: pointer;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+        .form-control, .form-select {
+            padding: 12px 15px;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background-color: #fff;
+        }
+        .btn-cari {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 6px;
+            font-weight: 600;
             transition: all 0.3s;
         }
-
-        .filter-badge.active {
-            background: var(--primary-blue);
-            color: white;
-            box-shadow: 0 5px 15px rgba(0, 74, 153, 0.2);
+        .btn-cari:hover { background-color: #218838; color: white; }
+        
+        .table-container {
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .table {
+            margin-bottom: 0;
+            min-width: 1600px;
+        }
+        .table thead th {
+            background-color: #f1f5f9;
+            color: #004a99;
+            font-weight: 700;
+            text-align: center;
+            vertical-align: middle;
+            padding: 15px 10px;
+            border: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+        .table tbody td {
+            padding: 15px 10px;
+            vertical-align: top;
+            border: 1px solid #f1f5f9;
+            font-size: 0.85rem;
+            color: #334155;
+            line-height: 1.6;
+        }
+        .pagination-info {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -187,73 +102,114 @@
     @include('navigation')
 
     <div class="hero-section">
-        <div class="container hero-content">
-            <h1 class="display-4 fw-bold outfit uppercase mb-2">{{ $settings['layanan_daftar_judul_hero'] ?? 'Daftar Informasi Publik' }}</h1>
-            <p class="lead opacity-75">{{ $settings['layanan_daftar_tagline_hero'] ?? 'Akses Transparan untuk Masyarakat' }}</p>
-            
-            <div class="search-container">
-                <input type="text" class="search-input" id="infoSearch" placeholder="Cari regulasi, laporan, atau agenda...">
-                <button class="btn-search"><i class="fas fa-search"></i></button>
-            </div>
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold uppercase">Daftar Informasi Publik</h1>
+            <p class="lead opacity-75">Akses Transparan Informasi Publik untuk Masyarakat.</p>
         </div>
     </div>
 
-    <div class="container mb-5">
-        <div class="content-card">
-            <div class="d-flex justify-content-between align-items-center mb-5 flex-wrap gap-3">
-                <h2 class="section-title mb-0">Daftar Dokumen</h2>
-                <div class="d-flex">
-                    <div class="filter-badge active" onclick="filterList('all', this)">Semua</div>
-                    <div class="filter-badge" onclick="filterList('berkala', this)">Berkala</div>
-                    <div class="filter-badge" onclick="filterList('setiapsaat', this)">Setiap Saat</div>
-                    <div class="filter-badge" onclick="filterList('sertamerta', this)">Serta Merta</div>
+    <div class="container py-5 mb-5">
+        <div class="content-box">
+            <h2 class="fw-bold mb-4" style="font-size: 2.2rem; color: #1e293b;">Daftar Informasi Publik</h2>
+
+            <form class="search-section row g-3">
+                <div class="col-md-3">
+                    <label class="form-label">Informasi</label>
+                    <input type="text" class="form-control" placeholder="">
                 </div>
+                <div class="col-md-3">
+                    <label class="form-label">Ringkasan Informasi</label>
+                    <input type="text" class="form-control" placeholder="">
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Waktu Pembuatan</label>
+                    <select class="form-select">
+                        <option value="">- Pilih Tahun -</option>
+                        @for($year = date('Y'); $year >= 2009; $year--)
+                            <option value="{{ $year }}">{{ $year }}</option>
+                        @endfor
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <label class="form-label">Penanggung Jawab</label>
+                    <select class="form-select">
+                        <option value="">- Pilih Penanggung Jawab -</option>
+                        <option>PPID UTAMA</option>
+                        <option>Inspektorat Jenderal Kementerian Perhubungan</option>
+                        <option>Direktorat Jenderal Perhubungan Darat</option>
+                        <option>Direktorat Jenderal Perhubungan Laut</option>
+                        <option>Direktorat Jenderal Perhubungan Udara</option>
+                        <option>Direktorat Jenderal Perkeretaapian</option>
+                        <option>Badan Kebijakan Transportasi</option>
+                        <option>Badan Pengembangan Sumber Daya Manusia Perhubungan</option>
+                        <option>Badan Pengelola Transportasi Jabodetabek</option>
+                    </select>
+                </div>
+                <div class="col-12 mt-4">
+                    <button type="submit" class="btn-cari">
+                        Cari <i class="fas fa-search ms-1"></i>
+                    </button>
+                </div>
+            </form>
+
+            @php
+                $allDocs = [];
+                if(isset($berkala)) foreach($berkala as $b) { $b->category = 'berkala'; $allDocs[] = $b; }
+                if(isset($setiapsaat)) foreach($setiapsaat as $s) { $s->category = 'setiapsaat'; $allDocs[] = $s; }
+                if(isset($sertamerta)) foreach($sertamerta as $sm) { $sm->category = 'sertamerta'; $allDocs[] = $sm; }
+                
+                // Sort by date
+                usort($allDocs, function($a, $b) {
+                    return (isset($b->created_at) && isset($a->created_at)) ? ($b->created_at <=> $a->created_at) : 0;
+                });
+            @endphp
+
+            <div class="pagination-info mt-5">
+                Showing <b>1-{{ count($allDocs) }}</b> of <b>{{ count($allDocs) }}</b> items.
             </div>
 
-            <div id="infoListContainer">
-                @include('components.konten-dinamis', ['prefix' => 'daftar_informasi'])
-                
-                @php
-                    $allDocs = [];
-                    if(isset($berkala)) foreach($berkala as $b) { $b->category = 'berkala'; $allDocs[] = $b; }
-                    if(isset($setiapsaat)) foreach($setiapsaat as $s) { $s->category = 'setiapsaat'; $allDocs[] = $s; }
-                    if(isset($sertamerta)) foreach($sertamerta as $sm) { $sm->category = 'sertamerta'; $allDocs[] = $sm; }
-                    
-                    // Sort by date
-                    usort($allDocs, function($a, $b) {
-                        return $b->created_at <=> $a->created_at;
-                    });
-                @endphp
-
-                <div class="row g-4">
-                    @forelse($allDocs as $doc)
-                        <div class="col-12 info-document-item" data-category="{{ $doc->category }}">
-                            <div class="info-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="info-icon">
-                                        <i class="fas {{ $doc->category == 'berkala' ? 'fa-calendar-check' : ($doc->category == 'setiapsaat' ? 'fa-clock' : 'fa-bolt') }}"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="fw-bold outfit mb-1">{{ $doc->judul }}</h5>
-                                        <div class="d-flex gap-3">
-                                            <small class="text-muted"><i class="fas fa-tag me-1"></i> {{ ucfirst($doc->category) }}</small>
-                                            <small class="text-muted"><i class="fas fa-calendar-alt me-1"></i> {{ $doc->created_at->format('d M Y') }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="{{ asset('storage/'.$doc->file) }}" target="_blank" class="btn-download-premium">
-                                    <i class="fas fa-download me-2"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12 text-center py-5">
-                            <i class="fas fa-file-excel fa-4x text-muted mb-4"></i>
-                            <h3 class="text-muted">Data Belum Tersedia</h3>
-                            <p class="text-muted">Gunakan menu admin untuk mengelola daftar informasi publik.</p>
-                        </div>
-                    @endforelse
-                </div>
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th style="width: 200px;">Penanggung Jawab</th>
+                            <th style="width: 250px;">Informasi</th>
+                            <th style="width: 150px;">Jenis Informasi</th>
+                            <th style="width: 300px;">Ringkasan Informasi</th>
+                            <th style="width: 200px;">Pejabat Yang Menguasai Informasi</th>
+                            <th style="width: 150px;">Penerbit Informasi</th>
+                            <th style="width: 150px;">Bentuk Informasi Yang Tersedia</th>
+                            <th style="width: 150px;">Tempat Pembuatan</th>
+                            <th style="width: 120px;">Waktu Pembuatan</th>
+                            <th style="width: 200px;">Jangka Waktu Penyimpanan / Retensi Waktu</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($allDocs as $index => $doc)
+                            <tr>
+                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td>{{ $doc->penanggung_jawab ?? '-' }}</td>
+                                <td class="fw-bold" style="color: #004a99;">{{ $doc->judul }}</td>
+                                <td>{{ ucfirst($doc->category ?? '-') }}</td>
+                                <td>{{ $doc->deskripsi ?? '-' }}</td>
+                                <td>{{ $doc->pejabat ?? '-' }}</td>
+                                <td>{{ $doc->penerbit ?? '-' }}</td>
+                                <td>{{ $doc->bentuk ?? 'Softcopy' }}</td>
+                                <td>{{ $doc->tempat ?? '-' }}</td>
+                                <td>{{ isset($doc->created_at) ? $doc->created_at->format('Y') : '-' }}</td>
+                                <td>{{ $doc->retensi ?? '-' }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="11" class="text-center py-5">
+                                    <i class="fas fa-file-invoice d-block mb-3 opacity-25" style="font-size: 3rem;"></i>
+                                    Belum ada data informasi publik tersedia.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -261,37 +217,5 @@
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-        function filterList(category, el) {
-            // Update UI badges
-            document.querySelectorAll('.filter-badge').forEach(b => b.classList.remove('active'));
-            el.classList.add('active');
-
-            // Filter items
-            const items = document.querySelectorAll('.info-document-item');
-            items.forEach(item => {
-                if (category === 'all' || item.getAttribute('data-category') === category) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        }
-
-        // Live Search
-        document.getElementById('infoSearch').addEventListener('input', function(e) {
-            const term = e.target.value.toLowerCase();
-            const items = document.querySelectorAll('.info-document-item');
-            
-            items.forEach(item => {
-                const title = item.querySelector('h5').innerText.toLowerCase();
-                if (title.includes(term)) {
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
-    </script>
 </body>
 </html>

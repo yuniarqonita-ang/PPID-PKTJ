@@ -3,77 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $settings['laporan_layanan_judul_hero'] ?? 'Laporan Layanan Informasi' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Laporan Tahunan Layanan Informasi Publik - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: {{ $settings['primary_color'] ?? '#004A99' }};
-            --secondary-gold: {{ $settings['secondary_color'] ?? '#FFC107' }};
+            --primary-blue: #004a99;
+            --secondary-gold: #ffc107;
         }
-        
         body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f8faff; 
+            font-family: 'Inter', sans-serif;
+            background-color: #f8faff;
             color: #1e293b;
         }
-
-        .outfit { font-family: 'Outfit', sans-serif; }
-
-        /* Hero Section */
         .hero-section {
-            background: linear-gradient(-45deg, var(--primary-blue), #0066CC, #1A3A52, #002b5c);
-            background-size: 400% 400%;
-            animation: gradient-animation 15s ease infinite;
-            padding: 100px 0;
+            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.9)), 
+                        url('https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=2070');
+            background-size: cover;
+            background-position: center;
+            padding: 50px 0;
             color: white;
-            text-align: center;
+        }
+        .content-box {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            margin-top: -30px;
             position: relative;
+            z-index: 10;
+        }
+        .table-container {
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
             overflow: hidden;
         }
-
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        .table {
+            margin-bottom: 0;
         }
-
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.1);
+        .table thead th {
+            background-color: #f1f5f9;
+            color: #004a99;
+            font-weight: 700;
+            padding: 15px;
+            border-bottom: 2px solid #e2e8f0;
         }
-
-        .hero-content { position: relative; z-index: 10; }
-
-        .content-card {
-            background: white;
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0, 74, 153, 0.05);
-            margin-top: -60px;
-            border: 1px solid rgba(0, 74, 153, 0.05);
-            position: relative;
-            z-index: 20;
-            margin-bottom: 50px;
+        .table tbody td {
+            padding: 15px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
         }
-
-        .section-title {
-            color: var(--primary-blue);
-            font-weight: 900;
-            margin-bottom: 30px;
-            border-left: 6px solid var(--secondary-gold);
-            padding-left: 20px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
+        .btn-unduh {
+            background-color: #ffc107;
+            color: #000;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-right: 5px;
         }
+        .btn-unduh:hover { background-color: #e0a800; color: #000; }
+        
+        .btn-preview {
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+        .btn-preview:hover { background-color: #218838; color: #fff; }
     </style>
 </head>
 <body>
@@ -81,18 +89,55 @@
     @include('navigation')
 
     <div class="hero-section">
-        <div class="container hero-content">
-            <h1 class="display-4 fw-bold outfit uppercase mb-2">{{ $settings['laporan_layanan_judul_hero'] ?? 'Laporan Tahunan' }}</h1>
-            <p class="lead opacity-75">{{ $settings['laporan_layanan_tagline_hero'] ?? 'Transparansi Kinerja Pelayanan Informasi' }}</p>
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold uppercase">Laporan Layanan Informasi Publik</h1>
+            <p class="lead opacity-75">Transparansi Kinerja Pelayanan Informasi Publik.</p>
         </div>
     </div>
 
-    <div class="container mb-5">
-        <div class="content-card">
-            <h2 class="section-title">{{ $settings['laporan_layanan_judul_hero'] ?? 'Laporan Layanan Informasi Publik' }}</h2>
-            
-            <div class="rich-content">
-                @include('components.konten-dinamis', ['prefix' => 'laporan_layanan'])
+    <div class="container py-5 mb-5">
+        <div class="content-box">
+            <h2 class="fw-bold mb-1" style="font-size: 2.2rem; color: #1e293b;">Laporan Tahunan Layanan Informasi Publik</h2>
+            <div class="pagination-info mb-4">
+                Showing <b>1-{{ count($laporan ?? []) }}</b> of <b>{{ count($laporan ?? []) }}</b> items.
+            </div>
+
+            <div class="table-container">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th style="width: 60px;" class="text-center">#</th>
+                            <th>Judul Laporan</th>
+                            <th style="width: 200px;"></th>
+                            <th style="width: 200px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($laporan ?? [] as $index => $item)
+                            <tr>
+                                <td class="text-center text-muted">{{ $index + 1 }}</td>
+                                <td class="fw-bold" style="color: #444;">{{ $item->judul }}</td>
+                                <td class="text-center">
+                                    <a href="{{ asset('storage/'.$item->file) }}" class="btn-unduh w-100" target="_blank">
+                                        <i class="fas fa-save me-2"></i> Unduh Dokumen
+                                    </a>
+                                </td>
+                                <td class="text-center">
+                                    <a href="{{ asset('storage/'.$item->file) }}" class="btn-preview w-100" target="_blank">
+                                        <i class="fas fa-eye me-2"></i> Preview Dokumen
+                                    </a>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="text-center py-5">
+                                    <i class="fas fa-file-invoice d-block mb-3 opacity-25" style="font-size: 3rem;"></i>
+                                    Belum ada data laporan tersedia.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

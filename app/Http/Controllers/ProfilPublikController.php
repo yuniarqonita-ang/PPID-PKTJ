@@ -70,6 +70,15 @@ class ProfilPublikController extends Controller
             $extraData['setiapsaat'] = \App\Models\InformasiSetiapSaat::where('aktif', true)->orderBy('created_at', 'desc')->get();
         }
 
+        // Fetch reports dynamically based on type
+        if ($type === 'laporan-layanan') {
+            $extraData['laporan'] = \App\Models\Dokumen::where('kategori', 'Laporan Layanan')->latest()->get();
+        } elseif ($type === 'laporan-akses') {
+            $extraData['laporan'] = \App\Models\Dokumen::where('kategori', 'Laporan Akses')->latest()->get();
+        } elseif ($type === 'laporan-survey') {
+            $extraData['laporan'] = \App\Models\Dokumen::where('kategori', 'Laporan Survey')->latest()->get();
+        }
+
         // Check if view exists, otherwise use a generic skeleton
         if (!view()->exists($viewName)) {
             $viewName = str_replace('-', '_', $viewName);

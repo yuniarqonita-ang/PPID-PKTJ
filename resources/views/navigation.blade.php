@@ -1,3 +1,74 @@
+<style>
+    /* Hover Dropdown Logic */
+    @media (min-width: 992px) {
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+            margin-top: 0;
+            animation: dropdownFadeIn 0.3s ease;
+        }
+        /* Bridge to prevent menu from closing when moving mouse from toggle to menu */
+        .nav-item.dropdown .dropdown-menu::before {
+            content: "";
+            position: absolute;
+            top: -20px;
+            left: 0;
+            width: 100%;
+            height: 20px;
+        }
+    }
+
+    @keyframes dropdownFadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Enhanced Clickable Areas */
+    .dropdown-item {
+        padding: 12px 20px !important;
+        font-weight: 500;
+        color: #334155;
+        transition: all 0.2s ease;
+        border-radius: 8px;
+        margin-bottom: 2px;
+    }
+
+    .dropdown-item:last-child { margin-bottom: 0; }
+
+    .dropdown-item:hover {
+        background-color: #f1f5f9;
+        color: #004a99 !important;
+        padding-left: 25px !important;
+    }
+
+    .dropdown-menu {
+        border: none;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+        border-radius: 15px;
+        padding: 10px;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .nav-link {
+        position: relative;
+    }
+    
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        bottom: 5px;
+        left: 50%;
+        width: 0;
+        height: 2px;
+        background: var(--secondary-gold, #ffc107);
+        transition: all 0.3s ease;
+        transform: translateX(-50%);
+    }
+    
+    .nav-link:hover::after {
+        width: 70%;
+    }
+</style>
+
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0;">
     <div class="container">
         <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="{{ route('home') }}">

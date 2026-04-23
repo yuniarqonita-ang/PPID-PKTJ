@@ -6,71 +6,93 @@
     <title>Informasi Dikecualikan - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: {{ $settings['primary_color'] ?? '#004A99' }};
-            --secondary-gold: {{ $settings['secondary_color'] ?? '#FFC107' }};
+            --primary-blue: #004a99;
+            --secondary-gold: #ffc107;
         }
         body { 
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: #f8faff;
             color: #1e293b;
         }
         .hero-section {
-            background: linear-gradient(rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.8)), 
+            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.9)), 
                         url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070');
             background-size: cover;
             background-position: center;
-            padding: 80px 0;
+            padding: 50px 0;
             color: white;
-            text-align: center;
         }
         .content-box {
             background: white;
             padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            margin-top: -40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+            margin-top: -30px;
             position: relative;
             z-index: 10;
         }
-        .section-title {
-            color: #1e293b;
-            font-weight: 800;
-            margin-bottom: 25px;
-            border-left: 5px solid var(--secondary-gold);
-            padding-left: 15px;
+        .search-section {
+            background: #fff;
+            padding: 0;
+            margin-bottom: 40px;
         }
-        .info-card {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            opacity: 0.9;
-        }
-        .info-icon {
-            width: 50px;
-            height: 50px;
-            background: #e2e8f0;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .form-label {
+            font-weight: 500;
             color: #64748b;
-            font-size: 20px;
-            margin-right: 20px;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
         }
-        .badge-locked {
-            background: #64748b;
-            color: white;
-            padding: 8px 15px;
+        .form-control, .form-select {
+            padding: 12px 15px;
             border-radius: 8px;
+            border: 1px solid #e2e8f0;
+            background-color: #fff;
+        }
+        .btn-cari {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 6px;
             font-weight: 600;
+            transition: all 0.3s;
+        }
+        .btn-cari:hover { background-color: #218838; color: white; }
+        
+        .table-container {
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+        .table {
+            margin-bottom: 0;
+            min-width: 1300px;
+        }
+        .table thead th {
+            background-color: #f1f5f9;
+            color: #004a99;
+            font-weight: 700;
+            text-align: center;
+            vertical-align: middle;
+            padding: 15px 10px;
+            border: 1px solid #e2e8f0;
             font-size: 0.85rem;
+        }
+        .table tbody td {
+            padding: 15px 10px;
+            vertical-align: top;
+            border: 1px solid #f1f5f9;
+            font-size: 0.85rem;
+            color: #334155;
+            line-height: 1.6;
+        }
+        .pagination-info {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 10px;
         }
     </style>
 </head>
@@ -79,49 +101,83 @@
     @include('navigation')
 
     <div class="hero-section">
-        <div class="container">
-            <h1 class="display-4 fw-bold uppercase">{{ $settings['informasi_dikecualikan_judul_hero'] ?? 'Informasi Dikecualikan' }}</h1>
-            <p class="lead opacity-75">{{ $settings['informasi_dikecualikan_tagline_hero'] ?? 'Informasi yang tidak dapat dibuka untuk umum berdasarkan pengujian konsekuensi' }}</p>
+        <div class="container text-center">
+            <h1 class="display-5 fw-bold uppercase">Informasi Dikecualikan</h1>
+            <p class="lead opacity-75">Daftar informasi yang tidak dapat dibuka untuk umum berdasarkan pengujian konsekuensi.</p>
         </div>
     </div>
 
     <div class="container py-5 mb-5">
         <div class="content-box">
-            <h2 class="section-title">{{ $settings['informasi_dikecualikan_judul_daftar'] ?? 'Daftar Informasi Dikecualikan' }}</h2>
-            <p class="text-muted mb-5">{{ $settings['informasi_dikecualikan_deskripsi_daftar'] ?? 'Berikut adalah daftar informasi yang dikategorikan sebagai rahasia/dikecualikan sesuai peraturan perundang-undangan.' }}</p>
+            <h2 class="fw-bold mb-4" style="font-size: 2.2rem; color: #1e293b;">Informasi Dikecualikan</h2>
 
-            @if(count($informasi) > 0)
-                <div class="row">
-                    @foreach($informasi as $item)
-                        <div class="col-12">
-                            <div class="info-card">
-                                <div class="d-flex align-items-center">
-                                    <div class="info-icon">
-                                        <i class="fas fa-lock"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="fw-bold mb-1 text-muted">{{ $item->judul }}</h6>
-                                        <p class="small text-muted mb-0">{{ $item->deskripsi ?? 'Informasi Rahasia' }}</p>
-                                        <small class="text-secondary">{{ \Carbon\Carbon::parse($item->created_at)->format('Y') }}</small>
-                                    </div>
-                                </div>
-                                <div class="badge-locked">
-                                    <i class="fas fa-shield-alt me-2"></i>DIKECUALIKAN
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+            <form class="search-section row g-3">
+                <div class="col-md-4">
+                    <label class="form-label">Informasi</label>
+                    <input type="text" class="form-control" placeholder="">
                 </div>
-            @else
-                <div class="text-center py-5">
-                    <i class="fas fa-shield-alt fa-3x text-muted mb-3"></i>
-                    <p class="text-muted">Tidak ada data informasi dikecualikan yang dipublikasikan.</p>
+                <div class="col-md-4">
+                    <label class="form-label">Dasar Hukum Pengecualian</label>
+                    <input type="text" class="form-control" placeholder="">
                 </div>
-            @endif
+                <div class="col-md-4">
+                    <label class="form-label">Penanggung Jawab</label>
+                    <select class="form-select">
+                        <option value="">- Pilih Penanggung Jawab -</option>
+                        <option>PPID UTAMA</option>
+                        <option>Inspektorat Jenderal Kementerian Perhubungan</option>
+                        <option>Direktorat Jenderal Perhubungan Darat</option>
+                        <option>Direktorat Jenderal Perhubungan Laut</option>
+                        <option>Direktorat Jenderal Perhubungan Udara</option>
+                        <option>Direktorat Jenderal Perkeretaapian</option>
+                        <option>Badan Kebijakan Transportasi</option>
+                        <option>Badan Pengembangan Sumber Daya Manusia Perhubungan</option>
+                        <option>Badan Pengelola Transportasi Jabodetabek</option>
+                    </select>
+                </div>
+                <div class="col-12 mt-4">
+                    <button type="submit" class="btn-cari">Cari</button>
+                </div>
+            </form>
 
-            <div class="alert alert-warning mt-5 rounded-4 p-4 border-0 shadow-sm">
-                <h5 class="fw-bold"><i class="fas fa-info-circle me-2"></i>Catatan Penting</h5>
-                <p class="mb-0">Informasi yang dikategorikan sebagai "Dikecualikan" telah melalui proses Pengujian Konsekuensi sesuai dengan Pasal 17 UU No. 14 Tahun 2008 tentang Keterbukaan Informasi Publik.</p>
+            <div class="pagination-info mt-5">
+                Showing <b>1-{{ count($informasi) }}</b> of <b>{{ count($informasi) }}</b> items.
+            </div>
+
+            <div class="table-container">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">#</th>
+                            <th style="width: 250px;">Informasi</th>
+                            <th style="width: 200px;">Dasar Hukum Pengecualian Informasi</th>
+                            <th style="width: 200px;">Konsekuensi/Pertimbangan Dibuka Bagi Publik</th>
+                            <th style="width: 200px;">Konsekuensi/Pertimbangan Ditutup Bagi Publik</th>
+                            <th style="width: 150px;">Jangka Waktu</th>
+                            <th style="width: 200px;">Penanggung Jawab</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($informasi as $index => $item)
+                            <tr>
+                                <td class="text-center">{{ $index + 1 }}</td>
+                                <td class="fw-bold" style="color: #004a99;">{{ $item->judul }}</td>
+                                <td>{{ $item->dasar_hukum ?? '-' }}</td>
+                                <td>{{ $item->konsekuensi_buka ?? '-' }}</td>
+                                <td>{{ $item->konsekuensi_tutup ?? '-' }}</td>
+                                <td>{{ $item->jangka_waktu ?? '-' }}</td>
+                                <td>{{ $item->penanggung_jawab ?? '-' }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="7" class="text-center py-5">
+                                    <i class="fas fa-shield-alt d-block mb-3 opacity-25" style="font-size: 3rem;"></i>
+                                    Belum ada data informasi dikecualikan tersedia.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
@@ -129,38 +185,5 @@
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-
-    <!-- Dropdown Toggle Script -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const dropdownToggles = document.querySelectorAll('.dropdown-toggle');
-            
-            dropdownToggles.forEach(toggle => {
-                toggle.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const dropdownItem = this.closest('.dropdown');
-                    const dropdownMenu = dropdownItem.querySelector('.dropdown-menu');
-                    
-                    if (dropdownMenu.style.display === 'block') {
-                        dropdownMenu.style.display = 'none';
-                    } else {
-                        document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                            menu.style.display = 'none';
-                        });
-                        dropdownMenu.style.display = 'block';
-                    }
-                });
-            });
-            
-            document.addEventListener('click', function(e) {
-                if (!e.target.closest('.dropdown')) {
-                    document.querySelectorAll('.dropdown-menu').forEach(menu => {
-                        menu.style.display = 'none';
-                    });
-                }
-            });
-        });
-    </script>
 </body>
 </html>
