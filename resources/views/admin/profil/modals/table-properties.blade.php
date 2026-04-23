@@ -1,4 +1,4 @@
-﻿<!-- Table Properties Modal -->
+<!-- Table Properties Modal -->
 <div class="modal fade" id="tablePropertiesModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">

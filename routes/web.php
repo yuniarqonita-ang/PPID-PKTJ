@@ -29,11 +29,11 @@ Route::redirect('/laporan-akses-informasi-publik.html', '/layanan-informasi/lapo
 Route::redirect('/laporan-layanan-informasi.html', '/layanan-informasi/laporan');
 Route::redirect('/laporan-survey-kepuasan.html', '/layanan-informasi/laporan-survey');
 Route::redirect('/maklumat-pelayanan.html', '/layanan-informasi/maklumat');
-Route::redirect('/sop-penanganan-keberatan.html', '/prosedur/sop-keberatan');
+Route::redirect('/sop-penanganan-keberatan.html', '/prosedur/sop-penanganan-keberatan');
 Route::redirect('/sop-pendokumentasian.html', '/prosedur/sop-pendokumentasian');
-Route::redirect('/sop-pengajuan-sengketa.html', '/prosedur/sop-sengketa');
-Route::redirect('/sop-pengujian-konsekuensi.html', '/prosedur/sop-pengujian');
-Route::redirect('/sop-permintaan-informasi.html', '/prosedur/sop-permintaan');
+Route::redirect('/sop-pengajuan-sengketa.html', '/prosedur/sop-pengajuan-sengketa');
+Route::redirect('/sop-pengujian-konsekuensi.html', '/prosedur/sop-pengujian-konsekuensi');
+Route::redirect('/sop-permintaan-informasi.html', '/prosedur/sop-permintaan-informasi');
 Route::redirect('/faq.html', '/faq');
 Route::redirect('/permohonan-informasi.html', '/permohonan-informasi');
 
