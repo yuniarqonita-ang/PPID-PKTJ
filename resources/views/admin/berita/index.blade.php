@@ -1,137 +1,159 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6">
-    <div class="max-w-7xl mx-auto space-y-6">
-
-        <!-- HEADER SECTION -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
-                    <i class="fas fa-newspaper mr-2"></i> Daftar Berita
-                </h1>
-                <p class="text-gray-500 font-medium mt-1">Kelola publikasi berita dan pengumuman untuk portal PPID PKTJ</p>
+<div class="space-y-8 animate-fade-in lg:px-8">
+    
+    <!-- DASHBOARD-STYLE HEADER SECTION -->
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Sistem Konten: Aktif</h2>
+                </div>
+                
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
+                        Manajemen <span class="text-[#ffc107]">Berita</span>
+                    </h1>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Publikasikan informasi terkini dan pengumuman resmi PPID.</p>
+                </div>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="{{ route('admin.berita.create') }}" class="px-6 py-3 bg-[#ffc107] text-[#004a99] font-bold rounded-xl shadow-lg hover:bg-yellow-400 transform hover:scale-[1.02] transition-all flex items-center">
-                    <i class="fas fa-plus mr-2"></i> Buat Berita Baru
+
+            <div class="flex items-center gap-4">
+                <a href="{{ route('admin.berita.create') }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
+                    <i class="fas fa-plus mr-3"></i> Buat Berita Baru
                 </a>
             </div>
         </div>
+    </div>
 
-        <!-- SEARCH & FILTER -->
-        <div class="bg-white p-4 rounded-2xl shadow-sm ring-1 ring-gray-200 border-l-4 border-blue-400">
-            <form action="{{ route('admin.berita.index') }}" method="GET" class="flex flex-col md:flex-row gap-4">
-                <div class="flex-1 relative">
-                    <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
-                    <input type="text" name="search" value="{{ request('search') }}" 
-                        class="w-full pl-12 pr-4 py-3 bg-gray-50 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#004a99] focus:outline-none text-sm transition-all"
-                        placeholder="Cari judul berita atau konten...">
-                </div>
-                <button type="submit" class="px-6 py-3 bg-[#004a99] text-white font-bold rounded-xl hover:bg-blue-800 transition-all">
-                    Filter Berita
-                </button>
-            </form>
-        </div>
-
-        <!-- ALERTS -->
-        @if(session('success'))
-            <div class="bg-green-100 border-l-4 border-green-500 p-4 rounded-xl shadow-sm flex items-center animate-fade-in-down">
-                <i class="fas fa-check-circle text-green-500 mr-3 text-xl"></i>
-                <p class="text-green-800 font-bold">{{ session('success') }}</p>
+    <!-- SEARCH & FILTER -->
+    <div class="bg-white p-6 rounded-3xl shadow-sm border border-slate-200/60">
+        <form action="{{ route('admin.berita.index') }}" method="GET" class="flex flex-col md:flex-row gap-4">
+            <div class="flex-1 relative">
+                <i class="fas fa-search absolute left-5 top-1/2 -translate-y-1/2 text-slate-300"></i>
+                <input type="text" name="search" value="{{ request('search') }}" 
+                    class="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-[#004a99] focus:bg-white focus:outline-none text-sm font-semibold transition-all"
+                    placeholder="Cari judul berita atau isi konten...">
             </div>
-        @endif
+            <button type="submit" class="px-8 py-4 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-[#002b5c] transition-all">
+                Cari & Filter
+            </button>
+        </form>
+    </div>
 
-        <!-- TABLE SECTION -->
-        <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-4 border-[#004a99]">
-            <div class="overflow-x-auto">
-                <table class="w-full text-left">
-                    <thead class="bg-[#004a99] text-white">
-                        <tr>
-                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider">Informasi Berita</th>
-                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider">Tanggal Pub</th>
-                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-center">Update</th>
-                            <th class="px-6 py-4 text-xs font-bold uppercase tracking-wider text-center">Status</th>
-                            <th class="px-6 py-4 text-center text-xs font-bold uppercase tracking-wider">Aksi</th>
+    @if(session('success'))
+    <div class="bg-emerald-50 border border-emerald-100 text-emerald-700 px-6 py-4 rounded-2xl flex items-center gap-4">
+        <i class="fas fa-check-circle text-xl"></i>
+        <p class="font-bold">{{ session('success') }}</p>
+    </div>
+    @endif
+
+    <!-- TABLE SECTION -->
+    <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 overflow-hidden">
+        <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse">
+                <thead>
+                    <tr class="bg-slate-50/80 border-b border-slate-100">
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Detail Artikel</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Publikasi</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center">Views</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center">Status</th>
+                        <th class="px-8 py-6 text-center text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-50">
+                    @forelse($beritas as $berita)
+                        <tr class="hover:bg-slate-50/50 transition-colors group">
+                            <td class="px-8 py-6">
+                                <div class="flex items-center gap-5">
+                                    <div class="w-16 h-16 rounded-2xl bg-slate-100 flex-shrink-0 overflow-hidden border border-slate-200/60 shadow-sm relative">
+                                        @if($berita->gambar)
+                                            <img src="{{ asset('storage/' . $berita->gambar) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                        @else
+                                            <div class="w-full h-full flex items-center justify-center bg-slate-50 text-slate-200">
+                                                <i class="fas fa-image text-2xl"></i>
+                                            </div>
+                                        @endif
+                                    </div>
+                                    <div class="min-w-0">
+                                        <div class="text-sm font-black text-[#002b5c] group-hover:text-[#004a99] transition-colors leading-tight mb-2">
+                                            {{ Str::limit($berita->judul, 75) }}
+                                        </div>
+                                        <div class="flex items-center gap-3">
+                                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center">
+                                                <i class="fas fa-feather-alt mr-1.5 text-[#ffc107]"></i> Admin PPID
+                                            </span>
+                                            <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
+                                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">
+                                                {{ $berita->kategori ?? 'Berita Utama' }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-8 py-6">
+                                <div class="text-[11px] font-black text-slate-600 uppercase tracking-tight">
+                                    {{ $berita->tanggal ? \Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d M Y') : '-' }}
+                                </div>
+                                <div class="text-[9px] text-slate-400 font-bold uppercase mt-1">
+                                    {{ $berita->updated_at ? $berita->updated_at->diffForHumans() : '-' }}
+                                </div>
+                            </td>
+                            <td class="px-8 py-6 text-center">
+                                <span class="text-xs font-black text-[#004a99] bg-blue-50 px-3 py-1 rounded-full">
+                                    {{ number_format($berita->views ?? 0) }}
+                                </span>
+                            </td>
+                            <td class="px-8 py-6 text-center">
+                                @if($berita->status == 'published' || ($berita->is_published ?? true))
+                                    <span class="px-4 py-1.5 text-[9px] font-black uppercase rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center gap-2 mx-auto w-fit">
+                                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                                        Published
+                                    </span>
+                                @else
+                                    <span class="px-4 py-1.5 text-[9px] font-black uppercase rounded-xl bg-amber-50 text-amber-600 border border-amber-100 inline-block">
+                                        Draft
+                                    </span>
+                                @endif
+                            </td>
+                            <td class="px-8 py-6">
+                                <div class="flex justify-center items-center gap-2">
+                                    <a href="{{ route('admin.berita.edit', $berita) }}" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-[#004a99] hover:border-[#004a99] hover:bg-blue-50 transition-all flex items-center justify-center group/btn shadow-sm" title="Edit Berita">
+                                        <i class="fas fa-edit text-sm group-hover/btn:scale-110"></i>
+                                    </a>
+                                    <form action="{{ route('admin.berita.destroy', $berita) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all flex items-center justify-center group/btn shadow-sm" title="Hapus Berita">
+                                            <i class="fas fa-trash-alt text-sm group-hover/btn:scale-110"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        @forelse($beritas as $berita)
-                            <tr class="hover:bg-gray-50 transition-colors group">
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center space-x-4">
-                                        <div class="w-12 h-12 rounded-lg bg-gray-100 flex-shrink-0 overflow-hidden flex items-center justify-center text-[#004a99] border border-gray-200 shadow-sm">
-                                            @if($berita->gambar)
-                                                <img src="{{ asset('storage/' . $berita->gambar) }}" class="w-full h-full object-cover">
-                                            @else
-                                                <i class="fas fa-image text-xl opacity-20"></i>
-                                            @endif
-                                        </div>
-                                        <div>
-                                            <div class="text-sm font-bold text-[#004a99] group-hover:text-blue-700 transition-colors leading-snug mb-1">
-                                                {{ Str::limit($berita->judul, 70) }}
-                                            </div>
-                                            <div class="text-[10px] text-gray-400 font-medium">
-                                                <i class="fas fa-user-edit mr-1"></i> Admin PPID
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    <div class="text-xs font-bold text-gray-600">
-                                        {{ $berita->tanggal ? \Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d M Y') : '-' }}
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    <div class="text-[10px] text-gray-400">
-                                        {{ $berita->updated_at ? $berita->updated_at->diffForHumans() : '-' }}
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    @if($berita->status == 'published' || ($berita->is_published ?? true))
-                                        <span class="px-3 py-1 text-[10px] font-black uppercase rounded-full bg-green-100 text-green-600 border border-green-200">
-                                            TERBIT
-                                        </span>
-                                    @else
-                                        <span class="px-3 py-1 text-[10px] font-black uppercase rounded-full bg-yellow-100 text-yellow-600 border border-yellow-200">
-                                            DRAFT
-                                        </span>
-                                    @endif
-                                </td>
-                                <td class="px-6 py-4 text-center">
-                                    <div class="flex justify-center items-center gap-2">
-                                        <a href="{{ route('admin.berita.edit', $berita) }}" class="p-2 w-10 h-10 rounded-lg bg-blue-50 text-[#004a99] hover:bg-[#004a99] hover:text-white transition-all shadow-sm flex items-center justify-center" title="Edit Berita">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <form action="{{ route('admin.berita.destroy', $berita) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="p-2 w-10 h-10 rounded-lg bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm flex items-center justify-center" title="Hapus Berita">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="5" class="px-6 py-16 text-center text-gray-500 font-medium italic bg-gray-50">
-                                    <div class="max-w-xs mx-auto">
-                                        <i class="fas fa-newspaper text-5xl mb-4 text-[#004a99] opacity-10"></i>
-                                        <p>Belum ada artikel berita yang dipublikasikan.</p>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-            @if($beritas->hasPages())
-                <div class="p-6 bg-gray-50 border-t border-gray-100">
-                    {{ $beritas->links() }}
-                </div>
-            @endif
+                    @empty
+                        <tr>
+                            <td colspan="5" class="px-8 py-20 text-center bg-slate-50/30">
+                                <div class="max-w-xs mx-auto space-y-3 opacity-30">
+                                    <i class="fas fa-newspaper text-6xl"></i>
+                                    <p class="text-sm font-bold uppercase tracking-widest">Belum ada konten berita</p>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
+        
+        @if($beritas->hasPages())
+        <div class="px-8 py-6 bg-slate-50/50 border-t border-slate-100">
+            {{ $beritas->links() }}
+        </div>
+        @endif
     </div>
 </div>
 @endsection

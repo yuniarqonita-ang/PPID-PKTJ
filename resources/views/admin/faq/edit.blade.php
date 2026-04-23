@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6">
-    <div class="max-w-5xl mx-auto space-y-6">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 w-full">
+    <div class="w-full space-y-6">
         
         <!-- HEADER SECTION -->
         <div class="flex items-center justify-between gap-4">
@@ -23,9 +23,9 @@
                 @csrf
                 @method('PUT')
                 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="space-y-8">
                     <!-- MAIN CONTENT -->
-                    <div class="lg:col-span-2 space-y-6">
+                    <div class="space-y-6">
                         
                         <!-- PERTANYAAN -->
                         <div class="space-y-2">
@@ -51,8 +51,8 @@
 
                     </div>
 
-                    <!-- SIDEBAR INFO -->
-                    <div class="space-y-6">
+                    <!-- SIDEBAR INFO (BELOW) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
                         <div class="bg-blue-50 border-l-4 border-[#004a99] p-6 rounded-r-2xl">
                             <h3 class="text-md font-bold text-[#004a99] mb-3 uppercase flex items-center">
                                 <i class="fas fa-history mr-2"></i> Info Update
@@ -85,18 +85,4 @@
         </div>
     </div>
 </div>
-
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-    tinymce.init({
-        selector: '.tinymce-editor',
-        plugins: 'lists link anchor autolink charmap emoticons wordcount',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 400,
-        branding: false,
-        elementpath: false,
-        menubar: false,
-        promotion: false
-    });
-</script>
 @endsection

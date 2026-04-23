@@ -1,19 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-    <div class="max-w-7xl mx-auto">
+<div class="space-y-8 animate-fade-in lg:px-8">
+    
+    <!-- DASHBOARD-STYLE HEADER SECTION -->
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Sistem Konten: Aktif</h2>
+                </div>
+                
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
+                        Kelola <span class="text-[#ffc107]">Konten</span> Publik
+                    </h1>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Lihat dan kelola semua konten yang ditampilkan di halaman publik secara terpusat.</p>
+                </div>
+            </div>
 
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center mb-8">
-        <div>
-            <h1 class="text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 drop-shadow-lg">📂 Kelola Konten Publik</h1>
-            <p class="text-slate-300 mt-1">Lihat dan kelola semua konten yang ditampilkan di halaman publik</p>
-        </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ url('/') }}" target="_blank" class="px-4 py-2 bg-green-600 text-white font-medium hover:bg-green-700 transition rounded-lg">
-                <i class="fas fa-eye mr-2"></i>Lihat Publik
-            </a>
+            <div class="flex items-center gap-4">
+                <a href="{{ url('/') }}" target="_blank" class="px-8 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                    <i class="fas fa-eye mr-3 text-[#ffc107]"></i> Lihat Publik
+                </a>
+            </div>
         </div>
     </div>
 
@@ -322,7 +335,7 @@
 
     <!-- ==================== STATISTICS SECTION ==================== -->
     <div class="mt-8 bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-        <h2 class="text-xl font-semibold text-white mb-6">📊 Statistik Konten</h2>
+        <h2 class="text-xl font-semibold text-white mb-6">?? Statistik Konten</h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
             <div class="text-center">
                 <div class="text-3xl font-bold text-blue-600">{{ App\Models\InformasiBerkala::count() }}</div>

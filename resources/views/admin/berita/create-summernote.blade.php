@@ -7,7 +7,7 @@
         <!-- HEADER -->
         <div class="text-center mb-8">
             <h1 class="text-4xl font-black text-white drop-shadow-lg mb-2">
-                ðŸ“ Buat Berita Baru
+                📝 Buat Berita Baru
             </h1>
             <p class="text-cyan-300">Tulis dan publikasikan berita terbaru PPID PKTJ</p>
         </div>

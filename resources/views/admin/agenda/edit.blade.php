@@ -1,8 +1,8 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6">
-    <div class="max-w-6xl mx-auto space-y-6">
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 w-full">
+    <div class="w-full space-y-6">
         
         <!-- HEADER SECTION -->
         <div class="flex items-center justify-between gap-4">
@@ -23,9 +23,9 @@
                 @csrf
                 @method('PUT')
                 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="space-y-8">
                     <!-- MAIN CONTENT -->
-                    <div class="lg:col-span-2 space-y-6">
+                    <div class="space-y-6">
                         
                         <!-- JUDUL -->
                         <div class="space-y-2">
@@ -51,8 +51,8 @@
 
                     </div>
 
-                    <!-- SIDEBAR INFO & SETTINGS -->
-                    <div class="space-y-6">
+                    <!-- SIDEBAR INFO & SETTINGS (BELOW) -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mt-8">
                         
                         <!-- TIME & STATUS PANEL -->
                         <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200 shadow-inner">
@@ -122,19 +122,8 @@
     </div>
 </div>
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+@push('scripts')
 <script>
-    tinymce.init({
-        selector: '.tinymce-editor',
-        plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link image table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 400,
-        branding: false,
-        elementpath: false,
-        menubar: false,
-        promotion: false
-    });
-
     function previewImage(input) {
         const preview = document.getElementById('image-preview');
         const img = preview.querySelector('img');
@@ -148,4 +137,5 @@
         }
     }
 </script>
+@endpush
 @endsection

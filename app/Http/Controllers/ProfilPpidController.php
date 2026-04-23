@@ -40,7 +40,17 @@ class ProfilPpidController extends Controller
         }
 
         $profil = ProfilPpid::where('type', $type)->first() ?? new ProfilPpid(['type' => $type]);
-        return view('admin.profil.edit', compact('profil', 'type'));
+        
+        // Fetch dashboard settings for this type (prefixed)
+        $pfx = str_replace('-', '_', $type);
+        $settings = \App\Models\Dashboard::where('key', 'like', $pfx . '_%')
+            ->pluck('value', 'key')
+            ->mapWithKeys(function($value, $key) use ($pfx) {
+                // Remove prefix to simplify retrieval in view
+                return [str_replace($pfx . '_', '', $key) => $value];
+            })->toArray();
+            
+        return view('admin.profil.edit', compact('profil', 'type', 'settings'));
     }
 
     /**
@@ -124,11 +134,48 @@ class ProfilPpidController extends Controller
         $profil->link_dokumen        = $validated['link_dokumen'] ?? null;
         $profil->additional_sections = $sections;
         $profil->gambaran            = $cleanHtml($validated['gambaran'] ?? null);
-
         $profil->save();
 
+        // ===== HANDLE DASHBOARD-BASED FIELDS (Prefix-based) =====
+        $pfx = str_replace('-', '_', $type);
+        $dashboardFields = [
+            'youtube_link', 'judul_maklumat', 'isi_maklumat', 'judul_standar', 'isi_standar',
+            'judul_konten', 'isi_konten', 'ringkasan_eksekutif', 'isi_laporan', 'tahun_laporan', 'jenis_laporan'
+        ];
+
+        foreach ($dashboardFields as $field) {
+            if ($request->has($field)) {
+                $key = $pfx . '_' . $field;
+                \App\Models\Dashboard::updateOrCreate(
+                    ['key' => $key],
+                    ['value' => $request->input($field) ?? '', 'type' => 'text', 'aktif' => true]
+                );
+            }
+        }
+
+        // Handle Dashboard Files
+        $fileFields = ['gambar_sop', 'gambar_proses', 'gambar_maklumat', 'file_laporan'];
+        foreach ($fileFields as $field) {
+            if ($request->hasFile($field)) {
+                $key = $pfx . '_' . $field;
+                $oldFile = \App\Models\Dashboard::where('key', $key)->first()?->value;
+                if ($oldFile && Storage::exists('public/halaman/' . $oldFile)) {
+                    Storage::delete('public/halaman/' . $oldFile);
+                }
+                
+                $file = $request->file($field);
+                $filename = $field . '_' . time() . '_' . $type . '.' . $file->getClientOriginalExtension();
+                $file->storeAs('public/halaman', $filename);
+                
+                \App\Models\Dashboard::updateOrCreate(
+                    ['key' => $key],
+                    ['value' => $filename, 'type' => 'file', 'aktif' => true]
+                );
+            }
+        }
+
         return redirect()->route('admin.profil.edit', $type)
-            ->with('success', 'Konten berhasil diperbarui!');
+            ->with('success', 'Konten ' . strtoupper($type) . ' berhasil diperbarui!');
     }
 
     /**

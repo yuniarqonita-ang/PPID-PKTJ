@@ -1,379 +1,210 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-6">
-    <div class="space-y-8 max-w-full">
+<div class="space-y-8 animate-fade-in lg:px-8">
+    
+    <!-- DASHBOARD-STYLE HEADER SECTION -->
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Master DIP: Aktif</h2>
+                </div>
+                
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
+                        Tambah <span class="text-[#ffc107]">Data DIP</span>
+                    </h1>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Registrasi Inventaris Master Daftar Informasi Publik - Baru secara terpusat.</p>
+                </div>
+            </div>
 
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center">
-        <div>
-            <h1 class="text-3xl font-black text-[#004a99] drop-shadow-lg">
-                ?? Daftar Informasi Publik
-            </h1>
-            <p class="text-gray-500 mt-1">Kelola daftar informasi publik yang tersedia untuk masyarakat</p>
-        </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ route('admin.layanan.daftar-informasi') }}" class="px-6 py-3 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 text-[#004a99] font-bold hover:shadow-lg transition transform hover:scale-105">
-                <i class="fas fa-arrow-left mr-2"></i>Kembali
-            </a>
+            <div class="flex items-center gap-4">
+                <a href="{{ route('admin.layanan.daftar-informasi') }}" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                    <i class="fas fa-arrow-left mr-3"></i> Kembali
+                </a>
+            </div>
         </div>
     </div>
 
-    <!-- ==================== ALERTS SECTION ==================== -->
-    @if($errors->any())
-        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-900/20 to-red-900/30 border border-red-600/30 p-6 shadow-lg">
-            <div class="absolute -top-4 -right-4 w-16 h-16 bg-red-200/20 rounded-full blur-2xl"></div>
-            <div class="relative z-10">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-red-500 text-[#004a99] flex items-center justify-center">
-                            <i class="fas fa-exclamation-circle text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-red-300 mb-2">ðŸš¨ Terjadi Kesalahan!</h3>
-                        <ul class="space-y-1 text-red-400">
-                            @foreach($errors->all() as $error)
-                                <li class="flex items-center space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-red-500 rounded-full"></span>
-                                    <span>{{ $error }}</span>
-                                </li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
-
     @if(session('success'))
-        <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-green-900/20 to-green-900/30 border border-green-600/30 p-6 shadow-lg">
-            <div class="absolute -top-4 -right-4 w-16 h-16 bg-green-200/20 rounded-full blur-2xl"></div>
-            <div class="relative z-10">
-                <div class="flex items-start space-x-4">
-                    <div class="flex-shrink-0">
-                        <div class="w-12 h-12 rounded-full bg-green-500 text-[#004a99] flex items-center justify-center animate-pulse">
-                            <i class="fas fa-check-circle text-xl"></i>
-                        </div>
-                    </div>
-                    <div class="flex-1">
-                        <h3 class="text-lg font-bold text-green-300">?… Berhasil!</h3>
-                        <p class="text-green-400">{{ session('success') }}</p>
-                    </div>
-                </div>
-            </div>
+    <div class="p-6 bg-emerald-50 border-2 border-emerald-200 rounded-3xl flex items-center gap-5">
+        <div class="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+            <i class="fas fa-check"></i>
         </div>
+        <div>
+            <p class="text-sm font-black text-emerald-900 uppercase tracking-widest">Data Berhasil Disimpan</p>
+            <p class="text-lg font-bold text-emerald-700 mt-1">{{ session('success') }}</p>
+        </div>
+    </div>
     @endif
 
-    <!-- ==================== FORM SECTION ==================== -->
-    <div class="bg-white rounded-2xl shadow-2xl ring-1 ring-gray-200 relative overflow-hidden shadow-sm border border-slate-600/30 p-8">
-        <form action="#" method="POST" enctype="multipart/form-data">
-            @csrf
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <!-- Main Content (2 columns) -->
-                <div class="lg:col-span-2 space-y-8">
-                    <!-- Informasi Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-[#004a99] flex items-center justify-center mr-3">
-                                <i class="fas fa-heading text-sm"></i>
-                            </span>
-                            Informasi *
-                        </label>
-                        <input type="text" name="informasi" id="informasi" 
-                               class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:border-cyan-500 focus:ring-cyan-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-gray-200 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-[#004a99] placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                               placeholder="Masukkan judul informasi publik..." required>
-                    </div>
-
-                    <!-- Kategori Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-purple-500 to-purple-600 text-[#004a99] flex items-center justify-center mr-3">
-                                <i class="fas fa-folder text-sm"></i>
-                            </span>
-                            Kategori Informasi *
-                        </label>
-                        <select name="kategori" id="kategori" 
-                                class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-gray-200 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-[#004a99] placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" required>
-                            <option value="">Pilih Kategori</option>
-                            <option value="informasi-berkala">Informasi Berkala</option>
-                            <option value="informasi-serta-merta">Informasi Serta Merta</option>
-                            <option value="informasi-setiap-saat">Informasi Setiap Saat</option>
-                            <option value="informasi-dikecualikan">Informasi Dikecualikan</option>
-                            <option value="lainnya">Lainnya</option>
-                        </select>
-                    </div>
-
-                    <!-- Konten Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-green-500 to-green-600 text-[#004a99] flex items-center justify-center mr-3">
-                                <i class="fas fa-file-alt text-sm"></i>
-                            </span>
-                            Konten Lengkap *
-                        </label>
-                        <div class="bg-white rounded-2xl shadow-2xl ring-1 ring-gray-200 relative overflow-hidden">
-                            <textarea id="editor" name="konten" class="w-full p-6 border-0 outline-none resize-none bg-slate-900/60 border-slate-600/50 text-[#004a99] placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" style="min-height: 300px;" required>
-Tuliskan deskripsi lengkap tentang informasi publik ini...
-                            </textarea>
+    <form action="{{ route('admin.layanan.daftar-informasi.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+        @csrf
+        
+            <div class="space-y-10">
+                <!-- MAIN FORM (FULL WIDTH) -->
+                <div class="space-y-10">
+                
+                <!-- CARD 1: INFORMASI DASAR -->
+                <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden">
+                    <div class="p-10 space-y-10">
+                        <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8">
+                            <h3 class="text-lg font-black text-[#002b5c] uppercase tracking-widest flex items-center">
+                                <span class="w-10 h-10 bg-[#ffc107] text-[#002b5c] rounded-xl flex items-center justify-center mr-4 text-sm">
+                                    <i class="fas fa-info-circle"></i>
+                                </span>
+                                Klasifikasi & Judul Utama
+                            </h3>
                         </div>
-                        <p class="text-sm text-gray-500 mt-2">
-                            <i class="fas fa-info-circle mr-1"></i>
-                            Jelaskan informasi secara detail dan mudah dipahami
-                        </p>
-                    </div>
+                        
+                        <div class="grid grid-cols-1 gap-10">
+                            <div class="space-y-4">
+                                <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">JUDUL INFORMASI PUBLIK *</label>
+                                <input type="text" name="judul_informasi" required
+                                    class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 focus:border-[#002b5c] outline-none transition-all font-bold text-[#002b5c] text-lg"
+                                    placeholder="Masukkan judul informasi yang sangat jelas...">
+                            </div>
 
-                    <!-- File Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-orange-500 to-orange-600 text-[#004a99] flex items-center justify-center mr-3">
-                                <i class="fas fa-file-upload text-sm"></i>
-                            </span>
-                            File Informasi *
-                        </label>
-                        <div class="relative">
-                            <input type="file" name="file" id="file" 
-                                   class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-orange-500/20 focus:border-orange-500 transition-all duration-300 bg-white rounded-2xl shadow-2xl ring-1 ring-gray-200 relative overflow-hidden shadow-sm file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-orange-50 file:text-orange-400 hover:file:bg-orange-100"
-                                   accept=".pdf,.doc,.docx,.xls,.xlsx" required>
-                            <div class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">
-                                Max 10MB
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                <div class="space-y-4">
+                                    <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">KATEGORI INFORMASI *</label>
+                                    <select name="kategori" required class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 appearance-none cursor-pointer font-black text-[#002b5c] text-md">
+                                        <option value="">PILIH KATEGORI</option>
+                                        <option value="informasi-berkala">INFORMASI BERKALA</option>
+                                        <option value="informasi-serta-merta">INFORMASI SERTA MERTA</option>
+                                        <option value="informasi-setiap-saat">INFORMASI SETIAP SAAT</option>
+                                        <option value="informasi-dikecualikan">INFORMASI DIKECUALIKAN</option>
+                                    </select>
+                                </div>
+                                <div class="space-y-4">
+                                    <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">TIPE ARSIP KHUSUS</label>
+                                    <select name="tipe_informasi" class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 appearance-none cursor-pointer font-black text-[#002b5c] text-md">
+                                        <option value="berkala">BERKALA</option>
+                                        <option value="setiapsaat">SETIAP SAAT</option>
+                                        <option value="sertamerta">SERTA MERTA</option>
+                                        <option value="dikecualikan">DIKECUALIKAN</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
-                        <p class="text-sm text-gray-500 mt-2">
-                            <i class="fas fa-file-alt mr-1"></i>
-                            Format: PDF, DOC, DOCX, XLS, XLSX
-                        </p>
-                    </div>
-
-                    <!-- Frekuensi Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-blue-500 to-blue-600 text-[#004a99] flex items-center justify-center mr-3">
-                                <i class="fas fa-sync text-sm"></i>
-                            </span>
-                            Frekuensi Pembaruan
-                        </label>
-                        <select name="frekuensi" id="frekuensi" 
-                                class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:border-cyan-500 focus:ring-cyan-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-gray-200 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-[#004a99] placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">
-                            <option value="">Pilih Frekuensi</option>
-                            <option value="harian">Harian</option>
-                            <option value="mingguan">Mingguan</option>
-                            <option value="bulanan">Bulanan</option>
-                            <option value="triwulan">Triwulan</option>
-                            <option value="semester">Semester</option>
-                            <option value="tahunan">Tahunan</option>
-                            <option value="sesuai-kebutuhan">Sesuai Kebutuhan</option>
-                        </select>
-                    </div>
-
-                    <!-- Kontak Person Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-indigo-500 to-indigo-600 text-[#004a99] flex items-center justify-center mr-3">
-                                <i class="fas fa-user text-sm"></i>
-                            </span>
-                            Kontak Person
-                        </label>
-                        <input type="text" name="kontak" id="kontak" 
-                               class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-gray-200 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-[#004a99] placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                               placeholder="Nama dan kontak person...">
-                    </div>
-
-                    <!-- Format Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-teal-500 to-teal-600 text-[#004a99] flex items-center justify-center mr-3">
-                                <i class="fas fa-list text-sm"></i>
-                            </span>
-                            Format Informasi
-                        </label>
-                        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                            <label class="relative cursor-pointer">
-                                <input type="checkbox" name="format[]" value="digital" class="peer sr-only">
-                                <div class="p-4 border-2 border-slate-600/30 rounded-xl hover:border-teal-400 peer-checked:border-teal-500 peer-checked:bg-teal-50 transition-all">
-                                    <div class="text-center">
-                                        <i class="fas fa-laptop text-2xl text-gray-500 peer-checked:text-teal-500 mb-2"></i>
-                                        <p class="font-medium text-slate-200 peer-checked:text-teal-700">Digital</p>
-                                    </div>
-                                </div>
-                            </label>
-                            <label class="relative cursor-pointer">
-                                <input type="checkbox" name="format[]" value="cetak" class="peer sr-only">
-                                <div class="p-4 border-2 border-slate-600/30 rounded-xl hover:border-teal-400 peer-checked:border-teal-500 peer-checked:bg-teal-50 transition-all">
-                                    <div class="text-center">
-                                        <i class="fas fa-print text-2xl text-gray-500 peer-checked:text-teal-500 mb-2"></i>
-                                        <p class="font-medium text-slate-200 peer-checked:text-teal-700">Cetak</p>
-                                    </div>
-                                </div>
-                            </label>
-                            <label class="relative cursor-pointer">
-                                <input type="checkbox" name="format[]" value="hardcopy" class="peer sr-only">
-                                <div class="p-4 border-2 border-slate-600/30 rounded-xl hover:border-teal-400 peer-checked:border-teal-500 peer-checked:bg-teal-50 transition-all">
-                                    <div class="text-center">
-                                        <i class="fas fa-file text-2xl text-gray-500 peer-checked:text-teal-500 mb-2"></i>
-                                        <p class="font-medium text-slate-200 peer-checked:text-teal-700">Hard Copy</p>
-                                    </div>
-                                </div>
-                            </label>
-                            <label class="relative cursor-pointer">
-                                <input type="checkbox" name="format[]" value="online" class="peer sr-only">
-                                <div class="p-4 border-2 border-slate-600/30 rounded-xl hover:border-teal-400 peer-checked:border-teal-500 peer-checked:bg-teal-50 transition-all">
-                                    <div class="text-center">
-                                        <i class="fas fa-globe text-2xl text-gray-500 peer-checked:text-teal-500 mb-2"></i>
-                                        <p class="font-medium text-slate-200 peer-checked:text-teal-700">Online</p>
-                                    </div>
-                                </div>
-                            </label>
-                        </div>
-                    </div>
-
-                    <!-- Biaya Section -->
-                    <div class="group">
-                        <label class="block text-lg font-bold text-slate-200 mb-3 flex items-center">
-                            <span class="w-8 h-8 rounded-lg bg-gradient-to-r from-red-500 to-red-600 text-[#004a99] flex items-center justify-center mr-3">
-                                <i class="fas fa-money-bill text-sm"></i>
-                            </span>
-                            Biaya Perolehan
-                        </label>
-                        <input type="text" name="biaya" id="biaya" 
-                               class="w-full px-6 py-4 text-lg border-2 border-slate-500/50 rounded-xl focus:ring-4 focus:ring-red-500/20 focus:border-red-500 transition-all duration-300 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-gray-200 relative overflow-hidden shadow-sm bg-slate-900/60 border-slate-600/50 text-[#004a99] placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"
-                               placeholder="Contoh: Gratis, Rp. 5.000, sesuai ketentuan">
                     </div>
                 </div>
 
-                <!-- Sidebar (1 column) -->
-                <div class="space-y-6">
-                    <!-- Panduan Card -->
-                    <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-yellow-900/20 to-orange-900/20 border border-yellow-600/30 p-6 shadow-lg">
-                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-yellow-200/20 rounded-full blur-3xl"></div>
-                        <div class="relative z-10">
-                            <div class="flex items-center mb-4">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-yellow-400 to-orange-500 text-[#004a99] flex items-center justify-center mr-3">
-                                    <i class="fas fa-lightbulb"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-orange-300">Panduan Pengisian</h3>
+                <!-- CARD 2: KONTEN DETAIL -->
+                <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden">
+                    <div class="p-10 space-y-8">
+                        <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8">
+                            <h3 class="text-lg font-black text-[#002b5c] uppercase tracking-widest flex items-center">
+                                <span class="w-10 h-10 bg-[#ffc107] text-[#002b5c] rounded-xl flex items-center justify-center mr-4 text-sm">
+                                    <i class="fas fa-align-left"></i>
+                                </span>
+                                Ringkasan Isi Informasi
+                            </h3>
+                        </div>
+
+                        <div class="space-y-6">
+                            <textarea id="editor_isi" name="isi_informasi" class="tinymce-editor"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3: ADMINISTRATIF -->
+                <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden">
+                    <div class="p-10 space-y-10">
+                        <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8">
+                            <h3 class="text-lg font-black text-[#002b5c] uppercase tracking-widest flex items-center">
+                                <span class="w-10 h-10 bg-[#ffc107] text-[#002b5c] rounded-xl flex items-center justify-center mr-4 text-sm">
+                                    <i class="fas fa-user-shield"></i>
+                                </span>
+                                Otoritas & Tanggung Jawab
+                            </h3>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                            <div class="space-y-4">
+                                <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">PEJABAT PENGUASA INFORMASI *</label>
+                                <input type="text" name="pejabat_penguasa" required
+                                    class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]"
+                                    placeholder="Nama Pejabat/Kepala...">
                             </div>
-                            <div class="space-y-3 text-sm">
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Informasi:</strong>
-                                        <p class="text-orange-400">Judul informasi publik</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Kategori:</strong>
-                                        <p class="text-orange-400">Jenis informasi</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Konten:</strong>
-                                        <p class="text-orange-400">Deskripsi lengkap</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">File:</strong>
-                                        <p class="text-orange-400">Dokumen pendukung</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-start space-x-2">
-                                    <span class="w-1.5 h-1.5 bg-orange-500 rounded-full mt-1.5 flex-shrink-0"></span>
-                                    <div>
-                                        <strong class="text-orange-300">Frekuensi:</strong>
-                                        <p class="text-orange-400">Periode update</p>
-                                    </div>
-                                </div>
+                            <div class="space-y-4">
+                                <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">PENANGGUNG JAWAB UNIT *</label>
+                                <input type="text" name="penanggung_jawab" required
+                                    class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]"
+                                    placeholder="Nama Unit Kerja/Seksi...">
                             </div>
                         </div>
                     </div>
+                </div>
+                </div>
 
-                    <!-- Info Card -->
-                    <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-br from-blue-900/20 to-indigo-900/20 border border-blue-600/30 p-6 shadow-lg">
-                        <div class="absolute -top-8 -right-8 w-24 h-24 bg-blue-200/20 rounded-full blur-3xl"></div>
-                        <div class="relative z-10">
-                            <div class="flex items-center mb-3">
-                                <div class="w-10 h-10 rounded-xl bg-gradient-to-r from-blue-400 to-indigo-500 text-[#004a99] flex items-center justify-center mr-3">
-                                    <i class="fas fa-info-circle"></i>
-                                </div>
-                                <h3 class="text-lg font-bold text-blue-300">Tentang Daftar Informasi Publik</h3>
-                            </div>
-                            <p class="text-sm text-white leading-relaxed">
-                                Daftar Informasi Publik adalah katalog lengkap semua informasi yang tersedia untuk diakses oleh masyarakat sesuai dengan keterbukaan informasi publik.
+                <!-- SIDEBAR CONFIG (NOW MOVED BELOW) -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+                
+                <!-- ATTRIBUTES CARD -->
+                <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 p-10 space-y-10">
+                    <h3 class="text-sm font-black text-[#002b5c] uppercase tracking-[3px] border-b-2 border-slate-50 pb-8 flex items-center">
+                        <i class="fas fa-tags mr-3 text-[#ffc107]"></i> ATRIBUT TEKNIS
+                    </h3>
+
+                    <div class="space-y-8">
+                        <div class="space-y-3">
+                            <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Waktu Pembuatan</label>
+                            <input type="text" name="waktu_pembuatan"
+                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-black text-[#002b5c]"
+                                placeholder="CONTOH: TAHUN 2025">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Bentuk Informasi</label>
+                            <input type="text" name="bentuk_informasi"
+                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-black text-[#002b5c]"
+                                placeholder="CONTOH: SOFTCOPY / PDF">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Jangka Penyimpanan</label>
+                            <input type="text" name="jangka_waktu"
+                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-black text-[#002b5c]"
+                                placeholder="SELAMA BERLAKU / 5 TAHUN">
+                        </div>
+                    </div>
+
+                    <div class="pt-6">
+                        <div class="relative group border-4 border-dashed border-slate-200 rounded-[2rem] p-10 hover:border-[#002b5c] transition-all bg-slate-50 text-center">
+                            <input type="file" name="file_informasi" class="absolute inset-0 opacity-0 cursor-pointer z-10">
+                            <i class="fas fa-file-pdf text-5xl text-[#002b5c] mb-5"></i>
+                            <p class="text-[13px] font-black text-[#002b5c] uppercase tracking-widest">UNGGAH DOKUMEN (PDF ONLY)</p>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full py-6 bg-[#002b5c] text-white font-black text-md uppercase tracking-[3px] rounded-2xl shadow-2xl hover:bg-black transition-all border-none cursor-pointer">
+                        <i class="fas fa-save mr-3 text-[#ffc107]"></i> SIMPAN DATA DIP
+                    </button>
+                    <p class="text-[12px] text-center text-slate-500 font-bold uppercase tracking-widest mt-4">Data akan otomatis terindeks di sistem publik</p>
+                </div>
+
+                <!-- HELP BOX - CLEAR -->
+                <div class="bg-[#ffc107] rounded-[2.5rem] p-10 text-[#002b5c] shadow-xl relative overflow-hidden">
+                    <div class="absolute -right-5 -bottom-5 w-32 h-32 bg-white/20 rounded-full blur-2xl"></div>
+                    <div class="relative z-10 space-y-6">
+                        <div class="w-14 h-14 bg-[#002b5c] text-white rounded-2xl flex items-center justify-center text-2xl">
+                            <i class="fas fa-lightbulb"></i>
+                        </div>
+                        <div class="space-y-3">
+                            <h4 class="text-md font-black uppercase tracking-widest">Tips Pengisian</h4>
+                            <p class="text-[14px] leading-relaxed font-bold">
+                                Pastikan Judul Informasi ditulis dengan HURUF BALOK di awal kata untuk menjaga kerapihan tampilan di portal publik.
                             </p>
                         </div>
                     </div>
-
-                    <!-- Quick Stats -->
-                    <div class="grid grid-cols-2 gap-4">
-                        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-green-400 to-green-600 p-4 text-[#004a99] shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-white rounded-2xl shadow-2xl ring-1 ring-gray-200 relative overflow-hidden/20 rounded-full blur-xl"></div>
-                            <div class="relative z-10">
-                                <p class="text-2xl font-black">15</p>
-                                <p class="text-xs text-[#004a99]/80">Total Item</p>
-                            </div>
-                        </div>
-                        <div class="group relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-400 to-purple-600 p-4 text-[#004a99] shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105">
-                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-white rounded-2xl shadow-2xl ring-1 ring-gray-200 relative overflow-hidden/20 rounded-full blur-xl"></div>
-                            <div class="relative z-10">
-                                <p class="text-2xl font-black">7</p>
-                                <p class="text-xs text-[#004a99]/80">Bulan Ini</p>
-                            </div>
-                        </div>
-                    </div>
                 </div>
             </div>
-
-            <!-- Action Buttons -->
-            <div class="flex justify-end space-x-4 mt-8 pt-8 border-t-2 border-slate-600/30">
-                <a href="{{ route('admin.layanan.daftar-informasi') }}" class="px-8 py-4 rounded-xl bg-gradient-to-r from-slate-700 to-slate-600 text-[#004a99] font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <i class="fas fa-times mr-2"></i>Batal
-                </a>
-                <button type="submit" class="px-8 py-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 shadow-lg shadow-cyan-500/25 ring-1 ring-cyan-400/30 text-[#004a99] font-bold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
-                    <i class="fas fa-save mr-2"></i>Simpan Informasi
-                </button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
-        $(document).ready(function() {
-            // Initialize Summernote for Konten Lengkap
-            $('#editor').summernote({
-                height: 300,
-                placeholder: 'Tuliskan deskripsi lengkap tentang informasi publik ini...',
-                toolbar: [
-                    ['style', ['style', 'bold', 'italic', 'underline', 'clear']],
-                    ['font', ['strikethrough', 'superscript', 'subscript']],
-                    ['fontsize', ['fontsize']],
-                    ['color', ['color']],
-                    ['para', ['ul', 'ol', 'paragraph', 'height', 'alignleft', 'aligncenter', 'alignright', 'alignjustify']],
-                    ['insert', ['picture', 'link', 'video', 'table', 'hr']],
-                    ['misc', ['fullscreen', 'codeview', 'undo', 'redo', 'help']]
-                ]
-            });
-        });
-    </script>
-
-<style>
-    .form-control.form-editor {
-        min-height: 250px;
-    }
-    .display-5 {
-        font-size: 2rem;
-        font-weight: 600;
-    }
-    .ck-editor__editable { min-height: 250px; }
-</style>
-</div>
-</div>
 @endsection
-

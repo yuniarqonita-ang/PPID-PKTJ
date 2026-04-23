@@ -32,9 +32,9 @@
                 @csrf
                 {{-- @method('PUT') --}}
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- LEFT COLUMN: MAIN CONTENT -->
-                    <div class="lg:col-span-2 space-y-6">
+                <div class="space-y-8">
+                    <!-- MAIN CONTENT (FULL WIDTH) -->
+                    <div class="space-y-6">
                         
                         <!-- FIELD 1: JUDUL -->
                         <div class="space-y-2">
@@ -69,8 +69,8 @@
 
                     </div>
 
-                    <!-- RIGHT COLUMN: SIDEBAR -->
-                    <div class="space-y-6">
+                    <!-- BOTTOM SECTION: SETTINGS & SIDEBAR -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         
                         <!-- PUBLICATION SETTINGS -->
                         <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
@@ -144,10 +144,11 @@
     tinymce.init({
         selector: '.tinymce-editor',
         plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 400,
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | alignjustify align | link image media table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        height: 600,
         skin: 'oxide',
         content_css: 'default',
+        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #475569; text-align: justify; }',
         branding: false,
         elementpath: false,
         menubar: false,

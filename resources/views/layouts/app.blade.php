@@ -4,390 +4,358 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="csrf-token" content="{{ csrf_token() }}">
-        <title>Admin PPID PKTJ</title>
+        <title>Admin PPID PKTJ | Executive Panel</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
         <style>
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+            @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600;700;900&display=swap');
+            
             body {
-                font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-                background-color: #f8f9fa;
-                color: #333;
+                font-family: 'Inter', sans-serif;
+                background-color: #f0f2f5;
+                color: #1e293b;
                 min-height: 100vh;
+                margin: 0;
             }
             
+            .admin-wrapper {
+                display: flex;
+                min-height: 100vh;
+                width: 100%;
+            }
+
             .sidebar {
                 width: 280px;
-                background-color: #004a99; /* Navy Blue Utama PPID */
-                box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
-                position: fixed;
-                left: 0;
-                top: 0;
+                background: #004a99;
                 height: 100vh;
-                z-index: 1000;
-                overflow-y: auto;
+                position: sticky;
+                top: 0;
+                flex-shrink: 0;
+                display: flex;
+                flex-direction: column;
+                box-shadow: 4px 0 15px rgba(0,0,0,0.05);
+                z-index: 100;
             }
-            
-            .sidebar::-webkit-scrollbar { width: 6px; }
-            .sidebar::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.1); }
-            .sidebar::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.3); border-radius: 3px; }
-            
+
             .logo-section {
-                padding: 30px 20px;
-                border-bottom: 2px solid #ffc107; /* Warning Yellow Accent */
+                padding: 40px 20px;
                 text-align: center;
-                background-color: rgba(0, 0, 0, 0.1);
+                background: rgba(0,0,0,0.1);
+                margin-bottom: 10px;
             }
             
             .logo-section img {
-                width: 70px;
-                height: 70px;
-                object-fit: contain;
-                margin-bottom: 12px;
-                filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+                height: 50px;
+                width: auto;
+                margin: 0 auto 15px;
+                display: block;
             }
             
             .logo-title {
-                color: #fff;
-                font-size: 22px;
+                color: #ffffff;
+                font-size: 20px;
                 font-weight: 800;
-                margin-bottom: 2px;
                 letter-spacing: 1px;
+                text-transform: uppercase;
             }
             
             .logo-subtitle {
                 color: #ffc107;
                 font-size: 11px;
-                text-transform: uppercase;
-                letter-spacing: 1.5px;
                 font-weight: 700;
+                letter-spacing: 3px;
+                opacity: 0.9;
+                margin-top: 5px;
+            }
+
+            .sidebar-scroll {
+                flex: 1;
+                overflow-y: auto;
+                padding: 10px 15px;
             }
             
-            .nav-menu { padding: 15px 0; }
-            .nav-item { margin-bottom: 2px; }
+            .sidebar-scroll::-webkit-scrollbar { width: 4px; }
+            .sidebar-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
             
             .nav-link {
                 display: flex;
                 align-items: center;
-                padding: 14px 25px;
-                color: rgba(255, 255, 255, 0.8);
+                padding: 12px 18px;
+                color: rgba(255,255,255,0.85);
                 text-decoration: none;
-                transition: all 0.2s ease;
-                font-size: 14px;
-                font-weight: 500;
-                position: relative;
+                transition: all 0.2s;
+                font-size: 13px;
+                font-weight: 600;
+                border-radius: 8px;
+                margin-bottom: 4px;
             }
             
             .nav-link:hover {
-                color: #fff;
                 background: rgba(255, 255, 255, 0.1);
-                padding-left: 28px;
+                color: #ffffff;
             }
             
             .nav-link.active {
+                background: #ffc107;
                 color: #004a99;
-                background-color: #ffc107;
                 font-weight: 700;
-                box-shadow: inset 4px 0 0 #fff;
+                box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
             }
             
             .nav-icon {
-                margin-right: 15px;
+                margin-right: 12px;
                 font-size: 16px;
                 width: 20px;
                 text-align: center;
+                opacity: 0.8;
             }
             
             .accordion-toggle {
+                width: 100%;
                 background: none;
                 border: none;
-                color: rgba(255, 255, 255, 0.8);
-                cursor: pointer;
-                width: 100%;
-                text-align: left;
-                font-size: 14px;
-                font-weight: 500;
-                padding: 14px 25px;
-                transition: all 0.2s ease;
                 display: flex;
                 align-items: center;
+                padding: 12px 18px;
+                color: rgba(255,255,255,0.85);
+                cursor: pointer;
+                border-radius: 8px;
+                font-size: 13px;
+                font-weight: 600;
+                transition: 0.2s;
+                margin-bottom: 2px;
             }
             
             .accordion-toggle:hover {
-                color: #fff;
                 background: rgba(255, 255, 255, 0.1);
-                padding-left: 28px;
+                color: #ffffff;
             }
-            
+
             .accordion-toggle.active {
-                color: #fff;
-                background: rgba(255, 255, 255, 0.15);
-                border-left: 4px solid #ffc107;
+                color: #ffc107;
+                background: rgba(0, 0, 0, 0.1);
             }
             
             .submenu {
                 max-height: 0;
                 overflow: hidden;
-                transition: max-height 0.3s ease;
-                background: rgba(0, 0, 0, 0.2);
+                transition: all 0.3s ease-out;
+                background: rgba(0, 0, 0, 0.05);
+                border-radius: 6px;
+                margin-bottom: 5px;
             }
-            .submenu.open { max-height: 1000px; }
+            .submenu.open { max-height: 600px; padding: 5px 0; }
             
             .submenu-link {
                 display: block;
-                padding: 10px 25px 10px 60px;
+                padding: 10px 15px 10px 50px;
                 color: rgba(255, 255, 255, 0.7);
                 text-decoration: none;
-                font-size: 13px;
-                transition: color 0.2s;
+                font-size: 12px;
+                border-radius: 6px;
+                transition: 0.2s;
             }
             
-            .submenu-link:hover {
+            .submenu-link:hover, .submenu-link.active {
                 color: #ffc107;
+                background: rgba(255,255,255,0.05);
             }
             
-            .submenu-link.active {
-                color: #ffc107;
-                font-weight: 600;
+            .sidebar-footer {
+                padding: 20px;
+                background: rgba(0, 0, 0, 0.1);
+                border-top: 1px solid rgba(255,255,255,0.05);
             }
-            
-            .main-content {
-                margin-left: 280px;
-                min-height: 100vh;
-                background-color: #f8f9fa;
-            }
-            
-            .top-header {
-                background: #ffffff;
-                padding: 15px 30px;
-                box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                border-bottom: 1px solid #e9ecef;
-            }
-            
-            .page-title {
-                font-family: 'Manrope', sans-serif;
-                font-size: 22px;
-                font-weight: 800;
-                color: #004a99;
-                margin: 0;
-                text-transform: uppercase;
-            }
-            
+
             .user-avatar {
                 width: 40px;
                 height: 40px;
-                border-radius: 50%;
-                background-color: #004a99;
+                background: #ffc107;
+                color: #004a99;
+                border-radius: 8px;
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                color: #fff;
+                font-weight: 800;
+                font-size: 18px;
+            }
+            
+            .main-content {
+                flex: 1;
+                min-width: 0;
+                display: flex;
+                flex-direction: column;
+                background: #f8f9fa;
+            }
+            
+            .top-header {
+                height: 70px;
+                background: #ffffff;
+                padding: 0 30px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                border-bottom: 1px solid #e2e8f0;
+                position: sticky;
+                top: 0;
+                z-index: 90;
+            }
+            
+            .page-title {
+                font-size: 18px;
                 font-weight: 700;
-                font-size: 16px;
-                border: 2px solid #ffc107;
+                color: #004a99;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
             }
             
-            .content-area { padding: 30px; }
-            
-            @media (max-width: 768px) {
-                .sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
-                .sidebar.open { transform: translateX(0); }
+            .content-area {
+                padding: 30px;
+                flex: 1;
+            }
+
+            /* Responsive Adjustments */
+            @media (max-width: 1024px) {
+                .sidebar { 
+                    position: fixed;
+                    left: -280px; 
+                    transition: left 0.3s; 
+                }
+                .sidebar.open { left: 0; }
                 .main-content { margin-left: 0; }
-                .mobile-menu-toggle { display: block; position: fixed; top: 15px; left: 15px; z-index: 1001; background: #004a99; color: white; border: none; padding: 10px 15px; border-radius: 5px; cursor: pointer; }
             }
-            @media (min-width: 769px) { .mobile-menu-toggle { display: none; } }
-            
-            /* Overrides to kill Dark Theme Elements if leftover */
-            .content-area h1, .content-area h2, .content-area h3 { color: #004a99 !important; }
-            .content-area table { background: #fff; }
-            .content-area thead th { background-color: #004a99 !important; color: #fff !important; }
-            .content-area tbody td { color: #333 !important; }
-            .content-area tbody tr:hover { background-color: #f1f5f9 !important; }
         </style>
     </head>
     <body class="antialiased">
-        <div class="mobile-menu-toggle" onclick="toggleSidebar()">
-            <i class="fas fa-bars"></i>
-        </div>
-        
-        <div class="sidebar" id="sidebar">
-            <div class="logo-section">
-                <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ">
-                <div class="logo-title">PPID PKTJ</div>
-                <div class="logo-subtitle">Management Panel</div>
-            </div>
-            
-            <nav class="nav-menu">
-                <div class="nav-item">
-                    <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                        <i class="fas fa-home nav-icon"></i>
-                        Dashboard
-                    </a>
+        <div class="admin-wrapper">
+            <!-- SIDEBAR -->
+            <div class="sidebar" id="sidebar">
+                <div class="logo-section">
+                    <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ">
+                    <div class="logo-title">PPID PKTJ</div>
+                    <div class="logo-subtitle">PANEL ADMIN</div>
                 </div>
                 
-                <div class="nav-item">
-                    <a href="{{ route('halaman.index') }}" class="nav-link {{ request()->routeIs('halaman.index') || request()->is('admin/halaman*') ? 'active' : '' }}">
-                        <i class="fas fa-file nav-icon"></i> Halaman
-                    </a>
-                </div>
+                <div class="sidebar-scroll">
+                    <nav class="py-4">
+                        <a href="{{ route('dashboard') }}" class="nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                            <i class="fas fa-chart-line nav-icon"></i> DASHBOARD
+                        </a>
 
-                {{-- PROFIL PPID --}}
-                <div class="nav-item">
-                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-users nav-icon"></i>
-                        Profil PPID
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
-                    </button>
-                    <div class="submenu">
-                        <a href="{{ route('admin.profil.edit', 'profil') }}" class="submenu-link {{ request()->is('admin/profil/profil/edit') || request()->get('type') == 'profil' ? 'active' : '' }}">Profil PPID</a>
-                        <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link {{ request()->get('type') == 'tugas' ? 'active' : '' }}">Tugas dan Tanggung Jawab</a>
-                        <a href="{{ route('admin.profil.edit', 'visi') }}" class="submenu-link {{ request()->get('type') == 'visi' ? 'active' : '' }}">Visi dan Misi</a>
-                        <a href="{{ route('admin.profil.edit', 'struktur') }}" class="submenu-link {{ request()->get('type') == 'struktur' ? 'active' : '' }}">Struktur Organisasi</a>
-                        <a href="{{ route('admin.profil.edit', 'regulasi') }}" class="submenu-link {{ request()->get('type') == 'regulasi' ? 'active' : '' }}">Regulasi</a>
-                        <a href="{{ route('admin.profil.edit', 'kontak') }}" class="submenu-link {{ request()->get('type') == 'kontak' ? 'active' : '' }}">Kontak</a>
-                    </div>
-                </div>
+                        <button class="accordion-toggle {{ request()->is('admin/profil*') ? 'active' : '' }}" onclick="toggleAccordion(this)">
+                            <i class="fas fa-university nav-icon"></i> PROFIL PPID
+                            <i class="fas fa-chevron-down ml-auto opacity-50"></i>
+                        </button>
+                        <div class="submenu {{ request()->is('admin/profil*') ? 'open' : '' }}">
+                            <a href="{{ route('admin.profil.edit', 'profil') }}" class="submenu-link {{ request()->is('admin/profil/profil*') ? 'active' : '' }}">Profil PPID</a>
+                            <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link {{ request()->is('admin/profil/tugas*') ? 'active' : '' }}">Tugas & Tanggung Jawab</a>
+                            <a href="{{ route('admin.profil.edit', 'visi') }}" class="submenu-link {{ request()->is('admin/profil/visi*') ? 'active' : '' }}">Visi & Misi</a>
+                            <a href="{{ route('admin.profil.edit', 'struktur') }}" class="submenu-link {{ request()->is('admin/profil/struktur*') ? 'active' : '' }}">Struktur Organisasi</a>
+                            <a href="{{ route('admin.profil.edit', 'regulasi') }}" class="submenu-link {{ request()->is('admin/profil/regulasi*') ? 'active' : '' }}">Regulasi</a>
+                            <a href="{{ route('admin.profil.edit', 'kontak') }}" class="submenu-link {{ request()->is('admin/profil/kontak*') ? 'active' : '' }}">Kontak Kami</a>
+                        </div>
 
-                {{-- INFORMASI PUBLIK --}}
-                <div class="nav-item">
-                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-newspaper nav-icon"></i>
-                        Informasi Publik
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
-                    </button>
-                    <div class="submenu">
-                        <a href="{{ route('admin.informasi.berkala') }}" class="submenu-link {{ request()->routeIs('admin.informasi.berkala*') ? 'active' : '' }}">Berkala</a>
-                        <a href="{{ route('admin.informasi.sertamerta') }}" class="submenu-link {{ request()->routeIs('admin.informasi.sertamerta*') ? 'active' : '' }}">Serta Merta</a>
-                        <a href="{{ route('admin.informasi.setiapsaat') }}" class="submenu-link {{ request()->routeIs('admin.informasi.setiapsaat*') ? 'active' : '' }}">Setiap Saat</a>
-                        <a href="{{ route('admin.informasi.dikecualikan') }}" class="submenu-link {{ request()->routeIs('admin.informasi.dikecualikan*') ? 'active' : '' }}">Dikecualikan</a>
-                    </div>
-                </div>
+                        <button class="accordion-toggle {{ request()->is('admin/informasi*') ? 'active' : '' }}" onclick="toggleAccordion(this)">
+                            <i class="fas fa-database nav-icon"></i> INFORMASI PUBLIK
+                            <i class="fas fa-chevron-down ml-auto opacity-50"></i>
+                        </button>
+                        <div class="submenu {{ request()->is('admin/informasi*') ? 'open' : '' }}">
+                            <a href="{{ route('admin.informasi.berkala') }}" class="submenu-link {{ request()->is('admin/informasi/berkala*') ? 'active' : '' }}">Informasi Berkala</a>
+                            <a href="{{ route('admin.informasi.sertamerta') }}" class="submenu-link {{ request()->is('admin/informasi/serta-merta*') ? 'active' : '' }}">Informasi Serta Merta</a>
+                            <a href="{{ route('admin.informasi.setiapsaat') }}" class="submenu-link {{ request()->is('admin/informasi/setiap-saat*') ? 'active' : '' }}">Informasi Setiap Saat</a>
+                            <a href="{{ route('admin.informasi.dikecualikan') }}" class="submenu-link {{ request()->is('admin/informasi/dikecualikan*') ? 'active' : '' }}">Informasi Dikecualikan</a>
+                        </div>
 
-                {{-- LAYANAN INFORMASI --}}
-                <div class="nav-item">
-                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-info-circle nav-icon"></i>
-                        Layanan Informasi
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
-                    </button>
-                    <div class="submenu">
-                        <a href="{{ route('admin.layanan.daftar-informasi') }}" class="submenu-link">Daftar Informasi</a>
-                        <a href="{{ route('admin.layanan.maklumat-pelayanan') }}" class="submenu-link">Maklumat Pelayanan</a>
-                        <a href="{{ route('admin.layanan.laporan-layanan') }}" class="submenu-link">Laporan Layanan</a>
-                        <a href="{{ route('admin.layanan.laporan-akses') }}" class="submenu-link">Laporan Akses</a>
-                        <a href="{{ route('admin.layanan.laporan-survey') }}" class="submenu-link">Laporan Survey</a>
-                    </div>
-                </div>
+                        <button class="accordion-toggle {{ request()->is('admin/layanan*') ? 'active' : '' }}" onclick="toggleAccordion(this)">
+                            <i class="fas fa-concierge-bell nav-icon"></i> LAYANAN INFORMASI
+                            <i class="fas fa-chevron-down ml-auto opacity-50"></i>
+                        </button>
+                        <div class="submenu {{ request()->is('admin/layanan*') ? 'open' : '' }}">
+                            <a href="{{ route('admin.layanan.daftar-informasi') }}" class="submenu-link {{ request()->routeIs('admin.layanan.daftar-informasi*') ? 'active' : '' }}">Daftar Informasi Publik</a>
+                            <a href="{{ route('admin.layanan.maklumat-pelayanan') }}" class="submenu-link {{ request()->routeIs('admin.layanan.maklumat-pelayanan*') ? 'active' : '' }}">Maklumat & Standar Biaya</a>
+                            <a href="{{ route('admin.layanan.laporan-layanan') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-layanan*') ? 'active' : '' }}">Laporan Layanan</a>
+                            <a href="{{ route('admin.layanan.laporan-akses') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-akses*') ? 'active' : '' }}">Laporan Akses</a>
+                            <a href="{{ route('admin.layanan.laporan-survey') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-survey*') ? 'active' : '' }}">Laporan Survey</a>
+                        </div>
 
-                {{-- PROSEDUR --}}
-                <div class="nav-item">
-                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-list-ol nav-icon"></i>
-                        Prosedur
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
-                    </button>
-                    <div class="submenu">
-                        <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="submenu-link">Permintaan Informasi</a>
-                        <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="submenu-link">Pengajuan Keberatan</a>
-                        <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="submenu-link">Sengketa Informasi</a>
-                        <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="submenu-link">Penetapan & Pemutakhiran</a>
-                        <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="submenu-link">Pengujian Konsekuensi</a>
-                        <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="submenu-link">Pendokumentasian</a>
-                    </div>
-                </div>
+                        <button class="accordion-toggle {{ request()->is('admin/prosedur*') ? 'active' : '' }}" onclick="toggleAccordion(this)">
+                            <i class="fas fa-file-signature nav-icon"></i> PROSEDUR
+                            <i class="fas fa-chevron-down ml-auto opacity-50"></i>
+                        </button>
+                        <div class="submenu {{ request()->is('admin/prosedur*') ? 'open' : '' }}">
+                            <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-permintaan*') ? 'active' : '' }}">SOP Permintaan</a>
+                            <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-keberatan*') ? 'active' : '' }}">SOP Keberatan</a>
+                            <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-sengketa*') ? 'active' : '' }}">SOP Sengketa</a>
+                            <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-penetapan*') ? 'active' : '' }}">SOP Penetapan DIP</a>
+                            <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pengujian*') ? 'active' : '' }}">SOP Pengujian Konsekuensi</a>
+                            <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pendokumentasian*') ? 'active' : '' }}">SOP Pendokumentasian</a>
+                        </div>
 
-                <div class="nav-item">
-                    <a href="{{ route('admin.faq.index') }}" class="nav-link {{ request()->is('admin/faq*') ? 'active' : '' }}">
-                        <i class="fas fa-question-circle nav-icon"></i> FAQ
-                    </a>
-                </div>
+                        <a href="{{ route('admin.faq.index') }}" class="nav-link {{ request()->routeIs('admin.faq.*') || request()->is('admin/faq*') ? 'active' : '' }}">
+                            <i class="fas fa-question-circle nav-icon"></i> FAQ / PERTANYAAN
+                        </a>
 
-                <div class="nav-item">
-                    <button class="accordion-toggle" onclick="toggleAccordion(this)">
-                        <i class="fas fa-envelope nav-icon"></i>
-                        Permohonan Info
-                        <i class="fas fa-chevron-down" style="margin-left: auto; transition: transform 0.3s;"></i>
-                    </button>
-                    <div class="submenu">
-                        <a href="{{ route('admin.permohonan.index') }}" class="submenu-link">Daftar Permohonan</a>
-                        <a href="{{ route('admin.permohonan.form') }}" class="submenu-link">Form Permohonan</a>
-                    </div>
-                </div>
+                        <a href="{{ route('admin.permohonan.index') }}" class="nav-link {{ request()->is('admin/permohonan*') && !request()->is('admin/permohonan/report*') ? 'active' : '' }}">
+                            <i class="fas fa-envelope-open-text nav-icon"></i> PERMOHONAN INFORMASI
+                        </a>
 
-                <div class="nav-item">
-                    <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->is('admin/berita*') ? 'active' : '' }}">
-                        <i class="fas fa-newspaper nav-icon"></i> Berita
-                    </a>
-                </div>
+                        <a href="{{ route('admin.permohonan.report') }}" class="nav-link {{ request()->is('admin/permohonan/report*') ? 'active' : '' }}">
+                            <i class="fas fa-file-invoice nav-icon"></i> LAPORAN BULANAN
+                        </a>
 
-                <div class="nav-item">
-                    <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->is('admin/user-management*') ? 'active' : '' }}">
-                        <i class="fas fa-users-cog nav-icon"></i> User Management
-                    </a>
+                        <a href="{{ route('admin.keberatan.index') }}" class="nav-link {{ request()->is('admin/keberatan*') ? 'active' : '' }}">
+                            <i class="fas fa-exclamation-circle nav-icon"></i> KEBERATAN PERMOHONAN INFORMASI
+                        </a>
+
+                        <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
+                            <i class="fas fa-newspaper nav-icon"></i> BERITA & ARTIKEL
+                        </a>
+                        <a href="{{ route('admin.agenda.index') }}" class="nav-link {{ request()->routeIs('admin.agenda.*') ? 'active' : '' }}">
+                            <i class="fas fa-calendar-alt nav-icon"></i> AGENDA KEGIATAN
+                        </a>
+                        <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
+                            <i class="fas fa-users-cog nav-icon"></i> MANAJEMEN USER
+                        </a>
+                        <a href="{{ route('dashboard.edit') }}" class="nav-link {{ request()->routeIs('dashboard.edit') ? 'active' : '' }}">
+                            <i class="fas fa-images nav-icon"></i> HERO BANNER
+                        </a>
+                    </nav>
                 </div>
-            </nav>
-            
-            <div style="padding: 20px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
-                <div style="display: flex; align-items: center; gap: 15px;">
-                    <div class="user-avatar">{{ substr(Auth::user()->name, 0, 1) }}</div>
-                    <div style="flex: 1;">
-                        <div style="color: #fff; font-weight: 600; font-size: 14px;">{{ Auth::user()->name }}</div>
-                        <div style="color: #a0a0a0; font-size: 11px;">
-                            @if(isset(Auth::user()->role) && Auth::user()->role === 'operator')
-                                Operator Panel
-                            @else
-                                Admin Panel
-                            @endif
+                
+                <div class="sidebar-footer">
+                    <div class="flex items-center gap-3">
+                        <div class="user-avatar text-sm">{{ substr(Auth::user()->name, 0, 1) }}</div>
+                        <div class="flex-1 min-w-0">
+                            <div class="text-white text-xs font-bold truncate">{{ Auth::user()->name }}</div>
+                            <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                @csrf
+                                <button type="submit" class="text-[#ffc107] text-[10px] font-bold uppercase tracking-wider hover:underline border-none bg-transparent p-0 cursor-pointer">Log Out</button>
+                            </form>
                         </div>
                     </div>
-                    <form action="{{ route('logout') }}" method="POST" style="display: inline;">
-                        @csrf
-                        <button type="submit" style="background: none; border: none; color: #a0a0a0; cursor: pointer;" title="Logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
-                    </form>
                 </div>
             </div>
-        </div>
-        
-        <div class="main-content">
-            <header class="top-header">
-                <h1 class="page-title">
-                    @yield('title')
-                    @if(!View::hasSection('title'))
-                        @if(request()->routeIs('dashboard')) Dashboard 
-                        @elseif(request()->is('admin/halaman*')) Kelola Halaman
-                        @elseif(request()->is('admin/profil*')) 
-                            @php
-                                $type = request()->route('type');
-                                if(!$type) echo 'Kelola Profil';
-                                else {
-                                    $labels = [
-                                        'profil' => 'Profil PPID',
-                                        'tugas' => 'Tugas dan Fungsi',
-                                        'visi' => 'Visi dan Misi',
-                                        'struktur' => 'Struktur Organisasi',
-                                        'regulasi' => 'Regulasi',
-                                        'kontak' => 'Kontak'
-                                    ];
-                                    echo $labels[$type] ?? ucfirst($type);
-                                }
-                            @endphp
-                        @else 
-                            {{ ucfirst(request()->segment(2) ?? request()->segment(1)) }} 
-                        @endif
-                    @endif
-                </h1>
-                <div class="user-menu">
-                    <div class="user-avatar">{{ substr(Auth::user()->name, 0, 1) }}</div>
-                </div>
-            </header>
             
+            <!-- MAIN CONTENT -->
+            <div class="main-content">
+                <header class="top-header">
+                <h1 class="page-title">
+                    Admin <span class="text-slate-400">Panel</span>
+                </h1>
+                    <div class="flex items-center gap-4">
+                        <div class="hidden md:flex flex-col text-right">
+                            <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">{{ Auth::user()->name }}</span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{{ Auth::user()->role ?? 'Administrator' }}</span>
+                        </div>
+                        <div class="w-10 h-10 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-center text-slate-400">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                    </div>
+                </header>
             <main class="content-area">
-                @yield('content')
+                <div class="animate-fade-in">
+                    @yield('content')
+                </div>
             </main>
         </div>
         
@@ -395,44 +363,104 @@
         <script>
             function toggleAccordion(button) {
                 const submenu = button.nextElementSibling;
-                submenu.classList.toggle('open');
-                const icon = button.querySelector('.fa-chevron-down');
-                if (icon) icon.style.transform = submenu.classList.contains('open') ? 'rotate(180deg)' : 'rotate(0deg)';
-            }
-            function toggleSidebar() { document.getElementById('sidebar').classList.toggle('open'); }
-            
-            document.addEventListener('DOMContentLoaded', function() {
-                document.querySelectorAll('.submenu-link.active').forEach(link => {
-                    const submenu = link.parentElement;
+                const isOpening = !submenu.classList.contains('open');
+                
+                // Menutup submenu lainnya untuk merapikan
+                document.querySelectorAll('.submenu').forEach(s => s.classList.remove('open'));
+                document.querySelectorAll('.accordion-toggle').forEach(b => b.classList.remove('active'));
+                
+                if (isOpening) {
                     submenu.classList.add('open');
-                    const btn = submenu.previousElementSibling;
-                    const icon = btn.querySelector('.fa-chevron-down');
-                    if(icon) icon.style.transform = 'rotate(180deg)';
+                    button.classList.add('active');
+                }
+            }
+            
+            $(document).ready(function() {
+                $('.submenu-link.active').each(function() {
+                    $(this).closest('.submenu').addClass('open');
+                    $(this).closest('.submenu').prev('.accordion-toggle').addClass('active');
                 });
             });
         </script>
         
-        <!-- TinyMCE -->
+        <!-- TinyMCE - ADVANCED PREMIUM CONFIG -->
         <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
         <script>
-        $(document).ready(function() {
             tinymce.init({
-                selector: '.tinymce-editor, .summernote-editor, #editor, #summernote-editor, [id^="editor_"]',
+                selector: '.tinymce-editor, #editor, [id^="editor_"]',
                 license_key: 'gpl',
-                height: 480,
-                menubar: false,
-                skin: 'oxide-dark',
-                content_css: 'dark',
-                plugins: ['advlist','autolink','lists','link','image','charmap','code','table','wordcount','fullscreen'],
-                toolbar: 'undo redo | styles | bold italic underline | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | table link image | code fullscreen',
-                content_style: 'body { font-family: Inter, sans-serif; font-size: 15px; color: #1e293b; background: #ffffff; padding: 12px; }'
-            });
+                height: 550,
+                menubar: 'edit insert view format table tools help',
+                plugins: [
+                    'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
+                    'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
+                    'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons'
+                ],
+                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline forecolor | ' +
+                         'alignleft aligncenter alignright alignjustify | ' +
+                         'bullist numlist outdent indent | link image emoticons | removeformat fullscreen',
+                skin: 'oxide',
+                content_css: 'default',
+                content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #0f172a; padding: 20px; line-height: 1.6; }',
+                branding: false,
+                promotion: false,
+                image_title: true,
+                automatic_uploads: true,
+                images_upload_url: "{{ route('admin.upload.image') }}",
+                file_picker_types: 'image',
+                image_advtab: true,
+                relative_urls: false,
+                remove_script_host: false,
+                convert_urls: true,
+                // Handle CSRF Token for local uploads
+                images_upload_handler: function (blobInfo, success, failure, progress) {
+                    var xhr, formData;
+                    xhr = new XMLHttpRequest();
+                    xhr.withCredentials = false;
+                    xhr.open('POST', "{{ route('admin.upload.image') }}");
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $('meta[name="csrf-token"]').attr('content'));
 
-            $(document).on('submit', 'form', function() {
-                if (typeof tinymce !== 'undefined') tinymce.triggerSave();
+                    xhr.upload.onprogress = function (e) {
+                        progress(e.loaded / e.total * 100);
+                    };
+
+                    xhr.onload = function() {
+                        var json;
+                        if (xhr.status === 403) {
+                            failure('HTTP Error: ' + xhr.status, { remove: true });
+                            return;
+                        }
+                        if (xhr.status < 200 || xhr.status >= 300) {
+                            failure('HTTP Error: ' + xhr.status);
+                            return;
+                        }
+                        json = JSON.parse(xhr.responseText);
+                        if (!json || typeof json.location != 'string') {
+                            failure('Invalid JSON: ' + xhr.responseText);
+                            return;
+                        }
+                        success(json.location);
+                    };
+
+                    xhr.onerror = function () {
+                        failure('Image upload failed due to a Network Error.');
+                    };
+
+                    formData = new FormData();
+                    formData.append('file', blobInfo.blob(), blobInfo.filename());
+
+                    xhr.send(formData);
+                },
+                setup: function (editor) {
+                    editor.on('change', function () {
+                        tinymce.triggerSave();
+                    });
+                }
             });
-        });
+            
+            $(document).on('submit', 'form', function() { if (typeof tinymce !== 'undefined') tinymce.triggerSave(); });
         </script>
+        </div>
         @stack('scripts')
     </body>
 </html>

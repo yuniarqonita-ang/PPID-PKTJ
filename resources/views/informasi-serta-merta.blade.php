@@ -108,7 +108,7 @@
                                     <div>
                                         <h6 class="fw-bold mb-1">{{ $item->judul }}</h6>
                                         <p class="small text-muted mb-0">{{ $item->deskripsi ?? 'Tidak ada deskripsi' }}</p>
-                                        <small class="text-danger fw-bold">{{ $item->file_size ?? '' }} | {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}</small>
+                                        <small class="text-primary fw-bold">{{ $item->file_size ?? '' }} | {{ \Carbon\Carbon::parse($item->created_at)->format('d M Y') }}</small>
                                     </div>
                                 </div>
                                 <a href="{{ route('download.file', ['model' => 'sertamerta', 'id' => $item->id]) }}" class="btn-download">

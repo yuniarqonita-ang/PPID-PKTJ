@@ -1,19 +1,32 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-6">
-    <div class="max-w-7xl mx-auto">
+<div class="space-y-8 animate-fade-in lg:px-8">
+    
+    <!-- DASHBOARD-STYLE HEADER SECTION -->
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Sistem Halaman: Aktif</h2>
+                </div>
+                
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
+                        Kelola <span class="text-[#ffc107]">Halaman</span> Publik
+                    </h1>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Kelola konten halaman utama dan informasi publik PPID PKTJ.</p>
+                </div>
+            </div>
 
-    <!-- ==================== HEADER SECTION ==================== -->
-    <div class="flex justify-between items-center mb-8">
-        <div>
-            <h1 class="text-3xl font-black text-[#004a99] drop-shadow-lg"><i class="fas fa-globe mr-2"></i>Kelola Halaman Publik</h1>
-            <p class="text-gray-600 mt-1">Kelola konten halaman publik PPID PKTJ</p>
-        </div>
-        <div class="flex items-center space-x-3">
-            <a href="{{ url('/') }}" target="_blank" class="px-4 py-2 bg-green-600 text-[#004a99] font-medium hover:bg-green-700 transition rounded-lg">
-                <i class="fas fa-eye mr-2"></i>Lihat Publik
-            </a>
+            <div class="flex items-center gap-4">
+                <a href="http://ppid.pktj.ac.id" target="_blank" class="px-8 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                    <i class="fas fa-external-link-alt mr-3 text-[#ffc107]"></i> Lihat Portal Publik
+                </a>
+            </div>
         </div>
     </div>
 
@@ -168,8 +181,8 @@
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-slate-600/30">
-                <a href="{{ route('content.index') }}" class="w-full block text-center px-4 py-2 bg-yellow-600 text-[#004a99] rounded-lg hover:bg-yellow-700 transition">
-                    Kelola Semua
+                <a href="{{ route('content.index') }}" class="w-full block text-center px-4 py-2 bg-amber-500 text-white font-black rounded-lg hover:bg-amber-600 transition uppercase tracking-widest text-xs">
+                    Kelola Semua Data
                 </a>
             </div>
         </div>
@@ -235,8 +248,8 @@
                 </div>
             </div>
             <div class="mt-4 pt-4 border-t border-slate-600/30">
-                <a href="{{ route('admin.profil.edit', 'layanan-daftar') }}" class="w-full block text-center px-4 py-2 bg-orange-600 text-[#004a99] rounded-lg hover:bg-orange-700 transition">
-                    Kelola Daftar Informasi
+                <a href="{{ route('admin.layanan.daftar-informasi') }}" class="w-full block text-center px-4 py-2 bg-orange-600 text-white font-black rounded-lg hover:bg-orange-700 transition uppercase tracking-widest text-xs">
+                    Kelola Daftar Informasi (DIP)
                 </a>
             </div>
         </div>
@@ -281,8 +294,8 @@
                 @endforeach
             </div>
             <div class="mt-4 pt-4 border-t border-slate-600/30">
-                <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="w-full block text-center px-4 py-2 bg-green-600 text-[#004a99] rounded-lg hover:bg-green-700 transition">
-                    Kelola Prosedur
+                <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="w-full block text-center px-4 py-2 bg-emerald-600 text-white font-black rounded-lg hover:bg-emerald-700 transition uppercase tracking-widest text-xs">
+                    Buka Modul Prosedur
                 </a>
             </div>
         </div>

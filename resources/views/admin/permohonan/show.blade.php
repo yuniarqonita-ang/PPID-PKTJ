@@ -1,20 +1,34 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800 uppercase">
-    <div class="max-w-5xl mx-auto space-y-6">
+<div class="space-y-8 animate-fade-in lg:px-8">
+    
+    <!-- DASHBOARD-STYLE HEADER SECTION -->
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
         
-        <!-- HEADER SECTION -->
-        <div class="flex items-center justify-between gap-4">
-            <div>
-                <a href="{{ route('admin.permohonan.index') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold">
-                    <i class="fas fa-arrow-left mr-2"></i> Kembali ke Daftar
-                </a>
-                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
-                    <i class="fas fa-file-invoice mr-2 text-[#ffc107]"></i> Detail Permohonan
-                </h1>
-                <p class="text-gray-500 font-medium mt-1 text-[10px] tracking-widest uppercase text-gray-800">Review pengajuan informasi publik dari masyarakat</p>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Review Permohonan: Aktif</h2>
+                </div>
+                
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
+                        Detail <span class="text-[#ffc107]">Permohonan</span>
+                    </h1>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Review pengajuan informasi publik dari masyarakat secara mendalam.</p>
+                </div>
             </div>
+
+            <div class="flex items-center gap-4">
+                <a href="{{ route('admin.permohonan.index') }}" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                    <i class="fas fa-arrow-left mr-3"></i> Kembali
+                </a>
+            </div>
+        </div>
+    </div>
             
             @php
                 $statusColors = [

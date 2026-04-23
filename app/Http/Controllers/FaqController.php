@@ -11,7 +11,8 @@ class FaqController extends Controller
     public function index()
     {
         $faqs = Faq::where('aktif', true)->latest()->get();
-        return view('faq', compact('faqs'));
+        $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+        return view('faq', compact('faqs', 'settings'));
     }
     
     // Admin FAQ index page

@@ -16,6 +16,10 @@ use App\Http\Controllers\PermohonanController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\InformasiSertaMertaController;
+use App\Http\Controllers\InformasiSetiapSaatController;
+use App\Http\Controllers\InformasiDikecualikanController;
+use App\Http\Controllers\HalamanCustomController;
 
 // ==========================================
 // 0. REDIRECT URL LAMA (.html)
@@ -29,11 +33,11 @@ Route::redirect('/laporan-akses-informasi-publik.html', '/layanan-informasi/lapo
 Route::redirect('/laporan-layanan-informasi.html', '/layanan-informasi/laporan');
 Route::redirect('/laporan-survey-kepuasan.html', '/layanan-informasi/laporan-survey');
 Route::redirect('/maklumat-pelayanan.html', '/layanan-informasi/maklumat');
-Route::redirect('/sop-penanganan-keberatan.html', '/prosedur/sop-penanganan-keberatan');
+Route::redirect('/sop-penanganan-keberatan.html', '/prosedur/sop-keberatan');
 Route::redirect('/sop-pendokumentasian.html', '/prosedur/sop-pendokumentasian');
-Route::redirect('/sop-pengajuan-sengketa.html', '/prosedur/sop-pengajuan-sengketa');
-Route::redirect('/sop-pengujian-konsekuensi.html', '/prosedur/sop-pengujian-konsekuensi');
-Route::redirect('/sop-permintaan-informasi.html', '/prosedur/sop-permintaan-informasi');
+Route::redirect('/sop-pengajuan-sengketa.html', '/prosedur/sop-sengketa');
+Route::redirect('/sop-pengujian-konsekuensi.html', '/prosedur/sop-pengujian');
+Route::redirect('/sop-permintaan-informasi.html', '/prosedur/sop-permintaan');
 Route::redirect('/faq.html', '/faq');
 Route::redirect('/permohonan-informasi.html', '/permohonan-informasi');
 
@@ -170,23 +174,37 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     // Menu Informasi Publik
     Route::name('admin.informasi.')->prefix('informasi')->group(function () {
-        Route::get('/berkala', function() { return view('admin.informasi.berkala'); })->name('berkala');
-        Route::get('/serta-merta', function() { return view('admin.informasi.sertamerta'); })->name('sertamerta');
-        Route::get('/setiap-saat', function() { return view('admin.informasi.setiapsaat'); })->name('setiapsaat');
-        Route::get('/dikecualikan', function() { return view('admin.informasi.dikecualikan'); })->name('dikecualikan');
+        // Berkala (Sudah ada di atas, tapi kita rapikan di sini agar konsisten)
+        Route::get('/berkala', [InformasiBerkalaController::class, 'index'])->name('berkala');
+        Route::get('/berkala/create', [InformasiBerkalaController::class, 'create'])->name('berkala.create');
+        Route::post('/berkala', [InformasiBerkalaController::class, 'store'])->name('berkala.store');
+        Route::get('/berkala/{id}/edit', [InformasiBerkalaController::class, 'edit'])->name('berkala.edit');
+        Route::put('/berkala/{id}', [InformasiBerkalaController::class, 'update'])->name('berkala.update');
+        Route::delete('/berkala/{id}', [InformasiBerkalaController::class, 'destroy'])->name('berkala.destroy');
+
+        // Serta Merta
+        Route::get('/serta-merta', [InformasiSertaMertaController::class, 'index'])->name('sertamerta');
+        Route::get('/serta-merta/create', [InformasiSertaMertaController::class, 'create'])->name('sertamerta.create');
+        Route::post('/serta-merta', [InformasiSertaMertaController::class, 'store'])->name('sertamerta.store');
+        Route::get('/serta-merta/{id}/edit', [InformasiSertaMertaController::class, 'edit'])->name('sertamerta.edit');
+        Route::put('/serta-merta/{id}', [InformasiSertaMertaController::class, 'update'])->name('sertamerta.update');
+        Route::delete('/serta-merta/{id}', [InformasiSertaMertaController::class, 'destroy'])->name('sertamerta.destroy');
         
-        // Create routes for upload forms
-        Route::get('/berkala/create', function() { return view('admin.informasi.berkala-create'); })->name('berkala.create');
-        Route::post('/berkala/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('berkala.store');
+        // Setiap Saat
+        Route::get('/setiap-saat', [InformasiSetiapSaatController::class, 'index'])->name('setiapsaat');
+        Route::get('/setiap-saat/create', [InformasiSetiapSaatController::class, 'create'])->name('setiapsaat.create');
+        Route::post('/setiap-saat', [InformasiSetiapSaatController::class, 'store'])->name('setiapsaat.store');
+        Route::get('/setiap-saat/{id}/edit', [InformasiSetiapSaatController::class, 'edit'])->name('setiapsaat.edit');
+        Route::put('/setiap-saat/{id}', [InformasiSetiapSaatController::class, 'update'])->name('setiapsaat.update');
+        Route::delete('/setiap-saat/{id}', [InformasiSetiapSaatController::class, 'destroy'])->name('setiapsaat.destroy');
         
-        Route::get('/serta-merta/create', function() { return view('admin.informasi.sertamerta-create'); })->name('sertamerta.create');
-        Route::post('/serta-merta/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('sertamerta.store');
-        
-        Route::get('/setiap-saat/create', function() { return view('admin.informasi.setiapsaat-create'); })->name('setiapsaat.create');
-        Route::post('/setiap-saat/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('setiapsaat.store');
-        
-        Route::get('/dikecualikan/create', function() { return view('admin.informasi.dikecualikan-create'); })->name('dikecualikan.create');
-        Route::post('/dikecualikan/store', function() { return back()->with('success', 'Form berhasil disubmit! (Catatan: Fitur simpan ke database untuk form ini masih dalam pengembangan)'); })->name('dikecualikan.store');
+        // Dikecualikan
+        Route::get('/dikecualikan', [InformasiDikecualikanController::class, 'index'])->name('dikecualikan');
+        Route::get('/dikecualikan/create', [InformasiDikecualikanController::class, 'create'])->name('dikecualikan.create');
+        Route::post('/dikecualikan', [InformasiDikecualikanController::class, 'store'])->name('dikecualikan.store');
+        Route::get('/dikecualikan/{id}/edit', [InformasiDikecualikanController::class, 'edit'])->name('dikecualikan.edit');
+        Route::put('/dikecualikan/{id}', [InformasiDikecualikanController::class, 'update'])->name('dikecualikan.update');
+        Route::delete('/dikecualikan/{id}', [InformasiDikecualikanController::class, 'destroy'])->name('dikecualikan.destroy');
     });
 
     // Resource CRUD
@@ -206,8 +224,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::name('admin.permohonan.')->prefix('permohonan')->group(function () {
         Route::get('/', [PermohonanController::class, 'index'])->name('index');
         Route::get('/submissions', [PermohonanController::class, 'index'])->name('submissions');
+        Route::get('/report', [PermohonanController::class, 'report'])->name('report');
+        Route::get('/report/export', [PermohonanController::class, 'exportReport'])->name('report.export');
         Route::get('/form', [PermohonanController::class, 'adminForm'])->name('form');
         Route::post('/form/save', [PermohonanController::class, 'saveForm'])->name('save_form');
+        Route::get('/export/register', [PermohonanController::class, 'exportExcelRegister'])->name('export.register');
+        Route::get('/export/{id}/reject', [PermohonanController::class, 'exportWordReject'])->name('export.reject');
         Route::get('/export', [PermohonanController::class, 'exportExcel'])->name('export');
         Route::get('/download/{id}', [PermohonanController::class, 'downloadDocument'])->name('download');
         Route::get('/{permohonan}', [PermohonanController::class, 'show'])->name('show');
@@ -224,11 +246,24 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     Route::resource('/user-management', 'UserController')->names('admin.users')->parameters(['user-management' => 'user']);
     Route::get('/settings', [DashboardController::class, 'settings'])->name('admin.settings');
+
+    // Keberatan Management routes
+    Route::name('admin.keberatan.')->prefix('keberatan')->group(function () {
+        Route::get('/', [KeberatanController::class, 'index'])->name('index');
+        Route::get('/{keberatan}', [KeberatanController::class, 'show'])->name('show');
+        Route::get('/{keberatan}/edit', [KeberatanController::class, 'edit'])->name('edit');
+        Route::put('/{keberatan}', [KeberatanController::class, 'update'])->name('update');
+        Route::delete('/{keberatan}', [KeberatanController::class, 'destroy'])->name('destroy');
+        Route::get('/export/excel', [KeberatanController::class, 'exportExcel'])->name('export.excel');
+        Route::get('/export/{id}/word', [KeberatanController::class, 'exportWord'])->name('export.word');
+    });
 });
 
 // ==========================================
 // 4. FRONTEND USER (PUBLIC PAGES)
 // ==========================================
+Route::get('/keberatan/ajukan', [KeberatanController::class, 'createPublic'])->name('keberatan.create');
+Route::post('/keberatan/ajukan', [KeberatanController::class, 'storePublic'])->name('keberatan.store');
 Route::name('profil.')->prefix('profil')->group(function () {
     Route::get('/', [ProfilPublikController::class, 'showProfil'])->name('index');
     Route::get('/ppid', [ProfilPublikController::class, 'showProfil'])->name('ppid');

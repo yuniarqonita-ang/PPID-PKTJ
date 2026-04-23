@@ -95,14 +95,29 @@ class DashboardController extends Controller
             'app_sistem' => $request->app_sistem,
             'ppid_nama' => $request->ppid_nama,
             'ppid_deskripsi' => $request->ppid_deskripsi,
+            'facebook_link' => $request->facebook_link,
+            'instagram_link' => $request->instagram_link,
+            'twitter_link' => $request->twitter_link,
+            'kontak_alamat' => $request->kontak_alamat,
+            'kontak_telepon' => $request->kontak_telepon,
+            'kontak_email' => $request->kontak_email,
+            'youtube_link' => $request->youtube_link,
         ];
+
+        // Handle Video Thumbnail Upload
+        if ($request->hasFile('video_thumbnail')) {
+            $file = $request->file('video_thumbnail');
+            $filename = 'yt_thumb_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('public/dashboard', $filename);
+            $settings['video_thumbnail'] = str_replace('public/', '', $path);
+        }
 
         foreach ($settings as $key => $value) {
             Dashboard::updateOrCreate(
                 ['key' => $key],
                 [
                     'value' => $value ?? '',
-                    'type' => 'text',
+                    'type' => ($key === 'video_thumbnail' ? 'image' : 'text'),
                     'description' => $this->getDescription($key),
                     'aktif' => true
                 ]
@@ -128,6 +143,13 @@ class DashboardController extends Controller
             'app_sistem' => 'Link sistem informasi PKTJ',
             'ppid_nama' => 'Nama PPID',
             'ppid_deskripsi' => 'Deskripsi PPID',
+            'facebook_link' => 'Link Facebook resmi',
+            'instagram_link' => 'Link Instagram resmi',
+            'twitter_link' => 'Link Twitter/X resmi',
+            'youtube_link' => 'Link YouTube resmi',
+            'kontak_alamat' => 'Alamat kantor resmi',
+            'kontak_telepon' => 'Nomor telepon resmi',
+            'kontak_email' => 'Email resmi',
         ];
 
         return $descriptions[$key] ?? 'Pengaturan dashboard';

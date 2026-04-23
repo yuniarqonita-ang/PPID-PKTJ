@@ -1,26 +1,50 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
-    <div class="max-w-7xl mx-auto space-y-8">
-
-        <!-- HEADER SECTION -->
-        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight text-gray-800">
-                    <i class="fas fa-inbox mr-2 text-[#ffc107]"></i> Permohonan Informasi
-                </h1>
-                <p class="text-gray-500 font-medium mt-1 uppercase tracking-[0.2em] text-[10px]">Pusat Kendali Pengajuan Informasi Publik</p>
+<div class="space-y-8 animate-fade-in lg:px-8">
+    
+    <!-- DASHBOARD-STYLE HEADER SECTION -->
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div class="space-y-6">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Sistem Permohonan: Aktif</h2>
+                </div>
+                
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
+                        Permohonan <span class="text-[#ffc107]">Informasi</span>
+                    </h1>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Pusat Kendali Pengajuan Informasi Publik PKTJ.</p>
+                </div>
             </div>
-            <div class="flex items-center gap-3">
-                <a href="{{ route('admin.permohonan.export') }}" class="px-6 py-3 bg-white border border-gray-200 text-[#004a99] font-bold rounded-xl shadow-sm hover:bg-gray-50 transition-all flex items-center">
-                    <i class="fas fa-file-excel mr-2 text-green-600"></i> Export Data
-                </a>
-                <a href="{{ route('admin.permohonan.form') }}" class="px-6 py-3 bg-[#004a99] text-white font-bold rounded-xl shadow-lg hover:bg-blue-800 transition-all flex items-center">
-                    <i class="fas fa-cog mr-2 text-[#ffc107]"></i> Pengaturan Form
-                </a>
+
+            <div class="flex flex-col md:flex-row items-center gap-4">
+                <form action="{{ route('admin.permohonan.index') }}" method="GET" class="flex items-center gap-2 bg-white/10 p-2 rounded-2xl border border-white/20">
+                    <input type="date" name="start_date" value="{{ request('start_date') }}" class="bg-transparent text-white text-xs border-none focus:ring-0">
+                    <span class="text-white/50 text-xs">s/d</span>
+                    <input type="date" name="end_date" value="{{ request('end_date') }}" class="bg-transparent text-white text-xs border-none focus:ring-0">
+                    <button type="submit" class="p-2 bg-[#ffc107] text-[#004a99] rounded-xl hover:scale-105 transition-all">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('admin.permohonan.export.register', request()->all()) }}" class="px-6 py-4 bg-green-600 border border-green-500 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-green-700 transition-all flex items-center">
+                        <i class="fas fa-file-excel mr-3 text-white"></i> Export Register
+                    </a>
+                    <a href="{{ route('admin.permohonan.export', request()->all()) }}" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                        <i class="fas fa-file-csv mr-3 text-[#ffc107]"></i> Export CSV
+                    </a>
+                    <a href="{{ route('admin.permohonan.form') }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
+                        <i class="fas fa-cog mr-3"></i> Pengaturan
+                    </a>
+                </div>
             </div>
         </div>
+    </div>
 
         @if(session('success'))
             <div class="bg-green-100 border-l-4 border-green-500 p-4 rounded-xl shadow-sm flex items-center animate-fade-in-down">
@@ -104,9 +128,15 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center justify-end gap-2">
-                                    <a href="{{ route('admin.permohonan.show', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm">
+                                    <a href="{{ route('admin.permohonan.show', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm" title="Detail">
                                         <i class="fas fa-eye"></i>
                                     </a>
+
+                                    @if($item->status == 'rejected')
+                                    <a href="{{ route('admin.permohonan.export.reject', $item->id) }}" class="p-2 bg-red-50 text-red-600 rounded-lg hover:bg-red-600 hover:text-white transition-all shadow-sm" title="Download SK Penolakan (Word)">
+                                        <i class="fas fa-file-word"></i>
+                                    </a>
+                                    @endif
                                     
                                     <form action="{{ route('admin.permohonan.update', $item->id) }}" method="POST" class="inline">
                                         @csrf
