@@ -226,6 +226,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/submissions', [PermohonanController::class, 'index'])->name('submissions');
         Route::get('/report', [PermohonanController::class, 'report'])->name('report');
         Route::get('/report/export', [PermohonanController::class, 'exportReport'])->name('report.export');
+        Route::get('/report/export-word', [PermohonanController::class, 'exportReportWord'])->name('report.export_word');
         Route::get('/form', [PermohonanController::class, 'adminForm'])->name('form');
         Route::post('/form/save', [PermohonanController::class, 'saveForm'])->name('save_form');
         Route::get('/export/register', [PermohonanController::class, 'exportExcelRegister'])->name('export.register');

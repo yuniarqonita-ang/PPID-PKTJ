@@ -22,8 +22,11 @@
             </div>
         </div>
 
-        <div class="space-y-8 mt-8">
-            <div class="space-y-8">
+        <form action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8 mt-8">
+            @csrf
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <!-- MAIN CONTENT AREA -->
+                <div class="lg:col-span-2 space-y-8">
                 
                 <!-- CONTENT CARD -->
                 <div class="bg-white rounded-2xl shadow-sm border border-slate-200/60 overflow-hidden">
@@ -55,10 +58,17 @@
                         </div>
                     </div>
                 </div>
-                    </h4>
+                </div>
 
-                    <div class="space-y-6">
-                                    <div class="flex items-center gap-4">
+                <!-- SIDEBAR PANEL -->
+                <div class="space-y-6">
+                    <!-- STATUS CARD -->
+                    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                        <h3 class="text-md font-bold text-[#004a99] mb-4 uppercase flex items-center">
+                            <i class="fas fa-toggle-on mr-2 text-[#ffc107]"></i> Status Publikasi
+                        </h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center gap-4">
                                         <label class="flex items-center cursor-pointer group">
                                             <input type="radio" name="status" value="published" class="sr-only" checked>
                                             <span class="w-4 h-4 border-2 border-gray-300 rounded-full flex-shrink-0 group-hover:border-[#004a99] transition-all relative">
@@ -74,11 +84,9 @@
                                             <span class="ml-2 text-sm font-bold text-gray-700">Draft</span>
                                         </label>
                                     </div>
-                                </div>
                             </div>
                         </div>
-
-                        <!-- MEDIA PANEL -->
+                    </div>
                         <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">
                             <h3 class="text-md font-bold text-[#004a99] mb-4 uppercase flex items-center">
                                 <i class="fas fa-image mr-2 text-[#ffc107]"></i> Gambar Sampul
@@ -109,8 +117,8 @@
                     </button>
                 </div>
 
-            </form>
-        </div>
+            </div>
+        </form>
     </div>
 </div>
 

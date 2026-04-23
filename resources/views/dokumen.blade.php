@@ -20,12 +20,14 @@
         }
         .dropdown-menu { z-index: 1050 !important; }
         
-        .hero-section { 
-            background: linear-gradient(rgba(0, 74, 153, 0.8), rgba(0, 74, 153, 0.8)), url('https://via.placeholder.com/1920x600'); 
-            background-size: cover; 
-            color: white; 
-            padding: 100px 0; 
-            text-align: center; 
+                .hero-section {
+            background: linear-gradient(rgba(0, 74, 153, 0.8), rgba(0, 74, 153, 0.8)), 
+                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069');
+            background-size: cover;
+            background-position: center;
+            padding: 80px 0;
+            color: white;
+            text-align: center;
         }
         
         .page-title {

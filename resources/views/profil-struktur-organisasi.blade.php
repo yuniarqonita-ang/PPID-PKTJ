@@ -25,29 +25,16 @@
 
         .outfit { font-family: 'Outfit', sans-serif; }
 
-        /* Hero Section */
+                /* Hero Section */
         .hero-section {
-            background: linear-gradient(-45deg, var(--primary-blue), #0066CC, #1A3A52, #002b5c);
-            background-size: 400% 400%;
-            animation: gradient-animation 15s ease infinite;
+            background: linear-gradient(rgba(0, 74, 153, 0.8), rgba(0, 74, 153, 0.8)), 
+                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069');
+            background-size: cover;
+            background-position: center;
             padding: 100px 0;
             color: white;
             text-align: center;
             position: relative;
-            overflow: hidden;
-        }
-
-        @keyframes gradient-animation {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.1);
         }
 
         .hero-content { position: relative; z-index: 10; }

@@ -32,6 +32,9 @@
                 <a href="{{ route('admin.permohonan.report.export', ['start_date' => $startDate, 'end_date' => $endDate]) }}" class="px-6 py-2.5 bg-emerald-600 text-white rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-emerald-700 transition shadow-md shadow-emerald-200">
                     <i class="fas fa-file-excel me-2"></i> Ekspor Excel (CSV)
                 </a>
+                <a href="{{ route('admin.permohonan.report.export_word', ['start_date' => $startDate, 'end_date' => $endDate]) }}" class="px-6 py-2.5 bg-[#004a99] text-white rounded-lg text-sm font-bold uppercase tracking-wider hover:bg-blue-800 transition shadow-md shadow-blue-200">
+                    <i class="fas fa-file-word me-2"></i> Ekspor Word (.doc)
+                </a>
             </div>
         </form>
     </div>

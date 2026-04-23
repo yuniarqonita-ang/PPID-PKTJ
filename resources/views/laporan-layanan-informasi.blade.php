@@ -49,6 +49,7 @@
             padding: 15px;
             border-bottom: 2px solid #e2e8f0;
         }
+        }
         .table tbody td {
             padding: 15px;
             vertical-align: middle;

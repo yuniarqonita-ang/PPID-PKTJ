@@ -39,26 +39,45 @@ class KeberatanController extends Controller
     public function storePublic(Request $request)
     {
         $validated = $request->validate([
-            'nomor_registrasi_permohonan' => 'required|exists:permohonan,id', // Assuming they enter ID for now or I search by custom reg number
-            'nama_pemohon' => 'required',
-            'alamat' => 'required',
-            'nomor_telepon' => 'required',
-            'email' => 'required|email',
-            'rincian_informasi' => 'required',
-            'tujuan_penggunaan' => 'required',
+            'nomor_registrasi_permohonan' => 'required',
+            'nama_pemohon' => 'required|string|max:255',
+            'pekerjaan' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'nomor_telepon' => 'required|string|max:50',
+            'email' => 'required|email|max:255',
+            'nama_kuasa' => 'nullable|string|max:255',
+            'alamat_kuasa' => 'nullable|string',
+            'nomor_telepon_kuasa' => 'nullable|string|max:50',
             'alasan_keberatan_list' => 'required|array',
-            'kasus_posisi' => 'required',
+            'alasan_keberatan_lainnya' => 'nullable|string',
+            'kasus_posisi' => 'nullable|string',
+            'file_ktp' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'file_surat_kuasa' => 'nullable|file|mimes:pdf|max:2048',
         ]);
 
         $permohonan = Permohonan::find($validated['nomor_registrasi_permohonan']);
-        
+
         $keberatan = new Keberatan($validated);
-        $keberatan->permohonan_id = $permohonan->id;
+        
+        if ($permohonan) {
+            $keberatan->permohonan_id = $permohonan->id;
+        }
+        
         $keberatan->tanggal_keberatan = now();
-        $keberatan->nomor_registrasi_keberatan = 'KEB-' . strtoupper(uniqid()); // Simple unique ID
+        $keberatan->nomor_registrasi_keberatan = 'KEB-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4));
+        
+        // Handle file uploads
+        if ($request->hasFile('file_ktp')) {
+            $keberatan->file_ktp = $request->file('file_ktp')->store('keberatan/ktp', 'public');
+        }
+
+        if ($request->hasFile('file_surat_kuasa')) {
+            $keberatan->file_surat_kuasa = $request->file('file_surat_kuasa')->store('keberatan/kuasa', 'public');
+        }
+
         $keberatan->save();
 
-        return redirect()->back()->with('success', 'Keberatan Anda telah berhasil diajukan dengan nomor registrasi: ' . $keberatan->nomor_registrasi_keberatan);
+        return redirect()->back()->with('success', 'Keberatan Anda telah berhasil diajukan dengan Nomor Registrasi: ' . $keberatan->nomor_registrasi_keberatan);
     }
 
     /**

@@ -36,7 +36,7 @@
                     </div>
                     <div>
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Pekerjaan</label>
-                        <p class="font-bold text-slate-800">{{ $keberatan->pekerjaan }}</p>
+                        <p class="font-bold text-slate-800">{{ $keberatan->pekerjaan ?? '-' }}</p>
                     </div>
                     <div>
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Alamat</label>
@@ -46,6 +46,50 @@
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Kontak</label>
                         <p class="font-bold text-slate-800"><i class="fas fa-phone mr-2 text-slate-300"></i>{{ $keberatan->nomor_telepon }}</p>
                         <p class="font-bold text-slate-800"><i class="fas fa-envelope mr-2 text-slate-300"></i>{{ $keberatan->email }}</p>
+                    </div>
+
+                    @if($keberatan->nama_kuasa)
+                    <div class="pt-6 border-t border-slate-100">
+                        <h4 class="text-xs font-black text-[#004a99] uppercase tracking-widest mb-4">Identitas Kuasa</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Nama Kuasa</label>
+                                <p class="font-bold text-slate-800 uppercase">{{ $keberatan->nama_kuasa }}</p>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Alamat Kuasa</label>
+                                <p class="font-bold text-slate-800 leading-relaxed">{{ $keberatan->alamat_kuasa ?? '-' }}</p>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Telepon Kuasa</label>
+                                <p class="font-bold text-slate-800"><i class="fas fa-phone mr-2 text-slate-300"></i>{{ $keberatan->nomor_telepon_kuasa ?? '-' }}</p>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="pt-6 border-t border-slate-100">
+                        <h4 class="text-xs font-black text-[#004a99] uppercase tracking-widest mb-4">Lampiran</h4>
+                        <div class="flex flex-col gap-3">
+                            @if($keberatan->file_ktp)
+                                <a href="{{ asset('storage/' . $keberatan->file_ktp) }}" target="_blank" class="flex items-center gap-3 p-3 bg-blue-50 text-blue-700 rounded-xl hover:bg-blue-100 transition-colors">
+                                    <i class="fas fa-id-card text-xl"></i>
+                                    <span class="text-xs font-bold uppercase">Lihat KTP</span>
+                                </a>
+                            @else
+                                <div class="flex items-center gap-3 p-3 bg-slate-50 text-slate-400 rounded-xl">
+                                    <i class="fas fa-id-card text-xl"></i>
+                                    <span class="text-xs font-bold uppercase">KTP Tidak Ada</span>
+                                </div>
+                            @endif
+
+                            @if($keberatan->file_surat_kuasa)
+                                <a href="{{ asset('storage/' . $keberatan->file_surat_kuasa) }}" target="_blank" class="flex items-center gap-3 p-3 bg-amber-50 text-amber-700 rounded-xl hover:bg-amber-100 transition-colors">
+                                    <i class="fas fa-file-signature text-xl"></i>
+                                    <span class="text-xs font-bold uppercase">Lihat Surat Kuasa</span>
+                                </a>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
