@@ -10,7 +10,7 @@
                 <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight text-gray-800">
                     <i class="fas fa-edit mr-2 text-[#ffc107] text-gray-800"></i> Edit Informasi <span class="text-gray-800">Setiap Saat</span>
                 </h1>
-                <p class="text-gray-500 font-medium mt-1">Perbarui detail dokumen informasi setiap saat</p>
+                <p class="text-gray-500 font-medium mt-1">Perbarui detail pengumuman yang sudah dipublikasikan</p>
             </div>
             <a href="{{ route('admin.informasi.setiapsaat') }}" class="text-xs font-black text-gray-400 hover:text-[#004a99] uppercase tracking-widest transition-all">
                 <i class="fas fa-arrow-left mr-2"></i> Kembali
@@ -52,7 +52,7 @@
                         @if($item->file_path)
                             <div class="mb-4 p-4 bg-blue-50 border-2 border-blue-100 rounded-2xl flex items-center justify-between">
                                 <div class="flex items-center gap-3">
-                                    <i class="fas fa-file-invoice text-2xl text-[#004a99]"></i>
+                                    <i class="fas fa-file-pdf text-2xl text-red-500"></i>
                                     <div>
                                         <p class="text-xs font-black text-[#002b5c] uppercase">File Saat Ini:</p>
                                         <p class="text-[10px] font-bold text-slate-500 truncate max-w-xs">{{ $item->file_name ?? basename($item->file_path) }}</p>
@@ -96,20 +96,7 @@
     </div>
 </div>
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    tinymce.init({
-        selector: '.tinymce-editor',
-        plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link image table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 600,
-        branding: false,
-        elementpath: false,
-        menubar: false,
-        promotion: false,
-        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #1e293b; text-align: justify; }'
-    });
-
     function updateFileName(input) {
         const display = document.getElementById('file-name-display');
         if (input.files && input.files[0]) {

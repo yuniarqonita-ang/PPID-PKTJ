@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.halaman-custom.store', 'layanan_layanan') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+    <form id="laporan-form" action="{{ route('admin.halaman-custom.store', 'laporan_layanan') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
         @csrf
 
         <!-- IDENTITY & HERO -->
@@ -55,12 +55,12 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-3">
                         <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Judul Hero Utama</label>
-                        <input type="text" name="judul_hero" value="{{ $settings['layanan_layanan_judul_hero'] ?? 'Laporan Pelayanan Informasi' }}"
+                        <input type="text" name="judul_hero" value="{{ $settings['laporan_layanan_judul_hero'] ?? 'Laporan Pelayanan Informasi' }}"
                             class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 text-lg font-bold text-[#004a99]">
                     </div>
                     <div class="space-y-3">
                         <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Tagline Kutipan</label>
-                        <input type="text" name="tagline_hero" value="{{ $settings['layanan_layanan_tagline_hero'] ?? '' }}"
+                        <input type="text" name="tagline_hero" value="{{ $settings['laporan_layanan_tagline_hero'] ?? '' }}"
                             class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 text-lg font-bold text-[#004a99]">
                     </div>
                 </div>
@@ -68,7 +68,6 @@
         </div>
 
         <div class="space-y-8">
-            
             <!-- MAIN CONTENT AREA (FULL WIDTH) -->
             <div class="space-y-10">
                 <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 p-10">
@@ -82,7 +81,7 @@
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="space-y-3">
                                 <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Periode Pelaporan</label>
-                                <input type="text" name="tahun_laporan" value="{{ $settings['layanan_layanan_tahun_laporan'] ?? date('Y') }}"
+                                <input type="text" name="tahun_laporan" value="{{ $settings['laporan_layanan_tahun_laporan'] ?? date('Y') }}"
                                     class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-lg font-black text-[#004a99]">
                             </div>
                             <div class="space-y-3">
@@ -91,7 +90,7 @@
                             </div>
                         </div>
 
-                        @if(isset($settings['layanan_layanan_file_laporan']))
+                        @if(isset($settings['laporan_layanan_file_laporan']) && $settings['laporan_layanan_file_laporan'])
                         <div class="p-8 bg-blue-50 border-2 border-blue-100 rounded-[2rem] flex items-center justify-between">
                             <div class="flex items-center gap-5">
                                 <div class="w-16 h-16 bg-white text-red-600 rounded-2xl flex items-center justify-center text-3xl shadow-md">
@@ -99,10 +98,10 @@
                                 </div>
                                 <div>
                                     <p class="text-md font-black text-[#004a99] uppercase tracking-widest">FILE TERUNGGAH</p>
-                                    <p class="text-sm font-bold text-slate-700 mt-1">{{ $settings['layanan_layanan_file_laporan'] }}</p>
+                                    <p class="text-sm font-bold text-slate-700 mt-1">{{ $settings['laporan_layanan_file_laporan'] }}</p>
                                 </div>
                             </div>
-                            <a href="{{ asset('storage/halaman/'.$settings['layanan_layanan_file_laporan']) }}" target="_blank" class="px-6 py-3 bg-[#004a99] text-white font-black text-sm rounded-xl hover:bg-black transition-all">LIHAT DATA</a>
+                            <a href="{{ asset('storage/halaman/'.$settings['laporan_layanan_file_laporan']) }}" target="_blank" class="px-6 py-3 bg-[#004a99] text-white font-black text-sm rounded-xl hover:bg-black transition-all">LIHAT DATA</a>
                         </div>
                         @endif
                     </div>
@@ -113,12 +112,12 @@
                     <h4 class="text-xl font-black text-[#004a99] uppercase tracking-widest flex items-center mb-10">
                         <i class="fas fa-edit mr-4 text-[#ffc107]"></i> Catatan Pelayanan Informasi
                     </h4>
-                    <textarea name="ringkasan_eksekutif" class="tinymce-editor">{{ $settings['layanan_layanan_ringkasan_eksekutif'] ?? '' }}</textarea>
+                    <textarea name="ringkasan_eksekutif" class="tinymce-editor">{{ $settings['laporan_layanan_ringkasan_eksekutif'] ?? '' }}</textarea>
                 </div>
-                </div>
+            </div>
 
-                <!-- SIDEBAR CONFIG (NOW MOVED BELOW) -->
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
+            <!-- SIDEBAR CONFIG (NOW MOVED BELOW) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 mt-10">
                 <div class="bg-blue-900 rounded-2xl p-10 shadow-2xl text-white relative overflow-hidden">
                     <div class="absolute -right-5 -bottom-5 w-32 h-32 bg-white/5 rounded-full blur-2xl"></div>
                     <i class="fas fa-info-circle text-4xl text-[#ffc107] mb-8"></i>
@@ -128,6 +127,7 @@
                     </p>
                 </div>
 
+                <div class="lg:col-span-2">
                     <button type="submit" class="w-full py-7 bg-[#004a99] text-white font-black text-lg uppercase tracking-[3px] rounded-[2rem] shadow-2xl hover:bg-black transition-all border-none cursor-pointer">
                         <i class="fas fa-check-double mr-4 text-[#ffc107]"></i> SIMPAN DATA LAYANAN
                     </button>

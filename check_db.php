@@ -1,17 +1,18 @@
 <?php
-require 'vendor/autoload.php';
-$app = require_once 'bootstrap/app.php';
-$app->make(\Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+require __DIR__.'/vendor/autoload.php';
+$app = require_once __DIR__.'/bootstrap/app.php';
+$kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
+$kernel->bootstrap();
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Schema;
+echo "--- INFORMASI SERTA MERTA ---\n";
+$items = \App\Models\InformasiSertaMerta::all();
+foreach($items as $item) {
+    echo "ID: {$item->id}, Judul: {$item->judul}, Path: {$item->file_path}\n";
+}
 
-echo "=== TABLE dashboards EXISTS: " . (Schema::hasTable('dashboards') ? 'YES' : 'NO') . "\n";
-echo "=== COLUMNS: \n";
-$cols = Schema::getColumnListing('dashboards');
-print_r($cols);
-echo "=== DATA COUNT: " . DB::table('dashboards')->count() . "\n";
-echo "=== DATA: \n";
-$data = DB::table('dashboards')->get();
-print_r($data);
-?>
+echo "\n--- DASHBOARD SETTINGS ---\n";
+$settings = \App\Models\Dashboard::all();
+foreach($settings as $s) {
+    $val = is_string($s->value) ? substr($s->value, 0, 50) : "NON-STRING";
+    echo "Key: {$s->key}, Value: {$val}...\n";
+}

@@ -37,7 +37,7 @@
         </div>
     </div>
 
-    <form action="{{ route('admin.halaman-custom.store', 'maklumat_pelayanan') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
+    <form id="maklumat-form" action="{{ route('admin.halaman-custom.store', 'maklumat_pelayanan') }}" method="POST" enctype="multipart/form-data" class="space-y-8">
         @csrf
 
         <!-- IDENTITY & HERO -->
@@ -64,11 +64,22 @@
                             class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 text-lg font-bold text-[#004a99]">
                     </div>
                 </div>
+
+                <div class="grid grid-cols-1 gap-8 mt-10">
+                    <div class="space-y-3">
+                        <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Judul Maklumat (Teks Utama)</label>
+                        <input type="text" name="judul_maklumat" value="{{ $settings['maklumat_pelayanan_judul_maklumat'] ?? 'Maklumat Pelayanan PPID PKTJ' }}"
+                            class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 text-lg font-bold text-[#004a99]">
+                    </div>
+                    <div class="space-y-3">
+                        <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Isi Pernyataan Maklumat</label>
+                        <textarea name="isi_maklumat" class="tinymce-editor">{{ $settings['maklumat_pelayanan_isi_maklumat'] ?? '' }}</textarea>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
-            
             <!-- LEFT: IMAGE UPLOAD -->
             <div class="lg:col-span-2 space-y-10">
                 <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 p-10">
@@ -80,15 +91,15 @@
                     </div>
 
                     <div class="relative aspect-video bg-slate-50 rounded-[2rem] overflow-hidden border-2 border-dashed border-slate-200 flex flex-col items-center justify-center">
-                        @if(isset($settings['maklumat_pelayanan_gambar']))
-                            <img id="preview" src="{{ asset('storage/halaman/'.$settings['maklumat_pelayanan_gambar']) }}" class="w-full h-full object-contain">
+                        @if(isset($settings['maklumat_pelayanan_gambar_maklumat']))
+                            <img id="preview" src="{{ asset('storage/halaman/'.$settings['maklumat_pelayanan_gambar_maklumat']) }}" class="w-full h-full object-contain">
                         @else
                             <div class="text-center">
                                 <i class="fas fa-file-image text-6xl text-slate-200 mb-4"></i>
                                 <p class="text-sm font-black text-slate-400 uppercase tracking-widest">Belum Ada Gambar Terunggah</p>
                             </div>
                         @endif
-                        <input type="file" name="gambar" id="gambar" class="hidden" onchange="previewImage(this)">
+                        <input type="file" name="gambar_maklumat" id="gambar" class="hidden" onchange="previewImage(this)">
                     </div>
                     <p class="text-center text-sm font-bold text-slate-700 mt-6 uppercase tracking-widest">Format: JPG, PNG, atau WEBP | Rekomendasi: 1200x800px</p>
                 </div>
@@ -113,6 +124,9 @@
     </form>
 </div>
 
+@endsection
+
+@push('scripts')
 <script>
     function previewImage(input) {
         if (input.files && input.files[0]) {
@@ -129,4 +143,4 @@
         }
     }
 </script>
-@endsection
+@endpush

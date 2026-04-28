@@ -32,7 +32,7 @@ class InformasiSertaMertaController extends Controller
 
         $data = [
             'judul' => $validated['judul'],
-            'konten' => $validated['konten'],
+            'deskripsi' => $validated['konten'],
             'tanggal' => $validated['tanggal'],
             'aktif' => $request->has('aktif'),
         ];
@@ -72,7 +72,7 @@ class InformasiSertaMertaController extends Controller
         $item = InformasiSertaMerta::findOrFail($id);
         
         $item->judul = $validated['judul'];
-        $item->konten = $validated['konten'];
+        $item->deskripsi = $validated['konten'];
         $item->tanggal = $validated['tanggal'];
         $item->aktif = $request->has('aktif');
 

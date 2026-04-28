@@ -42,7 +42,7 @@
                     <div class="space-y-3 text-gray-800">
                         <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Deskripsi / Detail Informasi</label>
                         <div class="rounded-3xl overflow-hidden border-2 border-slate-100 text-gray-800">
-                            <textarea name="konten" id="editor" class="tinymce-editor text-gray-800">{{ old('konten', $item->konten) }}</textarea>
+                            <textarea name="konten" id="editor" class="tinymce-editor text-gray-800">{{ old('konten', $item->deskripsi) }}</textarea>
                         </div>
                     </div>
 
@@ -96,20 +96,7 @@
     </div>
 </div>
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    tinymce.init({
-        selector: '.tinymce-editor',
-        plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link image table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 600,
-        branding: false,
-        elementpath: false,
-        menubar: false,
-        promotion: false,
-        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #1e293b; text-align: justify; }'
-    });
-
     function updateFileName(input) {
         const display = document.getElementById('file-name-display');
         if (input.files && input.files[0]) {

@@ -44,7 +44,7 @@
     </div>
     @endif
 
-    <form action="{{ route('admin.halaman-custom.store', 'sop_permintaan') }}" method="POST" enctype="multipart/form-data" class="space-y-10">
+    <form id="sop-form" action="{{ route('admin.halaman-custom.store', 'sop_permintaan') }}" method="POST" enctype="multipart/form-data" class="space-y-10">
         @csrf
 
         <!-- HERO CONFIGURATION -->
@@ -55,7 +55,7 @@
                         <span class="w-10 h-10 bg-[#ffc107] text-[#004a99] rounded-xl flex items-center justify-center mr-4 text-sm">
                             <i class="fas fa-window-maximize"></i>
                         </span>
-                        Konfigurasi Banner Banner
+                        Konfigurasi Banner
                     </h3>
                 </div>
                 
@@ -174,6 +174,20 @@
                 </div>
             </div>
             
+            <!-- FULL WIDTH: RICH TEXT CONTENT -->
+            <div class="lg:col-span-2 bg-white rounded-2xl shadow-xl border-2 border-slate-100 p-10">
+                <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8 mb-10">
+                    <h4 class="text-xl font-black text-[#004a99] uppercase tracking-widest flex items-center">
+                        <i class="fas fa-edit mr-4 text-[#ffc107]"></i> Narasi Prosedur Lengkap
+                    </h4>
+                </div>
+                <div class="space-y-4">
+                    <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Detail Penjelasan Prosedur</label>
+                    <textarea name="konten" class="tinymce-editor">{{ $settings['sop_permintaan_konten'] ?? '' }}</textarea>
+                    <p class="text-sm font-bold text-slate-500 mt-2 uppercase tracking-widest">Gunakan editor ini untuk merinci langkah-langkah prosedur secara tekstual.</p>
+                </div>
+            </div>
+            
         </div>
 
         <!-- ACTION BAR - EXECUTIVE STYLE -->
@@ -186,6 +200,9 @@
     </form>
 </div>
 
+@endsection
+
+@push('scripts')
 <script>
     function previewImage(input, previewId) {
         if (input.files && input.files[0]) {
@@ -218,4 +235,4 @@
         }
     }
 </script>
-@endsection
+@endpush

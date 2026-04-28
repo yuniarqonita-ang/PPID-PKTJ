@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Tahunan Layanan Informasi Publik - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
+    <title>Laporan Layanan Informasi - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary-blue: #004a99;
@@ -16,73 +17,122 @@
             font-family: 'Inter', sans-serif;
             background-color: #f8faff;
             color: #1e293b;
+            line-height: 1.6;
         }
+
+        .outfit { font-family: 'Outfit', sans-serif; }
+
+        /* Hero Section */
         .hero-section {
-            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.9)), 
-                        url('https://images.unsplash.com/photo-1554224155-1696413565d3?q=80&w=2070');
+            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.8)), 
+                        url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070');
             background-size: cover;
             background-position: center;
-            padding: 50px 0;
+            padding: 120px 0;
             color: white;
         }
-        .content-box {
+
+        .hero-content { position: relative; z-index: 10; }
+
+        .content-card {
             background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-            margin-top: -30px;
+            padding: 60px;
+            border-radius: 40px;
+            box-shadow: 0 30px 60px rgba(0, 74, 153, 0.1);
+            margin-top: -80px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
             position: relative;
-            z-index: 10;
+            z-index: 20;
+            margin-bottom: 80px;
         }
-        .table-container {
+
+        .section-title {
+            color: var(--primary-blue);
+            font-weight: 900;
+            margin-bottom: 40px;
+            border-left: 8px solid var(--secondary-gold);
+            padding-left: 25px;
+            text-transform: uppercase;
+            letter-spacing: -1px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 2.5rem;
+        }
+
+        .report-item {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 25px 35px;
+            margin-bottom: 20px;
             border: 1px solid #e2e8f0;
-            border-radius: 4px;
-            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
         }
-        .table {
-            margin-bottom: 0;
+
+        .report-item:hover {
+            transform: translateX(15px);
+            background: white;
+            border-color: var(--primary-blue);
+            box-shadow: 0 15px 30px rgba(0, 74, 153, 0.08);
         }
-        .table thead th {
-            background-color: #f1f5f9;
-            color: #004a99;
+
+        .report-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 74, 153, 0.1);
+            color: var(--primary-blue);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-right: 25px;
+            flex-shrink: 0;
+        }
+
+        .btn-action-premium {
+            padding: 12px 25px;
+            border-radius: 15px;
             font-weight: 700;
-            padding: 15px;
-            border-bottom: 2px solid #e2e8f0;
-        }
-        }
-        .table tbody td {
-            padding: 15px;
-            vertical-align: middle;
-            border-bottom: 1px solid #f1f5f9;
-        }
-        .btn-unduh {
-            background-color: #ffc107;
-            color: #000;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: 0.85rem;
             text-decoration: none;
-            display: inline-flex;
+            transition: all 0.3s;
+            display: flex;
             align-items: center;
-            margin-right: 5px;
+            gap: 10px;
+            font-size: 0.9rem;
         }
-        .btn-unduh:hover { background-color: #e0a800; color: #000; }
-        
-        .btn-preview {
-            background-color: #28a745;
-            color: #fff;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
+
+        .btn-download-premium {
+            background: var(--primary-blue);
+            color: white;
         }
-        .btn-preview:hover { background-color: #218838; color: #fff; }
+
+        .btn-download-premium:hover {
+            background: var(--secondary-gold);
+            color: var(--primary-blue);
+            transform: scale(1.05);
+        }
+
+        .btn-preview-premium {
+            background: white;
+            color: var(--primary-blue);
+            border: 1px solid var(--primary-blue);
+        }
+
+        .btn-preview-premium:hover {
+            background: #f1f5f9;
+            transform: scale(1.05);
+        }
+
+        .main-download-box {
+            background: linear-gradient(135deg, var(--primary-blue), #003366);
+            border-radius: 30px;
+            padding: 40px;
+            color: white;
+            text-align: center;
+            margin-top: 40px;
+        }
     </style>
 </head>
 <body>
@@ -90,56 +140,62 @@
     @include('navigation')
 
     <div class="hero-section">
-        <div class="container text-center">
-            <h1 class="display-5 fw-bold uppercase">Laporan Layanan Informasi Publik</h1>
-            <p class="lead opacity-75">Transparansi Kinerja Pelayanan Informasi Publik.</p>
+        <div class="container text-center hero-content">
+            <h1 class="display-3 fw-black outfit uppercase">Laporan Layanan Informasi</h1>
+            <p class="lead opacity-75 mb-0">Transparansi Kinerja Pelayanan Informasi Publik.</p>
         </div>
     </div>
 
-    <div class="container py-5 mb-5">
-        <div class="content-box">
-            <h2 class="fw-bold mb-1" style="font-size: 2.2rem; color: #1e293b;">Laporan Tahunan Layanan Informasi Publik</h2>
-            <div class="pagination-info mb-4">
-                Showing <b>1-{{ count($laporan ?? []) }}</b> of <b>{{ count($laporan ?? []) }}</b> items.
+    <div class="container">
+        <div class="content-card">
+            <h2 class="section-title">Daftar Laporan</h2>
+
+            @include('components.konten-dinamis', ['prefix' => 'laporan_layanan'])
+
+            <div class="row mt-4">
+                @forelse($laporan ?? [] as $item)
+                    <div class="col-12">
+                        <div class="report-item">
+                            <div class="d-flex align-items-center">
+                                <div class="report-icon">
+                                    <i class="fas fa-file-invoice"></i>
+                                </div>
+                                <div>
+                                    <h5 class="fw-bold outfit mb-0 text-dark">{{ $item->judul }}</h5>
+                                    <small class="text-muted"><i class="fas fa-calendar-alt me-1"></i> {{ isset($item->created_at) ? $item->created_at->format('d M Y') : '-' }}</small>
+                                </div>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <a href="{{ asset('storage/'.$item->file) }}" class="btn-action-premium btn-preview-premium" target="_blank">
+                                    <i class="fas fa-eye"></i> Preview
+                                </a>
+                                <a href="{{ asset('storage/'.$item->file) }}" class="btn-action-premium btn-download-premium" target="_blank">
+                                    <i class="fas fa-save"></i> Unduh
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center py-5">
+                        <i class="fas fa-file-invoice fa-4x text-muted mb-4 opacity-25"></i>
+                        <h3 class="text-muted">Data Belum Tersedia</h3>
+                        <p class="text-muted">Belum ada data laporan tersedia saat ini.</p>
+                    </div>
+                @endforelse
             </div>
 
-            <div class="table-container">
-                <table class="table table-hover">
-                    <thead>
-                        <tr>
-                            <th style="width: 60px;" class="text-center">#</th>
-                            <th>Judul Laporan</th>
-                            <th style="width: 200px;"></th>
-                            <th style="width: 200px;"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @forelse($laporan ?? [] as $index => $item)
-                            <tr>
-                                <td class="text-center text-muted">{{ $index + 1 }}</td>
-                                <td class="fw-bold" style="color: #444;">{{ $item->judul }}</td>
-                                <td class="text-center">
-                                    <a href="{{ asset('storage/'.$item->file) }}" class="btn-unduh w-100" target="_blank">
-                                        <i class="fas fa-save me-2"></i> Unduh Dokumen
-                                    </a>
-                                </td>
-                                <td class="text-center">
-                                    <a href="{{ asset('storage/'.$item->file) }}" class="btn-preview w-100" target="_blank">
-                                        <i class="fas fa-eye me-2"></i> Preview Dokumen
-                                    </a>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" class="text-center py-5">
-                                    <i class="fas fa-file-invoice d-block mb-3 opacity-25" style="font-size: 3rem;"></i>
-                                    Belum ada data laporan tersedia.
-                                </td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
+            @if(isset($settings['laporan_layanan_file_laporan']) && $settings['laporan_layanan_file_laporan'])
+            <div class="main-download-box">
+                <h3 class="outfit fw-bold mb-3">Dokumen Laporan Lengkap</h3>
+                <p class="opacity-75 mb-4">Unduh dokumen laporan tahunan layanan informasi publik.</p>
+                <a href="{{ asset('storage/halaman/'.$settings['laporan_layanan_file_laporan']) }}" 
+                   target="_blank" 
+                   class="btn-action-premium btn-download-premium d-inline-flex px-5 py-3 mx-auto" 
+                   style="background: var(--secondary-gold); color: var(--primary-blue);">
+                    <i class="fas fa-file-pdf"></i> Unduh Laporan Lengkap
+                </a>
             </div>
+            @endif
         </div>
     </div>
 
@@ -148,3 +204,4 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+
