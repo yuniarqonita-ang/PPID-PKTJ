@@ -114,22 +114,40 @@ class PermohonanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'username' => 'required|string|max:50|unique:permohonan,username',
-            'nama_pemohon' => 'required|string|max:255',
-            'jenis_identitas' => 'required|in:ktp,paspor,sim,lainnya',
-            'nomor_identitas' => 'required|string|max:50',
-            'alamat' => 'required|string',
-            'nomor_telepon' => 'required|string|max:20',
-            'pekerjaan' => 'nullable|string|max:100',
-            'perusahaan_instansi' => 'nullable|string|max:255',
-            'email' => 'required|email|max:255|unique:permohonan,email',
-            'password' => 'required|string|min:6|confirmed',
-            'jenis_informasi' => 'nullable|string|max:255',
-            'deskripsi_permohonan' => 'nullable|string',
-            'format_informasi' => 'nullable|in:digital,cetak,keduanya',
-            'foto_ktp' => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
-            'berkas_pendukung' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:10240',
+            'tanggal_permohonan'                   => 'required|date',
+            'nama_pemohon'                         => 'required|string|max:255',
+            'alamat'                               => 'required|string',
+            'pekerjaan'                            => 'nullable|string|max:100',
+            'npwp'                                 => 'nullable|string|max:30',
+            'nomor_telepon'                        => 'required|string|max:20',
+            'email'                                => 'required|email|max:255',
+            'rincian_informasi'                    => 'required|string',
+            'tujuan_penggunaan'                    => 'required|string',
+            'status_informasi_dikuasai'            => 'required|in:ya,tidak',
+            'status_informasi_belum_didokumentasikan' => 'nullable|in:ya,tidak',
+            'bentuk_informasi_salinan'             => 'required|in:Softcopy,Hardcopy',
+            'jenis_permohonan_salinan'             => 'required|in:Melihat,Meminta Salinan',
+            'foto_ktp'                             => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
+            'berkas_pendukung'                     => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:10240',
+        ], [
+            'tanggal.required'                    => 'Tanggal permohonan wajib diisi.',
+            'nama_pemohon.required'               => 'Nama lengkap wajib diisi.',
+            'alamat.required'                     => 'Alamat wajib diisi.',
+            'nomor_telepon.required'              => 'Nomor telepon wajib diisi.',
+            'email.required'                      => 'Email wajib diisi.',
+            'email.email'                         => 'Format email tidak valid.',
+            'rincian_informasi.required'          => 'Rincian informasi yang dibutuhkan wajib diisi.',
+            'tujuan_penggunaan.required'          => 'Tujuan penggunaan informasi wajib diisi.',
+            'status_informasi_dikuasai.required'  => 'Status informasi di bawah penguasaan wajib dipilih.',
+            'bentuk_informasi_salinan.required'   => 'Bentuk informasi wajib dipilih.',
+            'jenis_permohonan_salinan.required'   => 'Jenis permohonan wajib dipilih.',
+            'foto_ktp.required'                   => 'Scan/foto identitas wajib diunggah.',
         ]);
+
+        // Map field form ke kolom database
+        $validated['deskripsi_permohonan'] = $validated['rincian_informasi'];
+        $validated['jenis_informasi']      = $validated['tujuan_penggunaan'];
+        $validated['status']               = 'pending';
 
         if ($request->hasFile('foto_ktp')) {
             $validated['foto_ktp'] = $request->file('foto_ktp')->store('permohonan/ktp', 'public');
@@ -139,26 +157,9 @@ class PermohonanController extends Controller
             $validated['berkas_pendukung'] = $request->file('berkas_pendukung')->store('permohonan/berkas', 'public');
         }
 
-        // Handle Custom Dynamic Fields
-        $customData = [];
-        if ($request->has('custom_fields')) {
-            foreach ($request->input('custom_fields') as $key => $val) {
-                $customData[$key] = $val;
-            }
-        }
-        if ($request->hasFile('custom_fields_file')) {
-            foreach ($request->file('custom_fields_file') as $key => $file) {
-                $customData[$key] = $file->store('permohonan/custom', 'public');
-            }
-        }
-        $validated['custom_fields_data'] = $customData;
-
-        // Hash password sebelum disimpan
-        $validated['password'] = Hash::make($validated['password']);
-
         Permohonan::create($validated);
 
-        return redirect()->route('home')->with('success', 'Registrasi dan permohonan informasi Anda berhasil dikirimkan! Akun Anda telah dibuat. Silakan tunggu konfirmasi lebih lanjut melalui email yang terdaftar.');
+        return redirect()->route('permohonan.form')->with('success', 'Permohonan informasi Anda berhasil dikirimkan! Silakan tunggu konfirmasi dari pihak PPID PKTJ.');
     }
 
     public function index(Request $request)

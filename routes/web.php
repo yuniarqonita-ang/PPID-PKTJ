@@ -20,6 +20,7 @@ use App\Http\Controllers\InformasiSertaMertaController;
 use App\Http\Controllers\InformasiSetiapSaatController;
 use App\Http\Controllers\InformasiDikecualikanController;
 use App\Http\Controllers\HalamanCustomController;
+use App\Http\Controllers\KeberatanController;
 
 // ==========================================
 // 0. REDIRECT URL LAMA (.html)

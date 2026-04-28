@@ -4,211 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pengajuan Keberatan Informasi Publik - PPID PKTJ</title>
-    <!-- Google Fonts: Inter & Outfit -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
-            --primary-blue: #004a99;
-            --secondary-blue: #0066cc;
-            --accent-yellow: #ffc107;
-            --bg-light: #f8f9fa;
-            --text-dark: #1e293b;
-            --text-muted: #64748b;
-            --border-color: #e2e8f0;
+            --primary: #004a99;
+            --secondary: #0066cc;
+            --accent: #ffc107;
+            --bg: #f0f4f8;
+            --dark: #1e293b;
+            --muted: #64748b;
+            --border: #e2e8f0;
+            --danger: #dc2626;
         }
 
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg-light);
-            color: var(--text-dark);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        .outfit { font-family: 'Outfit', sans-serif; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); }
 
         .page-header {
-            background: linear-gradient(135deg, var(--primary-blue) 0%, #0056b3 50%, var(--secondary-blue) 100%);
-            padding: 100px 0 140px;
+            background: linear-gradient(135deg, #7c2020 0%, #991b1b 50%, #b91c1c 100%);
+            padding: 90px 0 130px;
             color: white;
             text-align: center;
-            margin-bottom: -80px;
+            margin-bottom: -70px;
             position: relative;
             overflow: hidden;
         }
-
         .page-header::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-            opacity: 0.1;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
         }
+        .page-header h1 { font-family: 'Outfit', sans-serif; font-size: 38px; font-weight: 900; letter-spacing: -1px; }
+        .page-header p { color: rgba(255,255,255,0.9); font-size: 1rem; max-width: 680px; margin: 12px auto 0; }
 
-        .form-header h1 {
-            font-size: 42px;
-            font-weight: 900;
-            color: white;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            text-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        .form-header p {
-            color: rgba(255,255,255,0.95);
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 0 auto;
-            font-weight: 500;
-        }
-
-        .section-card {
-            background: #fdfdfd;
-            border: 1px solid #f1f5f9;
-            border-radius: 20px;
-            padding: 30px;
-            margin-bottom: 35px;
-            transition: all 0.3s ease;
-        }
-
-        .section-card:hover {
-            border-color: var(--primary-blue);
-            box-shadow: 0 10px 25px rgba(0, 74, 153, 0.05);
-        }
-
-        .form-section-title {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 20px;
-            font-weight: 700;
-            color: var(--primary-blue);
-            margin-bottom: 25px;
-        }
-
-        .form-section-title i {
-            color: var(--accent-yellow);
-            font-size: 22px;
-        }
-
-        .form-group label {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            display: block;
-        }
-
-        .form-control, .form-select {
-            background: #fff;
-            border: 1.5px solid var(--border-color);
-            border-radius: 12px;
-            padding: 12px 16px;
-            color: var(--text-dark);
-            font-size: 15px;
-            transition: all 0.3s;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
-            outline: none;
-        }
-
-        .warning-banner {
-            background: #fff5f5;
-            border-left: 5px solid #ef4444;
-            padding: 25px;
-            border-radius: 16px;
-            margin-bottom: 40px;
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-
-        .warning-banner i { color: #ef4444; font-size: 28px; }
-        .warning-banner h5 { color: #b91c1c; font-weight: 800; margin-bottom: 4px; font-size: 17px; }
-        .warning-banner p { color: #7f1d1d; margin: 0; font-size: 14px; line-height: 1.6; }
-
-        .btn-submit {
-            background: linear-gradient(135deg, var(--primary-blue), var(--secondary-blue));
-            color: white;
-            font-family: 'Outfit', sans-serif;
-            font-weight: 700;
-            font-size: 17px;
-            padding: 18px 45px;
-            border: none;
-            border-radius: 16px;
-            width: 100%;
-            transition: all 0.4s;
-            box-shadow: 0 10px 25px rgba(0, 74, 153, 0.25);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .btn-submit:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(0, 74, 153, 0.35);
-            filter: brightness(110%);
-            color: white;
-        }
-
-        .required-star { color: #ef4444; margin-left: 2px; }
-        .invalid-feedback { font-size: 13px; font-weight: 500; display: block; }
-
-        .file-upload-wrapper {
-            position: relative;
-            background: #f8fafc;
-            border: 2px dashed var(--border-color);
-            border-radius: 16px;
-            padding: 25px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-
-        .file-upload-wrapper:hover {
-            border-color: var(--primary-blue);
-            background: #f1f5f9;
-        }
-
-        .file-upload-wrapper input[type="file"] {
-            position: absolute;
-            width: 100%; height: 100%; top: 0; left: 0; opacity: 0; cursor: pointer;
-        }
-
-        .form-wrapper {
-            padding: 0 20px 80px;
-            background-color: var(--bg-light);
-            position: relative;
-            z-index: 5;
-        }
-
-        .form-container { 
-            max-width: 900px; 
+        .form-wrap { padding: 0 15px 80px; position: relative; z-index: 5; }
+        .form-box {
+            max-width: 920px;
             margin: 0 auto;
             background: white;
             padding: 50px;
-            border-radius: 40px;
-            box-shadow: 0 20px 60px rgba(0, 74, 153, 0.08);
-            border: 1px solid rgba(0, 74, 153, 0.05);
+            border-radius: 36px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
         }
 
-        .form-check-label {
+        /* Section label style (A, B, C, D) */
+        .section-block { margin-bottom: 32px; }
+        .section-label {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .section-letter {
+            background: var(--primary);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+        .section-title-text {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-top: 6px;
+        }
+        .section-body {
+            background: #fafcff;
+            border: 1.5px solid #e8f0fb;
+            border-radius: 16px;
+            padding: 24px 28px;
+        }
+
+        /* Sub-group label dalam section */
+        .sub-group-label {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 14px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e8f0fb;
+        }
+
+        label { font-size: 13px; font-weight: 600; color: var(--muted); margin-bottom: 5px; display: block; }
+        .form-control, .form-select {
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            padding: 10px 14px;
             font-size: 14px;
-            color: var(--text-dark);
-            font-weight: 500;
+            transition: border-color .3s, box-shadow .3s;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0,74,153,0.1);
         }
 
-        @media (max-width: 768px) {
-            .form-container { padding: 30px 20px; border-radius: 30px; }
-            .form-header h1 { font-size: 26px; }
+        /* Checkbox alasan keberatan */
+        .alasan-list { display: flex; flex-direction: column; gap: 10px; }
+        .alasan-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all .25s;
+        }
+        .alasan-item:hover { border-color: var(--primary); background: #f0f6ff; }
+        .alasan-item input[type=checkbox] { 
+            width: 18px; height: 18px; 
+            accent-color: var(--primary); 
+            margin-top: 2px; 
+            flex-shrink: 0;
+            cursor: pointer;
+        }
+        .alasan-item:has(input:checked) { border-color: var(--primary); background: #eef4ff; }
+        .alasan-item label { 
+            font-size: 14px; font-weight: 500; 
+            color: var(--dark); margin: 0; cursor: pointer; 
+            line-height: 1.5;
+        }
+        .alasan-item:has(input:checked) label { color: var(--primary); font-weight: 600; }
+
+        .req { color: var(--danger); margin-left: 2px; }
+
+        .warning-box {
+            background: #fff7ed;
+            border-left: 5px solid var(--accent);
+            border-radius: 14px;
+            padding: 20px 24px;
+            margin-bottom: 36px;
+            display: flex; gap: 16px; align-items: flex-start;
+        }
+        .warning-box i { color: var(--accent); font-size: 24px; margin-top: 2px; }
+        .warning-box h5 { font-weight: 800; color: #92400e; margin-bottom: 4px; }
+        .warning-box p { color: #78350f; margin: 0; font-size: 13px; }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #991b1b, #b91c1c);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 700; font-size: 17px;
+            padding: 16px 40px;
+            border: none; border-radius: 14px; width: 100%;
+            box-shadow: 0 10px 25px rgba(153,27,27,.25);
+            transition: all .4s;
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(153,27,27,.35); filter: brightness(110%); }
+
+        .divider { border: none; border-top: 2px solid #e8f0fb; margin: 32px 0; }
+
+        @media(max-width:768px){
+            .form-box { padding: 24px 16px; border-radius: 24px; }
             .page-header { padding: 60px 0 100px; }
+            .page-header h1 { font-size: 26px; }
+            .section-body { padding: 18px; }
         }
     </style>
 </head>
@@ -216,226 +183,284 @@
     @include('navigation')
 
     <div class="page-header">
-        <div class="container form-header text-center">
-            <h1 class="outfit uppercase">Pengajuan Keberatan Informasi Publik</h1>
-            <p>Berdasarkan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik</p>
+        <div class="container">
+            <h1><i class="fas fa-gavel me-3"></i>Pengajuan Keberatan Informasi Publik</h1>
+            <p>Pernyataan Keberatan Atas Permohonan Informasi — berdasarkan UU No. 14 Tahun 2008 tentang Keterbukaan Informasi Publik</p>
         </div>
     </div>
 
-    <div class="form-wrapper">
-        <div class="form-container">
-            @if ($errors->any())
-                <div class="alert alert-danger border-0 rounded-3 mb-4 p-4 shadow-sm" style="background: #fef2f2; color: #b91c1c; border: 1px solid #fee2e2;">
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <i class="fas fa-exclamation-circle" style="font-size: 1.25rem;"></i>
-                        <strong style="font-weight: 700;">Terjadi Kesalahan:</strong>
-                    </div>
-                    <ul class="mb-0 small" style="padding-left: 1.5rem; font-weight: 500;">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+    <div class="form-wrap">
+        <div class="form-box">
+
+            {{-- Alert error --}}
+            @if($errors->any())
+            <div class="alert alert-danger rounded-3 mb-4">
+                <strong><i class="fas fa-exclamation-circle me-2"></i>Terjadi Kesalahan:</strong>
+                <ul class="mb-0 mt-2 ps-3 small">
+                    @foreach($errors->all() as $e)<li>{{ $e }}</li>@endforeach
+                </ul>
+            </div>
+            @endif
+
+            @if(session('success'))
+            <script>
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Keberatan Terkirim!',
+                    text: '{{ session("success") }}',
+                    confirmButtonColor: '#991b1b'
+                });
+            </script>
+            @endif
+
+            <div class="warning-box">
+                <i class="fas fa-shield-alt"></i>
+                <div>
+                    <h5>Pernyataan & Pertanggungjawaban</h5>
+                    <p>Demikian keberatan ini saya sampaikan. Saya menyatakan bahwa data yang diungkapkan adalah benar dan dapat dipertanggungjawabkan sesuai ketentuan yang berlaku.</p>
                 </div>
-            @endif
+            </div>
 
-            @if (session('success'))
-                <script>
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Keberatan Terkirim!',
-                        text: '{{ session('success') }}',
-                        background: '#fff',
-                        confirmButtonColor: '#004a99'
-                    });
-                </script>
-            @endif
-
-            <form action="{{ route('keberatan.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('keberatan.store') }}" method="POST" enctype="multipart/form-data" id="keberatanForm">
                 @csrf
 
-                <!-- SECTION 1: REFERENSI PERMOHONAN -->
-                <div class="section-card">
-                    <h3 class="form-section-title uppercase"><i class="fas fa-search"></i> Referensi Permohonan</h3>
-                    <div class="row g-4">
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label for="nomor_registrasi_permohonan">ID Permohonan (Referensi)<span class="required-star">*</span></label>
-                                <input type="number" class="form-control" name="nomor_registrasi_permohonan" placeholder="Masukkan ID permohonan yang diajukan keberatan..." required>
-                                @error('nomor_registrasi_permohonan') <div class="invalid-feedback">{{ $message }}</div> @enderror
-                            </div>
-                        </div>
+                {{-- ============================== --}}
+                {{-- A. INFORMASI PENGAJU KEBERATAN --}}
+                {{-- ============================== --}}
+                <div class="section-block">
+                    <div class="section-label">
+                        <div class="section-letter">A</div>
+                        <div class="section-title-text">Informasi Pengaju Keberatan</div>
                     </div>
-                </div>
+                    <div class="section-body">
 
-                <!-- SECTION 2: IDENTITAS PENGJU -->
-                <div class="section-card">
-                    <h3 class="form-section-title uppercase"><i class="fas fa-user"></i> Identitas Pengaju Keberatan</h3>
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Nama Lengkap<span class="required-star">*</span></label>
-                                <input type="text" name="nama_pemohon" class="form-control" required>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label>Nomor Pendaftaran Pemohon Informasi <span class="req">*</span></label>
+                                <input type="number" class="form-control @error('nomor_registrasi_permohonan') is-invalid @enderror"
+                                    name="nomor_registrasi_permohonan"
+                                    value="{{ old('nomor_registrasi_permohonan') }}"
+                                    placeholder="ID permohonan yang diajukan keberatan" required>
+                                @error('nomor_registrasi_permohonan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label>Tujuan Penggunaan Informasi <span class="req">*</span></label>
+                                <input type="text" class="form-control @error('tujuan_penggunaan_informasi') is-invalid @enderror"
+                                    name="tujuan_penggunaan_informasi"
+                                    value="{{ old('tujuan_penggunaan_informasi') }}"
+                                    placeholder="cth: Penelitian, pengawasan, dll" required>
+                                @error('tujuan_penggunaan_informasi')<div class="invalid-feedback">{{ $message }}</div>@enderror
                             </div>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Pekerjaan<span class="required-star">*</span></label>
-                                <input type="text" name="pekerjaan" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
-                                <label>Alamat<span class="required-star">*</span></label>
-                                <textarea name="alamat" rows="2" class="form-control" required></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Nomor Telepon/WA<span class="required-star">*</span></label>
-                                <input type="tel" name="nomor_telepon" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Email<span class="required-star">*</span></label>
-                                <input type="email" name="email" class="form-control" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
 
-                <!-- SECTION 3: IDENTITAS KUASA -->
-                <div class="section-card">
-                    <h3 class="form-section-title uppercase"><i class="fas fa-user-shield"></i> Identitas Kuasa (Bila Dikuasakan)</h3>
-                    <p class="text-muted small mb-4" style="margin-top: -10px;">Kosongkan jika Anda mengajukan sendiri tanpa perwakilan.</p>
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="form-group">
+                        <hr class="divider">
+
+                        {{-- Identitas Pemohon --}}
+                        <div class="sub-group-label"><i class="fas fa-user me-2"></i>Identitas Pemohon</div>
+                        <div class="row g-3 mb-4">
+                            <div class="col-md-6">
+                                <label>Nama Lengkap <span class="req">*</span></label>
+                                <input type="text" name="nama_pemohon"
+                                    class="form-control @error('nama_pemohon') is-invalid @enderror"
+                                    value="{{ old('nama_pemohon') }}"
+                                    placeholder="Nama sesuai identitas" required>
+                                @error('nama_pemohon')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label>Pekerjaan <span class="req">*</span></label>
+                                <input type="text" name="pekerjaan"
+                                    class="form-control @error('pekerjaan') is-invalid @enderror"
+                                    value="{{ old('pekerjaan') }}"
+                                    placeholder="Pekerjaan saat ini" required>
+                                @error('pekerjaan')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-12">
+                                <label>Alamat <span class="req">*</span></label>
+                                <textarea name="alamat" rows="2"
+                                    class="form-control @error('alamat') is-invalid @enderror"
+                                    placeholder="Alamat lengkap domisili" required>{{ old('alamat') }}</textarea>
+                                @error('alamat')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-md-4">
+                                <label>NPWP</label>
+                                <input type="text" name="npwp"
+                                    class="form-control"
+                                    value="{{ old('npwp') }}"
+                                    placeholder="Nomor NPWP (opsional)">
+                            </div>
+                            <div class="col-md-4">
+                                <label>Nomor Telepon <span class="req">*</span></label>
+                                <input type="tel" name="nomor_telepon"
+                                    class="form-control @error('nomor_telepon') is-invalid @enderror"
+                                    value="{{ old('nomor_telepon') }}"
+                                    placeholder="cth: 08123456789" required>
+                                @error('nomor_telepon')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-md-4">
+                                <label>E-mail <span class="req">*</span></label>
+                                <input type="email" name="email"
+                                    class="form-control @error('email') is-invalid @enderror"
+                                    value="{{ old('email') }}"
+                                    placeholder="email@domain.com" required>
+                                @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                        </div>
+
+                        <hr class="divider">
+
+                        {{-- Identitas Kuasa Pemohon --}}
+                        <div class="sub-group-label"><i class="fas fa-user-shield me-2"></i>Identitas Kuasa Pemohon <span class="text-muted fw-normal ms-1" style="font-size:12px;">(Kosongkan jika tidak dikuasakan)</span></div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
                                 <label>Nama Kuasa</label>
-                                <input type="text" name="nama_kuasa" class="form-control">
+                                <input type="text" name="nama_kuasa"
+                                    class="form-control"
+                                    value="{{ old('nama_kuasa') }}"
+                                    placeholder="Nama perwakilan / kuasa">
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Nomor Telepon Kuasa</label>
-                                <input type="tel" name="nomor_telepon_kuasa" class="form-control">
-                            </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="form-group">
+                            <div class="col-md-6">
                                 <label>Alamat Kuasa</label>
-                                <textarea name="alamat_kuasa" rows="2" class="form-control"></textarea>
+                                <input type="text" name="alamat_kuasa"
+                                    class="form-control"
+                                    value="{{ old('alamat_kuasa') }}"
+                                    placeholder="Alamat perwakilan / kuasa">
+                            </div>
+                        </div>
+
+                    </div>{{-- end section-body A --}}
+                </div>
+
+                {{-- ============================== --}}
+                {{-- B. ALASAN PENGAJUAN KEBERATAN --}}
+                {{-- ============================== --}}
+                <div class="section-block">
+                    <div class="section-label">
+                        <div class="section-letter">B</div>
+                        <div class="section-title-text">Alasan Pengajuan Keberatan</div>
+                    </div>
+                    <div class="section-body">
+                        <p class="text-muted small mb-3">Pilih <strong>satu atau lebih</strong> alasan yang sesuai dengan keberatan Anda:</p>
+                        <div class="alasan-list">
+                            <label class="alasan-item">
+                                <input type="checkbox" name="alasan_keberatan_list[]" value="a"
+                                    {{ is_array(old('alasan_keberatan_list')) && in_array('a', old('alasan_keberatan_list')) ? 'checked' : '' }}>
+                                <label>Permohonan Informasi ditolak</label>
+                            </label>
+                            <label class="alasan-item">
+                                <input type="checkbox" name="alasan_keberatan_list[]" value="b"
+                                    {{ is_array(old('alasan_keberatan_list')) && in_array('b', old('alasan_keberatan_list')) ? 'checked' : '' }}>
+                                <label>Informasi berkala tidak disediakan</label>
+                            </label>
+                            <label class="alasan-item">
+                                <input type="checkbox" name="alasan_keberatan_list[]" value="c"
+                                    {{ is_array(old('alasan_keberatan_list')) && in_array('c', old('alasan_keberatan_list')) ? 'checked' : '' }}>
+                                <label>Permintaan informasi tidak ditanggapi</label>
+                            </label>
+                            <label class="alasan-item">
+                                <input type="checkbox" name="alasan_keberatan_list[]" value="d"
+                                    {{ is_array(old('alasan_keberatan_list')) && in_array('d', old('alasan_keberatan_list')) ? 'checked' : '' }}>
+                                <label>Permintaan informasi ditanggapi tidak sebagaimana diminta</label>
+                            </label>
+                            <label class="alasan-item">
+                                <input type="checkbox" name="alasan_keberatan_list[]" value="e"
+                                    {{ is_array(old('alasan_keberatan_list')) && in_array('e', old('alasan_keberatan_list')) ? 'checked' : '' }}>
+                                <label>Permintaan informasi tidak dipenuhi</label>
+                            </label>
+                            <label class="alasan-item">
+                                <input type="checkbox" name="alasan_keberatan_list[]" value="f"
+                                    {{ is_array(old('alasan_keberatan_list')) && in_array('f', old('alasan_keberatan_list')) ? 'checked' : '' }}>
+                                <label>Biaya yang dikenakan tidak wajar</label>
+                            </label>
+                            <label class="alasan-item">
+                                <input type="checkbox" name="alasan_keberatan_list[]" value="g"
+                                    {{ is_array(old('alasan_keberatan_list')) && in_array('g', old('alasan_keberatan_list')) ? 'checked' : '' }}>
+                                <label>Informasi disampaikan melebihi jangka waktu yang ditentukan</label>
+                            </label>
+                        </div>
+
+                        <div class="mt-3">
+                            <label class="mt-1">Lainnya (jika tidak ada di atas)</label>
+                            <input type="text" name="alasan_keberatan_lainnya"
+                                class="form-control"
+                                value="{{ old('alasan_keberatan_lainnya') }}"
+                                placeholder="Tuliskan alasan lainnya...">
+                        </div>
+
+                        @error('alasan_keberatan_list')
+                        <div class="text-danger small mt-2"><i class="fas fa-exclamation-circle me-1"></i>{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+
+                {{-- ============================== --}}
+                {{-- C. KASUS POSISI               --}}
+                {{-- ============================== --}}
+                <div class="section-block">
+                    <div class="section-label">
+                        <div class="section-letter">C</div>
+                        <div class="section-title-text">Kasus Posisi</div>
+                    </div>
+                    <div class="section-body">
+                        <label>Jelaskan ringkasan kasus posisi yang terjadi <span class="text-muted fw-normal">(Opsional)</span></label>
+                        <textarea name="kasus_posisi" rows="4"
+                            class="form-control"
+                            placeholder="Uraikan kronologi dan posisi kasus secara singkat...">{{ old('kasus_posisi') }}</textarea>
+                    </div>
+                </div>
+
+                {{-- ============================== --}}
+                {{-- LAMPIRAN (tambahan web form)   --}}
+                {{-- ============================== --}}
+                <div class="section-block">
+                    <div class="section-label">
+                        <div class="section-letter" style="background:#64748b;"><i class="fas fa-paperclip" style="font-size:13px;"></i></div>
+                        <div class="section-title-text" style="color:#64748b;">Lampiran Dokumen</div>
+                    </div>
+                    <div class="section-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label>Foto / Scan KTP Pengaju <span class="req">*</span></label>
+                                <input type="file" name="file_ktp"
+                                    class="form-control @error('file_ktp') is-invalid @enderror"
+                                    accept=".jpg,.jpeg,.png,.pdf" required>
+                                <div class="text-muted small mt-1">Format: JPG, PNG, PDF (Maks. 2MB)</div>
+                                @error('file_ktp')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            </div>
+                            <div class="col-md-6">
+                                <label>Surat Kuasa <span class="text-muted fw-normal">(Jika dikuasakan)</span></label>
+                                <input type="file" name="file_surat_kuasa"
+                                    class="form-control"
+                                    accept=".pdf">
+                                <div class="text-muted small mt-1">Format: PDF (Maks. 2MB)</div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- SECTION 4: ALASAN KEBERATAN -->
-                <div class="section-card">
-                    <h3 class="form-section-title uppercase"><i class="fas fa-exclamation-triangle"></i> Alasan Pengajuan Keberatan</h3>
-                    <p class="text-muted small mb-4" style="margin-top: -10px;">Pilih salah satu atau lebih alasan berikut yang sesuai dengan keluhan Anda.</p>
-                    
-                    <div class="form-group">
-                        <div class="d-flex flex-column gap-3">
-                            @php
-                                $reasons = [
-                                    'a' => 'Penolakan atas permintaan informasi',
-                                    'b' => 'Tidak disediakannya informasi berkala',
-                                    'c' => 'Tidak ditanggapinya permintaan informasi',
-                                    'd' => 'Permintaan informasi ditanggapi tidak sebagaimana yang diminta',
-                                    'e' => 'Tidak dipenuhinya permintaan informasi',
-                                    'f' => 'Pengenaan biaya yang tidak wajar',
-                                    'g' => 'Penyampaian informasi yang melebihi waktu yang diatur dalam undang-undang'
-                                ];
-                            @endphp
-
-                            @foreach($reasons as $key => $reason)
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="alasan_keberatan_list[]" value="{{ $key }}" id="reason_{{ $key }}">
-                                    <label class="form-check-label" for="reason_{{ $key }}">
-                                        <strong>{{ strtoupper($key) }}.</strong> {{ $reason }}
-                                    </label>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-
-                    <div class="form-group mt-4">
-                        <label>Alasan Lainnya (Opsional)</label>
-                        <textarea name="alasan_keberatan_lainnya" rows="3" class="form-control" placeholder="Jelaskan secara singkat jika ada alasan tambahan..."></textarea>
-                    </div>
-
-                    <div class="form-group mt-4">
-                        <label>Kasus Posisi (Opsional)</label>
-                        <textarea name="kasus_posisi" rows="3" class="form-control" placeholder="Jelaskan ringkasan kasus posisi yang terjadi..."></textarea>
-                    </div>
-                </div>
-
-                <!-- SECTION 5: LAMPIRAN -->
-                <div class="section-card">
-                    <h3 class="form-section-title uppercase"><i class="fas fa-paperclip"></i> Dokumen Lampiran</h3>
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Salinan/Foto KTP Pengaju<span class="required-star">*</span></label>
-                                <div class="file-upload-wrapper">
-                                    <i class="fas fa-id-card text-muted fs-3 mb-2"></i>
-                                    <p class="mb-1" style="font-weight:600; color:var(--primary-blue);">Unggah KTP</p>
-                                    <p class="small text-muted mb-0">Format: JPG, PNG, PDF (Max 2MB)</p>
-                                    <input type="file" name="file_ktp" accept=".jpg,.jpeg,.png,.pdf" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Surat Kuasa (Bila Dikuasakan)</label>
-                                <div class="file-upload-wrapper">
-                                    <i class="fas fa-file-signature text-muted fs-3 mb-2"></i>
-                                    <p class="mb-1" style="font-weight:600; color:var(--primary-blue);">Unggah Surat Kuasa</p>
-                                    <p class="small text-muted mb-0">Format: PDF (Max 2MB)</p>
-                                    <input type="file" name="file_surat_kuasa" accept=".pdf">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="warning-banner shadow-sm mt-5">
-                    <div class="bg-red-100 p-3 rounded-circle" style="background-color: #fecaca; display: flex; align-items: center; justify-content: center; width: 60px; height: 60px;">
-                        <i class="fas fa-shield-alt" style="margin: 0;"></i>
-                    </div>
-                    <div>
-                        <h5 class="fw-bold">Pernyataan & Pertanggungjawaban</h5>
-                        <p>Demikian keberatan ini saya sampaikan, saya menyatakan bahwa data yang diungkapkan adalah benar dan dapat dipertanggungjawabkan sesuai ketentuan yang berlaku.</p>
-                    </div>
-                </div>
-
-                <div class="mt-5">
-                    <button type="submit" class="btn-submit">
+                {{-- Tombol Kirim --}}
+                <div class="mt-4">
+                    <button type="submit" class="btn-submit" id="submitBtn">
                         <i class="fas fa-paper-plane"></i> Kirim Pengajuan Keberatan
                     </button>
+                    <div class="text-center mt-4">
+                        <a href="{{ route('home') }}" class="text-decoration-none text-muted small">
+                            <i class="fas fa-chevron-left me-1"></i> Kembali ke Beranda
+                        </a>
+                    </div>
                 </div>
 
             </form>
         </div>
     </div>
 
-    @include('layouts.footer')
+    @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Update file input UI on select
-        document.querySelectorAll('input[type="file"]').forEach(input => {
-            input.addEventListener('change', function(e) {
-                if(this.files && this.files[0]) {
-                    let wrapper = this.closest('.file-upload-wrapper');
-                    let p = wrapper.querySelector('p:first-of-type');
-                    p.innerHTML = `<i class="fas fa-check-circle text-success me-1"></i> ` + this.files[0].name;
-                    p.style.color = '#10b981';
-                    wrapper.style.borderColor = '#10b981';
-                    wrapper.style.backgroundColor = '#ecfdf5';
-                }
-            });
+        document.getElementById('keberatanForm').addEventListener('submit', function() {
+            const btn = document.getElementById('submitBtn');
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Mengirim...';
+            btn.disabled = true;
         });
     </script>
 </body>

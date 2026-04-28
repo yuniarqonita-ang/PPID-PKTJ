@@ -40,25 +40,41 @@ class KeberatanController extends Controller
     {
         $validated = $request->validate([
             'nomor_registrasi_permohonan' => 'required',
-            'nama_pemohon' => 'required|string|max:255',
-            'pekerjaan' => 'required|string|max:255',
-            'alamat' => 'required|string',
-            'nomor_telepon' => 'required|string|max:50',
-            'email' => 'required|email|max:255',
-            'nama_kuasa' => 'nullable|string|max:255',
-            'alamat_kuasa' => 'nullable|string',
-            'nomor_telepon_kuasa' => 'nullable|string|max:50',
-            'alasan_keberatan_list' => 'required|array',
-            'alasan_keberatan_lainnya' => 'nullable|string',
-            'kasus_posisi' => 'nullable|string',
-            'file_ktp' => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'file_surat_kuasa' => 'nullable|file|mimes:pdf|max:2048',
+            'tujuan_penggunaan_informasi' => 'required|string|max:500',
+            'nama_pemohon'               => 'required|string|max:255',
+            'pekerjaan'                  => 'required|string|max:255',
+            'npwp'                       => 'nullable|string|max:30',
+            'alamat'                     => 'required|string',
+            'nomor_telepon'              => 'required|string|max:50',
+            'email'                      => 'required|email|max:255',
+            'nama_kuasa'                 => 'nullable|string|max:255',
+            'alamat_kuasa'              => 'nullable|string',
+            'nomor_telepon_kuasa'        => 'nullable|string|max:50',
+            'alasan_keberatan_list'      => 'required|array',
+            'alasan_keberatan_lainnya'   => 'nullable|string',
+            'kasus_posisi'               => 'nullable|string',
+            'file_ktp'                   => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
+            'file_surat_kuasa'           => 'nullable|file|mimes:pdf|max:2048',
+        ], [
+            'nomor_registrasi_permohonan.required' => 'Nomor pendaftaran permohonan wajib diisi.',
+            'tujuan_penggunaan_informasi.required'  => 'Tujuan penggunaan informasi wajib diisi.',
+            'nama_pemohon.required'                => 'Nama lengkap wajib diisi.',
+            'pekerjaan.required'                   => 'Pekerjaan wajib diisi.',
+            'alamat.required'                      => 'Alamat wajib diisi.',
+            'nomor_telepon.required'               => 'Nomor telepon wajib diisi.',
+            'email.required'                       => 'Email wajib diisi.',
+            'email.email'                          => 'Format email tidak valid.',
+            'alasan_keberatan_list.required'       => 'Alasan keberatan wajib dipilih minimal satu.',
+            'file_ktp.required'                    => 'Foto/scan KTP wajib diunggah.',
         ]);
 
         $permohonan = Permohonan::find($validated['nomor_registrasi_permohonan']);
 
         $keberatan = new Keberatan($validated);
-        
+
+        // Map nama field form ke nama kolom DB
+        $keberatan->tujuan_penggunaan = $validated['tujuan_penggunaan_informasi'];
+
         if ($permohonan) {
             $keberatan->permohonan_id = $permohonan->id;
         }
