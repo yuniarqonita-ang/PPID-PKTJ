@@ -453,7 +453,30 @@
                         xhr.send(formData);
                     });
                 },
-                setup: function (editor) {
+                file_picker_callback: function (callback, value, meta) {
+                    let x = window.innerWidth || document.documentElement.clientWidth || document.getElementsByTagName('body')[0].clientWidth;
+                    let y = window.innerHeight|| document.documentElement.clientHeight|| document.getElementsByTagName('body')[0].clientHeight;
+
+                    let type = 'image' === meta.filetype ? 'Images' : 'Files';
+                    let url  = "{{ route('admin.file-browser') }}";
+
+                    tinymce.activeEditor.windowManager.openUrl({
+                        url : url,
+                        title : 'File Browser',
+                        width : x * 0.8,
+                        height : y * 0.8,
+                        onMessage: (instance, data) => {
+                            if (data.mceAction === 'fileSelected') {
+                                callback(data.data.url);
+                                instance.close();
+                            }
+                        }
+                    });
+                },
+                setup: function(editor) {
+                    editor.on('init', function() {
+                        editor.getContainer().style.transition = "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out";
+                    });
                     editor.on('change', function () {
                         tinymce.triggerSave();
                     });

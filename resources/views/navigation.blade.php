@@ -129,6 +129,9 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('agenda.public') }}">AGENDA</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('faq.public') }}">FAQ</a>
                 </li>
             </ul>

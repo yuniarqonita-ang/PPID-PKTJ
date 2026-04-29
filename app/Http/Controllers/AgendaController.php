@@ -13,8 +13,8 @@ class AgendaController extends Controller
      */
     public function index()
     {
-        $agendas = Agenda::orderBy('tanggal', 'desc')->get();
-        return view('admin.agenda.index', compact('agendas'));
+        $items = Agenda::orderBy('tanggal', 'desc')->get();
+        return view('admin.agenda.index', compact('items'));
     }
 
     /**
@@ -38,7 +38,8 @@ class AgendaController extends Controller
             'aktif' => 'boolean'
         ]);
 
-        $data = $request->all();
+        $data = $request->except('aktif');
+        $data['aktif'] = $request->has('aktif');
 
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')->store('agenda', 'public');
@@ -82,7 +83,8 @@ class AgendaController extends Controller
             'aktif' => 'boolean'
         ]);
 
-        $data = $request->all();
+        $data = $request->except('aktif');
+        $data['aktif'] = $request->has('aktif');
 
         if ($request->hasFile('gambar')) {
             if ($agenda->gambar) {
@@ -110,5 +112,9 @@ class AgendaController extends Controller
         $agenda->delete();
 
         return redirect()->route('admin.agenda.index')->with('success', 'Agenda berhasil dihapus');
+    public function publicIndex()
+    {
+        $items = Agenda::where('aktif', true)->latest()->get();
+        return view('agenda', compact('items'));
     }
 }

@@ -70,8 +70,7 @@ Route::get('/permohonan', [PermohonanController::class, 'form']); // Alias for s
 Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->name('permohonan.store');
 Route::post('/permohonan', [PermohonanController::class, 'store']); // Alias for shorter URL form submission
 
-// FAQ (Public)
-Route::get('/faq', [FaqController::class, 'index'])->name('faq.index');
+
 
 // Dokumentasi (Public)
 Route::get('/dokumen', [DokumenController::class, 'publicList'])->name('dokumen.public');
@@ -138,25 +137,20 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     });
 
     // Agenda CRUD
-    Route::resource('agenda', 'AgendaController')->names('admin.agenda');
-
-    // Informasi Berkala CRUD
-    Route::name('admin.informasi.berkala.')->prefix('informasi-berkala')->group(function () {
-        Route::get('/', [InformasiBerkalaController::class, 'index'])->name('index');
-        Route::get('/create', [InformasiBerkalaController::class, 'create'])->name('create');
-        Route::post('/', [InformasiBerkalaController::class, 'store'])->name('store');
-        Route::get('/{id}/edit', [InformasiBerkalaController::class, 'edit'])->name('edit');
-        Route::put('/{id}', [InformasiBerkalaController::class, 'update'])->name('update');
-        Route::delete('/{id}', [InformasiBerkalaController::class, 'destroy'])->name('destroy');
-    });
+    Route::resource('agenda', AgendaController::class)->names('admin.agenda');
 
     // Kelola Halaman Tambahan (CMS Dinamis untuk konten halaman)
     Route::post('/halaman-custom/{type}', [App\Http\Controllers\HalamanCustomController::class, 'store'])->name('admin.halaman-custom.store');
 
     // Menu Layanan Informasi
     Route::name('admin.layanan.')->prefix('layanan')->group(function () {
-        Route::get('/daftar-informasi', function() { return view('admin.layanan.daftar-informasi'); })->name('daftar-informasi');
-        Route::get('/daftar-informasi/create', function() { return view('admin.layanan.daftar-informasi-create'); })->name('daftar-informasi.create');
+        Route::get('/daftar-informasi', [App\Http\Controllers\DaftarInformasiController::class, 'index'])->name('daftar-informasi');
+        Route::get('/daftar-informasi/create', [App\Http\Controllers\DaftarInformasiController::class, 'create'])->name('daftar-informasi.create');
+        Route::post('/daftar-informasi', [App\Http\Controllers\DaftarInformasiController::class, 'store'])->name('daftar-informasi.store');
+        Route::get('/daftar-informasi/{id}/edit', [App\Http\Controllers\DaftarInformasiController::class, 'edit'])->name('daftar-informasi.edit');
+        Route::put('/daftar-informasi/{id}', [App\Http\Controllers\DaftarInformasiController::class, 'update'])->name('daftar-informasi.update');
+        Route::delete('/daftar-informasi/{id}', [App\Http\Controllers\DaftarInformasiController::class, 'destroy'])->name('daftar-informasi.destroy');
+
         Route::get('/maklumat-pelayanan', function() { return view('admin.layanan.maklumat-pelayanan'); })->name('maklumat-pelayanan');
         Route::get('/laporan-layanan', function() { return view('admin.layanan.laporan-layanan'); })->name('laporan-layanan');
         Route::get('/laporan-akses', function() { return view('admin.layanan.laporan-akses'); })->name('laporan-akses');
@@ -175,8 +169,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     // Menu Informasi Publik
     Route::name('admin.informasi.')->prefix('informasi')->group(function () {
-        // Berkala (Sudah ada di atas, tapi kita rapikan di sini agar konsisten)
-        Route::get('/berkala', [InformasiBerkalaController::class, 'index'])->name('berkala');
+        // Berkala
+        Route::get('/berkala', [InformasiBerkalaController::class, 'index'])->name('berkala.index');
         Route::get('/berkala/create', [InformasiBerkalaController::class, 'create'])->name('berkala.create');
         Route::post('/berkala', [InformasiBerkalaController::class, 'store'])->name('berkala.store');
         Route::get('/berkala/{id}/edit', [InformasiBerkalaController::class, 'edit'])->name('berkala.edit');
@@ -184,7 +178,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/berkala/{id}', [InformasiBerkalaController::class, 'destroy'])->name('berkala.destroy');
 
         // Serta Merta
-        Route::get('/serta-merta', [InformasiSertaMertaController::class, 'index'])->name('sertamerta');
+        Route::get('/serta-merta', [InformasiSertaMertaController::class, 'index'])->name('sertamerta.index');
         Route::get('/serta-merta/create', [InformasiSertaMertaController::class, 'create'])->name('sertamerta.create');
         Route::post('/serta-merta', [InformasiSertaMertaController::class, 'store'])->name('sertamerta.store');
         Route::get('/serta-merta/{id}/edit', [InformasiSertaMertaController::class, 'edit'])->name('sertamerta.edit');
@@ -192,7 +186,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/serta-merta/{id}', [InformasiSertaMertaController::class, 'destroy'])->name('sertamerta.destroy');
         
         // Setiap Saat
-        Route::get('/setiap-saat', [InformasiSetiapSaatController::class, 'index'])->name('setiapsaat');
+        Route::get('/setiap-saat', [InformasiSetiapSaatController::class, 'index'])->name('setiapsaat.index');
         Route::get('/setiap-saat/create', [InformasiSetiapSaatController::class, 'create'])->name('setiapsaat.create');
         Route::post('/setiap-saat', [InformasiSetiapSaatController::class, 'store'])->name('setiapsaat.store');
         Route::get('/setiap-saat/{id}/edit', [InformasiSetiapSaatController::class, 'edit'])->name('setiapsaat.edit');
@@ -200,7 +194,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/setiap-saat/{id}', [InformasiSetiapSaatController::class, 'destroy'])->name('setiapsaat.destroy');
         
         // Dikecualikan
-        Route::get('/dikecualikan', [InformasiDikecualikanController::class, 'index'])->name('dikecualikan');
+        Route::get('/dikecualikan', [InformasiDikecualikanController::class, 'index'])->name('dikecualikan.index');
         Route::get('/dikecualikan/create', [InformasiDikecualikanController::class, 'create'])->name('dikecualikan.create');
         Route::post('/dikecualikan', [InformasiDikecualikanController::class, 'store'])->name('dikecualikan.store');
         Route::get('/dikecualikan/{id}/edit', [InformasiDikecualikanController::class, 'edit'])->name('dikecualikan.edit');
@@ -209,9 +203,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     });
 
     // Resource CRUD
-    Route::resource('berita', 'BeritaController')->names('admin.berita');
-    Route::resource('dokumen', 'DokumenController')->names('admin.dokumen');
-    Route::resource('prosedur', 'ProsedurController')->names('admin.prosedur');
+    Route::resource('berita', BeritaController::class)->names('admin.berita');
+    Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
+    Route::resource('prosedur-crud', ProsedurController::class)->names('admin.prosedur-crud');
     
     // Custom FAQ routes for admin
     Route::get('/faq', [FaqController::class, 'adminIndex'])->name('admin.faq.index');
@@ -239,8 +233,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/{permohonan}', [PermohonanController::class, 'destroy'])->name('destroy');
     });
 
-    // Image upload for Summernote
+    // Image upload and File Browser for TinyMCE
     Route::post('/upload/image', [AdminController::class, 'uploadImage'])->name('admin.upload.image');
+    Route::get('/file-browser', [AdminController::class, 'fileBrowser'])->name('admin.file-browser');
 
     // Link Aplikasi Terkait
     Route::get('/lpse', function() { return "Halaman LPSE"; })->name('admin.lpse.index');
@@ -292,4 +287,5 @@ Route::name('prosedur.')->prefix('prosedur')->group(function () {
 // Download Route
 Route::get('/download/{model}/{id}', [InformasiPublikController::class, 'downloadFile'])->name('download.file');
 
-Route::get('/faq', [FaqController::class, 'index'])->name('faq.public');
+Route::get('/agenda', [AgendaController::class, 'publicIndex'])->name('agenda.public');
+Route::get('/faq', [FaqController::class, 'publicIndex'])->name('faq.public');

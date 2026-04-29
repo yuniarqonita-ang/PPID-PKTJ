@@ -15,7 +15,8 @@ class InformasiBerkalaController extends Controller
      */
     public function index(): View
     {
-        return view('admin.informasi.berkala.index');
+        $items = InformasiBerkala::latest()->get();
+        return view('admin.informasi.berkala.index', compact('items'));
     }
 
     /**
@@ -55,7 +56,7 @@ class InformasiBerkalaController extends Controller
             ]);
         }
 
-        return redirect()->route('admin.informasi.berkala')
+        return redirect()->route('admin.informasi.berkala.index')
             ->with('success', 'Informasi berkala berhasil ditambahkan!');
     }
 
@@ -104,7 +105,7 @@ class InformasiBerkalaController extends Controller
         $item->aktif = $request->has('aktif');
         $item->save();
 
-        return redirect()->route('admin.informasi.berkala')
+        return redirect()->route('admin.informasi.berkala.index')
             ->with('success', 'Informasi berkala berhasil diperbarui!');
     }
 
@@ -122,7 +123,7 @@ class InformasiBerkalaController extends Controller
 
         $item->delete();
 
-        return redirect()->route('admin.informasi.berkala')
+        return redirect()->route('admin.informasi.berkala.index')
             ->with('success', 'Informasi berkala berhasil dihapus!');
     }
 

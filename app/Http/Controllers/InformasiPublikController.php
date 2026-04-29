@@ -20,33 +20,33 @@ class InformasiPublikController extends Controller
     // Informasi Berkala
     public function informasiBerkala()
     {
-        $informasi = InformasiBerkala::where('aktif', true)->orderBy('created_at', 'desc')->get();
+        $items = InformasiBerkala::where('aktif', true)->orderBy('created_at', 'desc')->get();
         $settings = $this->getSettings();
-        return view('informasi-berkala', compact('informasi', 'settings'));
+        return view('informasi-berkala', compact('items', 'settings'));
     }
 
     // Informasi Serta Merta
     public function informasiSertamerta()
     {
-        $informasi = InformasiSertaMerta::where('aktif', true)->orderBy('created_at', 'desc')->get();
+        $items = InformasiSertaMerta::where('aktif', true)->orderBy('created_at', 'desc')->get();
         $settings = $this->getSettings();
-        return view('informasi-serta-merta', compact('informasi', 'settings'));
+        return view('informasi-serta-merta', compact('items', 'settings'));
     }
 
     // Informasi Setiap Saat
     public function informasiSetiapsaat()
     {
-        $informasi = InformasiSetiapSaat::where('aktif', true)->orderBy('created_at', 'desc')->get();
+        $items = InformasiSetiapSaat::where('aktif', true)->orderBy('created_at', 'desc')->get();
         $settings = $this->getSettings();
-        return view('informasi-setiap-saat', compact('informasi', 'settings'));
+        return view('informasi-setiap-saat', compact('items', 'settings'));
     }
 
     // Informasi Dikecualikan
     public function informasiDikecualikan()
     {
-        $informasi = InformasiDikecualikan::where('aktif', true)->orderBy('created_at', 'desc')->get();
+        $items = InformasiDikecualikan::where('aktif', true)->orderBy('created_at', 'desc')->get();
         $settings = $this->getSettings();
-        return view('informasi-dikecualikan', compact('informasi', 'settings'));
+        return view('informasi-dikecualikan', compact('items', 'settings'));
     }
 
     // Prosedur

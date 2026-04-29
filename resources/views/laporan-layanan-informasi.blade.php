@@ -192,9 +192,7 @@
                     </tbody>
                 </table>
             </div>
-
             @include('components.konten-dinamis', ['prefix' => 'laporan_layanan'])
-
             @if(isset($settings['laporan_layanan_file_laporan']) && $settings['laporan_layanan_file_laporan'])
             <div class="main-download-box mt-5">
                 <h3 class="outfit fw-bold mb-3">Dokumen Laporan Lengkap</h3>
