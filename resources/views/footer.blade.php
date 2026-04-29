@@ -65,7 +65,7 @@
                 <p class="small mb-0 opacity-50">&copy; {{ date('Y') }} PPID PKTJ. Hak cipta dilindungi undang-undang.</p>
             </div>
             <div class="col-md-6 text-center text-md-end mt-3 mt-md-0">
-                <p class="small mb-0 opacity-50">Standardized by Antigravity AI</p>
+                <!-- Branding Removed -->
             </div>
         </div>
     </div>

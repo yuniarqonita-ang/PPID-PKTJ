@@ -161,200 +161,167 @@
             <form action="{{ route('permohonan.store') }}" method="POST" enctype="multipart/form-data" id="mainForm">
                 @csrf
 
-                {{-- BAGIAN 1: DATA PEMOHON --}}
+                {{-- BAGIAN 1: DATA IDENTITAS --}}
                 <div class="section-card">
                     <div class="sec-title"><i class="fas fa-user-circle"></i> Data Identitas Pemohon</div>
                     <div class="row g-3">
-
                         <div class="col-md-6">
-                            <label for="tanggal_permohonan">Tanggal Permohonan <span class="req">*</span></label>
-                            <input type="date" class="form-control @error('tanggal_permohonan') is-invalid @enderror"
-                                id="tanggal_permohonan" name="tanggal_permohonan"
-                                value="{{ old('tanggal_permohonan', date('Y-m-d')) }}" required>
-                            @error('tanggal_permohonan')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="nama_pemohon">Nama Lengkap <span class="req">*</span></label>
+                            <label for="nama_pemohon">Nama Lengkap Pemohon Informasi <span class="req">*</span></label>
                             <input type="text" class="form-control @error('nama_pemohon') is-invalid @enderror"
-                                id="nama_pemohon" name="nama_pemohon"
-                                placeholder="Nama sesuai identitas"
+                                id="nama_pemohon" name="nama_pemohon" placeholder="Nama sesuai KTP"
                                 value="{{ old('nama_pemohon') }}" required>
                             @error('nama_pemohon')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-md-6">
                             <label for="alamat">Alamat <span class="req">*</span></label>
-                            <textarea class="form-control @error('alamat') is-invalid @enderror"
-                                id="alamat" name="alamat" rows="2"
-                                placeholder="Alamat lengkap domisili" required>{{ old('alamat') }}</textarea>
+                            <input type="text" class="form-control @error('alamat') is-invalid @enderror"
+                                id="alamat" name="alamat" placeholder="Alamat lengkap"
+                                value="{{ old('alamat') }}" required>
                             @error('alamat')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="col-md-6">
-                            <label for="pekerjaan">Pekerjaan</label>
-                            <input type="text" class="form-control"
-                                id="pekerjaan" name="pekerjaan"
-                                placeholder="Sebutkan pekerjaan Anda"
-                                value="{{ old('pekerjaan') }}">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="npwp">NPWP</label>
-                            <input type="text" class="form-control"
-                                id="npwp" name="npwp"
-                                placeholder="Nomor NPWP (opsional)"
-                                value="{{ old('npwp') }}">
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="nomor_telepon">No. Telepon <span class="req">*</span></label>
-                            <input type="tel" class="form-control @error('nomor_telepon') is-invalid @enderror"
-                                id="nomor_telepon" name="nomor_telepon"
-                                placeholder="cth: 08123456789"
+                            <label for="nomor_telepon">Nomor Telepon / Email <span class="req">*</span></label>
+                            <input type="text" class="form-control @error('nomor_telepon') is-invalid @enderror"
+                                id="nomor_telepon" name="nomor_telepon" placeholder="No HP atau Alamat Email"
                                 value="{{ old('nomor_telepon') }}" required>
                             @error('nomor_telepon')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="col-md-6">
-                            <label for="email">Alamat Email <span class="req">*</span></label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror"
-                                id="email" name="email"
-                                placeholder="email@domain.com"
-                                value="{{ old('email') }}" required>
-                            @error('email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                            <label for="pekerjaan">Pekerjaan <span class="req">*</span></label>
+                            <input type="text" class="form-control @error('pekerjaan') is-invalid @enderror"
+                                id="pekerjaan" name="pekerjaan" placeholder="Contoh: Pegawai Swasta, Mahasiswa"
+                                value="{{ old('pekerjaan') }}" required>
+                            @error('pekerjaan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
+                        <div class="col-md-6">
+                            <label for="npwp">NIK / NPWP <span class="req">*</span></label>
+                            <input type="text" class="form-control @error('npwp') is-invalid @enderror"
+                                id="npwp" name="npwp" placeholder="Nomor Induk Kependudukan atau NPWP"
+                                value="{{ old('npwp') }}" required>
+                            @error('npwp')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="foto_ktp">Upload KTP <span class="req">*</span></label>
+                            <input type="file" class="form-control @error('foto_ktp') is-invalid @enderror"
+                                name="foto_ktp" accept=".jpg,.jpeg,.png,.pdf" required>
+                            <div class="text-muted small mt-1">Maks 10 MB (JPG, PNG, PDF)</div>
+                            @error('foto_ktp')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        </div>
                     </div>
                 </div>
 
-                {{-- BAGIAN 2: RINCIAN INFORMASI --}}
+                {{-- BAGIAN 2: JENIS PERMOHONAN --}}
                 <div class="section-card">
-                    <div class="sec-title"><i class="fas fa-file-alt"></i> Rincian Informasi yang Dibutuhkan</div>
+                    <div class="sec-title"><i class="fas fa-users"></i> Jenis Permohonan</div>
+                    <p class="text-muted small mb-3">Silahkan pilih jenis permohonan untuk perorangan atau organisasi. Jika anda memerlukan informasi untuk keperluan pribadi silahkan memilih pilihan perorangan. Jika anda mewakili suatu organisasi/kelompok silahkan memilih pilihan organisasi/kelompok.</p>
                     <div class="row g-3">
+                        <div class="col-12">
+                            <div class="radio-group">
+                                <label class="radio-card">
+                                    <input type="radio" name="jenis_pemohon" value="Perorangan" 
+                                        {{ old('jenis_pemohon', 'Perorangan') == 'Perorangan' ? 'checked' : '' }} required
+                                        onclick="toggleAkta(false)">
+                                    Perorangan
+                                </label>
+                                <label class="radio-card">
+                                    <input type="radio" name="jenis_pemohon" value="Organisasi"
+                                        {{ old('jenis_pemohon') == 'Organisasi' ? 'checked' : '' }}
+                                        onclick="toggleAkta(true)">
+                                    Organisasi / Kelompok
+                                </label>
+                            </div>
+                        </div>
 
+                        <div id="akta_wrap" class="col-12 {{ old('jenis_pemohon') == 'Organisasi' ? '' : 'd-none' }}">
+                            <label for="berkas_pendukung">Akta Pendirian (Untuk Organisasi/Kelompok)</label>
+                            <input type="file" class="form-control" name="berkas_pendukung" accept=".jpg,.jpeg,.png,.pdf">
+                            <div class="text-muted small mt-1">Maks 10 MB (JPG, PNG, PDF)</div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- BAGIAN 3: RINCIAN INFORMASI --}}
+                <div class="section-card">
+                    <div class="sec-title"><i class="fas fa-file-alt"></i> Detail Permohonan</div>
+                    <div class="row g-3">
                         <div class="col-12">
                             <label for="rincian_informasi">Rincian Informasi yang Dibutuhkan <span class="req">*</span></label>
                             <textarea class="form-control @error('rincian_informasi') is-invalid @enderror"
-                                id="rincian_informasi" name="rincian_informasi" rows="4"
-                                placeholder="Jelaskan secara rinci informasi apa yang Anda butuhkan" required>{{ old('rincian_informasi') }}</textarea>
+                                id="rincian_informasi" name="rincian_informasi" rows="4" required>{{ old('rincian_informasi') }}</textarea>
                             @error('rincian_informasi')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
 
                         <div class="col-12">
                             <label for="tujuan_penggunaan">Tujuan Penggunaan Informasi <span class="req">*</span></label>
                             <textarea class="form-control @error('tujuan_penggunaan') is-invalid @enderror"
-                                id="tujuan_penggunaan" name="tujuan_penggunaan" rows="3"
-                                placeholder="Jelaskan tujuan Anda menggunakan informasi ini" required>{{ old('tujuan_penggunaan') }}</textarea>
+                                id="tujuan_penggunaan" name="tujuan_penggunaan" rows="3" required>{{ old('tujuan_penggunaan') }}</textarea>
                             @error('tujuan_penggunaan')<div class="invalid-feedback">{{ $message }}</div>@enderror
                         </div>
-
                     </div>
                 </div>
 
-                {{-- BAGIAN 3: STATUS INFORMASI --}}
+                {{-- BAGIAN 4: CARA MEMPEROLEH & MENDAPATKAN --}}
                 <div class="section-card">
-                    <div class="sec-title"><i class="fas fa-info-circle"></i> Status Informasi</div>
+                    <div class="sec-title"><i class="fas fa-hand-holding"></i> Cara Memperoleh & Mendapatkan Informasi</div>
                     <div class="row g-4">
-
                         <div class="col-12">
-                            <label>Status Informasi di Bawah Penguasaan <span class="req">*</span></label>
+                            <label>Cara Memperoleh Informasi <span class="req">*</span></label>
                             <div class="radio-group mt-2">
                                 <label class="radio-card">
-                                    <input type="radio" name="status_informasi_dikuasai" value="ya"
-                                        {{ old('status_informasi_dikuasai') == 'ya' ? 'checked' : '' }} required>
-                                    <i class="fas fa-check-circle text-success"></i> Ya
+                                    <input type="radio" name="jenis_permohonan_salinan" value="Melihat" required>
+                                    Melihat/membaca/mendengarkan/mencatat
                                 </label>
                                 <label class="radio-card">
-                                    <input type="radio" name="status_informasi_dikuasai" value="tidak"
-                                        {{ old('status_informasi_dikuasai') == 'tidak' ? 'checked' : '' }}>
-                                    <i class="fas fa-times-circle text-danger"></i> Tidak
-                                </label>
-                            </div>
-                            @error('status_informasi_dikuasai')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="col-12">
-                            <label>Status Informasi Belum Didokumentasikan</label>
-                            <div class="radio-group mt-2">
-                                <label class="radio-card">
-                                    <input type="radio" name="status_informasi_belum_didokumentasikan" value="ya"
-                                        {{ old('status_informasi_belum_didokumentasikan') == 'ya' ? 'checked' : '' }}>
-                                    <i class="fas fa-check-circle text-success"></i> Ya
-                                </label>
-                                <label class="radio-card">
-                                    <input type="radio" name="status_informasi_belum_didokumentasikan" value="tidak"
-                                        {{ old('status_informasi_belum_didokumentasikan') == 'tidak' ? 'checked' : '' }}>
-                                    <i class="fas fa-times-circle text-danger"></i> Tidak
+                                    <input type="radio" name="jenis_permohonan_salinan" value="Mendapatkan salinan">
+                                    Mendapatkan salinan informasi (hardcopy/softcopy)
                                 </label>
                             </div>
                         </div>
 
+                        <div class="col-12">
+                            <label>Cara Mendapatkan Salinan Informasi <span class="req">*</span></label>
+                            <div class="radio-group mt-2">
+                                <label class="radio-card"><input type="radio" name="cara_mendapatkan" value="Mengambil Langsung" required> Mengambil Langsung</label>
+                                <label class="radio-card"><input type="radio" name="cara_mendapatkan" value="Kurir"> Kurir</label>
+                                <label class="radio-card"><input type="radio" name="cara_mendapatkan" value="Pos"> Pos</label>
+                                <label class="radio-card"><input type="radio" name="cara_mendapatkan" value="Email"> Email</label>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                {{-- BAGIAN 4: BENTUK & JENIS PERMOHONAN --}}
+                {{-- BAGIAN 5: ADMINISTRASI --}}
                 <div class="section-card">
-                    <div class="sec-title"><i class="fas fa-copy"></i> Bentuk & Jenis Permohonan</div>
-                    <div class="row g-4">
-
-                        <div class="col-12">
-                            <label>Bentuk Informasi yang Dikuasai <span class="req">*</span></label>
-                            <div class="radio-group mt-2">
-                                <label class="radio-card">
-                                    <input type="radio" name="bentuk_informasi_salinan" value="Softcopy"
-                                        {{ old('bentuk_informasi_salinan') == 'Softcopy' ? 'checked' : '' }} required>
-                                    <i class="fas fa-laptop text-primary"></i> Softcopy
-                                </label>
-                                <label class="radio-card">
-                                    <input type="radio" name="bentuk_informasi_salinan" value="Hardcopy"
-                                        {{ old('bentuk_informasi_salinan') == 'Hardcopy' ? 'checked' : '' }}>
-                                    <i class="fas fa-print text-secondary"></i> Hardcopy
-                                </label>
-                            </div>
-                            @error('bentuk_informasi_salinan')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="col-12">
-                            <label>Jenis Permohonan <span class="req">*</span></label>
-                            <div class="radio-group mt-2">
-                                <label class="radio-card">
-                                    <input type="radio" name="jenis_permohonan_salinan" value="Melihat"
-                                        {{ old('jenis_permohonan_salinan') == 'Melihat' ? 'checked' : '' }} required>
-                                    <i class="fas fa-eye text-info"></i> Melihat / Mendengar
-                                </label>
-                                <label class="radio-card">
-                                    <input type="radio" name="jenis_permohonan_salinan" value="Meminta Salinan"
-                                        {{ old('jenis_permohonan_salinan') == 'Meminta Salinan' ? 'checked' : '' }}>
-                                    <i class="fas fa-file-download text-warning"></i> Meminta Salinan
-                                </label>
-                            </div>
-                            @error('jenis_permohonan_salinan')<div class="text-danger small mt-1">{{ $message }}</div>@enderror
-                        </div>
-
-                    </div>
-                </div>
-
-                {{-- BAGIAN 5: DOKUMEN PENDUKUNG --}}
-                <div class="section-card">
-                    <div class="sec-title"><i class="fas fa-paperclip"></i> Dokumen Pendukung</div>
+                    <div class="sec-title"><i class="fas fa-clipboard-check"></i> Administrasi</div>
                     <div class="row g-3">
-
-                        <div class="col-12">
-                            <label>Scan / Foto KTP atau Identitas <span class="req">*</span></label>
-                            <input type="file" class="form-control @error('foto_ktp') is-invalid @enderror"
-                                name="foto_ktp" accept=".jpg,.jpeg,.png,.pdf" required>
-                            <div class="text-muted small mt-1">Format: JPG, PNG, atau PDF (Maks. 5MB)</div>
-                            @error('foto_ktp')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                        <div class="col-md-6">
+                            <label for="petugas_penerima">Petugas meja Informasi (Penerima Permohonan) <span class="req">*</span></label>
+                            <input type="text" class="form-control" name="petugas_penerima" placeholder="Nama Petugas (Jika Ada)" value="{{ old('petugas_penerima') }}" required>
                         </div>
-
-                        <div class="col-12">
-                            <label>Berkas Pendukung Tambahan <span class="text-muted fw-normal">(Opsional)</span></label>
-                            <input type="file" class="form-control"
-                                name="berkas_pendukung" accept=".jpg,.jpeg,.png,.pdf,.doc,.docx">
-                            <div class="text-muted small mt-1">Format: PDF, DOC (Maks. 10MB)</div>
+                        <div class="col-md-6">
+                            <label for="tanggal_permohonan">Tanggal Permohonan Informasi <span class="req">*</span></label>
+                            <input type="date" class="form-control" name="tanggal_permohonan" value="{{ date('Y-m-d') }}" required>
                         </div>
+                    </div>
+                </div>
 
+                {{-- HAK-HAK PEMOHON --}}
+                <div class="section-card bg-light border-0 shadow-none">
+                    <h5 class="fw-bold mb-3" style="color: var(--primary);">Hak-hak Pemohon Informasi</h5>
+                    <div class="small text-muted" style="text-align: justify; line-height: 1.6;">
+                        <p><strong>I. Pemohon Informasi</strong> berhak untuk meminta seluruh informasi yang berada di Badan Publik kecuali (a) informasi yang apabila dibuka dan diberikan kepada pemohon informasi dapat : Menghambat proses penegakan hukum; Mengganggu kepentingan perlindungan hak atas kekayaan intelektual dan perlindungan dari persaingan usaha tidak sehat; Membahayakan pertahanan dan keamanan Negara; Mengungkapkan kekayaan alam Indonesia; Merugikan ketahanan ekonomi nasional; Merugikan kepentingan hubungan luar negeri; Mengungkapkan isi akta otentik yang bersifat pribadi dan kemauan terakhir ataupun wasiat seseorang; Mengungkap rahasia pribadi; memorandum atau surat-surat antar Badan Publik atau intra Badan Publik, yang menurut sifatnya dirahasiakan kecuali atas putusan Komisi Informasi atau pengadilan; informasi yang tidak boleh diungkapkan berdasarkan Undang-Undang, (b) Badan Publik juga dapat tidak memberikan informasi yang belum dikuasai atau tidak didokumentasikan.</p>
+                        <p><strong>II. Biaya</strong> yang dikenakan bagi permintaan atas salinan informasi berdasarkan Peraturan Pimpinan Badan Publik.</p>
+                        <p><strong>III. Pemohon Informasi</strong> berhak untuk mendapatkan Pemberitahuan Tertulis atas diterima atau tidaknya permohonan informasi dalam jangka 10 (sepuluh) hari kerja sejak diterimanya permohonan informasi oleh Badan Publik. Badan Publik dapat memperpanjang waktu untuk memberi jawaban tertulis 1 x 7 hari kerja.</p>
+                        <div class="alert alert-warning py-2 border-0">
+                            <strong>PASTIKAN ANDA MENDAPATKAN TANDA TERIMA</strong> PERMINTAAN INFORMASI BERUPA NOMOR PENDAFTARAN KE PETUGAS INFORMASI/PPID.
+                        </div>
+                        <p><strong>IV. Apabila Pemohon Informasi</strong> tidak puas dengan keputusan Badan Publik (misal menolak permintaan anda atau memberikan hanya sebagian yang diminta), maka pemohon informasi dapat mengajukan keberatan kepada atasan PPID dalam jangka waktu 30 (tiga puluh) hari kerja sejak permohonan informasi ditolak. Atasan PPID wajib memberikan tanggapan tertulis atas keberatan yang diajukan Pemohon Informasi selambat-lambatnya 30 (tiga puluh) hari kerja sejak keberatan tertulis yang diajukan oleh Pemohon Informasi diterima.</p>
+                        <p><strong>V. Apabila Pemohon Informasi</strong> tidak puas dengan keputusan Atasan PPID, maka pemohon informasi dapat mengajukan keberatan kepada Komisi Informasi dalam jangka waktu 14 (empat belas) hari kerja sejak tanggapan dari atasan PPID diterima oleh Pemohon Informasi Publik.</p>
                     </div>
                 </div>
 
@@ -362,13 +329,7 @@
                     <button type="submit" class="btn-submit" id="submitBtn">
                         <i class="fas fa-paper-plane"></i> Kirim Permohonan
                     </button>
-                    <div class="text-center mt-4">
-                        <a href="{{ route('home') }}" class="text-decoration-none text-muted small">
-                            <i class="fas fa-chevron-left me-1"></i> Kembali ke Beranda
-                        </a>
-                    </div>
                 </div>
-
             </form>
         </div>
     </div>
@@ -377,6 +338,12 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
+        function toggleAkta(show) {
+            const wrap = document.getElementById('akta_wrap');
+            if (show) wrap.classList.remove('d-none');
+            else wrap.classList.add('d-none');
+        }
+
         document.getElementById('mainForm').addEventListener('submit', function() {
             const btn = document.getElementById('submitBtn');
             btn.innerHTML = '<i class="fas fa-spinner fa-spin me-2"></i> Mengirim...';

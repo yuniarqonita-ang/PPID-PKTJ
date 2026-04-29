@@ -65,9 +65,40 @@ class ProfilPublikController extends Controller
         // Special case: Daftar Informasi Publik needs all info types
         $extraData = [];
         if ($type === 'layanan-daftar') {
-            $extraData['berkala'] = \App\Models\InformasiBerkala::where('aktif', true)->orderBy('created_at', 'desc')->get();
-            $extraData['sertamerta'] = \App\Models\InformasiSertaMerta::where('aktif', true)->orderBy('created_at', 'desc')->get();
-            $extraData['setiapsaat'] = \App\Models\InformasiSetiapSaat::where('aktif', true)->orderBy('created_at', 'desc')->get();
+            $query = \App\Models\DaftarInformasi::where('aktif', true);
+            
+            // Search filters
+            if (request('informasi')) {
+                $query->where('judul_informasi', 'like', '%' . request('informasi') . '%');
+            }
+            if (request('ringkasan')) {
+                $query->where('isi_informasi', 'like', '%' . request('ringkasan') . '%');
+            }
+            if (request('tahun')) {
+                $query->where('waktu_pembuatan', 'like', '%' . request('tahun') . '%');
+            }
+            if (request('penanggung_jawab')) {
+                $query->where('penanggung_jawab', 'like', '%' . request('penanggung_jawab') . '%');
+            }
+
+            // Category filter
+            if (request('kategori')) {
+                $query->where('kategori', request('kategori'));
+            }
+
+            $extraData['items'] = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
+            
+            // Get available years for dropdown
+            $extraData['years'] = \App\Models\DaftarInformasi::selectRaw('DISTINCT(waktu_pembuatan) as tahun')
+                ->whereNotNull('waktu_pembuatan')
+                ->orderBy('tahun', 'desc')
+                ->pluck('tahun');
+
+            // Get available units for dropdown
+            $extraData['units'] = \App\Models\DaftarInformasi::selectRaw('DISTINCT(penanggung_jawab) as unit')
+                ->whereNotNull('penanggung_jawab')
+                ->orderBy('unit', 'asc')
+                ->pluck('unit');
         }
 
         // Fetch reports dynamically based on type

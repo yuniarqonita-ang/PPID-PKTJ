@@ -76,7 +76,9 @@
 
     <div class="container mb-5">
         <div class="content-card">
-            <h2 class="section-title">{{ $settings['sop_pemutakhiran_judul_hero'] ?? 'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' }}</h2>
+            @if(isset($settings['sop_pemutakhiran_judul_hero']))
+                <h2 class="section-title">{{ $settings['sop_pemutakhiran_judul_hero'] }}</h2>
+            @endif
             
             <div class="rich-content">
                 @include('components.konten-dinamis', ['prefix' => 'sop_pemutakhiran'])

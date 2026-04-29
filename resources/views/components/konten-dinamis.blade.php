@@ -190,8 +190,5 @@
 
 {{-- Pesan jika tidak ada konten sama sekali --}}
 @if(!$adaKonten)
-<div class="content-box text-center py-4" style="border-left: 5px solid #6c757d;">
-    <i class="fas fa-info-circle" style="font-size:40px; color:#6c757d; margin-bottom:15px; display:block;"></i>
-    <p class="text-muted mb-0">Konten halaman ini sedang dalam penyiapan. Silakan hubungi PPID PKTJ untuk informasi lebih lanjut.</p>
-</div>
+    <!-- Konten kosong menunggu input dari admin -->
 @endif

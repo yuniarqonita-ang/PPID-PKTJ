@@ -140,6 +140,36 @@
                             </div>
                             @endif
 
+                            @if($type === 'maklumat-pelayanan')
+                            <div class="space-y-4 border-b border-slate-100 pb-6 mb-6">
+                                <h5 class="text-[11px] font-black text-[#004a99] uppercase tracking-widest mb-4">Pengaturan Maklumat</h5>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase">Judul Maklumat</label>
+                                    <input type="text" name="judul_maklumat" value="{{ $settings['judul_maklumat'] ?? '' }}" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase">Isi Maklumat (Text)</label>
+                                    <textarea name="isi_maklumat" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold h-32">{{ $settings['isi_maklumat'] ?? '' }}</textarea>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase">Gambar Maklumat</label>
+                                    <input type="file" name="gambar_maklumat" class="text-xs font-bold text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-[10px] file:font-black file:bg-blue-50 file:text-blue-700">
+                                </div>
+                            </div>
+
+                            <div class="space-y-4">
+                                <h5 class="text-[11px] font-black text-[#004a99] uppercase tracking-widest mb-4">Pengaturan Standar Biaya</h5>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase">Judul Standar Biaya</label>
+                                    <input type="text" name="judul_standar" value="{{ $settings['judul_standar'] ?? '' }}" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase">Isi Standar Biaya (Text/Editor)</label>
+                                    <textarea name="isi_standar" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold h-32">{{ $settings['isi_standar'] ?? '' }}</textarea>
+                                </div>
+                            </div>
+                            @endif
+
                             @if($type === 'struktur')
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black text-slate-400 uppercase">Input Struktur (Role 1)</label>

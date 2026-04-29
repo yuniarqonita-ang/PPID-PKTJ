@@ -169,55 +169,117 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="content-card">
-            <h2 class="section-title">Daftar Informasi</h2>
+    <div class="container-fluid px-lg-5">
+        <div class="content-card shadow-lg border-0" style="border-radius: 20px;">
+            <h1 class="fw-bold mb-4" style="color: #333; font-size: 2.5rem;">Daftar Informasi Publik</h1>
 
-            <div id="infoListContainer">
-                @include('components.konten-dinamis', ['prefix' => 'daftar_informasi'])
-                
-                @php
-                    $allDocs = [];
-                    if(isset($berkala)) foreach($berkala as $b) { $b->category = 'berkala'; $allDocs[] = $b; }
-                    if(isset($setiapsaat)) foreach($setiapsaat as $s) { $s->category = 'setiapsaat'; $allDocs[] = $s; }
-                    if(isset($sertamerta)) foreach($sertamerta as $sm) { $sm->category = 'sertamerta'; $allDocs[] = $sm; }
-                    
-                    // Sort by date
-                    usort($allDocs, function($a, $b) {
-                        return (isset($b->created_at) && isset($a->created_at)) ? ($b->created_at <=> $a->created_at) : 0;
-                    });
-                @endphp
+            <!-- Dynamic Content (Admin Managed) -->
+            <div class="mb-5">
+                @include('components.konten-dinamis', ['prefix' => 'layanan_daftar'])
+            </div>
 
-                <div class="row g-4 mt-2">
-                    @forelse($allDocs as $doc)
-                        <div class="col-12 info-document-item" data-category="{{ $doc->category }}">
-                            <div class="info-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="info-icon">
-                                        <i class="fas {{ $doc->category == 'berkala' ? 'fa-calendar-check' : ($doc->category == 'setiapsaat' ? 'fa-clock' : 'fa-bolt') }}"></i>
-                                    </div>
-                                    <div>
-                                        <h5 class="fw-bold outfit mb-1">{{ $doc->judul }}</h5>
-                                        <div class="d-flex gap-3">
-                                            <small class="text-muted"><i class="fas fa-tag me-1"></i> {{ ucfirst($doc->category) }}</small>
-                                            <small class="text-muted"><i class="fas fa-calendar-alt me-1"></i> {{ isset($doc->created_at) ? $doc->created_at->format('d M Y') : '-' }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="{{ route('download.file', ['model' => $doc->category, 'id' => $doc->id]) }}" 
-                                   target="_blank" class="btn-download-premium">
-                                    <i class="fas fa-download me-2"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12 text-center py-5">
-                            <i class="fas fa-file-excel fa-4x text-muted mb-4 opacity-25"></i>
-                            <h3 class="text-muted">Data Belum Tersedia</h3>
-                            <p class="text-muted">Gunakan menu admin untuk mengelola daftar informasi publik.</p>
-                        </div>
-                    @endforelse
+            <!-- Search Form -->
+            <form action="{{ route('layanan.daftar-informasi') }}" method="GET" class="mb-5">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small fw-bold">Informasi</label>
+                        <input type="text" name="informasi" value="{{ request('informasi') }}" class="form-control py-2 border-0 bg-light" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small fw-bold">Ringkasan Informasi</label>
+                        <input type="text" name="ringkasan" value="{{ request('ringkasan') }}" class="form-control py-2 border-0 bg-light" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small fw-bold">Waktu Pembuatan</label>
+                        <select name="tahun" class="form-select py-2 border-0 bg-light" style="border-radius: 8px;">
+                            <option value="">Pilih Tahun</option>
+                            @if(isset($years))
+                                @foreach($years as $y)
+                                    <option value="{{ $y }}" {{ request('tahun') == $y ? 'selected' : '' }}>{{ $y }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small fw-bold">Penanggung Jawab</label>
+                        <select name="penanggung_jawab" class="form-select py-2 border-0 bg-light" style="border-radius: 8px;">
+                            <option value="">Pilih Penanggung Jawab</option>
+                            @if(isset($units))
+                                @foreach($units as $u)
+                                    <option value="{{ $u }}" {{ request('penanggung_jawab') == $u ? 'selected' : '' }}>{{ $u }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-success px-4 py-2 fw-bold d-flex align-items-center gap-2" style="border-radius: 8px; background-color: #28a745;">
+                            Cari <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
+            </form>
+
+            <!-- Table Info -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <p class="mb-0 text-muted small">
+                    Showing <span class="fw-bold">{{ $items->firstItem() ?? 0 }}-{{ $items->lastItem() ?? 0 }}</span> of <span class="fw-bold">{{ $items->total() }}</span> items.
+                </p>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle text-center small" style="min-width: 1500px; border-color: #dee2e6;">
+                    <thead style="background-color: #f8f9fa;">
+                        <tr class="text-primary fw-bold align-middle">
+                            <th style="width: 50px;">#</th>
+                            <th>PENANGGUNG JAWAB</th>
+                            <th>INFORMASI</th>
+                            <th>JENIS INFORMASI</th>
+                            <th>RINGKASAN INFORMASI</th>
+                            <th>PEJABAT YANG MENGUASAI INFORMASI</th>
+                            <th>PENERBIT INFORMASI</th>
+                            <th>BENTUK INFORMASI YANG TERSEDIA</th>
+                            <th>TEMPAT PEMBUATAN</th>
+                            <th>WAKTU PEMBUATAN</th>
+                            <th>JANGKA WAKTU PENYIMPANAN / RETENSI WAKTU</th>
+                            <th>FILE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($items as $item)
+                        <tr>
+                            <td class="fw-bold">{{ ($items->currentPage() - 1) * $items->perPage() + $loop->iteration }}</td>
+                            <td class="text-start">{{ $item->penanggung_jawab }}</td>
+                            <td class="text-start fw-bold">{{ $item->judul_informasi }}</td>
+                            <td><span class="badge bg-info text-dark text-uppercase">{{ str_replace('informasi-', '', $item->kategori) }}</span></td>
+                            <td class="text-start">{!! $item->isi_informasi !!}</td>
+                            <td>{{ $item->pejabat_penguasa }}</td>
+                            <td>{{ $item->penerbit_informasi }}</td>
+                            <td>{{ $item->bentuk_informasi }}</td>
+                            <td>{{ $item->tempat_pembuatan }}</td>
+                            <td>{{ $item->waktu_pembuatan }}</td>
+                            <td>{{ $item->jangka_waktu }}</td>
+                            <td>
+                                @if($item->file_informasi)
+                                <a href="{{ asset($item->file_informasi) }}" target="_blank" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
+                                @else
+                                -
+                                @endif
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="12" class="py-5 text-muted">Data tidak ditemukan.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                {{ $items->links() }}
             </div>
         </div>
     </div>

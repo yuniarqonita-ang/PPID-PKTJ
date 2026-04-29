@@ -91,26 +91,7 @@
 
     <div class="container mb-5">
         <div class="content-card">
-            <h2 class="section-title">{{ $settings['maklumat_pelayanan_judul_maklumat'] ?? $settings['maklumat_pelayanan_judul_hero'] ?? 'Maklumat Pelayanan PPID PKTJ' }}</h2>
-            
-            @if(isset($settings['maklumat_pelayanan_isi_maklumat']) && $settings['maklumat_pelayanan_isi_maklumat'])
-            <div class="rich-content mb-4">
-                {!! $settings['maklumat_pelayanan_isi_maklumat'] !!}
-            </div>
-            @endif
-
-            @if(isset($settings['maklumat_pelayanan_gambar_maklumat']) && $settings['maklumat_pelayanan_gambar_maklumat'])
-            <div class="text-center mt-4">
-                <img src="{{ asset('storage/halaman/'.$settings['maklumat_pelayanan_gambar_maklumat']) }}" 
-                     alt="Maklumat Pelayanan PPID PKTJ" 
-                     class="img-fluid rounded shadow" 
-                     style="max-height: 700px; margin: 0 auto;">
-            </div>
-            @else
-            <div class="rich-content">
-                @include('components.konten-dinamis', ['prefix' => 'maklumat_pelayanan'])
-            </div>
-            @endif
+            @include('components.konten-dinamis', ['prefix' => 'maklumat_pelayanan'])
         </div>
     </div>
 

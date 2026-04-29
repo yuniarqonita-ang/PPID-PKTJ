@@ -114,37 +114,31 @@ class PermohonanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'tanggal_permohonan'                   => 'required|date',
-            'nama_pemohon'                         => 'required|string|max:255',
-            'alamat'                               => 'required|string',
-            'pekerjaan'                            => 'nullable|string|max:100',
-            'npwp'                                 => 'nullable|string|max:30',
-            'nomor_telepon'                        => 'required|string|max:20',
-            'email'                                => 'required|email|max:255',
-            'rincian_informasi'                    => 'required|string',
-            'tujuan_penggunaan'                    => 'required|string',
-            'status_informasi_dikuasai'            => 'required|in:ya,tidak',
-            'status_informasi_belum_didokumentasikan' => 'nullable|in:ya,tidak',
-            'bentuk_informasi_salinan'             => 'required|in:Softcopy,Hardcopy',
-            'jenis_permohonan_salinan'             => 'required|in:Melihat,Meminta Salinan',
-            'foto_ktp'                             => 'required|file|mimes:jpg,jpeg,png,pdf|max:5120',
-            'berkas_pendukung'                     => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:10240',
-        ], [
-            'tanggal.required'                    => 'Tanggal permohonan wajib diisi.',
-            'nama_pemohon.required'               => 'Nama lengkap wajib diisi.',
-            'alamat.required'                     => 'Alamat wajib diisi.',
-            'nomor_telepon.required'              => 'Nomor telepon wajib diisi.',
-            'email.required'                      => 'Email wajib diisi.',
-            'email.email'                         => 'Format email tidak valid.',
-            'rincian_informasi.required'          => 'Rincian informasi yang dibutuhkan wajib diisi.',
-            'tujuan_penggunaan.required'          => 'Tujuan penggunaan informasi wajib diisi.',
-            'status_informasi_dikuasai.required'  => 'Status informasi di bawah penguasaan wajib dipilih.',
-            'bentuk_informasi_salinan.required'   => 'Bentuk informasi wajib dipilih.',
-            'jenis_permohonan_salinan.required'   => 'Jenis permohonan wajib dipilih.',
-            'foto_ktp.required'                   => 'Scan/foto identitas wajib diunggah.',
+            'tanggal_permohonan'    => 'required|date',
+            'nama_pemohon'          => 'required|string|max:255',
+            'alamat'                => 'required|string',
+            'nomor_telepon'         => 'required|string|max:255',
+            'pekerjaan'             => 'required|string|max:100',
+            'npwp'                  => 'required|string|max:30',
+            'jenis_pemohon'         => 'required|in:Perorangan,Organisasi',
+            'rincian_informasi'     => 'required|string',
+            'tujuan_penggunaan'     => 'required|string',
+            'jenis_permohonan_salinan' => 'required|string',
+            'cara_mendapatkan'      => 'required|string',
+            'petugas_penerima'      => 'required|string|max:255',
+            'foto_ktp'              => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'berkas_pendukung'      => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
         ]);
 
-        // Map field form ke kolom database
+        // Map data tambahan ke JSON agar tidak perlu migrasi database besar
+        $validated['custom_fields_data'] = [
+            'jenis_pemohon'      => $request->jenis_pemohon,
+            'cara_mendapatkan'   => $request->cara_mendapatkan,
+            'petugas_penerima'   => $request->petugas_penerima,
+            'email_or_phone'     => $request->nomor_telepon,
+        ];
+
+        // Mapping ke kolom DB yang sudah ada
         $validated['deskripsi_permohonan'] = $validated['rincian_informasi'];
         $validated['jenis_informasi']      = $validated['tujuan_penggunaan'];
         $validated['status']               = 'pending';

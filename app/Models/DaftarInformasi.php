@@ -17,6 +17,8 @@ class DaftarInformasi extends Model
         'tipe_informasi',
         'isi_informasi',
         'pejabat_penguasa',
+        'penerbit_informasi',
+        'tempat_pembuatan',
         'penanggung_jawab',
         'waktu_pembuatan',
         'bentuk_informasi',
