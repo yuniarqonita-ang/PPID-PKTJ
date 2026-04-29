@@ -279,12 +279,12 @@ Route::name('profil.')->prefix('profil')->group(function () {
 
 // Prosedur Routes (Public - Dynamic from Controller)
 Route::name('prosedur.')->prefix('prosedur')->group(function () {
-    Route::get('/sop-permintaan-informasi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-permintaan')->defaults('view', 'sop-permintaan')->name('sop-permintaan');
-    Route::get('/sop-penanganan-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-keberatan')->defaults('view', 'sop-penanganan-keberatan')->name('sop-keberatan');
-    Route::get('/sop-pengajuan-sengketa', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-sengketa')->defaults('view', 'sop-sengketa')->name('sop-sengketa');
-    Route::get('/sop-penetapan-pemutakhiran', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-penetapan')->defaults('view', 'sop-pemutakhiran-daftar')->name('sop-penetapan');
-    Route::get('/sop-pengujian-konsekuensi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-pengujian')->defaults('view', 'sop-pengujian-konsekuensi')->name('sop-pengujian');
-    Route::get('/sop-pendokumentasian', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop-pendokumentasian')->defaults('view', 'sop-pendokumentasian')->name('sop-pendokumentasian');
+    Route::get('/sop-permintaan-informasi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_permintaan')->defaults('view', 'sop-permintaan')->name('sop-permintaan');
+    Route::get('/sop-penanganan-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_keberatan')->defaults('view', 'sop-penanganan-keberatan')->name('sop-keberatan');
+    Route::get('/sop-pengajuan-sengketa', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_sengketa')->defaults('view', 'sop-sengketa')->name('sop-sengketa');
+    Route::get('/sop-penetapan-pemutakhiran', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_penetapan')->defaults('view', 'sop-pemutakhiran-daftar')->name('sop-penetapan');
+    Route::get('/sop-pengujian-konsekuensi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_pengujian')->defaults('view', 'sop-pengujian-konsekuensi')->name('sop-pengujian');
+    Route::get('/sop-pendokumentasian', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_pendokumentasian')->defaults('view', 'sop-pendokumentasian')->name('sop-pendokumentasian');
 });
 
 // Download Route

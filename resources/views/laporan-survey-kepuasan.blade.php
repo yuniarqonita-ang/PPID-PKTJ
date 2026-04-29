@@ -146,51 +146,63 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="content-card">
-            <h2 class="section-title">Hasil Survey</h2>
+    <div class="container-fluid px-lg-5">
+        <div class="content-card shadow-lg border-0" style="border-radius: 20px;">
+            <h1 class="fw-bold mb-4" style="color: #333; font-size: 2.5rem;">Laporan Kepuasan Pelayanan Informasi Publik {{ $settings['ppid_nama'] ?? 'Kementerian Perhubungan' }}</h1>
+
+            <div class="mb-3 text-muted small">
+                Showing 1-{{ count($laporan ?? []) }} of {{ count($laporan ?? []) }} items.
+            </div>
+
+            <div class="table-responsive">
+                <table class="table table-hover align-middle border-top" style="border-collapse: separate; border-spacing: 0;">
+                    <thead style="background-color: #f8f9fa;">
+                        <tr>
+                            <th class="px-4 py-3 text-center" style="width: 60px; color: #004a99; font-weight: 800;">#</th>
+                            <th class="px-4 py-3" style="color: #004a99; font-weight: 800;">Judul Laporan</th>
+                            <th class="px-4 py-3" style="width: 200px;"></th>
+                            <th class="px-4 py-3" style="width: 200px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($laporan ?? [] as $index => $item)
+                        <tr style="background-color: {{ $index % 2 == 0 ? '#ececec' : '#ffffff' }}; transition: all 0.2s;">
+                            <td class="px-4 py-4 text-center fw-bold">{{ $index + 1 }}</td>
+                            <td class="px-4 py-4 fw-medium text-dark" style="font-size: 1.05rem;">{{ $item->judul }}</td>
+                            <td class="px-2 py-4">
+                                <a href="{{ route('dokumen.download', $item->id) }}" class="btn w-100 fw-bold d-flex align-items-center justify-content-center gap-2" style="background-color: #ffc107; color: #ffffff; border-radius: 5px; padding: 10px 15px; border: none;">
+                                    <i class="fas fa-save"></i> Unduh Dokumen
+                                </a>
+                            </td>
+                            <td class="px-4 py-4">
+                                <a href="{{ route('dokumen.view', $item->id) }}" target="_blank" class="btn w-100 fw-bold d-flex align-items-center justify-content-center gap-2" style="background-color: #28a745; color: #ffffff; border-radius: 5px; padding: 10px 15px; border: none;">
+                                    <i class="fas fa-eye"></i> Preview Dokumen
+                                </a>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="4" class="text-center py-5">
+                                <i class="fas fa-poll fa-4x text-muted mb-4 opacity-25"></i>
+                                <h3 class="text-muted">Data Belum Tersedia</h3>
+                                <p class="text-muted">Belum ada data laporan survey tersedia saat ini.</p>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
 
             @include('components.konten-dinamis', ['prefix' => 'laporan_survey'])
 
-            <div class="row mt-4">
-                @forelse($laporan ?? [] as $item)
-                    <div class="col-12">
-                        <div class="report-item">
-                            <div class="d-flex align-items-center">
-                                <div class="report-icon">
-                                    <i class="fas fa-chart-bar"></i>
-                                </div>
-                                <div>
-                                    <h5 class="fw-bold outfit mb-0 text-dark">{{ $item->judul }}</h5>
-                                    <small class="text-muted"><i class="fas fa-calendar-alt me-1"></i> {{ isset($item->created_at) ? $item->created_at->format('d M Y') : '-' }}</small>
-                                </div>
-                            </div>
-                            <div class="d-flex gap-2">
-                                <a href="{{ asset('storage/'.$item->file_path) }}" class="btn-action-premium btn-preview-premium" target="_blank">
-                                    <i class="fas fa-eye"></i> Preview
-                                </a>
-                                <a href="{{ asset('storage/'.$item->file_path) }}" class="btn-action-premium btn-download-premium" target="_blank">
-                                    <i class="fas fa-save"></i> Unduh
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-12 text-center py-5">
-                        <i class="fas fa-poll fa-4x text-muted mb-4 opacity-25"></i>
-                        <h3 class="text-muted">Data Belum Tersedia</h3>
-                        <p class="text-muted">Belum ada data laporan survey tersedia saat ini.</p>
-                    </div>
-                @endforelse
-            </div>
-
+            @include('components.konten-dinamis', ['prefix' => 'laporan_survey'])
             @if(isset($settings['laporan_survey_file_laporan']) && $settings['laporan_survey_file_laporan'])
-            <div class="main-download-box">
+            <div class="main-download-box mt-5">
                 <h3 class="outfit fw-bold mb-3">Dokumen Laporan Lengkap</h3>
                 <p class="opacity-75 mb-4">Unduh dokumen laporan survey kepuasan masyarakat secara keseluruhan.</p>
                 <a href="{{ asset('storage/halaman/'.$settings['laporan_survey_file_laporan']) }}" 
                    target="_blank" 
-                   class="btn-action-premium btn-download-premium d-inline-flex px-5 py-3 mx-auto" 
+                   class="btn-premium btn-gold d-inline-flex px-5 py-3 mx-auto" 
                    style="background: var(--secondary-gold); color: var(--primary-blue);">
                     <i class="fas fa-file-pdf"></i> Unduh Laporan Lengkap
                 </a>

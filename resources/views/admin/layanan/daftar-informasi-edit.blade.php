@@ -126,6 +126,18 @@
                             placeholder="Nama Pejabat/Kepala...">
                     </div>
                     <div class="space-y-4">
+                        <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">PENERBIT INFORMASI</label>
+                        <input type="text" name="penerbit_informasi" value="{{ old('penerbit_informasi', $item->penerbit_informasi) }}"
+                            class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]"
+                            placeholder="Nama Instansi/Bidang Penerbit...">
+                    </div>
+                    <div class="space-y-4">
+                        <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">TEMPAT PEMBUATAN</label>
+                        <input type="text" name="tempat_pembuatan" value="{{ old('tempat_pembuatan', $item->tempat_pembuatan) }}"
+                            class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]"
+                            placeholder="Lokasi pembuatan dokumen...">
+                    </div>
+                    <div class="space-y-4">
                         <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">PENANGGUNG JAWAB UNIT</label>
                         <input type="text" name="penanggung_jawab" value="{{ old('penanggung_jawab', $item->penanggung_jawab) }}"
                             class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]"

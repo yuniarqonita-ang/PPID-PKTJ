@@ -169,83 +169,117 @@
         </div>
     </div>
 
-    <div class="container">
-        <div class="content-card">
-            <h2 class="section-title">Daftar Informasi</h2>
+    <div class="container-fluid px-lg-5">
+        <div class="content-card shadow-lg border-0" style="border-radius: 20px;">
+            <h1 class="fw-bold mb-4" style="color: #333; font-size: 2.5rem;">Daftar Informasi Publik</h1>
 
-            <div id="infoListContainer">
-                <div class="table-responsive mt-4">
-                    <table class="table table-hover align-middle custom-dip-table">
-                        <thead>
-                            <tr>
-                                <th class="text-uppercase small fw-black tracking-wider">Informasi</th>
-                                <th class="text-uppercase small fw-black tracking-wider">Otoritas / Penanggung Jawab</th>
-                                <th class="text-uppercase small fw-black tracking-wider text-center">Bentuk</th>
-                                <th class="text-uppercase small fw-black tracking-wider text-center">Waktu</th>
-                                <th class="text-uppercase small fw-black tracking-wider text-end">Akses</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($items as $item)
-                            <tr>
-                                <td>
-                                    <div class="fw-bold text-primary mb-1">{{ $item->judul_informasi }}</div>
-                                    <span class="badge bg-light text-dark border">{{ $item->tipe_informasi ?? 'Umum' }}</span>
-                                    <span class="badge bg-light text-dark border">{{ $item->kategori ?? '-' }}</span>
-                                </td>
-                                <td>
-                                    <div class="fw-bold small">{{ $item->pejabat_penguasa ?? '-' }}</div>
-                                    <div class="text-muted extra-small">{{ $item->penanggung_jawab ?? '-' }}</div>
-                                </td>
-                                <td class="text-center">
-                                    <span class="text-muted small fw-bold">{{ $item->bentuk_informasi ?? '-' }}</span>
-                                </td>
-                                <td class="text-center text-muted small">
-                                    {{ $item->waktu_pembuatan ?? '-' }}
-                                    @if($item->jangka_waktu)
-                                    <div class="extra-small opacity-75">Simpan: {{ $item->jangka_waktu }}</div>
-                                    @endif
-                                </td>
-                                <td class="text-end">
-                                    @if($item->file_informasi)
-                                    <a href="{{ asset($item->file_informasi) }}" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold">
-                                        <i class="fas fa-file-pdf me-1"></i> LIHAT PDF
-                                    </a>
-                                    @else
-                                    <span class="text-muted extra-small">Tersedia Fisik</span>
-                                    @endif
-                                </td>
-                            </tr>
-                            @empty
-                            <tr>
-                                <td colspan="5" class="text-center py-5">
-                                    <div class="opacity-25 mb-3">
-                                        <i class="fas fa-folder-open fa-4x"></i>
-                                    </div>
-                                    <h5 class="text-muted fw-bold">Daftar Informasi Belum Tersedia</h5>
-                                    <p class="text-muted small">Data sedang dalam proses pembaruan oleh admin.</p>
-                                </td>
-                            </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
+            <!-- Dynamic Content (Admin Managed) -->
+            <div class="mb-5">
+                @include('components.konten-dinamis', ['prefix' => 'layanan_daftar'])
+            </div>
+
+            <!-- Search Form -->
+            <form action="{{ route('layanan.daftar-informasi') }}" method="GET" class="mb-5">
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small fw-bold">Informasi</label>
+                        <input type="text" name="informasi" value="{{ request('informasi') }}" class="form-control py-2 border-0 bg-light" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small fw-bold">Ringkasan Informasi</label>
+                        <input type="text" name="ringkasan" value="{{ request('ringkasan') }}" class="form-control py-2 border-0 bg-light" style="border-radius: 8px;">
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small fw-bold">Waktu Pembuatan</label>
+                        <select name="tahun" class="form-select py-2 border-0 bg-light" style="border-radius: 8px;">
+                            <option value="">Pilih Tahun</option>
+                            @if(isset($years))
+                                @foreach($years as $y)
+                                    <option value="{{ $y }}" {{ request('tahun') == $y ? 'selected' : '' }}>{{ $y }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <label class="form-label text-muted small fw-bold">Penanggung Jawab</label>
+                        <select name="penanggung_jawab" class="form-select py-2 border-0 bg-light" style="border-radius: 8px;">
+                            <option value="">Pilih Penanggung Jawab</option>
+                            @if(isset($units))
+                                @foreach($units as $u)
+                                    <option value="{{ $u }}" {{ request('penanggung_jawab') == $u ? 'selected' : '' }}>{{ $u }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-success px-4 py-2 fw-bold d-flex align-items-center gap-2" style="border-radius: 8px; background-color: #28a745;">
+                            Cari <i class="fas fa-search"></i>
+                        </button>
+                    </div>
                 </div>
+            </form>
 
-                <style>
-                    .custom-dip-table thead th {
-                        background: #f8fafc;
-                        color: #64748b;
-                        border-bottom: 2px solid #e2e8f0;
-                        padding: 20px 15px;
-                    }
-                    .custom-dip-table tbody td {
-                        padding: 20px 15px;
-                        border-bottom: 1px solid #f1f5f9;
-                    }
-                    .extra-small { font-size: 0.75rem; }
-                    .fw-black { font-weight: 900; }
-                    .tracking-wider { letter-spacing: 0.05em; }
-                </style>
+            <!-- Table Info -->
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <p class="mb-0 text-muted small">
+                    Showing <span class="fw-bold">{{ $items->firstItem() ?? 0 }}-{{ $items->lastItem() ?? 0 }}</span> of <span class="fw-bold">{{ $items->total() }}</span> items.
+                </p>
+            </div>
+
+            <!-- Table -->
+            <div class="table-responsive">
+                <table class="table table-bordered align-middle text-center small" style="min-width: 1500px; border-color: #dee2e6;">
+                    <thead style="background-color: #f8f9fa;">
+                        <tr class="text-primary fw-bold align-middle">
+                            <th style="width: 50px;">#</th>
+                            <th>PENANGGUNG JAWAB</th>
+                            <th>INFORMASI</th>
+                            <th>JENIS INFORMASI</th>
+                            <th>RINGKASAN INFORMASI</th>
+                            <th>PEJABAT YANG MENGUASAI INFORMASI</th>
+                            <th>PENERBIT INFORMASI</th>
+                            <th>BENTUK INFORMASI YANG TERSEDIA</th>
+                            <th>TEMPAT PEMBUATAN</th>
+                            <th>WAKTU PEMBUATAN</th>
+                            <th>JANGKA WAKTU PENYIMPANAN / RETENSI WAKTU</th>
+                            <th>FILE</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse($items as $item)
+                        <tr>
+                            <td class="fw-bold">{{ ($items->currentPage() - 1) * $items->perPage() + $loop->iteration }}</td>
+                            <td class="text-start">{{ $item->penanggung_jawab }}</td>
+                            <td class="text-start fw-bold">{{ $item->judul_informasi }}</td>
+                            <td><span class="badge bg-info text-dark text-uppercase">{{ str_replace('informasi-', '', $item->kategori) }}</span></td>
+                            <td class="text-start">{!! $item->isi_informasi !!}</td>
+                            <td>{{ $item->pejabat_penguasa }}</td>
+                            <td>{{ $item->penerbit_informasi }}</td>
+                            <td>{{ $item->bentuk_informasi }}</td>
+                            <td>{{ $item->tempat_pembuatan }}</td>
+                            <td>{{ $item->waktu_pembuatan }}</td>
+                            <td>{{ $item->jangka_waktu }}</td>
+                            <td>
+                                @if($item->file_informasi)
+                                <a href="{{ asset($item->file_informasi) }}" target="_blank" class="btn btn-sm btn-outline-danger">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
+                                @else
+                                -
+                                @endif
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="12" class="py-5 text-muted">Data tidak ditemukan.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-4">
+                {{ $items->links() }}
             </div>
         </div>
     </div>
