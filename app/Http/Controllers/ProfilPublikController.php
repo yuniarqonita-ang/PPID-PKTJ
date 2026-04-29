@@ -65,6 +65,7 @@ class ProfilPublikController extends Controller
         // Special case: Daftar Informasi Publik needs all info types
         $extraData = [];
         if ($type === 'layanan-daftar') {
+            $extraData['items'] = \App\Models\DaftarInformasi::where('aktif', true)->latest()->get();
             $extraData['berkala'] = \App\Models\InformasiBerkala::where('aktif', true)->orderBy('created_at', 'desc')->get();
             $extraData['sertamerta'] = \App\Models\InformasiSertaMerta::where('aktif', true)->orderBy('created_at', 'desc')->get();
             $extraData['setiapsaat'] = \App\Models\InformasiSetiapSaat::where('aktif', true)->orderBy('created_at', 'desc')->get();

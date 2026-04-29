@@ -166,10 +166,10 @@
                                 </div>
                             </div>
                             <div class="d-flex gap-2">
-                                <a href="{{ asset('storage/'.$item->file) }}" class="btn-action-premium btn-preview-premium" target="_blank">
+                                <a href="{{ asset('storage/'.$item->file_path) }}" class="btn-action-premium btn-preview-premium" target="_blank">
                                     <i class="fas fa-eye"></i> Preview
                                 </a>
-                                <a href="{{ asset('storage/'.$item->file) }}" class="btn-action-premium btn-download-premium" target="_blank">
+                                <a href="{{ asset('storage/'.$item->file_path) }}" class="btn-action-premium btn-download-premium" target="_blank">
                                     <i class="fas fa-save"></i> Unduh
                                 </a>
                             </div>

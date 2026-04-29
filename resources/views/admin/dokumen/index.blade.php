@@ -23,7 +23,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="{{ route('dokumen.create') }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
+                <a href="{{ route('admin.dokumen.create') }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
                     <i class="fas fa-file-upload mr-3"></i> Upload Dokumen Baru
                 </a>
             </div>
@@ -45,6 +45,7 @@
                     <tr class="bg-slate-50/80 border-b border-slate-100">
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] w-20">No</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Nama Dokumen</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Kategori</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center border-gray-800">Tipe File</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center border-gray-800">Pratinjau</th>
                         <th class="px-8 py-6 text-center text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Opsi</th>
@@ -66,6 +67,11 @@
                                     </div>
                                 </div>
                             </td>
+                            <td class="px-8 py-6">
+                                <span class="inline-flex items-center px-3 py-1 bg-blue-100/50 text-[#004a99] rounded-lg text-[10px] font-black uppercase">
+                                    {{ $dok->kategori }}
+                                </span>
+                            </td>
                             <td class="px-8 py-6 text-center">
                                 @php
                                     $ext = pathinfo($dok->file_path, PATHINFO_EXTENSION);
@@ -81,7 +87,7 @@
                             </td>
                             <td class="px-8 py-6">
                                 <div class="flex justify-center items-center gap-2">
-                                    <form action="{{ route('dokumen.destroy', $dok->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus dokumen ini?')">
+                                    <form action="{{ route('admin.dokumen.destroy', $dok->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus dokumen ini?')">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all flex items-center justify-center group/btn shadow-sm border-none cursor-pointer">

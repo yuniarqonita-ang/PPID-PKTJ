@@ -44,4 +44,35 @@ class AdminController extends Controller
         
         return response()->json(['error' => 'Gagal mengupload gambar. Pastikan file valid.'], 400);
     }
+    /**
+     * List files for TinyMCE File Browser
+     */
+    public function fileBrowser(Request $request)
+    {
+        $files = [];
+        $directories = ['editor_uploads', 'halaman'];
+        
+        foreach ($directories as $dir) {
+            if (Storage::disk('public')->exists($dir)) {
+                $dirFiles = Storage::disk('public')->files($dir);
+                foreach ($dirFiles as $file) {
+                    $files[] = [
+                        'name' => basename($file),
+                        'url' => asset('storage/' . $file),
+                        'size' => Storage::disk('public')->size($file),
+                        'time' => Storage::disk('public')->lastModified($file),
+                        'type' => Storage::disk('public')->mimeType($file),
+                        'folder' => $dir
+                    ];
+                }
+            }
+        }
+
+        // Sort by time desc
+        usort($files, function($a, $b) {
+            return $b['time'] - $a['time'];
+        });
+
+        return view('admin.file-browser', compact('files'));
+    }
 }

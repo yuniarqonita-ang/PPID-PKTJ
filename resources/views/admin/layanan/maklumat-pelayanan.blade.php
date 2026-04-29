@@ -132,11 +132,14 @@
         if (input.files && input.files[0]) {
             var reader = new FileReader();
             reader.onload = function(e) {
-                const preview = document.getElementById('preview');
-                if(preview) {
-                    preview.src = e.target.result;
+                let preview = document.getElementById('preview');
+                const container = preview ? preview.parentElement : document.querySelector('.aspect-video');
+                
+                if(!preview) {
+                    // Create preview image if it doesn't exist
+                    container.innerHTML = `<img id="preview" src="${e.target.result}" class="w-full h-full object-contain">`;
                 } else {
-                    location.reload();
+                    preview.src = e.target.result;
                 }
             }
             reader.readAsDataURL(input.files[0]);

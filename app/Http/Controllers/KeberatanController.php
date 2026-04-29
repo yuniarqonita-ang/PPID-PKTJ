@@ -39,7 +39,7 @@ class KeberatanController extends Controller
     public function storePublic(Request $request)
     {
         $validated = $request->validate([
-            'nomor_registrasi_permohonan' => 'required',
+            'nomor_registrasi_permohonan' => 'required|string',
             'tujuan_penggunaan_informasi' => 'required|string|max:500',
             'nama_pemohon'               => 'required|string|max:255',
             'pekerjaan'                  => 'required|string|max:255',
@@ -55,40 +55,42 @@ class KeberatanController extends Controller
             'kasus_posisi'               => 'nullable|string',
             'file_ktp'                   => 'required|file|mimes:jpg,jpeg,png,pdf|max:2048',
             'file_surat_kuasa'           => 'nullable|file|mimes:pdf|max:2048',
-        ], [
-            'nomor_registrasi_permohonan.required' => 'Nomor pendaftaran permohonan wajib diisi.',
-            'tujuan_penggunaan_informasi.required'  => 'Tujuan penggunaan informasi wajib diisi.',
-            'nama_pemohon.required'                => 'Nama lengkap wajib diisi.',
-            'pekerjaan.required'                   => 'Pekerjaan wajib diisi.',
-            'alamat.required'                      => 'Alamat wajib diisi.',
-            'nomor_telepon.required'               => 'Nomor telepon wajib diisi.',
-            'email.required'                       => 'Email wajib diisi.',
-            'email.email'                          => 'Format email tidak valid.',
-            'alasan_keberatan_list.required'       => 'Alasan keberatan wajib dipilih minimal satu.',
-            'file_ktp.required'                    => 'Foto/scan KTP wajib diunggah.',
         ]);
 
-        $permohonan = Permohonan::find($validated['nomor_registrasi_permohonan']);
+        // Attempt to find permohonan by registration number or ID
+        $permohonan = Permohonan::where('nomor_registrasi', $validated['nomor_registrasi_permohonan'])
+            ->orWhere('id', $validated['nomor_registrasi_permohonan'])
+            ->first();
 
-        $keberatan = new Keberatan($validated);
-
-        // Map nama field form ke nama kolom DB
+        $keberatan = new Keberatan();
+        $keberatan->fill($validated);
+        
+        // Manual mapping for fields that differ from form names
         $keberatan->tujuan_penggunaan = $validated['tujuan_penggunaan_informasi'];
-
+        
         if ($permohonan) {
             $keberatan->permohonan_id = $permohonan->id;
+            // Optionally sync info from permohonan if not provided
+            $keberatan->rincian_informasi = $permohonan->rincian_informasi;
         }
         
         $keberatan->tanggal_keberatan = now();
         $keberatan->nomor_registrasi_keberatan = 'KEB-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4));
+        $keberatan->status = 'pending';
         
         // Handle file uploads
         if ($request->hasFile('file_ktp')) {
-            $keberatan->file_ktp = $request->file('file_ktp')->store('keberatan/ktp', 'public');
+            $file = $request->file('file_ktp');
+            $filename = time() . '_ktp_' . $file->getClientOriginalName();
+            $file->storeAs('public/keberatan/ktp', $filename);
+            $keberatan->file_ktp = 'storage/keberatan/ktp/' . $filename;
         }
 
         if ($request->hasFile('file_surat_kuasa')) {
-            $keberatan->file_surat_kuasa = $request->file('file_surat_kuasa')->store('keberatan/kuasa', 'public');
+            $file = $request->file('file_surat_kuasa');
+            $filename = time() . '_kuasa_' . $file->getClientOriginalName();
+            $file->storeAs('public/keberatan/kuasa', $filename);
+            $keberatan->file_surat_kuasa = 'storage/keberatan/kuasa/' . $filename;
         }
 
         $keberatan->save();

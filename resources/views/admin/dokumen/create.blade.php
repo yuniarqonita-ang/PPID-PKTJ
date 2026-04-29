@@ -1,73 +1,85 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Upload Dokumen</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background-color: #f8f9fa;
-        }
-        .card {
-            border: none;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-    </style>
-</head>
-<body>
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header bg-success text-white">
-                        <h4 class="mb-0">Upload Dokumen Baru</h4>
+@extends('layouts.app')
+
+@section('content')
+<div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 text-gray-800">
+    <div class="max-w-4xl mx-auto space-y-8">
+
+        <!-- HEADER SECTION -->
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">
+                    <i class="fas fa-file-upload mr-2 text-[#ffc107]"></i> Upload <span class="text-gray-800">Dokumen</span>
+                </h1>
+                <p class="text-gray-500 font-medium mt-1">Tambahkan arsip file atau laporan baru ke sistem</p>
+            </div>
+            <a href="{{ route('admin.dokumen.index') }}" class="text-xs font-black text-gray-400 hover:text-[#004a99] uppercase tracking-widest transition-all">
+                <i class="fas fa-arrow-left mr-2"></i> Kembali
+            </a>
+        </div>
+
+        <form action="{{ route('admin.dokumen.store') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+            @csrf
+            
+            <div class="bg-white rounded-[2.5rem] shadow-xl ring-1 ring-gray-200 overflow-hidden">
+                <div class="p-8 md:p-12 space-y-8">
+                    
+                    <!-- Title Field -->
+                    <div class="space-y-3">
+                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Judul Dokumen / Laporan</label>
+                        <input type="text" name="judul" required value="{{ old('judul') }}"
+                            class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-lg text-[#002b5c]"
+                            placeholder="Masukkan judul dokumen yang jelas...">
                     </div>
-                    <div class="card-body">
-                        <form action="{{ route('dokumen.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            
-                            <div class="mb-3">
-                                <label class="form-label">Judul Dokumen *</label>
-                                <input type="text" name="judul" class="form-control @error('judul') is-invalid @enderror bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" 
-                                       value="{{ old('judul') }}" required>
-                                @error('judul')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
 
-                            <div class="mb-3">
-                                <label class="form-label">Kategori</label>
-                                <select name="kategori" class="form-select bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">
-                                    <option value="">Pilih Kategori (Opsional)</option>
-                                    <option value="Laporan">Laporan</option>
-                                    <option value="Surat">Surat</option>
-                                    <option value="Panduan">Panduan</option>
-                                    <option value="Lainnya">Lainnya</option>
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label class="form-label">File Dokumen *</label>
-                                <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" 
-                                       accept=".pdf,.doc,.docx" required>
-                                <small class="text-muted">Format: PDF, DOC, DOCX (Max 5MB)</small>
-                                @error('file')
-                                    <div class="invalid-feedback">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <div class="d-flex gap-2">
-                                <button type="submit" class="btn btn-success">Upload</button>
-                                <a href="{{ route('dokumen.index') }}" class="btn btn-secondary">Batal</a>
-                            </div>
-                        </form>
+                    <!-- Category Field -->
+                    <div class="space-y-3">
+                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Kategori Dokumen</label>
+                        <select name="kategori" required
+                            class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c] appearance-none cursor-pointer">
+                            <option value="Umum">Umum / Lainnya</option>
+                            <option value="Laporan Layanan">Laporan Layanan Informasi</option>
+                            <option value="Laporan Akses">Laporan Akses Informasi</option>
+                            <option value="Laporan Survey">Laporan Survey Kepuasan</option>
+                            <option value="Regulasi">Regulasi / Aturan</option>
+                            <option value="SOP">Standar Operasional Prosedur (SOP)</option>
+                        </select>
                     </div>
+
+                    <!-- File Upload -->
+                    <div class="space-y-3">
+                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">File Dokumen (PDF/DOC/DOCX)</label>
+                        <div class="relative group">
+                            <input type="file" name="file" id="file" class="hidden" onchange="updateFileName(this)" accept=".pdf,.doc,.docx">
+                            <div onclick="document.getElementById('file').click()" 
+                                class="w-full p-10 border-4 border-dashed border-slate-100 rounded-[2rem] flex flex-col items-center justify-center cursor-pointer group-hover:border-[#004a99]/20 group-hover:bg-blue-50/30 transition-all">
+                                <i class="fas fa-cloud-upload-alt text-5xl text-slate-200 group-hover:text-[#004a99] mb-4 transition-all"></i>
+                                <p id="file-name-display" class="text-sm font-black text-slate-400 uppercase tracking-widest text-center">Tarik file ke sini atau klik untuk memilih</p>
+                                <p class="text-[10px] text-slate-300 font-bold mt-2 uppercase text-center">Maksimal 5MB (PDF, DOC, DOCX)</p>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
-        </div>
-    </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+            <div class="flex justify-end gap-4 pt-4">
+                <button type="submit" class="px-16 py-6 bg-[#004a99] text-white font-black text-xs uppercase tracking-[3px] rounded-[2rem] shadow-2xl shadow-blue-900/20 hover:bg-black hover:-translate-y-1 transition-all border-none cursor-pointer">
+                    <i class="fas fa-cloud-upload-alt mr-3 text-[#ffc107]"></i> Mulai Upload
+                </button>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script>
+    function updateFileName(input) {
+        const display = document.getElementById('file-name-display');
+        if (input.files && input.files[0]) {
+            display.innerText = input.files[0].name;
+            display.classList.remove('text-slate-400');
+            display.classList.add('text-[#004a99]');
+        }
+    }
+</script>
+@endsection

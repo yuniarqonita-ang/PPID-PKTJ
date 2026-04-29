@@ -35,7 +35,7 @@
             <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-[#004a99] flex items-center justify-between">
                 <div>
                     <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Total FAQ</p>
-                    <p class="text-3xl font-black text-[#004a99]">{{ $faqs->total() }}</p>
+                    <p class="text-3xl font-black text-[#004a99]">{{ $items->total() }}</p>
                 </div>
                 <div class="w-12 h-12 bg-blue-50 text-[#004a99] rounded-xl flex items-center justify-center text-xl">
                     <i class="fas fa-list-ul"></i>
@@ -44,7 +44,7 @@
             <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-green-500 flex items-center justify-between">
                 <div>
                     <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Aktif / Publik</p>
-                    <p class="text-3xl font-black text-green-600">{{ $faqs->where('aktif', true)->count() }}</p>
+                    <p class="text-3xl font-black text-green-600">{{ $items->where('aktif', true)->count() }}</p>
                 </div>
                 <div class="w-12 h-12 bg-green-50 text-green-600 rounded-xl flex items-center justify-center text-xl">
                     <i class="fas fa-check-double"></i>
@@ -53,7 +53,7 @@
             <div class="bg-white p-6 rounded-2xl shadow-sm border-l-4 border-orange-500 flex items-center justify-between">
                 <div>
                     <p class="text-xs font-bold text-gray-400 uppercase tracking-widest">Non-Aktif</p>
-                    <p class="text-3xl font-black text-orange-600">{{ $faqs->where('aktif', false)->count() }}</p>
+                    <p class="text-3xl font-black text-orange-600">{{ $items->where('aktif', false)->count() }}</p>
                 </div>
                 <div class="w-12 h-12 bg-orange-50 text-orange-600 rounded-xl flex items-center justify-center text-xl">
                     <i class="fas fa-eye-slash"></i>
@@ -83,10 +83,10 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
-                        @forelse($faqs as $index => $faq)
+                        @forelse($items as $index => $faq)
                             <tr class="hover:bg-gray-50 transition-colors group">
                                 <td class="px-6 py-4 text-sm font-bold text-gray-400 text-center">
-                                    {{ $faqs->firstItem() + $index }}
+                                    {{ $items->firstItem() + $index }}
                                 </td>
                                 <td class="px-6 py-4">
                                     <div class="text-sm font-bold text-[#004a99] group-hover:text-blue-700 transition-colors leading-relaxed">
@@ -111,16 +111,15 @@
                                 </td>
                                 <td class="px-6 py-4 text-center">
                                     <div class="flex justify-center items-center gap-2">
+                                        <button onclick="showDetail('{{ addslashes($faq->pertanyaan) }}', '{{ addslashes($faq->jawaban) }}')" class="p-2 w-10 h-10 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-white transition-all shadow-sm flex items-center justify-center" title="Lihat Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </button>
                                         <a href="{{ route('admin.faq.edit', $faq) }}" class="p-2 w-10 h-10 rounded-lg bg-blue-50 text-[#004a99] hover:bg-[#004a99] hover:text-white transition-all shadow-sm flex items-center justify-center" title="Edit FAQ">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('admin.faq.destroy', $faq) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus FAQ ini?');">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="p-2 w-10 h-10 rounded-lg bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm flex items-center justify-center" title="Hapus FAQ">
-                                                <i class="fas fa-trash-alt"></i>
-                                            </button>
-                                        </form>
+                                        <button onclick="confirmDelete('{{ $faq->id }}')" class="p-2 w-10 h-10 rounded-lg bg-red-50 text-red-500 hover:bg-red-500 hover:text-white transition-all shadow-sm flex items-center justify-center" title="Hapus FAQ">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
                                     </div>
                                 </td>
                             </tr>
@@ -135,9 +134,9 @@
                     </tbody>
                 </table>
             </div>
-            @if($faqs->hasPages())
+            @if($items->hasPages())
                 <div class="p-6 bg-gray-50 border-t border-gray-100">
-                    {{ $faqs->links() }}
+                    {{ $items->links() }}
                 </div>
             @endif
         </div>
@@ -156,4 +155,81 @@
         </div>
     </div>
 </div>
-@endsection
+
+<!-- DETAIL MODAL -->
+<div id="detailModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-[2rem] shadow-2xl p-10 max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col transform scale-95 transition-transform duration-300">
+        <div class="flex items-center justify-between mb-6 border-b pb-4">
+            <h3 id="detailTitle" class="text-2xl font-black text-[#004a99] uppercase truncate pr-8">Detail FAQ</h3>
+            <button onclick="closeDetailModal()" class="text-gray-400 hover:text-red-500 transition-colors text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="detailContent" class="flex-1 overflow-y-auto prose max-w-none text-gray-700 p-2">
+            <!-- Content filled by JS -->
+        </div>
+        <div class="mt-8 pt-6 border-t flex justify-end">
+            <button onclick="closeDetailModal()" class="px-8 py-3 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-black transition-all">Tutup</button>
+        </div>
+    </div>
+</div>
+
+<!-- DELETE MODAL -->
+<div id="deleteModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4 transform scale-95 transition-transform duration-300">
+        <div class="text-center">
+            <div class="w-20 h-20 bg-red-50 text-red-500 rounded-full flex items-center justify-center mx-auto mb-6 text-3xl shadow-lg shadow-red-500/10">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="text-xl font-black text-[#004a99] uppercase mb-2">Konfirmasi Hapus</h3>
+            <p class="text-gray-500 text-sm mb-8 font-medium">Apakah Anda yakin ingin menghapus FAQ ini secara permanen? Tindakan ini tidak dapat dibatalkan.</p>
+            <div class="flex gap-3">
+                <button onclick="closeDeleteModal()" class="flex-1 py-3 bg-gray-100 text-gray-500 font-bold rounded-xl hover:bg-gray-200 transition-all">Batal</button>
+                <form id="deleteForm" method="POST" class="flex-1">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="w-full py-3 bg-red-500 text-white font-bold rounded-xl hover:bg-red-600 transition-all shadow-lg shadow-red-500/20">Ya, Hapus</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function showDetail(title, content) {
+        const modal = document.getElementById('detailModal');
+        document.getElementById('detailTitle').innerText = title;
+        document.getElementById('detailContent').innerHTML = content;
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.add('opacity-100');
+            modal.querySelector('div').classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeDetailModal() {
+        const modal = document.getElementById('detailModal');
+        modal.classList.remove('opacity-100');
+        modal.querySelector('div').classList.remove('scale-100');
+        setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+
+    function confirmDelete(id) {
+        const modal = document.getElementById('deleteModal');
+        const form = document.getElementById('deleteForm');
+        form.action = `/admin/faq/${id}`;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.add('opacity-100');
+            modal.querySelector('div').classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeDeleteModal() {
+        const modal = document.getElementById('deleteModal');
+        modal.classList.remove('opacity-100');
+        modal.querySelector('div').classList.remove('scale-100');
+        setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+</script>

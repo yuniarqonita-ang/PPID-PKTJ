@@ -25,20 +25,20 @@
             <div class="col-lg-2 offset-lg-1">
                 <h6 class="fw-bold text-white mb-4">Akses Cepat</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="/" class="text-decoration-none text-reset opacity-75">Beranda</a></li>
-                    <li class="mb-2"><a href="/profil-ppid.html" class="text-decoration-none text-reset opacity-75">Profil PPID</a></li>
-                    <li class="mb-2"><a href="/informasi-publik/berkala" class="text-decoration-none text-reset opacity-75">Informasi Publik</a></li>
-                    <li class="mb-2"><a href="/prosedur/sop-permintaan-informasi" class="text-decoration-none text-reset opacity-75">Prosedur SOP</a></li>
+                    <li class="mb-2"><a href="{{ route('home') }}" class="text-decoration-none text-reset opacity-75">Beranda</a></li>
+                    <li class="mb-2"><a href="{{ route('profil.ppid') }}" class="text-decoration-none text-reset opacity-75">Profil PPID</a></li>
+                    <li class="mb-2"><a href="{{ route('informasi.berkala') }}" class="text-decoration-none text-reset opacity-75">Informasi Publik</a></li>
+                    <li class="mb-2"><a href="{{ route('prosedur.sop-permintaan') }}" class="text-decoration-none text-reset opacity-75">Prosedur SOP</a></li>
                 </ul>
             </div>
             <div class="col-lg-2">
                 <h6 class="fw-bold text-white mb-4">Layanan</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="/layanan-informasi/maklumat" class="text-decoration-none text-reset opacity-75">Maklumat Pelayanan</a></li>
-                    <li class="mb-2"><a href="/layanan-informasi/laporan" class="text-decoration-none text-reset opacity-75">Laporan Tahunan</a></li>
-                    <li class="mb-2"><a href="/faq" class="text-decoration-none text-reset opacity-75">FAQ</a></li>
-                    <li class="mb-2"><a href="/permohonan-informasi" class="text-decoration-none text-reset opacity-75">Permohonan Informasi</a></li>
-                    <li class="mb-2"><a href="/keberatan/ajukan" class="text-decoration-none text-reset opacity-75">Ajukan Keberatan</a></li>
+                    <li class="mb-2"><a href="{{ route('layanan.maklumat-pelayanan') }}" class="text-decoration-none text-reset opacity-75">Maklumat Pelayanan</a></li>
+                    <li class="mb-2"><a href="{{ route('layanan.laporan-layanan') }}" class="text-decoration-none text-reset opacity-75">Laporan Tahunan</a></li>
+                    <li class="mb-2"><a href="{{ route('faq.public') }}" class="text-decoration-none text-reset opacity-75">FAQ</a></li>
+                    <li class="mb-2"><a href="{{ route('permohonan.form') }}" class="text-decoration-none text-reset opacity-75">Permohonan Informasi</a></li>
+                    <li class="mb-2"><a href="{{ route('keberatan.create') }}" class="text-decoration-none text-reset opacity-75">Ajukan Keberatan</a></li>
                 </ul>
             </div>
             <div class="col-lg-3">

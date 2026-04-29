@@ -122,6 +122,9 @@
                         </td>
                         <td class="px-8 py-6">
                             <div class="flex items-center justify-end gap-2">
+                                <button onclick="showDetailDIP({{ json_encode($item) }})" class="w-10 h-10 bg-white text-amber-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-amber-600 hover:text-white transition-all shadow-md" title="Lihat Detail">
+                                    <i class="fas fa-eye"></i>
+                                </button>
                                 @if($item->file_informasi)
                                 <a href="{{ asset($item->file_informasi) }}" target="_blank" class="w-10 h-10 bg-white text-green-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-green-600 hover:text-white transition-all shadow-md" title="Buka File">
                                     <i class="fas fa-file-pdf"></i>
@@ -163,6 +166,24 @@
     </div>
 </div>
 
+<!-- DETAIL MODAL -->
+<div id="detailDIPModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-[2rem] shadow-2xl p-10 max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col transform scale-95 transition-transform duration-300">
+        <div class="flex items-center justify-between mb-6 border-b pb-4">
+            <h3 class="text-2xl font-black text-[#004a99] uppercase truncate pr-8">Detail Informasi Publik</h3>
+            <button onclick="closeDetailDIPModal()" class="text-gray-400 hover:text-red-500 transition-colors text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="detailDIPContent" class="flex-1 overflow-y-auto space-y-6 p-2">
+            <!-- Content filled by JS -->
+        </div>
+        <div class="mt-8 pt-6 border-t flex justify-end">
+            <button onclick="closeDetailDIPModal()" class="px-8 py-3 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-black transition-all">Tutup</button>
+        </div>
+    </div>
+</div>
+
 <!-- DELETE MODAL -->
 <div id="deleteDIPModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden">
     <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4">
@@ -185,10 +206,92 @@
 </div>
 
 <script>
+    function showDetailDIP(item) {
+        const modal = document.getElementById('detailDIPModal');
+        const content = document.getElementById('detailDIPContent');
+        
+        let html = `
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Judul Informasi</p>
+                        <p class="text-lg font-black text-[#004a99]">${item.judul_informasi || '-'}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Kategori</p>
+                        <p class="font-bold text-slate-700">${item.kategori || '-'}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tipe Informasi</p>
+                        <span class="inline-block px-3 py-1 bg-amber-100 text-amber-700 rounded-lg text-xs font-black uppercase mt-1">${item.tipe_informasi || 'Umum'}</span>
+                    </div>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Pejabat Penguasa</p>
+                        <p class="font-bold text-[#004a99] uppercase">${item.pejabat_penguasa || '-'}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Penanggung Jawab</p>
+                        <p class="font-bold text-slate-700">${item.penanggung_jawab || '-'}</p>
+                    </div>
+                    <div>
+                        <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Waktu Pembuatan</p>
+                        <p class="font-bold text-slate-700">${item.waktu_pembuatan || '-'}</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t pt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Bentuk Informasi</p>
+                    <p class="font-bold text-slate-700">${item.bentuk_informasi || '-'}</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Jangka Waktu Penyimpanan</p>
+                    <p class="font-bold text-slate-700">${item.jangka_waktu || '-'}</p>
+                </div>
+            </div>
+
+            <div class="border-t pt-6">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Ringkasan Isi Informasi</p>
+                <div class="p-6 bg-slate-50 rounded-2xl border border-slate-100 text-sm leading-relaxed text-slate-600 italic">
+                    ${item.isi_informasi || 'Tidak ada deskripsi tambahan.'}
+                </div>
+            </div>
+
+            ${item.file_informasi ? `
+            <div class="border-t pt-6">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Dokumen Terlampir</p>
+                <a href="${item.file_informasi.startsWith('http') ? item.file_informasi : '/' + item.file_informasi}" target="_blank" class="inline-flex items-center gap-3 px-6 py-3 bg-green-50 text-green-700 border-2 border-green-100 rounded-xl hover:bg-green-600 hover:text-white transition-all group font-bold">
+                    <i class="fas fa-file-pdf text-xl"></i>
+                    <span>Buka Lampiran Dokumen</span>
+                </a>
+            </div>
+            ` : ''}
+        `;
+        
+        content.innerHTML = html;
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.add('opacity-100');
+            modal.querySelector('div').classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeDetailDIPModal() {
+        const modal = document.getElementById('detailDIPModal');
+        modal.classList.remove('opacity-100');
+        modal.querySelector('div').classList.remove('scale-100');
+        setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+
     function confirmDeleteDIP(id) {
         document.getElementById('deleteDIPForm').action = `{{ url('admin/layanan/daftar-informasi') }}/${id}`;
-        document.getElementById('deleteDIPModal').classList.remove('hidden');
+        const modal = document.getElementById('deleteDIPModal');
+        modal.classList.remove('hidden');
     }
+
     function closeDeleteDIPModal() {
         document.getElementById('deleteDIPModal').classList.add('hidden');
     }

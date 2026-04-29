@@ -130,7 +130,7 @@
             @include('components.konten-dinamis', ['prefix' => 'informasi_dikecualikan'])
 
             <div class="row mt-4">
-                @forelse($informasi as $item)
+                @forelse($items as $item)
                     <div class="col-12">
                         <div class="info-item">
                             <div class="d-flex align-items-start">

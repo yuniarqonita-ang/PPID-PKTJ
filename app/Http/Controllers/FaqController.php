@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class FaqController extends Controller
 {
     // Public FAQ page
-    public function index()
+    public function publicIndex()
     {
         $faqs = Faq::where('aktif', true)->latest()->get();
         $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
@@ -18,8 +18,8 @@ class FaqController extends Controller
     // Admin FAQ index page
     public function adminIndex()
     {
-        $faqs = Faq::latest()->paginate(10);
-        return view('admin.faq.index', compact('faqs'));
+        $items = Faq::latest()->paginate(10);
+        return view('admin.faq.index', compact('items'));
     }
     
     // Admin FAQ create page

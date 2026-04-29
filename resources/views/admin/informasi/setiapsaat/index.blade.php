@@ -83,6 +83,9 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center justify-center gap-2">
+                                    <button onclick="showDetail('{{ $item->judul }}', '{{ addslashes($item->deskripsi) }}')" class="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-600 hover:text-white transition-all shadow-sm" title="Lihat Detail">
+                                        <i class="fas fa-eye"></i>
+                                    </button>
                                     <a href="{{ route('admin.informasi.setiapsaat.edit', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>
@@ -114,6 +117,24 @@
     </div>
 </div>
 
+<!-- DETAIL MODAL -->
+<div id="detailModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
+    <div class="bg-white rounded-[2rem] shadow-2xl p-10 max-w-4xl w-full mx-4 max-h-[90vh] overflow-hidden flex flex-col transform scale-95 transition-transform duration-300">
+        <div class="flex items-center justify-between mb-6 border-b pb-4">
+            <h3 id="detailTitle" class="text-2xl font-black text-[#004a99] uppercase truncate pr-8">Detail Informasi</h3>
+            <button onclick="closeDetailModal()" class="text-gray-400 hover:text-red-500 transition-colors text-2xl">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <div id="detailContent" class="flex-1 overflow-y-auto prose max-w-none text-gray-700 p-2">
+            <!-- Content filled by JS -->
+        </div>
+        <div class="mt-8 pt-6 border-t flex justify-end">
+            <button onclick="closeDetailModal()" class="px-8 py-3 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-xl hover:bg-black transition-all">Tutup</button>
+        </div>
+    </div>
+</div>
+
 <!-- DELETE MODAL -->
 <div id="deleteModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
     <div class="bg-white rounded-3xl shadow-2xl p-8 max-w-sm w-full mx-4 transform scale-95 transition-transform duration-300">
@@ -136,6 +157,25 @@
 </div>
 
 <script>
+    function showDetail(title, content) {
+        const modal = document.getElementById('detailModal');
+        document.getElementById('detailTitle').innerText = title;
+        document.getElementById('detailContent').innerHTML = content;
+        
+        modal.classList.remove('hidden');
+        setTimeout(() => {
+            modal.classList.add('opacity-100');
+            modal.querySelector('div').classList.add('scale-100');
+        }, 10);
+    }
+
+    function closeDetailModal() {
+        const modal = document.getElementById('detailModal');
+        modal.classList.remove('opacity-100');
+        modal.querySelector('div').classList.remove('scale-100');
+        setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+
     function confirmDelete(id) {
         const modal = document.getElementById('deleteModal');
         const form = document.getElementById('deleteForm');

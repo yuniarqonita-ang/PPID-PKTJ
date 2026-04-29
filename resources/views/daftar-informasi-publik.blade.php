@@ -174,50 +174,78 @@
             <h2 class="section-title">Daftar Informasi</h2>
 
             <div id="infoListContainer">
-                @include('components.konten-dinamis', ['prefix' => 'daftar_informasi'])
-                
-                @php
-                    $allDocs = [];
-                    if(isset($berkala)) foreach($berkala as $b) { $b->category = 'berkala'; $allDocs[] = $b; }
-                    if(isset($setiapsaat)) foreach($setiapsaat as $s) { $s->category = 'setiapsaat'; $allDocs[] = $s; }
-                    if(isset($sertamerta)) foreach($sertamerta as $sm) { $sm->category = 'sertamerta'; $allDocs[] = $sm; }
-                    
-                    // Sort by date
-                    usort($allDocs, function($a, $b) {
-                        return (isset($b->created_at) && isset($a->created_at)) ? ($b->created_at <=> $a->created_at) : 0;
-                    });
-                @endphp
-
-                <div class="row g-4 mt-2">
-                    @forelse($allDocs as $doc)
-                        <div class="col-12 info-document-item" data-category="{{ $doc->category }}">
-                            <div class="info-item">
-                                <div class="d-flex align-items-center">
-                                    <div class="info-icon">
-                                        <i class="fas {{ $doc->category == 'berkala' ? 'fa-calendar-check' : ($doc->category == 'setiapsaat' ? 'fa-clock' : 'fa-bolt') }}"></i>
+                <div class="table-responsive mt-4">
+                    <table class="table table-hover align-middle custom-dip-table">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase small fw-black tracking-wider">Informasi</th>
+                                <th class="text-uppercase small fw-black tracking-wider">Otoritas / Penanggung Jawab</th>
+                                <th class="text-uppercase small fw-black tracking-wider text-center">Bentuk</th>
+                                <th class="text-uppercase small fw-black tracking-wider text-center">Waktu</th>
+                                <th class="text-uppercase small fw-black tracking-wider text-end">Akses</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse($items as $item)
+                            <tr>
+                                <td>
+                                    <div class="fw-bold text-primary mb-1">{{ $item->judul_informasi }}</div>
+                                    <span class="badge bg-light text-dark border">{{ $item->tipe_informasi ?? 'Umum' }}</span>
+                                    <span class="badge bg-light text-dark border">{{ $item->kategori ?? '-' }}</span>
+                                </td>
+                                <td>
+                                    <div class="fw-bold small">{{ $item->pejabat_penguasa ?? '-' }}</div>
+                                    <div class="text-muted extra-small">{{ $item->penanggung_jawab ?? '-' }}</div>
+                                </td>
+                                <td class="text-center">
+                                    <span class="text-muted small fw-bold">{{ $item->bentuk_informasi ?? '-' }}</span>
+                                </td>
+                                <td class="text-center text-muted small">
+                                    {{ $item->waktu_pembuatan ?? '-' }}
+                                    @if($item->jangka_waktu)
+                                    <div class="extra-small opacity-75">Simpan: {{ $item->jangka_waktu }}</div>
+                                    @endif
+                                </td>
+                                <td class="text-end">
+                                    @if($item->file_informasi)
+                                    <a href="{{ asset($item->file_informasi) }}" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold">
+                                        <i class="fas fa-file-pdf me-1"></i> LIHAT PDF
+                                    </a>
+                                    @else
+                                    <span class="text-muted extra-small">Tersedia Fisik</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="5" class="text-center py-5">
+                                    <div class="opacity-25 mb-3">
+                                        <i class="fas fa-folder-open fa-4x"></i>
                                     </div>
-                                    <div>
-                                        <h5 class="fw-bold outfit mb-1">{{ $doc->judul }}</h5>
-                                        <div class="d-flex gap-3">
-                                            <small class="text-muted"><i class="fas fa-tag me-1"></i> {{ ucfirst($doc->category) }}</small>
-                                            <small class="text-muted"><i class="fas fa-calendar-alt me-1"></i> {{ isset($doc->created_at) ? $doc->created_at->format('d M Y') : '-' }}</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <a href="{{ route('download.file', ['model' => $doc->category, 'id' => $doc->id]) }}" 
-                                   target="_blank" class="btn-download-premium">
-                                    <i class="fas fa-download me-2"></i> Download
-                                </a>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12 text-center py-5">
-                            <i class="fas fa-file-excel fa-4x text-muted mb-4 opacity-25"></i>
-                            <h3 class="text-muted">Data Belum Tersedia</h3>
-                            <p class="text-muted">Gunakan menu admin untuk mengelola daftar informasi publik.</p>
-                        </div>
-                    @endforelse
+                                    <h5 class="text-muted fw-bold">Daftar Informasi Belum Tersedia</h5>
+                                    <p class="text-muted small">Data sedang dalam proses pembaruan oleh admin.</p>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
+
+                <style>
+                    .custom-dip-table thead th {
+                        background: #f8fafc;
+                        color: #64748b;
+                        border-bottom: 2px solid #e2e8f0;
+                        padding: 20px 15px;
+                    }
+                    .custom-dip-table tbody td {
+                        padding: 20px 15px;
+                        border-bottom: 1px solid #f1f5f9;
+                    }
+                    .extra-small { font-size: 0.75rem; }
+                    .fw-black { font-weight: 900; }
+                    .tracking-wider { letter-spacing: 0.05em; }
+                </style>
             </div>
         </div>
     </div>
