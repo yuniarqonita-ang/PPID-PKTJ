@@ -6,77 +6,135 @@ use App\Models\Berita;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class BeritaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $beritas = Berita::latest()->paginate(10);
+        $query = Berita::latest();
+
+        if ($request->filled('search')) {
+            $q = $request->search;
+            $query->where(function ($sq) use ($q) {
+                $sq->where('judul', 'like', "%{$q}%")
+                   ->orWhere('konten', 'like', "%{$q}%");
+            });
+        }
+
+        $beritas = $query->paginate(10)->withQueryString();
         return view('admin.berita.index', compact('beritas'));
     }
 
     public function create()
     {
-        return view('admin.berita.create'); // Form tambah berita
+        return view('admin.berita.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|max:255',
+            'judul'  => 'required|max:255',
             'konten' => 'required',
+            'gambar' => 'nullable|image|max:5120',
         ]);
 
-        Berita::create([
-            'judul'       => $request->judul,
-            'slug'        => Str::slug($request->judul),
-            'konten'      => $request->konten,
-            'user_id'     => Auth::id(), // ID admin yang login
-            'status'      => 'published',
-            'published_at' => now(),
-        ]);
+        // Hanya kolom yang ada di tabel beritas
+        $data = [
+            'judul'    => $request->judul,
+            'slug'     => Str::slug($request->judul) . '-' . time(),
+            'konten'   => $request->konten,
+            'kategori' => $request->kategori ?? 'Berita Utama',
+            'aktif'    => 1,
+            'tanggal'  => now()->format('Y-m-d'),
+            'views'    => 0,
+        ];
 
-        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil ditambahkan');
+        if ($request->hasFile('gambar')) {
+            $file     = $request->file('gambar');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            if (!Storage::disk('public')->exists('berita')) {
+                Storage::disk('public')->makeDirectory('berita');
+            }
+            $file->storeAs('berita', $filename, 'public');
+            $data['gambar'] = 'berita/' . $filename;
+        }
+
+        Berita::create($data);
+
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil ditambahkan dan langsung tampil di beranda!');
     }
 
     public function edit($id)
     {
-        $b = Berita::findOrFail($id);
-        return view('admin.berita.edit', compact('b'));
+        $berita = Berita::findOrFail($id);
+        return view('admin.berita.edit', compact('berita'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'judul' => 'required|max:255',
+            'judul'  => 'required|max:255',
             'konten' => 'required',
+            'gambar' => 'nullable|image|max:5120',
         ]);
 
         $berita = Berita::findOrFail($id);
-        $berita->update([
-            'judul'  => $request->judul,
-            'slug'   => Str::slug($request->judul),
-            'konten' => $request->konten,
-        ]);
 
-        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui');
+        $berita->judul    = $request->judul;
+        $berita->slug     = Str::slug($request->judul) . '-' . $berita->id;
+        $berita->konten   = $request->konten;
+        $berita->kategori = $request->kategori ?? $berita->kategori ?? 'Berita Utama';
+        $berita->aktif    = 1; // selalu aktif/published
+
+        if ($request->hasFile('gambar')) {
+            // Delete old image
+            if ($berita->gambar && Storage::disk('public')->exists($berita->gambar)) {
+                Storage::disk('public')->delete($berita->gambar);
+            }
+            $file     = $request->file('gambar');
+            $filename = time() . '_' . Str::slug(pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)) . '.' . $file->getClientOriginalExtension();
+            if (!Storage::disk('public')->exists('berita')) {
+                Storage::disk('public')->makeDirectory('berita');
+            }
+            $file->storeAs('berita', $filename, 'public');
+            $berita->gambar = 'berita/' . $filename;
+        }
+
+        $berita->save();
+
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil diperbarui!');
     }
 
     public function destroy($id)
     {
-        Berita::findOrFail($id)->delete();
-        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus');
+        $berita = Berita::findOrFail($id);
+        if ($berita->gambar && Storage::disk('public')->exists($berita->gambar)) {
+            Storage::disk('public')->delete($berita->gambar);
+        }
+        $berita->delete();
+        return redirect()->route('admin.berita.index')->with('success', 'Berita berhasil dihapus!');
     }
 
-    public function sertaMerta()
+    /**
+     * Public: Daftar semua berita
+     */
+    public function publicIndex()
     {
-        $beritas = Berita::latest()->get();
-        return view('informasi-serta-merta', compact('beritas'));
+        $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+        $beritas  = Berita::where('aktif', true)->latest()->paginate(9);
+        return view('berita.index', compact('beritas', 'settings'));
     }
 
-    public function setiapSaat()
+    /**
+     * Public: Detail berita
+     */
+    public function publicShow($slug)
     {
-        $beritas = Berita::latest()->get();
-        return view('informasi-setiap-saat', compact('beritas'));
+        $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+        $berita   = Berita::where('slug', $slug)->where('aktif', true)->firstOrFail();
+        $berita->increment('views');
+        $related = Berita::where('aktif', true)->where('id', '!=', $berita->id)->latest()->take(3)->get();
+        return view('berita.show', compact('berita', 'related', 'settings'));
     }
 }

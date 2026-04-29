@@ -10,6 +10,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style>
         :root {
+            --primary: #004a99;
             --accent: #ffc107;
             --bg: #f0f4f8;
             --dark: #1e293b;

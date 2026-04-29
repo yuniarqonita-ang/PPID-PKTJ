@@ -14,64 +14,45 @@ class DashboardController extends Controller
     {
         // Statistics Data (real counts from DB)
         $stats = [
-            'totalBerita'     => Schema::hasTable('beritas') ? DB::table('beritas')->count() : 0,
-            'totalGaleri'     => 0,
-            'totalVideo'      => 0,
-            'totalAgenda'     => 0,
-            'totalDokumen'    => 0,
-            'totalFaq'        => 0,
+            'totalBerita'  => Schema::hasTable('beritas')   ? DB::table('beritas')->count()   : 0,
+            'totalAgenda'  => Schema::hasTable('agendas')   ? DB::table('agendas')->count()   : 0,
+            'totalFaq'     => Schema::hasTable('faqs')      ? DB::table('faqs')->count()      : 0,
+            'totalGaleri'  => 0,
+            'totalVideo'   => 0,
+            'totalDokumen' => 0,
         ];
 
-        // Top 5 Latest News
+        // Top 5 Latest News — keep as DB objects so $news->judul / $news->created_at work in Blade
         $topNews = collect([]);
         if (Schema::hasTable('beritas')) {
             $topNews = DB::table('beritas')
                 ->orderBy('created_at', 'desc')
                 ->limit(5)
-                ->get()
-                ->map(function($item) {
-                    return [
-                        'id'       => $item->id ?? 0,
-                        'judul'    => $item->judul ?? 'Untitled',
-                        'views'    => 0,
-                        'created'  => isset($item->created_at) ? Carbon::parse($item->created_at)->format('d M Y') : 'Unknown'
-                    ];
-                });
+                ->get();
         }
 
-        // Visitor Statistics by Month (all 0 — belum ada tracking pengunjung)
+        // Visitor Statistics by Month
         $currentYear = now()->year;
         $visitorData = [];
         $months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-        
         foreach (range(1, 12) as $month) {
-            $visitorData[] = [
-                'bulan'    => $months[$month - 1],
-                'visitors' => 0
-            ];
+            $visitorData[] = ['bulan' => $months[$month - 1], 'visitors' => 0];
         }
 
-        // Visitor Website Metrics (all 0 — belum ada tracking pengunjung)
         $visitorMetrics = [
-            'online'           => 0,
-            'today'            => 0,
-            'hits_today'       => 0,
-            'yesterday'        => 0,
-            'hits_yesterday'   => 0,
-            'total_visitors'   => 0,
-            'total_hits'       => 0,
+            'online' => 0, 'today' => 0, 'hits_today' => 0,
+            'yesterday' => 0, 'hits_yesterday' => 0,
+            'total_visitors' => 0, 'total_hits' => 0,
         ];
 
-        $data = [
-            'stats'           => $stats,
-            'topNews'         => $topNews,
-            'visitorData'     => json_encode($visitorData),
-            'visitorMetrics'  => $visitorMetrics,
-            'currentYear'     => $currentYear,
-            'last_update'     => date('d M Y H:i')
-        ];
-
-        return view('admin.dashboard', $data);
+        return view('admin.dashboard', [
+            'stats'          => $stats,
+            'topNews'        => $topNews,
+            'visitorData'    => json_encode($visitorData),
+            'visitorMetrics' => $visitorMetrics,
+            'currentYear'    => $currentYear,
+            'last_update'    => date('d M Y H:i'),
+        ]);
     }
 
     public function edit()

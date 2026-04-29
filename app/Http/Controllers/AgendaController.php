@@ -31,15 +31,22 @@ class AgendaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'konten' => 'required|string',
+            'judul'   => 'required|string|max:255',
+            'konten'  => 'nullable|string',
             'tanggal' => 'required|date',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'aktif' => 'boolean'
+            'waktu'   => 'nullable|string|max:10',
+            'lokasi'  => 'nullable|string|max:255',
+            'gambar'  => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = $request->except('aktif');
-        $data['aktif'] = $request->has('aktif');
+        $data = [
+            'judul'   => $request->judul,
+            'konten'  => $request->konten ?? '',
+            'tanggal' => $request->tanggal,
+            'waktu'   => $request->waktu,
+            'lokasi'  => $request->lokasi,
+            'aktif'   => $request->has('aktif'),
+        ];
 
         if ($request->hasFile('gambar')) {
             $data['gambar'] = $request->file('gambar')->store('agenda', 'public');
@@ -47,7 +54,7 @@ class AgendaController extends Controller
 
         Agenda::create($data);
 
-        return redirect()->route('admin.agenda.index')->with('success', 'Agenda berhasil ditambahkan');
+        return redirect()->route('admin.agenda.index')->with('success', 'Agenda berhasil ditambahkan!');
     }
 
     /**
@@ -76,26 +83,31 @@ class AgendaController extends Controller
         $agenda = Agenda::findOrFail($id);
 
         $request->validate([
-            'judul' => 'required|string|max:255',
-            'konten' => 'required|string',
+            'judul'   => 'required|string|max:255',
+            'konten'  => 'nullable|string',
             'tanggal' => 'required|date',
-            'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'aktif' => 'boolean'
+            'waktu'   => 'nullable|string|max:10',
+            'lokasi'  => 'nullable|string|max:255',
+            'gambar'  => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $data = $request->except('aktif');
-        $data['aktif'] = $request->has('aktif');
+        $agenda->judul   = $request->judul;
+        $agenda->konten  = $request->konten ?? '';
+        $agenda->tanggal = $request->tanggal;
+        $agenda->waktu   = $request->waktu;
+        $agenda->lokasi  = $request->lokasi;
+        $agenda->aktif   = $request->has('aktif');
 
         if ($request->hasFile('gambar')) {
             if ($agenda->gambar) {
                 Storage::disk('public')->delete($agenda->gambar);
             }
-            $data['gambar'] = $request->file('gambar')->store('agenda', 'public');
+            $agenda->gambar = $request->file('gambar')->store('agenda', 'public');
         }
 
-        $agenda->update($data);
+        $agenda->save();
 
-        return redirect()->route('admin.agenda.index')->with('success', 'Agenda berhasil diupdate');
+        return redirect()->route('admin.agenda.index')->with('success', 'Agenda berhasil diperbarui!');
     }
 
     /**
@@ -112,6 +124,8 @@ class AgendaController extends Controller
         $agenda->delete();
 
         return redirect()->route('admin.agenda.index')->with('success', 'Agenda berhasil dihapus');
+    }
+
     public function publicIndex()
     {
         $items = Agenda::where('aktif', true)->latest()->get();

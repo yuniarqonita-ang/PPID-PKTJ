@@ -12,7 +12,7 @@
                 </h1>
                 <p class="text-gray-500 font-medium mt-1">Publikasikan dokumen krusial baru ke masyarakat</p>
             </div>
-            <a href="{{ route('admin.informasi.sertamerta') }}" class="text-xs font-black text-gray-400 hover:text-[#004a99] uppercase tracking-widest transition-all">
+            <a href="{{ route('admin.informasi.sertamerta.index') }}" class="text-xs font-black text-gray-400 hover:text-[#004a99] uppercase tracking-widest transition-all">
                 <i class="fas fa-times mr-2"></i> Batalkan
             </a>
         </div>
@@ -42,7 +42,7 @@
                     <div class="space-y-3 text-gray-800">
                         <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Deskripsi / Detail Informasi</label>
                         <div class="rounded-3xl overflow-hidden border-2 border-slate-100 text-gray-800">
-                            <textarea name="konten" id="editor" class="tinymce-editor text-gray-800">{{ old('konten') }}</textarea>
+                            <textarea name="deskripsi" id="editor" class="tinymce-editor text-gray-800">{{ old('deskripsi') }}</textarea>
                         </div>
                     </div>
 

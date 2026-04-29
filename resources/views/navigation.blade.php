@@ -1,3 +1,8 @@
+@php
+    if (!isset($settings)) {
+        $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+    }
+@endphp
 <style>
     /* Hover Dropdown Logic */
     @media (min-width: 992px) {
@@ -72,8 +77,8 @@
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0; position: relative; z-index: 1050;">
     <div class="container">
         <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="{{ route('home') }}">
-            <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ" style="height: 50px; margin-right: 12px;">
-            <span>PPID PKTJ</span>
+            <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}" style="height: 50px; margin-right: 12px;">
+            <span>{{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}</span>
         </a>
         
         <div class="collapse navbar-collapse" id="navbarNav">

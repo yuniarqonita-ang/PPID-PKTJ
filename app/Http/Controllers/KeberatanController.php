@@ -9,6 +9,71 @@ use Illuminate\Http\Request;
 
 class KeberatanController extends Controller
 {
+    // ──────────────────────────────────────
+    // FORM BUILDER METHODS
+    // ──────────────────────────────────────
+
+    private function getFormSchema()
+    {
+        $schemaSetting = Dashboard::where('key', 'keberatan_form_schema')->first();
+        if ($schemaSetting && $schemaSetting->value) {
+            $data = json_decode($schemaSetting->value, true);
+            if (is_array($data) && array_values($data) === $data) {
+                return ['section_title' => 'INFORMASI TAMBAHAN', 'fields' => $data];
+            }
+            return array_merge(['section_title' => 'INFORMASI TAMBAHAN', 'fields' => []], (array)$data);
+        }
+        return ['section_title' => 'INFORMASI TAMBAHAN', 'fields' => []];
+    }
+
+    public function adminForm()
+    {
+        $schema       = $this->getFormSchema();
+        $sectionTitle = $schema['section_title'];
+        $customFields = $schema['fields'];
+        $settings     = Dashboard::pluck('value', 'key')->toArray();
+        return view('admin.keberatan.form', compact('customFields', 'sectionTitle', 'settings'));
+    }
+
+    public function saveForm(Request $request)
+    {
+        if ($request->has('fields')) {
+            $schema = [
+                'section_title' => $request->input('section_title', 'INFORMASI TAMBAHAN'),
+                'fields'        => $request->input('fields', [])
+            ];
+            Dashboard::updateOrCreate(
+                ['key' => 'keberatan_form_schema'],
+                ['value' => json_encode($schema), 'type' => 'json', 'description' => 'Skema Dynamic Form Keberatan', 'aktif' => true]
+            );
+        }
+
+        $exclude = ['_token', 'section_title', 'fields', 'core_settings'];
+        foreach ($request->all() as $key => $value) {
+            if (!in_array($key, $exclude) && $value !== null) {
+                Dashboard::updateOrCreate(
+                    ['key' => $key],
+                    ['value' => is_array($value) ? json_encode($value) : $value, 'type' => is_array($value) ? 'json' : 'text', 'description' => 'Pengaturan Dinamis Keberatan', 'aktif' => true]
+                );
+            }
+        }
+
+        if ($request->has('core_settings')) {
+            foreach ($request->input('core_settings') as $key => $value) {
+                Dashboard::updateOrCreate(
+                    ['key' => $key],
+                    ['value' => $value, 'type' => 'text', 'description' => 'Konfigurasi Inti Keberatan', 'aktif' => true]
+                );
+            }
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    // ──────────────────────────────────────
+    // ADMIN LISTING
+    // ──────────────────────────────────────
+
     /**
      * Admin: Display a listing of objections.
      */
@@ -57,37 +122,43 @@ class KeberatanController extends Controller
             'file_surat_kuasa'           => 'nullable|file|mimes:pdf|max:2048',
         ]);
 
-        // Attempt to find permohonan by registration number or ID
-        $permohonan = Permohonan::where('nomor_registrasi', $validated['nomor_registrasi_permohonan'])
-            ->orWhere('id', $validated['nomor_registrasi_permohonan'])
-            ->first();
+        // Cari permohonan jika nomor registrasi diisi
+        $permohonan = null;
+        if ($validated['nomor_registrasi_permohonan']) {
+            $permohonan = Permohonan::where('id', $validated['nomor_registrasi_permohonan'])->first();
+        }
 
         $keberatan = new Keberatan();
-        $keberatan->fill($validated);
-        
-        // Manual mapping for fields that differ from form names
-        $keberatan->tujuan_penggunaan = $validated['tujuan_penggunaan_informasi'];
-        
-        if ($permohonan) {
-            $keberatan->permohonan_id = $permohonan->id;
-            // Optionally sync info from permohonan if not provided
-            $keberatan->rincian_informasi = $permohonan->rincian_informasi;
-        }
-        
-        $keberatan->tanggal_keberatan = now();
-        $keberatan->nomor_registrasi_keberatan = 'KEB-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4));
-        $keberatan->status = 'pending';
-        
+
+        // Map secara eksplisit ke kolom yang ada di tabel keberatans
+        $keberatan->permohonan_id               = $permohonan ? $permohonan->id : null;
+        $keberatan->nama_pemohon                = $validated['nama_pemohon'];
+        $keberatan->pekerjaan                   = $validated['pekerjaan'];
+        $keberatan->npwp                        = $validated['npwp'] ?? null;
+        $keberatan->alamat                      = $validated['alamat'];
+        $keberatan->nomor_telepon               = $validated['nomor_telepon'];
+        $keberatan->email                       = $validated['email'];
+        $keberatan->nama_kuasa                  = $validated['nama_kuasa'] ?? null;
+        $keberatan->alamat_kuasa                = $validated['alamat_kuasa'] ?? null;
+        $keberatan->nomor_telepon_kuasa         = $validated['nomor_telepon_kuasa'] ?? null;
+        $keberatan->tujuan_penggunaan           = $validated['tujuan_penggunaan_informasi'];
+        $keberatan->alasan_keberatan_list       = $validated['alasan_keberatan_list'];
+        $keberatan->alasan_keberatan_lainnya    = $validated['alasan_keberatan_lainnya'] ?? null;
+        $keberatan->kasus_posisi                = $validated['kasus_posisi'] ?? null;
+        $keberatan->tanggal_keberatan           = now();
+        $keberatan->nomor_registrasi_keberatan  = 'KEB-' . date('Ymd') . '-' . strtoupper(substr(uniqid(), -4));
+        $keberatan->status                      = 'pending';
+
         // Handle file uploads
         if ($request->hasFile('file_ktp')) {
-            $file = $request->file('file_ktp');
+            $file     = $request->file('file_ktp');
             $filename = time() . '_ktp_' . $file->getClientOriginalName();
             $file->storeAs('public/keberatan/ktp', $filename);
             $keberatan->file_ktp = 'storage/keberatan/ktp/' . $filename;
         }
 
         if ($request->hasFile('file_surat_kuasa')) {
-            $file = $request->file('file_surat_kuasa');
+            $file     = $request->file('file_surat_kuasa');
             $filename = time() . '_kuasa_' . $file->getClientOriginalName();
             $file->storeAs('public/keberatan/kuasa', $filename);
             $keberatan->file_surat_kuasa = 'storage/keberatan/kuasa/' . $filename;

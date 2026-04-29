@@ -1,9 +1,14 @@
+@php
+    if (!isset($settings)) {
+        $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+    }
+@endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agenda Kegiatan - Portal PPID PKTJ</title>
+    <title>Agenda Kegiatan - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@700;800;900&display=swap" rel="stylesheet">
@@ -239,8 +244,11 @@
                                             {!! $agenda->konten !!}
                                         </div>
                                         <div class="agenda-meta">
-                                            <span><i class="fas fa-clock text-[#ffc107]"></i> {{ \Carbon\Carbon::parse($agenda->tanggal)->format('Y') }}</span>
-                                            <span><i class="fas fa-map-marker-alt text-[#ffc107]"></i> PPID PKTJ</span>
+                                            <span><i class="fas fa-clock text-[#ffc107]"></i> {{ \Carbon\Carbon::parse($agenda->tanggal)->translatedFormat('Y') }}</span>
+                                            @if(!empty($agenda->waktu))
+                                                <span><i class="fas fa-clock text-[#ffc107]"></i> {{ $agenda->waktu }}</span>
+                                            @endif
+                                            <span><i class="fas fa-map-marker-alt text-[#ffc107]"></i> {{ $agenda->lokasi ?? $settings['ppid_nama'] ?? 'PPID PKTJ' }}</span>
                                         </div>
                                     </div>
                                     @if($agenda->gambar)

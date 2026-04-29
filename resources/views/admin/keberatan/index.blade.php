@@ -1,25 +1,41 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <h2 class="text-3xl font-black text-slate-800 uppercase tracking-tight">KEBERATAN PERMOHONAN INFORMASI</h2>
-            <p class="text-slate-500 font-medium text-sm">Manajemen Pengajuan Keberatan Atas Permohonan Informasi</p>
-        </div>
-        <div class="flex flex-col md:flex-row items-center gap-4">
-            <form action="{{ route('admin.keberatan.index') }}" method="GET" class="flex items-center gap-2 bg-white p-2 rounded-2xl border border-slate-200">
-                <input type="date" name="start_date" value="{{ request('start_date') }}" class="bg-transparent text-slate-600 text-xs border-none focus:ring-0">
-                <span class="text-slate-400 text-xs">s/d</span>
-                <input type="date" name="end_date" value="{{ request('end_date') }}" class="bg-transparent text-slate-600 text-xs border-none focus:ring-0">
-                <button type="submit" class="p-2 bg-blue-600 text-white rounded-xl hover:scale-105 transition-all">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-            <div class="flex gap-3">
-                <a href="{{ route('admin.keberatan.export.excel', request()->all()) }}" class="px-6 py-3 bg-emerald-600 text-white rounded-2xl font-black uppercase text-xs tracking-widest shadow-lg shadow-emerald-100 hover:bg-emerald-700 transition-all flex items-center gap-2">
-                    <i class="fas fa-file-excel"></i> Register Keberatan (Excel)
-                </a>
+<div class="space-y-8 animate-fade-in lg:px-8">
+
+    {{-- HEADER --}}
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+        <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
+        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
+            <div class="space-y-4">
+                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
+                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Sistem Keberatan: Aktif</h2>
+                </div>
+                <div>
+                    <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
+                        Keberatan <span class="text-[#ffc107]">Informasi</span>
+                    </h1>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Manajemen pengajuan keberatan atas permohonan informasi publik.</p>
+                </div>
+            </div>
+            <div class="flex flex-col md:flex-row items-center gap-4">
+                <form action="{{ route('admin.keberatan.index') }}" method="GET" class="flex items-center gap-2 bg-white/10 p-2 rounded-2xl border border-white/20">
+                    <input type="date" name="start_date" value="{{ request('start_date') }}" class="bg-transparent text-white text-xs border-none focus:ring-0">
+                    <span class="text-white/50 text-xs">s/d</span>
+                    <input type="date" name="end_date" value="{{ request('end_date') }}" class="bg-transparent text-white text-xs border-none focus:ring-0">
+                    <button type="submit" class="p-2 bg-[#ffc107] text-[#004a99] rounded-xl hover:scale-105 transition-all">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('admin.keberatan.export.excel', request()->all()) }}" class="px-6 py-4 bg-green-600 border border-green-500 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-green-700 transition-all flex items-center">
+                        <i class="fas fa-file-excel mr-3"></i> Register Excel
+                    </a>
+                    <a href="{{ route('admin.keberatan.form') }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex items-center">
+                        <i class="fas fa-cog mr-3"></i> Pengaturan Form
+                    </a>
+                </div>
             </div>
         </div>
     </div>

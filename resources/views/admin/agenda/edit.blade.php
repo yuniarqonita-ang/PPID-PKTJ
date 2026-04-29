@@ -68,6 +68,21 @@
                                         value="{{ old('tanggal', $agenda->tanggal ? \Carbon\Carbon::parse($agenda->tanggal)->format('Y-m-d') : date('Y-m-d')) }}">
                                 </div>
                                 
+                                <div>
+                                    <label for="waktu" class="block text-xs font-bold text-gray-500 uppercase mb-1">Waktu (Jam)</label>
+                                    <input type="time" name="waktu" id="waktu" 
+                                        class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                                        value="{{ old('waktu', $agenda->waktu ?? '') }}">
+                                </div>
+                                
+                                <div>
+                                    <label for="lokasi" class="block text-xs font-bold text-gray-500 uppercase mb-1">Lokasi Kegiatan</label>
+                                    <input type="text" name="lokasi" id="lokasi" 
+                                        class="w-full px-3 py-2 bg-white border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                                        value="{{ old('lokasi', $agenda->lokasi ?? '') }}"
+                                        placeholder="Contoh: Aula PPID PKTJ, Tegal">
+                                </div>
+                                
                                 <div class="flex items-center justify-between p-3 bg-white rounded-xl border border-gray-200">
                                     <span class="text-xs font-bold text-gray-700 uppercase">Tampilkan Publik?</span>
                                     <label class="relative inline-flex items-center cursor-pointer">

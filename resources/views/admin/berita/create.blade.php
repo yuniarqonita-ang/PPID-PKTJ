@@ -50,6 +50,17 @@
                             </div>
 
                             <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Kategori</label>
+                                <select name="kategori" class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-[#004a99] focus:bg-white transition-all font-semibold text-slate-700">
+                                    <option value="Berita Utama">Berita Utama</option>
+                                    <option value="Pengumuman">Pengumuman</option>
+                                    <option value="Kegiatan">Kegiatan</option>
+                                    <option value="Informasi Publik">Informasi Publik</option>
+                                    <option value="Dokumentasi">Dokumentasi</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
                                 <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 block">Isi Berita Lengkap</label>
                                 <div class="rounded-2xl overflow-hidden border border-slate-200">
                                     <textarea name="konten" id="editor" class="tinymce-editor">{!! old('konten') !!}</textarea>

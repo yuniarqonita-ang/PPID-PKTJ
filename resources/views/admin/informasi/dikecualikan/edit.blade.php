@@ -12,7 +12,7 @@
                 </h1>
                 <p class="text-gray-500 font-medium mt-1">Perbarui detail dokumen rahasia/terbatas</p>
             </div>
-            <a href="{{ route('admin.informasi.dikecualikan') }}" class="text-xs font-black text-gray-400 hover:text-[#004a99] uppercase tracking-widest transition-all">
+            <a href="{{ route('admin.informasi.dikecualikan.index') }}" class="text-xs font-black text-gray-400 hover:text-[#004a99] uppercase tracking-widest transition-all">
                 <i class="fas fa-arrow-left mr-2"></i> Kembali
             </a>
         </div>

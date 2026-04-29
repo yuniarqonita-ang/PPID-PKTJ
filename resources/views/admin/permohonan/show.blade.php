@@ -32,17 +32,16 @@
             
             @php
                 $statusColors = [
-                    'pending' => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-600', 'label' => 'MENUNGGU'],
-                    'approved' => ['bg' => 'bg-green-100', 'text' => 'text-green-600', 'label' => 'DISETUJUI'],
-                    'completed' => ['bg' => 'bg-blue-600', 'text' => 'text-white', 'label' => 'SELESAI'],
-                    'rejected' => ['bg' => 'bg-red-100', 'text' => 'text-red-600', 'label' => 'DITOLAK'],
+                    'pending'   => ['bg' => 'bg-yellow-100', 'text' => 'text-yellow-600', 'label' => 'MENUNGGU'],
+                    'approved'  => ['bg' => 'bg-green-100',  'text' => 'text-green-600',  'label' => 'DISETUJUI'],
+                    'selesai'   => ['bg' => 'bg-blue-100',   'text' => 'text-blue-700',   'label' => 'SELESAI'],
+                    'diproses'  => ['bg' => 'bg-sky-100',    'text' => 'text-sky-700',    'label' => 'DIPROSES'],
+                    'ditolak'   => ['bg' => 'bg-red-100',    'text' => 'text-red-600',    'label' => 'DITOLAK'],
+                    'completed' => ['bg' => 'bg-blue-600',   'text' => 'text-white',      'label' => 'SELESAI'],
+                    'rejected'  => ['bg' => 'bg-red-100',    'text' => 'text-red-600',    'label' => 'DITOLAK'],
                 ];
                 $st = $statusColors[$permohonan->status ?? 'pending'] ?? ['bg' => 'bg-gray-100', 'text' => 'text-gray-400', 'label' => strtoupper($permohonan->status ?? 'pending')];
             @endphp
-            <div class="px-6 py-3 {{ $st['bg'] }} {{ $st['text'] }} rounded-2xl font-black text-xs shadow-sm ring-1 ring-black/5 animate-pulse">
-                STATUS: {{ $st['label'] }}
-            </div>
-        </div>
 
         @if(session('success'))
             <div class="bg-green-100 border-l-4 border-green-500 p-4 rounded-xl shadow-sm flex items-center animate-fade-in-down">
@@ -178,18 +177,51 @@
                             
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black text-gray-400 uppercase ml-1">Ubah Status</label>
-                                <select name="status" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-[#004a99] focus:ring-4 focus:ring-blue-500/10 focus:outline-none appearance-none">
-                                    <option value="pending" {{ ($permohonan->status ?? 'pending') == 'pending' ? 'selected' : '' }}>MENUNGGU</option>
-                                    <option value="approved" {{ ($permohonan->status ?? 'pending') == 'approved' ? 'selected' : '' }}>SETUJUI</option>
-                                    <option value="completed" {{ ($permohonan->status ?? 'pending') == 'completed' ? 'selected' : '' }}>SELESAIKAN</option>
-                                    <option value="rejected" {{ ($permohonan->status ?? 'pending') == 'rejected' ? 'selected' : '' }}>TOLAK</option>
+                                <select name="status" id="statusSelect" onchange="toggleFields()" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-[#004a99] focus:ring-4 focus:ring-blue-500/10 focus:outline-none appearance-none">
+                                    <option value="pending"  {{ ($permohonan->status ?? 'pending') == 'pending'  ? 'selected' : '' }}>MENUNGGU</option>
+                                    <option value="diproses" {{ ($permohonan->status ?? 'pending') == 'diproses' ? 'selected' : '' }}>SEDANG DIPROSES</option>
+                                    <option value="selesai"  {{ ($permohonan->status ?? 'pending') == 'selesai'  ? 'selected' : '' }}>SELESAI / DIPENUHI</option>
+                                    <option value="ditolak"  {{ ($permohonan->status ?? 'pending') == 'ditolak'  ? 'selected' : '' }}>DITOLAK</option>
                                 </select>
                             </div>
 
+                            {{-- Kategori Laporan --}}
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-black text-gray-400 uppercase ml-1">Kategori Laporan</label>
+                                <select name="kategori_laporan" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-[#004a99] focus:ring-4 focus:ring-blue-500/10 focus:outline-none appearance-none">
+                                    <option value="">-- Pilih Kategori --</option>
+                                    <option value="berkala"     {{ $permohonan->kategori_laporan == 'berkala'     ? 'selected' : '' }}>Berkala</option>
+                                    <option value="sertamerta"  {{ $permohonan->kategori_laporan == 'sertamerta'  ? 'selected' : '' }}>Serta Merta</option>
+                                    <option value="setiapsaat"  {{ $permohonan->kategori_laporan == 'setiapsaat'  ? 'selected' : '' }}>Setiap Saat</option>
+                                    <option value="dikecualikan" {{ $permohonan->kategori_laporan == 'dikecualikan' ? 'selected' : '' }}>Dikecualikan</option>
+                                </select>
+                            </div>
+
+                            {{-- Tanggal Selesai --}}
+                            <div class="space-y-2" id="tglSelesaiField">
+                                <label class="text-[10px] font-black text-gray-400 uppercase ml-1">Tanggal Selesai</label>
+                                <input type="date" name="tanggal_selesai" value="{{ $permohonan->tanggal_selesai ? \Carbon\Carbon::parse($permohonan->tanggal_selesai)->format('Y-m-d') : '' }}" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl text-xs font-bold text-[#004a99] focus:ring-4 focus:ring-blue-500/10 focus:outline-none">
+                            </div>
+
+                            {{-- Alasan Penolakan (tampil saat ditolak) --}}
+                            <div class="space-y-2 hidden" id="alasanField">
+                                <label class="text-[10px] font-black text-red-400 uppercase ml-1">Alasan Penolakan <span class="text-red-500">*</span></label>
+                                <textarea name="alasan_penolakan_text" rows="3" class="w-full px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-xs font-bold text-red-700 focus:ring-4 focus:ring-red-500/10 focus:outline-none" placeholder="Tulis alasan penolakan..." >{{ $permohonan->alasan_penolakan_text }}</textarea>
+                                <input type="text" name="penolakan_pasal_uu" value="{{ $permohonan->penolakan_pasal_uu }}" class="w-full px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-xs font-bold text-red-700 focus:ring-4 focus:ring-red-500/10 focus:outline-none" placeholder="Dasar hukum penolakan (pasal/UU)">
+                            </div>
+
                             <button type="submit" class="w-full py-4 bg-[#004a99] text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-lg hover:shadow-blue-500/20 transition-all flex items-center justify-center">
-                                <i class="fas fa-save mr-2 text-[#ffc107]"></i> Update Status
+                                <i class="fas fa-save mr-2 text-[#ffc107]"></i> Simpan Perubahan
                             </button>
                         </form>
+
+                        <script>
+                        function toggleFields() {
+                            const status = document.getElementById('statusSelect').value;
+                            document.getElementById('alasanField').classList.toggle('hidden', status !== 'ditolak');
+                        }
+                        toggleFields();
+                        </script>
                     </div>
                 </div>
 

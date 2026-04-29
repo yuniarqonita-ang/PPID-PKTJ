@@ -37,6 +37,11 @@ class HalamanCustomController extends Controller
             if (!is_array($file) && $file->isValid()) {
                 $filename = time() . '_' . $settingKey . '.' . $file->getClientOriginalExtension();
                 
+                // Ensure storage directory exists
+                if (!Storage::disk('public')->exists('halaman')) {
+                    Storage::disk('public')->makeDirectory('halaman');
+                }
+                
                 // Store in storage/app/public/halaman
                 $file->storeAs('halaman', $filename, 'public');
                 

@@ -7,7 +7,7 @@
         <!-- HEADER SECTION -->
         <div class="flex items-center justify-between gap-4">
             <div>
-                <a href="{{ route('admin.informasi.sertamerta') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold">
+                <a href="{{ route('admin.informasi.sertamerta.index') }}" class="inline-flex items-center text-[#004a99] hover:text-blue-700 transition-colors mb-2 font-semibold">
                     <i class="fas fa-arrow-left mr-2"></i> Kembali ke Panel
                 </a>
                 <h1 class="text-3xl font-black text-[#004a99] uppercase tracking-tight">

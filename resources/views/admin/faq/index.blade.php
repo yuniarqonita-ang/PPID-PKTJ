@@ -233,3 +233,4 @@
         setTimeout(() => modal.classList.add('hidden'), 300);
     }
 </script>
+@endsection

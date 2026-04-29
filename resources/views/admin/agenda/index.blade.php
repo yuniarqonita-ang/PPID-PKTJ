@@ -109,9 +109,9 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-</div>
+        </div>{{-- /.table section --}}
+
+    </div>{{-- /.space-y-8 --}}
 
 <!-- DETAIL MODAL -->
 <div id="detailModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">
@@ -190,3 +190,4 @@
         setTimeout(() => modal.classList.add('hidden'), 300);
     }
 </script>
+@endsection

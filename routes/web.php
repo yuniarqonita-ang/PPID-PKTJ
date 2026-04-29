@@ -49,7 +49,8 @@ Route::get('/', function () {
     try {
         // Ambil data dari database
         $dokumen = \App\Models\Dokumen::where('aktif', true)->take(6)->get();
-        $artikel = \App\Models\Berita::where('aktif', true)->take(3)->get();
+        $artikel = \App\Models\Berita::where('aktif', true)->latest()->take(3)->get();
+
         
         return view('welcome', compact('dokumen', 'artikel')); 
     } catch (\Exception $e) {
@@ -241,18 +242,20 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/lpse', function() { return "Halaman LPSE"; })->name('admin.lpse.index');
     Route::get('/jdih', function() { return "Halaman JDIH"; })->name('admin.jdih.index');
 
-    Route::resource('/user-management', 'UserController')->names('admin.users')->parameters(['user-management' => 'user']);
+    Route::resource('/user-management', UserController::class)->names('admin.users')->parameters(['user-management' => 'user']);
     Route::get('/settings', [DashboardController::class, 'settings'])->name('admin.settings');
 
     // Keberatan Management routes
     Route::name('admin.keberatan.')->prefix('keberatan')->group(function () {
         Route::get('/', [KeberatanController::class, 'index'])->name('index');
+        Route::get('/form', [KeberatanController::class, 'adminForm'])->name('form');          // Form Builder
+        Route::post('/form/save', [KeberatanController::class, 'saveForm'])->name('save_form'); // Save Form
+        Route::get('/export/excel', [KeberatanController::class, 'exportExcel'])->name('export.excel');
+        Route::get('/export/{id}/word', [KeberatanController::class, 'exportWord'])->name('export.word');
         Route::get('/{keberatan}', [KeberatanController::class, 'show'])->name('show');
         Route::get('/{keberatan}/edit', [KeberatanController::class, 'edit'])->name('edit');
         Route::put('/{keberatan}', [KeberatanController::class, 'update'])->name('update');
         Route::delete('/{keberatan}', [KeberatanController::class, 'destroy'])->name('destroy');
-        Route::get('/export/excel', [KeberatanController::class, 'exportExcel'])->name('export.excel');
-        Route::get('/export/{id}/word', [KeberatanController::class, 'exportWord'])->name('export.word');
     });
 });
 
@@ -289,3 +292,7 @@ Route::get('/download/{model}/{id}', [InformasiPublikController::class, 'downloa
 
 Route::get('/agenda', [AgendaController::class, 'publicIndex'])->name('agenda.public');
 Route::get('/faq', [FaqController::class, 'publicIndex'])->name('faq.public');
+
+// Public Berita Routes
+Route::get('/berita', [BeritaController::class, 'publicIndex'])->name('berita.index');
+Route::get('/berita/{slug}', [BeritaController::class, 'publicShow'])->name('berita.show');

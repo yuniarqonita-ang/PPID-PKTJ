@@ -24,23 +24,23 @@ class InformasiSertaMertaController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'konten' => 'required',
+            'judul'   => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
             'tanggal' => 'required|date',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
+            'file'    => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
         ]);
 
         $data = [
-            'judul' => $validated['judul'],
-            'deskripsi' => $validated['konten'],
-            'tanggal' => $validated['tanggal'],
-            'aktif' => $request->has('aktif'),
+            'judul'    => $validated['judul'],
+            'deskripsi' => $validated['deskripsi'] ?? '',
+            'tanggal'  => $validated['tanggal'],
+            'aktif'    => $request->has('aktif'),
         ];
 
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
-            $path = $file->storeAs('public/informasi/sertamerta', $filename);
+            $file->storeAs('public/informasi/sertamerta', $filename);
             
             $data['file_path'] = 'storage/informasi/sertamerta/' . $filename;
             $data['file_name'] = $file->getClientOriginalName();
@@ -63,18 +63,18 @@ class InformasiSertaMertaController extends Controller
     public function update(Request $request, string $id): RedirectResponse
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'konten' => 'required',
-            'tanggal' => 'required|date',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
+            'judul'    => 'required|string|max:255',
+            'deskripsi' => 'nullable|string',
+            'tanggal'  => 'required|date',
+            'file'     => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
         ]);
 
         $item = InformasiSertaMerta::findOrFail($id);
         
-        $item->judul = $validated['judul'];
-        $item->deskripsi = $validated['konten'];
-        $item->tanggal = $validated['tanggal'];
-        $item->aktif = $request->has('aktif');
+        $item->judul    = $validated['judul'];
+        $item->deskripsi = $validated['deskripsi'] ?? '';
+        $item->tanggal  = $validated['tanggal'];
+        $item->aktif    = $request->has('aktif');
 
         if ($request->hasFile('file')) {
             if ($item->file_path && Storage::exists(str_replace('storage/', 'public/', $item->file_path))) {
@@ -83,7 +83,7 @@ class InformasiSertaMertaController extends Controller
 
             $file = $request->file('file');
             $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
-            $path = $file->storeAs('public/informasi/sertamerta', $filename);
+            $file->storeAs('public/informasi/sertamerta', $filename);
             
             $item->file_path = 'storage/informasi/sertamerta/' . $filename;
             $item->file_name = $file->getClientOriginalName();
@@ -95,6 +95,7 @@ class InformasiSertaMertaController extends Controller
 
         return redirect()->route('admin.informasi.sertamerta.index')
             ->with('success', 'Informasi serta merta berhasil diperbarui!');
+
     }
 
     public function destroy(string $id): RedirectResponse

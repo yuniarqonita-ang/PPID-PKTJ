@@ -260,10 +260,10 @@
                             <i class="fas fa-chevron-down ml-auto opacity-50"></i>
                         </button>
                         <div class="submenu {{ request()->is('admin/informasi*') ? 'open' : '' }}">
-                            <a href="{{ route('admin.informasi.berkala') }}" class="submenu-link {{ request()->is('admin/informasi/berkala*') ? 'active' : '' }}">Informasi Berkala</a>
-                            <a href="{{ route('admin.informasi.sertamerta') }}" class="submenu-link {{ request()->is('admin/informasi/serta-merta*') ? 'active' : '' }}">Informasi Serta Merta</a>
-                            <a href="{{ route('admin.informasi.setiapsaat') }}" class="submenu-link {{ request()->is('admin/informasi/setiap-saat*') ? 'active' : '' }}">Informasi Setiap Saat</a>
-                            <a href="{{ route('admin.informasi.dikecualikan') }}" class="submenu-link {{ request()->is('admin/informasi/dikecualikan*') ? 'active' : '' }}">Informasi Dikecualikan</a>
+                            <a href="{{ route('admin.informasi.berkala.index') }}" class="submenu-link {{ request()->is('admin/informasi/berkala*') ? 'active' : '' }}">Informasi Berkala</a>
+                            <a href="{{ route('admin.informasi.sertamerta.index') }}" class="submenu-link {{ request()->is('admin/informasi/serta-merta*') ? 'active' : '' }}">Informasi Serta Merta</a>
+                            <a href="{{ route('admin.informasi.setiapsaat.index') }}" class="submenu-link {{ request()->is('admin/informasi/setiap-saat*') ? 'active' : '' }}">Informasi Setiap Saat</a>
+                            <a href="{{ route('admin.informasi.dikecualikan.index') }}" class="submenu-link {{ request()->is('admin/informasi/dikecualikan*') ? 'active' : '' }}">Informasi Dikecualikan</a>
                         </div>
 
                         <button class="accordion-toggle {{ request()->is('admin/layanan*') ? 'active' : '' }}" onclick="toggleAccordion(this)">
@@ -357,7 +357,8 @@
                     @yield('content')
                 </div>
             </main>
-        </div>
+            </div><!-- /.main-content -->
+        </div><!-- /.admin-wrapper -->
         
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
@@ -485,7 +486,6 @@
             
             $(document).on('submit', 'form', function() { if (typeof tinymce !== 'undefined') tinymce.triggerSave(); });
         </script>
-        </div>
         @stack('scripts')
     </body>
 </html>

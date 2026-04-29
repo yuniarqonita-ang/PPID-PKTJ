@@ -386,10 +386,11 @@
     <section class="news-section">
         <div class="container">
             <div class="section-header">
-                <h2>Warta & Dokumentasi</h2>
+                <h2>Warta &amp; Dokumentasi</h2>
                 <div class="d-flex justify-content-center mt-3">
                     <div class="h-1 w-20 bg-warning rounded-full"></div>
                 </div>
+                <p class="text-muted mt-3" style="font-size: 0.95rem;">Informasi terkini dan pengumuman resmi PPID PKTJ.</p>
             </div>
 
             <div class="row g-4">
@@ -403,7 +404,7 @@
                         <div class="article-body">
                             <h3 class="article-title">{{ $item->judul }}</h3>
                             <p class="article-text">{{ \Illuminate\Support\Str::limit(strip_tags($item->konten), 100) }}</p>
-                            <a href="#" class="text-decoration-none font-black text-xs text-[#004a99] uppercase tracking-widest hover:text-black transition-all">
+                            <a href="{{ url('/berita/' . $item->slug) }}" class="text-decoration-none font-black text-xs text-[#004a99] uppercase tracking-widest hover:text-black transition-all">
                                 Baca Selengkapnya <i class="fas fa-arrow-right ml-2 text-warning"></i>
                             </a>
                         </div>
@@ -417,6 +418,12 @@
                     </div>
                 </div>
                 @endforelse
+            </div>
+
+            <div class="text-center mt-5">
+                <a href="{{ url('/berita') }}" class="btn btn-outline-primary fw-bold px-5 py-3 rounded-pill" style="color: #004a99; border-color: #004a99;">
+                    <i class="fas fa-newspaper me-2"></i> Lihat Semua Berita
+                </a>
             </div>
         </div>
     </section>

@@ -144,20 +144,33 @@ class PermohonanController extends Controller
             'foto_ktp.required'                   => 'Scan/foto identitas wajib diunggah.',
         ]);
 
-        // Map field form ke kolom database
-        $validated['deskripsi_permohonan'] = $validated['rincian_informasi'];
-        $validated['jenis_informasi']      = $validated['tujuan_penggunaan'];
-        $validated['status']               = 'pending';
+        // Map field form ke kolom database — HANYA kolom yang benar-benar ada di tabel
+        $fotoKtp = $request->hasFile('foto_ktp')
+            ? $request->file('foto_ktp')->store('permohonan/ktp', 'public')
+            : null;
 
-        if ($request->hasFile('foto_ktp')) {
-            $validated['foto_ktp'] = $request->file('foto_ktp')->store('permohonan/ktp', 'public');
-        }
+        $berkasPendukung = $request->hasFile('berkas_pendukung')
+            ? $request->file('berkas_pendukung')->store('permohonan/berkas', 'public')
+            : null;
 
-        if ($request->hasFile('berkas_pendukung')) {
-            $validated['berkas_pendukung'] = $request->file('berkas_pendukung')->store('permohonan/berkas', 'public');
-        }
-
-        Permohonan::create($validated);
+        Permohonan::create([
+            'tanggal_permohonan'                      => $validated['tanggal_permohonan'],
+            'nama_pemohon'                            => $validated['nama_pemohon'],
+            'alamat'                                  => $validated['alamat'],
+            'pekerjaan'                               => $validated['pekerjaan'] ?? null,
+            'npwp'                                    => $validated['npwp'] ?? null,
+            'nomor_telepon'                           => $validated['nomor_telepon'],
+            'email'                                   => $validated['email'],
+            'deskripsi_permohonan'                    => $validated['rincian_informasi'],
+            'jenis_informasi'                         => $validated['tujuan_penggunaan'],
+            'status_informasi_dikuasai'               => $validated['status_informasi_dikuasai'] === 'ya' ? 1 : 0,
+            'status_informasi_belum_didokumentasikan' => ($validated['status_informasi_belum_didokumentasikan'] ?? '') === 'ya' ? 1 : 0,
+            'bentuk_informasi_salinan'                => $validated['bentuk_informasi_salinan'],
+            'jenis_permohonan_salinan'                => $validated['jenis_permohonan_salinan'],
+            'foto_ktp'                                => $fotoKtp,
+            'berkas_pendukung'                        => $berkasPendukung,
+            'status'                                  => 'pending',
+        ]);
 
         return redirect()->route('permohonan.form')->with('success', 'Permohonan informasi Anda berhasil dikirimkan! Silakan tunggu konfirmasi dari pihak PPID PKTJ.');
     }
@@ -285,82 +298,156 @@ class PermohonanController extends Controller
         return view('admin.permohonan.edit', compact('permohonan'));
     }
 
+    public function update(Request $request, Permohonan $permohonan)
+    {
+        $updateData = [
+            'status'           => $request->input('status', $permohonan->status),
+            'kategori_laporan' => $request->input('kategori_laporan', $permohonan->kategori_laporan),
+        ];
+
+        if ($request->filled('tanggal_selesai')) {
+            $updateData['tanggal_selesai'] = $request->tanggal_selesai;
+        }
+
+        if ($request->filled('alasan_penolakan_text')) {
+            $updateData['alasan_penolakan_text'] = $request->alasan_penolakan_text;
+        }
+
+        if ($request->filled('penolakan_pasal_uu')) {
+            $updateData['penolakan_pasal_uu'] = $request->penolakan_pasal_uu;
+        }
+
+        // Jika status selesai dan tanggal selesai belum ada, set hari ini
+        if ($updateData['status'] === 'selesai' && empty($updateData['tanggal_selesai'])) {
+            $updateData['tanggal_selesai'] = now()->format('Y-m-d');
+        }
+
+        $permohonan->update($updateData);
+
+        return redirect()->route('admin.permohonan.show', $permohonan->id)
+            ->with('success', 'Status permohonan berhasil diperbarui.');
+    }
+
     public function report(Request $request)
     {
-        $startDate = $request->input('start_date', date('Y-m-01'));
-        $endDate = $request->input('end_date', date('Y-m-t'));
+        $periodeType = $request->input('periode_type', 'bulanan');
+        $tahun       = $request->input('tahun', date('Y'));
+        $bulan       = $request->input('bulan', date('m'));
 
-        $submissions = Permohonan::whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
-            ->orderBy('created_at', 'asc')
-            ->get();
+        $query = Permohonan::query();
 
-        $settings = Dashboard::pluck('value', 'key')->toArray();
+        if ($periodeType === 'tahunan') {
+            $query->whereYear('tanggal_permohonan', $tahun)
+                  ->orWhereYear('created_at', $tahun);
+        } else {
+            $query->where(function ($q) use ($tahun, $bulan) {
+                $q->whereYear('tanggal_permohonan', $tahun)->whereMonth('tanggal_permohonan', $bulan);
+            })->orWhere(function ($q) use ($tahun, $bulan) {
+                $q->whereYear('created_at', $tahun)->whereMonth('created_at', $bulan);
+            });
+        }
 
-        return view('admin.permohonan.report', compact('submissions', 'startDate', 'endDate', 'settings'));
+        $submissions = $query->orderBy('tanggal_permohonan', 'asc')->get();
+        $settings    = Dashboard::pluck('value', 'key')->toArray();
+
+        return view('admin.permohonan.report', compact('submissions', 'periodeType', 'tahun', 'bulan', 'settings'));
     }
 
     public function exportReport(Request $request)
     {
-        $startDate = $request->input('start_date', date('Y-m-01'));
-        $endDate = $request->input('end_date', date('Y-m-t'));
+        $periodeType = $request->input('periode_type', 'bulanan');
+        $tahun       = $request->input('tahun', date('Y'));
+        $bulan       = $request->input('bulan', date('m'));
 
-        $submissions = Permohonan::whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
-            ->orderBy('created_at', 'asc')
-            ->get();
+        $query = Permohonan::query();
 
-        $settings = Dashboard::pluck('value', 'key')->toArray();
+        if ($periodeType === 'tahunan') {
+            $query->whereYear('tanggal_permohonan', $tahun)
+                  ->orWhereYear('created_at', $tahun);
+        } else {
+            $query->where(function ($q) use ($tahun, $bulan) {
+                $q->whereYear('tanggal_permohonan', $tahun)->whereMonth('tanggal_permohonan', $bulan);
+            })->orWhere(function ($q) use ($tahun, $bulan) {
+                $q->whereYear('created_at', $tahun)->whereMonth('created_at', $bulan);
+            });
+        }
 
-        // Signatory Settings
-        $ppid_name = $settings['report_ppid_name'] ?? '..........................';
-        $ppid_nip = $settings['report_ppid_nip'] ?? '..........................';
-        $menteri_name = $settings['report_menteri_name'] ?? 'BUDI KARYA SUMADI';
+        $submissions = $query->orderBy('tanggal_permohonan', 'asc')->get();
+        $settings    = Dashboard::pluck('value', 'key')->toArray();
 
-        $filename = "Laporan_Bulanan_PPID_" . $startDate . "_sd_" . $endDate . ".csv";
+        $ppid_name    = $settings['report_ppid_name'] ?? '..........................';
+        $ppid_nip     = $settings['report_ppid_nip'] ?? '..........................';
+        $menteri_name = $settings['report_menteri_name'] ?? '..........................';
 
-        $headers = [
-            'Content-Type' => 'text/csv',
+        $periodeLabel = $periodeType === 'tahunan'
+            ? "Tahun {$tahun}"
+            : date('F', mktime(0, 0, 0, $bulan, 1)) . " {$tahun}";
+
+        $filename = "Laporan_B1-B4_PPID_{$periodeLabel}.csv";
+        $headers  = [
+            'Content-Type'        => 'text/csv',
             'Content-Disposition' => 'attachment; filename="' . $filename . '"',
         ];
 
-        $callback = function() use ($submissions, $startDate, $endDate, $ppid_name, $ppid_nip, $menteri_name) {
+        $callback = function () use ($submissions, $periodeLabel, $ppid_name, $ppid_nip, $menteri_name) {
             $file = fopen('php://output', 'w');
-            
-            // Format Table Header based on user image
-            fputcsv($file, ['FORMAT LAPORAN PELAKSANAAN TUGAS PELAYANAN INFORMASI PUBLIK']);
-            fputcsv($file, ['Periode:', $startDate . ' s/d ' . $endDate]);
+
+            fputcsv($file, ['LAPORAN PELAKSANAAN TUGAS PELAYANAN INFORMASI PUBLIK']);
+            fputcsv($file, ['POLITEKNIK KESELAMATAN TRANSPORTASI JALAN — PPID']);
+            fputcsv($file, ['Periode: ' . $periodeLabel]);
             fputcsv($file, []);
-            
-            // Table Columns
-            fputcsv($file, ['No', 'Tanggal Minta', 'Tanggal Jawab', 'Waktu (Hari)', 'Nama & Alamat', 'Permohonan Informasi', 'Jenis Informasi (Berkala)', 'Jenis Informasi (Serta Merta)', 'Jenis Informasi (Setiap Saat)', 'Jenis Informasi (Dikecualikan)', 'Keterangan/Status']);
-            
+
+            // Header B1-B4
+            fputcsv($file, [
+                'No', 'Bulan', 'Tanggal Permohonan', 'Tanggal Selesai', 'Waktu (Hari)',
+                'Nama Pemohon', 'Instansi/Asal',
+                'Rincian Informasi yang Dibutuhkan',
+                'Berkala', 'Serta Merta', 'Setiap Saat', 'Dikecualikan',
+                'Keterangan (Dipenuhi/Ditolak/Proses)',
+                'Metode Pelayanan',
+                'Alasan Penolakan'
+            ]);
+
+            $bulanNama = ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'];
+
             foreach ($submissions as $index => $item) {
-                $minta = $item->created_at;
-                $jawab = $item->tanggal_selesai;
-                $diff = $jawab ? $minta->diffInDays($jawab) : '-';
-                
+                $tglMinta   = $item->tanggal_permohonan ?? $item->created_at;
+                $tglSelesai = $item->tanggal_selesai;
+                $hari       = $tglSelesai ? \Carbon\Carbon::parse($tglMinta)->diffInDays(\Carbon\Carbon::parse($tglSelesai)) : '';
+                $bulanItem  = $bulanNama[\Carbon\Carbon::parse($tglMinta)->format('m')] ?? '';
+                $statusLabel= match($item->status) {
+                    'selesai' => 'Dipenuhi',
+                    'ditolak' => 'Ditolak',
+                    'diproses'=> 'Diproses',
+                    default   => 'Pending'
+                };
+
                 fputcsv($file, [
                     $index + 1,
-                    $minta->format('d/m/Y'),
-                    $jawab ? $jawab->format('d/m/Y') : '-',
-                    $diff,
-                    $item->nama_pemohon . ' (' . $item->alamat . ')',
+                    $bulanItem,
+                    \Carbon\Carbon::parse($tglMinta)->format('d/m/Y'),
+                    $tglSelesai ? \Carbon\Carbon::parse($tglSelesai)->format('d/m/Y') : '',
+                    $hari,
+                    $item->nama_pemohon,
+                    $item->perusahaan_instansi ?? $item->alamat,
                     $item->deskripsi_permohonan,
-                    $item->kategori_laporan == 'berkala' ? 'V' : '',
-                    $item->kategori_laporan == 'sertamerta' ? 'V' : '',
-                    $item->kategori_laporan == 'setiapsaat' ? 'V' : '',
-                    $item->kategori_laporan == 'dikecualikan' ? 'V' : '',
-                    $item->status
+                    $item->kategori_laporan == 'berkala'     ? 'V' : '',
+                    $item->kategori_laporan == 'sertamerta'  ? 'V' : '',
+                    $item->kategori_laporan == 'setiapsaat'  ? 'V' : '',
+                    $item->kategori_laporan == 'dikecualikan'? 'V' : '',
+                    $statusLabel,
+                    $item->jenis_permohonan_salinan ?? $item->bentuk_informasi_salinan ?? '',
+                    $item->alasan_penolakan_text ?? '',
                 ]);
             }
-            
+
             fputcsv($file, []);
-            fputcsv($file, ['', '', '', '', '', '', '', '', 'PPID']);
-            fputcsv($file, ['', '', '', '', '', '', '', '', $ppid_name]);
-            fputcsv($file, ['', '', '', '', '', '', '', '', 'NIP. ' . $ppid_nip]);
+            fputcsv($file, ['', '', '', '', '', '', '', '', '', '', '', '', '', 'Tegal, ' . date('d F Y')]);
+            fputcsv($file, ['', '', '', '', '', '', '', '', '', '', '', '', '', 'PPID PKTJ']);
             fputcsv($file, []);
-            fputcsv($file, ['', '', '', '', '', '', 'MENTERI PERHUBUNGAN REPUBLIK INDONESIA']);
-            fputcsv($file, ['', '', '', '', '', '', $menteri_name]);
-            
+            fputcsv($file, ['', '', '', '', '', '', '', '', '', '', '', '', '', $ppid_name]);
+            fputcsv($file, ['', '', '', '', '', '', '', '', '', '', '', '', '', 'NIP. ' . $ppid_nip]);
+
             fclose($file);
         };
 

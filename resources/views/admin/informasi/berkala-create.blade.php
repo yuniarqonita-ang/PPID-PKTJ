@@ -12,7 +12,7 @@
             <p class="text-gray-500 mt-1">Tambahkan informasi berkala yang wajib dipublikasikan</p>
         </div>
         <div class="flex items-center space-x-3">
-            <a href="{{ route('admin.informasi.berkala') }}" class="px-4 py-2 bg-slate-700 text-[#004a99] rounded-lg hover:bg-slate-600 transition">
+            <a href="{{ route('admin.informasi.berkala.index') }}" class="px-4 py-2 bg-slate-700 text-[#004a99] rounded-lg hover:bg-slate-600 transition">
                 <i class="fas fa-arrow-left mr-2"></i>Kembali
             </a>
         </div>
@@ -111,7 +111,7 @@
 
             <!-- ACTION BUTTONS -->
             <div class="flex justify-end space-x-3 pt-6 border-t border-gray-200">
-                <a href="{{ route('admin.informasi.berkala') }}" class="px-6 py-2 bg-slate-700 text-[#004a99] rounded-lg">
+                <a href="{{ route('admin.informasi.berkala.index') }}" class="px-6 py-2 bg-slate-700 text-[#004a99] rounded-lg">
                     <i class="fas fa-times mr-2"></i>Batal
                 </a>
                 <button type="submit" class="px-6 py-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-[#004a99] rounded-lg font-bold shadow-lg">

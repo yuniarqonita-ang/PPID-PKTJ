@@ -157,7 +157,7 @@
                         <p class="text-sm font-medium text-[#004a99]">Informasi Serta Merta</p>
                         <p class="text-xs text-gray-500">{{ App\Models\InformasiSertaMerta::count() }} file</p>
                     </div>
-                    <a href="{{ route('admin.informasi.sertamerta') }}" class="text-[#004a99] hover:text-blue-300">
+                    <a href="{{ route('admin.informasi.sertamerta.index') }}" class="text-[#004a99] hover:text-blue-300">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
@@ -166,7 +166,7 @@
                         <p class="text-sm font-medium text-[#004a99]">Informasi Setiap Saat</p>
                         <p class="text-xs text-gray-500">{{ App\Models\InformasiSetiapSaat::count() }} file</p>
                     </div>
-                    <a href="{{ route('admin.informasi.setiapsaat') }}" class="text-[#004a99] hover:text-blue-300">
+                    <a href="{{ route('admin.informasi.setiapsaat.index') }}" class="text-[#004a99] hover:text-blue-300">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
@@ -175,7 +175,7 @@
                         <p class="text-sm font-medium text-[#004a99]">Informasi Dikecualikan</p>
                         <p class="text-xs text-gray-500">{{ App\Models\InformasiDikecualikan::count() }} file</p>
                     </div>
-                    <a href="{{ route('admin.informasi.dikecualikan') }}" class="text-[#004a99] hover:text-blue-300">
+                    <a href="{{ route('admin.informasi.dikecualikan.index') }}" class="text-[#004a99] hover:text-blue-300">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>

@@ -19,6 +19,7 @@ class Berita extends Model
         'slug',
         'konten',
         'gambar',
+        'kategori',
         'kategori_id',
         'user_id',
         'status',
