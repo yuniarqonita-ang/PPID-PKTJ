@@ -22,7 +22,7 @@
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--dark); }
 
         .page-header {
-            background: linear-gradient(135deg, #7c2020 0%, #991b1b 50%, #b91c1c 100%);
+            background: linear-gradient(135deg, #004a99 0%, #003366 100%);
             padding: 90px 0 130px;
             color: white;
             text-align: center;
@@ -156,17 +156,17 @@
         .warning-box p { color: #78350f; margin: 0; font-size: 13px; }
 
         .btn-submit {
-            background: linear-gradient(135deg, #991b1b, #b91c1c);
+            background: linear-gradient(135deg, #004a99, #003366);
             color: white;
             font-family: 'Outfit', sans-serif;
             font-weight: 700; font-size: 17px;
             padding: 16px 40px;
             border: none; border-radius: 14px; width: 100%;
-            box-shadow: 0 10px 25px rgba(153,27,27,.25);
+            box-shadow: 0 10px 25px rgba(0,74,153,.25);
             transition: all .4s;
             display: flex; align-items: center; justify-content: center; gap: 10px;
         }
-        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(153,27,27,.35); filter: brightness(110%); }
+        .btn-submit:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(0,74,153,.35); filter: brightness(110%); }
 
         .divider { border: none; border-top: 2px solid #e8f0fb; margin: 32px 0; }
 
@@ -207,7 +207,7 @@
                     icon: 'success',
                     title: 'Keberatan Terkirim!',
                     text: '{{ session("success") }}',
-                    confirmButtonColor: '#991b1b'
+                    confirmButtonColor: '#004a99'
                 });
             </script>
             @endif

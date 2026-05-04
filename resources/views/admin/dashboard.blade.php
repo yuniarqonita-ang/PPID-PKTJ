@@ -51,6 +51,77 @@
         @endforeach
     </div>
 
+    {{-- ═══════════════════════════════════════════════════ --}}
+    {{-- RINGKASAN DATA MASUK                               --}}
+    {{-- ═══════════════════════════════════════════════════ --}}
+    <div class="bg-white rounded-[2rem] shadow-md border border-slate-200 overflow-hidden">
+        <div class="px-10 py-8 border-b border-slate-100 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <span class="w-3 h-10 bg-[#ffc107] rounded-full"></span>
+                <div>
+                    <h3 class="text-2xl font-black text-[#004a99] tracking-tight">Ringkasan Data Masuk</h3>
+                    <p class="text-[12px] text-slate-400 font-black uppercase tracking-widest mt-1">Permohonan Informasi & Keberatan</p>
+                </div>
+            </div>
+            <span class="text-[11px] font-black uppercase tracking-widest text-slate-400">Update: {{ date('d M Y') }}</span>
+        </div>
+
+        <div class="p-8 grid grid-cols-2 lg:grid-cols-4 gap-6">
+            {{-- PERMOHONAN STATS --}}
+            @php
+                $inboxCards = [
+                    ['label'=>'Total Permohonan',  'val'=>$permohonanStats['total'],    'icon'=>'fa-envelope-open-text', 'bg'=>'bg-blue-50',   'color'=>'#004a99'],
+                    ['label'=>'Permohonan Bulan Ini','val'=>$permohonanStats['bulan_ini'],'icon'=>'fa-calendar-check',   'bg'=>'bg-sky-50',    'color'=>'#0284c7'],
+                    ['label'=>'Total Keberatan',   'val'=>$keberatanStats['total'],     'icon'=>'fa-exclamation-circle','bg'=>'bg-amber-50',  'color'=>'#b45309'],
+                    ['label'=>'Keberatan Bulan Ini','val'=>$keberatanStats['bulan_ini'],'icon'=>'fa-clock',              'bg'=>'bg-orange-50', 'color'=>'#ea580c'],
+                ];
+            @endphp
+            @foreach($inboxCards as $card)
+            <div class="rounded-2xl {{ $card['bg'] }} p-6 flex flex-col gap-3 border border-slate-100">
+                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center shadow-sm" style="color:{{ $card['color'] }}">
+                    <i class="fas {{ $card['icon'] }} text-xl"></i>
+                </div>
+                <div>
+                    <p class="text-3xl font-black" style="color:{{ $card['color'] }}">{{ $card['val'] }}</p>
+                    <p class="text-[11px] font-black uppercase tracking-widest text-slate-500 mt-1">{{ $card['label'] }}</p>
+                </div>
+            </div>
+            @endforeach
+        </div>
+
+        {{-- STATUS BADGES ROW --}}
+        <div class="px-8 pb-6 grid grid-cols-2 gap-4">
+            <div class="flex items-center justify-between bg-slate-50 rounded-2xl px-6 py-4 border border-slate-100">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span class="text-[12px] font-black uppercase tracking-widest text-slate-600">Permohonan Pending</span>
+                </div>
+                <span class="text-xl font-black text-amber-600">{{ $permohonanStats['pending'] }}</span>
+            </div>
+            <div class="flex items-center justify-between bg-slate-50 rounded-2xl px-6 py-4 border border-slate-100">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                    <span class="text-[12px] font-black uppercase tracking-widest text-slate-600">Permohonan Selesai</span>
+                </div>
+                <span class="text-xl font-black text-emerald-600">{{ $permohonanStats['selesai'] }}</span>
+            </div>
+            <div class="flex items-center justify-between bg-slate-50 rounded-2xl px-6 py-4 border border-slate-100">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-rose-400 animate-pulse"></span>
+                    <span class="text-[12px] font-black uppercase tracking-widest text-slate-600">Keberatan Pending</span>
+                </div>
+                <span class="text-xl font-black text-rose-600">{{ $keberatanStats['pending'] }}</span>
+            </div>
+            <div class="flex items-center justify-between bg-slate-50 rounded-2xl px-6 py-4 border border-slate-100">
+                <div class="flex items-center gap-3">
+                    <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                    <span class="text-[12px] font-black uppercase tracking-widest text-slate-600">Keberatan Selesai</span>
+                </div>
+                <span class="text-xl font-black text-emerald-600">{{ $keberatanStats['selesai'] }}</span>
+            </div>
+        </div>
+    </div>
+
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-10">
         <!-- ANALYTICS AREA -->
         <div class="lg:col-span-2 space-y-10">
@@ -66,6 +137,139 @@
                 </div>
                 <div class="h-[400px]">
                     <canvas id="visitorChart"></canvas>
+                </div>
+            </div>
+
+            {{-- TABEL DATA PERMOHONAN TERBARU --}}
+            <div class="bg-white rounded-[2.5rem] shadow-md border border-slate-200 overflow-hidden">
+                <div class="flex items-center justify-between px-10 py-8 border-b border-slate-100">
+                    <h3 class="text-xl font-black text-[#004a99] tracking-tight flex items-center">
+                        <span class="w-3 h-8 bg-blue-500 rounded-full mr-4"></span>
+                        Permohonan Informasi Terbaru
+                    </h3>
+                    <a href="{{ route('admin.permohonan.index') }}" class="px-5 py-2 bg-[#004a99] text-[11px] font-black text-white uppercase tracking-widest rounded-xl hover:bg-black transition-all">Lihat Semua</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-100">
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">#</th>
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">Nama Pemohon</th>
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">Rincian Informasi</th>
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">Status</th>
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">Tanggal</th>
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            @forelse($recentPermohonan as $i => $pm)
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 text-[13px] font-black text-slate-400">{{ $i + 1 }}</td>
+                                <td class="px-6 py-4">
+                                    <p class="text-[13px] font-black text-[#004a99]">{{ $pm->nama_pemohon ?? '-' }}</p>
+                                    <p class="text-[11px] text-slate-400 font-bold">{{ $pm->email ?? '' }}</p>
+                                </td>
+                                <td class="px-6 py-4 text-[12px] text-slate-600 font-semibold max-w-xs">
+                                    {{ Str::limit($pm->rincian_informasi ?? $pm->deskripsi_permohonan ?? '-', 60) }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    @php
+                                        $st = strtolower($pm->status ?? 'menunggu');
+                                        $stClass = match($st) {
+                                            'selesai'   => 'bg-emerald-100 text-emerald-700',
+                                            'diproses'  => 'bg-blue-100 text-blue-700',
+                                            'ditolak'   => 'bg-red-100 text-red-700',
+                                            default     => 'bg-amber-100 text-amber-700',
+                                        };
+                                        $stLabel = match($st) {
+                                            'selesai'   => 'Selesai',
+                                            'diproses'  => 'Diproses',
+                                            'ditolak'   => 'Ditolak',
+                                            default     => 'Menunggu',
+                                        };
+                                    @endphp
+                                    <span class="px-3 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider {{ $stClass }}">{{ $stLabel }}</span>
+                                </td>
+                                <td class="px-6 py-4 text-[12px] font-bold text-slate-500">
+                                    {{ \Carbon\Carbon::parse($pm->created_at)->translatedFormat('d M Y') }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <a href="{{ route('admin.permohonan.show', $pm->id) }}" class="px-4 py-2 bg-[#004a99] text-white text-[11px] font-black rounded-lg hover:bg-black transition-all">
+                                        <i class="fas fa-eye mr-1"></i> Detail
+                                    </a>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="6" class="px-6 py-16 text-center">
+                                    <i class="fas fa-inbox text-4xl text-slate-200 mb-3 block"></i>
+                                    <p class="text-[12px] font-black text-slate-400 uppercase tracking-widest">Belum ada permohonan masuk</p>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            {{-- TABEL DATA KEBERATAN TERBARU --}}
+            <div class="bg-white rounded-[2.5rem] shadow-md border border-slate-200 overflow-hidden">
+                <div class="flex items-center justify-between px-10 py-8 border-b border-slate-100">
+                    <h3 class="text-xl font-black text-[#004a99] tracking-tight flex items-center">
+                        <span class="w-3 h-8 bg-amber-500 rounded-full mr-4"></span>
+                        Keberatan Terbaru
+                    </h3>
+                    <a href="{{ route('admin.keberatan.index') }}" class="px-5 py-2 bg-amber-500 text-[11px] font-black text-white uppercase tracking-widest rounded-xl hover:bg-black transition-all">Lihat Semua</a>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full">
+                        <thead>
+                            <tr class="bg-slate-50 border-b border-slate-100">
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">#</th>
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">Nama Pemohon</th>
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">Alasan Keberatan</th>
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">Status</th>
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">Tanggal</th>
+                                <th class="px-6 py-4 text-left text-[11px] font-black uppercase tracking-widest text-slate-400">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-slate-50">
+                            @forelse($recentKeberatan as $i => $kb)
+                            <tr class="hover:bg-slate-50 transition-colors">
+                                <td class="px-6 py-4 text-[13px] font-black text-slate-400">{{ $i + 1 }}</td>
+                                <td class="px-6 py-4">
+                                    <p class="text-[13px] font-black text-[#004a99]">{{ $kb->nama_pemohon ?? '-' }}</p>
+                                    <p class="text-[11px] text-slate-400 font-bold">{{ $kb->email ?? '' }}</p>
+                                </td>
+                                <td class="px-6 py-4 text-[12px] text-slate-600 font-semibold max-w-xs">
+                                    {{ Str::limit($kb->alasan_keberatan ?? '-', 60) }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    @if($kb->tanggal_tanggapan_keberatan)
+                                        <span class="px-3 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider bg-emerald-100 text-emerald-700">Ditanggapi</span>
+                                    @else
+                                        <span class="px-3 py-1 rounded-lg text-[11px] font-black uppercase tracking-wider bg-rose-100 text-rose-700 animate-pulse">Menunggu</span>
+                                    @endif
+                                </td>
+                                <td class="px-6 py-4 text-[12px] font-bold text-slate-500">
+                                    {{ \Carbon\Carbon::parse($kb->created_at)->translatedFormat('d M Y') }}
+                                </td>
+                                <td class="px-6 py-4">
+                                    <a href="{{ route('admin.keberatan.show', $kb->id) }}" class="px-4 py-2 bg-amber-500 text-white text-[11px] font-black rounded-lg hover:bg-black transition-all">
+                                        <i class="fas fa-eye mr-1"></i> Detail
+                                    </a>
+                                </td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="6" class="px-6 py-16 text-center">
+                                    <i class="fas fa-inbox text-4xl text-slate-200 mb-3 block"></i>
+                                    <p class="text-[12px] font-black text-slate-400 uppercase tracking-widest">Belum ada keberatan masuk</p>
+                                </td>
+                            </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
                 </div>
             </div>
 
@@ -148,6 +352,23 @@
                             <i class="fas fa-envelope"></i>
                         </div>
                         <span class="text-sm font-black uppercase text-[#004a99] tracking-widest">Permohonan Informasi</span>
+                    </a>
+                    <a href="{{ route('admin.keberatan.index') }}" class="flex items-center gap-5 p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-amber-400 transition-all group">
+                        <div class="w-12 h-12 bg-white text-amber-500 border border-slate-200 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fas fa-exclamation-circle"></i>
+                        </div>
+                        <div class="flex-1">
+                            <span class="text-sm font-black uppercase text-[#004a99] tracking-widest block">Keberatan</span>
+                            @if($keberatanStats['pending'] > 0)
+                            <span class="text-[11px] font-black text-rose-500 uppercase tracking-wider">{{ $keberatanStats['pending'] }} menunggu</span>
+                            @endif
+                        </div>
+                    </a>
+                    <a href="{{ route('admin.file-browser') }}" target="_blank" class="flex items-center gap-5 p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-emerald-400 transition-all group">
+                        <div class="w-12 h-12 bg-white text-emerald-600 border border-slate-200 rounded-xl flex items-center justify-center text-xl">
+                            <i class="fas fa-folder-open"></i>
+                        </div>
+                        <span class="text-sm font-black uppercase text-[#004a99] tracking-widest">File Manager</span>
                     </a>
                 </div>
             </div>

@@ -145,7 +145,7 @@
                 <a class="btn btn-warning fw-bold px-3 py-2 text-dark rounded-1 shadow-sm" href="{{ route('permohonan.form') }}" style="font-size: 11px;">
                     PERMOHONAN INFORMASI
                 </a>
-                <a class="btn btn-danger fw-bold px-3 py-2 text-white rounded-1 shadow-sm" href="{{ route('keberatan.create') }}" style="font-size: 11px;">
+                <a class="btn btn-outline-light fw-bold px-3 py-2 rounded-1 shadow-sm" href="{{ route('keberatan.create') }}" style="font-size: 11px; border-width: 2px;">
                     AJUKAN KEBERATAN
                 </a>
             </div>

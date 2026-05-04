@@ -173,10 +173,6 @@
         <div class="content-card shadow-lg border-0" style="border-radius: 20px;">
             <h1 class="fw-bold mb-4" style="color: #333; font-size: 2.5rem;">Daftar Informasi Publik</h1>
 
-            <!-- Dynamic Content (Admin Managed) -->
-            <div class="mb-5">
-                @include('components.konten-dinamis', ['prefix' => 'layanan_daftar'])
-            </div>
 
             <!-- Search Form -->
             <form action="{{ route('layanan.daftar-informasi') }}" method="GET" class="mb-5">

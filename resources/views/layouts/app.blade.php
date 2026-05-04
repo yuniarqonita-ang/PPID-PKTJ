@@ -224,6 +224,63 @@
                 .sidebar.open { left: 0; }
                 .main-content { margin-left: 0; }
             }
+        <style>
+            /* GLOBAL FIX FOR ADMIN PANEL SCROLLING & DARK UI */
+            html, body {
+                overflow: auto !important;
+                height: auto !important;
+                min-height: 100vh !important;
+                background-color: #f0f2f5 !important;
+                background-image: none !important;
+                box-shadow: none !important;
+                position: relative !important;
+            }
+            
+            /* NUCLEAR OPTION: Remove any glow/vignette overlays */
+            html::before, html::after, 
+            body::before, body::after,
+            .admin-wrapper::before, .admin-wrapper::after,
+            .main-content::before, .main-content::after {
+                display: none !important;
+                content: none !important;
+                background: none !important;
+                box-shadow: none !important;
+            }
+
+            .admin-wrapper {
+                min-height: 100vh !important;
+                height: auto !important;
+                overflow: visible !important;
+                background: #f0f2f5 !important;
+                position: relative !important;
+                z-index: 1 !important;
+            }
+
+            .main-content {
+                height: auto !important;
+                min-height: 100vh !important;
+                overflow: visible !important;
+                background: #f0f2f5 !important;
+                display: flex !important;
+                flex-direction: column !important;
+                position: relative !important;
+                z-index: 1 !important;
+                box-shadow: none !important;
+            }
+
+            .content-area {
+                flex: 1 0 auto !important;
+                padding: 30px !important;
+                position: relative !important;
+                z-index: 1 !important;
+            }
+
+            /* Eliminate any fixed blue glows */
+            [style*="fixed"][style*="inset"],
+            [style*="fixed"][style*="shadow"],
+            [style*="fixed"][style*="gradient"] {
+                display: none !important;
+            }
         </style>
     </head>
     <body class="antialiased">
@@ -318,6 +375,9 @@
                         </a>
                         <a href="{{ route('dashboard.edit') }}" class="nav-link {{ request()->routeIs('dashboard.edit') ? 'active' : '' }}">
                             <i class="fas fa-images nav-icon"></i> HERO BANNER
+                        </a>
+                        <a href="{{ route('admin.file-browser') }}" target="_blank" class="nav-link {{ request()->routeIs('admin.file-browser') ? 'active' : '' }}">
+                            <i class="fas fa-folder-open nav-icon"></i> FILE MANAGER
                         </a>
                     </nav>
                 </div>

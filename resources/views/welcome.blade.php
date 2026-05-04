@@ -7,7 +7,8 @@
         $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
         $total_permohonan = \App\Models\Permohonan::count();
         $total_berita = \App\Models\Berita::count();
-        $total_informasi = \App\Models\InformasiBerkala::count() + \App\Models\InformasiSertaMerta::count() + \App\Models\InformasiSetiapSaat::count();
+        $total_informasi = \App\Models\DaftarInformasi::count();
+        $total_dokumen = \App\Models\Dokumen::count();
     @endphp
     <title>{{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     
@@ -295,29 +296,29 @@
                 <div class="col-md-3">
                     <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-file-invoice"></i></div>
-                        <div class="stat-number">{{ number_format($total_permohonan + 124) }}</div>
+                        <div class="stat-number">{{ number_format($total_permohonan) }}</div>
                         <div class="stat-label">Permohonan Informasi</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
-                        <div class="stat-number">2x24h</div>
-                        <div class="stat-label">Rata-rata Respon</div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="stat-card">
                         <div class="stat-icon"><i class="fas fa-database"></i></div>
-                        <div class="stat-number">{{ number_format($total_informasi + 450) }}</div>
-                        <div class="stat-label">Data Publik Tersedia</div>
+                        <div class="stat-number">{{ number_format($total_informasi) }}</div>
+                        <div class="stat-label">Informasi Publik</div>
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-users"></i></div>
-                        <div class="stat-number">98%</div>
-                        <div class="stat-label">Puasan Masyarakat</div>
+                        <div class="stat-icon"><i class="fas fa-file-pdf"></i></div>
+                        <div class="stat-number">{{ number_format($total_dokumen) }}</div>
+                        <div class="stat-label">Dokumen Tersedia</div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-newspaper"></i></div>
+                        <div class="stat-number">{{ number_format($total_berita) }}</div>
+                        <div class="stat-label">Berita & Artikel</div>
                     </div>
                 </div>
             </div>

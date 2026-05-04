@@ -11,6 +11,7 @@ class InformasiSetiapSaat extends Model
     protected $fillable = [
         'judul',
         'deskripsi',
+        'tanggal',
         'file_path',
         'file_name',
         'file_size',
@@ -19,6 +20,7 @@ class InformasiSetiapSaat extends Model
     ];
     
     protected $casts = [
-        'aktif' => 'boolean',
+        'aktif'   => 'boolean',
+        'tanggal' => 'date',
     ];
 }

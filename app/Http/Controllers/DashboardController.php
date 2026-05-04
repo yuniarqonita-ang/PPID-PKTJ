@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Carbon\Carbon;
 use App\Models\Dashboard;
+use App\Models\Permohonan;
+use App\Models\Keberatan;
 
 class DashboardController extends Controller
 {
@@ -45,13 +47,41 @@ class DashboardController extends Controller
             'total_visitors' => 0, 'total_hits' => 0,
         ];
 
+        // ── DATA MASUK: Permohonan ──
+        $permohonanStats = ['total' => 0, 'pending' => 0, 'selesai' => 0, 'bulan_ini' => 0];
+        $recentPermohonan = collect([]);
+        if (Schema::hasTable('permohonan')) {
+            $permohonanStats['total']     = Permohonan::count();
+            $permohonanStats['pending']   = Permohonan::where('status', 'menunggu')->count();
+            $permohonanStats['selesai']   = Permohonan::where('status', 'selesai')->count();
+            $permohonanStats['bulan_ini'] = Permohonan::whereMonth('created_at', now()->month)
+                                                        ->whereYear('created_at', now()->year)->count();
+            $recentPermohonan = Permohonan::latest()->limit(5)->get();
+        }
+
+        // ── DATA MASUK: Keberatan ──
+        $keberatanStats = ['total' => 0, 'pending' => 0, 'selesai' => 0, 'bulan_ini' => 0];
+        $recentKeberatan = collect([]);
+        if (Schema::hasTable('keberatans')) {
+            $keberatanStats['total']     = Keberatan::count();
+            $keberatanStats['pending']   = Keberatan::whereNull('tanggal_tanggapan_keberatan')->count();
+            $keberatanStats['selesai']   = Keberatan::whereNotNull('tanggal_tanggapan_keberatan')->count();
+            $keberatanStats['bulan_ini'] = Keberatan::whereMonth('created_at', now()->month)
+                                                      ->whereYear('created_at', now()->year)->count();
+            $recentKeberatan = Keberatan::latest()->limit(5)->get();
+        }
+
         return view('admin.dashboard', [
-            'stats'          => $stats,
-            'topNews'        => $topNews,
-            'visitorData'    => json_encode($visitorData),
-            'visitorMetrics' => $visitorMetrics,
-            'currentYear'    => $currentYear,
-            'last_update'    => date('d M Y H:i'),
+            'stats'             => $stats,
+            'topNews'           => $topNews,
+            'visitorData'       => json_encode($visitorData),
+            'visitorMetrics'    => $visitorMetrics,
+            'currentYear'       => $currentYear,
+            'last_update'       => date('d M Y H:i'),
+            'permohonanStats'   => $permohonanStats,
+            'recentPermohonan'  => $recentPermohonan,
+            'keberatanStats'    => $keberatanStats,
+            'recentKeberatan'   => $recentKeberatan,
         ]);
     }
 

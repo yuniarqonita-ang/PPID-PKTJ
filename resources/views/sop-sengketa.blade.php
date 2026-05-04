@@ -4,91 +4,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $settings['sop_sengketa_judul_hero'] ?? 'SOP Pengajuan Sengketa' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
-    
-    <!-- Google Fonts -->
+    <meta name="description" content="{{ $settings['sop_sengketa_tagline_hero'] ?? 'Prosedur Penyelesaian Sengketa Informasi Publik PPID PKTJ' }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --primary-blue: {{ $settings['primary_color'] ?? '#004A99' }};
-            --secondary-gold: {{ $settings['secondary_color'] ?? '#FFC107' }};
-        }
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f8faff; 
-            color: #1e293b;
-        }
-
-        .outfit { font-family: 'Outfit', sans-serif; }
-
-                /* Hero Section */
-        .hero-section {
-            background: linear-gradient(rgba(0, 74, 153, 0.8), rgba(0, 74, 153, 0.8)), 
-                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069');
-            background-size: cover;
-            background-position: center;
-            padding: 100px 0;
-            color: white;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-content { position: relative; z-index: 10; }
-
-        .content-card {
-            background: white;
-            padding: 50px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0, 74, 153, 0.05);
-            margin-top: -60px;
-            border: 1px solid rgba(0, 74, 153, 0.05);
-            position: relative;
-            z-index: 20;
-            margin-bottom: 50px;
-        }
-
-        .section-title {
-            color: var(--primary-blue);
-            font-weight: 900;
-            margin-bottom: 30px;
-            border-left: 6px solid var(--secondary-gold);
-            padding-left: 20px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
-        }
-    </style>
+    @include('components.public-page-style')
 </head>
 <body>
-
     @include('navigation')
 
     <div class="hero-section">
-        <div class="container hero-content">
-            <h1 class="display-4 fw-bold outfit uppercase mb-2">{{ $settings['sop_sengketa_judul_hero'] ?? 'SOP Sengketa' }}</h1>
-            <p class="lead opacity-75">{{ $settings['sop_sengketa_tagline_hero'] ?? 'Prosedur Penyelesaian Sengketa Informasi' }}</p>
+        <div class="container hero-content text-center">
+            <div class="hero-badge">
+                <i class="fas fa-balance-scale me-2"></i> Prosedur Sengketa
+            </div>
+            <h1 class="hero-title outfit">{{ $settings['sop_sengketa_judul_hero'] ?? 'SOP Pengajuan Sengketa' }}</h1>
+            <p class="hero-tagline">{{ $settings['sop_sengketa_tagline_hero'] ?? 'Prosedur Penyelesaian Sengketa Informasi Publik' }}</p>
         </div>
     </div>
 
-    <div class="container mb-5">
+    <div class="container page-container">
         <div class="content-card">
-            @if(isset($settings['sop_sengketa_judul_hero']))
-                <h2 class="section-title">{{ $settings['sop_sengketa_judul_hero'] }}</h2>
-            @endif
-            
-            <div class="rich-content">
+            @php
+                $d = $settings ?? [];
+                $hasContent = ($d['sop_sengketa_isi_konten'] ?? null) ||
+                              ($d['sop_sengketa_gambar_sop'] ?? null) ||
+                              ($d['sop_sengketa_gambar_proses'] ?? null) ||
+                              ($d['sop_sengketa_youtube_link'] ?? null) ||
+                              ($d['sop_sengketa_isi_maklumat'] ?? null);
+            @endphp
+
+            @if($hasContent)
                 @include('components.konten-dinamis', ['prefix' => 'sop_sengketa'])
-            </div>
+            @else
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Konten Sedang Disiapkan</h3>
+                    <p>Informasi mengenai SOP Pengajuan Sengketa sedang dalam proses penyusunan oleh tim PPID PKTJ.</p>
+                    <a href="{{ route('layanan.daftar-informasi') }}" class="btn-action">
+                        <i class="fas fa-info-circle me-2"></i> Lihat Daftar Informasi
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 
     @include('footer')
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
-ml>

@@ -4,99 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $settings['maklumat_pelayanan_judul_hero'] ?? 'Maklumat Pelayanan' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
-    
-    <!-- Google Fonts -->
+    <meta name="description" content="{{ $settings['maklumat_pelayanan_tagline_hero'] ?? 'Standar Komitmen Pelayanan Informasi Publik PPID PKTJ' }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <style>
-        :root {
-            --primary-blue: {{ $settings['primary_color'] ?? '#004A99' }};
-            --secondary-gold: {{ $settings['secondary_color'] ?? '#FFC107' }};
-        }
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f8faff; 
-            color: #1e293b;
-            line-height: 1.6;
-        }
-
-        .outfit { font-family: 'Outfit', sans-serif; }
-
-        /* Hero Section */
-        .hero-section {
-            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.8)), 
-                        url('https://images.unsplash.com/photo-1541746972996-4e0b0f43e02a?q=80&w=2070');
-            background-size: cover;
-            background-position: center;
-            padding: 120px 0;
-            color: white;
-            text-align: center;
-            position: relative;
-        }
-
-        .hero-content { position: relative; z-index: 10; }
-
-        .content-card {
-            background: white;
-            padding: 60px;
-            border-radius: 40px;
-            box-shadow: 0 30px 60px rgba(0, 74, 153, 0.1);
-            margin-top: -80px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            position: relative;
-            z-index: 20;
-            margin-bottom: 80px;
-        }
-
-        .section-title {
-            color: var(--primary-blue);
-            font-weight: 900;
-            margin-bottom: 40px;
-            border-left: 8px solid var(--secondary-gold);
-            padding-left: 25px;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
-        }
-
-        .rich-content {
-            font-size: 1.15rem;
-            color: #334155;
-            line-height: 1.8;
-        }
-
-        .rich-content h3 {
-            color: var(--primary-blue);
-            font-weight: 800;
-            margin-top: 40px;
-            margin-bottom: 20px;
-            font-family: 'Outfit', sans-serif;
-        }
-    </style>
+    @include('components.public-page-style')
 </head>
 <body>
-
     @include('navigation')
 
     <div class="hero-section">
-        <div class="container hero-content">
-            <h1 class="display-4 fw-bold outfit uppercase mb-2">{{ $settings['maklumat_pelayanan_judul_hero'] ?? 'Maklumat Pelayanan' }}</h1>
-            <p class="lead opacity-75">{{ $settings['maklumat_pelayanan_tagline_hero'] ?? 'Standar Komitmen Kami Terhadap Publik' }}</p>
+        <div class="container hero-content text-center">
+            <div class="hero-badge">
+                <i class="fas fa-handshake me-2"></i> Layanan Informasi
+            </div>
+            <h1 class="hero-title outfit">{{ $settings['maklumat_pelayanan_judul_hero'] ?? 'Maklumat Pelayanan' }}</h1>
+            <p class="hero-tagline">{{ $settings['maklumat_pelayanan_tagline_hero'] ?? 'Standar Komitmen Kami Terhadap Publik' }}</p>
         </div>
     </div>
 
-    <div class="container mb-5">
+    <div class="container page-container">
         <div class="content-card">
-            @include('components.konten-dinamis', ['prefix' => 'maklumat_pelayanan'])
+            @php
+                $d = $settings ?? [];
+                $hasContent = ($d['maklumat_pelayanan_isi_maklumat'] ?? null) ||
+                              ($d['maklumat_pelayanan_gambar_maklumat'] ?? null) ||
+                              ($d['maklumat_pelayanan_judul_maklumat'] ?? null);
+            @endphp
+
+            @if($hasContent)
+                @include('components.konten-dinamis', ['prefix' => 'maklumat_pelayanan'])
+            @else
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-handshake"></i>
+                    </div>
+                    <h3>Maklumat Pelayanan Sedang Disiapkan</h3>
+                    <p>Maklumat Pelayanan PPID {{ $settings['ppid_nama'] ?? 'PKTJ' }} sedang dalam proses penyusunan. Silakan hubungi kami untuk informasi lebih lanjut.</p>
+                    <a href="{{ route('profil.kontak') }}" class="btn-action">
+                        <i class="fas fa-envelope me-2"></i> Hubungi Kami
+                    </a>
+                </div>
+            @endif
         </div>
     </div>
 
     @include('footer')
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

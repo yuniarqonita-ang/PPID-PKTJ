@@ -34,7 +34,7 @@
                     <!-- Date Field -->
                     <div class="space-y-3">
                         <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Tanggal Publikasi</label>
-                        <input type="date" name="tanggal" required value="{{ old('tanggal', \Carbon\Carbon::parse($item->tanggal)->format('Y-m-d')) }}"
+                        <input type="date" name="tanggal" required value="{{ old('tanggal', $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('Y-m-d') : date('Y-m-d')) }}"
                             class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c]">
                     </div>
 

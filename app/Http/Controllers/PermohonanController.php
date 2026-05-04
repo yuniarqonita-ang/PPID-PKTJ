@@ -130,47 +130,39 @@ class PermohonanController extends Controller
             'berkas_pendukung'      => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
         ]);
 
-<<<<<<< HEAD
-        // Map field form ke kolom database — HANYA kolom yang benar-benar ada di tabel
-        $fotoKtp = $request->hasFile('foto_ktp')
-            ? $request->file('foto_ktp')->store('permohonan/ktp', 'public')
-            : null;
-=======
-        // Map data tambahan ke JSON agar tidak perlu migrasi database besar
-        $validated['custom_fields_data'] = [
-            'jenis_pemohon'      => $request->jenis_pemohon,
-            'cara_mendapatkan'   => $request->cara_mendapatkan,
-            'petugas_penerima'   => $request->petugas_penerima,
-            'email_or_phone'     => $request->nomor_telepon,
-        ];
-
-        // Mapping ke kolom DB yang sudah ada
-        $validated['deskripsi_permohonan'] = $validated['rincian_informasi'];
-        $validated['jenis_informasi']      = $validated['tujuan_penggunaan'];
-        $validated['status']               = 'pending';
->>>>>>> 664b96b9456a9a03d341686bda8d2c42931062ac
-
+        // Upload files
+        $fotoKtp = $request->file('foto_ktp')->store('permohonan/ktp', 'public');
         $berkasPendukung = $request->hasFile('berkas_pendukung')
             ? $request->file('berkas_pendukung')->store('permohonan/berkas', 'public')
             : null;
+
+        // Map data tambahan ke JSON agar tidak perlu migrasi database besar
+        $customFieldsData = [
+            'jenis_pemohon'      => $validated['jenis_pemohon'],
+            'cara_mendapatkan'   => $validated['cara_mendapatkan'],
+            'petugas_penerima'   => $validated['petugas_penerima'],
+            'email_or_phone'     => $validated['nomor_telepon'],
+        ];
 
         Permohonan::create([
             'tanggal_permohonan'                      => $validated['tanggal_permohonan'],
             'nama_pemohon'                            => $validated['nama_pemohon'],
             'alamat'                                  => $validated['alamat'],
-            'pekerjaan'                               => $validated['pekerjaan'] ?? null,
-            'npwp'                                    => $validated['npwp'] ?? null,
+            'pekerjaan'                               => $validated['pekerjaan'],
+            'npwp'                                    => $validated['npwp'],
             'nomor_telepon'                           => $validated['nomor_telepon'],
-            'email'                                   => $validated['email'],
+            'email'                                   => $validated['nomor_telepon'], // Map to nomor_telepon as form uses shared field
             'deskripsi_permohonan'                    => $validated['rincian_informasi'],
             'jenis_informasi'                         => $validated['tujuan_penggunaan'],
-            'status_informasi_dikuasai'               => $validated['status_informasi_dikuasai'] === 'ya' ? 1 : 0,
-            'status_informasi_belum_didokumentasikan' => ($validated['status_informasi_belum_didokumentasikan'] ?? '') === 'ya' ? 1 : 0,
-            'bentuk_informasi_salinan'                => $validated['bentuk_informasi_salinan'],
-            'jenis_permohonan_salinan'                => $validated['jenis_permohonan_salinan'],
             'foto_ktp'                                => $fotoKtp,
             'berkas_pendukung'                        => $berkasPendukung,
             'status'                                  => 'pending',
+            'custom_fields_data'                      => $customFieldsData,
+            'jenis_permohonan_salinan'                => $validated['jenis_permohonan_salinan'],
+            // Default values for fields not in form
+            'status_informasi_dikuasai'               => 1,
+            'status_informasi_belum_didokumentasikan' => 0,
+            'bentuk_informasi_salinan'                => $validated['jenis_permohonan_salinan'] == 'Mendapatkan salinan' ? 'Softcopy' : 'N/A',
         ]);
 
         return redirect()->route('permohonan.form')->with('success', 'Permohonan informasi Anda berhasil dikirimkan! Silakan tunggu konfirmasi dari pihak PPID PKTJ.');

@@ -49,6 +49,17 @@
                             @error('deskripsi') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>
 
+                        <!-- TANGGAL -->
+                        <div class="space-y-2 text-gray-800">
+                            <label for="tanggal" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                Tanggal Publikasi <span class="text-red-500">*</span>
+                            </label>
+                            <input type="date" name="tanggal" id="tanggal" required
+                                value="{{ old('tanggal', $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('Y-m-d') : date('Y-m-d')) }}"
+                                class="w-full px-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-[#004a99]/10 focus:border-[#004a99] focus:outline-none transition-all shadow-sm">
+                            @error('tanggal') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                        </div>
+
                     </div>
 
                     <!-- SIDEBAR / UPLOAD -->
