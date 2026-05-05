@@ -27,9 +27,11 @@
         <div class="content-card">
             @php
                 $d = $settings ?? [];
-                $hasContent = ($d['maklumat_pelayanan_isi_maklumat'] ?? null) ||
-                              ($d['maklumat_pelayanan_gambar_maklumat'] ?? null) ||
-                              ($d['maklumat_pelayanan_judul_maklumat'] ?? null);
+                $pfx = 'maklumat_pelayanan';
+                $hasContent = ($d[$pfx.'_isi_maklumat'] ?? null) ||
+                              ($d[$pfx.'_gambar_maklumat'] ?? null) ||
+                              ($d[$pfx.'_judul_maklumat'] ?? null) ||
+                              ($d[$pfx.'_judul_hero'] ?? null);
             @endphp
 
             @if($hasContent)

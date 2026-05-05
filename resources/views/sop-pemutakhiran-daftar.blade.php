@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $settings['sop_pemutakhiran_judul_hero'] ?? 'SOP Pemutakhiran Daftar' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
-    <meta name="description" content="{{ $settings['sop_pemutakhiran_tagline_hero'] ?? 'Standar Operasional Prosedur Pengelolaan Daftar Informasi PPID PKTJ' }}">
+    <title>{{ $settings['sop_penetapan_judul_hero'] ?? 'SOP Penetapan & Pemutakhiran DIP' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
+    <meta name="description" content="{{ $settings['sop_penetapan_tagline_hero'] ?? 'Standar Operasional Prosedur Penetapan dan Pengelolaan Daftar Informasi PPID PKTJ' }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -18,8 +18,8 @@
             <div class="hero-badge">
                 <i class="fas fa-sync-alt me-2"></i> Prosedur Pemutakhiran
             </div>
-            <h1 class="hero-title outfit">{{ $settings['sop_pemutakhiran_judul_hero'] ?? 'SOP Pemutakhiran Daftar' }}</h1>
-            <p class="hero-tagline">{{ $settings['sop_pemutakhiran_tagline_hero'] ?? 'Standar Operasional Prosedur Pengelolaan Daftar Informasi' }}</p>
+            <h1 class="hero-title outfit">{{ $settings['sop_penetapan_judul_hero'] ?? 'SOP Penetapan & Pemutakhiran DIP' }}</h1>
+            <p class="hero-tagline">{{ $settings['sop_penetapan_tagline_hero'] ?? 'Standar Operasional Prosedur Penetapan dan Pengelolaan Daftar Informasi' }}</p>
         </div>
     </div>
 
@@ -27,15 +27,16 @@
         <div class="content-card">
             @php
                 $d = $settings ?? [];
-                $hasContent = ($d['sop_pemutakhiran_isi_konten'] ?? null) ||
-                              ($d['sop_pemutakhiran_gambar_sop'] ?? null) ||
-                              ($d['sop_pemutakhiran_gambar_proses'] ?? null) ||
-                              ($d['sop_pemutakhiran_youtube_link'] ?? null) ||
-                              ($d['sop_pemutakhiran_isi_maklumat'] ?? null);
+                $hasContent = ($d['sop_penetapan_isi_konten'] ?? null) ||
+                              ($d['sop_penetapan_gambar_sop'] ?? null) ||
+                              ($d['sop_penetapan_gambar_proses'] ?? null) ||
+                              ($d['sop_penetapan_youtube_link'] ?? null) ||
+                              ($d['sop_penetapan_isi_maklumat'] ?? null) ||
+                              ($d['sop_penetapan_konten'] ?? null);
             @endphp
 
             @if($hasContent)
-                @include('components.konten-dinamis', ['prefix' => 'sop_pemutakhiran'])
+                @include('components.konten-dinamis', ['prefix' => 'sop_penetapan'])
             @else
                 <div class="empty-state">
                     <div class="empty-icon">

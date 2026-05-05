@@ -285,11 +285,33 @@
 
 <style>
 @media print {
+    @page { 
+        size: landscape; 
+        margin: 1cm;
+    }
     body * { visibility: hidden; }
     .print-section, .print-section * { visibility: visible; }
-    .print-section { position: absolute; left: 0; top: 0; width: 100%; }
-    table { font-size: 9px; }
+    .print-section { 
+        position: absolute; 
+        left: 0; 
+        top: 0; 
+        width: 100%; 
+    }
+    table { 
+        width: 100% !important; 
+        font-size: 8px !important; 
+        border-collapse: collapse !important;
+    }
+    th, td { 
+        border: 1px solid #000 !important; 
+        padding: 4px !important; 
+    }
     .hidden.print\:block { display: block !important; visibility: visible !important; }
+    
+    /* Hide scrollbars and extra UI */
+    .admin-wrapper { overflow: visible !important; }
+    .main-content { margin-left: 0 !important; }
+    .content-area { padding: 0 !important; }
 }
 </style>
 

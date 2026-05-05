@@ -208,7 +208,7 @@ class KeberatanController extends Controller
     }
 
     /**
-     * Admin: Export Register Keberatan to Excel (CSV).
+     * Admin: Export Register Keberatan to Excel (XLS - HTML Table format).
      */
     public function exportExcel(Request $request)
     {
@@ -218,55 +218,104 @@ class KeberatanController extends Controller
             $query->whereBetween('created_at', [$request->start_date . " 00:00:00", $request->end_date . " 23:59:59"]);
         }
 
-        $keberatans = $query->latest()->get();
-        
-        $filename = "register_keberatan_" . date('Y-m-d') . ".csv";
-        $headers = [
-            'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+        $keberatans  = $query->latest()->get();
+        $settings    = Dashboard::pluck('value', 'key')->toArray();
+        $namaLembaga = $settings['ppid_nama'] ?? 'POLITEKNIK KESELAMATAN TRANSPORTASI JALAN';
+        $filename    = "register_keberatan_" . date('Y-m-d') . ".xls";
+
+        // Definisi alasan keberatan berdasarkan pasal 35 ayat (1) UU KIP
+        $alasanLabel = [
+            'a' => 'a',
+            'b' => 'b',
+            'c' => 'c',
+            'd' => 'd',
+            'e' => 'e',
+            'f' => 'f',
+            'g' => 'g',
         ];
 
-        $callback = function() use ($keberatans) {
-            $file = fopen('php://output', 'w');
-            
-            // Header (As per Image 2)
-            fputcsv($file, [
-                'No', 'Tanggal', 'Nama', 'Alamat', 'Pekerjaan', 'NPWP', 'No telpon', 'E-mail', 
-                'Rincian Informasi', 'Tujuan Penggunaan', 'Alasan (a)', 'Alasan (b)', 'Alasan (c)', 
-                'Alasan (d)', 'Alasan (e)', 'Alasan (f)', 'Alasan (g)', 
-                'Keputusan Atasan', 'Hari/Tgl Tanggapan', 'Nama & Posisi Atasan', 'Tanggapan Pemohon'
-            ]);
-            
-            foreach ($keberatans as $index => $item) {
-                $reasons = $item->alasan_keberatan_list ?? [];
-                fputcsv($file, [
-                    $index + 1,
-                    $item->tanggal_keberatan ? $item->tanggal_keberatan->format('Y-m-d') : '',
-                    $item->nama_pemohon,
-                    $item->alamat,
-                    $item->pekerjaan,
-                    $item->npwp,
-                    $item->nomor_telepon,
-                    $item->email,
-                    $item->rincian_informasi,
-                    $item->tujuan_penggunaan,
-                    in_array('a', $reasons) ? 'V' : '',
-                    in_array('b', $reasons) ? 'V' : '',
-                    in_array('c', $reasons) ? 'V' : '',
-                    in_array('d', $reasons) ? 'V' : '',
-                    in_array('e', $reasons) ? 'V' : '',
-                    in_array('f', $reasons) ? 'V' : '',
-                    in_array('g', $reasons) ? 'V' : '',
-                    $item->keputusan_atasan_ppid,
-                    $item->tanggal_tanggapan_keberatan ? $item->tanggal_tanggapan_keberatan->format('Y-m-d') : '',
-                    $item->nama_atasan_ppid . ' (' . $item->posisi_atasan_ppid . ')',
-                    $item->tanggapan_pemohon
-                ]);
-            }
-            fclose($file);
-        };
+        $html = '<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Arial, sans-serif; font-size: 9pt; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #000; padding: 3px 5px; text-align: center; vertical-align: middle; }
+  th { background-color: #f2f2f2; font-weight: bold; }
+  .title-row td { border: none; font-weight: bold; font-size: 11pt; text-align: center; padding: 8px 0; }
+  .subtitle-row td { border: none; font-weight: bold; font-size: 10pt; text-align: center; padding: 4px 0; }
+  td.text-left { text-align: left; }
+</style>
+</head>
+<body>
+<table>
+  <tr class="subtitle-row"><td colspan="21">FORM REGISTRASI KEBERATAN</td></tr>
+  <tr class="subtitle-row"><td colspan="21">' . strtoupper($namaLembaga) . '</td></tr>
+  <tr><td colspan="21"></td></tr>
+  <!-- Header Row 1 -->
+  <tr>
+    <th rowspan="2">No</th>
+    <th rowspan="2">Tanggal</th>
+    <th rowspan="2">Nama</th>
+    <th rowspan="2">Alamat</th>
+    <th rowspan="2">Pekerjaan</th>
+    <th rowspan="2">NPWP</th>
+    <th rowspan="2">No Telpon</th>
+    <th rowspan="2">E-mail</th>
+    <th rowspan="2">Rincian Informasi yang dibutuhkan</th>
+    <th rowspan="2">Tujuan Penggunaan Informasi</th>
+    <th colspan="7">Alasan Pengajuan Keberatan (pasal 35 ayat (1) UU KIP)</th>
+    <th rowspan="2">Keputusan Atasan PPID</th>
+    <th rowspan="2">Hari dan Tanggal Pemberian Tanggapan atas Keberatan</th>
+    <th rowspan="2">Nama dan Posisi Atasan PPID</th>
+    <th rowspan="2">Tanggapan Pemohon Informasi</th>
+  </tr>
+  <!-- Header Row 2 (sub-headers for Alasan) -->
+  <tr>
+    <th>a</th>
+    <th>b</th>
+    <th>c</th>
+    <th>d</th>
+    <th>e</th>
+    <th>f</th>
+    <th>g</th>
+  </tr>';
 
-        return response()->stream($callback, 200, $headers);
+        foreach ($keberatans as $index => $item) {
+            $reasons = $item->alasan_keberatan_list ?? [];
+            $namaAtasan = trim(($item->nama_atasan_ppid ?? '') . ($item->posisi_atasan_ppid ? ' (' . $item->posisi_atasan_ppid . ')' : ''));
+            $html .= '<tr>
+    <td>' . ($index + 1) . '</td>
+    <td>' . ($item->tanggal_keberatan ? \Carbon\Carbon::parse($item->tanggal_keberatan)->format('d/m/Y') : '') . '</td>
+    <td class="text-left">' . e($item->nama_pemohon) . '</td>
+    <td class="text-left">' . e($item->alamat) . '</td>
+    <td>' . e($item->pekerjaan) . '</td>
+    <td>' . e($item->npwp ?? '') . '</td>
+    <td>' . e($item->nomor_telepon) . '</td>
+    <td>' . e($item->email) . '</td>
+    <td class="text-left">' . e($item->rincian_informasi ?? ($item->permohonan ? $item->permohonan->deskripsi_permohonan : '')) . '</td>
+    <td class="text-left">' . e($item->tujuan_penggunaan) . '</td>
+    <td>' . (in_array('a', $reasons) ? '✓' : '') . '</td>
+    <td>' . (in_array('b', $reasons) ? '✓' : '') . '</td>
+    <td>' . (in_array('c', $reasons) ? '✓' : '') . '</td>
+    <td>' . (in_array('d', $reasons) ? '✓' : '') . '</td>
+    <td>' . (in_array('e', $reasons) ? '✓' : '') . '</td>
+    <td>' . (in_array('f', $reasons) ? '✓' : '') . '</td>
+    <td>' . (in_array('g', $reasons) ? '✓' : '') . '</td>
+    <td>' . e($item->keputusan_atasan_ppid ?? '') . '</td>
+    <td>' . ($item->tanggal_tanggapan_keberatan ? \Carbon\Carbon::parse($item->tanggal_tanggapan_keberatan)->format('d/m/Y') : '') . '</td>
+    <td class="text-left">' . e($namaAtasan) . '</td>
+    <td class="text-left">' . e($item->tanggapan_pemohon ?? '') . '</td>
+  </tr>';
+        }
+
+        $html .= '</table></body></html>';
+
+        return response($html)
+            ->header('Content-Type', 'application/vnd.ms-excel; charset=UTF-8')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->header('Cache-Control', 'max-age=0');
     }
 
     /**

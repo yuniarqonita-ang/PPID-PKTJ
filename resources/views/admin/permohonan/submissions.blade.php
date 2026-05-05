@@ -4,7 +4,7 @@
 <div class="space-y-8 animate-fade-in lg:px-8">
     
     <!-- DASHBOARD-STYLE HEADER SECTION -->
-    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+    <div class="bg-gradient-to-br from-[#0056b3] via-[#007bff] to-[#3399ff] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
         <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
         
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">

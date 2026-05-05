@@ -32,8 +32,8 @@
 
     @if(session('success'))
     <div class="bg-emerald-50 border border-emerald-100 text-emerald-700 px-6 py-4 rounded-2xl flex items-center gap-4">
-        <i class="fas fa-check-circle text-xl text-gray-800"></i>
-        <p class="font-bold text-gray-800">{{ session('success') }}</p>
+        <i class="fas fa-check-circle text-xl"></i>
+        <p class="font-bold">{{ session('success') }}</p>
     </div>
     @endif
 
@@ -46,8 +46,8 @@
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] w-20">No</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Nama Dokumen</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Kategori</th>
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center border-gray-800">Tipe File</th>
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center border-gray-800">Pratinjau</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center">Tipe File</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center">Pratinjau</th>
                         <th class="px-8 py-6 text-center text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Opsi</th>
                     </tr>
                 </thead>
@@ -76,7 +76,7 @@
                                 @php
                                     $ext = pathinfo($dok->file_path, PATHINFO_EXTENSION);
                                 @endphp
-                                <span class="px-3 py-1 bg-slate-100 text-[10px] font-black text-slate-500 rounded-lg uppercase tracking-widest border-gray-800">
+                                <span class="px-3 py-1 bg-slate-100 text-[10px] font-black text-slate-500 rounded-lg uppercase tracking-widest">
                                     {{ $ext ?: 'FILE' }}
                                 </span>
                             </td>

@@ -29,9 +29,9 @@
         @php
             $statItems = [
                 ['val' => $stats['totalBerita'], 'label' => 'Total Publikasi', 'icon' => 'fa-newspaper', 'color' => '#004a99', 'bg' => 'bg-blue-50'],
-                ['val' => $stats['totalGallery'] ?? 0, 'label' => 'Visual Asset', 'icon' => 'fa-images', 'color' => '#b45309', 'bg' => 'bg-amber-50'],
+                ['val' => $stats['totalGaleri'] ?? 0, 'label' => 'Visual Asset', 'icon' => 'fa-images', 'color' => '#b45309', 'bg' => 'bg-amber-50'],
                 ['val' => $stats['totalVideo'] ?? 0, 'label' => 'Video Konten', 'icon' => 'fa-video', 'color' => '#1d4ed8', 'bg' => 'bg-sky-50'],
-                ['val' => $stats['totalAgenda'] ?? 12, 'label' => 'Agenda Aktif', 'icon' => 'fa-calendar-check', 'color' => '#047857', 'bg' => 'bg-emerald-50'],
+                ['val' => $stats['totalAgenda'] ?? 0, 'label' => 'Agenda Aktif', 'icon' => 'fa-calendar-check', 'color' => '#047857', 'bg' => 'bg-emerald-50'],
             ];
         @endphp
 
@@ -341,7 +341,7 @@
             <div class="bg-white rounded-[2.5rem] shadow-lg p-10 border-2 border-[#004a99]">
                 <h4 class="text-[13px] font-black text-[#004a99] uppercase tracking-[3px] mb-8 border-b border-slate-100 pb-6">Aksi Cepat Admin</h4>
                 <div class="grid grid-cols-1 gap-4">
-                    <a href="{{ route('admin.berita.index') }}" class="flex items-center gap-5 p-5 bg-[#004a99] rounded-2xl hover:bg-black transition-all group">
+                    <a href="{{ route('admin.berita.create') }}" class="flex items-center gap-5 p-5 bg-[#004a99] rounded-2xl hover:bg-black transition-all group">
                         <div class="w-12 h-12 bg-[#ffc107] text-[#004a99] rounded-xl flex items-center justify-center text-xl">
                             <i class="fas fa-plus"></i>
                         </div>
@@ -363,12 +363,6 @@
                             <span class="text-[11px] font-black text-rose-500 uppercase tracking-wider">{{ $keberatanStats['pending'] }} menunggu</span>
                             @endif
                         </div>
-                    </a>
-                    <a href="{{ route('admin.file-browser') }}" target="_blank" class="flex items-center gap-5 p-5 bg-slate-50 border-2 border-slate-100 rounded-2xl hover:border-emerald-400 transition-all group">
-                        <div class="w-12 h-12 bg-white text-emerald-600 border border-slate-200 rounded-xl flex items-center justify-center text-xl">
-                            <i class="fas fa-folder-open"></i>
-                        </div>
-                        <span class="text-sm font-black uppercase text-[#004a99] tracking-widest">File Manager</span>
                     </a>
                 </div>
             </div>
@@ -395,13 +389,17 @@
     gradient.addColorStop(0, 'rgba(0, 43, 92, 0.4)');
     gradient.addColorStop(1, 'rgba(255, 255, 255, 0)');
 
+    const visitorData = {!! $visitorData !!};
+    const labels = visitorData.map(item => item.bulan);
+    const dataValues = visitorData.map(item => item.count);
+
     new Chart(ctx, {
         type: 'line',
         data: {
-            labels: ['JAN', 'FEB', 'MAR', 'APR', 'MEI', 'JUN', 'JUL', 'AGU', 'SEP', 'OKT', 'NOV', 'DES'],
+            labels: labels,
             datasets: [{
-                label: 'Interaksi',
-                data: [450, 620, 480, 850, 580, 750, 500, 800, 520, 680, 550, 900],
+                label: 'Aktivitas',
+                data: dataValues,
                 borderColor: '#002b5c',
                 backgroundColor: gradient,
                 borderWidth: 6,

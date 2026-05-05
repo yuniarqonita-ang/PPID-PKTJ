@@ -181,7 +181,7 @@ class PermohonanController extends Controller
     }
 
     /**
-     * Admin: Export Register Permohonan to Excel (CSV)
+     * Admin: Export Register Permohonan to Excel (XLS - HTML Table format)
      */
     public function exportExcelRegister(Request $request)
     {
@@ -192,27 +192,155 @@ class PermohonanController extends Controller
         }
 
         $permohonan = $query->latest()->get();
-        $filename = "register_permohonan_" . date('Y-m-d') . ".csv";
+        $settings   = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+        $namaLembaga = $settings['ppid_nama'] ?? 'POLITEKNIK KESELAMATAN TRANSPORTASI JALAN';
+        $filename   = "register_permohonan_" . date('Y-m-d') . ".xls";
+
+        $html = '<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Arial, sans-serif; font-size: 9pt; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #000; padding: 3px 5px; text-align: center; vertical-align: middle; }
+  th { background-color: #f2f2f2; font-weight: bold; }
+  .title-row td { border: none; font-weight: bold; font-size: 11pt; text-align: center; padding: 8px 0; }
+  .subtitle-row td { border: none; font-weight: bold; font-size: 10pt; text-align: center; padding: 4px 0; }
+  td.text-left { text-align: left; }
+</style>
+</head>
+<body>
+<table>
+  <tr class="subtitle-row"><td colspan="23">REGISTER PERMOHONAN INFORMASI PUBLIK</td></tr>
+  <tr class="subtitle-row"><td colspan="23">' . strtoupper($namaLembaga) . '</td></tr>
+  <tr><td colspan="23"></td></tr>
+  <!-- Header Row 1 -->
+  <tr>
+    <th rowspan="3">No</th>
+    <th rowspan="3">Tanggal</th>
+    <th rowspan="3">Nama</th>
+    <th rowspan="3">Alamat</th>
+    <th rowspan="3">Pekerjaan</th>
+    <th rowspan="3">NPWP</th>
+    <th rowspan="3">No Telpon</th>
+    <th rowspan="3">E-mail</th>
+    <th rowspan="3">Rincian Informasi yang dibutuhkan</th>
+    <th rowspan="3">Tujuan Penggunaan Informasi</th>
+    <th colspan="3">Status Informasi</th>
+    <th colspan="2">Bentuk Informasi yang dikuasai</th>
+    <th colspan="2">Jenis Permohonan</th>
+    <th rowspan="3">Keputusan</th>
+    <th rowspan="3">Alasan Penolakan</th>
+    <th colspan="2">Hari dan Tanggal</th>
+    <th colspan="2">Biaya &amp; Cara Pembayaran</th>
+  </tr>
+  <!-- Header Row 2 -->
+  <tr>
+    <th colspan="2">Dibawah penguasaan</th>
+    <th rowspan="2">Belum didokumentasikan</th>
+    <th rowspan="2">Softcopy</th>
+    <th rowspan="2">Hardcopy</th>
+    <th rowspan="2">Melihat/ Mendengar</th>
+    <th rowspan="2">Meminta salinan</th>
+    <th rowspan="2">Pemberitahuan tertulis</th>
+    <th rowspan="2">Pemberian Informasi</th>
+    <th rowspan="2">Biaya</th>
+    <th rowspan="2">Cara</th>
+  </tr>
+  <!-- Header Row 3 -->
+  <tr>
+    <th>Ya</th>
+    <th>Tidak</th>
+  </tr>';
+
+        foreach ($permohonan as $index => $item) {
+            $statusLabel = match($item->status) {
+                'selesai'  => 'Dipenuhi',
+                'ditolak'  => 'Ditolak',
+                'diproses' => 'Diproses',
+                default    => 'Pending'
+            };
+            $html .= '<tr>
+    <td>' . ($index + 1) . '</td>
+    <td>' . ($item->tanggal_permohonan
+                ? \Carbon\Carbon::parse($item->tanggal_permohonan)->format('d/m/Y')
+                : $item->created_at->format('d/m/Y')) . '</td>
+    <td class="text-left">' . e($item->nama_pemohon) . '</td>
+    <td class="text-left">' . e($item->alamat) . '</td>
+    <td>' . e($item->pekerjaan) . '</td>
+    <td>' . e($item->npwp) . '</td>
+    <td>' . e($item->nomor_telepon) . '</td>
+    <td>' . e($item->email) . '</td>
+    <td class="text-left">' . e($item->deskripsi_permohonan) . '</td>
+    <td class="text-left">' . e($item->jenis_informasi) . '</td>
+    <td>' . ($item->status_informasi_dikuasai ? '✓' : '') . '</td>
+    <td>' . (!$item->status_informasi_dikuasai ? '✓' : '') . '</td>
+    <td>' . ($item->status_informasi_belum_didokumentasikan ? '✓' : '') . '</td>
+    <td>' . ($item->bentuk_informasi_salinan == 'Softcopy' ? '✓' : '') . '</td>
+    <td>' . ($item->bentuk_informasi_salinan == 'Hardcopy' ? '✓' : '') . '</td>
+    <td>' . ($item->jenis_permohonan_salinan == 'Melihat' ? '✓' : '') . '</td>
+    <td>' . ($item->jenis_permohonan_salinan == 'Meminta Salinan' || $item->jenis_permohonan_salinan == 'Mendapatkan salinan' ? '✓' : '') . '</td>
+    <td>' . $statusLabel . '</td>
+    <td class="text-left">' . e($item->alasan_penolakan_text ?? '') . '</td>
+    <td>' . ($item->tanggal_pemberitahuan_tertulis ? \Carbon\Carbon::parse($item->tanggal_pemberitahuan_tertulis)->format('d/m/Y') : '') . '</td>
+    <td>' . ($item->tanggal_pemberian_informasi ? \Carbon\Carbon::parse($item->tanggal_pemberian_informasi)->format('d/m/Y') : '') . '</td>
+    <td>' . e($item->biaya_salinan ?? '') . '</td>
+    <td>' . e($item->cara_pembayaran ?? '') . '</td>
+  </tr>';
+        }
+
+        $html .= '</table></body></html>';
+
+        return response($html)
+            ->header('Content-Type', 'application/vnd.ms-excel; charset=UTF-8')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->header('Cache-Control', 'max-age=0');
+    }
+
+    /**
+     * Admin: Export Register Permohonan to Excel (Alias)
+     */
+    public function exportExcel(Request $request)
+    {
+        return $this->exportExcelRegister($request);
+    }
+
+    /**
+     * Admin: Export Register Permohonan to CSV
+     */
+    public function exportCsv(Request $request)
+    {
+        $query = Permohonan::query();
+
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [$request->start_date . " 00:00:00", $request->end_date . " 23:59:59"]);
+        }
+
+        $permohonan = $query->latest()->get();
+        $filename   = "register_permohonan_" . date('Y-m-d') . ".csv";
+
         $headers = [
             'Content-Type' => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
+            'Content-Disposition' => "attachment; filename=\"$filename\"",
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0',
         ];
 
         $callback = function() use ($permohonan) {
             $file = fopen('php://output', 'w');
+            fputs($file, chr(0xEF) . chr(0xBB) . chr(0xBF)); // BOM for UTF-8 compatibility
             
-            // Header (As per Image 1)
             fputcsv($file, [
-                'No', 'Tanggal', 'Nama', 'Alamat', 'Pekerjaan', 'NPWP', 'No telpon', 'E-mail', 
-                'Rincian Informasi', 'Tujuan Penggunaan', 'Status (Ya)', 'Status (Tidak)', 'Belum Dokumentasi',
-                'Bentuk (Soft)', 'Bentuk (Hard)', 'Jenis (Lihat)', 'Jenis (Salinan)', 'Keputusan',
-                'Alasan Penolakan', 'Tgl Beritahu', 'Tgl Pemberian', 'Biaya', 'Cara Bayar'
+                'ID', 'Tanggal', 'Nama Pemohon', 'Alamat', 'Pekerjaan', 'NPWP', 'No Telepon', 'Email', 
+                'Rincian Informasi', 'Tujuan Penggunaan', 'Status'
             ]);
-            
-            foreach ($permohonan as $index => $item) {
+
+            foreach ($permohonan as $item) {
                 fputcsv($file, [
-                    $index + 1,
-                    $item->created_at->format('Y-m-d'),
+                    $item->id,
+                    $item->tanggal_permohonan ?: $item->created_at->format('Y-m-d'),
                     $item->nama_pemohon,
                     $item->alamat,
                     $item->pekerjaan,
@@ -221,18 +349,7 @@ class PermohonanController extends Controller
                     $item->email,
                     $item->deskripsi_permohonan,
                     $item->jenis_informasi,
-                    $item->status_informasi_dikuasai ? 'V' : '',
-                    !$item->status_informasi_dikuasai ? 'V' : '',
-                    $item->status_informasi_belum_didokumentasikan ? 'V' : '',
-                    $item->bentuk_informasi_salinan == 'Softcopy' ? 'V' : '',
-                    $item->bentuk_informasi_salinan == 'Hardcopy' ? 'V' : '',
-                    $item->jenis_permohonan_salinan == 'Melihat' ? 'V' : '',
-                    $item->jenis_permohonan_salinan == 'Meminta Salinan' ? 'V' : '',
-                    $item->status,
-                    $item->alasan_penolakan_text,
-                    $item->tanggal_pemberitahuan_tertulis ? $item->tanggal_pemberitahuan_tertulis->format('Y-m-d') : '',
-                    $item->tanggal_pemberian_informasi ? $item->tanggal_pemberian_informasi->format('Y-m-d') : '',
-                    $item->biaya_salinan,$item->cara_pembayaran
+                    strtoupper($item->status)
                 ]);
             }
             fclose($file);
@@ -368,84 +485,116 @@ class PermohonanController extends Controller
         $submissions = $query->orderBy('tanggal_permohonan', 'asc')->get();
         $settings    = Dashboard::pluck('value', 'key')->toArray();
 
-        $ppid_name    = $settings['report_ppid_name'] ?? '..........................';
-        $ppid_nip     = $settings['report_ppid_nip'] ?? '..........................';
-        $menteri_name = $settings['report_menteri_name'] ?? '..........................';
+        $ppid_name    = $settings['report_ppid_name'] ?? '..........................';;
+        $ppid_nip     = $settings['report_ppid_nip'] ?? '..........................';;
+        $namaLembaga  = $settings['ppid_nama'] ?? 'POLITEKNIK KESELAMATAN TRANSPORTASI JALAN';
+
+        $bulanNamaMap = ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni',
+                         '07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'];
 
         $periodeLabel = $periodeType === 'tahunan'
             ? "Tahun {$tahun}"
-            : date('F', mktime(0, 0, 0, $bulan, 1)) . " {$tahun}";
+            : ($bulanNamaMap[str_pad($bulan, 2, '0', STR_PAD_LEFT)] ?? $bulan) . " {$tahun}";
 
-        $filename = "Laporan_B1-B4_PPID_{$periodeLabel}.csv";
-        $headers  = [
-            'Content-Type'        => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="' . $filename . '"',
-        ];
+        $filename = "Laporan_Pelayanan_PPID_{$periodeLabel}.xls";
 
-        $callback = function () use ($submissions, $periodeLabel, $ppid_name, $ppid_nip, $menteri_name) {
-            $file = fopen('php://output', 'w');
+        $html = '<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body { font-family: Arial, sans-serif; font-size: 9pt; }
+  table { border-collapse: collapse; width: 100%; }
+  th, td { border: 1px solid #000; padding: 3px 6px; text-align: center; vertical-align: middle; }
+  th { background-color: #dce6f1; font-weight: bold; }
+  .title-row td { border: none; font-weight: bold; font-size: 11pt; text-align: center; padding: 6px 0; }
+  .subtitle-row td { border: none; font-weight: bold; font-size: 10pt; text-align: center; padding: 3px 0; }
+  td.text-left { text-align: left; }
+  .sign-table { border: none; width: auto; margin-top: 20px; margin-left: auto; }
+  .sign-table td { border: none; text-align: center; padding: 2px 15px; }
+</style>
+</head>
+<body>
+<table>
+  <tr class="title-row"><td colspan="15">LAPORAN PEMOHON INFORMASI PPID PELAKSANA UPT ' . strtoupper($namaLembaga) . ' TAHUN ' . $tahun . '</td></tr>
+  <tr class="subtitle-row"><td colspan="15">LAPORAN PELAYANAN INFORMASI PUBLIK ' . strtoupper($periodeLabel) . '</td></tr>
+  <tr><td colspan="15"></td></tr>
+  <tr>
+    <th rowspan="2">NO</th>
+    <th rowspan="2">BULAN</th>
+    <th rowspan="2">TANGGAL PERMOHONAN INFORMASI</th>
+    <th rowspan="2">NAMA PEMOHON INFORMASI</th>
+    <th rowspan="2">ASAL</th>
+    <th rowspan="2">RINCIAN INFORMASI YANG DIBUTUHKAN</th>
+    <th rowspan="2">KETERANGAN<br>(Dipenuhi/Ditolak/Proses)</th>
+    <th rowspan="2">METODE PELAYANAN INFORMASI<br>(Website/Medsos/Ruang PPID)</th>
+    <th colspan="2">WAKTU PENYELESAIAN</th>
+    <th rowspan="2">ALASAN PENOLAKAN</th>
+  </tr>
+  <tr>
+    <th>JAM</th>
+    <th>MENIT</th>
+  </tr>';
 
-            fputcsv($file, ['LAPORAN PELAKSANAAN TUGAS PELAYANAN INFORMASI PUBLIK']);
-            fputcsv($file, ['POLITEKNIK KESELAMATAN TRANSPORTASI JALAN — PPID']);
-            fputcsv($file, ['Periode: ' . $periodeLabel]);
-            fputcsv($file, []);
+        $prevBulan = '';
+        $noBulan   = 0;
 
-            // Header B1-B4
-            fputcsv($file, [
-                'No', 'Bulan', 'Tanggal Permohonan', 'Tanggal Selesai', 'Waktu (Hari)',
-                'Nama Pemohon', 'Instansi/Asal',
-                'Rincian Informasi yang Dibutuhkan',
-                'Berkala', 'Serta Merta', 'Setiap Saat', 'Dikecualikan',
-                'Keterangan (Dipenuhi/Ditolak/Proses)',
-                'Metode Pelayanan',
-                'Alasan Penolakan'
-            ]);
+        foreach ($submissions as $index => $item) {
+            $tglMinta   = $item->tanggal_permohonan ?? $item->created_at;
+            $tglSelesai = $item->tanggal_selesai;
+            $bulanKey   = \Carbon\Carbon::parse($tglMinta)->format('m');
+            $bulanNama  = $bulanNamaMap[$bulanKey] ?? '';
+            $menit      = $tglSelesai ? \Carbon\Carbon::parse($tglMinta)->diffInMinutes(\Carbon\Carbon::parse($tglSelesai)) : '';
+            $jam        = ($menit !== '') ? floor($menit / 60) : '';
+            $menitSisa  = ($menit !== '') ? ($menit % 60) : '';
+            $statusLabel = match($item->status) {
+                'selesai'  => 'Dipenuhi',
+                'ditolak'  => 'Ditolak',
+                'diproses' => 'Diproses',
+                default    => 'Pending'
+            };
 
-            $bulanNama = ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'];
-
-            foreach ($submissions as $index => $item) {
-                $tglMinta   = $item->tanggal_permohonan ?? $item->created_at;
-                $tglSelesai = $item->tanggal_selesai;
-                $hari       = $tglSelesai ? \Carbon\Carbon::parse($tglMinta)->diffInDays(\Carbon\Carbon::parse($tglSelesai)) : '';
-                $bulanItem  = $bulanNama[\Carbon\Carbon::parse($tglMinta)->format('m')] ?? '';
-                $statusLabel= match($item->status) {
-                    'selesai' => 'Dipenuhi',
-                    'ditolak' => 'Ditolak',
-                    'diproses'=> 'Diproses',
-                    default   => 'Pending'
-                };
-
-                fputcsv($file, [
-                    $index + 1,
-                    $bulanItem,
-                    \Carbon\Carbon::parse($tglMinta)->format('d/m/Y'),
-                    $tglSelesai ? \Carbon\Carbon::parse($tglSelesai)->format('d/m/Y') : '',
-                    $hari,
-                    $item->nama_pemohon,
-                    $item->perusahaan_instansi ?? $item->alamat,
-                    $item->deskripsi_permohonan,
-                    $item->kategori_laporan == 'berkala'     ? 'V' : '',
-                    $item->kategori_laporan == 'sertamerta'  ? 'V' : '',
-                    $item->kategori_laporan == 'setiapsaat'  ? 'V' : '',
-                    $item->kategori_laporan == 'dikecualikan'? 'V' : '',
-                    $statusLabel,
-                    $item->jenis_permohonan_salinan ?? $item->bentuk_informasi_salinan ?? '',
-                    $item->alasan_penolakan_text ?? '',
-                ]);
+            if ($bulanNama !== $prevBulan) {
+                $noBulan++;
+                $prevBulan = $bulanNama;
+                $bulanCell = '<td>' . $noBulan . ' ' . $bulanNama . '</td>';
+            } else {
+                $bulanCell = '<td></td>';
             }
 
-            fputcsv($file, []);
-            fputcsv($file, ['', '', '', '', '', '', '', '', '', '', '', '', '', 'Tegal, ' . date('d F Y')]);
-            fputcsv($file, ['', '', '', '', '', '', '', '', '', '', '', '', '', 'PPID PKTJ']);
-            fputcsv($file, []);
-            fputcsv($file, ['', '', '', '', '', '', '', '', '', '', '', '', '', $ppid_name]);
-            fputcsv($file, ['', '', '', '', '', '', '', '', '', '', '', '', '', 'NIP. ' . $ppid_nip]);
+            $html .= '<tr>
+    <td>' . ($index + 1) . '</td>
+    ' . $bulanCell . '
+    <td>' . \Carbon\Carbon::parse($tglMinta)->format('d/m/Y') . '</td>
+    <td class="text-left">' . e($item->nama_pemohon) . '</td>
+    <td>' . e($item->perusahaan_instansi ?? $item->alamat) . '</td>
+    <td class="text-left">' . e($item->deskripsi_permohonan) . '</td>
+    <td>' . $statusLabel . '</td>
+    <td>' . e($item->jenis_permohonan_salinan ?? ($item->bentuk_informasi_salinan ?? 'Media Sosial')) . '</td>
+    <td>' . $jam . '</td>
+    <td>' . $menitSisa . '</td>
+    <td class="text-left">' . e($item->alasan_penolakan_text ?? '') . '</td>
+  </tr>';
+        }
 
-            fclose($file);
-        };
+        $html .= '<tr><td colspan="15"></td></tr></table>';
 
-        return response()->stream($callback, 200, $headers);
+        // Tanda tangan
+        $html .= '<br><table class="sign-table">
+  <tr><td colspan="2" style="text-align:right; padding-right:20px;">Tegal, ' . date('d F Y') . '</td></tr>
+  <tr><td colspan="2" style="text-align:right; padding-right:20px;">PPID ' . strtoupper($namaLembaga) . '</td></tr>
+  <tr><td colspan="2" style="height:60px;"></td></tr>
+  <tr><td colspan="2" style="text-align:right; padding-right:20px;"><strong>' . e($ppid_name) . '</strong></td></tr>
+  <tr><td colspan="2" style="text-align:right; padding-right:20px;">NIP. ' . e($ppid_nip) . '</td></tr>
+</table>
+</body></html>';
+
+        return response($html)
+            ->header('Content-Type', 'application/vnd.ms-excel; charset=UTF-8')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
+            ->header('Cache-Control', 'max-age=0');
     }
+
     public function exportReportWord(Request $request)
     {
         $startDate = $request->input('start_date', date('Y-m-01'));

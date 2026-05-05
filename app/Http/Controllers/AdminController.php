@@ -50,7 +50,14 @@ class AdminController extends Controller
     public function fileBrowser(Request $request)
     {
         $files = [];
-        $directories = ['editor_uploads', 'halaman'];
+        $directories = [
+            'editor_uploads', 
+            'halaman', 
+            'permohonan/ktp', 
+            'permohonan/berkas',
+            'keberatan/ktp',
+            'keberatan/kuasa'
+        ];
         
         foreach ($directories as $dir) {
             if (Storage::disk('public')->exists($dir)) {

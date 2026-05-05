@@ -27,7 +27,7 @@
             <!-- TOOLBOX (Left) -->
             <div class="lg:col-span-1 space-y-6">
                 <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 p-6 border-t-4 border-[#ffc107]">
-                    <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] mb-4 flex items-center text-gray-800">
+                    <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em] mb-4 flex items-center">
                         <i class="fas fa-cube mr-2 text-gray-400"></i> Field Dasar
                     </h3>
                     <div class="space-y-2 opacity-60">
@@ -45,16 +45,16 @@
 
                 <div class="bg-blue-600 rounded-3xl p-6 text-white shadow-lg relative overflow-hidden">
                     <div class="absolute -right-10 -top-10 w-32 h-32 bg-white/10 rounded-full blur-2xl font-bold"></div>
-                    <h3 class="text-[11px] font-black uppercase tracking-[0.2em] mb-3 relative z-10 text-gray-800">
+                    <h3 class="text-[11px] font-black uppercase tracking-[0.2em] mb-3 relative z-10">
                         <i class="fas fa-info-circle mr-2 text-[#ffc107]"></i> Info Builder
                     </h3>
-                    <p class="text-[10px] opacity-90 leading-relaxed font-medium relative z-10 text-gray-800">
+                    <p class="text-[10px] opacity-90 leading-relaxed font-medium relative z-10">
                         Field inti seperti Nama, Email, dan Identitas tidak dapat dihapus untuk menjaga integritas sistem pengajuan.
                     </p>
                 </div>
 
                 <a href="{{ url('/permohonan-informasi') }}" target="_blank" class="w-full flex items-center justify-center p-4 bg-white border border-gray-100 rounded-2xl text-[#004a99] font-black text-[10px] uppercase tracking-widest hover:bg-gray-50 transition-all shadow-md">
-                    <i class="fas fa-external-link-alt mr-2 text-gray-800"></i> Lihat Preview Publik
+                    <i class="fas fa-external-link-alt mr-2 text-[#ffc107]"></i> Lihat Preview Publik
                 </a>
             </div>
 

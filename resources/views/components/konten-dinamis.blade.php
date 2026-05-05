@@ -12,7 +12,7 @@
     $d = $settings ?? [];
     $pfx = $prefix ?? 'page';
     
-    // Ambil konten dari settings
+    // Ambil konten dari settings (dashboards table)
     $isiMaklumat    = $d[$pfx . '_isi_maklumat'] ?? null;
     $judulMaklumat  = $d[$pfx . '_judul_maklumat'] ?? null;
     $isiStandar     = $d[$pfx . '_isi_standar'] ?? null;
@@ -44,45 +44,17 @@
         }
     }
     
-    // Cek apakah ada konten apapun yang perlu ditampilkan
+    // Cek apakah ada konten dari dashboard yang perlu ditampilkan
     $adaKonten = $isiMaklumat || $judulMaklumat || $isiStandar || $judulStandar || 
                  $isiKonten || $judulKonten || $gambarSop || $gambarProses || 
-                 $gambarMaklumat || $youtubeLink || $customKonten || $ringkasanEks || $isiLaporan ||
-                 (isset($profil) && $profil && ($profil->konten_pembuka || $profil->gambaran || $profil->judul));
+                 $gambarMaklumat || $youtubeLink || $customKonten || $ringkasanEks || $isiLaporan;
 @endphp
 
-{{-- ===== KONTEN DARI PROFIL_PPIDS (untuk teks utama) ===== --}}
-@if(isset($profil) && $profil && ($profil->judul || $profil->konten_pembuka || $profil->gambaran || $profil->konten_detail))
-<div class="content-box mb-4" style="border-left: 5px solid #d4af37;">
-    @if($profil->judul)
-        <h2 class="section-title">{{ $profil->judul }}</h2>
-    @endif
-    @if($profil->konten_pembuka)
-        <div class="profil-content">{!! $profil->konten_pembuka !!}</div>
-    @endif
-    @if($profil->judul_sub)
-        <h3 class="mt-4" style="color:#004a99; font-size:22px;">{{ $profil->judul_sub }}</h3>
-    @endif
-    @if($profil->konten_detail)
-        <div class="profil-content mt-2">{!! $profil->konten_detail !!}</div>
-    @endif
-    @if($profil->gambaran)
-        <div class="profil-content mt-3">{!! $profil->gambaran !!}</div>
-    @endif
-    @if($profil->additional_sections)
-        @foreach($profil->additional_sections as $section)
-            @if($section['title'] ?? null)
-                <h3 class="mt-4" style="color:#004a99; font-size:20px;">{{ $section['title'] }}</h3>
-            @endif
-            @if($section['content'] ?? null)
-                <div class="profil-content mt-2">{!! $section['content'] !!}</div>
-            @endif
-        @endforeach
-    @endif
-</div>
-@endif
-
-{{-- ===== KONTEN DARI DASHBOARDS (Maklumat, SOP, Laporan) ===== --}}
+{{-- 
+    Catatan: Blok rendering konten dari tabel profil_ppids dihapus dari sini 
+    agar tidak menampilkan "teks hantu" atau data dummy lama pada halaman dinamis.
+    Halaman profil utama (Visi Misi, Tugas, dll) mengelola datanya sendiri tanpa komponen ini.
+--}}
 
 {{-- Section Maklumat Utama --}}
 @if($judulMaklumat || $isiMaklumat)
@@ -152,9 +124,11 @@
 <div class="content-box mb-4" style="border-left: 5px solid #ffc107;">
     @if($jenisLaporan || $tahunLaporan)
         <h2 class="section-title">Laporan {{ ucfirst($jenisLaporan) }} Tahun {{ $tahunLaporan }}</h2>
+    @elseif($ringkasanEks && !$isiMaklumat)
+        <h2 class="section-title">Ringkasan Eksekutif Laporan</h2>
     @endif
+    
     @if($ringkasanEks)
-        <h3 style="color:#004a99; font-size:20px; margin-bottom:15px;">Ringkasan Eksekutif</h3>
         <div class="profil-content">{!! $ringkasanEks !!}</div>
     @endif
     @if($isiLaporan)
@@ -190,5 +164,5 @@
 
 {{-- Pesan jika tidak ada konten sama sekali --}}
 @if(!$adaKonten)
-    <!-- Konten kosong menunggu input dari admin -->
+    <!-- Menunggu input konten dari Admin Panel untuk prefix: {{ $pfx }} -->
 @endif

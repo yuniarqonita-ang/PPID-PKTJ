@@ -59,8 +59,17 @@ Route::get('/', function () {
     }
 })->name('home');
 
-// Track visitor (commented out to avoid error)
-// Visitor::create(['ip' => request()->ip(), 'tanggal' => now()]);
+// Track visitor (enabled)
+try {
+    \App\Models\Visitor::firstOrCreate([
+        'ip' => request()->ip(),
+        'tanggal' => date('Y-m-d')
+    ], [
+        'user_agent' => request()->userAgent()
+    ]);
+} catch (\Exception $e) {
+    // Fail silently to prevent site crash if DB issue
+}
 
 // Profil Publik
 Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');
@@ -166,6 +175,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/sop-penetapan', function() { return view('admin.prosedur.sop-penetapan'); })->name('sop-penetapan');
         Route::get('/sop-pengujian', function() { return view('admin.prosedur.sop-pengujian'); })->name('sop-pengujian');
         Route::get('/sop-pendokumentasian', function() { return view('admin.prosedur.sop-pendokumentasian'); })->name('sop-pendokumentasian');
+        
+        // Additional Procedures
+        Route::get('/sop-maklumat', function() { return view('admin.prosedur.sop-maklumat'); })->name('sop-maklumat');
+        Route::get('/sop-biaya', function() { return view('admin.prosedur.sop-biaya'); })->name('sop-biaya');
+        Route::get('/sop-waktu', function() { return view('admin.prosedur.sop-waktu'); })->name('sop-waktu');
+        Route::get('/sop-alur-permohonan', function() { return view('admin.prosedur.sop-alur-permohonan'); })->name('sop-alur-permohonan');
+        Route::get('/sop-alur-keberatan', function() { return view('admin.prosedur.sop-alur-keberatan'); })->name('sop-alur-keberatan');
     });
 
     // Menu Informasi Publik
@@ -227,7 +243,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::post('/form/save', [PermohonanController::class, 'saveForm'])->name('save_form');
         Route::get('/export/register', [PermohonanController::class, 'exportExcelRegister'])->name('export.register');
         Route::get('/export/{id}/reject', [PermohonanController::class, 'exportWordReject'])->name('export.reject');
-        Route::get('/export', [PermohonanController::class, 'exportExcel'])->name('export');
+        Route::get('/export', [PermohonanController::class, 'exportCsv'])->name('export');
         Route::get('/download/{id}', [PermohonanController::class, 'downloadDocument'])->name('download');
         Route::get('/{permohonan}', [PermohonanController::class, 'show'])->name('show');
         Route::put('/{permohonan}', [PermohonanController::class, 'update'])->name('update');
@@ -285,6 +301,13 @@ Route::name('prosedur.')->prefix('prosedur')->group(function () {
     Route::get('/sop-penetapan-pemutakhiran', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_penetapan')->defaults('view', 'sop-pemutakhiran-daftar')->name('sop-penetapan');
     Route::get('/sop-pengujian-konsekuensi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_pengujian')->defaults('view', 'sop-pengujian-konsekuensi')->name('sop-pengujian');
     Route::get('/sop-pendokumentasian', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_pendokumentasian')->defaults('view', 'sop-pendokumentasian')->name('sop-pendokumentasian');
+    
+    // Additional Public Procedures
+    Route::get('/sop-maklumat-pelayanan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_maklumat')->defaults('view', 'sop-generic')->name('sop-maklumat');
+    Route::get('/sop-standar-biaya', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_biaya')->defaults('view', 'sop-generic')->name('sop-biaya');
+    Route::get('/sop-standar-waktu', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_waktu')->defaults('view', 'sop-generic')->name('sop-waktu');
+    Route::get('/sop-alur-permohonan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_alur_permohonan')->defaults('view', 'sop-generic')->name('sop-alur-permohonan');
+    Route::get('/sop-alur-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_alur_keberatan')->defaults('view', 'sop-generic')->name('sop-alur-keberatan');
 });
 
 // Download Route

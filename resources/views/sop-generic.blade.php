@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @php
+        $d = $settings ?? [];
+        $judul = $d[$profil->type . '_judul_hero'] ?? 'Prosedur PPID';
+        $tagline = $d[$profil->type . '_tagline_hero'] ?? 'Informasi standar operasional prosedur PPID PKTJ';
+    @endphp
+    <title>{{ $judul }} - {{ $d['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
+    <meta name="description" content="{{ $tagline }}">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    @include('components.public-page-style')
+</head>
+<body>
+    @include('navigation')
+
+    <div class="hero-section">
+        <div class="container hero-content text-center">
+            <div class="hero-badge">
+                <i class="fas fa-file-signature me-2"></i> Prosedur & SOP
+            </div>
+            <h1 class="hero-title outfit">{{ $judul }}</h1>
+            <p class="hero-tagline">{{ $tagline }}</p>
+        </div>
+    </div>
+
+    <div class="container page-container">
+        <div class="content-card">
+            @php
+                $pfx = $profil->type;
+                $hasContent = ($d[$pfx . '_konten'] ?? null) ||
+                              ($d[$pfx . '_gambar_sop'] ?? null) ||
+                              ($d[$pfx . '_gambar_proses'] ?? null) ||
+                              ($d[$pfx . '_youtube_link'] ?? null) ||
+                              ($d[$pfx . '_isi_maklumat'] ?? null);
+            @endphp
+
+            @if($hasContent)
+                @include('components.konten-dinamis', ['prefix' => $pfx])
+            @else
+                <div class="empty-state">
+                    <div class="empty-icon">
+                        <i class="fas fa-file-alt"></i>
+                    </div>
+                    <h3>Konten Sedang Disiapkan</h3>
+                    <p>Informasi mengenai <strong>{{ $judul }}</strong> sedang dalam proses penyusunan oleh tim PPID PKTJ.</p>
+                    <a href="{{ route('home') }}" class="btn-action btn-action-gold">
+                        <i class="fas fa-home"></i> Kembali ke Beranda
+                    </a>
+                </div>
+            @endif
+        </div>
+    </div>
+
+    @include('footer')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

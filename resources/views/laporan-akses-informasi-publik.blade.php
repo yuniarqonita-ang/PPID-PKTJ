@@ -19,7 +19,7 @@
                 <i class="fas fa-database me-2"></i> Rekapitulasi Data
             </div>
             <h1 class="hero-title outfit">{{ $settings['laporan_akses_judul_hero'] ?? 'Rekapitulasi Akses Informasi' }}</h1>
-            <p class="hero-tagline">Data Statistik Akses Layanan Informasi Publik</p>
+            <p class="hero-tagline">{{ $settings['laporan_akses_tagline_hero'] ?? 'Data Statistik Akses Layanan Informasi Publik' }}</p>
         </div>
     </div>
 
@@ -27,25 +27,26 @@
         <div class="content-card">
             @php
                 $d = $settings ?? [];
-                $fileLaporan = $d['laporan_akses_file_laporan'] ?? null;
+                $pfx = 'laporan_akses';
+                $hasContent = ($d[$pfx.'_ringkasan_eksekutif'] ?? null) ||
+                              ($d[$pfx.'_isi_laporan'] ?? null) ||
+                              ($d[$pfx.'_file_laporan'] ?? null) ||
+                              ($d[$pfx.'_judul_hero'] ?? null);
             @endphp
 
-            @if($fileLaporan)
-                <div class="text-center py-5">
-                    <div class="empty-icon mx-auto mb-4">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <h3 style="font-family:'Outfit',sans-serif;font-weight:800;color:#004a99;margin-bottom:12px;">
-                        {{ $settings['laporan_akses_judul_hero'] ?? 'Rekapitulasi Akses Informasi' }}
-                    </h3>
-                    <p style="color:#64748b;max-width:500px;margin:0 auto 32px;line-height:1.7;">
-                        Dokumen rekapitulasi akses informasi publik PPID {{ $settings['ppid_nama'] ?? 'PKTJ' }} tersedia untuk diunduh.
-                    </p>
-                    <a href="{{ asset('storage/halaman/' . $fileLaporan) }}"
+            @if($hasContent)
+                {{-- Konten dinamis dari admin panel (ringkasan, detail laporan, dll) --}}
+                @include('components.konten-dinamis', ['prefix' => 'laporan_akses'])
+
+                {{-- Tombol download PDF jika tersedia --}}
+                @if(!empty($d['laporan_akses_file_laporan']))
+                <div class="mt-4 text-center pt-4" style="border-top: 2px solid #f0f4f8;">
+                    <a href="{{ asset('storage/halaman/' . $d['laporan_akses_file_laporan']) }}"
                        target="_blank" class="btn-action btn-action-gold">
                         <i class="fas fa-download"></i> Unduh Rekapitulasi (PDF)
                     </a>
                 </div>
+                @endif
             @else
                 <div class="empty-state">
                     <div class="empty-icon">

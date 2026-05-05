@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Laporan Survey Kepuasan - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
+    <title>{{ $settings['laporan_survey_judul_hero'] ?? 'Laporan Survey Kepuasan' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <meta name="description" content="Hasil indeks kepuasan masyarakat terhadap pelayanan informasi publik PPID PKTJ">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,7 +19,7 @@
                 <i class="fas fa-poll me-2"></i> Survey Kepuasan
             </div>
             <h1 class="hero-title outfit">{{ $settings['laporan_survey_judul_hero'] ?? 'Laporan Survey Kepuasan' }}</h1>
-            <p class="hero-tagline">Hasil Indeks Kepuasan Masyarakat terhadap Pelayanan Informasi Publik</p>
+            <p class="hero-tagline">{{ $settings['laporan_survey_tagline_hero'] ?? 'Hasil Indeks Kepuasan Masyarakat terhadap Pelayanan Informasi Publik' }}</p>
         </div>
     </div>
 
@@ -27,25 +27,26 @@
         <div class="content-card">
             @php
                 $d = $settings ?? [];
-                $fileLaporan = $d['laporan_survey_file_laporan'] ?? null;
+                $pfx = 'laporan_survey';
+                $hasContent = ($d[$pfx.'_ringkasan_eksekutif'] ?? null) ||
+                              ($d[$pfx.'_isi_laporan'] ?? null) ||
+                              ($d[$pfx.'_file_laporan'] ?? null) ||
+                              ($d[$pfx.'_judul_hero'] ?? null);
             @endphp
 
-            @if($fileLaporan)
-                <div class="text-center py-5">
-                    <div class="empty-icon mx-auto mb-4">
-                        <i class="fas fa-file-pdf"></i>
-                    </div>
-                    <h3 style="font-family:'Outfit',sans-serif;font-weight:800;color:#004a99;margin-bottom:12px;">
-                        {{ $settings['laporan_survey_judul_hero'] ?? 'Laporan Survey Kepuasan' }}
-                    </h3>
-                    <p style="color:#64748b;max-width:500px;margin:0 auto 32px;line-height:1.7;">
-                        Dokumen laporan survey kepuasan masyarakat PPID {{ $settings['ppid_nama'] ?? 'PKTJ' }} tersedia untuk diunduh.
-                    </p>
-                    <a href="{{ asset('storage/halaman/' . $fileLaporan) }}"
+            @if($hasContent)
+                {{-- Konten dinamis dari admin panel (ringkasan, detail laporan, dll) --}}
+                @include('components.konten-dinamis', ['prefix' => 'laporan_survey'])
+
+                {{-- Tombol download PDF jika tersedia --}}
+                @if(!empty($d['laporan_survey_file_laporan']))
+                <div class="mt-4 text-center pt-4" style="border-top: 2px solid #f0f4f8;">
+                    <a href="{{ asset('storage/halaman/' . $d['laporan_survey_file_laporan']) }}"
                        target="_blank" class="btn-action btn-action-gold">
                         <i class="fas fa-download"></i> Unduh Laporan Survey (PDF)
                     </a>
                 </div>
+                @endif
             @else
                 <div class="empty-state">
                     <div class="empty-icon">

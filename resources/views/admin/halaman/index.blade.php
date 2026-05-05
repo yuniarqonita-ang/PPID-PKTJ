@@ -269,7 +269,10 @@
             </div>
             <div class="space-y-2">
                 @php
-                    $prosedurCategories = ['permintaan', 'keberatan', 'sengketa', 'penetapan', 'pengujian', 'pendokumentasian'];
+                    $prosedurCategories = [
+                        'permintaan', 'keberatan', 'sengketa', 'penetapan', 'pengujian', 'pendokumentasian',
+                        'maklumat', 'biaya', 'waktu', 'alur-permohonan', 'alur-keberatan'
+                    ];
                 @endphp
                 @foreach($prosedurCategories as $category)
                     @php
@@ -281,6 +284,11 @@
                         if($category == 'penetapan') $label = 'SOP Penetapan';
                         if($category == 'pengujian') $label = 'SOP Pengujian';
                         if($category == 'pendokumentasian') $label = 'SOP Pendokumentasian';
+                        if($category == 'maklumat') $label = 'SOP Maklumat';
+                        if($category == 'biaya') $label = 'SOP Standar Biaya';
+                        if($category == 'waktu') $label = 'SOP Waktu Layanan';
+                        if($category == 'alur-permohonan') $label = 'Alur Permohonan';
+                        if($category == 'alur-keberatan') $label = 'Alur Keberatan';
                     @endphp
                     <div class="flex items-center justify-between p-2 bg-gray-50 border border-gray-100 rounded-lg hover:bg-gray-100 transition">
                         <div class="flex-1">

@@ -63,6 +63,8 @@
         }
         .bg-editor { background: #dbeafe; color: #1e40af; }
         .bg-halaman { background: #dcfce7; color: #166534; }
+        .bg-permohonan { background: #fef9c3; color: #854d0e; }
+        .bg-keberatan { background: #fee2e2; color: #991b1b; }
     </style>
 </head>
 <body>
@@ -77,8 +79,8 @@
             @foreach($files as $file)
                 <div class="col-6 col-md-4 col-lg-3 file-item" data-name="{{ strtolower($file['name']) }}">
                     <div class="file-card" onclick="selectFile('{{ $file['url'] }}')">
-                        <div class="badge-folder {{ $file['folder'] == 'editor_uploads' ? 'bg-editor' : 'bg-halaman' }}">
-                            {{ str_replace('_', ' ', $file['folder']) }}
+                        <div class="badge-folder {{ Str::contains($file['folder'], 'permohonan') ? 'bg-permohonan' : (Str::contains($file['folder'], 'keberatan') ? 'bg-keberatan' : ($file['folder'] == 'editor_uploads' ? 'bg-editor' : 'bg-halaman')) }}">
+                            {{ str_replace(['_', '/'], ' ', $file['folder']) }}
                         </div>
                         <div class="file-preview">
                             @if(Str::startsWith($file['type'], 'image/'))

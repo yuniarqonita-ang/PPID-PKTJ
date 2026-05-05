@@ -1,13 +1,17 @@
 <style>
-    body { font-family: 'Arial', sans-serif; font-size: 11pt; line-height: 1.5; color: #000; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 15px; }
-    th, td { border: 1px solid #000; padding: 6px; text-align: left; vertical-align: top; }
-    .header-text { text-align: center; font-weight: bold; font-size: 14pt; margin-bottom: 20px; }
-    .label { width: 35%; font-weight: bold; }
-    .checkbox { width: 20px; text-align: center; font-family: 'DejaVu Sans', sans-serif; }
-    .signature-table { border: none !important; margin-top: 30px; }
+    @page {
+        size: landscape;
+        margin: 1cm;
+    }
+    body { font-family: 'Arial', sans-serif; font-size: 10pt; line-height: 1.3; color: #000; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 10px; table-layout: fixed; }
+    th, td { border: 1px solid #000; padding: 4px 6px; text-align: left; vertical-align: top; word-wrap: break-word; }
+    .header-text { text-align: center; font-weight: bold; font-size: 12pt; margin-bottom: 15px; text-transform: uppercase; border-bottom: 2px solid #000; padding-bottom: 5px; }
+    .label { width: 30%; font-weight: bold; background-color: #f8fafc; }
+    .checkbox { width: 30px; text-align: center; font-family: 'DejaVu Sans', sans-serif; font-weight: bold; }
+    .signature-table { border: none !important; margin-top: 20px; }
     .signature-table td { border: none !important; }
-    .section-title { font-weight: bold; margin-top: 10px; margin-bottom: 5px; }
+    .section-title { font-weight: bold; margin-top: 8px; margin-bottom: 4px; background-color: #e2e8f0; padding: 2px 5px; font-size: 9pt; }
 </style>
 
 <div class="header-text">FORMULIR KEBERATAN ATAS PERMOHONAN INFORMASI</div>

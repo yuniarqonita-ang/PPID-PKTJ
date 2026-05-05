@@ -12,7 +12,7 @@
             
             body {
                 font-family: 'Inter', sans-serif;
-                background-color: #f0f2f5;
+                background-color: #f8fafc;
                 color: #1e293b;
                 min-height: 100vh;
                 margin: 0;
@@ -28,8 +28,9 @@
                 width: 280px;
                 background: #004a99;
                 height: 100vh;
-                position: sticky;
+                position: fixed;
                 top: 0;
+                left: 0;
                 flex-shrink: 0;
                 display: flex;
                 flex-direction: column;
@@ -40,7 +41,6 @@
             .logo-section {
                 padding: 40px 20px;
                 text-align: center;
-                background: rgba(0,0,0,0.1);
                 margin-bottom: 10px;
             }
             
@@ -186,6 +186,7 @@
                 display: flex;
                 flex-direction: column;
                 background: #f8f9fa;
+                margin-left: 280px;
             }
             
             .top-header {
@@ -224,66 +225,43 @@
                 .sidebar.open { left: 0; }
                 .main-content { margin-left: 0; }
             }
-        <style>
-            /* GLOBAL FIX FOR ADMIN PANEL SCROLLING & DARK UI */
+            /* MOBILE SIDEBAR OVERLAY */
+            #sidebar-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.4);
+                backdrop-filter: blur(2px);
+                z-index: 9999;
+                pointer-events: none;
+            }
+            #sidebar-overlay.active { 
+                display: block; 
+                pointer-events: auto;
+            }
+
+            /* ANIMATIONS */
+            @keyframes fadeIn {
+                from { opacity: 0; transform: translateY(10px); }
+                to { opacity: 1; transform: translateY(0); }
+            }
+            .animate-fade-in {
+                animation: fadeIn 0.4s ease-out forwards;
+            }
+
+            /* GLOBAL INTERACTION & SCROLL FIX */
             html, body {
-                overflow: auto !important;
+                overflow-x: hidden !important;
+                overflow-y: auto !important;
                 height: auto !important;
                 min-height: 100vh !important;
-                background-color: #f0f2f5 !important;
-                background-image: none !important;
-                box-shadow: none !important;
+                background-color: #f8fafc !important; /* Brighter background */
                 position: relative !important;
-            }
-            
-            /* NUCLEAR OPTION: Remove any glow/vignette overlays */
-            html::before, html::after, 
-            body::before, body::after,
-            .admin-wrapper::before, .admin-wrapper::after,
-            .main-content::before, .main-content::after {
-                display: none !important;
-                content: none !important;
-                background: none !important;
-                box-shadow: none !important;
-            }
-
-            .admin-wrapper {
-                min-height: 100vh !important;
-                height: auto !important;
-                overflow: visible !important;
-                background: #f0f2f5 !important;
-                position: relative !important;
-                z-index: 1 !important;
-            }
-
-            .main-content {
-                height: auto !important;
-                min-height: 100vh !important;
-                overflow: visible !important;
-                background: #f0f2f5 !important;
-                display: flex !important;
-                flex-direction: column !important;
-                position: relative !important;
-                z-index: 1 !important;
-                box-shadow: none !important;
-            }
-
-            .content-area {
-                flex: 1 0 auto !important;
-                padding: 30px !important;
-                position: relative !important;
-                z-index: 1 !important;
-            }
-
-            /* Eliminate any fixed blue glows */
-            [style*="fixed"][style*="inset"],
-            [style*="fixed"][style*="shadow"],
-            [style*="fixed"][style*="gradient"] {
-                display: none !important;
             }
         </style>
     </head>
-    <body class="antialiased">
+    <body class="antialiased overflow-y-auto">
+        <div id="sidebar-overlay" onclick="toggleSidebar()"></div>
         <div class="admin-wrapper">
             <!-- SIDEBAR -->
             <div class="sidebar" id="sidebar">
@@ -346,6 +324,12 @@
                             <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-penetapan*') ? 'active' : '' }}">SOP Penetapan DIP</a>
                             <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pengujian*') ? 'active' : '' }}">SOP Pengujian Konsekuensi</a>
                             <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pendokumentasian*') ? 'active' : '' }}">SOP Pendokumentasian</a>
+                            
+                            <a href="{{ route('admin.prosedur.sop-maklumat') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-maklumat*') ? 'active' : '' }}">SOP Maklumat</a>
+                            <a href="{{ route('admin.prosedur.sop-biaya') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-biaya*') ? 'active' : '' }}">SOP Standar Biaya</a>
+                            <a href="{{ route('admin.prosedur.sop-waktu') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-waktu*') ? 'active' : '' }}">SOP Waktu Layanan</a>
+                            <a href="{{ route('admin.prosedur.sop-alur-permohonan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-alur-permohonan*') ? 'active' : '' }}">Alur Permohonan</a>
+                            <a href="{{ route('admin.prosedur.sop-alur-keberatan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-alur-keberatan*') ? 'active' : '' }}">Alur Keberatan</a>
                         </div>
 
                         <a href="{{ route('admin.faq.index') }}" class="nav-link {{ request()->routeIs('admin.faq.*') || request()->is('admin/faq*') ? 'active' : '' }}">
@@ -376,9 +360,6 @@
                         <a href="{{ route('dashboard.edit') }}" class="nav-link {{ request()->routeIs('dashboard.edit') ? 'active' : '' }}">
                             <i class="fas fa-images nav-icon"></i> HERO BANNER
                         </a>
-                        <a href="{{ route('admin.file-browser') }}" target="_blank" class="nav-link {{ request()->routeIs('admin.file-browser') ? 'active' : '' }}">
-                            <i class="fas fa-folder-open nav-icon"></i> FILE MANAGER
-                        </a>
                     </nav>
                 </div>
                 
@@ -399,9 +380,14 @@
             <!-- MAIN CONTENT -->
             <div class="main-content">
                 <header class="top-header">
-                <h1 class="page-title">
-                    Admin <span class="text-slate-400">Panel</span>
-                </h1>
+                    <div class="flex items-center gap-4">
+                        <button onclick="toggleSidebar()" class="lg:hidden w-10 h-10 flex items-center justify-center bg-slate-100 rounded-lg text-[#004a99]">
+                            <i class="fas fa-bars"></i>
+                        </button>
+                        <h1 class="page-title">
+                            Admin <span class="text-slate-400">Panel</span>
+                        </h1>
+                    </div>
                     <div class="flex items-center gap-4">
                         <div class="hidden md:flex flex-col text-right">
                             <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">{{ Auth::user()->name }}</span>
@@ -422,6 +408,13 @@
         
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script>
+            function toggleSidebar() {
+                const sidebar = document.getElementById('sidebar');
+                const overlay = document.getElementById('sidebar-overlay');
+                sidebar.classList.toggle('open');
+                overlay.classList.toggle('active');
+            }
+
             function toggleAccordion(button) {
                 const submenu = button.nextElementSibling;
                 const isOpening = !submenu.classList.contains('open');

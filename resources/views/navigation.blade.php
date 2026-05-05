@@ -130,6 +130,11 @@
                         <li><a class="dropdown-item" href="{{ route('prosedur.sop-penetapan') }}">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
                         <li><a class="dropdown-item" href="{{ route('prosedur.sop-pengujian') }}">SOP Pengujian Konsekuensi</a></li>
                         <li><a class="dropdown-item" href="{{ route('prosedur.sop-pendokumentasian') }}">SOP Pendokumentasian Informasi Publik</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-maklumat') }}">SOP Maklumat Pelayanan</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-biaya') }}">SOP Standar Biaya</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-waktu') }}">SOP Standar Waktu Layanan</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-alur-permohonan') }}">Alur Prosedur Permintaan Informasi</a></li>
+                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-alur-keberatan') }}">Alur Prosedur Pengajuan Keberatan</a></li>
                     </ul>
                 </li>
 
