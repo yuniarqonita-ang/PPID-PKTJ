@@ -22,6 +22,7 @@
     $gambarSop      = $d[$pfx . '_gambar_sop'] ?? null;
     $gambarProses   = $d[$pfx . '_gambar_proses'] ?? null;
     $gambarMaklumat = $d[$pfx . '_gambar_maklumat'] ?? null;
+    $gambarStandar  = $d[$pfx . '_gambar_standar'] ?? null;
     $youtubeLink    = $d[$pfx . '_youtube_link'] ?? null;
     $customKonten   = $d[$pfx . '_konten'] ?? null;
     
@@ -47,7 +48,7 @@
     // Cek apakah ada konten dari dashboard yang perlu ditampilkan
     $adaKonten = $isiMaklumat || $judulMaklumat || $isiStandar || $judulStandar || 
                  $isiKonten || $judulKonten || $gambarSop || $gambarProses || 
-                 $gambarMaklumat || $youtubeLink || $customKonten || $ringkasanEks || $isiLaporan;
+                 $gambarMaklumat || $gambarStandar || $youtubeLink || $customKonten || $ringkasanEks || $isiLaporan;
 @endphp
 
 {{-- 
@@ -57,7 +58,7 @@
 --}}
 
 {{-- Section Maklumat Utama --}}
-@if($judulMaklumat || $isiMaklumat)
+@if($judulMaklumat || $isiMaklumat || $gambarMaklumat)
 <div class="content-box mb-4" style="border-left: 5px solid #004a99;">
     @if($judulMaklumat)
         <h2 class="section-title">{{ $judulMaklumat }}</h2>
@@ -67,20 +68,31 @@
     @endif
     @if($gambarMaklumat)
         <div class="mt-4 text-center">
-            <img src="{{ asset('storage/halaman/' . $gambarMaklumat) }}" alt="Maklumat Pelayanan" class="img-fluid rounded shadow" style="max-height: 600px;">
+            @php
+                $imageUrl = str_starts_with($gambarMaklumat, 'http') ? $gambarMaklumat : asset('storage/halaman/' . $gambarMaklumat);
+            @endphp
+            <img src="{{ $imageUrl }}" alt="Maklumat Pelayanan" class="img-fluid rounded shadow" style="max-height: 800px; width: auto;" onerror="this.style.display='none'">
         </div>
     @endif
 </div>
 @endif
 
 {{-- Section Standar Biaya --}}
-@if($judulStandar || $isiStandar)
+@if($judulStandar || $isiStandar || $gambarStandar)
 <div class="content-box mb-4" style="border-left: 5px solid #d4af37;">
     @if($judulStandar)
         <h2 class="section-title">{{ $judulStandar }}</h2>
     @endif
     @if($isiStandar)
         <div class="profil-content">{!! $isiStandar !!}</div>
+    @endif
+    @if($gambarStandar)
+        <div class="mt-4 text-center">
+            @php
+                $imageUrl = str_starts_with($gambarStandar, 'http') ? $gambarStandar : asset('storage/halaman/' . $gambarStandar);
+            @endphp
+            <img src="{{ $imageUrl }}" alt="Standar Biaya" class="img-fluid rounded shadow" style="max-height: 800px; width: auto;" onerror="this.style.display='none'">
+        </div>
     @endif
 </div>
 @endif
@@ -104,7 +116,10 @@
     <div class="{{ $gambarProses ? 'col-md-6' : 'col-12' }}">
         <div class="content-box text-center">
             <h3 style="color:#004a99; font-size:20px; margin-bottom:15px;"><i class="fas fa-file-image me-2"></i>Diagram SOP</h3>
-            <img src="{{ asset('storage/halaman/' . $gambarSop) }}" alt="Gambar SOP" class="img-fluid rounded shadow" style="max-height: 700px;">
+            @php
+                $imageUrl = str_starts_with($gambarSop, 'http') ? $gambarSop : asset('storage/halaman/' . $gambarSop);
+            @endphp
+            <img src="{{ $imageUrl }}" alt="Gambar SOP" class="img-fluid rounded shadow" style="max-height: 700px;" onerror="this.style.display='none'">
         </div>
     </div>
     @endif
@@ -112,7 +127,10 @@
     <div class="{{ $gambarSop ? 'col-md-6' : 'col-12' }}">
         <div class="content-box text-center">
             <h3 style="color:#004a99; font-size:20px; margin-bottom:15px;"><i class="fas fa-project-diagram me-2"></i>Alur Proses</h3>
-            <img src="{{ asset('storage/halaman/' . $gambarProses) }}" alt="Alur Proses" class="img-fluid rounded shadow" style="max-height: 700px;">
+            @php
+                $imageUrl = str_starts_with($gambarProses, 'http') ? $gambarProses : asset('storage/halaman/' . $gambarProses);
+            @endphp
+            <img src="{{ $imageUrl }}" alt="Alur Proses" class="img-fluid rounded shadow" style="max-height: 700px;" onerror="this.style.display='none'">
         </div>
     </div>
     @endif
@@ -137,8 +155,8 @@
     @endif
     @if($fileLaporan)
         <div class="mt-4">
-            <a href="{{ asset('storage/halaman/' . $fileLaporan) }}" target="_blank" class="btn btn-warning text-dark fw-bold">
-                <i class="fas fa-file-pdf me-2"></i> Download Dokumen Laporan
+            <a href="{{ route('preview.dokumen', ['file' => 'storage/halaman/' . $fileLaporan, 'title' => 'Dokumen Laporan']) }}" class="btn btn-warning text-dark fw-bold">
+                <i class="fas fa-eye me-2"></i> Lihat Dokumen Laporan
             </a>
         </div>
     @endif

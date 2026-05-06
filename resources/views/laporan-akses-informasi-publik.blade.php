@@ -41,9 +41,9 @@
                 {{-- Tombol download PDF jika tersedia --}}
                 @if(!empty($d['laporan_akses_file_laporan']))
                 <div class="mt-4 text-center pt-4" style="border-top: 2px solid #f0f4f8;">
-                    <a href="{{ asset('storage/halaman/' . $d['laporan_akses_file_laporan']) }}"
-                       target="_blank" class="btn-action btn-action-gold">
-                        <i class="fas fa-download"></i> Unduh Rekapitulasi (PDF)
+                    <a href="{{ route('preview.dokumen', ['file' => 'storage/halaman/' . $d['laporan_akses_file_laporan'], 'title' => 'Rekapitulasi Akses Informasi']) }}"
+                       class="btn-action btn-action-gold">
+                        <i class="fas fa-eye"></i> Lihat Rekapitulasi (PDF)
                     </a>
                 </div>
                 @endif

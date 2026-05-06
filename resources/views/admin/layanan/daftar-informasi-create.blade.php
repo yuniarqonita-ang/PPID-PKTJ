@@ -31,7 +31,7 @@
     </div>
 
     @if(session('success'))
-    <div class="p-6 bg-emerald-50 border-2 border-emerald-200 rounded-3xl flex items-center gap-5">
+    <div class="p-6 bg-emerald-50 border-2 border-emerald-200 rounded-3xl flex items-center gap-5 mb-6">
         <div class="w-14 h-14 bg-emerald-500 text-white rounded-2xl flex items-center justify-center text-2xl shadow-lg">
             <i class="fas fa-check"></i>
         </div>
@@ -39,6 +39,25 @@
             <p class="text-sm font-black text-emerald-900 uppercase tracking-widest">Data Berhasil Disimpan</p>
             <p class="text-lg font-bold text-emerald-700 mt-1">{{ session('success') }}</p>
         </div>
+    </div>
+    @endif
+
+    @if ($errors->any())
+    <div class="p-6 bg-rose-50 border-2 border-rose-200 rounded-3xl mb-6">
+        <div class="flex items-center gap-5 mb-4">
+            <div class="w-14 h-14 bg-rose-500 text-white rounded-2xl flex items-center justify-center text-2xl shadow-lg">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div>
+                <p class="text-sm font-black text-rose-900 uppercase tracking-widest">Terjadi Kesalahan</p>
+                <p class="text-lg font-bold text-rose-700 mt-1">Silakan periksa inputan Anda.</p>
+            </div>
+        </div>
+        <ul class="list-disc list-inside text-rose-600 font-bold ml-14">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
     </div>
     @endif
 
@@ -186,10 +205,47 @@
 
                     <div class="pt-6">
                         <div class="relative group border-4 border-dashed border-slate-200 rounded-[2rem] p-10 hover:border-[#002b5c] transition-all bg-slate-50 text-center">
-                            <input type="file" name="file_informasi" class="absolute inset-0 opacity-0 cursor-pointer z-10">
+                            <input type="file" name="file_informasi" class="absolute inset-0 opacity-0 cursor-pointer z-10" accept=".pdf,.doc,.docx">
                             <i class="fas fa-file-pdf text-5xl text-[#002b5c] mb-5"></i>
-                            <p class="text-[13px] font-black text-[#002b5c] uppercase tracking-widest">UNGGAH DOKUMEN (PDF ONLY)</p>
+                            <p class="text-[13px] font-black text-[#002b5c] uppercase tracking-widest">UNGGAH DOKUMEN (PDF/DOC)</p>
                         </div>
+                    </div>
+
+                    <!-- IMAGE UPLOAD -->
+                    <div class="space-y-4">
+                        <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">GAMBAR PENDUKUNG (OPSIONAL)</label>
+                        <div class="relative group border-4 border-dashed border-slate-200 rounded-[2.5rem] p-8 hover:border-[#002b5c] transition-all bg-slate-50 text-center">
+                            <input type="file" name="image" id="image_input" class="absolute inset-0 opacity-0 cursor-pointer z-10" accept="image/*" onchange="previewImage(this)">
+                            <div id="image_preview_container" class="mb-3 hidden">
+                                <img id="image_preview" src="#" class="max-h-48 mx-auto rounded-xl shadow-md">
+                            </div>
+                            <div id="image_placeholder">
+                                <i class="fas fa-image text-4xl text-[#002b5c] mb-3"></i>
+                                <p class="text-xs font-black text-[#002b5c] uppercase tracking-widest">Pilih Gambar</p>
+                            </div>
+                            <p class="text-xs text-slate-400 mt-1">Format: JPG, PNG, WEBP (Max 5MB)</p>
+                        </div>
+                    </div>
+
+                    <div class="pt-2 flex items-center justify-between border-t border-slate-100 pt-6">
+                        <div>
+                            <h4 class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Premium View (Blurring)</h4>
+                            <p class="text-[10px] text-slate-400 font-bold">Hanya halaman pertama yang terlihat, sisanya blur.</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="is_blurred" value="1" class="sr-only peer">
+                            <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#ffc107]"></div>
+                        </label>
+                    </div>
+
+                    <div class="pt-2 flex items-center justify-between">
+                        <div>
+                            <h4 class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Status Aktif</h4>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="aktif" value="1" checked class="sr-only peer">
+                            <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#002b5c]"></div>
+                        </label>
                     </div>
 
                     <button type="submit" class="w-full py-6 bg-[#002b5c] text-white font-black text-md uppercase tracking-[3px] rounded-2xl shadow-2xl hover:bg-black transition-all border-none cursor-pointer">
@@ -219,4 +275,19 @@
     </form>
 </div>
 
+@push('scripts')
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('image_preview').src = e.target.result;
+                document.getElementById('image_preview_container').classList.remove('hidden');
+                document.getElementById('image_placeholder').classList.add('hidden');
+            }
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
+@endpush
 @endsection

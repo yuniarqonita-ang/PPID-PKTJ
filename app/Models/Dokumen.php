@@ -22,7 +22,8 @@ class Dokumen extends Model
         'judul',
         'file_path',
         'kategori',
-        'user_id'
+        'user_id',
+        'is_blurred'
     ];
 
     /**

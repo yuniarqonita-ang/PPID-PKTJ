@@ -157,6 +157,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/daftar-informasi', [App\Http\Controllers\DaftarInformasiController::class, 'index'])->name('daftar-informasi');
         Route::get('/daftar-informasi/create', [App\Http\Controllers\DaftarInformasiController::class, 'create'])->name('daftar-informasi.create');
         Route::post('/daftar-informasi', [App\Http\Controllers\DaftarInformasiController::class, 'store'])->name('daftar-informasi.store');
+        Route::get('/daftar-informasi/{id}', function($id) { return redirect()->route('admin.layanan.daftar-informasi.edit', $id); });
         Route::get('/daftar-informasi/{id}/edit', [App\Http\Controllers\DaftarInformasiController::class, 'edit'])->name('daftar-informasi.edit');
         Route::put('/daftar-informasi/{id}', [App\Http\Controllers\DaftarInformasiController::class, 'update'])->name('daftar-informasi.update');
         Route::delete('/daftar-informasi/{id}', [App\Http\Controllers\DaftarInformasiController::class, 'destroy'])->name('daftar-informasi.destroy');
@@ -176,12 +177,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/sop-pengujian', function() { return view('admin.prosedur.sop-pengujian'); })->name('sop-pengujian');
         Route::get('/sop-pendokumentasian', function() { return view('admin.prosedur.sop-pendokumentasian'); })->name('sop-pendokumentasian');
         
-        // Additional Procedures
-        Route::get('/sop-maklumat', function() { return view('admin.prosedur.sop-maklumat'); })->name('sop-maklumat');
-        Route::get('/sop-biaya', function() { return view('admin.prosedur.sop-biaya'); })->name('sop-biaya');
-        Route::get('/sop-waktu', function() { return view('admin.prosedur.sop-waktu'); })->name('sop-waktu');
-        Route::get('/sop-alur-permohonan', function() { return view('admin.prosedur.sop-alur-permohonan'); })->name('sop-alur-permohonan');
-        Route::get('/sop-alur-keberatan', function() { return view('admin.prosedur.sop-alur-keberatan'); })->name('sop-alur-keberatan');
     });
 
     // Menu Informasi Publik
@@ -243,7 +238,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::post('/form/save', [PermohonanController::class, 'saveForm'])->name('save_form');
         Route::get('/export/register', [PermohonanController::class, 'exportExcelRegister'])->name('export.register');
         Route::get('/export/{id}/reject', [PermohonanController::class, 'exportWordReject'])->name('export.reject');
-        Route::get('/export', [PermohonanController::class, 'exportCsv'])->name('export');
+
         Route::get('/download/{id}', [PermohonanController::class, 'downloadDocument'])->name('download');
         Route::get('/{permohonan}', [PermohonanController::class, 'show'])->name('show');
         Route::put('/{permohonan}', [PermohonanController::class, 'update'])->name('update');
@@ -312,6 +307,7 @@ Route::name('prosedur.')->prefix('prosedur')->group(function () {
 
 // Download Route
 Route::get('/download/{model}/{id}', [InformasiPublikController::class, 'downloadFile'])->name('download.file');
+Route::get('/preview-dokumen', [ProfilPublikController::class, 'previewDokumen'])->name('preview.dokumen');
 
 Route::get('/agenda', [AgendaController::class, 'publicIndex'])->name('agenda.public');
 Route::get('/faq', [FaqController::class, 'publicIndex'])->name('faq.public');

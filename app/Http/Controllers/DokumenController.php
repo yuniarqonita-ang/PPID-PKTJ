@@ -35,12 +35,47 @@ class DokumenController extends Controller
                 'judul' => $validated['judul'],
                 'file_path' => $path,
                 'kategori' => $validated['kategori'] ?? 'Umum',
-                'user_id' => Auth::id()
+                'user_id' => Auth::id(),
+                'is_blurred' => $request->has('is_blurred')
             ]);
 
             return redirect()->route('admin.dokumen.index')->with('success', 'Dokumen diupload!');
         }
         return back()->with('error', 'Gagal upload');
+    }
+
+    public function edit($id)
+    {
+        $dokumen = Dokumen::findOrFail($id);
+        // If you have a separate categories table, use it, otherwise just pluck from existing
+        $kategoris = Dokumen::select('kategori as nama')->distinct()->get();
+        return view('admin.dokumen.edit', compact('dokumen', 'kategoris'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $dokumen = Dokumen::findOrFail($id);
+        $validated = $request->validate([
+            'judul' => 'required|max:255',
+            'file' => 'nullable|file|mimes:pdf,doc,docx|max:5120',
+            'kategori' => 'nullable|string'
+        ]);
+
+        $data = [
+            'judul' => $validated['judul'],
+            'kategori' => $validated['kategori'] ?? 'Umum',
+            'is_blurred' => $request->has('is_blurred')
+        ];
+
+        if ($request->hasFile('file')) {
+            // Delete old file
+            if ($dokumen->file_path) { Storage::disk('public')->delete($dokumen->file_path); }
+            $data['file_path'] = $request->file('file')->store('dokumen', 'public');
+        }
+
+        $dokumen->update($data);
+
+        return redirect()->route('admin.dokumen.index')->with('success', 'Dokumen berhasil diupdate!');
     }
 
     public function destroy($id)

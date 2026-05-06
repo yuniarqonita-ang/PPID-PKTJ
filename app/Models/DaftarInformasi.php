@@ -16,6 +16,7 @@ class DaftarInformasi extends Model
         'kategori',
         'tipe_informasi',
         'isi_informasi',
+        'image',
         'pejabat_penguasa',
         'penerbit_informasi',
         'tempat_pembuatan',
@@ -25,9 +26,11 @@ class DaftarInformasi extends Model
         'jangka_waktu',
         'file_informasi',
         'aktif',
+        'is_blurred',
     ];
 
     protected $casts = [
         'aktif' => 'boolean',
+        'is_blurred' => 'boolean',
     ];
 }

@@ -140,6 +140,10 @@ class DashboardController extends Controller
             'kontak_telepon' => $request->kontak_telepon,
             'kontak_email' => $request->kontak_email,
             'youtube_link' => $request->youtube_link,
+            'premium_view_enabled' => $request->premium_view_enabled,
+            'premium_view_blur_text' => $request->premium_view_blur_text,
+            'premium_view_button_text' => $request->premium_view_button_text,
+            'premium_view_button_link' => $request->premium_view_button_link,
         ];
 
         // Handle Video Thumbnail Upload
@@ -188,6 +192,10 @@ class DashboardController extends Controller
             'kontak_alamat' => 'Alamat kantor resmi',
             'kontak_telepon' => 'Nomor telepon resmi',
             'kontak_email' => 'Email resmi',
+            'premium_view_enabled' => 'Aktifkan fitur blur dokumen premium',
+            'premium_view_blur_text' => 'Teks yang muncul di atas blur dokumen',
+            'premium_view_button_text' => 'Teks tombol di atas blur',
+            'premium_view_button_link' => 'Link tujuan tombol di atas blur',
         ];
 
         return $descriptions[$key] ?? 'Pengaturan dashboard';

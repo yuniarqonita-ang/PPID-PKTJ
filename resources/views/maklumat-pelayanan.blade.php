@@ -31,6 +31,9 @@
                 $hasContent = ($d[$pfx.'_isi_maklumat'] ?? null) ||
                               ($d[$pfx.'_gambar_maklumat'] ?? null) ||
                               ($d[$pfx.'_judul_maklumat'] ?? null) ||
+                              ($d[$pfx.'_isi_standar'] ?? null) ||
+                              ($d[$pfx.'_judul_standar'] ?? null) ||
+                              ($d[$pfx.'_gambar_standar'] ?? null) ||
                               ($d[$pfx.'_judul_hero'] ?? null);
             @endphp
 

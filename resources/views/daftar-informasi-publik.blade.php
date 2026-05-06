@@ -25,7 +25,7 @@
         /* Hero Section */
         .hero-section {
             background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.8)), 
-                        url('https://images.unsplash.com/photo-1521791136064-7986c29535a7?q=80&w=2070');
+                        url('{{ isset($settings["layanan_daftar_hero_image"]) ? asset("storage/halaman/" . $settings["layanan_daftar_hero_image"]) : "https://images.unsplash.com/photo-1521791136064-7986c29535a7?q=80&w=2070" }}');
             background-size: cover;
             background-position: center;
             padding: 120px 0;
@@ -164,8 +164,8 @@
 
     <div class="hero-section">
         <div class="container text-center hero-content">
-            <h1 class="display-3 fw-black outfit uppercase">Daftar Informasi Publik</h1>
-            <p class="lead opacity-75 mb-0">Akses Transparan Informasi Publik untuk Masyarakat.</p>
+            <h1 class="display-3 fw-black outfit uppercase">{{ $settings['layanan_daftar_judul_hero'] ?? 'Daftar Informasi Publik' }}</h1>
+            <p class="lead opacity-75 mb-0">{{ $settings['layanan_daftar_tagline_hero'] ?? 'Akses Transparan Informasi Publik untuk Masyarakat.' }}</p>
         </div>
     </div>
 
@@ -238,6 +238,7 @@
                             <th>TEMPAT PEMBUATAN</th>
                             <th>WAKTU PEMBUATAN</th>
                             <th>JANGKA WAKTU PENYIMPANAN / RETENSI WAKTU</th>
+                            <th>GAMBAR</th>
                             <th>FILE</th>
                         </tr>
                     </thead>
@@ -256,10 +257,23 @@
                             <td>{{ $item->waktu_pembuatan }}</td>
                             <td>{{ $item->jangka_waktu }}</td>
                             <td>
+                                @if($item->image)
+                                <button type="button" class="btn btn-sm btn-outline-info" 
+                                    data-bs-toggle="modal" data-bs-target="#previewModal" 
+                                    data-url="{{ route('preview.dokumen', ['file' => $item->image, 'title' => $item->judul_informasi]) }}">
+                                    <i class="fas fa-image"></i> Lihat Gambar
+                                </button>
+                                @else
+                                -
+                                @endif
+                            </td>
+                            <td>
                                 @if($item->file_informasi)
-                                <a href="{{ asset($item->file_informasi) }}" target="_blank" class="btn btn-sm btn-outline-danger">
-                                    <i class="fas fa-file-pdf"></i> PDF
-                                </a>
+                                <button type="button" class="btn btn-sm btn-outline-danger" 
+                                    data-bs-toggle="modal" data-bs-target="#previewModal" 
+                                    data-url="{{ route('preview.dokumen', ['file' => $item->file_informasi, 'title' => $item->judul_informasi]) }}">
+                                    <i class="fas fa-eye"></i> Lihat Dokumen
+                                </button>
                                 @else
                                 -
                                 @endif

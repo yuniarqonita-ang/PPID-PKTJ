@@ -155,8 +155,8 @@
                                             </span>
                                             @endif
                                         </div>
-                                        <a href="{{ route('download.file', ['model' => 'sertamerta', 'id' => $item->id]) }}" class="btn-download-premium">
-                                            <i class="fas fa-download"></i> Download Dokumen
+                                        <a href="{{ route('preview.dokumen', ['file' => 'informasi/sertamerta/' . $item->file, 'title' => $item->judul]) }}" class="btn-download-premium">
+                                            <i class="fas fa-eye"></i> Lihat Dokumen
                                         </a>
                                     </div>
                                 </div>

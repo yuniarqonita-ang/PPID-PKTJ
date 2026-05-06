@@ -132,6 +132,57 @@
                 </div>
             </div>
 
+            <!-- SECTION: PREMIUM DOCUMENT VIEWER -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center text-white text-sm">
+                        <i class="fas fa-file-shield"></i>
+                    </div>
+                    <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Premium Document Viewer (Blurring)</h3>
+                </div>
+                <div class="p-8 space-y-6">
+                    <div class="flex items-center gap-4 p-4 bg-purple-50 rounded-2xl border border-purple-100">
+                        <div class="flex-1">
+                            <h4 class="text-sm font-black text-purple-900 uppercase">Aktifkan Fitur Blur Premium</h4>
+                            <p class="text-xs text-purple-700 opacity-70">Jika aktif, dokumen PDF halaman 2+ akan diburamkan dan muncul tombol ajuan informasi.</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="premium_view_enabled" value="1" class="sr-only peer" {{ \App\Models\Dashboard::getValue('premium_view_enabled') ? 'checked' : '' }}>
+                            <div class="w-14 h-7 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-purple-600"></div>
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Teks Pesan Blur</label>
+                            <input type="text" name="premium_view_blur_text" value="{{ old('premium_view_blur_text', \App\Models\Dashboard::getValue('premium_view_blur_text', 'Lanjutkan Membaca? Silakan Ajukan Permohonan Informasi')) }}"
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white transition-all font-semibold text-slate-700">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Teks Tombol</label>
+                            <input type="text" name="premium_view_button_text" value="{{ old('premium_view_button_text', \App\Models\Dashboard::getValue('premium_view_button_text', 'AJUKAN SEKARANG')) }}"
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white transition-all font-semibold text-slate-700">
+                        </div>
+                        <div class="md:col-span-2 space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Link Tujuan Tombol</label>
+                            <input type="text" name="premium_view_button_link" value="{{ old('premium_view_button_link', \App\Models\Dashboard::getValue('premium_view_button_link', '/permohonan-informasi')) }}"
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white transition-all font-semibold text-slate-700">
+                            <p class="text-[10px] text-slate-400 italic">Default: /permohonan-informasi</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 bg-slate-100 rounded-2xl border border-slate-200">
+                        <h4 class="text-xs font-black text-slate-700 uppercase mb-2"><i class="fas fa-info-circle mr-2"></i> Penggunaan di Teks Editor</h4>
+                        <p class="text-xs text-slate-600 leading-relaxed">
+                            Anda juga dapat mengunci bagian tertentu dalam teks editor (TinyMCE) dengan cara:
+                            <br>1. Seleksi teks yang ingin dikunci/diblur.
+                            <br>2. Klik menu <strong>Format</strong> > <strong>Styles</strong> > <strong>Premium Blur</strong>.
+                            <br>3. Teks tersebut akan otomatis diblur di halaman publik jika fitur ini aktif.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
             <!-- SECTION: KONTAK -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
                 <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">

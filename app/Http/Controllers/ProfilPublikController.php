@@ -122,6 +122,38 @@ class ProfilPublikController extends Controller
     }
 
     /**
+     * Preview Document in-page
+     */
+    public function previewDokumen(\Illuminate\Http\Request $request)
+    {
+        $file_path = $request->query('file');
+        $title = $request->query('title');
+
+        if (!$file_path) {
+            abort(404, 'File path is required');
+        }
+
+        // Search for is_blurred flag
+        $isBlurred = false;
+        // The file_path usually starts with storage/
+        $searchPath = $file_path;
+        
+        $di = \App\Models\DaftarInformasi::where('file_informasi', $searchPath)->first();
+        if ($di) {
+            $isBlurred = $di->is_blurred;
+        } else {
+            $doc = \App\Models\Dokumen::where('file_path', $searchPath)->first();
+            if ($doc) {
+                $isBlurred = $doc->is_blurred;
+            }
+        }
+
+        $settings = Dashboard::pluck('value', 'key')->toArray();
+
+        return view('preview-dokumen', compact('file_path', 'title', 'settings', 'isBlurred'));
+    }
+
+    /**
      * View PDF peraturan (modal preview / new tab)
      */
     public function viewPeraturan($id)

@@ -128,6 +128,45 @@
                         @endforeach
                     </div>
                 @endif
+
+                {{-- DAFTAR PERATURAN DARI DATABASE --}}
+                @if(isset($peraturan) && count($peraturan) > 0)
+                    <div class="mt-5 pt-4 border-top">
+                        <h2 class="section-title">Dokumen Peraturan</h2>
+                        @foreach($peraturan as $kategori => $items)
+                            <div class="mb-5">
+                                <h3 class="outfit fw-bold text-blue-800 mb-4 bg-blue-50 p-3 rounded-xl border-start border-4 border-blue-600">
+                                    <i class="fas fa-bookmark me-2"></i> {{ $kategori }}
+                                </h3>
+                                <div class="row g-4">
+                                    @foreach($items as $p)
+                                        <div class="col-md-6">
+                                            <div class="p-4 bg-white border rounded-2xl shadow-sm hover:shadow-md transition-all border-slate-200">
+                                                <div class="d-flex justify-content-between align-items-start gap-3">
+                                                    <div>
+                                                        <h5 class="fw-bold text-dark mb-2">{{ $p->judul }}</h5>
+                                                        <p class="small text-slate-500 mb-3">{{ Str::limit(strip_tags($p->deskripsi), 100) }}</p>
+                                                    </div>
+                                                    <div class="bg-amber-100 text-amber-600 p-2 rounded-lg">
+                                                        <i class="fas fa-file-pdf fa-lg"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-between align-items-center mt-2">
+                                                    <span class="badge bg-light text-slate-600 border px-3 py-2 rounded-pill small">
+                                                        <i class="fas fa-calendar-alt me-1"></i> {{ $p->created_at->format('d M Y') }}
+                                                    </span>
+                                                    <a href="{{ route('view.peraturan', $p->id) }}" class="btn btn-sm btn-primary px-4 py-2 rounded-pill fw-bold">
+                                                        <i class="fas fa-eye me-1"></i> Lihat
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             @else
                 <div class="text-center py-5">
                     <i class="fas fa-balance-scale fa-4x text-muted mb-4"></i>

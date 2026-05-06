@@ -41,9 +41,9 @@
                 {{-- Tombol download PDF jika tersedia --}}
                 @if(!empty($d['laporan_survey_file_laporan']))
                 <div class="mt-4 text-center pt-4" style="border-top: 2px solid #f0f4f8;">
-                    <a href="{{ asset('storage/halaman/' . $d['laporan_survey_file_laporan']) }}"
-                       target="_blank" class="btn-action btn-action-gold">
-                        <i class="fas fa-download"></i> Unduh Laporan Survey (PDF)
+                    <a href="{{ route('preview.dokumen', ['file' => 'storage/halaman/' . $d['laporan_survey_file_laporan'], 'title' => 'Laporan Survey Kepuasan']) }}"
+                       class="btn-action btn-action-gold">
+                        <i class="fas fa-eye"></i> Lihat Laporan Survey (PDF)
                     </a>
                 </div>
                 @endif

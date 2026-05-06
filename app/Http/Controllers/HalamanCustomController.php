@@ -31,30 +31,32 @@ class HalamanCustomController extends Controller
         }
 
         // 2. Handle file uploads
-        foreach ($request->allFiles() as $key => $file) {
-            $settingKey = $type . '_' . $key;
-            
-            if (!is_array($file) && $file->isValid()) {
-                $filename = time() . '_' . $settingKey . '.' . $file->getClientOriginalExtension();
+        if ($request->hasFile('*') || count($request->allFiles()) > 0) {
+            foreach ($request->allFiles() as $key => $file) {
+                $settingKey = $type . '_' . $key;
                 
-                // Ensure storage directory exists
-                if (!Storage::disk('public')->exists('halaman')) {
-                    Storage::disk('public')->makeDirectory('halaman');
+                if (!is_array($file) && $file->isValid()) {
+                    $filename = time() . '_' . $settingKey . '.' . $file->getClientOriginalExtension();
+                    
+                    // Ensure storage directory exists
+                    if (!Storage::disk('public')->exists('halaman')) {
+                        Storage::disk('public')->makeDirectory('halaman');
+                    }
+                    
+                    // Store in storage/app/public/halaman
+                    $file->storeAs('halaman', $filename, 'public');
+                    
+                    // Delete old file if exists
+                    $old = Dashboard::where('key', $settingKey)->first();
+                    if ($old && $old->value && Storage::disk('public')->exists('halaman/' . $old->value)) {
+                        Storage::disk('public')->delete('halaman/' . $old->value);
+                    }
+                    
+                    Dashboard::updateOrCreate(
+                        ['key' => $settingKey],
+                        ['value' => $filename, 'type' => 'file', 'description' => "File untuk $type $key"]
+                    );
                 }
-                
-                // Store in storage/app/public/halaman
-                $file->storeAs('halaman', $filename, 'public');
-                
-                // Delete old file if exists
-                $old = Dashboard::where('key', $settingKey)->first();
-                if ($old && $old->value && Storage::disk('public')->exists('halaman/' . $old->value)) {
-                    Storage::disk('public')->delete('halaman/' . $old->value);
-                }
-                
-                Dashboard::updateOrCreate(
-                    ['key' => $settingKey],
-                    ['value' => $filename, 'type' => 'file', 'description' => "File untuk $type $key"]
-                );
             }
         }
 

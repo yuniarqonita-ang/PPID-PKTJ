@@ -139,8 +139,8 @@
                     
                     @if($profil->link_dokumen)
                         <div class="mt-5 text-center">
-                            <a href="{{ $profil->link_dokumen }}" target="_blank" class="btn-download btn-lg">
-                                <i class="fas fa-file-pdf me-2"></i> Download Dokumen Profil Lengkap
+                            <a href="{{ route('preview.dokumen', ['file' => $profil->link_dokumen, 'title' => 'Dokumen Profil Lengkap']) }}" class="btn-download btn-lg">
+                                <i class="fas fa-file-pdf me-2"></i> Lihat Dokumen Profil Lengkap
                             </a>
                         </div>
                     @endif

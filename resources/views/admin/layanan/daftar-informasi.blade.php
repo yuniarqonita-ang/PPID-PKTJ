@@ -54,7 +54,7 @@
                 </h3>
             </div>
             
-            <form action="{{ route('admin.halaman-custom.store', 'layanan_daftar') }}" method="POST" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <form action="{{ route('admin.halaman-custom.store', 'layanan_daftar') }}" method="POST" enctype="multipart/form-data" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                 @csrf
                 <div class="space-y-3">
                     <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Judul Halaman Depan</label>
@@ -65,6 +65,21 @@
                     <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Tagline Deskripsi</label>
                     <input type="text" name="tagline_hero" value="{{ $settings['layanan_daftar_tagline_hero'] ?? '' }}"
                         class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:border-[#004a99] outline-none transition-all font-bold text-[#004a99] text-lg">
+                </div>
+                
+                <div class="md:col-span-2 space-y-4">
+                    <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Background Hero (Gambar)</label>
+                    <div class="flex flex-col md:flex-row gap-6 items-start">
+                        @if(isset($settings['layanan_daftar_hero_image']))
+                        <div class="w-full md:w-64 h-36 rounded-2xl overflow-hidden border-2 border-slate-100 shadow-md">
+                            <img src="{{ asset('storage/halaman/' . $settings['layanan_daftar_hero_image']) }}" class="w-full h-full object-cover">
+                        </div>
+                        @endif
+                        <div class="flex-1 w-full">
+                            <input type="file" name="hero_image" class="w-full px-6 py-4 bg-slate-50 border-2 border-dashed border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 transition-all font-bold text-[#004a99]">
+                            <p class="text-[10px] font-bold text-slate-400 mt-2 uppercase tracking-widest">Format: JPG, PNG, WEBP (Max 5MB). Rekomendasi: 1920x1080px</p>
+                        </div>
+                    </div>
                 </div>
                 <div class="md:col-span-2 flex justify-end">
                     <button type="submit" class="px-10 py-4 bg-[#004a99] text-white font-black text-sm uppercase tracking-widest rounded-2xl hover:bg-black transition-all border-none cursor-pointer">
@@ -128,6 +143,11 @@
                                 @if($item->file_informasi)
                                 <a href="{{ asset($item->file_informasi) }}" target="_blank" class="w-10 h-10 bg-white text-green-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-green-600 hover:text-white transition-all shadow-md" title="Buka File">
                                     <i class="fas fa-file-pdf"></i>
+                                </a>
+                                @endif
+                                @if($item->image)
+                                <a href="{{ asset($item->image) }}" target="_blank" class="w-10 h-10 bg-white text-blue-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-blue-600 hover:text-white transition-all shadow-md" title="Lihat Gambar">
+                                    <i class="fas fa-image"></i>
                                 </a>
                                 @endif
                                 <a href="{{ route('admin.layanan.daftar-informasi.edit', $item->id) }}" class="w-10 h-10 bg-white text-[#004a99] rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-[#004a99] hover:text-white transition-all shadow-md">
@@ -266,6 +286,18 @@
                 <a href="${item.file_informasi.startsWith('http') ? item.file_informasi : '/' + item.file_informasi}" target="_blank" class="inline-flex items-center gap-3 px-6 py-3 bg-green-50 text-green-700 border-2 border-green-100 rounded-xl hover:bg-green-600 hover:text-white transition-all group font-bold">
                     <i class="fas fa-file-pdf text-xl"></i>
                     <span>Buka Lampiran Dokumen</span>
+                </a>
+            </div>
+            ` : ''}
+
+            ${item.image ? `
+            <div class="border-t pt-6">
+                <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">Gambar Pendukung</p>
+                <div class="rounded-2xl overflow-hidden border-2 border-slate-100 shadow-lg mb-3">
+                    <img src="${item.image.startsWith('http') ? item.image : '/' + item.image}" class="w-full h-auto object-cover max-h-96">
+                </div>
+                <a href="${item.image.startsWith('http') ? item.image : '/' + item.image}" target="_blank" class="inline-flex items-center gap-2 text-xs font-black text-[#004a99] uppercase hover:underline">
+                    <i class="fas fa-external-link-alt"></i> Lihat Ukuran Penuh
                 </a>
             </div>
             ` : ''}

@@ -324,12 +324,6 @@
                             <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-penetapan*') ? 'active' : '' }}">SOP Penetapan DIP</a>
                             <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pengujian*') ? 'active' : '' }}">SOP Pengujian Konsekuensi</a>
                             <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pendokumentasian*') ? 'active' : '' }}">SOP Pendokumentasian</a>
-                            
-                            <a href="{{ route('admin.prosedur.sop-maklumat') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-maklumat*') ? 'active' : '' }}">SOP Maklumat</a>
-                            <a href="{{ route('admin.prosedur.sop-biaya') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-biaya*') ? 'active' : '' }}">SOP Standar Biaya</a>
-                            <a href="{{ route('admin.prosedur.sop-waktu') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-waktu*') ? 'active' : '' }}">SOP Waktu Layanan</a>
-                            <a href="{{ route('admin.prosedur.sop-alur-permohonan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-alur-permohonan*') ? 'active' : '' }}">Alur Permohonan</a>
-                            <a href="{{ route('admin.prosedur.sop-alur-keberatan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-alur-keberatan*') ? 'active' : '' }}">Alur Keberatan</a>
                         </div>
 
                         <a href="{{ route('admin.faq.index') }}" class="nav-link {{ request()->routeIs('admin.faq.*') || request()->is('admin/faq*') ? 'active' : '' }}">
@@ -534,7 +528,13 @@
                     editor.on('change', function () {
                         tinymce.triggerSave();
                     });
-                }
+                },
+                style_formats: [
+                    { title: 'Premium Blur', inline: 'span', classes: 'premium-blur' },
+                    { title: 'Premium Button', inline: 'span', classes: 'premium-cta-trigger' }
+                ],
+                content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #0f172a; padding: 20px; line-height: 1.6; } ' +
+                              '.premium-blur { filter: blur(5px); background: #f1f5f9; display: inline-block; padding: 2px 4px; border-radius: 4px; }'
             });
             
             $(document).on('submit', 'form', function() { if (typeof tinymce !== 'undefined') tinymce.triggerSave(); });

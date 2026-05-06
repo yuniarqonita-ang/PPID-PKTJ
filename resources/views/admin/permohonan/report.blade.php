@@ -87,9 +87,9 @@
            class="px-6 py-3 bg-[#004a99] text-white rounded-xl text-sm font-black uppercase tracking-wider hover:bg-blue-800 transition shadow-md flex items-center gap-2">
             <i class="fas fa-file-word"></i> Unduh Word (.doc)
         </a>
-        <button onclick="window.print()"
+        <button onclick="downloadPDF()"
            class="px-6 py-3 bg-red-600 text-white rounded-xl text-sm font-black uppercase tracking-wider hover:bg-red-700 transition shadow-md flex items-center gap-2">
-            <i class="fas fa-file-pdf"></i> Cetak / Simpan PDF
+            <i class="fas fa-file-pdf"></i> Unduh PDF (.pdf)
         </button>
     </div>
 
@@ -153,43 +153,61 @@
     </div>
 
     {{-- DATA TABLE FORMAT B1-B4 --}}
-    <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 overflow-hidden print-section">
-        {{-- Print Header (hanya muncul saat print) --}}
-        <div class="hidden print:block p-8 text-center border-b-2 border-slate-200">
-            <p class="text-sm font-bold uppercase tracking-widest">KEMENTERIAN PERHUBUNGAN</p>
-            <p class="text-sm font-bold">POLITEKNIK KESELAMATAN TRANSPORTASI JALAN</p>
-            <p class="text-xs text-slate-600">Jl. Semeru No.3, Tegal, Jawa Tengah</p>
-            <h2 class="text-lg font-black uppercase mt-4 mb-1">LAPORAN PELAKSANAAN TUGAS PELAYANAN INFORMASI PUBLIK</h2>
-            <p class="text-sm font-bold">
-                @if(($periodeType ?? 'bulanan') == 'tahunan')
-                    Periode: Tahun {{ $tahun ?? date('Y') }}
-                @else
-                    Periode: Bulan {{ ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'][$bulan ?? date('m')] }} {{ $tahun ?? date('Y') }}
-                @endif
-            </p>
+    <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 overflow-hidden print-section" style="width: 100%; min-height: 200px;">
+        {{-- Print Header (hanya muncul saat print/PDF) --}}
+        <div class="hidden print:block p-4 border-b border-slate-300" style="display: none;" id="pdfHeader">
+            @php 
+                $logoPath = public_path('images/logo-pktj.png');
+                $logoData = '';
+                if(file_exists($logoPath)) {
+                    $logoData = base64_encode(file_get_contents($logoPath));
+                }
+            @endphp
+            <table style="width: 100%; border: none; margin-bottom: 10px;">
+                <tr>
+                    <td style="width: 10%; text-align: left; border: none;">
+                        @if($logoData)
+                            <img src="data:image/png;base64,{{ $logoData }}" style="width: 60px;">
+                        @endif
+                    </td>
+                    <td style="width: 80%; text-align: center; border: none; vertical-align: middle;">
+                        <h1 style="font-size: 14pt; font-weight: 900; margin: 0; color: #000; text-transform: uppercase;">POLITEKNIK KESELAMATAN TRANSPORTASI JALAN</h1>
+                        <h2 style="font-size: 11pt; font-weight: 800; margin: 2px 0; color: #333;">Sekretariat Pelayanan Informasi Publik</h2>
+                        <p style="font-size: 7pt; margin: 0; color: #666;">Jl. Perintis Kemerdekaan No.17, Kel. Slerok, Kec. Tegal Timur, Kota Tegal, Jawa Tengah, 52125, (0283) 351061</p>
+                    </td>
+                    <td style="width: 10%; border: none;"></td>
+                </tr>
+            </table>
+            <div style="border-bottom: 2pt solid #000; margin-bottom: 10px;"></div>
+            <div style="text-align: center; margin-top: 15px;">
+                <h2 style="font-size: 12pt; font-weight: 900; text-transform: uppercase; margin-bottom: 5px;">LAPORAN PELAKSANAAN TUGAS PELAYANAN INFORMASI PUBLIK</h2>
+                <p style="font-size: 9pt; font-weight: 700;">
+                    Periode: {{ ($periodeType ?? 'bulanan') == 'tahunan' ? 'Tahun ' . $tahun : 'Bulan ' . (['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'][$bulan ?? date('m')]) . ' ' . $tahun }}
+                </p>
+            </div>
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full border-collapse text-xs" id="laporanTable">
+            <table class="w-full border-collapse text-xs" id="laporanTable" style="width: 100%; table-layout: fixed; border: 1px solid #000;">
                 <thead>
-                    <tr class="bg-[#004a99] text-white">
-                        <th rowspan="2" class="px-3 py-3 text-center border border-blue-700 font-black uppercase">No</th>
-                        <th rowspan="2" class="px-3 py-3 text-center border border-blue-700 font-black uppercase">Bulan</th>
-                        <th rowspan="2" class="px-3 py-3 text-center border border-blue-700 font-black uppercase">Tgl Permohonan</th>
-                        <th rowspan="2" class="px-3 py-3 text-center border border-blue-700 font-black uppercase">Tgl Selesai</th>
-                        <th rowspan="2" class="px-3 py-3 text-center border border-blue-700 font-black uppercase">Waktu (Hari)</th>
-                        <th rowspan="2" class="px-3 py-3 text-left border border-blue-700 font-black uppercase min-w-[140px]">Nama Pemohon / Instansi</th>
-                        <th rowspan="2" class="px-3 py-3 text-left border border-blue-700 font-black uppercase min-w-[180px]">Rincian Informasi yang Dibutuhkan</th>
-                        <th colspan="4" class="px-3 py-2 text-center border border-blue-700 font-black uppercase text-[#ffc107]">Jenis Informasi</th>
-                        <th rowspan="2" class="px-3 py-3 text-center border border-blue-700 font-black uppercase">Keterangan<br>(Dipenuhi/Ditolak/<br>Proses)</th>
-                        <th rowspan="2" class="px-3 py-3 text-center border border-blue-700 font-black uppercase">Metode<br>Pelayanan</th>
-                        <th rowspan="2" class="px-3 py-3 text-left border border-blue-700 font-black uppercase">Alasan Penolakan<br>(Jika Ada)</th>
+                    <tr style="background-color: #004a99; color: white;">
+                        <th rowspan="2" style="width: 25px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">No</th>
+                        <th rowspan="2" style="width: 40px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Bulan</th>
+                        <th rowspan="2" style="width: 60px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Tgl Minta</th>
+                        <th rowspan="2" style="width: 60px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Tgl Selesai</th>
+                        <th rowspan="2" style="width: 35px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Waktu</th>
+                        <th rowspan="2" style="width: 100px; padding: 4px; text-align: left; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Nama Pemohon</th>
+                        <th rowspan="2" style="padding: 4px; text-align: left; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Rincian Informasi</th>
+                        <th colspan="4" style="padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase; background-color: #003366;">Jenis Informasi</th>
+                        <th rowspan="2" style="width: 60px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Ket</th>
+                        <th rowspan="2" style="width: 60px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Metode</th>
+                        <th rowspan="2" style="width: 80px; padding: 4px; text-align: left; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Alasan Ditolak</th>
                     </tr>
-                    <tr class="bg-blue-800 text-white">
-                        <th class="px-2 py-2 text-center border border-blue-700 text-[10px] font-black uppercase">Berkala</th>
-                        <th class="px-2 py-2 text-center border border-blue-700 text-[10px] font-black uppercase">Serta Merta</th>
-                        <th class="px-2 py-2 text-center border border-blue-700 text-[10px] font-black uppercase">Setiap Saat</th>
-                        <th class="px-2 py-2 text-center border border-blue-700 text-[10px] font-black uppercase">Dikecualikan</th>
+                    <tr style="background-color: #005bb5; color: white;">
+                        <th style="width: 25px; font-size: 8px; border: 1px solid #000; text-align: center; padding: 2px;">B</th>
+                        <th style="width: 25px; font-size: 8px; border: 1px solid #000; text-align: center; padding: 2px;">SM</th>
+                        <th style="width: 25px; font-size: 8px; border: 1px solid #000; text-align: center; padding: 2px;">SS</th>
+                        <th style="width: 25px; font-size: 8px; border: 1px solid #000; text-align: center; padding: 2px;">D</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -213,46 +231,41 @@
                             default => 'bg-slate-100 text-slate-600'
                         };
                     @endphp
-                    <tr class="hover:bg-blue-50/30 transition {{ $index % 2 == 0 ? '' : 'bg-slate-50/50' }}">
-                        <td class="px-2 py-3 text-center font-black text-[#004a99] border border-slate-200">{{ $index + 1 }}</td>
-                        <td class="px-2 py-3 text-center font-bold border border-slate-200">{{ $bulanItem }}</td>
-                        <td class="px-2 py-3 text-center border border-slate-200">{{ \Carbon\Carbon::parse($tglMinta)->format('d/m/Y') }}</td>
-                        <td class="px-2 py-3 text-center border border-slate-200">{{ $tglSelesai ? \Carbon\Carbon::parse($tglSelesai)->format('d/m/Y') : '—' }}</td>
-                        <td class="px-2 py-3 text-center font-black text-[#004a99] border border-slate-200">{{ $hariKerja }}</td>
-                        <td class="px-3 py-3 border border-slate-200">
-                            <div class="font-bold text-slate-800">{{ $item->nama_pemohon }}</div>
-                            <div class="text-[10px] text-slate-400 uppercase truncate max-w-[130px]">{{ $item->perusahaan_instansi ?? $item->alamat }}</div>
+                    <tr style="border-bottom: 1px solid #000;">
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">{{ $index + 1 }}</td>
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">{{ $bulanItem }}</td>
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">{{ \Carbon\Carbon::parse($tglMinta)->format('d/m/Y') }}</td>
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">{{ $tglSelesai ? \Carbon\Carbon::parse($tglSelesai)->format('d/m/Y') : '—' }}</td>
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">{{ $hariKerja }}</td>
+                        <td style="padding: 4px; border: 1px solid #000; font-weight: bold; font-size: 8px;">
+                            {{ $item->nama_pemohon }}
                         </td>
-                        <td class="px-3 py-3 border border-slate-200">
-                            <div class="line-clamp-2 text-slate-700" title="{{ $item->deskripsi_permohonan }}">
-                                {{ $item->deskripsi_permohonan }}
-                            </div>
+                        <td style="padding: 4px; border: 1px solid #000; font-size: 8px; line-height: 1.1;">
+                            {{ $item->deskripsi_permohonan }}
                         </td>
                         {{-- Jenis Informasi --}}
-                        <td class="px-2 py-3 text-center font-black text-[#004a99] border border-slate-200">
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">
                             {{ $item->kategori_laporan == 'berkala' ? '✓' : '' }}
                         </td>
-                        <td class="px-2 py-3 text-center font-black text-[#004a99] border border-slate-200">
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">
                             {{ $item->kategori_laporan == 'sertamerta' ? '✓' : '' }}
                         </td>
-                        <td class="px-2 py-3 text-center font-black text-[#004a99] border border-slate-200">
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">
                             {{ $item->kategori_laporan == 'setiapsaat' ? '✓' : '' }}
                         </td>
-                        <td class="px-2 py-3 text-center font-black text-[#004a99] border border-slate-200">
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">
                             {{ $item->kategori_laporan == 'dikecualikan' ? '✓' : '' }}
                         </td>
                         {{-- Keterangan --}}
-                        <td class="px-2 py-3 text-center border border-slate-200">
-                            <span class="px-2 py-1 rounded-lg text-[10px] font-black uppercase {{ $statusColor }}">
-                                {{ $statusLabel }}
-                            </span>
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000; font-size: 8px;">
+                            {{ $statusLabel }}
                         </td>
                         {{-- Metode Pelayanan --}}
-                        <td class="px-2 py-3 text-center text-[10px] border border-slate-200">
+                        <td style="padding: 4px; text-align: center; border: 1px solid #000; font-size: 7px;">
                             {{ $item->jenis_permohonan_salinan ?? $item->bentuk_informasi_salinan ?? '—' }}
                         </td>
                         {{-- Alasan Penolakan --}}
-                        <td class="px-3 py-3 text-[10px] text-slate-600 border border-slate-200">
+                        <td style="padding: 4px; border: 1px solid #000; font-size: 7px;">
                             {{ $item->alasan_penolakan_text ?? ($item->status == 'ditolak' ? 'Sesuai pasal ' . ($item->penolakan_pasal_uu ?? '—') : '') }}
                         </td>
                     </tr>
@@ -279,42 +292,71 @@
                 @endif
             </table>
         </div>
+
+        {{-- Signature Section for Print --}}
+        <div class="hidden print:block p-8 mt-4">
+            <div class="grid grid-cols-2 gap-8">
+                <div></div>
+                <div class="text-center">
+                    <p class="mb-16">Tegal, {{ date('d F Y') }}<br><strong>PPID PELAKSANA</strong></p>
+                    <p class="font-bold underline">{{ $settings['report_ppid_name'] ?? '..........................' }}</p>
+                    <p>NIP. {{ $settings['report_ppid_nip'] ?? '..........................' }}</p>
+                </div>
+                <div class="col-span-2 text-center mt-10">
+                    <p class="mb-16 uppercase font-bold">Mengetahui,<br>Menteri Perhubungan Republik Indonesia</p>
+                    <p class="font-bold underline">{{ $settings['report_menteri_name'] ?? 'BUDI KARYA SUMADI' }}</p>
+                </div>
+            </div>
+        </div>
     </div>
 
 </div>
 
 <style>
 @media print {
-    @page { 
-        size: landscape; 
-        margin: 1cm;
+    @page {
+        size: landscape;
+        margin: 0.5cm;
     }
-    body * { visibility: hidden; }
-    .print-section, .print-section * { visibility: visible; }
-    .print-section { 
-        position: absolute; 
-        left: 0; 
-        top: 0; 
-        width: 100%; 
+    body {
+        background: white !important;
+        color: black !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
-    table { 
-        width: 100% !important; 
-        font-size: 8px !important; 
-        border-collapse: collapse !important;
+    .no-print { display: none !important; }
+    .print-section {
+        display: block !important;
+        visibility: visible !important;
+        position: relative !important;
+        top: 0 !important;
+        left: 0 !important;
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        border: none !important;
+        background: white !important;
     }
-    th, td { 
-        border: 1px solid #000 !important; 
-        padding: 4px !important; 
-    }
-    .hidden.print\:block { display: block !important; visibility: visible !important; }
+    #pdfHeader { display: block !important; }
+    #laporanTable { border-collapse: collapse !important; width: 100% !important; border: 1.5pt solid #000 !important; }
+    #laporanTable th, #laporanTable td { border: 1pt solid #000 !important; color: black !important; padding: 4px !important; }
+    .bg-white { background-color: white !important; }
+    .text-white { color: black !important; }
     
-    /* Hide scrollbars and extra UI */
-    .admin-wrapper { overflow: visible !important; }
-    .main-content { margin-left: 0 !important; }
-    .content-area { padding: 0 !important; }
+    .signature-wrapper {
+        margin-top: 30px !important;
+        display: flex !important;
+        justify-content: flex-end !important;
+        padding-right: 50px !important;
+        page-break-inside: avoid !important;
+    }
 }
 </style>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script>
 function setPeriod(type) {
     document.getElementById('periode_type').value = type;
@@ -355,11 +397,53 @@ async function saveSettings() {
         });
         if (response.ok) {
             alert('Pengaturan penandatangan berhasil disimpan!');
-            toggleSettings();
+            location.reload(); // Reload to apply settings to the print view
         }
     } catch (error) {
         alert('Terjadi kesalahan. Coba lagi.');
     }
+}
+
+function downloadPDF() {
+    const element = document.querySelector('.print-section');
+    
+    // Show PDF Header and ensure visibility
+    const pdfHeader = document.getElementById('pdfHeader');
+    if(pdfHeader) {
+        pdfHeader.style.setProperty('display', 'block', 'important');
+        pdfHeader.style.setProperty('visibility', 'visible', 'important');
+    }
+
+    const opt = {
+        margin:       [0.3, 0.3, 0.3, 0.3],
+        filename:     'Laporan_PPID_{{ ($periodeType ?? "bulanan") == "tahunan" ? $tahun : ($bulan . "_" . $tahun) }}.pdf',
+        image:        { type: 'jpeg', quality: 1.0 },
+        html2canvas:  { 
+            scale: 2, 
+            useCORS: true, 
+            letterRendering: true,
+            scrollY: 0,
+            windowWidth: 1400
+        },
+        jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
+    };
+
+    const btn = event.currentTarget;
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating...';
+    btn.disabled = true;
+
+    html2pdf().set(opt).from(element).save().then(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        // Reset header display
+        if(pdfHeader) pdfHeader.style.display = 'none';
+    }).catch(err => {
+        console.error('PDF Error:', err);
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+        alert('Gagal mengunduh PDF. Silakan coba lagi.');
+    });
 }
 </script>
 @endsection

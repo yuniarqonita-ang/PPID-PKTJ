@@ -35,23 +35,36 @@ class DaftarInformasiController extends Controller
             'bentuk_informasi' => 'nullable|string|max:100',
             'jangka_waktu'     => 'nullable|string|max:100',
             'file_informasi'   => 'nullable|file|mimes:pdf,doc,docx|max:20480',
+            'image'            => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
-        $data = $validated;
+        try {
+            $data = $validated;
 
-        if ($request->hasFile('file_informasi')) {
-            $file = $request->file('file_informasi');
-            $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
-            $file->storeAs('public/daftar-informasi', $filename);
-            $data['file_informasi'] = 'storage/daftar-informasi/' . $filename;
+            if ($request->hasFile('file_informasi')) {
+                $file = $request->file('file_informasi');
+                $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-._]/', '_', $file->getClientOriginalName());
+                $path = $file->storeAs('daftar-informasi', $filename, 'public');
+                $data['file_informasi'] = 'storage/' . $path;
+            }
+
+            if ($request->hasFile('image')) {
+                $file = $request->file('image');
+                $filename = time() . '_img_' . preg_replace('/[^A-Za-z0-9\-._]/', '_', $file->getClientOriginalName());
+                $path = $file->storeAs('daftar-informasi', $filename, 'public');
+                $data['image'] = 'storage/' . $path;
+            }
+
+            $data['aktif'] = $request->has('aktif');
+            $data['is_blurred'] = $request->has('is_blurred');
+
+            DaftarInformasi::create($data);
+
+            return redirect()->route('admin.layanan.daftar-informasi')
+                ->with('success', 'Data informasi publik berhasil ditambahkan!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Gagal menyimpan data: ' . $e->getMessage()])->withInput();
         }
-
-        $data['aktif'] = $request->has('aktif');
-
-        DaftarInformasi::create($data);
-
-        return redirect()->route('admin.layanan.daftar-informasi')
-            ->with('success', 'Data informasi publik berhasil ditambahkan!');
     }
 
     public function edit($id)
@@ -77,29 +90,54 @@ class DaftarInformasiController extends Controller
             'bentuk_informasi' => 'nullable|string|max:100',
             'jangka_waktu'     => 'nullable|string|max:100',
             'file_informasi'   => 'nullable|file|mimes:pdf,doc,docx|max:20480',
+            'image'            => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
         ]);
 
-        $data = $validated;
+        try {
+            $data = $validated;
 
-        if ($request->hasFile('file_informasi')) {
-            // Delete old file
-            if ($item->file_informasi && Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
-                Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
+            if ($request->hasFile('file_informasi')) {
+                // Delete old file
+                if ($item->file_informasi) {
+                    $oldPath = str_replace('storage/', '', $item->file_informasi);
+                    if (Storage::disk('public')->exists($oldPath)) {
+                        Storage::disk('public')->delete($oldPath);
+                    }
+                }
+                $file = $request->file('file_informasi');
+                $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-._]/', '_', $file->getClientOriginalName());
+                $path = $file->storeAs('daftar-informasi', $filename, 'public');
+                $data['file_informasi'] = 'storage/' . $path;
+            } else {
+                unset($data['file_informasi']);
             }
-            $file = $request->file('file_informasi');
-            $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
-            $file->storeAs('public/daftar-informasi', $filename);
-            $data['file_informasi'] = 'storage/daftar-informasi/' . $filename;
-        } else {
-            unset($data['file_informasi']); // jangan timpa kalau tidak ada file baru
+
+            if ($request->hasFile('image')) {
+                // Delete old image
+                if ($item->image) {
+                    $oldPath = str_replace('storage/', '', $item->image);
+                    if (Storage::disk('public')->exists($oldPath)) {
+                        Storage::disk('public')->delete($oldPath);
+                    }
+                }
+                $file = $request->file('image');
+                $filename = time() . '_img_' . preg_replace('/[^A-Za-z0-9\-._]/', '_', $file->getClientOriginalName());
+                $path = $file->storeAs('daftar-informasi', $filename, 'public');
+                $data['image'] = 'storage/' . $path;
+            } else {
+                unset($data['image']);
+            }
+
+            $data['aktif'] = $request->has('aktif');
+            $data['is_blurred'] = $request->has('is_blurred');
+
+            $item->update($data);
+
+            return redirect()->route('admin.layanan.daftar-informasi')
+                ->with('success', 'Data informasi publik berhasil diperbarui!');
+        } catch (\Exception $e) {
+            return back()->withErrors(['error' => 'Gagal memperbarui data: ' . $e->getMessage()])->withInput();
         }
-
-        $data['aktif'] = $request->has('aktif');
-
-        $item->update($data);
-
-        return redirect()->route('admin.layanan.daftar-informasi')
-            ->with('success', 'Data informasi publik berhasil diperbarui!');
     }
 
     public function destroy($id)
@@ -107,6 +145,9 @@ class DaftarInformasiController extends Controller
         $item = DaftarInformasi::findOrFail($id);
         if ($item->file_informasi && Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
             Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
+        }
+        if ($item->image && Storage::exists(str_replace('storage/', 'public/', $item->image))) {
+            Storage::delete(str_replace('storage/', 'public/', $item->image));
         }
         $item->delete();
 

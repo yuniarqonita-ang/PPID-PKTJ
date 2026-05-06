@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -172,7 +172,7 @@
                                 </small>
                                 
                                 <div class="d-flex justify-content-center flex-wrap">
-                                    <a href="{{ route('dokumen.view', $doc->id) }}" class="btn-action btn-view" target="_blank">
+                                    <a href="{{ route('preview.dokumen', ['file' => 'storage/' . $doc->file_path, 'title' => $doc->judul]) }}" class="btn-action btn-view">
                                         <i class="fas fa-eye"></i> Lihat
                                     </a>
                                     <a href="{{ route('dokumen.download', $doc->id) }}" class="btn-action btn-download">

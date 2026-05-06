@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
@@ -123,7 +123,7 @@
             <i class="fas fa-file-pdf"></i> {{ $peraturan->judul }}
         </div>
         <div class="viewer-actions">
-            <a href="{{ route('profil.regulasi.html') }}" title="Kembali">
+            <a href="{{ route('profil.regulasi') }}" title="Kembali">
                 <i class="fas fa-arrow-left"></i> Kembali
             </a>
         </div>

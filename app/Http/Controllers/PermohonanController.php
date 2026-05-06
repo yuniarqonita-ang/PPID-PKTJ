@@ -580,16 +580,30 @@ class PermohonanController extends Controller
         $html .= '<tr><td colspan="15"></td></tr></table>';
 
         // Tanda tangan
-        $html .= '<br><table class="sign-table">
-  <tr><td colspan="2" style="text-align:right; padding-right:20px;">Tegal, ' . date('d F Y') . '</td></tr>
-  <tr><td colspan="2" style="text-align:right; padding-right:20px;">PPID ' . strtoupper($namaLembaga) . '</td></tr>
-  <tr><td colspan="2" style="height:60px;"></td></tr>
-  <tr><td colspan="2" style="text-align:right; padding-right:20px;"><strong>' . e($ppid_name) . '</strong></td></tr>
-  <tr><td colspan="2" style="text-align:right; padding-right:20px;">NIP. ' . e($ppid_nip) . '</td></tr>
+        $html .= '<br><table style="border:none; width:100%;">
+  <tr>
+    <td style="border:none; width:70%;"></td>
+    <td style="border:none; text-align:center; width:30%;">Tegal, ' . date('d F Y') . '</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td style="border:none; text-align:center;">PPID ' . strtoupper($namaLembaga) . '</td>
+  </tr>
+  <tr><td colspan="2" style="height:60px; border:none;"></td></tr>
+  <tr>
+    <td></td>
+    <td style="border:none; text-align:center;"><strong>' . e($ppid_name) . '</strong></td>
+  </tr>
+  <tr>
+    <td></td>
+    <td style="border:none; text-align:center;">NIP. ' . e($ppid_nip) . '</td>
+  </tr>
 </table>
 </body></html>';
 
-        return response($html)
+        $bom = "\xEF\xBB\xBF";
+
+        return response($bom . $html)
             ->header('Content-Type', 'application/vnd.ms-excel; charset=UTF-8')
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
             ->header('Cache-Control', 'max-age=0');

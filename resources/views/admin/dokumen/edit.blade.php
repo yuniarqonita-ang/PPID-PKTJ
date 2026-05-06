@@ -51,6 +51,16 @@
                             <p class="text-xs text-slate-400 mt-1">Kosongkan jika tidak ingin mengganti file</p>
                         </div>
 
+                        <div class="mb-6">
+                            <label class="flex items-center space-x-3 cursor-pointer">
+                                <input type="checkbox" name="is_blurred" value="1" {{ $dokumen->is_blurred ? 'checked' : '' }} class="w-5 h-5 text-blue-600 border-slate-600 rounded focus:ring-blue-500 focus:ring-2 bg-slate-900/60 transition-all">
+                                <div>
+                                    <span class="text-slate-300 font-bold uppercase tracking-widest text-xs">Premium View (Blurring)</span>
+                                    <p class="text-[10px] text-slate-500 font-medium">Aktifkan untuk memberikan efek blur pada dokumen kecuali halaman pertama.</p>
+                                </div>
+                            </label>
+                        </div>
+
                         <div class="flex items-center justify-between">
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                 Update

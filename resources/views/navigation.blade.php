@@ -72,6 +72,59 @@
     .nav-link:hover::after {
         width: 70%;
     }
+
+    /* PREMIUM BLUR & INTERACTIVE ELEMENTS */
+    @if(\App\Models\Dashboard::getValue('premium_view_enabled'))
+    .premium-blur {
+        filter: blur(8px) !important;
+        -webkit-filter: blur(8px) !important;
+        transition: filter 0.5s ease;
+        user-select: none;
+        pointer-events: none;
+        position: relative;
+    }
+
+    .premium-blur-container {
+        position: relative;
+        overflow: hidden;
+    }
+
+    .premium-blur-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(12px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10;
+        border-radius: 12px;
+    }
+
+    .premium-cta-trigger {
+        background: #ffc107;
+        color: #004a99 !important;
+        padding: 5px 15px;
+        border-radius: 50px;
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 1px;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        border: none;
+        box-shadow: 0 4px 10px rgba(255, 193, 7, 0.3);
+        text-decoration: none !important;
+    }
+
+    .premium-cta-trigger:hover {
+        background: #004a99;
+        color: white !important;
+        transform: scale(1.05);
+    }
+    @endif
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0; position: relative; z-index: 1050;">
@@ -130,11 +183,6 @@
                         <li><a class="dropdown-item" href="{{ route('prosedur.sop-penetapan') }}">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
                         <li><a class="dropdown-item" href="{{ route('prosedur.sop-pengujian') }}">SOP Pengujian Konsekuensi</a></li>
                         <li><a class="dropdown-item" href="{{ route('prosedur.sop-pendokumentasian') }}">SOP Pendokumentasian Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-maklumat') }}">SOP Maklumat Pelayanan</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-biaya') }}">SOP Standar Biaya</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-waktu') }}">SOP Standar Waktu Layanan</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-alur-permohonan') }}">Alur Prosedur Permintaan Informasi</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-alur-keberatan') }}">Alur Prosedur Pengajuan Keberatan</a></li>
                     </ul>
                 </li>
 
@@ -157,3 +205,38 @@
         </div>
     </div>
 </nav>
+
+<!-- PREMIUM DOCUMENT VIEWER MODAL (GLOBAL) -->
+<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true" style="z-index: 1060;">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content border-0 bg-transparent">
+            <div class="modal-header border-0 p-0">
+                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-4 shadow-lg" data-bs-dismiss="modal" aria-label="Close" style="z-index: 1100;"></button>
+            </div>
+            <div class="modal-body p-0 overflow-hidden">
+                <iframe id="previewIframe" src="" frameborder="0" style="width: 100%; height: 100vh;"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const previewModal = document.getElementById('previewModal');
+        const previewIframe = document.getElementById('previewIframe');
+
+        if (previewModal && previewIframe) {
+            // Handle when modal is shown
+            previewModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const url = button.getAttribute('data-url');
+                previewIframe.src = url;
+            });
+
+            // Clear iframe when modal is hidden to stop any background processing
+            previewModal.addEventListener('hidden.bs.modal', function () {
+                previewIframe.src = '';
+            });
+        }
+    });
+</script>

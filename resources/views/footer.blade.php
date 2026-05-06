@@ -75,4 +75,96 @@
     .hover-opacity-100:hover { opacity: 1 !important; transform: translateY(-2px); }
     .transition { transition: all 0.3s ease; }
     footer a:hover { color: var(--secondary-gold) !important; opacity: 1 !important; }
+
+    /* PREMIUM BLUR STYLES */
+    @if($settings['premium_view_enabled'] ?? false)
+    .premium-blur {
+        position: relative !important;
+        filter: blur(12px) !important;
+        user-select: none !important;
+        pointer-events: none !important;
+        display: block !important;
+        min-height: 150px !important;
+        background: #f8fafc !important;
+        border-radius: 12px !important;
+        margin: 15px 0 !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+    .premium-blur-container {
+        position: relative;
+    }
+    .premium-blur-overlay {
+        position: absolute;
+        inset: 0;
+        z-index: 50;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        padding: 40px;
+        background: rgba(255,255,255,0.2);
+        backdrop-filter: blur(2px);
+    }
+    .premium-blur-text {
+        color: #004a99;
+        font-weight: 800;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+        text-transform: uppercase;
+        max-width: 500px;
+        text-shadow: 0 0 10px rgba(255,255,255,0.8);
+    }
+    .premium-blur-btn {
+        background: #ffc107;
+        color: #004a99;
+        padding: 12px 30px;
+        border-radius: 50px;
+        font-weight: 900;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-size: 13px;
+        box-shadow: 0 10px 25px rgba(255, 193, 7, 0.4);
+        border: none;
+        transition: all 0.3s ease;
+    }
+    .premium-blur-btn:hover {
+        transform: translateY(-5px);
+        background: #004a99;
+        color: white;
+    }
+    @endif
 </style>
+
+@if($settings['premium_view_enabled'] ?? false)
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.premium-blur').forEach(el => {
+            // Wrap in a relative container if not already
+            const wrapper = document.createElement('div');
+            wrapper.className = 'premium-blur-container';
+            el.parentNode.insertBefore(wrapper, el);
+            wrapper.appendChild(el);
+            
+            // Add overlay
+            const overlay = document.createElement('div');
+            overlay.className = 'premium-blur-overlay';
+            
+            const text = document.createElement('div');
+            text.className = 'premium-blur-text';
+            text.innerText = "{{ $settings['premium_view_blur_text'] ?? 'Dokumen ini dikunci untuk alasan keamanan. Silakan ajukan permohonan informasi untuk melihat konten lengkap.' }}";
+            
+            const btn = document.createElement('button');
+            btn.className = 'premium-blur-btn';
+            btn.innerText = 'Ajukan Permohonan';
+            btn.onclick = function() {
+                window.location.href = "{{ $settings['premium_view_cta_url'] ?? route('permohonan.form') }}";
+            };
+            
+            overlay.appendChild(text);
+            overlay.appendChild(btn);
+            wrapper.appendChild(overlay);
+        });
+    });
+</script>
+@endif
