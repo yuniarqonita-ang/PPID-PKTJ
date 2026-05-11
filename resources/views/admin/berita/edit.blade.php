@@ -51,6 +51,25 @@
                             </div>
 
                             <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Kategori</label>
+                                <select name="kategori" class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-[#004a99] focus:bg-white transition-all font-semibold text-slate-700">
+                                    <option value="Berita Utama" {{ $berita->kategori == 'Berita Utama' ? 'selected' : '' }}>Berita Utama</option>
+                                    <option value="Pengumuman" {{ $berita->kategori == 'Pengumuman' ? 'selected' : '' }}>Pengumuman</option>
+                                    <option value="Kegiatan" {{ $berita->kategori == 'Kegiatan' ? 'selected' : '' }}>Kegiatan</option>
+                                    <option value="Informasi Publik" {{ $berita->kategori == 'Informasi Publik' ? 'selected' : '' }}>Informasi Publik</option>
+                                    <option value="Dokumentasi" {{ $berita->kategori == 'Dokumentasi' ? 'selected' : '' }}>Dokumentasi</option>
+                                </select>
+                            </div>
+
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Tag Berita (Hashtag)</label>
+                                <input type="text" name="tags" value="{{ old('tags', $berita->tags) }}"
+                                    class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-[#004a99] focus:bg-white transition-all font-semibold text-slate-700"
+                                    placeholder="Contoh: #pengumuman #pendaftaran #sipencatar">
+                                <p class="text-[10px] text-slate-400 font-medium italic">Gunakan tanda pagar (#) untuk memisahkan setiap tagar.</p>
+                            </div>
+
+                            <div class="space-y-2">
                                 <label class="text-xs font-bold text-slate-500 uppercase tracking-widest mb-3 block">Isi Dokumen Berita</label>
                                 <div class="rounded-2xl overflow-hidden border border-slate-200">
                                     <textarea name="konten" id="editor" class="tinymce-editor">{!! old('konten', $berita->konten) !!}</textarea>
@@ -77,6 +96,25 @@
                                 value="{{ old('tanggal', $berita->tanggal ? \Carbon\Carbon::parse($berita->tanggal)->format('Y-m-d') : date('Y-m-d')) }}">
                         </div>
 
+
+                        {{-- PREMIUM BLUR --}}
+                        <div class="bg-blue-50 rounded-2xl p-6 border border-blue-100 mb-4">
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 bg-[#004a99] text-white rounded-xl flex items-center justify-center">
+                                        <i class="fas fa-lock text-[#ffc107]"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-xs font-black text-blue-900 uppercase tracking-widest">Premium Blur View</h4>
+                                        <p class="text-blue-700 text-[10px] font-bold">Blur dokumen pada halaman berikutnya</p>
+                                    </div>
+                                </div>
+                                <label class="relative inline-flex items-center cursor-pointer">
+                                    <input type="checkbox" name="is_blurred" value="1" {{ $berita->is_blurred ? 'checked' : '' }} class="sr-only peer">
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#004a99]"></div>
+                                </label>
+                            </div>
+                        </div>
 
                     {{-- MEDIA --}}
                     <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">

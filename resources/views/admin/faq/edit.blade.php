@@ -49,6 +49,23 @@
                             @error('jawaban') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>
 
+                        <!-- PREMIUM BLUR CARD -->
+                        <div class="bg-blue-50 rounded-2xl p-6 border border-blue-100 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-[#004a99] text-white rounded-xl flex items-center justify-center">
+                                    <i class="fas fa-lock text-[#ffc107]"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-black text-blue-900 uppercase tracking-widest">Premium Blur View</h4>
+                                    <p class="text-blue-700 text-[10px] font-bold">Proteksi dokumen halaman 2+</p>
+                                </div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="is_blurred" value="1" {{ old('is_blurred', $faq->is_blurred) ? 'checked' : '' }} class="sr-only peer">
+                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#004a99]"></div>
+                            </label>
+                        </div>
+
                     </div>
 
                     <!-- SIDEBAR INFO (BELOW) -->

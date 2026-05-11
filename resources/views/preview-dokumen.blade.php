@@ -24,12 +24,17 @@
             flex-direction: column;
             overflow: hidden;
         }
+
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        body::-webkit-scrollbar { display: none; }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        body { -ms-overflow-style: none; scrollbar-width: none; }
         
         .viewer-toolbar {
             background: rgba(0, 74, 153, 0.95);
             backdrop-filter: blur(10px);
             color: white;
-            padding: 15px 30px;
+            padding: 12px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -46,7 +51,7 @@
             max-width: 50%;
             text-transform: uppercase;
             letter-spacing: 1px;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -56,15 +61,15 @@
         
         .viewer-actions {
             display: flex;
-            gap: 15px;
+            gap: 12px;
             align-items: center;
         }
         
         .btn-viewer {
-            padding: 10px 20px;
+            padding: 8px 18px;
             text-decoration: none;
-            border-radius: 12px;
-            font-size: 13px;
+            border-radius: 10px;
+            font-size: 12px;
             font-weight: 800;
             text-transform: uppercase;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -82,13 +87,19 @@
         #viewer-content {
             flex: 1;
             overflow-y: auto;
-            padding: 40px 20px;
+            padding: 30px 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: 30px;
             scroll-behavior: smooth;
         }
+
+        /* Detect if in iframe */
+        body.in-iframe .btn-back { display: none; }
+        body.in-iframe .viewer-toolbar { padding: 10px 20px; }
+        body.in-iframe #viewer-content { padding: 20px 10px; }
+        body.in-iframe .viewer-title { max-width: 60%; font-size: 0.75rem; }
 
         /* PDF Page Styling */
         .pdf-page-container {
@@ -237,7 +248,7 @@
     <div id="viewer-content">
         @php
             $extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
-            $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'webp']);
+            $isImage = in_array($extension, ['jpg', 'jpeg', 'png', 'webp', 'gif']);
             $isPdf = $extension === 'pdf';
             $isOffice = in_array($extension, ['doc', 'docx', 'xls', 'xlsx']);
             
@@ -283,6 +294,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Detect if in iframe
+            if (window.self !== window.top) {
+                document.body.classList.add('in-iframe');
+            }
+
             const loading = document.getElementById('loading');
             
             @if($isPdf)

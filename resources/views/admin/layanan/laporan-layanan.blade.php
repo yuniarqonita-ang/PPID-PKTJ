@@ -85,7 +85,7 @@
                                     class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-lg font-black text-[#004a99]">
                             </div>
                             <div class="space-y-3">
-                                <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Update Dokumen (PDF)</label>
+                                <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Update Dokumen</label>
                                 <input type="file" name="file_laporan" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-2xl">
                             </div>
                         </div>

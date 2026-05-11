@@ -126,6 +126,26 @@
                         </div>
                     </div>
 
+                    <!-- PREMIUM BLUR CARD -->
+                    <div class="bg-blue-50 rounded-[2.5rem] p-8 border border-blue-100 shadow-lg shadow-blue-900/5 relative overflow-hidden">
+                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-100/50 rounded-full blur-2xl"></div>
+                        <div class="relative z-10 flex items-center justify-between">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 bg-[#004a99] text-white rounded-[1.2rem] flex items-center justify-center shadow-lg shadow-blue-900/20">
+                                    <i class="fas fa-lock text-[#ffc107] text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-black text-blue-900 uppercase tracking-widest">Premium Blur</h4>
+                                    <p class="text-blue-600 text-[10px] font-bold mt-0.5">Proteksi konten halaman 2+</p>
+                                </div>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" name="is_blurred" value="1" {{ $profil->is_blurred ? 'checked' : '' }} class="sr-only peer">
+                                <div class="w-14 h-7 bg-blue-200/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-6 after:transition-all peer-checked:bg-[#004a99]"></div>
+                            </label>
+                        </div>
+                    </div>
+
                     <!-- Assets Card -->
                     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 p-8 space-y-6">
                         <h4 class="text-xs font-black text-[#002b5c] uppercase tracking-widest flex items-center border-b border-slate-50 pb-6">
@@ -149,7 +169,7 @@
                                 </div>
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black text-slate-400 uppercase">Isi Maklumat (Text)</label>
-                                    <textarea name="isi_maklumat" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold h-32">{{ $settings['isi_maklumat'] ?? '' }}</textarea>
+                                    <textarea name="isi_maklumat" class="tinymce-editor w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold h-32">{{ $settings['isi_maklumat'] ?? '' }}</textarea>
                                 </div>
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black text-slate-400 uppercase">Gambar Maklumat</label>
@@ -165,7 +185,7 @@
                                 </div>
                                 <div class="space-y-2">
                                     <label class="text-[10px] font-black text-slate-400 uppercase">Isi Standar Biaya (Text/Editor)</label>
-                                    <textarea name="isi_standar" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold h-32">{{ $settings['isi_standar'] ?? '' }}</textarea>
+                                    <textarea name="isi_standar" class="tinymce-editor w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold h-32">{{ $settings['isi_standar'] ?? '' }}</textarea>
                                 </div>
                             </div>
                             @endif
@@ -226,17 +246,9 @@
         `;
         container.insertAdjacentHTML('beforeend', html);
         
-        // Re-init TinyMCE for new element
+        // Re-init TinyMCE for new element using the global config defined in app.blade.php
         if (typeof tinymce !== 'undefined') {
-            tinymce.init({
-                selector: `#mce-${id}`,
-                license_key: 'gpl',
-                height: 400,
-                plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | alignjustify align | link image table | numlist bullist indent outdent | emoticons charmap | removeformat',
-                branding: false,
-                content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #1e293b; text-align: justify; }'
-            });
+            tinymce.execCommand('mceAddEditor', false, `mce-${id}`);
         }
     }
 

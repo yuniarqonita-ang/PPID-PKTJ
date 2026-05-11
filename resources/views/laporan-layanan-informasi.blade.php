@@ -41,10 +41,13 @@
                 {{-- Tombol download PDF jika tersedia --}}
                 @if(!empty($d['laporan_layanan_file_laporan']))
                 <div class="mt-4 text-center pt-4" style="border-top: 2px solid #f0f4f8;">
-                    <a href="{{ route('preview.dokumen', ['file' => 'storage/halaman/' . $d['laporan_layanan_file_laporan'], 'title' => 'Laporan Layanan Informasi']) }}"
-                       class="btn-action btn-action-gold">
-                        <i class="fas fa-eye"></i> Lihat Laporan (PDF)
-                    </a>
+                    <button type="button" 
+                            class="btn-action btn-action-gold" 
+                            data-bs-toggle="modal" 
+                            data-bs-target="#previewModal" 
+                            data-url="{{ route('preview.dokumen', ['file' => 'storage/halaman/' . $d['laporan_layanan_file_laporan'], 'title' => 'Laporan Layanan Informasi']) }}">
+                        <i class="fas fa-eye"></i> Lihat Laporan
+                    </button>
                 </div>
                 @endif
             @else

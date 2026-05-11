@@ -35,8 +35,7 @@ class DokumenController extends Controller
                 'judul' => $validated['judul'],
                 'file_path' => $path,
                 'kategori' => $validated['kategori'] ?? 'Umum',
-                'user_id' => Auth::id(),
-                'is_blurred' => $request->has('is_blurred')
+                'user_id' => Auth::id()
             ]);
 
             return redirect()->route('admin.dokumen.index')->with('success', 'Dokumen diupload!');
@@ -63,8 +62,7 @@ class DokumenController extends Controller
 
         $data = [
             'judul' => $validated['judul'],
-            'kategori' => $validated['kategori'] ?? 'Umum',
-            'is_blurred' => $request->has('is_blurred')
+            'kategori' => $validated['kategori'] ?? 'Umum'
         ];
 
         if ($request->hasFile('file')) {

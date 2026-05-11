@@ -155,9 +155,13 @@
     @endif
     @if($fileLaporan)
         <div class="mt-4">
-            <a href="{{ route('preview.dokumen', ['file' => 'storage/halaman/' . $fileLaporan, 'title' => 'Dokumen Laporan']) }}" class="btn btn-warning text-dark fw-bold">
+            <button type="button" 
+                    class="btn btn-warning text-dark fw-bold" 
+                    data-bs-toggle="modal" 
+                    data-bs-target="#previewModal" 
+                    data-url="{{ route('preview.dokumen', ['file' => 'storage/halaman/' . $fileLaporan, 'title' => 'Dokumen Laporan']) }}">
                 <i class="fas fa-eye me-2"></i> Lihat Dokumen Laporan
-            </a>
+            </button>
         </div>
     @endif
 </div>

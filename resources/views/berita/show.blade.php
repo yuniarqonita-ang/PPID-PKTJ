@@ -183,6 +183,22 @@
                 {!! $berita->konten !!}
             </div>
 
+            <!-- Tags Section -->
+            @if($berita->tags)
+            <div class="mt-5 pt-4 border-top">
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <span class="text-slate-400 fw-bold small uppercase tracking-widest me-2">Tags:</span>
+                    @foreach(explode(' ', $berita->tags) as $tag)
+                        @if(trim($tag) != '')
+                        <span class="px-3 py-1 bg-light border rounded-pill text-primary fw-bold small">
+                            {{ $tag }}
+                        </span>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
             <!-- Divider -->
             <hr class="my-5" style="border-color: #e2e8f0;">
 

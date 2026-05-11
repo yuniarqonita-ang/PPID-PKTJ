@@ -139,7 +139,11 @@
 @if($settings['premium_view_enabled'] ?? false)
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.premium-blur').forEach(el => {
+        // 1. HANDLE PREMIUM BLUR (MANUAL & AUTOMATIC)
+        const processBlur = (el) => {
+            if (el.dataset.blurProcessed) return;
+            el.dataset.blurProcessed = "true";
+
             // Wrap in a relative container if not already
             const wrapper = document.createElement('div');
             wrapper.className = 'premium-blur-container';
@@ -157,13 +161,56 @@
             const btn = document.createElement('button');
             btn.className = 'premium-blur-btn';
             btn.innerText = 'Ajukan Permohonan';
-            btn.onclick = function() {
+            btn.onclick = function(e) {
+                e.preventDefault();
                 window.location.href = "{{ $settings['premium_view_cta_url'] ?? route('permohonan.form') }}";
             };
             
             overlay.appendChild(text);
             overlay.appendChild(btn);
             wrapper.appendChild(overlay);
+        };
+
+        document.querySelectorAll('.premium-blur').forEach(processBlur);
+
+        // 2. HANDLE GOOGLE DRIVE EMBEDS (CONVERT VIEW TO PREVIEW)
+        document.querySelectorAll('iframe').forEach(iframe => {
+            let src = iframe.getAttribute('src');
+            if (src && src.includes('drive.google.com')) {
+                // Convert /view?usp=sharing to /preview
+                if (src.includes('/view')) {
+                    src = src.replace(/\/view.*/, '/preview');
+                    iframe.setAttribute('src', src);
+                }
+                
+                // Add professional styling to the iframe
+                iframe.style.width = '100%';
+                iframe.style.minHeight = '500px';
+                iframe.style.borderRadius = '12px';
+                iframe.style.border = '1px solid #e2e8f0';
+                iframe.style.boxShadow = '0 10px 25px rgba(0,0,0,0.05)';
+            }
+        });
+
+        // 3. AUTO-EMBED GOOGLE DRIVE LINKS THAT ARE NOT IFRAMES (Optional but helpful)
+        document.querySelectorAll('a').forEach(link => {
+            const href = link.getAttribute('href');
+            if (href && href.includes('drive.google.com/file/d/') && !link.closest('iframe')) {
+                // If it's a direct link to a file, and user wants it embedded (based on class or context)
+                if (link.innerText.toLowerCase().includes('lihat') || link.classList.contains('embed-drive')) {
+                    const driveId = href.match(/\/d\/([^\/]+)/)?.[1];
+                    if (driveId) {
+                        const embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
+                        const iframe = document.createElement('iframe');
+                        iframe.setAttribute('src', embedUrl);
+                        iframe.style.width = '100%';
+                        iframe.style.minHeight = '500px';
+                        iframe.style.borderRadius = '12px';
+                        iframe.style.border = '1px solid #e2e8f0';
+                        link.parentNode.replaceChild(iframe, link);
+                    }
+                }
+            }
         });
     });
 </script>

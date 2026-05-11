@@ -53,6 +53,7 @@ class InformasiBerkalaController extends Controller
                 'file_size' => $this->formatFileSize($file->getSize()),
                 'file_type' => $file->getClientOriginalExtension(),
                 'aktif' => $request->has('aktif'),
+                'is_blurred' => $request->has('is_blurred'),
             ]);
         }
 
@@ -103,6 +104,7 @@ class InformasiBerkalaController extends Controller
         $item->judul = $validated['judul'];
         $item->deskripsi = $validated['deskripsi'];
         $item->aktif = $request->has('aktif');
+        $item->is_blurred = $request->has('is_blurred');
         $item->save();
 
         return redirect()->route('admin.informasi.berkala.index')

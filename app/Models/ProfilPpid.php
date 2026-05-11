@@ -20,6 +20,7 @@ class ProfilPpid extends Model
         'link_dokumen',
         'additional_sections',
         'gambaran',
+        'is_blurred',
     ];
 
     protected $casts = [

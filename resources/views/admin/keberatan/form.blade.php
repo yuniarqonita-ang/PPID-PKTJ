@@ -79,7 +79,7 @@
                         </div>
                         <div class="space-y-1 col-span-2">
                             <label class="text-[9px] font-black text-gray-400 uppercase">Sub-judul Halaman</label>
-                            <textarea id="keberatan-subtitle-input" rows="2" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">{{ $settings['keberatan_subtitle'] ?? 'Gunakan formulir ini untuk mengajukan keberatan atas permohonan informasi yang telah diajukan.' }}</textarea>
+                            <textarea id="keberatan-subtitle-input" rows="2" class="tinymce-editor w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-bold text-gray-600 focus:bg-white outline-none">{{ $settings['keberatan_subtitle'] ?? 'Gunakan formulir ini untuk mengajukan keberatan atas permohonan informasi yang telah diajukan.' }}</textarea>
                         </div>
                     </div>
 
@@ -133,7 +133,7 @@
                         <div class="p-4 bg-gray-50 rounded-2xl border border-gray-100 flex items-center justify-between">
                             <div>
                                 <label class="text-[9px] font-black text-gray-400 uppercase block">Label Surat Kuasa</label>
-                                <input type="text" id="keberatan-label-surat-kuasa" value="{{ $settings['keberatan_label_surat_kuasa'] ?? 'Upload Surat Kuasa (PDF)' }}" class="bg-transparent border-0 p-0 text-xs font-bold text-gray-700 focus:ring-0 mt-1">
+                                <input type="text" id="keberatan-label-surat-kuasa" value="{{ $settings['keberatan_label_surat_kuasa'] ?? 'Upload Surat Kuasa' }}" class="bg-transparent border-0 p-0 text-xs font-bold text-gray-700 focus:ring-0 mt-1">
                             </div>
                             <div>
                                 <input type="checkbox" id="keberatan-show-surat-kuasa" {{ ($settings['keberatan_show_surat_kuasa'] ?? 'yes') == 'yes' ? 'checked' : '' }} class="w-5 h-5 cursor-pointer rounded">
@@ -271,7 +271,7 @@ $(document).ready(function() {
 
         let coreSettings = {
             keberatan_title:               $('#keberatan-title-input').val().trim(),
-            keberatan_subtitle:            $('#keberatan-subtitle-input').val().trim(),
+            keberatan_subtitle:            (typeof tinymce !== 'undefined' && tinymce.get('keberatan-subtitle-input')) ? tinymce.get('keberatan-subtitle-input').getContent() : $('#keberatan-subtitle-input').val().trim(),
             keberatan_label_nama:          $('#keberatan-label-nama').val().trim(),
             keberatan_label_pekerjaan:     $('#keberatan-label-pekerjaan').val().trim(),
             keberatan_label_npwp:          $('#keberatan-label-npwp').val().trim(),

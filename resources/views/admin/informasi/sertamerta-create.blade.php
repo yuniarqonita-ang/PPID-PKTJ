@@ -43,7 +43,7 @@
                                 Deskripsi Singkat
                             </label>
                             <textarea name="deskripsi_singkat" id="deskripsi_singkat" rows="3"
-                                class="w-full px-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-[#004a99]/10 focus:border-[#004a99] focus:outline-none transition-all shadow-sm resize-none"
+                                class="w-full px-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-[#004a99]/10 focus:border-[#004a99] focus:outline-none transition-all shadow-sm resize-none tinymce-editor"
                                 placeholder="Tuliskan ringkasan informasi di sini...">{{ old('deskripsi_singkat') }}</textarea>
                             @error('deskripsi_singkat') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>

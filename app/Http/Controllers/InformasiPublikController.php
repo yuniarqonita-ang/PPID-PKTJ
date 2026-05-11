@@ -17,10 +17,27 @@ class InformasiPublikController extends Controller
         return Dashboard::pluck('value', 'key')->toArray();
     }
 
+    private function processContent(?string $content, bool $isBlurred): ?string
+    {
+        if (!$content) return null;
+        if (!$isBlurred) return $content;
+        return preg_replace_callback('/(\/preview-dokumen\?[^"\']+)/', function($matches) {
+            $url = $matches[1];
+            if (strpos($url, 'is_blurred=') === false) {
+                $separator = (strpos($url, '?') !== false) ? '&' : '?';
+                return $url . $separator . 'is_blurred=1';
+            }
+            return $url;
+        }, $content);
+    }
+
     // Informasi Berkala
     public function informasiBerkala()
     {
         $items = InformasiBerkala::where('aktif', true)->orderBy('created_at', 'desc')->get();
+        foreach ($items as $item) {
+            $item->deskripsi = $this->processContent($item->deskripsi, $item->is_blurred ?? false);
+        }
         $settings = $this->getSettings();
         return view('informasi-berkala', compact('items', 'settings'));
     }
@@ -29,6 +46,9 @@ class InformasiPublikController extends Controller
     public function informasiSertamerta()
     {
         $items = InformasiSertaMerta::where('aktif', true)->orderBy('created_at', 'desc')->get();
+        foreach ($items as $item) {
+            $item->deskripsi = $this->processContent($item->deskripsi, $item->is_blurred ?? false);
+        }
         $settings = $this->getSettings();
         return view('informasi-serta-merta', compact('items', 'settings'));
     }
@@ -37,6 +57,9 @@ class InformasiPublikController extends Controller
     public function informasiSetiapsaat()
     {
         $items = InformasiSetiapSaat::where('aktif', true)->orderBy('created_at', 'desc')->get();
+        foreach ($items as $item) {
+            $item->deskripsi = $this->processContent($item->deskripsi, $item->is_blurred ?? false);
+        }
         $settings = $this->getSettings();
         return view('informasi-setiap-saat', compact('items', 'settings'));
     }
@@ -45,6 +68,9 @@ class InformasiPublikController extends Controller
     public function informasiDikecualikan()
     {
         $items = InformasiDikecualikan::where('aktif', true)->orderBy('created_at', 'desc')->get();
+        foreach ($items as $item) {
+            $item->deskripsi = $this->processContent($item->deskripsi, $item->is_blurred ?? false);
+        }
         $settings = $this->getSettings();
         return view('informasi-dikecualikan', compact('items', 'settings'));
     }

@@ -155,9 +155,13 @@
                                                     <span class="badge bg-light text-slate-600 border px-3 py-2 rounded-pill small">
                                                         <i class="fas fa-calendar-alt me-1"></i> {{ $p->created_at->format('d M Y') }}
                                                     </span>
-                                                    <a href="{{ route('view.peraturan', $p->id) }}" class="btn btn-sm btn-primary px-4 py-2 rounded-pill fw-bold">
+                                                    <button type="button" 
+                                                            class="btn btn-sm btn-primary px-4 py-2 rounded-pill fw-bold" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#previewModal" 
+                                                            data-url="{{ route('preview.dokumen', ['file' => 'storage/' . $p->file_path, 'title' => $p->judul]) }}">
                                                         <i class="fas fa-eye me-1"></i> Lihat
-                                                    </a>
+                                                    </button>
                                                 </div>
                                             </div>
                                         </div>

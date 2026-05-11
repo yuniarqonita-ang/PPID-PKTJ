@@ -237,6 +237,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/form', [PermohonanController::class, 'adminForm'])->name('form');
         Route::post('/form/save', [PermohonanController::class, 'saveForm'])->name('save_form');
         Route::get('/export/register', [PermohonanController::class, 'exportExcelRegister'])->name('export.register');
+        Route::get('/export/register-word', [PermohonanController::class, 'exportWordRegister'])->name('export.word_register');
         Route::get('/export/{id}/reject', [PermohonanController::class, 'exportWordReject'])->name('export.reject');
 
         Route::get('/download/{id}', [PermohonanController::class, 'downloadDocument'])->name('download');
@@ -262,6 +263,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/form', [KeberatanController::class, 'adminForm'])->name('form');          // Form Builder
         Route::post('/form/save', [KeberatanController::class, 'saveForm'])->name('save_form'); // Save Form
         Route::get('/export/excel', [KeberatanController::class, 'exportExcel'])->name('export.excel');
+        Route::get('/export/word-register', [KeberatanController::class, 'exportWordRegister'])->name('export.word_register');
         Route::get('/export/{id}/word', [KeberatanController::class, 'exportWord'])->name('export.word');
         Route::get('/{keberatan}', [KeberatanController::class, 'show'])->name('show');
         Route::get('/{keberatan}/edit', [KeberatanController::class, 'edit'])->name('edit');

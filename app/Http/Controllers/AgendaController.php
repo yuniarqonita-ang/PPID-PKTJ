@@ -46,6 +46,7 @@ class AgendaController extends Controller
             'waktu'   => $request->waktu,
             'lokasi'  => $request->lokasi,
             'aktif'   => $request->has('aktif'),
+            'is_blurred' => $request->has('is_blurred'),
         ];
 
         if ($request->hasFile('gambar')) {
@@ -97,6 +98,7 @@ class AgendaController extends Controller
         $agenda->waktu   = $request->waktu;
         $agenda->lokasi  = $request->lokasi;
         $agenda->aktif   = $request->has('aktif');
+        $agenda->is_blurred = $request->has('is_blurred');
 
         if ($request->hasFile('gambar')) {
             if ($agenda->gambar) {
@@ -126,9 +128,26 @@ class AgendaController extends Controller
         return redirect()->route('admin.agenda.index')->with('success', 'Agenda berhasil dihapus');
     }
 
+    private function processContent(?string $content, bool $isBlurred): ?string
+    {
+        if (!$content) return null;
+        if (!$isBlurred) return $content;
+        return preg_replace_callback('/(\/preview-dokumen\?[^"\']+)/', function($matches) {
+            $url = $matches[1];
+            if (strpos($url, 'is_blurred=') === false) {
+                $separator = (strpos($url, '?') !== false) ? '&' : '?';
+                return $url . $separator . 'is_blurred=1';
+            }
+            return $url;
+        }, $content);
+    }
+
     public function publicIndex()
     {
         $items = Agenda::where('aktif', true)->latest()->get();
+        foreach ($items as $item) {
+            $item->konten = $this->processContent($item->konten, $item->is_blurred ?? false);
+        }
         return view('agenda', compact('items'));
     }
 }

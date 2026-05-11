@@ -134,6 +134,23 @@
                                         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none ring-0 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#004a99]"></div>
                                     </label>
                                 </div>
+
+                                <!-- PREMIUM BLUR TOGGLE -->
+                                <div class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-white rounded-2xl border border-blue-100 shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-[#004a99]/10 rounded-lg flex items-center justify-center text-[#004a99]">
+                                            <i class="fas fa-eye-slash text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <span class="text-[10px] font-black text-gray-800 uppercase block leading-none">Premium Blur</span>
+                                            <span class="text-[8px] text-blue-500 font-bold uppercase tracking-tighter">Document Protection</span>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" name="is_blurred" value="1" class="sr-only peer" {{ ($item->is_blurred ?? false) ? 'checked' : '' }}>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none ring-0 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-600"></div>
+                                    </label>
+                                </div>
                             </div>
                         </div>
 

@@ -8,9 +8,41 @@ use App\Models\Dashboard;
 
 class ProfilPublikController extends Controller
 {
+    /**
+     * Helper to process content and apply blur to embedded documents
+     */
+    private function processContent(?string $content, bool $isBlurred): ?string
+    {
+        if (!$content) return null;
+        if (!$isBlurred) return $content;
+
+        // Append is_blurred=1 to any /preview-dokumen URLs in the content
+        return preg_replace_callback('/(\/preview-dokumen\?[^"\']+)/', function($matches) {
+            $url = $matches[1];
+            if (strpos($url, 'is_blurred=') === false) {
+                $separator = (strpos($url, '?') !== false) ? '&' : '?';
+                return $url . $separator . 'is_blurred=1';
+            }
+            return $url;
+        }, $content);
+    }
+
     public function showProfil()
     {
         $profil = ProfilPpid::where('type', 'profil')->first();
+        if ($profil) {
+            $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
+            $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
+            $profil->gambaran = $this->processContent($profil->gambaran, $profil->is_blurred ?? false);
+            
+            if ($profil->additional_sections) {
+                $sections = $profil->additional_sections;
+                foreach ($sections as &$section) {
+                    $section['content'] = $this->processContent($section['content'], $profil->is_blurred ?? false);
+                }
+                $profil->additional_sections = $sections;
+            }
+        }
         $settings = Dashboard::pluck('value', 'key')->toArray();
         return view('profil-ppid', compact('profil', 'settings'));
     }
@@ -18,6 +50,18 @@ class ProfilPublikController extends Controller
     public function showTugas()
     {
         $profil = ProfilPpid::where('type', 'tugas')->first();
+        if ($profil) {
+            $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
+            $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
+            
+            if ($profil->additional_sections) {
+                $sections = $profil->additional_sections;
+                foreach ($sections as &$section) {
+                    $section['content'] = $this->processContent($section['content'], $profil->is_blurred ?? false);
+                }
+                $profil->additional_sections = $sections;
+            }
+        }
         $settings = Dashboard::pluck('value', 'key')->toArray();
         return view('profil-tugas-tanggung-jawab', compact('profil', 'settings'));
     }
@@ -25,6 +69,10 @@ class ProfilPublikController extends Controller
     public function showVisi()
     {
         $profil = ProfilPpid::where('type', 'visi')->first();
+        if ($profil) {
+            $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
+            $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
+        }
         $settings = Dashboard::pluck('value', 'key')->toArray();
         return view('profil-visi-misi', compact('profil', 'settings'));
     }
@@ -32,6 +80,10 @@ class ProfilPublikController extends Controller
     public function showStruktur()
     {
         $profil = ProfilPpid::where('type', 'struktur')->first();
+        if ($profil) {
+            $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
+            $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
+        }
         $settings = Dashboard::pluck('value', 'key')->toArray();
         return view('profil-struktur-organisasi', compact('profil', 'settings'));
     }
@@ -39,6 +91,10 @@ class ProfilPublikController extends Controller
     public function showRegulasi()
     {
         $profil = ProfilPpid::where('type', 'regulasi')->first();
+        if ($profil) {
+            $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
+            $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
+        }
         $peraturan = Peraturan::where('is_active', true)->get()->groupBy('kategori');
         $settings = Dashboard::pluck('value', 'key')->toArray();
         return view('profil-regulasi', compact('profil', 'peraturan', 'settings'));
@@ -47,6 +103,10 @@ class ProfilPublikController extends Controller
     public function showKontak()
     {
         $profil = ProfilPpid::where('type', 'kontak')->first();
+        if ($profil) {
+            $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
+            $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
+        }
         $settings = Dashboard::pluck('value', 'key')->toArray();
         return view('profil-kontak', compact('profil', 'settings'));
     }
@@ -57,7 +117,33 @@ class ProfilPublikController extends Controller
     public function showPage($type, $view = null)
     {
         $profil = ProfilPpid::where('type', $type)->first();
+        $isBlurred = $profil->is_blurred ?? false;
+        
+        if ($profil) {
+            $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $isBlurred);
+            $profil->konten_detail = $this->processContent($profil->konten_detail, $isBlurred);
+            $profil->gambaran = $this->processContent($profil->gambaran, $isBlurred);
+            
+            if ($profil->additional_sections) {
+                $sections = $profil->additional_sections;
+                foreach ($sections as &$section) {
+                    $section['content'] = $this->processContent($section['content'], $isBlurred);
+                }
+                $profil->additional_sections = $sections;
+            }
+        }
+
         $settings = Dashboard::pluck('value', 'key')->toArray();
+        
+        // Process dashboard fields if they contain previews
+        $dashboardFields = ['isi_maklumat', 'isi_standar', 'isi_konten', 'isi_laporan', 'ringkasan_eksekutif'];
+        $pfx = str_replace('-', '_', $type);
+        foreach ($dashboardFields as $field) {
+            $key = $pfx . '_' . $field;
+            if (isset($settings[$key])) {
+                $settings[$key] = $this->processContent($settings[$key], $isBlurred);
+            }
+        }
         
         // If view is not provided, try to find a matching view or use a default
         $viewName = $view ?? $type;
@@ -86,7 +172,16 @@ class ProfilPublikController extends Controller
                 $query->where('kategori', request('kategori'));
             }
 
-            $extraData['items'] = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
+            $items = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
+            
+            // Apply Premium Blur to Ringkasan Informasi (isi_informasi)
+            foreach ($items as $di_item) {
+                if ($di_item->isi_informasi) {
+                    $di_item->isi_informasi = $this->processContent($di_item->isi_informasi, $di_item->is_blurred ?? false);
+                }
+            }
+            
+            $extraData['items'] = $items;
             
             // Get available years for dropdown
             $extraData['years'] = \App\Models\DaftarInformasi::selectRaw('DISTINCT(waktu_pembuatan) as tahun')
@@ -138,14 +233,16 @@ class ProfilPublikController extends Controller
         // The file_path usually starts with storage/
         $searchPath = $file_path;
         
-        $di = \App\Models\DaftarInformasi::where('file_informasi', $searchPath)->first();
+        $di = \App\Models\DaftarInformasi::where('file_informasi', $searchPath)
+            ->orWhere('image', $searchPath)
+            ->first();
         if ($di) {
             $isBlurred = $di->is_blurred;
-        } else {
-            $doc = \App\Models\Dokumen::where('file_path', $searchPath)->first();
-            if ($doc) {
-                $isBlurred = $doc->is_blurred;
-            }
+        }
+
+        // Allow manual override from request
+        if ($request->has('is_blurred')) {
+            $isBlurred = $request->query('is_blurred') == '1';
         }
 
         $settings = Dashboard::pluck('value', 'key')->toArray();

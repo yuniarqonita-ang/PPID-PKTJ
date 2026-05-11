@@ -27,7 +27,9 @@ class Berita extends Model
         'tanggal',
         'is_published',
         'aktif',
-        'views'
+        'is_blurred',
+        'views',
+        'tags'
     ];
 
     /**

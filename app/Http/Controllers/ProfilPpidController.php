@@ -134,6 +134,7 @@ class ProfilPpidController extends Controller
         $profil->link_dokumen        = $validated['link_dokumen'] ?? null;
         $profil->additional_sections = $sections;
         $profil->gambaran            = $cleanHtml($validated['gambaran'] ?? null);
+        $profil->is_blurred          = $request->has('is_blurred');
         $profil->save();
 
         // ===== HANDLE DASHBOARD-BASED FIELDS (Prefix-based) =====

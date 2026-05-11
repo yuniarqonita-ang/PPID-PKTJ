@@ -29,7 +29,7 @@
                                 Deskripsi
                             </label>
                             <textarea name="deskripsi" id="deskripsi" rows="4" 
-                                class="shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">{{ old('deskripsi') }}</textarea>
+                                class="tinymce-editor shadow appearance-none border rounded w-full py-2 px-3 leading-tight focus:outline-none focus:shadow-outline bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400">{{ old('deskripsi') }}</textarea>
                         </div>
 
                         <div class="flex items-center justify-between">

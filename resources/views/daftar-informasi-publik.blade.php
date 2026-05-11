@@ -260,7 +260,7 @@
                                 @if($item->image)
                                 <button type="button" class="btn btn-sm btn-outline-info" 
                                     data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                    data-url="{{ route('preview.dokumen', ['file' => $item->image, 'title' => $item->judul_informasi]) }}">
+                                    data-url="{{ route('preview.dokumen', ['file' => $item->image, 'title' => $item->judul_informasi, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
                                     <i class="fas fa-image"></i> Lihat Gambar
                                 </button>
                                 @else
@@ -271,7 +271,7 @@
                                 @if($item->file_informasi)
                                 <button type="button" class="btn btn-sm btn-outline-danger" 
                                     data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                    data-url="{{ route('preview.dokumen', ['file' => $item->file_informasi, 'title' => $item->judul_informasi]) }}">
+                                    data-url="{{ route('preview.dokumen', ['file' => $item->file_informasi, 'title' => $item->judul_informasi, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
                                     <i class="fas fa-eye"></i> Lihat Dokumen
                                 </button>
                                 @else

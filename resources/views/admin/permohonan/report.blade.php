@@ -87,10 +87,6 @@
            class="px-6 py-3 bg-[#004a99] text-white rounded-xl text-sm font-black uppercase tracking-wider hover:bg-blue-800 transition shadow-md flex items-center gap-2">
             <i class="fas fa-file-word"></i> Unduh Word (.doc)
         </a>
-        <button onclick="downloadPDF()"
-           class="px-6 py-3 bg-red-600 text-white rounded-xl text-sm font-black uppercase tracking-wider hover:bg-red-700 transition shadow-md flex items-center gap-2">
-            <i class="fas fa-file-pdf"></i> Unduh PDF (.pdf)
-        </button>
     </div>
 
     {{-- PERIOD LABEL --}}
@@ -100,7 +96,7 @@
             @if(($periodeType ?? 'bulanan') == 'tahunan')
                 Laporan Tahunan {{ $tahun ?? date('Y') }}
             @else
-                Laporan Bulan {{ ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'][$bulan ?? date('m')] }} {{ $tahun ?? date('Y') }}
+                Laporan Bulan {{ ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'][str_pad($bulan ?? date('m'), 2, '0', STR_PAD_LEFT)] }} {{ $tahun ?? date('Y') }}
             @endif
             — {{ $submissions->count() }} Permohonan
         </span>
@@ -163,51 +159,50 @@
                     $logoData = base64_encode(file_get_contents($logoPath));
                 }
             @endphp
-            <table style="width: 100%; border: none; margin-bottom: 10px;">
+            <table style="width: 100%; border: none; border-collapse: collapse;">
                 <tr>
-                    <td style="width: 10%; text-align: left; border: none;">
+                    <td style="width: 12%; text-align: left; border: none; vertical-align: middle;">
                         @if($logoData)
-                            <img src="data:image/png;base64,{{ $logoData }}" style="width: 60px;">
+                            <img src="data:image/png;base64,{{ $logoData }}" style="width: 65px; height: auto;">
                         @endif
                     </td>
-                    <td style="width: 80%; text-align: center; border: none; vertical-align: middle;">
-                        <h1 style="font-size: 14pt; font-weight: 900; margin: 0; color: #000; text-transform: uppercase;">POLITEKNIK KESELAMATAN TRANSPORTASI JALAN</h1>
-                        <h2 style="font-size: 11pt; font-weight: 800; margin: 2px 0; color: #333;">Sekretariat Pelayanan Informasi Publik</h2>
-                        <p style="font-size: 7pt; margin: 0; color: #666;">Jl. Perintis Kemerdekaan No.17, Kel. Slerok, Kec. Tegal Timur, Kota Tegal, Jawa Tengah, 52125, (0283) 351061</p>
+                    <td style="width: 88%; text-align: center; border: none; vertical-align: middle; padding-right: 12%;">
+                        <h1 style="font-size: 13pt; font-weight: 900; margin: 0; color: #000; text-transform: uppercase; line-height: 1.2;">POLITEKNIK KESELAMATAN TRANSPORTASI JALAN</h1>
+                        <h2 style="font-size: 10pt; font-weight: 800; margin: 2px 0; color: #333;">Sekretariat Pelayanan Informasi Publik</h2>
+                        <p style="font-size: 8pt; margin: 0; color: #555;">Jl. Perintis Kemerdekaan No.17, Kel. Slerok, Kec. Tegal Timur, Kota Tegal, Jawa Tengah, 52125</p>
                     </td>
-                    <td style="width: 10%; border: none;"></td>
                 </tr>
             </table>
             <div style="border-bottom: 2pt solid #000; margin-bottom: 10px;"></div>
             <div style="text-align: center; margin-top: 15px;">
                 <h2 style="font-size: 12pt; font-weight: 900; text-transform: uppercase; margin-bottom: 5px;">LAPORAN PELAKSANAAN TUGAS PELAYANAN INFORMASI PUBLIK</h2>
                 <p style="font-size: 9pt; font-weight: 700;">
-                    Periode: {{ ($periodeType ?? 'bulanan') == 'tahunan' ? 'Tahun ' . $tahun : 'Bulan ' . (['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'][$bulan ?? date('m')]) . ' ' . $tahun }}
+                    Periode: {{ ($periodeType ?? 'bulanan') == 'tahunan' ? 'Tahun ' . $tahun : 'Bulan ' . (['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni','07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'][str_pad($bulan ?? date('m'), 2, '0', STR_PAD_LEFT)]) . ' ' . $tahun }}
                 </p>
             </div>
         </div>
 
         <div class="overflow-x-auto">
-            <table class="w-full border-collapse text-xs" id="laporanTable" style="width: 100%; table-layout: fixed; border: 1px solid #000;">
+            <table class="w-full border-collapse" id="laporanTable" style="width: 100%; border: 1px solid #000; table-layout: fixed; font-size: 7.5pt;">
                 <thead>
                     <tr style="background-color: #004a99; color: white;">
-                        <th rowspan="2" style="width: 25px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">No</th>
-                        <th rowspan="2" style="width: 40px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Bulan</th>
-                        <th rowspan="2" style="width: 60px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Tgl Minta</th>
-                        <th rowspan="2" style="width: 60px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Tgl Selesai</th>
-                        <th rowspan="2" style="width: 35px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Waktu</th>
-                        <th rowspan="2" style="width: 100px; padding: 4px; text-align: left; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Nama Pemohon</th>
-                        <th rowspan="2" style="padding: 4px; text-align: left; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Rincian Informasi</th>
-                        <th colspan="4" style="padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase; background-color: #003366;">Jenis Informasi</th>
-                        <th rowspan="2" style="width: 60px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Ket</th>
-                        <th rowspan="2" style="width: 60px; padding: 4px; text-align: center; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Metode</th>
-                        <th rowspan="2" style="width: 80px; padding: 4px; text-align: left; border: 1px solid #000; font-weight: 900; text-transform: uppercase;">Alasan Ditolak</th>
+                        <th rowspan="2" style="width: 3%; padding: 4px 2px; text-align: center; border: 1px solid #000; font-weight: bold; color: #fff;">No</th>
+                        <th rowspan="2" style="width: 6%; padding: 4px 2px; text-align: center; border: 1px solid #000; font-weight: bold; color: #fff;">Bulan</th>
+                        <th rowspan="2" style="width: 8%; padding: 4px 2px; text-align: center; border: 1px solid #000; font-weight: bold; color: #fff;">Tgl Minta</th>
+                        <th rowspan="2" style="width: 8%; padding: 4px 2px; text-align: center; border: 1px solid #000; font-weight: bold; color: #fff;">Tgl Selesai</th>
+                        <th rowspan="2" style="width: 4%; padding: 4px 2px; text-align: center; border: 1px solid #000; font-weight: bold; color: #fff;">Hari</th>
+                        <th rowspan="2" style="width: 13%; padding: 4px 4px; text-align: left; border: 1px solid #000; font-weight: bold; color: #fff;">Nama Pemohon</th>
+                        <th rowspan="2" style="width: 22%; padding: 4px 4px; text-align: left; border: 1px solid #000; font-weight: bold; color: #fff;">Rincian Informasi</th>
+                        <th colspan="4" style="width: 12%; padding: 4px 2px; text-align: center; border: 1px solid #000; font-weight: bold; color: #fff; background-color: #003366;">Jenis</th>
+                        <th rowspan="2" style="width: 8%; padding: 4px 2px; text-align: center; border: 1px solid #000; font-weight: bold; color: #fff;">Ket</th>
+                        <th rowspan="2" style="width: 8%; padding: 4px 2px; text-align: center; border: 1px solid #000; font-weight: bold; color: #fff;">Metode</th>
+                        <th rowspan="2" style="width: 8%; padding: 4px 2px; text-align: left; border: 1px solid #000; font-weight: bold; color: #fff;">Alasan</th>
                     </tr>
                     <tr style="background-color: #005bb5; color: white;">
-                        <th style="width: 25px; font-size: 8px; border: 1px solid #000; text-align: center; padding: 2px;">B</th>
-                        <th style="width: 25px; font-size: 8px; border: 1px solid #000; text-align: center; padding: 2px;">SM</th>
-                        <th style="width: 25px; font-size: 8px; border: 1px solid #000; text-align: center; padding: 2px;">SS</th>
-                        <th style="width: 25px; font-size: 8px; border: 1px solid #000; text-align: center; padding: 2px;">D</th>
+                        <th style="width: 3%; font-size: 6.5pt; border: 1px solid #000; text-align: center; padding: 2px; color: #fff;">B</th>
+                        <th style="width: 3%; font-size: 6.5pt; border: 1px solid #000; text-align: center; padding: 2px; color: #fff;">SM</th>
+                        <th style="width: 3%; font-size: 6.5pt; border: 1px solid #000; text-align: center; padding: 2px; color: #fff;">SS</th>
+                        <th style="width: 3%; font-size: 6.5pt; border: 1px solid #000; text-align: center; padding: 2px; color: #fff;">D</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -219,53 +214,47 @@
                         $bulanNama = ['01'=>'Jan','02'=>'Feb','03'=>'Mar','04'=>'Apr','05'=>'Mei','06'=>'Jun','07'=>'Jul','08'=>'Agt','09'=>'Sep','10'=>'Okt','11'=>'Nov','12'=>'Des'];
                         $bulanItem = $bulanNama[\Carbon\Carbon::parse($tglMinta)->format('m')] ?? '-';
                         $statusLabel = match($item->status) {
-                            'selesai' => 'Dipenuhi',
-                            'ditolak' => 'Ditolak',
-                            'diproses' => 'Diproses',
+                            'selesai', 'completed' => 'Dipenuhi',
+                            'ditolak', 'rejected' => 'Ditolak',
+                            'diproses', 'approved' => 'Diproses',
                             default => 'Pending'
-                        };
-                        $statusColor = match($item->status) {
-                            'selesai' => 'bg-emerald-100 text-emerald-800',
-                            'ditolak' => 'bg-red-100 text-red-800',
-                            'diproses' => 'bg-blue-100 text-blue-800',
-                            default => 'bg-slate-100 text-slate-600'
                         };
                     @endphp
                     <tr style="border-bottom: 1px solid #000;">
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">{{ $index + 1 }}</td>
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">{{ $bulanItem }}</td>
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">{{ \Carbon\Carbon::parse($tglMinta)->format('d/m/Y') }}</td>
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">{{ $tglSelesai ? \Carbon\Carbon::parse($tglSelesai)->format('d/m/Y') : '—' }}</td>
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">{{ $hariKerja }}</td>
-                        <td style="padding: 4px; border: 1px solid #000; font-weight: bold; font-size: 8px;">
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000;">{{ $index + 1 }}</td>
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000;">{{ $bulanItem }}</td>
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000;">{{ \Carbon\Carbon::parse($tglMinta)->format('d/m/Y') }}</td>
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000;">{{ $tglSelesai ? \Carbon\Carbon::parse($tglSelesai)->format('d/m/Y') : '—' }}</td>
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000;">{{ $hariKerja }}</td>
+                        <td style="padding: 4px 4px; border: 1px solid #000; font-weight: bold; font-size: 7.5pt; white-space: normal; word-break: break-word;">
                             {{ $item->nama_pemohon }}
                         </td>
-                        <td style="padding: 4px; border: 1px solid #000; font-size: 8px; line-height: 1.1;">
+                        <td style="padding: 4px 4px; border: 1px solid #000; font-size: 7.5pt; line-height: 1.1; white-space: normal; word-break: break-word;">
                             {{ $item->deskripsi_permohonan }}
                         </td>
                         {{-- Jenis Informasi --}}
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000;">
                             {{ $item->kategori_laporan == 'berkala' ? '✓' : '' }}
                         </td>
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000;">
                             {{ $item->kategori_laporan == 'sertamerta' ? '✓' : '' }}
                         </td>
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000;">
                             {{ $item->kategori_laporan == 'setiapsaat' ? '✓' : '' }}
                         </td>
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000;">
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000;">
                             {{ $item->kategori_laporan == 'dikecualikan' ? '✓' : '' }}
                         </td>
                         {{-- Keterangan --}}
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000; font-size: 8px;">
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000; font-size: 7.5pt;">
                             {{ $statusLabel }}
                         </td>
                         {{-- Metode Pelayanan --}}
-                        <td style="padding: 4px; text-align: center; border: 1px solid #000; font-size: 7px;">
+                        <td style="padding: 4px 2px; text-align: center; border: 1px solid #000; font-size: 7pt;">
                             {{ $item->jenis_permohonan_salinan ?? $item->bentuk_informasi_salinan ?? '—' }}
                         </td>
                         {{-- Alasan Penolakan --}}
-                        <td style="padding: 4px; border: 1px solid #000; font-size: 7px;">
+                        <td style="padding: 4px 2px; border: 1px solid #000; font-size: 7pt; white-space: normal; word-break: break-word;">
                             {{ $item->alasan_penolakan_text ?? ($item->status == 'ditolak' ? 'Sesuai pasal ' . ($item->penolakan_pasal_uu ?? '—') : '') }}
                         </td>
                     </tr>
@@ -283,9 +272,9 @@
                     <tr>
                         <td colspan="14" class="px-4 py-3 text-right text-xs font-black text-slate-500 uppercase tracking-widest">
                             Total: {{ $submissions->count() }} Permohonan |
-                            Dipenuhi: {{ $submissions->where('status', 'selesai')->count() }} |
-                            Ditolak: {{ $submissions->where('status', 'ditolak')->count() }} |
-                            Diproses: {{ $submissions->whereIn('status', ['pending', 'diproses'])->count() }}
+                            Dipenuhi: {{ $submissions->whereIn('status', ['selesai', 'completed'])->count() }} |
+                            Ditolak: {{ $submissions->whereIn('status', ['ditolak', 'rejected'])->count() }} |
+                            Diproses: {{ $submissions->whereIn('status', ['pending', 'diproses', 'approved'])->count() }}
                         </td>
                     </tr>
                 </tfoot>
@@ -294,19 +283,29 @@
         </div>
 
         {{-- Signature Section for Print --}}
-        <div class="hidden print:block p-8 mt-4">
-            <div class="grid grid-cols-2 gap-8">
-                <div></div>
-                <div class="text-center">
-                    <p class="mb-16">Tegal, {{ date('d F Y') }}<br><strong>PPID PELAKSANA</strong></p>
-                    <p class="font-bold underline">{{ $settings['report_ppid_name'] ?? '..........................' }}</p>
-                    <p>NIP. {{ $settings['report_ppid_nip'] ?? '..........................' }}</p>
-                </div>
-                <div class="col-span-2 text-center mt-10">
-                    <p class="mb-16 uppercase font-bold">Mengetahui,<br>Menteri Perhubungan Republik Indonesia</p>
-                    <p class="font-bold underline">{{ $settings['report_menteri_name'] ?? 'BUDI KARYA SUMADI' }}</p>
-                </div>
-            </div>
+        <div class="hidden print:block p-10 mt-12" id="pdfSignature" style="display: none; font-family: 'Arial', sans-serif;">
+            <table style="width: 100%; border: none; border-collapse: collapse;">
+                <tr>
+                    <td style="width: 55%; border: none;"></td>
+                    <td style="width: 45%; border: none; text-align: center; vertical-align: top;">
+                        <div style="margin-bottom: 60px; line-height: 1.6; font-size: 11pt;">
+                            Tegal, {{ date('d F Y') }}<br>
+                            <strong style="letter-spacing: 1px;">PPID PELAKSANA</strong>
+                        </div>
+                        <div style="font-weight: bold; text-decoration: underline; font-size: 11pt; margin-bottom: 4px;">{{ $settings['report_ppid_name'] ?? '..........................' }}</div>
+                        <div style="font-size: 10pt;">NIP. {{ $settings['report_ppid_nip'] ?? '..........................' }}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="2" style="text-align: center; border: none; padding-top: 50px;">
+                        <div style="margin-bottom: 60px; line-height: 1.6; font-size: 11pt;">
+                            <span style="letter-spacing: 2px; font-weight: 800;">MENGETAHUI,</span><br>
+                            <strong style="font-size: 12pt; letter-spacing: 1px;">MENTERI PERHUBUNGAN REPUBLIK INDONESIA</strong>
+                        </div>
+                        <div style="font-weight: bold; text-decoration: underline; font-size: 12pt;">{{ $settings['report_menteri_name'] ?? 'BUDI KARYA SUMADI' }}</div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 
@@ -330,33 +329,18 @@
     .print-section {
         display: block !important;
         visibility: visible !important;
-        position: relative !important;
-        top: 0 !important;
-        left: 0 !important;
         width: 100% !important;
         margin: 0 !important;
         padding: 0 !important;
-        box-shadow: none !important;
-        border: none !important;
         background: white !important;
     }
-    #pdfHeader { display: block !important; }
-    #laporanTable { border-collapse: collapse !important; width: 100% !important; border: 1.5pt solid #000 !important; }
-    #laporanTable th, #laporanTable td { border: 1pt solid #000 !important; color: black !important; padding: 4px !important; }
-    .bg-white { background-color: white !important; }
-    .text-white { color: black !important; }
-    
-    .signature-wrapper {
-        margin-top: 30px !important;
-        display: flex !important;
-        justify-content: flex-end !important;
-        padding-right: 50px !important;
-        page-break-inside: avoid !important;
-    }
+    #pdfHeader, #pdfSignature { display: block !important; }
+    #laporanTable { border-collapse: collapse !important; width: 100% !important; border: 1pt solid #000 !important; }
+    #laporanTable th, #laporanTable td { border: 0.5pt solid #000 !important; color: black !important; padding: 4px !important; }
 }
 </style>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
 <script>
 function setPeriod(type) {
     document.getElementById('periode_type').value = type;
@@ -397,53 +381,13 @@ async function saveSettings() {
         });
         if (response.ok) {
             alert('Pengaturan penandatangan berhasil disimpan!');
-            location.reload(); // Reload to apply settings to the print view
+            location.reload();
         }
     } catch (error) {
         alert('Terjadi kesalahan. Coba lagi.');
     }
 }
 
-function downloadPDF() {
-    const element = document.querySelector('.print-section');
-    
-    // Show PDF Header and ensure visibility
-    const pdfHeader = document.getElementById('pdfHeader');
-    if(pdfHeader) {
-        pdfHeader.style.setProperty('display', 'block', 'important');
-        pdfHeader.style.setProperty('visibility', 'visible', 'important');
-    }
 
-    const opt = {
-        margin:       [0.3, 0.3, 0.3, 0.3],
-        filename:     'Laporan_PPID_{{ ($periodeType ?? "bulanan") == "tahunan" ? $tahun : ($bulan . "_" . $tahun) }}.pdf',
-        image:        { type: 'jpeg', quality: 1.0 },
-        html2canvas:  { 
-            scale: 2, 
-            useCORS: true, 
-            letterRendering: true,
-            scrollY: 0,
-            windowWidth: 1400
-        },
-        jsPDF:        { unit: 'in', format: 'a4', orientation: 'landscape' }
-    };
-
-    const btn = event.currentTarget;
-    const originalText = btn.innerHTML;
-    btn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i> Generating...';
-    btn.disabled = true;
-
-    html2pdf().set(opt).from(element).save().then(() => {
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-        // Reset header display
-        if(pdfHeader) pdfHeader.style.display = 'none';
-    }).catch(err => {
-        console.error('PDF Error:', err);
-        btn.innerHTML = originalText;
-        btn.disabled = false;
-        alert('Gagal mengunduh PDF. Silakan coba lagi.');
-    });
-}
 </script>
 @endsection

@@ -172,9 +172,13 @@
                                 </small>
                                 
                                 <div class="d-flex justify-content-center flex-wrap">
-                                    <a href="{{ route('preview.dokumen', ['file' => 'storage/' . $doc->file_path, 'title' => $doc->judul]) }}" class="btn-action btn-view">
+                                    <button type="button" 
+                                            class="btn-action btn-view" 
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#previewModal" 
+                                            data-url="{{ route('preview.dokumen', ['file' => 'storage/' . $doc->file_path, 'title' => $doc->judul]) }}">
                                         <i class="fas fa-eye"></i> Lihat
-                                    </a>
+                                    </button>
                                     <a href="{{ route('dokumen.download', $doc->id) }}" class="btn-action btn-download">
                                         <i class="fas fa-download"></i> Download
                                     </a>

@@ -45,7 +45,9 @@ class BeritaController extends Controller
             'slug'     => Str::slug($request->judul) . '-' . time(),
             'konten'   => $request->konten,
             'kategori' => $request->kategori ?? 'Berita Utama',
+            'tags'     => $request->tags,
             'aktif'    => 1,
+            'is_blurred' => $request->has('is_blurred'),
             'tanggal'  => now()->format('Y-m-d'),
             'views'    => 0,
         ];
@@ -85,7 +87,9 @@ class BeritaController extends Controller
         $berita->slug     = Str::slug($request->judul) . '-' . $berita->id;
         $berita->konten   = $request->konten;
         $berita->kategori = $request->kategori ?? $berita->kategori ?? 'Berita Utama';
+        $berita->tags     = $request->tags;
         $berita->aktif    = 1; // selalu aktif/published
+        $berita->is_blurred = $request->has('is_blurred');
 
         if ($request->hasFile('gambar')) {
             // Delete old image
@@ -134,7 +138,25 @@ class BeritaController extends Controller
         $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
         $berita   = Berita::where('slug', $slug)->where('aktif', true)->firstOrFail();
         $berita->increment('views');
+        
+        // Apply Premium Blur logic to content
+        $berita->konten = $this->processContent($berita->konten, $berita->is_blurred ?? false);
+        
         $related = Berita::where('aktif', true)->where('id', '!=', $berita->id)->latest()->take(3)->get();
         return view('berita.show', compact('berita', 'related', 'settings'));
+    }
+
+    private function processContent(?string $content, bool $isBlurred): ?string
+    {
+        if (!$content) return null;
+        if (!$isBlurred) return $content;
+        return preg_replace_callback('/(\/preview-dokumen\?[^"\']+)/', function($matches) {
+            $url = $matches[1];
+            if (strpos($url, 'is_blurred=') === false) {
+                $separator = (strpos($url, '?') !== false) ? '&' : '?';
+                return $url . $separator . 'is_blurred=1';
+            }
+            return $url;
+        }, $content);
     }
 }

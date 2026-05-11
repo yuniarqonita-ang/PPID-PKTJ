@@ -155,9 +155,13 @@
                                             </span>
                                             @endif
                                         </div>
-                                        <a href="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul]) }}" class="btn-download-premium">
+                                        <button type="button" 
+                                                class="btn-download-premium" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#previewModal" 
+                                                data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
                                             <i class="fas fa-eye"></i> Lihat Dokumen
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>

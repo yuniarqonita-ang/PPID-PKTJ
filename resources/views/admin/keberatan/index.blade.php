@@ -32,6 +32,9 @@
                     <a href="{{ route('admin.keberatan.export.excel', request()->all()) }}" class="w-full px-4 py-3 bg-green-600 border border-green-500 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-green-700 transition-all flex items-center justify-center">
                         <i class="fas fa-file-excel mr-2"></i> Unduh Register
                     </a>
+                    <a href="{{ route('admin.keberatan.export.word_register', request()->all()) }}" class="w-full px-4 py-3 bg-blue-600 border border-blue-500 text-white font-black text-[10px] uppercase tracking-widest rounded-xl hover:bg-blue-700 transition-all flex items-center justify-center">
+                        <i class="fas fa-file-word mr-2"></i> Unduh Word
+                    </a>
                     <a href="{{ route('admin.keberatan.form') }}" class="w-full px-4 py-3 bg-[#ffc107] text-[#004a99] font-black text-[10px] uppercase tracking-widest rounded-xl shadow-lg hover:scale-[1.02] transition-all flex items-center justify-center border-none cursor-pointer">
                         <i class="fas fa-cog mr-2"></i> Peraturan Form
                     </a>

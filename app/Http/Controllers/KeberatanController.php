@@ -341,4 +341,49 @@ class KeberatanController extends Controller
             ->header('Content-Type', 'application/msword')
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
+
+    /**
+     * Admin: Export Register Keberatan to Word (.doc)
+     */
+    public function exportWordRegister(Request $request)
+    {
+        $query = Keberatan::with('permohonan');
+
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [$request->start_date . " 00:00:00", $request->end_date . " 23:59:59"]);
+        }
+
+        $keberatans  = $query->latest()->get();
+        $settings    = Dashboard::pluck('value', 'key')->toArray();
+        $namaLembaga = $settings['ppid_nama'] ?? 'POLITEKNIK KESELAMATAN TRANSPORTASI JALAN';
+        $filename    = "register_keberatan_" . date('Y-m-d') . ".doc";
+
+        $header = "
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+                <meta charset='utf-8'>
+                <title>Register Keberatan</title>
+                <style>
+                    @page {
+                        mso-page-orientation: landscape;
+                        size: A4 landscape;
+                        margin: 0.5in;
+                    }
+                    body { font-family: 'Times New Roman', serif; font-size: 9pt; }
+                    table { border-collapse: collapse; width: 100%; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+                    th, td { border: 1px solid #000; padding: 5px; text-align: center; vertical-align: middle; }
+                    th { background-color: #f2f2f2; font-weight: bold; }
+                    .text-left { text-align: left; }
+                </style>
+            </head>
+            <body>
+        ";
+        $footer = "</body></html>";
+
+        $content = view('admin.reports.templates.register_keberatan_word', compact('keberatans', 'namaLembaga'))->render();
+
+        return response($header . $content . $footer)
+            ->header('Content-Type', 'application/msword')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+    }
 }

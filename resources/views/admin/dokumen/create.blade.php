@@ -45,6 +45,11 @@
                         </select>
                     </div>
 
+                    <div class="space-y-3">
+                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Deskripsi Dokumen</label>
+                        <textarea name="deskripsi" class="tinymce-editor">{{ old('deskripsi') }}</textarea>
+                    </div>
+
                     <!-- File Upload -->
                     <div class="space-y-3">
                         <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">File Dokumen (PDF/DOC/DOCX)</label>
@@ -59,17 +64,7 @@
                         </div>
                     </div>
 
-                    <!-- Premium View Toggle -->
-                    <div class="pt-6 border-t border-slate-100 flex items-center justify-between">
-                        <div>
-                            <span class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Premium View (Blurring)</span>
-                            <p class="text-[10px] text-slate-400 font-bold mt-1 uppercase">Aktifkan efek blur untuk halaman kedua dan seterusnya.</p>
-                        </div>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" name="is_blurred" value="1" class="sr-only peer">
-                            <div class="w-14 h-8 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#ffc107]"></div>
-                        </label>
-                    </div>
+
 
                 </div>
             </div>

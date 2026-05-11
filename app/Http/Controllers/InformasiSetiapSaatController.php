@@ -35,6 +35,7 @@ class InformasiSetiapSaatController extends Controller
             'deskripsi' => $validated['deskripsi'] ?? '',
             'tanggal' => $validated['tanggal'],
             'aktif' => $request->has('aktif'),
+            'is_blurred' => $request->has('is_blurred'),
         ];
 
         if ($request->hasFile('file')) {
@@ -75,6 +76,7 @@ class InformasiSetiapSaatController extends Controller
         $item->deskripsi = $validated['deskripsi'] ?? '';
         $item->tanggal = $validated['tanggal'];
         $item->aktif = $request->has('aktif');
+        $item->is_blurred = $request->has('is_blurred');
 
         if ($request->hasFile('file')) {
             if ($item->file_path && Storage::exists(str_replace('storage/', 'public/', $item->file_path))) {

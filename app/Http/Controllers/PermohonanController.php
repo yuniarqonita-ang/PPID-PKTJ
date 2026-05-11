@@ -256,9 +256,9 @@ class PermohonanController extends Controller
 
         foreach ($permohonan as $index => $item) {
             $statusLabel = match($item->status) {
-                'selesai'  => 'Dipenuhi',
-                'ditolak'  => 'Ditolak',
-                'diproses' => 'Diproses',
+                'selesai', 'completed'  => 'Dipenuhi',
+                'ditolak', 'rejected'  => 'Ditolak',
+                'diproses', 'approved' => 'Diproses',
                 default    => 'Pending'
             };
             $html .= '<tr>
@@ -296,6 +296,51 @@ class PermohonanController extends Controller
             ->header('Content-Type', 'application/vnd.ms-excel; charset=UTF-8')
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"')
             ->header('Cache-Control', 'max-age=0');
+    }
+
+    /**
+     * Admin: Export Register Permohonan to Word (.doc)
+     */
+    public function exportWordRegister(Request $request)
+    {
+        $query = Permohonan::query();
+
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $query->whereBetween('created_at', [$request->start_date . " 00:00:00", $request->end_date . " 23:59:59"]);
+        }
+
+        $permohonan = $query->latest()->get();
+        $settings   = Dashboard::pluck('value', 'key')->toArray();
+        $namaLembaga = $settings['ppid_nama'] ?? 'POLITEKNIK KESELAMATAN TRANSPORTASI JALAN';
+        $filename   = "register_permohonan_" . date('Y-m-d') . ".doc";
+
+        $header = "
+            <html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'>
+            <head>
+                <meta charset='utf-8'>
+                <title>Register Permohonan</title>
+                <style>
+                    @page {
+                        mso-page-orientation: landscape;
+                        size: A4 landscape;
+                        margin: 0.5in;
+                    }
+                    body { font-family: 'Times New Roman', serif; font-size: 9pt; }
+                    table { border-collapse: collapse; width: 100%; mso-table-lspace:0pt; mso-table-rspace:0pt; }
+                    th, td { border: 1px solid #000; padding: 5px; text-align: center; vertical-align: middle; }
+                    th { background-color: #f2f2f2; font-weight: bold; }
+                    .text-left { text-align: left; }
+                </style>
+            </head>
+            <body>
+        ";
+        $footer = "</body></html>";
+
+        $content = view('admin.reports.templates.register_permohonan_word', compact('permohonan', 'namaLembaga'))->render();
+
+        return response($header . $content . $footer)
+            ->header('Content-Type', 'application/msword')
+            ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
 
     /**
@@ -428,7 +473,7 @@ class PermohonanController extends Controller
         }
 
         // Jika status selesai dan tanggal selesai belum ada, set hari ini
-        if ($updateData['status'] === 'selesai' && empty($updateData['tanggal_selesai'])) {
+        if (in_array($updateData['status'], ['selesai', 'completed']) && empty($updateData['tanggal_selesai'])) {
             $updateData['tanggal_selesai'] = now()->format('Y-m-d');
         }
 
@@ -484,9 +529,9 @@ class PermohonanController extends Controller
 
         $submissions = $query->orderBy('tanggal_permohonan', 'asc')->get();
         $settings    = Dashboard::pluck('value', 'key')->toArray();
-
-        $ppid_name    = $settings['report_ppid_name'] ?? '..........................';;
-        $ppid_nip     = $settings['report_ppid_nip'] ?? '..........................';;
+        $ppid_name    = $settings['report_ppid_name'] ?? '..........................';
+        $ppid_nip     = $settings['report_ppid_nip'] ?? '..........................';
+        $menteri_name = $settings['report_menteri_name'] ?? 'BUDI KARYA SUMADI';
         $namaLembaga  = $settings['ppid_nama'] ?? 'POLITEKNIK KESELAMATAN TRANSPORTASI JALAN';
 
         $bulanNamaMap = ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni',
@@ -498,42 +543,42 @@ class PermohonanController extends Controller
 
         $filename = "Laporan_Pelayanan_PPID_{$periodeLabel}.xls";
 
-        $html = '<!DOCTYPE html>
-<html>
+        $html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
 <head>
 <meta charset="UTF-8">
+<!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Sheet1</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
 <style>
-  body { font-family: Arial, sans-serif; font-size: 9pt; }
+  body { font-family: Arial, sans-serif; font-size: 10pt; }
   table { border-collapse: collapse; width: 100%; }
-  th, td { border: 1px solid #000; padding: 3px 6px; text-align: center; vertical-align: middle; }
-  th { background-color: #dce6f1; font-weight: bold; }
-  .title-row td { border: none; font-weight: bold; font-size: 11pt; text-align: center; padding: 6px 0; }
-  .subtitle-row td { border: none; font-weight: bold; font-size: 10pt; text-align: center; padding: 3px 0; }
+  th, td { border: 1px solid #000; padding: 5px 8px; text-align: center; vertical-align: middle; mso-number-format:"\@"; white-space: normal; }
+  th { background-color: #dce6f1; font-weight: bold; border: 1px solid #000; }
+  .title-row td { border: none; font-weight: bold; font-size: 14pt; text-align: center; padding: 10px 0; }
+  .subtitle-row td { border: none; font-weight: bold; font-size: 12pt; text-align: center; padding: 5px 0; }
   td.text-left { text-align: left; }
-  .sign-table { border: none; width: auto; margin-top: 20px; margin-left: auto; }
-  .sign-table td { border: none; text-align: center; padding: 2px 15px; }
+  .sign-table { border: none; width: 100%; margin-top: 30px; }
+  .sign-table td { border: none; text-align: center; padding: 2px 5px; }
 </style>
 </head>
 <body>
 <table>
-  <tr class="title-row"><td colspan="15">LAPORAN PEMOHON INFORMASI PPID PELAKSANA UPT ' . strtoupper($namaLembaga) . ' TAHUN ' . $tahun . '</td></tr>
-  <tr class="subtitle-row"><td colspan="15">LAPORAN PELAYANAN INFORMASI PUBLIK ' . strtoupper($periodeLabel) . '</td></tr>
-  <tr><td colspan="15"></td></tr>
+  <tr class="title-row"><td colspan="11">LAPORAN PEMOHON INFORMASI PPID PELAKSANA UPT ' . strtoupper($namaLembaga) . ' TAHUN ' . $tahun . '</td></tr>
+  <tr class="subtitle-row"><td colspan="11">LAPORAN PELAYANAN INFORMASI PUBLIK ' . strtoupper($periodeLabel) . '</td></tr>
+  <tr><td colspan="11"></td></tr>
   <tr>
-    <th rowspan="2">NO</th>
-    <th rowspan="2">BULAN</th>
-    <th rowspan="2">TANGGAL PERMOHONAN INFORMASI</th>
-    <th rowspan="2">NAMA PEMOHON INFORMASI</th>
-    <th rowspan="2">ASAL</th>
-    <th rowspan="2">RINCIAN INFORMASI YANG DIBUTUHKAN</th>
-    <th rowspan="2">KETERANGAN<br>(Dipenuhi/Ditolak/Proses)</th>
-    <th rowspan="2">METODE PELAYANAN INFORMASI<br>(Website/Medsos/Ruang PPID)</th>
+    <th rowspan="2" width="40">NO</th>
+    <th rowspan="2" width="100">BULAN</th>
+    <th rowspan="2" width="120">TANGGAL PERMOHONAN INFORMASI</th>
+    <th rowspan="2" width="150">NAMA PEMOHON INFORMASI</th>
+    <th rowspan="2" width="150">ASAL</th>
+    <th rowspan="2" width="250">RINCIAN INFORMASI YANG DIBUTUHKAN</th>
+    <th rowspan="2" width="120">KETERANGAN<br>(Dipenuhi/Ditolak/Proses)</th>
+    <th rowspan="2" width="180">METODE PELAYANAN INFORMASI<br>(Website/Medsos/Ruang PPID)</th>
     <th colspan="2">WAKTU PENYELESAIAN</th>
-    <th rowspan="2">ALASAN PENOLAKAN</th>
+    <th rowspan="2" width="200">ALASAN PENOLAKAN</th>
   </tr>
   <tr>
-    <th>JAM</th>
-    <th>MENIT</th>
+    <th width="60">JAM</th>
+    <th width="60">MENIT</th>
   </tr>';
 
         $prevBulan = '';
@@ -548,9 +593,9 @@ class PermohonanController extends Controller
             $jam        = ($menit !== '') ? floor($menit / 60) : '';
             $menitSisa  = ($menit !== '') ? ($menit % 60) : '';
             $statusLabel = match($item->status) {
-                'selesai'  => 'Dipenuhi',
-                'ditolak'  => 'Ditolak',
-                'diproses' => 'Diproses',
+                'selesai', 'completed'  => 'Dipenuhi',
+                'ditolak', 'rejected'  => 'Ditolak',
+                'diproses', 'approved' => 'Diproses',
                 default    => 'Pending'
             };
 
@@ -567,36 +612,36 @@ class PermohonanController extends Controller
     ' . $bulanCell . '
     <td>' . \Carbon\Carbon::parse($tglMinta)->format('d/m/Y') . '</td>
     <td class="text-left">' . e($item->nama_pemohon) . '</td>
-    <td>' . e($item->perusahaan_instansi ?? $item->alamat) . '</td>
+    <td class="text-left">' . e($item->perusahaan_instansi ?? $item->alamat) . '</td>
     <td class="text-left">' . e($item->deskripsi_permohonan) . '</td>
     <td>' . $statusLabel . '</td>
-    <td>' . e($item->jenis_permohonan_salinan ?? ($item->bentuk_informasi_salinan ?? 'Media Sosial')) . '</td>
+    <td>' . e($item->jenis_permohonan_salinan ?? ($item->bentuk_informasi_salinan ?? 'Website')) . '</td>
     <td>' . $jam . '</td>
     <td>' . $menitSisa . '</td>
     <td class="text-left">' . e($item->alasan_penolakan_text ?? '') . '</td>
   </tr>';
         }
 
-        $html .= '<tr><td colspan="15"></td></tr></table>';
+        $html .= '<tr><td colspan="11"></td></tr></table>';
 
-        // Tanda tangan
+        // Tanda tangan matching Word style
         $html .= '<br><table style="border:none; width:100%;">
   <tr>
-    <td style="border:none; width:70%;"></td>
-    <td style="border:none; text-align:center; width:30%;">Tegal, ' . date('d F Y') . '</td>
+    <td colspan="7" style="border:none;"></td>
+    <td colspan="4" style="border:none; text-align:center;">
+        Tegal, ' . date('d F Y') . '<br>
+        <strong>PPID PELAKSANA</strong><br><br><br><br>
+        <strong><u>' . e($ppid_name) . '</u></strong><br>
+        NIP. ' . e($ppid_nip) . '
+    </td>
   </tr>
+  <tr><td colspan="11" style="height:30px; border:none;"></td></tr>
   <tr>
-    <td></td>
-    <td style="border:none; text-align:center;">PPID ' . strtoupper($namaLembaga) . '</td>
-  </tr>
-  <tr><td colspan="2" style="height:60px; border:none;"></td></tr>
-  <tr>
-    <td></td>
-    <td style="border:none; text-align:center;"><strong>' . e($ppid_name) . '</strong></td>
-  </tr>
-  <tr>
-    <td></td>
-    <td style="border:none; text-align:center;">NIP. ' . e($ppid_nip) . '</td>
+    <td colspan="11" style="border:none; text-align:center;">
+        MENGETAHUI,<br>
+        <strong>MENTERI PERHUBUNGAN REPUBLIK INDONESIA</strong><br><br><br><br>
+        <strong><u>' . e($menteri_name) . '</u></strong>
+    </td>
   </tr>
 </table>
 </body></html>';
@@ -611,8 +656,22 @@ class PermohonanController extends Controller
 
     public function exportReportWord(Request $request)
     {
-        $startDate = $request->input('start_date', date('Y-m-01'));
-        $endDate = $request->input('end_date', date('Y-m-t'));
+        $periodeType = $request->input('periode_type', 'bulanan');
+        $tahun = $request->input('tahun', date('Y'));
+        $bulan = $request->input('bulan', date('m'));
+
+        if ($request->filled('start_date') && $request->filled('end_date')) {
+            $startDate = $request->input('start_date');
+            $endDate = $request->input('end_date');
+        } else {
+            if ($periodeType === 'tahunan') {
+                $startDate = $tahun . '-01-01';
+                $endDate = $tahun . '-12-31';
+            } else {
+                $startDate = $tahun . '-' . str_pad($bulan, 2, '0', STR_PAD_LEFT) . '-01';
+                $endDate = \Carbon\Carbon::parse($startDate)->endOfMonth()->format('Y-m-d');
+            }
+        }
 
         $submissions = Permohonan::whereBetween('created_at', [$startDate . ' 00:00:00', $endDate . ' 23:59:59'])
             ->orderBy('created_at', 'asc')

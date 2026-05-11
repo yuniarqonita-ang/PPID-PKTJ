@@ -73,7 +73,7 @@
                 <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 p-10">
                     <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8 mb-10">
                         <h4 class="text-xl font-black text-[#004a99] uppercase tracking-widest flex items-center">
-                            <i class="fas fa-file-export mr-4 text-[#ffc107]"></i> Publikasi Rekap Survey (PDF)
+                            <i class="fas fa-file-export mr-4 text-[#ffc107]"></i> Publikasi Rekap Survey
                         </h4>
                     </div>
 
@@ -85,7 +85,7 @@
                                     class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-lg font-black text-[#004a99]">
                             </div>
                             <div class="space-y-3">
-                                <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Ganti Dokumen PDF</label>
+                                <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Ganti Dokumen</label>
                                 <input type="file" name="file_laporan" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-2xl">
                             </div>
                         </div>

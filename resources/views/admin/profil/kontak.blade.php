@@ -1,7 +1,5 @@
 <x-app-layout>
     <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
-<x-app-layout>
-    <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-6">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="relative group">
                 <div class="absolute -inset-1 bg-gradient-to-r from-pink-600 to-purple-600 rounded-[22px] blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
@@ -36,12 +34,12 @@
 
                         <div>
                             <label class="block text-slate-300 font-bold mb-2">Alamat</label>
-                            <textarea name="alamat" rows="4" class="w-full px-4 py-3 border-2 border-slate-600/50 text-white placeholder-slate-500 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500/50 focus:outline-none transition-all duration-300 shadow-inner bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" required></textarea>
+                            <textarea name="alamat" rows="4" class="tinymce-editor w-full px-4 py-3 border-2 border-slate-600/50 text-white placeholder-slate-500 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500/50 focus:outline-none transition-all duration-300 shadow-inner bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400" required></textarea>
                         </div>
 
                         <div>
                             <label class="block text-slate-300 font-bold mb-2">Jam Operasional</label>
-                            <textarea name="jam_operasional" rows="4" class="w-full px-4 py-3 border-2 border-slate-600/50 text-white placeholder-slate-500 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500/50 focus:outline-none transition-all duration-300 shadow-inner bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"></textarea>
+                            <textarea name="jam_operasional" rows="4" class="tinymce-editor w-full px-4 py-3 border-2 border-slate-600/50 text-white placeholder-slate-500 rounded-xl focus:border-cyan-400 focus:ring-1 focus:ring-cyan-500/50 focus:outline-none transition-all duration-300 shadow-inner bg-slate-900/60 border-slate-600/50 text-white placeholder-slate-400 shadow-inner focus:ring-2 focus:ring-cyan-500/30 focus:border-cyan-400"></textarea>
                         </div>
 
                         <div class="flex gap-4">

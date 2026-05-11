@@ -14,11 +14,13 @@ class InformasiBerkala extends Model
         'file_name',
         'file_size',
         'file_type',
-        'aktif'
+        'aktif',
+        'is_blurred'
     ];
     
     protected $casts = [
         'aktif'   => 'boolean',
+        'is_blurred' => 'boolean',
         'tanggal' => 'date',
     ];
 }

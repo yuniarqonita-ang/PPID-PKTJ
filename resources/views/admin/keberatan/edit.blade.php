@@ -79,7 +79,7 @@
 
                     <div class="mb-6">
                         <label class="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-2">Tanggapan/Kasus Posisi (Final)</label>
-                        <textarea name="kasus_posisi" rows="4" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-700">{{ $keberatan->kasus_posisi }}</textarea>
+                        <textarea name="kasus_posisi" rows="4" class="tinymce-editor w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl font-bold text-slate-700">{{ $keberatan->kasus_posisi }}</textarea>
                     </div>
 
                     <div class="flex justify-end">

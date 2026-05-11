@@ -73,7 +73,7 @@
                 <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 p-10">
                     <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8 mb-10">
                         <h4 class="text-xl font-black text-[#004a99] uppercase tracking-widest flex items-center">
-                            <i class="fas fa-file-pdf mr-4 text-[#ffc107]"></i> Unggah Dokumen Laporan
+                            <i class="fas fa-file-alt mr-4 text-[#ffc107]"></i> Unggah Dokumen Laporan
                         </h4>
                     </div>
 
@@ -85,7 +85,7 @@
                                     class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl text-lg font-black text-[#004a99]">
                             </div>
                             <div class="space-y-3">
-                                <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Pilih File PDF Baru</label>
+                                <label class="text-sm font-black text-[#004a99] uppercase tracking-widest">Pilih Dokumen Baru</label>
                                 <input type="file" name="file_laporan" class="w-full px-4 py-3 bg-slate-50 border-2 border-slate-200 rounded-2xl">
                             </div>
                         </div>
@@ -124,7 +124,7 @@
                     </div>
                     <h4 class="text-xl font-black text-emerald-900 uppercase tracking-widest mb-4">Akses Terjamin</h4>
                     <p class="text-md font-bold text-emerald-800 leading-relaxed">
-                        Laporan ini merupakan bagian dari akuntabilitas PPID PKTJ dalam memenuhi hak masyarakat atas informasi publik. Pastikan file dalam format PDF yang optimal (Size < 5MB).
+                        Laporan ini merupakan bagian dari akuntabilitas PPID PKTJ dalam memenuhi hak masyarakat atas informasi publik. Pastikan file dalam format yang optimal (Word/Excel/PDF).
                     </p>
                 </div>
 

@@ -42,7 +42,7 @@
                                     Dasar Hukum Pengecualian <span class="text-red-500">*</span>
                                 </label>
                                 <textarea name="dasar_hukum" id="dasar_hukum" rows="2" required
-                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-red-500/10 focus:border-red-500 focus:outline-none transition-all shadow-sm resize-none"
+                                    class="w-full px-5 py-3 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-red-500/10 focus:border-red-500 focus:outline-none transition-all shadow-sm resize-none tinymce-editor"
                                     placeholder="UU No. 14 Tahun 2008 Pasal 17 Huruf b...">{{ old('dasar_hukum') }}</textarea>
                             </div>
                         </div>

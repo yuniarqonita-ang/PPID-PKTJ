@@ -206,7 +206,7 @@
                             {{-- Alasan Penolakan (tampil saat ditolak) --}}
                             <div class="space-y-2 hidden" id="alasanField">
                                 <label class="text-[10px] font-black text-red-400 uppercase ml-1">Alasan Penolakan <span class="text-red-500">*</span></label>
-                                <textarea name="alasan_penolakan_text" rows="3" class="w-full px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-xs font-bold text-red-700 focus:ring-4 focus:ring-red-500/10 focus:outline-none" placeholder="Tulis alasan penolakan..." >{{ $permohonan->alasan_penolakan_text }}</textarea>
+                                <textarea name="alasan_penolakan_text" rows="3" class="tinymce-editor w-full px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-xs font-bold text-red-700 focus:ring-4 focus:ring-red-500/10 focus:outline-none" placeholder="Tulis alasan penolakan..." >{{ $permohonan->alasan_penolakan_text }}</textarea>
                                 <input type="text" name="penolakan_pasal_uu" value="{{ $permohonan->penolakan_pasal_uu }}" class="w-full px-4 py-3 bg-red-50 border border-red-200 rounded-xl text-xs font-bold text-red-700 focus:ring-4 focus:ring-red-500/10 focus:outline-none" placeholder="Dasar hukum penolakan (pasal/UU)">
                             </div>
 

@@ -232,7 +232,7 @@
                                 <div>
                                     <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Sub-judul Halaman</label>
                                     <textarea id="permohonan-subtitle-input" 
-                                        class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-medium text-gray-600 focus:bg-white focus:ring-2 focus:ring-[#004a99]/10 focus:border-[#004a99] outline-none transition-all"
+                                        class="tinymce-editor w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-xs font-medium text-gray-600 focus:bg-white focus:ring-2 focus:ring-[#004a99]/10 focus:border-[#004a99] outline-none transition-all"
                                         rows="2" placeholder="Cth: Silakan lengkapi formulir di bawah ini...">{{ $settings['permohonan_subtitle'] ?? 'Silakan lengkapi formulir di bawah ini dengan data yang benar untuk mengajukan permohonan informasi ke PPID PKTJ Tegal.' }}</textarea>
                                 </div>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -245,8 +245,8 @@
                                     <div>
                                         <label class="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-2 block">Teks Banner Peringatan</label>
                                         <textarea id="permohonan-warning-text-input" 
-                                            class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-[11px] font-medium text-red-500 focus:bg-white focus:ring-2 focus:ring-red-100 focus:border-red-400 outline-none transition-all"
-                                            rows="1" placeholder="Cth: Saya menyatakan bahwa...">{{ $settings['permohonan_warning_text'] ?? 'Saya menyatakan bahwa data yang diungkapkan adalah benar dan dapat dipertanggungjawabkan sesuai ketentuan yang berlaku.' }}</textarea>
+                                            class="tinymce-editor w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl text-[11px] font-medium text-red-500 focus:bg-white focus:ring-2 focus:ring-red-100 focus:border-red-400 outline-none transition-all"
+                                            rows="1" placeholder="Cth: Saya menyatakan bahwa...">{{ $settings['permohonan_warning_text'] ?? 'Saya menyatakan bahwa data yang diungkapkan adalah benar and dapat dipertanggungjawabkan sesuai ketentuan yang berlaku.' }}</textarea>
                                     </div>
                                 </div>
                             </div>
@@ -359,9 +359,9 @@
         $('#btn-save-form').click(function() {
             let sectionTitle = $('#section-title-input').val().trim().toUpperCase() || 'INFORMASI TAMBAHAN';
             let permohonanTitle = $('#permohonan-title-input').val().trim();
-            let permohonanSubtitle = $('#permohonan-subtitle-input').val().trim();
+            let permohonanSubtitle = (typeof tinymce !== 'undefined' && tinymce.get('permohonan-subtitle-input')) ? tinymce.get('permohonan-subtitle-input').getContent() : $('#permohonan-subtitle-input').val().trim();
             let permohonanWarningTitle = $('#permohonan-warning-title-input').val().trim();
-            let permohonanWarningText = $('#permohonan-warning-text-input').val().trim();
+            let permohonanWarningText = (typeof tinymce !== 'undefined' && tinymce.get('permohonan-warning-text-input')) ? tinymce.get('permohonan-warning-text-input').getContent() : $('#permohonan-warning-text-input').val().trim();
 
             // Core Field Settings
             let coreSettings = {

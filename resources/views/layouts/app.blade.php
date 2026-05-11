@@ -446,7 +446,7 @@
                 ],
                 toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline forecolor | ' +
                          'alignleft aligncenter alignright alignjustify | ' +
-                         'bullist numlist outdent indent | link image emoticons | removeformat fullscreen',
+                         'bullist numlist outdent indent | link image media emoticons | premium_blur insert_preview removeformat fullscreen',
                 skin: 'oxide',
                 content_css: 'default',
                 content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #0f172a; padding: 20px; line-height: 1.6; }',
@@ -455,11 +455,14 @@
                 image_title: true,
                 automatic_uploads: true,
                 images_upload_url: "{{ route('admin.upload.image') }}",
-                file_picker_types: 'image',
+                file_picker_types: 'image media',
                 image_advtab: true,
                 relative_urls: false,
                 remove_script_host: false,
                 convert_urls: false,
+                // Media embed configuration
+                media_live_embeds: true,
+                extended_valid_elements: 'iframe[src|title|width|height|allowfullscreen|frameborder|style]',
                 // Handle CSRF Token for local uploads
                 images_upload_handler: function (blobInfo, progress) {
                     return new Promise((resolve, reject) => {
@@ -522,6 +525,47 @@
                     });
                 },
                 setup: function(editor) {
+                    editor.ui.registry.addButton('premium_blur', {
+                        icon: 'lock',
+                        tooltip: 'Apply Premium Blur to Selection',
+                        onAction: function (_) {
+                            editor.execCommand('mceToggleFormat', false, 'premium-blur');
+                        }
+                    });
+
+                    editor.ui.registry.addButton('insert_preview', {
+                        icon: 'preview',
+                        tooltip: 'Insert Document Preview Iframe',
+                        onAction: function (_) {
+                            editor.windowManager.open({
+                                title: 'Insert Document Preview',
+                                body: {
+                                    type: 'panel',
+                                    items: [
+                                        { type: 'input', name: 'url', label: 'File URL (e.g. storage/berita/file.pdf)' },
+                                        { type: 'input', name: 'title', label: 'Document Title' },
+                                        { type: 'checkbox', name: 'blurred', label: 'Apply Premium Blur (Page 2+)' }
+                                    ]
+                                },
+                                buttons: [
+                                    { type: 'cancel', text: 'Close' },
+                                    { type: 'submit', text: 'Insert', primary: true }
+                                ],
+                                onSubmit: function (api) {
+                                    const data = api.getData();
+                                    const baseUrl = "{{ route('preview.dokumen') }}";
+                                    const fullUrl = baseUrl + "?file=" + encodeURIComponent(data.url) + "&title=" + encodeURIComponent(data.title) + (data.blurred ? "&is_blurred=1" : "");
+                                    
+                                    const html = `<div style="width: 100%; height: 600px; overflow: hidden; border-radius: 20px; border: 1px solid #e2e8f0; margin: 20px 0;">
+                                                    <iframe src="${fullUrl}" style="width: 100%; height: 100%; border: none;"></iframe>
+                                                  </div>`;
+                                    editor.insertContent(html);
+                                    api.close();
+                                }
+                            });
+                        }
+                    });
+                    
                     editor.on('init', function() {
                         editor.getContainer().style.transition = "border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out";
                     });
@@ -529,12 +573,15 @@
                         tinymce.triggerSave();
                     });
                 },
+                formats: {
+                    'premium-blur': { inline: 'span', classes: 'premium-blur' }
+                },
                 style_formats: [
-                    { title: 'Premium Blur', inline: 'span', classes: 'premium-blur' },
+                    { title: 'Premium Blur', format: 'premium-blur' },
                     { title: 'Premium Button', inline: 'span', classes: 'premium-cta-trigger' }
                 ],
                 content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #0f172a; padding: 20px; line-height: 1.6; } ' +
-                              '.premium-blur { filter: blur(5px); background: #f1f5f9; display: inline-block; padding: 2px 4px; border-radius: 4px; }'
+                              '.premium-blur { filter: blur(5px); background: #f1f5f9; display: inline-block; padding: 2px 4px; border-radius: 4px; border: 1px dashed #004a99; }'
             });
             
             $(document).on('submit', 'form', function() { if (typeof tinymce !== 'undefined') tinymce.triggerSave(); });

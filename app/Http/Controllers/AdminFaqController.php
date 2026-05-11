@@ -25,7 +25,9 @@ class AdminFaqController extends Controller
             'jawaban' => 'required|string',
         ]);
 
-        Faq::create($request->only(['pertanyaan', 'jawaban']));
+        $data = $request->only(['pertanyaan', 'jawaban']);
+        $data['is_blurred'] = $request->has('is_blurred');
+        Faq::create($data);
         return redirect()->route('admin.faq.index')->with('success', 'FAQ berhasil ditambahkan');
     }
 
@@ -41,7 +43,9 @@ class AdminFaqController extends Controller
             'jawaban' => 'required|string',
         ]);
 
-        $faq->update($request->only(['pertanyaan', 'jawaban']));
+        $data = $request->only(['pertanyaan', 'jawaban']);
+        $data['is_blurred'] = $request->has('is_blurred');
+        $faq->update($data);
         return redirect()->route('admin.faq.index')->with('success', 'FAQ berhasil diperbarui');
     }
 

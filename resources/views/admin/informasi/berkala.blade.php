@@ -127,7 +127,7 @@
                             </span>
                             Konten Lengkap *
                         </label>
-                        <textarea id="editor_berkala_index" name="konten" class="summernote-editor" required>{{ old('konten', '') }}</textarea>
+                        <textarea id="editor_berkala_index" name="konten" class="tinymce-editor" required>{{ old('konten', '') }}</textarea>
                     </div>
 
                     <!-- Tanggal Section -->

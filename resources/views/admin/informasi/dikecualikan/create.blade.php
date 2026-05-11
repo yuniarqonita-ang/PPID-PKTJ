@@ -70,6 +70,23 @@
                         </label>
                     </div>
 
+                    <!-- PREMIUM BLUR TOGGLE -->
+                    <div class="pt-6 border-t border-slate-50 flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-white rounded-3xl border border-blue-100 shadow-sm">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-[#004a99]/10 rounded-2xl flex items-center justify-center text-[#004a99]">
+                                <i class="fas fa-eye-slash text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-black text-gray-800 uppercase tracking-widest leading-tight">Premium Blur</h4>
+                                <p class="text-[10px] text-blue-500 font-bold uppercase tracking-tighter">Document Protection System</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="is_blurred" value="1" class="sr-only peer">
+                            <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+
                 </div>
             </div>
 
