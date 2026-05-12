@@ -144,6 +144,7 @@ class DashboardController extends Controller
             'premium_view_blur_text' => $request->premium_view_blur_text,
             'premium_view_button_text' => $request->premium_view_button_text,
             'premium_view_button_link' => $request->premium_view_button_link,
+            'list_penanggung_jawab' => $request->list_penanggung_jawab,
         ];
 
         // Handle Video Thumbnail Upload
@@ -196,6 +197,7 @@ class DashboardController extends Controller
             'premium_view_blur_text' => 'Teks yang muncul di atas blur dokumen',
             'premium_view_button_text' => 'Teks tombol di atas blur',
             'premium_view_button_link' => 'Link tujuan tombol di atas blur',
+            'list_penanggung_jawab' => 'Daftar penanggung jawab (Pisahkan dengan baris baru)',
         ];
 
         return $descriptions[$key] ?? 'Pengaturan dashboard';

@@ -27,6 +27,11 @@ class InformasiDikecualikanController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'tanggal' => 'required|date',
+            'dasar_hukum' => 'nullable|string',
+            'konsekuensi_dibuka' => 'nullable|string',
+            'konsekuensi_ditutup' => 'nullable|string',
+            'jangka_waktu' => 'nullable|string|max:255',
+            'penanggung_jawab' => 'nullable|string|max:255',
             'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
         ]);
 
@@ -34,6 +39,11 @@ class InformasiDikecualikanController extends Controller
             'judul' => $validated['judul'],
             'deskripsi' => $validated['deskripsi'] ?? '',
             'tanggal' => $validated['tanggal'],
+            'dasar_hukum' => $validated['dasar_hukum'],
+            'konsekuensi_dibuka' => $validated['konsekuensi_dibuka'],
+            'konsekuensi_ditutup' => $validated['konsekuensi_ditutup'],
+            'jangka_waktu' => $validated['jangka_waktu'],
+            'penanggung_jawab' => $validated['penanggung_jawab'],
             'aktif' => $request->has('aktif'),
             'is_blurred' => $request->has('is_blurred'),
         ];
@@ -67,6 +77,11 @@ class InformasiDikecualikanController extends Controller
             'judul' => 'required|string|max:255',
             'deskripsi' => 'nullable|string',
             'tanggal' => 'required|date',
+            'dasar_hukum' => 'nullable|string',
+            'konsekuensi_dibuka' => 'nullable|string',
+            'konsekuensi_ditutup' => 'nullable|string',
+            'jangka_waktu' => 'nullable|string|max:255',
+            'penanggung_jawab' => 'nullable|string|max:255',
             'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
         ]);
 
@@ -75,6 +90,11 @@ class InformasiDikecualikanController extends Controller
         $item->judul = $validated['judul'];
         $item->deskripsi = $validated['deskripsi'] ?? '';
         $item->tanggal = $validated['tanggal'];
+        $item->dasar_hukum = $validated['dasar_hukum'];
+        $item->konsekuensi_dibuka = $validated['konsekuensi_dibuka'];
+        $item->konsekuensi_ditutup = $validated['konsekuensi_ditutup'];
+        $item->jangka_waktu = $validated['jangka_waktu'];
+        $item->penanggung_jawab = $validated['penanggung_jawab'];
         $item->aktif = $request->has('aktif');
         $item->is_blurred = $request->has('is_blurred');
 

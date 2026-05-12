@@ -32,10 +32,56 @@
                     </div>
 
                     <!-- Date Field -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-3">
+                            <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Tanggal Publikasi</label>
+                            <input type="date" name="tanggal" required value="{{ old('tanggal', $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('Y-m-d') : date('Y-m-d')) }}"
+                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c]">
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Jangka Waktu</label>
+                            <input type="text" name="jangka_waktu" value="{{ old('jangka_waktu', $item->jangka_waktu) }}" placeholder="Contoh: 10 Tahun"
+                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c]">
+                        </div>
+                    </div>
+
+                    <!-- Penanggung Jawab -->
                     <div class="space-y-3">
-                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Tanggal Publikasi</label>
-                        <input type="date" name="tanggal" required value="{{ old('tanggal', $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('Y-m-d') : date('Y-m-d')) }}"
+                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Penanggung Jawab</label>
+                        @php
+                            $listPj = \App\Models\Dashboard::getValue('list_penanggung_jawab', "PPID UTAMA\nInspektorat Jenderal Kementerian Perhubungan\nDirektorat Jenderal Perhubungan Darat\nDirektorat Jenderal Perhubungan Laut\nDirektorat Jenderal Perhubungan Udara\nDirektorat Jenderal Perkeretaapian\nBadan Kebijakan Transportasi\nBadan Pengembangan Sumber Daya Manusia Perhubungan\nBadan Pengelola Transportasi Jabodetabek");
+                            $options = explode("\n", str_replace("\r", "", $listPj));
+                        @endphp
+                        <select name="penanggung_jawab"
                             class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c]">
+                            <option value="">-- Pilih Penanggung Jawab --</option>
+                            @foreach($options as $opt)
+                                @if(trim($opt))
+                                    <option value="{{ trim($opt) }}" {{ old('penanggung_jawab', $item->penanggung_jawab) == trim($opt) ? 'selected' : '' }}>{{ trim($opt) }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Dasar Hukum -->
+                    <div class="space-y-3">
+                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Dasar Hukum Pengecualian Informasi</label>
+                        <textarea name="dasar_hukum" rows="3"
+                            class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c]">{{ old('dasar_hukum', $item->dasar_hukum) }}</textarea>
+                    </div>
+
+                    <!-- Konsekuensi Section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                        <div class="space-y-3">
+                            <label class="text-xs font-black text-green-600 uppercase tracking-[2px] block">Konsekuensi Dibuka Bagi Publik</label>
+                            <textarea name="konsekuensi_dibuka" rows="3"
+                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:bg-white transition-all font-bold text-gray-700">{{ old('konsekuensi_dibuka', $item->konsekuensi_dibuka) }}</textarea>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-xs font-black text-red-600 uppercase tracking-[2px] block">Konsekuensi Ditutup Bagi Publik</label>
+                            <textarea name="konsekuensi_ditutup" rows="3"
+                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-red-100 focus:bg-white transition-all font-bold text-gray-700">{{ old('konsekuensi_ditutup', $item->konsekuensi_ditutup) }}</textarea>
+                        </div>
                     </div>
 
                     <!-- Content/Description Field -->

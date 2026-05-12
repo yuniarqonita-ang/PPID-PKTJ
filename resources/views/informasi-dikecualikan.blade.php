@@ -125,50 +125,98 @@
 
     <div class="container">
         <div class="content-card">
-            <h2 class="section-title">Dokumen Terbatas</h2>
+            <h1 class="section-title">Informasi Dikecualikan</h1>
 
-            @include('components.konten-dinamis', ['prefix' => 'informasi_dikecualikan'])
+            <!-- Search Filters -->
+            <form action="{{ route('informasi.dikecualikan') }}" method="GET" class="mb-5">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold uppercase">Informasi</label>
+                        <input type="text" name="informasi" value="{{ request('informasi') }}" class="form-control shadow-sm border-0 py-3 px-4 rounded-3" placeholder="Cari Informasi...">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold uppercase">Dasar Hukum Pengecualian</label>
+                        <input type="text" name="dasar_hukum" value="{{ request('dasar_hukum') }}" class="form-control shadow-sm border-0 py-3 px-4 rounded-3" placeholder="Cari Dasar Hukum...">
+                    </div>
+                    <div class="col-md-4">
+                        <label class="form-label text-muted small fw-bold uppercase">Penanggung Jawab</label>
+                        @php
+                            $listPj = \App\Models\Dashboard::getValue('list_penanggung_jawab', "PPID UTAMA\nInspektorat Jenderal Kementerian Perhubungan\nDirektorat Jenderal Perhubungan Darat\nDirektorat Jenderal Perhubungan Laut\nDirektorat Jenderal Perhubungan Udara\nDirektorat Jenderal Perkeretaapian\nBadan Kebijakan Transportasi\nBadan Pengembangan Sumber Daya Manusia Perhubungan\nBadan Pengelola Transportasi Jabodetabek");
+                            $options = explode("\n", str_replace("\r", "", $listPj));
+                        @endphp
+                        <select name="penanggung_jawab" class="form-select shadow-sm border-0 py-3 px-4 rounded-3">
+                            <option value="">Semua Penanggung Jawab</option>
+                            @foreach($options as $opt)
+                                @if(trim($opt))
+                                    <option value="{{ trim($opt) }}" {{ request('penanggung_jawab') == trim($opt) ? 'selected' : '' }}>{{ trim($opt) }}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-12 mt-4">
+                        <button type="submit" class="btn btn-success px-5 py-3 rounded-3 fw-bold shadow-sm">
+                            Cari <i class="fas fa-search ms-2"></i>
+                        </button>
+                        @if(request()->anyFilled(['informasi', 'dasar_hukum', 'penanggung_jawab']))
+                            <a href="{{ route('informasi.dikecualikan') }}" class="btn btn-light px-4 py-3 rounded-3 fw-bold ms-2 shadow-sm border">
+                                Reset
+                            </a>
+                        @endif
+                    </div>
+                </div>
+            </form>
 
-            <div class="row mt-4">
-                @forelse($items as $item)
-                    <div class="col-12">
-                        <div class="info-item">
-                            <div class="d-flex align-items-start">
-                                <div class="info-icon">
-                                    <i class="fas fa-lock"></i>
-                                </div>
-                                <div class="flex-grow-1">
-                                    <h4 class="fw-bold outfit text-dark mb-3">{{ $item->judul }}</h4>
-                                    <div class="rich-content mb-4">
-                                        {!! $item->deskripsi ?? 'Informasi ini dikecualikan berdasarkan ketentuan yang berlaku.' !!}
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between pt-3 border-top">
-                                        <div class="d-flex gap-3">
-                                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">
-                                                <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->format('d M Y') }}
-                                            </span>
-                                            @if(isset($item->jangka_waktu))
-                                            <span class="badge bg-light text-danger border px-3 py-2 rounded-pill">
-                                                <i class="fas fa-clock me-1"></i> {{ $item->jangka_waktu }}
-                                            </span>
-                                            @endif
-                                        </div>
-                                        <div class="badge-locked">
-                                            <i class="fas fa-shield-alt"></i> DIKECUALIKAN
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @empty
-                    <div class="col-12 text-center py-5">
-                        <i class="fas fa-shield-alt fa-4x text-muted mb-4 opacity-25"></i>
-                        <h3 class="text-muted">Data Belum Tersedia</h3>
-                        <p class="text-muted">Belum ada data informasi dikecualikan tersedia saat ini.</p>
-                    </div>
-                @endforelse
+            <div class="mb-3 text-muted small fw-bold">
+                Showing {{ $items->firstItem() ?? 0 }}-{{ $items->lastItem() ?? 0 }} of {{ $items->total() }} items.
             </div>
+
+            <div class="table-responsive rounded-4 shadow-sm border">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="bg-light">
+                        <tr class="text-primary small fw-black uppercase text-center align-middle">
+                            <th style="width: 50px;" class="py-4 px-3 border-end">#</th>
+                            <th style="min-width: 250px;" class="py-4 px-3 border-end">Informasi</th>
+                            <th style="min-width: 200px;" class="py-4 px-3 border-end">Dasar Hukum Pengecualian Informasi</th>
+                            <th style="min-width: 200px;" class="py-4 px-3 border-end">Konsekuensi/Pertimbangan Dibuka Bagi Publik</th>
+                            <th style="min-width: 200px;" class="py-4 px-3 border-end">Konsekuensi/Pertimbangan Ditutup Bagi Publik</th>
+                            <th style="min-width: 120px;" class="py-4 px-3 border-end">Jangka Waktu</th>
+                            <th style="min-width: 150px;" class="py-4 px-3">Penanggung Jawab</th>
+                        </tr>
+                    </thead>
+                    <tbody class="border-top-0">
+                        @forelse($items as $index => $item)
+                        <tr class="text-secondary small fw-medium">
+                            <td class="text-center py-4 border-end fw-black">{{ $items->firstItem() + $index }}</td>
+                            <td class="py-4 px-4 border-end">
+                                <div class="fw-bold text-dark mb-2">{{ $item->judul }}</div>
+                                <div class="text-muted opacity-75">{!! $item->deskripsi !!}</div>
+                            </td>
+                            <td class="py-4 px-4 border-end text-center">{{ $item->dasar_hukum ?: '-' }}</td>
+                            <td class="py-4 px-4 border-end text-center">{{ $item->konsekuensi_dibuka ?: '-' }}</td>
+                            <td class="py-4 px-4 border-end text-center">{{ $item->konsekuensi_ditutup ?: '-' }}</td>
+                            <td class="py-4 px-4 border-end text-center fw-bold">{{ $item->jangka_waktu ?: '-' }}</td>
+                            <td class="py-4 px-4 text-center fw-bold text-primary">{{ $item->penanggung_jawab ?: '-' }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="text-center py-5">
+                                <div class="py-5">
+                                    <i class="fas fa-shield-alt fa-4x text-muted mb-4 opacity-25"></i>
+                                    <h3 class="text-muted">Data Tidak Ditemukan</h3>
+                                    <p class="text-muted">Gunakan filter pencarian yang berbeda atau tambahkan data di admin.</p>
+                                </div>
+                            </td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-5 d-flex justify-content-center">
+                {{ $items->links() }}
+            </div>
+
         </div>
     </div>
 
