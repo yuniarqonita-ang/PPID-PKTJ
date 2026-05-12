@@ -49,6 +49,8 @@
                     <thead>
                         <tr class="bg-[#004a99] text-white">
                             <th class="px-6 py-4 text-xs font-black uppercase tracking-widest">Informasi / Dokumen</th>
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Penanggung Jawab</th>
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Jangka Waktu</th>
                             <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Status</th>
                             <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Aksi</th>
                         </tr>
@@ -69,6 +71,12 @@
                                         </p>
                                     </div>
                                 </div>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="text-xs font-bold text-gray-600 uppercase">{{ $item->penanggung_jawab ?: '-' }}</span>
+                            </td>
+                            <td class="px-6 py-4 text-center">
+                                <span class="text-xs font-bold text-gray-600 uppercase">{{ $item->jangka_waktu ?: '-' }}</span>
                             </td>
                             <td class="px-6 py-4 text-center">
                                 @if($item->aktif)
@@ -97,7 +105,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="3" class="px-6 py-20 text-center">
+                            <td colspan="5" class="px-6 py-20 text-center">
                                 <div class="flex flex-col items-center">
                                     <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
                                         <i class="fas fa-lock text-gray-200 text-4xl"></i>

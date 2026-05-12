@@ -16,6 +16,11 @@ class InformasiDikecualikan extends Model
         'file_name',
         'file_size',
         'file_type',
+        'dasar_hukum',
+        'konsekuensi_dibuka',
+        'konsekuensi_ditutup',
+        'jangka_waktu',
+        'penanggung_jawab',
         'aktif',
         'is_blurred'
     ];

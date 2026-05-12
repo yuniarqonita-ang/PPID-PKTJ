@@ -183,6 +183,25 @@
                 </div>
             </div>
 
+            <!-- SECTION: PENGATURAN INFORMASI DIKECUALIKAN -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-[#ffc107] rounded-xl flex items-center justify-center text-[#004a99] text-sm">
+                        <i class="fas fa-user-shield"></i>
+                    </div>
+                    <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Opsi Informasi Dikecualikan</h3>
+                </div>
+                <div class="p-8 space-y-6">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Daftar Penanggung Jawab (Dropdown)</label>
+                        <textarea name="list_penanggung_jawab" rows="8"
+                                  placeholder="Masukkan satu nama per baris..."
+                                  class="w-full px-5 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-[#004a99] focus:bg-white transition-all font-semibold text-slate-700 leading-relaxed">{{ old('list_penanggung_jawab', \App\Models\Dashboard::getValue('list_penanggung_jawab', "PPID UTAMA\nInspektorat Jenderal Kementerian Perhubungan\nDirektorat Jenderal Perhubungan Darat\nDirektorat Jenderal Perhubungan Laut\nDirektorat Jenderal Perhubungan Udara\nDirektorat Jenderal Perkeretaapian\nBadan Kebijakan Transportasi\nBadan Pengembangan Sumber Daya Manusia Perhubungan\nBadan Pengelola Transportasi Jabodetabek")) }}</textarea>
+                        <p class="text-[10px] text-slate-400 italic"><i class="fas fa-info-circle mr-1"></i> Pisahkan setiap nama penanggung jawab dengan baris baru (Enter). List ini akan muncul di dropdown halaman admin dan filter publik.</p>
+                    </div>
+                </div>
+            </div>
+
             <!-- SECTION: KONTAK -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
                 <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">

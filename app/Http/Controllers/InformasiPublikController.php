@@ -65,12 +65,26 @@ class InformasiPublikController extends Controller
     }
 
     // Informasi Dikecualikan
-    public function informasiDikecualikan()
+    public function informasiDikecualikan(\Illuminate\Http\Request $request)
     {
-        $items = InformasiDikecualikan::where('aktif', true)->orderBy('created_at', 'desc')->get();
+        $query = InformasiDikecualikan::where('aktif', true);
+
+        if ($request->filled('informasi')) {
+            $query->where('judul', 'like', '%' . $request->informasi . '%');
+        }
+        if ($request->filled('dasar_hukum')) {
+            $query->where('dasar_hukum', 'like', '%' . $request->dasar_hukum . '%');
+        }
+        if ($request->filled('penanggung_jawab')) {
+            $query->where('penanggung_jawab', 'like', '%' . $request->penanggung_jawab . '%');
+        }
+
+        $items = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
+        
         foreach ($items as $item) {
             $item->deskripsi = $this->processContent($item->deskripsi, $item->is_blurred ?? false);
         }
+        
         $settings = $this->getSettings();
         return view('informasi-dikecualikan', compact('items', 'settings'));
     }
