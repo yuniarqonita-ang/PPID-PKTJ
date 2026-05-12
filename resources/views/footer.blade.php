@@ -200,13 +200,17 @@
                 if (link.innerText.toLowerCase().includes('lihat') || link.classList.contains('embed-drive')) {
                     const driveId = href.match(/\/d\/([^\/]+)/)?.[1];
                     if (driveId) {
-                        const embedUrl = `https://drive.google.com/file/d/${driveId}/preview`;
+                        const baseUrl = "{{ route('preview.dokumen') }}";
+                        const embedUrl = `${baseUrl}?file=${encodeURIComponent(href)}&title=${encodeURIComponent(link.innerText)}&is_blurred=1`;
                         const iframe = document.createElement('iframe');
                         iframe.setAttribute('src', embedUrl);
                         iframe.style.width = '100%';
-                        iframe.style.minHeight = '500px';
-                        iframe.style.borderRadius = '12px';
+                        iframe.style.minHeight = '600px';
+                        iframe.style.borderRadius = '16px';
                         iframe.style.border = '1px solid #e2e8f0';
+                        iframe.style.margin = '25px 0';
+                        iframe.style.boxShadow = '0 10px 15px -3px rgba(0, 0, 0, 0.1)';
+                        iframe.setAttribute('allowfullscreen', 'true');
                         link.parentNode.replaceChild(iframe, link);
                     }
                 }

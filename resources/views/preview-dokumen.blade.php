@@ -252,6 +252,23 @@
             $isPdf = $extension === 'pdf';
             $isOffice = in_array($extension, ['doc', 'docx', 'xls', 'xlsx']);
             
+            // Google Drive Detection
+            $isGDrive = strpos($file_path, 'drive.google.com') !== false || strpos($file_path, 'docs.google.com') !== false;
+            $gdriveId = '';
+            if ($isGDrive) {
+                if (preg_match('/\/d\/([^\/]+)/', $file_path, $matches)) {
+                    $gdriveId = $matches[1];
+                } elseif (preg_match('/id=([^&]+)/', $file_path, $matches)) {
+                    $gdriveId = $matches[1];
+                }
+                
+                // If we found a GDrive ID, treat it as a PDF (renderable via proxy)
+                if ($gdriveId) {
+                    $isPdf = true;
+                    $proxyUrl = route('proxy.gdrive', $gdriveId);
+                }
+            }
+
             $premiumEnabled = ($settings['premium_view_enabled'] ?? '0') === '1' && ($isBlurred ?? false);
             $blurText = $settings['premium_view_blur_text'] ?? 'Lanjutkan Membaca? Silakan Ajukan Permohonan Informasi';
             $btnText = $settings['premium_view_button_text'] ?? 'AJUKAN SEKARANG';
@@ -302,7 +319,7 @@
             const loading = document.getElementById('loading');
             
             @if($isPdf)
-                const url = '{{ asset($file_path) }}';
+                const url = '{{ isset($proxyUrl) ? $proxyUrl : asset($file_path) }}';
                 const pdfjsLib = window['pdfjs-dist/build/pdf'];
                 pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 

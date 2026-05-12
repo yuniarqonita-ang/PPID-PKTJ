@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ProfilPpid;
 use App\Models\Peraturan;
 use App\Models\Dashboard;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Response;
 
 class ProfilPublikController extends Controller
 {
@@ -230,24 +232,81 @@ class ProfilPublikController extends Controller
 
         // Search for is_blurred flag
         $isBlurred = false;
-        // The file_path usually starts with storage/
-        $searchPath = $file_path;
         
-        $di = \App\Models\DaftarInformasi::where('file_informasi', $searchPath)
-            ->orWhere('image', $searchPath)
-            ->first();
-        if ($di) {
-            $isBlurred = $di->is_blurred;
-        }
-
-        // Allow manual override from request
+        // 1. Priority: Explicit flag from request (used by TinyMCE button)
         if ($request->has('is_blurred')) {
             $isBlurred = $request->query('is_blurred') == '1';
+        } else {
+            // 2. Secondary: Check database based on file path
+            // Handle both with and without 'storage/' prefix for matching
+            $pathWithStorage = str_starts_with($file_path, 'storage/') ? $file_path : 'storage/' . $file_path;
+            $pathWithoutStorage = str_replace('storage/', '', $file_path);
+            
+            $di = \App\Models\DaftarInformasi::where('file_informasi', $pathWithStorage)
+                ->orWhere('file_informasi', $pathWithoutStorage)
+                ->orWhere('image', $pathWithStorage)
+                ->orWhere('image', $pathWithoutStorage)
+                ->first();
+
+            if ($di) {
+                $isBlurred = (bool)$di->is_blurred;
+            }
         }
 
         $settings = Dashboard::pluck('value', 'key')->toArray();
 
         return view('preview-dokumen', compact('file_path', 'title', 'settings', 'isBlurred'));
+    }
+
+    /**
+     * Proxy to fetch GDrive file and serve it with proper CORS/PDF headers
+     */
+    public function proxyGdrive($id)
+    {
+        // Try multiple export/download URLs depending on the file type
+        // 1. Direct download for PDFs
+        // 2. Export for Google Docs/Sheets/Slides
+        
+        $urls = [
+            "https://drive.google.com/uc?id={$id}&export=download",
+            "https://docs.google.com/document/d/{$id}/export?format=pdf",
+            "https://docs.google.com/spreadsheets/d/{$id}/export?format=pdf",
+            "https://docs.google.com/presentation/d/{$id}/export?format=pdf"
+        ];
+
+        foreach ($urls as $url) {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
+            
+            $body = curl_exec($ch);
+            $info = curl_getinfo($ch);
+            $error = curl_error($ch);
+            curl_close($ch);
+
+            if ($body !== false && $info['http_code'] === 200) {
+                $contentType = strtolower($info['content_type'] ?? '');
+                $isPdfHeader = strpos($body, '%PDF-') === 0;
+
+                // Google Drive often returns application/octet-stream for downloads
+                if (strpos($contentType, 'application/pdf') !== false || 
+                    (strpos($contentType, 'application/octet-stream') !== false && $isPdfHeader) ||
+                    $isPdfHeader) {
+                    
+                    return response($body, 200, [
+                        'Content-Type' => 'application/pdf',
+                        'Content-Disposition' => 'inline; filename="document.pdf"',
+                        'Cache-Control' => 'public, max-age=3600'
+                    ]);
+                }
+            }
+        }
+
+        abort(404, 'Gagal mengambil dokumen dari Google Drive atau format tidak didukung');
     }
 
     /**

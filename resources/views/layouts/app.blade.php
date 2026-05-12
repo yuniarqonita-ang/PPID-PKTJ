@@ -435,7 +435,7 @@
         <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
         <script>
             tinymce.init({
-                selector: '.tinymce-editor, #editor, [id^="editor_"]',
+                selector: '.tinymce-editor, #editor, [id^="editor_"], #deskripsi, #konten, #isi_informasi, #isi_maklumat, #isi_standar',
                 license_key: 'gpl',
                 height: 550,
                 menubar: 'edit insert view format table tools help',
@@ -446,7 +446,7 @@
                 ],
                 toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline forecolor | ' +
                          'alignleft aligncenter alignright alignjustify | ' +
-                         'bullist numlist outdent indent | link image media emoticons | premium_blur insert_preview removeformat fullscreen',
+                         'bullist numlist outdent indent | link image media emoticons | premium_blur insert_preview insert_gdrive removeformat fullscreen',
                 skin: 'oxide',
                 content_css: 'default',
                 content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #0f172a; padding: 20px; line-height: 1.6; }',
@@ -525,11 +525,55 @@
                     });
                 },
                 setup: function(editor) {
+                    // Custom GDrive Icon
+                    editor.ui.registry.addIcon('gdrive', '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.5 15.5L14.5 6.5H9.5L14.5 15.5H19.5Z" fill="#004a99"/><path d="M9.5 6.5L4.5 15.5L7 19.5L12 10.5L9.5 6.5Z" fill="#ffc107"/><path d="M12 10.5L7 19.5H17L22 10.5H12Z" fill="#006ccf"/></svg>');
+
                     editor.ui.registry.addButton('premium_blur', {
                         icon: 'lock',
                         tooltip: 'Apply Premium Blur to Selection',
                         onAction: function (_) {
                             editor.execCommand('mceToggleFormat', false, 'premium-blur');
+                        }
+                    });
+
+                    editor.ui.registry.addButton('insert_gdrive', {
+                        icon: 'gdrive',
+                        tooltip: 'Insert GDrive Document (Premium Blur)',
+                        onAction: function (_) {
+                            editor.windowManager.open({
+                                title: 'Insert Google Drive Preview',
+                                body: {
+                                    type: 'panel',
+                                    items: [
+                                        { type: 'input', name: 'url', label: 'Google Drive Link (Sharing URL)', placeholder: 'https://drive.google.com/file/d/...' },
+                                        { type: 'input', name: 'title', label: 'Document Title' },
+                                        { type: 'input', name: 'height', label: 'Preview Height (px)', placeholder: '600' },
+                                        { type: 'checkbox', name: 'blurred', label: 'Apply Premium Blur (Page 2+)' }
+                                    ]
+                                },
+                                buttons: [
+                                    { type: 'cancel', text: 'Close' },
+                                    { type: 'submit', text: 'Insert GDrive', primary: true }
+                                ],
+                                initialData: {
+                                    blurred: true,
+                                    height: '600'
+                                },
+                                onSubmit: function (api) {
+                                    const data = api.getData();
+                                    if (!data.url) return;
+
+                                    const baseUrl = "{{ route('preview.dokumen') }}";
+                                    const fullUrl = baseUrl + "?file=" + encodeURIComponent(data.url) + "&title=" + encodeURIComponent(data.title || 'Dokumen GDrive') + (data.blurred ? "&is_blurred=1" : "");
+                                    
+                                    const height = data.height || '600';
+                                    const html = `<div class="gdrive-preview-wrapper" style="width: 100%; height: ${height}px; overflow: hidden; border-radius: 16px; border: 1px solid #e2e8f0; margin: 25px 0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
+                                                    <iframe src="${fullUrl}" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
+                                                  </div>`;
+                                    editor.insertContent(html);
+                                    api.close();
+                                }
+                            });
                         }
                     });
 
@@ -544,6 +588,7 @@
                                     items: [
                                         { type: 'input', name: 'url', label: 'File URL (e.g. storage/berita/file.pdf)' },
                                         { type: 'input', name: 'title', label: 'Document Title' },
+                                        { type: 'input', name: 'height', label: 'Preview Height (px)', placeholder: '600' },
                                         { type: 'checkbox', name: 'blurred', label: 'Apply Premium Blur (Page 2+)' }
                                     ]
                                 },
@@ -551,12 +596,17 @@
                                     { type: 'cancel', text: 'Close' },
                                     { type: 'submit', text: 'Insert', primary: true }
                                 ],
+                                initialData: {
+                                    height: '600',
+                                    blurred: false
+                                },
                                 onSubmit: function (api) {
                                     const data = api.getData();
                                     const baseUrl = "{{ route('preview.dokumen') }}";
                                     const fullUrl = baseUrl + "?file=" + encodeURIComponent(data.url) + "&title=" + encodeURIComponent(data.title) + (data.blurred ? "&is_blurred=1" : "");
                                     
-                                    const html = `<div style="width: 100%; height: 600px; overflow: hidden; border-radius: 20px; border: 1px solid #e2e8f0; margin: 20px 0;">
+                                    const height = data.height || '600';
+                                    const html = `<div style="width: 100%; height: ${height}px; overflow: hidden; border-radius: 16px; border: 1px solid #e2e8f0; margin: 25px 0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
                                                     <iframe src="${fullUrl}" style="width: 100%; height: 100%; border: none;"></iframe>
                                                   </div>`;
                                     editor.insertContent(html);

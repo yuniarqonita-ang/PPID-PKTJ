@@ -310,6 +310,7 @@ Route::name('prosedur.')->prefix('prosedur')->group(function () {
 // Download Route
 Route::get('/download/{model}/{id}', [InformasiPublikController::class, 'downloadFile'])->name('download.file');
 Route::get('/preview-dokumen', [ProfilPublikController::class, 'previewDokumen'])->name('preview.dokumen');
+Route::get('/proxy-gdrive/{id}', [ProfilPublikController::class, 'proxyGdrive'])->name('proxy.gdrive');
 
 Route::get('/agenda', [AgendaController::class, 'publicIndex'])->name('agenda.public');
 Route::get('/faq', [FaqController::class, 'publicIndex'])->name('faq.public');
