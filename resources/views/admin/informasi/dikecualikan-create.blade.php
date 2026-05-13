@@ -134,19 +134,7 @@
     </div>
 </div>
 
-<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 <script>
-    tinymce.init({
-        selector: '.tinymce-editor',
-        plugins: 'lists link image anchor autolink charmap emoticons wordcount table',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline | link image table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-        height: 250,
-        branding: false,
-        elementpath: false,
-        menubar: false,
-        promotion: false
-    });
-
     function handleFile(input) {
         if (input.files && input.files[0]) {
             const info = document.getElementById('fileInfo');

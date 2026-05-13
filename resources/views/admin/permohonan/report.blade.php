@@ -87,6 +87,11 @@
            class="px-6 py-3 bg-[#004a99] text-white rounded-xl text-sm font-black uppercase tracking-wider hover:bg-blue-800 transition shadow-md flex items-center gap-2">
             <i class="fas fa-file-word"></i> Unduh Word (.doc)
         </a>
+        <a href="{{ route('admin.permohonan.report.export_pdf', request()->all()) }}"
+           target="_blank"
+           class="px-6 py-3 bg-red-600 text-white rounded-xl text-sm font-black uppercase tracking-wider hover:bg-red-700 transition shadow-md flex items-center gap-2">
+            <i class="fas fa-file-pdf"></i> Unduh PDF (Siap Print)
+        </a>
     </div>
 
     {{-- PERIOD LABEL --}}

@@ -125,6 +125,44 @@
         transform: scale(1.05);
     }
     @endif
+
+    /* ====== FIX IFRAME & KONTEN GDRIVE: Tidak scroll horizontal ====== */
+    /* Ini berlaku di semua halaman publik yang render deskripsi */
+    body {
+        overflow-x: hidden !important;
+    }
+    .rich-content iframe,
+    .content-area iframe,
+    .prose iframe,
+    .info-item iframe,
+    .konten-dinamis iframe,
+    article iframe,
+    .gdrive-preview-wrapper iframe,
+    [class*="content"] iframe,
+    .mce-content-body iframe {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        border: none !important;
+        aspect-ratio: 16/9;
+        display: block;
+        margin: 15px auto;
+    }
+    .gdrive-preview-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        overflow: hidden !important;
+        position: relative;
+    }
+    /* Fix container yang memuat konten dinamis */
+    .rich-content,
+    .content-area,
+    .konten-dinamis {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        word-wrap: break-word !important;
+        overflow-wrap: break-word !important;
+    }
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0; position: relative; z-index: 1050;">

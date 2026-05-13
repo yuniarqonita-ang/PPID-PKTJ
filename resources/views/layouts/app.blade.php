@@ -255,8 +255,31 @@
                 overflow-y: auto !important;
                 height: auto !important;
                 min-height: 100vh !important;
-                background-color: #f8fafc !important; /* Brighter background */
+                background-color: #f8fafc !important;
                 position: relative !important;
+            }
+
+            /* FIX: GDrive iframe tidak scroll horizontal */
+            .gdrive-preview-wrapper {
+                width: 100% !important;
+                max-width: 100% !important;
+                overflow: hidden !important;
+                box-sizing: border-box !important;
+            }
+            .gdrive-preview-wrapper iframe,
+            .content-area iframe,
+            .prose iframe,
+            article iframe {
+                width: 100% !important;
+                max-width: 100% !important;
+                min-width: 0 !important;
+                border: none !important;
+            }
+            /* Fix konten TinyMCE hasil insert GDrive agar tidak overflow */
+            .mce-content-body iframe,
+            [class*="gdrive"] {
+                max-width: 100% !important;
+                overflow: hidden !important;
             }
         </style>
     </head>
@@ -435,7 +458,7 @@
         <script src="https://cdn.jsdelivr.net/npm/tinymce@6/tinymce.min.js" referrerpolicy="origin"></script>
         <script>
             tinymce.init({
-                selector: '.tinymce-editor, #editor, [id^="editor_"], #deskripsi, #konten, #isi_informasi, #isi_maklumat, #isi_standar',
+                selector: '.tinymce-editor, #editor, [id^="editor_"], #deskripsi, #konten, #isi_informasi, #isi_maklumat, #isi_standar, #dasar_hukum, #deskripsi_singkat, textarea[name="konten"], textarea[name="deskripsi"], textarea[name="isi"], textarea[name="isi_informasi"], textarea[name="isi_maklumat"], textarea[name="isi_standar"], textarea[name="jawaban"], textarea[name="isi_prosedur"], textarea[name="dasar_hukum"], textarea[name="konsekuensi_dibuka"], textarea[name="konsekuensi_ditutup"], textarea[name="catatan"], textarea[name="keterangan"]',
                 license_key: 'gpl',
                 height: 550,
                 menubar: 'edit insert view format table tools help',

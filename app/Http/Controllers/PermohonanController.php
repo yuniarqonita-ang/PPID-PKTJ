@@ -699,6 +699,37 @@ class PermohonanController extends Controller
             ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
     }
 
+    /**
+     * Admin: Export Laporan Bulanan ke PDF (via browser print)
+     * Membuka halaman HTML khusus yang dioptimalkan untuk Print/Save as PDF
+     */
+    public function exportReportPdf(Request $request)
+    {
+        $periodeType = $request->input('periode_type', 'bulanan');
+        $tahun       = $request->input('tahun', date('Y'));
+        $bulan       = $request->input('bulan', date('m'));
+
+        $query = Permohonan::query();
+
+        if ($periodeType === 'tahunan') {
+            $query->whereYear('tanggal_permohonan', $tahun)
+                  ->orWhereYear('created_at', $tahun);
+        } else {
+            $query->where(function ($q) use ($tahun, $bulan) {
+                $q->whereYear('tanggal_permohonan', $tahun)->whereMonth('tanggal_permohonan', $bulan);
+            })->orWhere(function ($q) use ($tahun, $bulan) {
+                $q->whereYear('created_at', $tahun)->whereMonth('created_at', $bulan);
+            });
+        }
+
+        $submissions = $query->orderBy('tanggal_permohonan', 'asc')->get();
+        $settings    = Dashboard::pluck('value', 'key')->toArray();
+
+        return view('admin.reports.templates.laporan_bulanan_pdf', compact(
+            'submissions', 'periodeType', 'tahun', 'bulan', 'settings'
+        ));
+    }
+
     public function destroy(Permohonan $permohonan)
     {
         $permohonan->delete();

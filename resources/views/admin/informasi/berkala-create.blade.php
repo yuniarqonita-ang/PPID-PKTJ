@@ -126,15 +126,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     const fileInput = document.getElementById('fileInput');
     const fileName = document.getElementById('fileName');
-    
-    fileInput.addEventListener('change', function(e) {
-        if (e.target.files.length > 0) {
-            fileName.textContent = 'File terpilih: ' + e.target.files[0].name;
-        } else {
-            fileName.textContent = '';
-        }
-    });
+    if (fileInput) {
+        fileInput.addEventListener('change', function(e) {
+            if (e.target.files.length > 0) {
+                fileName.textContent = 'File terpilih: ' + e.target.files[0].name;
+            } else {
+                fileName.textContent = '';
+            }
+        });
+    }
 });
 </script>
 @endsection
-
