@@ -141,14 +141,24 @@
                                     <i class="fas fa-eye"></i>
                                 </button>
                                 @if($item->file_informasi)
-                                <a href="{{ asset($item->file_informasi) }}" target="_blank" class="w-10 h-10 bg-white text-green-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-green-600 hover:text-white transition-all shadow-md" title="Buka File">
+                                <button type="button" 
+                                        class="w-10 h-10 bg-white text-green-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-green-600 hover:text-white transition-all shadow-md cursor-pointer" 
+                                        title="Pratinjau Dokumen"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#previewModal" 
+                                        data-url="{{ route('preview.dokumen', ['file' => $item->file_informasi, 'title' => $item->judul_informasi, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
                                     <i class="fas fa-file-pdf"></i>
-                                </a>
+                                </button>
                                 @endif
                                 @if($item->image)
-                                <a href="{{ asset($item->image) }}" target="_blank" class="w-10 h-10 bg-white text-blue-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-blue-600 hover:text-white transition-all shadow-md" title="Lihat Gambar">
+                                <button type="button" 
+                                        class="w-10 h-10 bg-white text-blue-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-blue-600 hover:text-white transition-all shadow-md cursor-pointer" 
+                                        title="Pratinjau Gambar"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#previewModal" 
+                                        data-url="{{ route('preview.dokumen', ['file' => $item->image, 'title' => $item->judul_informasi, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
                                     <i class="fas fa-image"></i>
-                                </a>
+                                </button>
                                 @endif
                                 <a href="{{ route('admin.layanan.daftar-informasi.edit', $item->id) }}" class="w-10 h-10 bg-white text-[#004a99] rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-[#004a99] hover:text-white transition-all shadow-md">
                                     <i class="fas fa-edit"></i>

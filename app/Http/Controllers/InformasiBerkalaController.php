@@ -33,29 +33,38 @@ class InformasiBerkalaController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'file' => 'required|file|mimes:pdf,doc,docx,xls,xlsx|max:10240',
-            'aktif' => 'boolean',
+            'judul'       => 'required|string|max:255',
+            'deskripsi'   => 'nullable|string',
+            'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:10240',
+            'gdrive_link' => 'nullable|url',
+            'aktif'       => 'boolean',
         ]);
 
-        // Handle file upload
-        if ($request->hasFile('file')) {
+        $data = [
+            'judul'      => $validated['judul'],
+            'deskripsi'  => $validated['deskripsi'] ?? null,
+            'aktif'      => $request->has('aktif'),
+            'is_blurred' => $request->has('is_blurred'),
+        ];
+
+        // Prioritas: Google Drive Link > Upload File Lokal
+        if ($request->filled('gdrive_link')) {
+            $data['file_path'] = $request->input('gdrive_link');
+            $data['file_name'] = 'Google Drive Document';
+            $data['file_size'] = '-';
+            $data['file_type'] = 'gdrive';
+        } elseif ($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
-            $path = $file->storeAs('public/informasi/berkala', $filename);
-            
-            InformasiBerkala::create([
-                'judul' => $validated['judul'],
-                'deskripsi' => $validated['deskripsi'],
-                'file_path' => 'storage/informasi/berkala/' . $filename,
-                'file_name' => $file->getClientOriginalName(),
-                'file_size' => $this->formatFileSize($file->getSize()),
-                'file_type' => $file->getClientOriginalExtension(),
-                'aktif' => $request->has('aktif'),
-                'is_blurred' => $request->has('is_blurred'),
-            ]);
+            $file->storeAs('public/informasi/berkala', $filename);
+
+            $data['file_path'] = 'storage/informasi/berkala/' . $filename;
+            $data['file_name'] = $file->getClientOriginalName();
+            $data['file_size'] = $this->formatFileSize($file->getSize());
+            $data['file_type'] = $file->getClientOriginalExtension();
         }
+
+        InformasiBerkala::create($data);
 
         return redirect()->route('admin.informasi.berkala.index')
             ->with('success', 'Informasi berkala berhasil ditambahkan!');
@@ -76,35 +85,43 @@ class InformasiBerkalaController extends Controller
     public function update(Request $request, string $id): RedirectResponse
     {
         $validated = $request->validate([
-            'judul' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:10240',
-            'aktif' => 'boolean',
+            'judul'       => 'required|string|max:255',
+            'deskripsi'   => 'nullable|string',
+            'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:10240',
+            'gdrive_link' => 'nullable|url',
+            'aktif'       => 'boolean',
         ]);
 
         $item = InformasiBerkala::findOrFail($id);
 
-        // Handle file upload
-        if ($request->hasFile('file')) {
-            // Delete old file
-            if ($item->file_path && Storage::exists(str_replace('storage/', 'public/', $item->file_path))) {
+        $item->judul      = $validated['judul'];
+        $item->deskripsi  = $validated['deskripsi'] ?? null;
+        $item->aktif      = $request->has('aktif');
+        $item->is_blurred = $request->has('is_blurred');
+
+        // Prioritas: Google Drive Link > Upload File Lokal (biarkan jika kosong keduanya)
+        if ($request->filled('gdrive_link')) {
+            $item->file_path = $request->input('gdrive_link');
+            $item->file_name = 'Google Drive Document';
+            $item->file_size = '-';
+            $item->file_type = 'gdrive';
+        } elseif ($request->hasFile('file')) {
+            // Delete old file (hanya jika bukan GDrive link)
+            if ($item->file_path && !str_starts_with($item->file_path, 'http') &&
+                Storage::exists(str_replace('storage/', 'public/', $item->file_path))) {
                 Storage::delete(str_replace('storage/', 'public/', $item->file_path));
             }
 
             $file = $request->file('file');
             $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
-            $path = $file->storeAs('public/informasi/berkala', $filename);
-            
+            $file->storeAs('public/informasi/berkala', $filename);
+
             $item->file_path = 'storage/informasi/berkala/' . $filename;
             $item->file_name = $file->getClientOriginalName();
             $item->file_size = $this->formatFileSize($file->getSize());
             $item->file_type = $file->getClientOriginalExtension();
         }
 
-        $item->judul = $validated['judul'];
-        $item->deskripsi = $validated['deskripsi'];
-        $item->aktif = $request->has('aktif');
-        $item->is_blurred = $request->has('is_blurred');
         $item->save();
 
         return redirect()->route('admin.informasi.berkala.index')

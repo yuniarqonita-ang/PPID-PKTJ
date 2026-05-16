@@ -545,53 +545,48 @@ class PermohonanController extends Controller
 
         $html = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
 <head>
-<meta charset="UTF-8">
+<meta charset="utf-8">
 <!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>Sheet1</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]-->
 <style>
   body { font-family: Arial, sans-serif; font-size: 10pt; }
   table { border-collapse: collapse; width: 100%; }
   th, td { border: 1px solid #000; padding: 5px 8px; text-align: center; vertical-align: middle; mso-number-format:"\@"; white-space: normal; }
-  th { background-color: #dce6f1; font-weight: bold; border: 1px solid #000; }
+  th { background-color: #dce6f1; font-weight: bold; border: 1px solid #000; font-size: 9pt; }
   .title-row td { border: none; font-weight: bold; font-size: 14pt; text-align: center; padding: 10px 0; }
   .subtitle-row td { border: none; font-weight: bold; font-size: 12pt; text-align: center; padding: 5px 0; }
   td.text-left { text-align: left; }
-  .sign-table { border: none; width: 100%; margin-top: 30px; }
-  .sign-table td { border: none; text-align: center; padding: 2px 5px; }
+  .legend { font-size: 8pt; font-style: italic; margin-top: 10px; text-align: left; }
 </style>
 </head>
 <body>
 <table>
-  <tr class="title-row"><td colspan="11">LAPORAN PEMOHON INFORMASI PPID PELAKSANA UPT ' . strtoupper($namaLembaga) . ' TAHUN ' . $tahun . '</td></tr>
-  <tr class="subtitle-row"><td colspan="11">LAPORAN PELAYANAN INFORMASI PUBLIK ' . strtoupper($periodeLabel) . '</td></tr>
-  <tr><td colspan="11"></td></tr>
+  <tr class="title-row"><td colspan="13">LAPORAN PEMOHON INFORMASI PPID PELAKSANA UPT ' . strtoupper($namaLembaga) . '</td></tr>
+  <tr class="subtitle-row"><td colspan="13">LAPORAN PELAKSANAAN TUGAS PELAYANAN INFORMASI PUBLIK ' . strtoupper($periodeLabel) . '</td></tr>
+  <tr><td colspan="13"></td></tr>
   <tr>
-    <th rowspan="2" width="40">NO</th>
-    <th rowspan="2" width="100">BULAN</th>
-    <th rowspan="2" width="120">TANGGAL PERMOHONAN INFORMASI</th>
-    <th rowspan="2" width="150">NAMA PEMOHON INFORMASI</th>
-    <th rowspan="2" width="150">ASAL</th>
-    <th rowspan="2" width="250">RINCIAN INFORMASI YANG DIBUTUHKAN</th>
-    <th rowspan="2" width="120">KETERANGAN<br>(Dipenuhi/Ditolak/Proses)</th>
-    <th rowspan="2" width="180">METODE PELAYANAN INFORMASI<br>(Website/Medsos/Ruang PPID)</th>
-    <th colspan="2">WAKTU PENYELESAIAN</th>
-    <th rowspan="2" width="200">ALASAN PENOLAKAN</th>
-  </tr>
-  <tr>
-    <th width="60">JAM</th>
-    <th width="60">MENIT</th>
+    <th width="30">NO</th>
+    <th width="50">BULAN</th>
+    <th width="80">TGL MINTA</th>
+    <th width="80">TGL SELESAI</th>
+    <th width="40">HARI</th>
+    <th width="150">NAMA PEMOHON</th>
+    <th width="250">RINCIAN INFORMASI</th>
+    <th width="30">B</th>
+    <th width="30">SM</th>
+    <th width="30">SS</th>
+    <th width="30">D</th>
+    <th width="100">KETERANGAN</th>
+    <th width="120">METODE</th>
   </tr>';
-
-        $prevBulan = '';
-        $noBulan   = 0;
 
         foreach ($submissions as $index => $item) {
             $tglMinta   = $item->tanggal_permohonan ?? $item->created_at;
             $tglSelesai = $item->tanggal_selesai;
             $bulanKey   = \Carbon\Carbon::parse($tglMinta)->format('m');
             $bulanNama  = $bulanNamaMap[$bulanKey] ?? '';
-            $menit      = $tglSelesai ? \Carbon\Carbon::parse($tglMinta)->diffInMinutes(\Carbon\Carbon::parse($tglSelesai)) : '';
-            $jam        = ($menit !== '') ? floor($menit / 60) : '';
-            $menitSisa  = ($menit !== '') ? ($menit % 60) : '';
+            
+            $hariKerja  = $tglSelesai ? \Carbon\Carbon::parse($tglMinta)->diffInDays(\Carbon\Carbon::parse($tglSelesai)) : '-';
+            
             $statusLabel = match($item->status) {
                 'selesai', 'completed'  => 'Dipenuhi',
                 'ditolak', 'rejected'  => 'Ditolak',
@@ -599,48 +594,38 @@ class PermohonanController extends Controller
                 default    => 'Pending'
             };
 
-            if ($bulanNama !== $prevBulan) {
-                $noBulan++;
-                $prevBulan = $bulanNama;
-                $bulanCell = '<td>' . $noBulan . ' ' . $bulanNama . '</td>';
-            } else {
-                $bulanCell = '<td></td>';
-            }
-
             $html .= '<tr>
     <td>' . ($index + 1) . '</td>
-    ' . $bulanCell . '
+    <td>' . $bulanNama . '</td>
     <td>' . \Carbon\Carbon::parse($tglMinta)->format('d/m/Y') . '</td>
-    <td class="text-left">' . e($item->nama_pemohon) . '</td>
-    <td class="text-left">' . e($item->perusahaan_instansi ?? $item->alamat) . '</td>
-    <td class="text-left">' . e($item->deskripsi_permohonan) . '</td>
+    <td>' . ($tglSelesai ? \Carbon\Carbon::parse($tglSelesai)->format('d/m/Y') : '-') . '</td>
+    <td>' . $hariKerja . '</td>
+    <td class="text-left"><strong>' . e($item->nama_pemohon) . '</strong></td>
+    <td class="text-left" style="font-size: 8pt;">' . e($item->deskripsi_permohonan) . '</td>
+    <td>' . ($item->kategori_laporan == 'berkala' ? 'v' : '') . '</td>
+    <td>' . ($item->kategori_laporan == 'sertamerta' ? 'v' : '') . '</td>
+    <td>' . ($item->kategori_laporan == 'setiapsaat' ? 'v' : '') . '</td>
+    <td>' . ($item->kategori_laporan == 'dikecualikan' ? 'v' : '') . '</td>
     <td>' . $statusLabel . '</td>
-    <td>' . e($item->jenis_permohonan_salinan ?? ($item->bentuk_informasi_salinan ?? 'Website')) . '</td>
-    <td>' . $jam . '</td>
-    <td>' . $menitSisa . '</td>
-    <td class="text-left">' . e($item->alasan_penolakan_text ?? '') . '</td>
+    <td>' . e($item->jenis_permohonan_salinan ?? ($item->bentuk_informasi_salinan ?? '-')) . '</td>
   </tr>';
         }
 
-        $html .= '<tr><td colspan="11"></td></tr></table>';
+        $html .= '<tr><td colspan="13"></td></tr>
+        <tr>
+            <td colspan="13" class="legend"><strong>Keterangan Jenis Informasi:</strong> B = Berkala | SM = Serta Merta | SS = Setiap Saat | D = Dikecualikan</td>
+        </tr>
+        </table>';
 
-        // Tanda tangan matching Word style
+        // Tanda tangan
         $html .= '<br><table style="border:none; width:100%;">
   <tr>
-    <td colspan="7" style="border:none;"></td>
+    <td colspan="9" style="border:none;"></td>
     <td colspan="4" style="border:none; text-align:center;">
         Tegal, ' . date('d F Y') . '<br>
         <strong>PPID PELAKSANA</strong><br><br><br><br>
         <strong><u>' . e($ppid_name) . '</u></strong><br>
         NIP. ' . e($ppid_nip) . '
-    </td>
-  </tr>
-  <tr><td colspan="11" style="height:30px; border:none;"></td></tr>
-  <tr>
-    <td colspan="11" style="border:none; text-align:center;">
-        MENGETAHUI,<br>
-        <strong>MENTERI PERHUBUNGAN REPUBLIK INDONESIA</strong><br><br><br><br>
-        <strong><u>' . e($menteri_name) . '</u></strong>
     </td>
   </tr>
 </table>
@@ -724,10 +709,18 @@ class PermohonanController extends Controller
 
         $submissions = $query->orderBy('tanggal_permohonan', 'asc')->get();
         $settings    = Dashboard::pluck('value', 'key')->toArray();
+        
+        $bulanNamaMap = ['01'=>'Januari','02'=>'Februari','03'=>'Maret','04'=>'April','05'=>'Mei','06'=>'Juni',
+                         '07'=>'Juli','08'=>'Agustus','09'=>'September','10'=>'Oktober','11'=>'November','12'=>'Desember'];
+        $periodeLabel = $periodeType === 'tahunan' 
+            ? "Tahun {$tahun}" 
+            : ($bulanNamaMap[str_pad($bulan, 2, '0', STR_PAD_LEFT)] ?? $bulan) . " {$tahun}";
 
-        return view('admin.reports.templates.laporan_bulanan_pdf', compact(
-            'submissions', 'periodeType', 'tahun', 'bulan', 'settings'
-        ));
+        $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('admin.reports.templates.laporan_bulanan_pdf', compact(
+            'submissions', 'periodeType', 'tahun', 'bulan', 'settings', 'periodeLabel'
+        ))->setPaper('a4', 'landscape');
+
+        return $pdf->download('Laporan_Pelayanan_PPID_' . str_replace(' ', '_', $periodeLabel) . '.pdf');
     }
 
     public function destroy(Permohonan $permohonan)

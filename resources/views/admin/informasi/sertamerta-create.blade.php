@@ -112,13 +112,24 @@
                                         <i class="fas fa-file-upload"></i>
                                     </div>
                                     <p class="text-[9px] font-black text-gray-400 uppercase">Klik Untuk Unggah</p>
-                                    <input type="file" name="dokumen" id="dokumenInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="hidden" onchange="handleFileSelect(this)">
+                                    <input type="file" name="file" id="dokumenInput" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" class="hidden" onchange="handleFileSelect(this)">
                                 </div>
                                 <div id="dokumen-info" class="hidden animate-fade-in-down">
                                     <div class="flex items-center p-3 bg-white rounded-xl border border-green-200 text-green-600">
                                         <i class="fas fa-check-circle mr-2"></i>
                                         <span id="dokumen-name" class="text-[9px] font-black truncate"></span>
                                     </div>
+                                </div>
+                                {{-- Google Drive Link --}}
+                                <div class="pt-3 border-t border-gray-200">
+                                    <label class="text-[9px] font-black text-[#004a99] uppercase tracking-wider flex items-center mb-2">
+                                        <i class="fab fa-google-drive mr-1 text-blue-500"></i> ATAU Link Google Drive
+                                    </label>
+                                    <input type="url" name="gdrive_link" 
+                                        class="w-full px-3 py-3 bg-white border border-blue-200 rounded-xl text-[10px] font-bold text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                                        placeholder="https://drive.google.com/file/d/xxx/view"
+                                        value="{{ old('gdrive_link') }}">
+                                    <p class="text-[8px] text-blue-400 font-bold mt-1">Jika diisi, link ini digunakan sebagai dokumen preview.</p>
                                 </div>
                             </div>
                         </div>

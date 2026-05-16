@@ -116,6 +116,18 @@
                             <div id="fileInfo" class="hidden mt-3 p-2 bg-red-50 rounded-xl text-[9px] font-bold text-red-500 border border-red-100 animate-fade-in-down truncate"></div>
                         </div>
 
+                        {{-- Google Drive Link --}}
+                        <div class="bg-gray-50 rounded-3xl p-5 border border-blue-100">
+                            <h3 class="text-xs font-black text-[#004a99] mb-3 uppercase tracking-[0.2em] flex items-center">
+                                <i class="fab fa-google-drive mr-2 text-blue-500"></i> Link Google Drive
+                            </h3>
+                            <input type="url" name="gdrive_link" 
+                                class="w-full px-4 py-3 bg-white border border-blue-200 rounded-xl text-[10px] font-bold text-gray-700 focus:ring-2 focus:ring-blue-400 focus:outline-none"
+                                placeholder="https://drive.google.com/file/d/xxx/view"
+                                value="{{ old('gdrive_link') }}">
+                            <p class="text-[8px] text-blue-400 font-bold mt-2">Jika diisi, link ini digunakan sebagai dokumen preview (menggantikan upload file).</p>
+                        </div>
+
                     </div>
                 </div>
 

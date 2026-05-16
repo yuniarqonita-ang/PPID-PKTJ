@@ -81,9 +81,13 @@
                                 </span>
                             </td>
                             <td class="px-8 py-6 text-center">
-                                <a href="{{ Storage::url($dok->file_path) }}" target="_blank" class="inline-flex items-center gap-2 text-[10px] font-black uppercase text-[#004a99] hover:text-[#ffc107] transition-colors">
-                                    <i class="fas fa-external-link-alt"></i> Lihat Dokumen
-                                </a>
+                                <button type="button" 
+                                        class="inline-flex items-center gap-2 text-[10px] font-black uppercase text-[#004a99] hover:text-[#ffc107] transition-colors border-none bg-transparent cursor-pointer"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#previewModal" 
+                                        data-url="{{ route('preview.dokumen', ['file' => 'storage/' . $dok->file_path, 'title' => $dok->judul]) }}">
+                                    <i class="fas fa-eye"></i> Pratinjau
+                                </button>
                             </td>
                             <td class="px-8 py-6">
                                 <div class="flex justify-center items-center gap-2">

@@ -269,9 +269,11 @@ class ProfilPublikController extends Controller
         
         $urls = [
             "https://drive.google.com/uc?id={$id}&export=download",
+            "https://drive.google.com/file/d/{$id}/view",
             "https://docs.google.com/document/d/{$id}/export?format=pdf",
             "https://docs.google.com/spreadsheets/d/{$id}/export?format=pdf",
-            "https://docs.google.com/presentation/d/{$id}/export?format=pdf"
+            "https://docs.google.com/presentation/d/{$id}/export?format=pdf",
+            "https://drive.google.com/viewer?id={$id}"
         ];
 
         foreach ($urls as $url) {
@@ -310,11 +312,15 @@ class ProfilPublikController extends Controller
     }
 
     /**
-     * View PDF peraturan (modal preview / new tab)
+     * View PDF peraturan (Premium Blur)
      */
     public function viewPeraturan($id)
     {
         $peraturan = Peraturan::findOrFail($id);
-        return view('peraturan-view', compact('peraturan'));
+        return view('preview-dokumen', [
+            'file' => 'storage/' . $peraturan->file_path,
+            'title' => $peraturan->judul,
+            'is_blurred' => 0 // Peraturan biasanya tidak blur
+        ]);
     }
 }

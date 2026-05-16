@@ -245,14 +245,19 @@
 </nav>
 
 <!-- PREMIUM DOCUMENT VIEWER MODAL (GLOBAL) -->
-<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true" style="z-index: 1060;">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content border-0 bg-transparent">
+<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true" style="z-index: 1060; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+    <div class="modal-dialog modal-dialog-centered" style="max-width: 900px; margin: 1.75rem auto;">
+        <div class="modal-content border-0 shadow-2xl overflow-hidden" style="border-radius: 28px; background: #fff; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);">
             <div class="modal-header border-0 p-0">
-                <button type="button" class="btn-close btn-close-white position-absolute top-0 end-0 m-4 shadow-lg" data-bs-dismiss="modal" aria-label="Close" style="z-index: 1100;"></button>
+                <div class="position-absolute top-0 start-0 m-4" style="z-index: 1100;">
+                    <div style="background: rgba(255,255,255,0.9); padding: 5px 15px; border-radius: 20px; font-weight: 700; color: #004a99; font-size: 0.9rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                        <i class="fas fa-file-alt mr-2"></i> PRATINJAU DOKUMEN
+                    </div>
+                </div>
+                <button type="button" class="btn-close btn-close-dark position-absolute top-0 end-0 m-4 shadow-lg" data-bs-dismiss="modal" aria-label="Close" style="z-index: 1100; background-color: #fff; opacity: 1; border-radius: 50%; padding: 10px;"></button>
             </div>
-            <div class="modal-body p-0 overflow-hidden">
-                <iframe id="previewIframe" src="" frameborder="0" style="width: 100%; height: 100vh;"></iframe>
+            <div class="modal-body p-0 overflow-hidden" style="height: 85vh; background: #fff;">
+                <iframe id="previewIframe" src="" frameborder="0" style="width: 100%; height: 100%; background: #fff; display: block;"></iframe>
             </div>
         </div>
     </div>
@@ -264,11 +269,73 @@
         const previewIframe = document.getElementById('previewIframe');
 
         if (previewModal && previewIframe) {
-            // Handle when modal is shown
+            // Handle when modal is shown via data-bs-toggle
             previewModal.addEventListener('show.bs.modal', function (event) {
                 const button = event.relatedTarget;
-                const url = button.getAttribute('data-url');
-                previewIframe.src = url;
+                if (button) {
+                    const url = button.getAttribute('data-url');
+                    const dialog = previewModal.querySelector('.modal-dialog');
+                    
+                    // Reset classes
+                    dialog.classList.remove('modal-xl', 'modal-lg');
+                    
+                    // Check if it's likely an image
+                    const isImg = url && url.match(/\.(jpg|jpeg|png|webp|gif)/i);
+                    if (isImg) {
+                        dialog.classList.add('modal-lg'); // Medium box for images
+                    } else {
+                        dialog.classList.add('modal-xl'); // Extra large for documents
+                    }
+
+                    if (url) previewIframe.src = url;
+                }
+            });
+
+            // Global listener for links inside content (TinyMCE or dynamic text)
+            document.addEventListener('click', function(e) {
+                const target = e.target.closest('a');
+                if (target && target.href) {
+                    const url = target.href;
+                    // Check if link is to any document preview route OR a direct storage document
+                    const isPreview = url.includes('/preview-dokumen') || 
+                                      url.includes('/preview-peraturan') || 
+                                      url.includes('/dokumen/view/');
+                    const isDirectDoc = url.includes('/storage/') && url.match(/\.(pdf|png|jpg|jpeg|webp)$/i);
+
+                    if ((isPreview || isDirectDoc || url.includes('drive.google.com')) && !target.hasAttribute('data-bs-toggle')) {
+                        e.preventDefault();
+                        
+                        // Use Bootstrap Modal API to show it
+                        const modalInstance = bootstrap.Modal.getOrCreateInstance(previewModal);
+                        const dialog = previewModal.querySelector('.modal-dialog');
+                        
+                        // Reset and apply size
+                        dialog.classList.remove('modal-xl', 'modal-lg');
+                        const isImg = url.match(/\.(jpg|jpeg|png|webp|gif)/i);
+                        if (isImg) {
+                            dialog.classList.add('modal-lg'); // Medium for images
+                        } else {
+                            dialog.classList.add('modal-xl'); // XL for documents
+                        }
+
+                        let finalUrl = url;
+                        // Transform direct storage or GDrive links into the preview route
+                        if (!url.includes('/preview-dokumen')) {
+                            const params = new URLSearchParams(new URL(url).search);
+                            const isBlurred = params.get('is_blurred') || '0';
+                            
+                            if (url.includes('/storage/')) {
+                                const relativePath = url.split('/storage/').pop();
+                                finalUrl = `/preview-dokumen?file=storage/${relativePath}&is_blurred=${isBlurred}`;
+                            } else if (url.includes('drive.google.com')) {
+                                finalUrl = `/preview-dokumen?file=${encodeURIComponent(url)}&is_blurred=${isBlurred}`;
+                            }
+                        }
+
+                        previewIframe.src = finalUrl;
+                        modalInstance.show();
+                    }
+                }
             });
 
             // Clear iframe when modal is hidden to stop any background processing

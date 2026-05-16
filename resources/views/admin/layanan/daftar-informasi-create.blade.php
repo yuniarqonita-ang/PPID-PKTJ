@@ -211,6 +211,20 @@
                         </div>
                     </div>
 
+                    {{-- Google Drive Link --}}
+                    <div class="space-y-3 pt-2">
+                        <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest flex items-center">
+                            <i class="fab fa-google-drive mr-2 text-blue-500"></i> ATAU Link Google Drive
+                        </label>
+                        <input type="url" name="gdrive_link"
+                            class="w-full px-8 py-5 bg-slate-50 border-2 border-blue-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-bold text-[#002b5c] text-lg"
+                            placeholder="https://drive.google.com/file/d/xxx/view"
+                            value="{{ old('gdrive_link') }}">
+                        <p class="text-[11px] text-blue-500 font-bold">
+                            <i class="fas fa-info-circle mr-1"></i> Jika diisi, link Google Drive ini digunakan sebagai dokumen preview (menggantikan upload file lokal).
+                        </p>
+                    </div>
+
                     <!-- IMAGE UPLOAD -->
                     <div class="space-y-4">
                         <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">GAMBAR PENDUKUNG (OPSIONAL)</label>

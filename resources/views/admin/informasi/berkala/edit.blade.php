@@ -49,6 +49,27 @@
                             @error('deskripsi') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>
 
+                        <!-- GOOGLE DRIVE LINK -->
+                        <div class="space-y-2 text-gray-800">
+                            <label for="gdrive_link" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                <i class="fab fa-google-drive text-blue-500 mr-1"></i> Link Google Drive (Opsional)
+                            </label>
+                            @if($item->file_path && str_starts_with($item->file_path, 'http'))
+                            <div class="p-3 bg-blue-50 border border-blue-200 rounded-xl mb-2 flex items-center gap-2">
+                                <i class="fab fa-google-drive text-blue-500"></i>
+                                <span class="text-[10px] font-bold text-blue-700 truncate flex-1">GDrive Aktif: {{ $item->file_path }}</span>
+                            </div>
+                            @endif
+                            <input type="url" name="gdrive_link" id="gdrive_link"
+                                value="{{ old('gdrive_link', str_starts_with($item->file_path ?? '', 'http') ? $item->file_path : '') }}"
+                                class="w-full px-5 py-4 bg-gray-50 border border-blue-200 rounded-2xl text-gray-800 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 focus:outline-none transition-all shadow-sm"
+                                placeholder="https://drive.google.com/file/d/xxx/view">
+                            <p class="text-[10px] text-blue-500 font-bold mt-1">
+                                <i class="fas fa-info-circle mr-1"></i> Jika diisi, link ini akan digunakan sebagai dokumen preview (menggantikan upload file lokal).
+                            </p>
+                            @error('gdrive_link') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                        </div>
+
                         <!-- TANGGAL -->
                         <div class="space-y-2 text-gray-800">
                             <label for="tanggal" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">

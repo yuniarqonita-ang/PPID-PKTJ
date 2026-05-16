@@ -104,12 +104,16 @@ class DokumenController extends Controller
     }
 
     /**
-     * PUBLIC: View dokumen (PDF di browser)
+     * PUBLIC: View dokumen (Premium Blur)
      */
     public function view($id)
     {
         $dokumen = Dokumen::findOrFail($id);
-        return view('dokumen-view', compact('dokumen'));
+        return view('preview-dokumen', [
+            'file' => 'storage/' . $dokumen->file_path,
+            'title' => $dokumen->judul,
+            'is_blurred' => 0 // Dokumen umum biasanya tidak blur, sesuaikan jika ada field is_blurred
+        ]);
     }
 
     /**

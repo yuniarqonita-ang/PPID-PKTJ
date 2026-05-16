@@ -70,60 +70,64 @@
     <thead>
         <tr>
             <th style="width: 25pt;">No</th>
-            <th style="width: 50pt;">Tgl Minta</th>
-            <th style="width: 50pt;">Tgl Jawab</th>
-            <th style="width: 35pt;">Waktu (Hari)</th>
-            <th style="width: 100pt;">Nama & Alamat</th>
-            <th>Permohonan Informasi</th>
-            <th style="width: 45pt;">Berkala</th>
-            <th style="width: 45pt;">Serta Merta</th>
-            <th style="width: 45pt;">Setiap Saat</th>
-            <th style="width: 45pt;">Dikecualikan</th>
-            <th style="width: 50pt;">Status</th>
+            <th style="width: 45pt;">Bulan</th>
+            <th style="width: 60pt;">Tgl Minta</th>
+            <th style="width: 60pt;">Tgl Jawab</th>
+            <th style="width: 35pt;">Hari</th>
+            <th style="width: 90pt;">Nama Pemohon</th>
+            <th>Rincian Informasi</th>
+            <th style="width: 20pt;">B</th>
+            <th style="width: 20pt;">SM</th>
+            <th style="width: 20pt;">SS</th>
+            <th style="width: 20pt;">D</th>
+            <th style="width: 50pt;">Ket</th>
         </tr>
     </thead>
     <tbody>
         @forelse($submissions as $index => $item)
+        @php
+            $tglMinta = $item->tanggal_permohonan ?? $item->created_at;
+            $bulanMap = ['01'=>'Jan','02'=>'Feb','03'=>'Mar','04'=>'Apr','05'=>'Mei','06'=>'Jun','07'=>'Jul','08'=>'Agt','09'=>'Sep','10'=>'Okt','11'=>'Nov','12'=>'Des'];
+            $bulanItem = $bulanMap[\Carbon\Carbon::parse($tglMinta)->format('m')] ?? '-';
+        @endphp
         <tr>
             <td>{{ $index + 1 }}</td>
-            <td>{{ $item->created_at->format('d/m/Y') }}</td>
+            <td>{{ $bulanItem }}</td>
+            <td>{{ \Carbon\Carbon::parse($tglMinta)->format('d/m/Y') }}</td>
             <td>{{ $item->tanggal_selesai ? \Carbon\Carbon::parse($item->tanggal_selesai)->format('d/m/Y') : '-' }}</td>
-            <td>{{ $item->tanggal_selesai ? $item->created_at->diffInDays(\Carbon\Carbon::parse($item->tanggal_selesai)) : '-' }}</td>
-            <td style="text-align: left;">{{ $item->nama_pemohon }}<br><span style="font-size: 6pt; color: #666;">{{ $item->alamat }}</span></td>
-            <td style="text-align: left;">{{ $item->deskripsi_permohonan }}</td>
+            <td>{{ $item->tanggal_selesai ? \Carbon\Carbon::parse($tglMinta)->diffInDays(\Carbon\Carbon::parse($item->tanggal_selesai)) : '-' }}</td>
+            <td style="text-align: left;"><strong>{{ $item->nama_pemohon }}</strong></td>
+            <td style="text-align: left; font-size: 7pt;">{{ $item->deskripsi_permohonan }}</td>
             <td>{{ $item->kategori_laporan == 'berkala' ? 'V' : '' }}</td>
             <td>{{ $item->kategori_laporan == 'sertamerta' ? 'V' : '' }}</td>
             <td>{{ $item->kategori_laporan == 'setiapsaat' ? 'V' : '' }}</td>
             <td>{{ $item->kategori_laporan == 'dikecualikan' ? 'V' : '' }}</td>
-            <td style="text-transform: uppercase;">{{ $item->status }}</td>
+            <td style="text-transform: uppercase; font-size: 7pt;">{{ $item->status }}</td>
         </tr>
         @empty
         <tr>
-            <td colspan="11">Tidak ada data permohonan dalam rentang tanggal ini.</td>
+            <td colspan="12">Tidak ada data permohonan dalam rentang tanggal ini.</td>
         </tr>
         @endforelse
     </tbody>
 </table>
 
-<table class="signatures" style="width: 100%; border: none;">
+{{-- LEGENDA SINGKATAN --}}
+<div style="font-size: 7pt; margin-top: 5px; font-style: italic; color: #444;">
+    <strong>Keterangan Jenis Informasi:</strong> 
+    B = Berkala | SM = Serta Merta | SS = Setiap Saat | D = Dikecualikan
+</div>
+
+<table class="signatures" style="width: 100%; border: none; margin-top: 15px;">
     <tr>
-        <td style="width: 60%; border: none;"></td>
-        <td style="width: 40%; border: none; text-align: center;">
+        <td style="width: 65%; border: none;"></td>
+        <td style="width: 35%; border: none; text-align: center;">
             <div style="margin-bottom: 50px;">
                 Tegal, {{ date('d F Y') }}<br>
                 <strong>PPID PELAKSANA</strong>
             </div>
             <div class="sig-name">{{ $ppid_name }}</div>
             <div>NIP. {{ $ppid_nip }}</div>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2" style="padding-top: 30px; text-align: center; border: none;">
-            <div style="margin-bottom: 50px;">
-                MENGETAHUI,<br>
-                <strong>MENTERI PERHUBUNGAN REPUBLIK INDONESIA</strong>
-            </div>
-            <div class="sig-name">{{ $menteri_name }}</div>
         </td>
     </tr>
 </table>

@@ -21,7 +21,7 @@
             max-width: 100%;
             overflow-x: hidden !important;
             overflow-y: auto;
-            background: #525659; /* Warna abu-abu khas Google Drive viewer */
+            background: #ffffff; /* White background for better contrast */
             font-family: 'Segoe UI', sans-serif;
         }
 
@@ -29,7 +29,7 @@
         .loading-overlay {
             position: fixed;
             inset: 0;
-            background: #525659;
+            background: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -128,19 +128,27 @@
         /* Tampilan Gambar */
         .image-preview-container {
             position: relative;
-            width: calc(100% - 32px);
-            max-width: 900px;
+            width: auto;
+            max-width: 100%;
+            margin: auto;
             overflow: hidden;
             background: white;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
         }
-        .image-preview-container img { width: 100%; height: auto; display: block; }
+        .image-preview-container img { 
+            max-width: 100%; 
+            max-height: 80vh; 
+            display: block; 
+            margin: auto;
+            border-radius: 12px;
+        }
 
-        /* Office & GDrive iframe fullscreen */
+        /* Office & GDrive iframe */
         .office-viewer {
             width: 100%;
             max-width: 100%;
-            height: calc(100vh - 0px);
+            height: 100%;
             overflow: hidden;
         }
         .office-viewer iframe {
@@ -148,6 +156,66 @@
             height: 100%;
             border: none;
             display: block;
+        }
+
+        /* GDrive Premium Blur Overlay */
+        .gdrive-blur-container {
+            position: relative;
+            overflow: hidden;
+        }
+        .gdrive-premium-overlay {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            /* Efek blur di atas iframe GDrive */
+            background: rgba(255, 255, 255, 0.55);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 40px 20px;
+            text-align: center;
+            animation: fadeInUp 0.5s ease;
+        }
+        .gdrive-premium-overlay .blur-icon {
+            font-size: 4rem;
+            color: var(--primary-blue);
+            margin-bottom: 20px;
+            filter: drop-shadow(0 4px 20px rgba(0,74,153,0.3));
+        }
+        .gdrive-premium-overlay .blur-message {
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin-bottom: 28px;
+            line-height: 1.5;
+            text-transform: uppercase;
+            max-width: 420px;
+            text-shadow: 0 1px 3px rgba(255,255,255,0.8);
+        }
+        .gdrive-premium-overlay .btn-premium-action {
+            background: var(--primary-blue);
+            color: white;
+            padding: 16px 36px;
+            border-radius: 50px;
+            font-weight: 800;
+            font-size: 0.95rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 30px rgba(0,74,153,0.35);
+            transition: all 0.3s;
+            letter-spacing: 0.5px;
+        }
+        .gdrive-premium-overlay .btn-premium-action:hover {
+            background: #002b5c;
+            color: white;
+            transform: scale(1.06) translateY(-2px);
+            box-shadow: 0 16px 40px rgba(0,74,153,0.45);
         }
 
         @media (max-width: 600px) {
@@ -167,7 +235,7 @@
     <div id="viewer-content">
         @php
             $extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
-            $isImage   = in_array($extension, ['jpg','jpeg','png','webp','gif']);
+            $isImg     = in_array($extension, ['jpg','jpeg','png','webp','gif']);
             $isPdf     = $extension === 'pdf';
             $isOffice  = in_array($extension, ['doc','docx','xls','xlsx','ppt','pptx']);
 
@@ -197,20 +265,25 @@
         @endphp
 
         @if($isGDrive && $gdriveId)
-            {{-- Google Drive: embed langsung via iframe, full-height, no scroll horizontal --}}
-            <div class="office-viewer" style="height: 100vh; min-height: 600px;">
-                <iframe
-                    src="{{ $embedUrl }}"
-                    allow="autoplay"
-                    loading="lazy">
-                </iframe>
-            </div>
+            {{-- Google Drive: Jika premium aktif, gunakan PDF.js via Proxy agar bisa blur per-halaman --}}
+            @if($premiumEnabled)
+                <div id="pdf-viewer"></div>
+            @else
+                <div class="office-viewer gdrive-blur-container" style="height: 100%; width: 100%; position: relative;">
+                    <iframe
+                        src="{{ $embedUrl }}"
+                        allow="autoplay"
+                        loading="lazy"
+                        id="gdrive-iframe">
+                    </iframe>
+                </div>
+            @endif
 
         @elseif($isPdf)
             {{-- PDF lokal via pdf.js dengan canvas responsive --}}
             <div id="pdf-viewer"></div>
 
-        @elseif($isImage)
+        @elseif($isImg)
             {{-- Viewer Gambar --}}
             <div class="image-preview-container">
                 <img src="{{ asset($file_path) }}" alt="{{ $title ?? 'Dokumen' }}">
@@ -251,21 +324,13 @@
     document.addEventListener('DOMContentLoaded', function () {
         const loading = document.getElementById('loading');
 
-        @if($isGDrive && $gdriveId)
-            // GDrive iframe — sembunyikan loading setelah iframe siap
-            const iframe = document.querySelector('.office-viewer iframe');
-            if (iframe) {
-                iframe.addEventListener('load', function () {
-                    loading.style.opacity = '0';
-                    setTimeout(() => loading.style.display = 'none', 400);
-                });
-            } else {
-                setTimeout(() => { loading.style.opacity = '0'; setTimeout(() => loading.style.display = 'none', 400); }, 1500);
-            }
-
-        @elseif($isPdf)
+        @if($isPdf || ($isGDrive && $premiumEnabled))
             // PDF.js: render responsif sesuai lebar container
-            const url        = '{{ asset($file_path) }}';
+            @if($isGDrive)
+                const url = '{{ route("proxy.gdrive", $gdriveId) }}';
+            @else
+                const url = '{{ asset($file_path) }}';
+            @endif
             const pdfjsLib   = window['pdfjs-dist/build/pdf'];
             pdfjsLib.GlobalWorkerOptions.workerSrc =
                 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -275,8 +340,6 @@
             const btnText  = '{{ addslashes($btnText) }}';
             const btnLink  = '{{ $btnLink }}';
             const container = document.getElementById('pdf-viewer');
-
-            // Hitung lebar container untuk scale responsif
             const maxWidth = Math.min(window.innerWidth - 32, 900);
 
             pdfjsLib.getDocument(url).promise.then(function (pdf) {
@@ -287,12 +350,23 @@
                     renderPage(pdf, num);
                 }
             }).catch(function (err) {
-                loading.innerHTML = '<p style="color:#ffc107; padding:40px; text-align:center;">Gagal memuat PDF.</p>';
+                console.error('PDF.js Error:', err);
+                loading.style.opacity = '0';
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                    container.innerHTML = `
+                        <div style="text-align:center; padding:50px; color:#333;">
+                            <i class="fas fa-exclamation-triangle" style="font-size:3rem; color:#dc3545; margin-bottom:20px;"></i>
+                            <p style="font-weight:bold; font-size:16px;">Gagal Memuat Dokumen</p>
+                            <p style="font-size:14px; opacity:0.7; margin-top:10px;">Pastikan link Google Drive sudah diatur ke "Siapa saja yang memiliki link" dan Izin Akses terbuka.</p>
+                            <a href="${url}" target="_blank" class="btn btn-primary mt-3" style="background:#004a99; border:none; padding:8px 20px; border-radius:8px; text-decoration:none; color:white; display:inline-block;">Buka Langsung di GDrive</a>
+                        </div>
+                    `;
+                }, 300);
             });
 
             function renderPage(pdf, num) {
                 pdf.getPage(num).then(function (page) {
-                    // Scale agar pas dengan lebar layar
                     const unscaledVp = page.getViewport({ scale: 1 });
                     const scale      = maxWidth / unscaledVp.width;
                     const viewport   = page.getViewport({ scale: scale });
@@ -302,7 +376,6 @@
 
                     const canvas  = document.createElement('canvas');
                     const ctx     = canvas.getContext('2d');
-                    // Render pada resolusi tinggi, tampil dengan CSS 100% width
                     const devicePR = window.devicePixelRatio || 1;
                     canvas.width  = viewport.width  * devicePR;
                     canvas.height = viewport.height * devicePR;
@@ -314,8 +387,11 @@
                     container.appendChild(pageDiv);
 
                     page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function () {
-                        // Blur mulai dari halaman ke-2
                         if (premiumEnabled && num > 1) {
+                            // Fallback blur untuk canvas jika backdrop-filter tidak didukung
+                            canvas.style.filter = 'blur(8px)';
+                            canvas.style.webkitFilter = 'blur(8px)';
+
                             const overlay = document.createElement('div');
                             overlay.className = 'premium-blur-overlay';
                             overlay.innerHTML = `
@@ -329,13 +405,32 @@
                     });
                 });
             }
-
-        @else
-            // Gambar / lainnya
+        @elseif($isImg)
+            // Gambar: Sembunyikan loading cepat
             setTimeout(() => {
                 loading.style.opacity = '0';
                 setTimeout(() => loading.style.display = 'none', 400);
             }, 600);
+        @elseif($isGDrive || $isOffice)
+            // Iframe (GDrive standar / Office)
+            const iframe = document.querySelector('.office-viewer iframe');
+            if (iframe) {
+                iframe.addEventListener('load', function () {
+                    loading.style.opacity = '0';
+                    setTimeout(() => loading.style.display = 'none', 400);
+                });
+            }
+            // Fallback timeout jika load event tidak fire
+            setTimeout(() => {
+                if(loading.style.display !== 'none') {
+                    loading.style.opacity = '0';
+                    setTimeout(() => loading.style.display = 'none', 400);
+                }
+            }, 5000);
+        @else
+            // Lainnya
+            loading.style.opacity = '0';
+            setTimeout(() => loading.style.display = 'none', 400);
         @endif
     });
     </script>

@@ -465,8 +465,9 @@
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons'
+                    'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons', 'noneditable'
                 ],
+                noneditable_class: 'premium-box-outer',
                 toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline forecolor | ' +
                          'alignleft aligncenter alignright alignjustify | ' +
                          'bullist numlist outdent indent | link image media emoticons | premium_blur insert_preview insert_gdrive removeformat fullscreen',
@@ -561,7 +562,7 @@
 
                     editor.ui.registry.addButton('insert_gdrive', {
                         icon: 'gdrive',
-                        tooltip: 'Insert GDrive Document (Premium Blur)',
+                        tooltip: 'Insert GDrive Document (Premium Box)',
                         onAction: function (_) {
                             editor.windowManager.open({
                                 title: 'Insert Google Drive Preview',
@@ -570,7 +571,10 @@
                                     items: [
                                         { type: 'input', name: 'url', label: 'Google Drive Link (Sharing URL)', placeholder: 'https://drive.google.com/file/d/...' },
                                         { type: 'input', name: 'title', label: 'Document Title' },
-                                        { type: 'input', name: 'height', label: 'Preview Height (px)', placeholder: '600' },
+                                        { type: 'selectbox', name: 'size', label: 'Box Size', items: [
+                                            { text: 'Medium (Image Friendly)', value: '600' },
+                                            { text: 'Extra Large (Document Friendly)', value: '900' }
+                                        ]},
                                         { type: 'checkbox', name: 'blurred', label: 'Apply Premium Blur (Page 2+)' }
                                     ]
                                 },
@@ -580,7 +584,7 @@
                                 ],
                                 initialData: {
                                     blurred: true,
-                                    height: '600'
+                                    size: '600'
                                 },
                                 onSubmit: function (api) {
                                     const data = api.getData();
@@ -589,10 +593,12 @@
                                     const baseUrl = "{{ route('preview.dokumen') }}";
                                     const fullUrl = baseUrl + "?file=" + encodeURIComponent(data.url) + "&title=" + encodeURIComponent(data.title || 'Dokumen GDrive') + (data.blurred ? "&is_blurred=1" : "");
                                     
-                                    const height = data.height || '600';
-                                    const html = `<div class="gdrive-preview-wrapper" style="width: 100%; height: ${height}px; overflow: hidden; border-radius: 16px; border: 1px solid #e2e8f0; margin: 25px 0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
-                                                    <iframe src="${fullUrl}" style="width: 100%; height: 100%; border: none;" allowfullscreen></iframe>
-                                                  </div>`;
+                                    const height = data.size || '600';
+                                    const html = `<div class="premium-box-outer" contenteditable="false" style="width: 100%; display: flex; justify-content: center; margin: 40px 0; outline: 2px dashed #004a99; outline-offset: 10px; border-radius: 24px; cursor: pointer; user-select: all; background: #f8fafc; padding: 15px;">
+                                                    <div class="premium-box-wrapper" style="width: 100%; max-width: 900px; height: ${height}px; overflow: hidden; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); background: #ffffff; pointer-events: none;">
+                                                      <iframe src="${fullUrl}" style="width: 100%; height: 100%; border: none;"></iframe>
+                                                    </div>
+                                                  </div><p>&nbsp;</p>`;
                                     editor.insertContent(html);
                                     api.close();
                                 }
@@ -602,7 +608,7 @@
 
                     editor.ui.registry.addButton('insert_preview', {
                         icon: 'preview',
-                        tooltip: 'Insert Document Preview Iframe',
+                        tooltip: 'Insert Document Preview (Premium Box)',
                         onAction: function (_) {
                             editor.windowManager.open({
                                 title: 'Insert Document Preview',
@@ -611,7 +617,10 @@
                                     items: [
                                         { type: 'input', name: 'url', label: 'File URL (e.g. storage/berita/file.pdf)' },
                                         { type: 'input', name: 'title', label: 'Document Title' },
-                                        { type: 'input', name: 'height', label: 'Preview Height (px)', placeholder: '600' },
+                                        { type: 'selectbox', name: 'size', label: 'Box Size', items: [
+                                            { text: 'Medium (Image Friendly)', value: '600' },
+                                            { text: 'Extra Large (Document Friendly)', value: '900' }
+                                        ]},
                                         { type: 'checkbox', name: 'blurred', label: 'Apply Premium Blur (Page 2+)' }
                                     ]
                                 },
@@ -620,7 +629,7 @@
                                     { type: 'submit', text: 'Insert', primary: true }
                                 ],
                                 initialData: {
-                                    height: '600',
+                                    size: '600',
                                     blurred: false
                                 },
                                 onSubmit: function (api) {
@@ -628,10 +637,12 @@
                                     const baseUrl = "{{ route('preview.dokumen') }}";
                                     const fullUrl = baseUrl + "?file=" + encodeURIComponent(data.url) + "&title=" + encodeURIComponent(data.title) + (data.blurred ? "&is_blurred=1" : "");
                                     
-                                    const height = data.height || '600';
-                                    const html = `<div style="width: 100%; height: ${height}px; overflow: hidden; border-radius: 16px; border: 1px solid #e2e8f0; margin: 25px 0; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);">
-                                                    <iframe src="${fullUrl}" style="width: 100%; height: 100%; border: none;"></iframe>
-                                                  </div>`;
+                                    const height = data.size || '600';
+                                    const html = `<div class="premium-box-outer" contenteditable="false" style="width: 100%; display: flex; justify-content: center; margin: 40px 0; outline: 2px dashed #004a99; outline-offset: 10px; border-radius: 24px; cursor: pointer; user-select: all; background: #f8fafc; padding: 15px;">
+                                                    <div class="premium-box-wrapper" style="width: 100%; max-width: 900px; height: ${height}px; overflow: hidden; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); background: #ffffff; pointer-events: none;">
+                                                      <iframe src="${fullUrl}" style="width: 100%; height: 100%; border: none;"></iframe>
+                                                    </div>
+                                                  </div><p>&nbsp;</p>`;
                                     editor.insertContent(html);
                                     api.close();
                                 }
@@ -658,6 +669,87 @@
             });
             
             $(document).on('submit', 'form', function() { if (typeof tinymce !== 'undefined') tinymce.triggerSave(); });
+        </script>
+        <!-- PREMIUM DOCUMENT VIEWER MODAL (UNIVERSAL) -->
+        <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content border-0 shadow-2xl overflow-hidden" style="border-radius: 24px; background: #fff;">
+                    <div class="modal-header border-0 p-0">
+                        <button type="button" class="btn-close btn-close-dark position-absolute top-0 end-0 m-4 shadow-lg" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10000;"></button>
+                    </div>
+                    <div class="modal-body p-0 overflow-hidden" style="height: 85vh; background: #fff;">
+                        <iframe id="previewIframe" src="" frameborder="0" style="width: 100%; height: 100%; background: #fff;"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const previewModal = document.getElementById('previewModal');
+                const previewIframe = document.getElementById('previewIframe');
+
+                if (previewModal && previewIframe) {
+                    // Handle when modal is shown via data-bs-toggle
+                    previewModal.addEventListener('show.bs.modal', function (event) {
+                        const button = event.relatedTarget;
+                        if (button) {
+                            const url = button.getAttribute('data-url');
+                            const dialog = previewModal.querySelector('.modal-dialog');
+                            dialog.classList.remove('modal-xl', 'modal-lg');
+                            if (url && url.match(/\.(jpg|jpeg|png|webp|gif)/i)) {
+                                dialog.classList.add('modal-lg');
+                            } else {
+                                dialog.classList.add('modal-xl');
+                            }
+                            if (url) previewIframe.src = url;
+                        }
+                    });
+
+                    // Global listener for links inside content (TinyMCE or dynamic text)
+                    document.addEventListener('click', function(e) {
+                        const target = e.target.closest('a');
+                        if (target && target.href) {
+                            const url = target.href;
+                            const isPreview = url.includes('/preview-dokumen') || 
+                                              url.includes('/preview-peraturan') || 
+                                              url.includes('/dokumen/view/');
+                            const isDirectDoc = url.includes('/storage/') && url.match(/\.(pdf|png|jpg|jpeg|webp)$/i);
+
+                            if ((isPreview || isDirectDoc) && !target.hasAttribute('data-bs-toggle')) {
+                                e.preventDefault();
+                                if (typeof bootstrap !== 'undefined') {
+                                    const modalInstance = bootstrap.Modal.getOrCreateInstance(previewModal);
+                                    const dialog = previewModal.querySelector('.modal-dialog');
+                                    
+                                    dialog.classList.remove('modal-xl', 'modal-lg');
+                                    if (url.match(/\.(jpg|jpeg|png|webp|gif)/i)) {
+                                        dialog.classList.add('modal-lg');
+                                    } else {
+                                        dialog.classList.add('modal-xl');
+                                    }
+
+                                    let finalUrl = url;
+                                    if (isDirectDoc && !isPreview) {
+                                        const relativePath = url.split('/storage/').pop();
+                                        finalUrl = `/preview-dokumen?file=storage/${relativePath}`;
+                                    }
+
+                                    previewIframe.src = finalUrl;
+                                    modalInstance.show();
+                                } else {
+                                    window.open(url, '_blank');
+                                }
+                            }
+                        }
+                    });
+
+                    // Clear iframe when modal is hidden
+                    previewModal.addEventListener('hidden.bs.modal', function () {
+                        previewIframe.src = '';
+                    });
+                }
+            });
         </script>
         @stack('scripts')
     </body>

@@ -91,9 +91,19 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center justify-center gap-2">
-                                    <button onclick="showDetail('{{ $item->judul }}', '{{ addslashes($item->deskripsi) }}')" class="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-600 hover:text-white transition-all shadow-sm" title="Lihat Detail">
-                                        <i class="fas fa-eye"></i>
+                                    <button onclick="showDetail('{{ $item->judul }}', '{{ addslashes($item->deskripsi) }}')" class="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-600 hover:text-white transition-all shadow-sm" title="Lihat Deskripsi">
+                                        <i class="fas fa-info-circle"></i>
                                     </button>
+                                    @if($item->file_path)
+                                    <button type="button" 
+                                            class="p-2 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white transition-all shadow-sm" 
+                                            title="Pratinjau File"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#previewModal" 
+                                            data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
+                                        <i class="fas fa-file-pdf"></i>
+                                    </button>
+                                    @endif
                                     <a href="{{ route('admin.informasi.dikecualikan.edit', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm">
                                         <i class="fas fa-edit"></i>
                                     </a>

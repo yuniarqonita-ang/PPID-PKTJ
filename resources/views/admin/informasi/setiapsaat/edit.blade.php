@@ -52,13 +52,13 @@
                         @if($item->file_path)
                             <div class="mb-4 p-4 bg-blue-50 border-2 border-blue-100 rounded-2xl flex items-center justify-between">
                                 <div class="flex items-center gap-3">
-                                    <i class="fas fa-file-pdf text-2xl text-red-500"></i>
+                                    <i class="{{ str_starts_with($item->file_path, 'http') ? 'fab fa-google-drive text-blue-500' : 'fas fa-file-pdf text-red-500' }} text-2xl"></i>
                                     <div>
-                                        <p class="text-xs font-black text-[#002b5c] uppercase">File Saat Ini:</p>
+                                        <p class="text-xs font-black text-[#002b5c] uppercase">{{ str_starts_with($item->file_path, 'http') ? 'Google Drive Aktif:' : 'File Saat Ini:' }}</p>
                                         <p class="text-[10px] font-bold text-slate-500 truncate max-w-xs">{{ $item->file_name ?? basename($item->file_path) }}</p>
                                     </div>
                                 </div>
-                                <a href="{{ asset($item->file_path) }}" target="_blank" class="text-xs font-black text-[#004a99] uppercase hover:underline">Lihat File</a>
+                                <a href="{{ str_starts_with($item->file_path, 'http') ? $item->file_path : asset($item->file_path) }}" target="_blank" class="text-xs font-black text-[#004a99] uppercase hover:underline">Lihat File</a>
                             </div>
                         @endif
                         <div class="relative group">
@@ -69,6 +69,20 @@
                                 <p id="file-name-display" class="text-sm font-black text-slate-400 uppercase tracking-widest text-center">Ganti file dengan klik di sini</p>
                             </div>
                         </div>
+                    </div>
+
+                    <!-- Google Drive Link (ATAU) -->
+                    <div class="space-y-3 text-gray-800">
+                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] flex items-center">
+                            <i class="fab fa-google-drive mr-2 text-blue-500"></i> ATAU Ganti dengan Link Google Drive
+                        </label>
+                        <input type="url" name="gdrive_link"
+                            value="{{ old('gdrive_link', str_starts_with($item->file_path ?? '', 'http') ? $item->file_path : '') }}"
+                            class="w-full px-8 py-5 bg-slate-50 border-2 border-blue-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-bold text-[#002b5c]"
+                            placeholder="https://drive.google.com/file/d/xxx/view">
+                        <p class="text-[10px] text-blue-500 font-bold">
+                            <i class="fas fa-info-circle mr-1"></i> Jika diisi, link ini digunakan sebagai dokumen preview (menggantikan upload file).
+                        </p>
                     </div>
 
                     <!-- Status Toggle -->
