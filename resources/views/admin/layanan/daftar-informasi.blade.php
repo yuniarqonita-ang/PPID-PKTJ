@@ -93,85 +93,81 @@
     <!-- DATA TABLE AREA -->
     <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 overflow-hidden">
         <div class="overflow-x-auto">
-            <table class="w-full text-left">
+            <table class="w-full text-left" style="min-width: 1500px;">
                 <thead>
                     <tr class="bg-[#004a99] text-[#ffc107]">
-                        <th class="px-8 py-5 text-sm font-black uppercase tracking-widest">Detail Informasi</th>
-                        <th class="px-8 py-5 text-sm font-black uppercase tracking-widest">Otoritas</th>
-                        <th class="px-8 py-5 text-sm font-black uppercase tracking-widest text-center">Tipe</th>
-                        <th class="px-8 py-5 text-sm font-black uppercase tracking-widest text-center">Status</th>
-                        <th class="px-8 py-5 text-sm font-black uppercase tracking-widest text-right">Aksi</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest">No</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest">Penanggung Jawab</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest w-64">Informasi</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest">Jenis Info</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest w-64">Ringkasan Info</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest">Pejabat Penguasa</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest">Penerbit</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest">Bentuk</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest">Tempat</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest">Waktu</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest">Jangka Waktu</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest text-center">Status</th>
+                        <th class="px-6 py-5 text-xs font-black uppercase tracking-widest text-right">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y-2 divide-slate-50">
                     @forelse($items as $item)
-                    <tr class="hover:bg-blue-50/30 transition-all">
-                        <td class="px-8 py-6">
-                            <h4 class="text-base font-black text-[#004a99] mb-1">{{ $item->judul_informasi }}</h4>
-                            <div class="flex items-center gap-3 mt-1">
-                                @if($item->file_informasi)
-                                    <span class="bg-[#004a99] text-white px-2 py-0.5 rounded text-xs font-bold">PDF</span>
-                                @endif
-                                @if($item->waktu_pembuatan)
-                                    <span class="text-slate-500 text-xs font-bold">{{ $item->waktu_pembuatan }}</span>
-                                @endif
-                            </div>
-                        </td>
-                        <td class="px-8 py-6">
-                            <p class="text-sm font-black text-[#004a99] uppercase">{{ $item->pejabat_penguasa ?? '-' }}</p>
-                            @if($item->penanggung_jawab)
-                            <p class="text-xs font-bold text-slate-500 mt-1">{{ $item->penanggung_jawab }}</p>
+                    <tr class="hover:bg-blue-50/30 transition-all text-sm">
+                        <td class="px-6 py-4 font-bold">{{ ($items->currentPage() - 1) * $items->perPage() + $loop->iteration }}</td>
+                        <td class="px-6 py-4 font-bold text-slate-700">{{ $item->penanggung_jawab ?? '-' }}</td>
+                        <td class="px-6 py-4">
+                            <h4 class="text-sm font-black text-[#004a99]">{{ $item->judul_informasi }}</h4>
+                            @if($item->file_informasi)
+                                <span class="bg-[#004a99] text-white px-2 py-0.5 rounded text-[10px] font-bold mt-1 inline-block">ADA DOKUMEN</span>
                             @endif
                         </td>
-                        <td class="px-8 py-6 text-center">
-                            <span class="inline-flex px-3 py-1 bg-[#ffc107] text-[#004a99] rounded-full text-xs font-black uppercase tracking-widest shadow-sm">{{ $item->tipe_informasi ?? 'Umum' }}</span>
+                        <td class="px-6 py-4">
+                            <span class="inline-flex px-3 py-1 bg-[#ffc107] text-[#004a99] rounded-full text-[10px] font-black uppercase tracking-widest shadow-sm">{{ str_replace('informasi-', '', $item->kategori ?? 'Umum') }}</span>
                         </td>
-                        <td class="px-8 py-6 text-center">
+                        <td class="px-6 py-4 text-xs text-slate-600 line-clamp-2" title="{{ strip_tags($item->isi_informasi) }}">
+                            {!! Str::limit(strip_tags($item->isi_informasi), 50) !!}
+                        </td>
+                        <td class="px-6 py-4 text-xs">{{ $item->pejabat_penguasa ?? '-' }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $item->penerbit_informasi ?? '-' }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $item->bentuk_informasi ?? '-' }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $item->tempat_pembuatan ?? '-' }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $item->waktu_pembuatan ?? '-' }}</td>
+                        <td class="px-6 py-4 text-xs">{{ $item->jangka_waktu ?? '-' }}</td>
+                        <td class="px-6 py-4 text-center">
                             @if($item->aktif)
-                                <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-xs font-black uppercase">
-                                    <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-1 animate-pulse"></span> Aktif
-                                </span>
+                                <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-black uppercase">Aktif</span>
                             @else
-                                <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-xs font-black uppercase">Draft</span>
+                                <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-[10px] font-black uppercase">Draft</span>
                             @endif
                         </td>
-                        <td class="px-8 py-6">
+                        <td class="px-6 py-4">
                             <div class="flex items-center justify-end gap-2">
-                                <button onclick="showDetailDIP({{ json_encode($item) }})" class="w-10 h-10 bg-white text-amber-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-amber-600 hover:text-white transition-all shadow-md" title="Lihat Detail">
-                                    <i class="fas fa-eye"></i>
+                                <button onclick="showDetailDIP({{ json_encode($item) }})" class="w-8 h-8 bg-white text-amber-600 rounded-lg flex items-center justify-center border-2 border-slate-200 hover:bg-amber-600 hover:text-white transition-all shadow-md" title="Lihat Detail">
+                                    <i class="fas fa-eye text-xs"></i>
                                 </button>
                                 @if($item->file_informasi)
                                 <button type="button" 
-                                        class="w-10 h-10 bg-white text-green-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-green-600 hover:text-white transition-all shadow-md cursor-pointer" 
+                                        class="w-8 h-8 bg-white text-green-600 rounded-lg flex items-center justify-center border-2 border-slate-200 hover:bg-green-600 hover:text-white transition-all shadow-md cursor-pointer" 
                                         title="Pratinjau Dokumen"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#previewModal" 
                                         data-url="{{ route('preview.dokumen', ['file' => $item->file_informasi, 'title' => $item->judul_informasi, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
-                                    <i class="fas fa-file-pdf"></i>
+                                    <i class="fas fa-file-pdf text-xs"></i>
                                 </button>
                                 @endif
-                                @if($item->image)
-                                <button type="button" 
-                                        class="w-10 h-10 bg-white text-blue-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-blue-600 hover:text-white transition-all shadow-md cursor-pointer" 
-                                        title="Pratinjau Gambar"
-                                        data-bs-toggle="modal" 
-                                        data-bs-target="#previewModal" 
-                                        data-url="{{ route('preview.dokumen', ['file' => $item->image, 'title' => $item->judul_informasi, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
-                                    <i class="fas fa-image"></i>
-                                </button>
-                                @endif
-                                <a href="{{ route('admin.layanan.daftar-informasi.edit', $item->id) }}" class="w-10 h-10 bg-white text-[#004a99] rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-[#004a99] hover:text-white transition-all shadow-md">
-                                    <i class="fas fa-edit"></i>
+                                <a href="{{ route('admin.layanan.daftar-informasi.edit', $item->id) }}" class="w-8 h-8 bg-white text-[#004a99] rounded-lg flex items-center justify-center border-2 border-slate-200 hover:bg-[#004a99] hover:text-white transition-all shadow-md">
+                                    <i class="fas fa-edit text-xs"></i>
                                 </a>
-                                <button onclick="confirmDeleteDIP('{{ $item->id }}')" class="w-10 h-10 bg-white text-red-600 rounded-xl flex items-center justify-center border-2 border-slate-200 hover:bg-red-600 hover:text-white transition-all shadow-md">
-                                    <i class="fas fa-trash"></i>
+                                <button onclick="confirmDeleteDIP('{{ $item->id }}')" class="w-8 h-8 bg-white text-red-600 rounded-lg flex items-center justify-center border-2 border-slate-200 hover:bg-red-600 hover:text-white transition-all shadow-md">
+                                    <i class="fas fa-trash text-xs"></i>
                                 </button>
                             </div>
                         </td>
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="5" class="px-8 py-20 text-center">
+                        <td colspan="13" class="px-8 py-20 text-center">
                             <div class="flex flex-col items-center">
                                 <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
                                     <i class="fas fa-folder-open text-gray-200 text-4xl"></i>
