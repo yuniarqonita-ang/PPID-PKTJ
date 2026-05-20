@@ -261,7 +261,8 @@
             $premiumEnabled = ($settings['premium_view_enabled'] ?? '0') === '1' && ($isBlurred ?? false);
             $blurText = $settings['premium_view_blur_text'] ?? 'Dokumen ini Terlindungi. Ajukan Permohonan untuk Akses Penuh.';
             $btnText  = $settings['premium_view_button_text'] ?? 'AJUKAN PERMOHONAN';
-            $btnLink  = $settings['premium_view_button_link'] ?? '/permohonan-informasi';
+            // Selalu arahkan ke halaman Permohonan Informasi (bukan buka di modal/preview)
+            $btnLink  = route('permohonan.form');
         @endphp
 
         @if($isGDrive && $gdriveId)
@@ -291,9 +292,9 @@
                 <div class="premium-blur-overlay">
                     <div class="blur-icon"><i class="fas fa-lock"></i></div>
                     <p class="blur-message">{{ $blurText }}</p>
-                    <a href="{{ $btnLink }}" class="btn-premium-action">
+                    <button onclick="window.top.location.href='{{ $btnLink }}'" class="btn-premium-action">
                         <i class="fas fa-paper-plane"></i> {{ $btnText }}
-                    </a>
+                    </button>
                 </div>
                 @endif
             </div>
@@ -397,9 +398,9 @@
                             overlay.innerHTML = `
                                 <div class="blur-icon"><i class="fas fa-lock"></i></div>
                                 <p class="blur-message">${blurText}</p>
-                                <a href="${btnLink}" class="btn-premium-action">
+                                <button onclick="window.top.location.href='${btnLink}'" class="btn-premium-action">
                                     <i class="fas fa-paper-plane"></i> ${btnText}
-                                </a>`;
+                                </button>`;
                             pageDiv.appendChild(overlay);
                         }
                     });

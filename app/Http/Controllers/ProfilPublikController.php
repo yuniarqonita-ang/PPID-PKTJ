@@ -97,7 +97,7 @@ class ProfilPublikController extends Controller
             $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
             $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
         }
-        $peraturan = Peraturan::where('is_active', true)->get()->groupBy('kategori');
+        $peraturan = Peraturan::where('is_active', true)->orderBy('created_at', 'desc')->get()->groupBy('kategori');
         $settings = Dashboard::pluck('value', 'key')->toArray();
         return view('profil-regulasi', compact('profil', 'peraturan', 'settings'));
     }

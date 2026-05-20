@@ -191,11 +191,41 @@
                             @endif
 
                             @if($type === 'struktur')
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase">Input Struktur (Role 1)</label>
-                                <input type="text" name="struktur_role_1" value="{{ $settings['struktur_role_1'] ?? '' }}" class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold">
+                            <div class="space-y-4 border border-slate-100 rounded-2xl p-5 bg-slate-50/50">
+                                <h5 class="text-[11px] font-black text-[#004a99] uppercase tracking-widest">Bagan Struktur Organisasi</h5>
+                                
+                                <div class="space-y-3">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase">Level 1 — Pimpinan (Jabatan)</label>
+                                    <input type="text" name="role_1" value="{{ $settings['role_1'] ?? 'DIREKTUR PKTJ' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: DIREKTUR PKTJ">
+                                    <input type="text" name="sub_1" value="{{ $settings['sub_1'] ?? 'Pembina PPID' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-500" placeholder="Sub keterangan, contoh: Pembina PPID">
+                                </div>
+
+                                <div class="space-y-3">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase">Level 2 — Koordinator</label>
+                                    <input type="text" name="role_2" value="{{ $settings['role_2'] ?? 'KOORDINATOR PPID' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: KOORDINATOR PPID">
+                                    <input type="text" name="sub_2" value="{{ $settings['sub_2'] ?? 'Kepala Bagian/Program' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-500" placeholder="Sub keterangan">
+                                </div>
+
+                                <div class="space-y-3">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase">Level 3 — Tim PPID (1)</label>
+                                    <input type="text" name="role_3" value="{{ $settings['role_3'] ?? 'TIM PPID' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: TIM PPID">
+                                    <input type="text" name="sub_3" value="{{ $settings['sub_3'] ?? 'Staff Teknis' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-500" placeholder="Sub keterangan">
+                                </div>
+
+                                <div class="space-y-3">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase">Level 3 — Tim PPID (2)</label>
+                                    <input type="text" name="role_4" value="{{ $settings['role_4'] ?? 'TIM PPID' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: TIM PPID">
+                                    <input type="text" name="sub_4" value="{{ $settings['sub_4'] ?? 'Staff Teknis' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-500" placeholder="Sub keterangan">
+                                </div>
+
+                                <div class="space-y-3">
+                                    <label class="text-[10px] font-black text-slate-400 uppercase">Level 3 — Tim PPID (3)</label>
+                                    <input type="text" name="role_5" value="{{ $settings['role_5'] ?? 'TIM PPID' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: TIM PPID">
+                                    <input type="text" name="sub_5" value="{{ $settings['sub_5'] ?? 'Staff Teknis' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-500" placeholder="Sub keterangan">
+                                </div>
                             </div>
                             @endif
+
 
                             <div class="space-y-2">
                                 <label class="text-[10px] font-black text-slate-400 uppercase">Youtube Video Link</label>

@@ -20,7 +20,34 @@ use App\Http\Controllers\InformasiSertaMertaController;
 use App\Http\Controllers\InformasiSetiapSaatController;
 use App\Http\Controllers\InformasiDikecualikanController;
 use App\Http\Controllers\HalamanCustomController;
-use App\Http\Controllers\KeberatanController;
+
+// ==========================================
+// DB MIGRATION & CLEANUP: Permanently Drop Keberatans & Obsolete Views
+// ==========================================
+try {
+    if (\Illuminate\Support\Facades\Schema::hasTable('keberatans')) {
+        \Illuminate\Support\Facades\Schema::dropIfExists('keberatans');
+    }
+    // Delete obsolete Keberatan view files
+    $filesToDelete = [
+        resource_path('views/admin/reports/templates/register_keberatan_word.blade.php'),
+        resource_path('views/admin/reports/templates/form_keberatan.blade.php'),
+        resource_path('views/admin/keberatan/edit.blade.php'),
+        resource_path('views/admin/keberatan/form.blade.php'),
+        resource_path('views/admin/keberatan/index.blade.php'),
+        resource_path('views/admin/keberatan/show.blade.php'),
+    ];
+    foreach ($filesToDelete as $file) {
+        if (file_exists($file)) {
+            @unlink($file);
+        }
+    }
+    if (is_dir(resource_path('views/admin/keberatan'))) {
+        @rmdir(resource_path('views/admin/keberatan'));
+    }
+} catch (\Exception $e) {
+    // Silent
+}
 
 // ==========================================
 // 0. REDIRECT URL LAMA (.html)
@@ -48,7 +75,7 @@ Route::redirect('/permohonan-informasi.html', '/permohonan-informasi');
 Route::get('/', function () { 
     try {
         // Ambil data dari database
-        $dokumen = \App\Models\Dokumen::where('aktif', true)->take(6)->get();
+        $dokumen = \App\Models\Dokumen::where('aktif', true)->latest()->take(6)->get();
         $artikel = \App\Models\Berita::where('aktif', true)->latest()->take(3)->get();
 
         
@@ -258,26 +285,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::resource('/user-management', UserController::class)->names('admin.users')->parameters(['user-management' => 'user']);
     Route::get('/settings', [DashboardController::class, 'settings'])->name('admin.settings');
 
-    // Keberatan Management routes
-    Route::name('admin.keberatan.')->prefix('keberatan')->group(function () {
-        Route::get('/', [KeberatanController::class, 'index'])->name('index');
-        Route::get('/form', [KeberatanController::class, 'adminForm'])->name('form');          // Form Builder
-        Route::post('/form/save', [KeberatanController::class, 'saveForm'])->name('save_form'); // Save Form
-        Route::get('/export/excel', [KeberatanController::class, 'exportExcel'])->name('export.excel');
-        Route::get('/export/word-register', [KeberatanController::class, 'exportWordRegister'])->name('export.word_register');
-        Route::get('/export/{id}/word', [KeberatanController::class, 'exportWord'])->name('export.word');
-        Route::get('/{keberatan}', [KeberatanController::class, 'show'])->name('show');
-        Route::get('/{keberatan}/edit', [KeberatanController::class, 'edit'])->name('edit');
-        Route::put('/{keberatan}', [KeberatanController::class, 'update'])->name('update');
-        Route::delete('/{keberatan}', [KeberatanController::class, 'destroy'])->name('destroy');
-    });
 });
 
 // ==========================================
 // 4. FRONTEND USER (PUBLIC PAGES)
 // ==========================================
-Route::get('/keberatan/ajukan', [KeberatanController::class, 'createPublic'])->name('keberatan.create');
-Route::post('/keberatan/ajukan', [KeberatanController::class, 'storePublic'])->name('keberatan.store');
 Route::name('profil.')->prefix('profil')->group(function () {
     Route::get('/', [ProfilPublikController::class, 'showProfil'])->name('index');
     Route::get('/ppid', [ProfilPublikController::class, 'showProfil'])->name('ppid');

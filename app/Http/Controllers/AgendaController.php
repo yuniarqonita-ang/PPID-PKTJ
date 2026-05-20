@@ -13,7 +13,8 @@ class AgendaController extends Controller
      */
     public function index()
     {
-        $items = Agenda::orderBy('tanggal', 'desc')->get();
+        // Tampilkan yang paling baru ditambahkan di atas
+        $items = Agenda::latest()->get();
         return view('admin.agenda.index', compact('items'));
     }
 

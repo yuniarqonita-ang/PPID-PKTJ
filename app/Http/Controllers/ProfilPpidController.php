@@ -154,6 +154,24 @@ class ProfilPpidController extends Controller
             }
         }
 
+        // Special handling for dynamic organization diagram roles/sub-headings
+        if ($type === 'struktur') {
+            for ($i = 1; $i <= 5; $i++) {
+                if ($request->has("role_$i")) {
+                    \App\Models\Dashboard::updateOrCreate(
+                        ['key' => "struktur_role_$i"],
+                        ['value' => $request->input("role_$i") ?? '', 'type' => 'text', 'aktif' => true]
+                    );
+                }
+                if ($request->has("sub_$i")) {
+                    \App\Models\Dashboard::updateOrCreate(
+                        ['key' => "struktur_sub_$i"],
+                        ['value' => $request->input("sub_$i") ?? '', 'type' => 'text', 'aktif' => true]
+                    );
+                }
+            }
+        }
+
         // Handle Dashboard Files
         $fileFields = ['gambar_sop', 'gambar_proses', 'gambar_maklumat', 'file_laporan'];
         foreach ($fileFields as $field) {

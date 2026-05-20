@@ -38,7 +38,6 @@
                     <li class="mb-2"><a href="{{ route('layanan.laporan-layanan') }}" class="text-decoration-none text-reset opacity-75">Laporan Tahunan</a></li>
                     <li class="mb-2"><a href="{{ route('faq.public') }}" class="text-decoration-none text-reset opacity-75">FAQ</a></li>
                     <li class="mb-2"><a href="{{ route('permohonan.form') }}" class="text-decoration-none text-reset opacity-75">Permohonan Informasi</a></li>
-                    <li class="mb-2"><a href="{{ route('keberatan.create') }}" class="text-decoration-none text-reset opacity-75">Ajukan Keberatan</a></li>
                 </ul>
             </div>
             <div class="col-lg-3">

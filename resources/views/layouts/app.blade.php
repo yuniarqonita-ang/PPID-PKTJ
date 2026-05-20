@@ -249,6 +249,11 @@
                 animation: fadeIn 0.4s ease-out forwards;
             }
 
+            /* FIX ACCORDION & MODALS OVERFLOW */
+            .modal:not(.show) {
+                display: none !important;
+            }
+
             /* GLOBAL INTERACTION & SCROLL FIX */
             html, body {
                 overflow-x: hidden !important;
@@ -267,7 +272,7 @@
                 box-sizing: border-box !important;
             }
             .gdrive-preview-wrapper iframe,
-            .content-area iframe,
+            .content-area iframe:not(.tox-edit-area__iframe),
             .prose iframe,
             article iframe {
                 width: 100% !important;
@@ -280,6 +285,25 @@
             [class*="gdrive"] {
                 max-width: 100% !important;
                 overflow: hidden !important;
+            }
+            /* Ensure TinyMCE editor iframe is fully scrollable */
+            .tox-edit-area__iframe {
+                overflow: auto !important;
+            }
+            .tox-tinymce {
+                overflow: visible !important;
+            }
+            .tox-edit-area {
+                overflow: auto !important;
+            }
+            /* Fix: Hilangkan whitespace putih kosong di bawah halaman admin */
+            /* min-h-screen di dalam content-area menyebabkan ruang kosong berlebih */
+            body .admin-wrapper .main-content .content-area .min-h-screen,
+            body .admin-wrapper .main-content .content-area [class*="min-h-screen"],
+            body .admin-wrapper .main-content .min-h-screen,
+            body .admin-wrapper .main-content [class*="min-h-screen"] {
+                min-height: 0 !important;
+                height: auto !important;
             }
         </style>
     </head>
@@ -359,10 +383,6 @@
 
                         <a href="{{ route('admin.permohonan.report') }}" class="nav-link {{ request()->is('admin/permohonan/report*') ? 'active' : '' }}">
                             <i class="fas fa-file-invoice nav-icon"></i> LAPORAN BULANAN
-                        </a>
-
-                        <a href="{{ route('admin.keberatan.index') }}" class="nav-link {{ request()->is('admin/keberatan*') ? 'active' : '' }}">
-                            <i class="fas fa-exclamation-circle nav-icon"></i> KEBERATAN PERMOHONAN INFORMASI
                         </a>
 
                         <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
@@ -447,6 +467,10 @@
             }
             
             $(document).ready(function() {
+                // Remove any lingering Tailwind min-h-screen utilities that cause extra vertical space
+                $('.content-area .min-h-screen, .content-area [class*="min-h-screen"]').removeClass('min-h-screen');
+                $('.main-content .min-h-screen, .main-content [class*="min-h-screen"]').removeClass('min-h-screen');
+                // Preserve submenu open state
                 $('.submenu-link.active').each(function() {
                     $(this).closest('.submenu').addClass('open');
                     $(this).closest('.submenu').prev('.accordion-toggle').addClass('active');
@@ -467,7 +491,7 @@
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                     'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons', 'noneditable'
                 ],
-                noneditable_class: 'premium-box-outer',
+                noneditable_noneditable_class: 'mce-no-border-dummy',
                 toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline forecolor | ' +
                          'alignleft aligncenter alignright alignjustify | ' +
                          'bullist numlist outdent indent | link image media emoticons | premium_blur insert_preview insert_gdrive removeformat fullscreen',
@@ -560,94 +584,124 @@
                         }
                     });
 
+                    // === Helper: Build preview box HTML ===
+                    function buildPreviewBoxHtml(fullUrl, boxWidth, boxHeight, originalUrl, originalTitle, isBlurred) {
+                        return `<span class="premium-box-outer" contenteditable="false" data-url="${originalUrl.replace(/"/g, '&quot;')}" data-title="${(originalTitle || '').replace(/"/g, '&quot;')}" data-width="${boxWidth}" data-height="${boxHeight}" data-blurred="${isBlurred ? '1' : '0'}" style="display:inline-block; width:${boxWidth}px; height:${boxHeight}px; vertical-align:bottom; margin:0 10px 5px 0; cursor:pointer; overflow:hidden; border-radius:12px; border:1px solid #e2e8f0; box-shadow:0 4px 12px rgba(0,0,0,0.06); background:#fff;"><iframe src="${fullUrl}" style="width:100%; height:100%; border:none; pointer-events:none; display:block;"></iframe></span>`;
+                    }
+
+                    // === Helper: Build full preview URL ===
+                    function buildPreviewUrl(fileUrl, title, blurred) {
+                        const baseUrl = "{{ route('preview.dokumen') }}";
+                        return baseUrl + "?file=" + encodeURIComponent(fileUrl) + "&title=" + encodeURIComponent(title || 'Dokumen') + (blurred ? "&is_blurred=1" : "");
+                    }
+
+                    // === Helper: Open preview dialog (for insert AND edit) ===
+                    function openPreviewDialog(dialogTitle, submitLabel, defaults, isGdrive, existingNode) {
+                        let ratio = (parseInt(defaults.width) || 900) / (parseInt(defaults.height) || 600);
+
+                        editor.windowManager.open({
+                            title: dialogTitle,
+                            body: {
+                                type: 'panel',
+                                items: [
+                                    { type: 'input', name: 'url', label: isGdrive ? 'Google Drive Link (Sharing URL)' : 'File URL (e.g. storage/berita/file.pdf)', placeholder: isGdrive ? 'https://drive.google.com/file/d/...' : '' },
+                                    { type: 'input', name: 'title', label: 'Document Title' },
+                                    { type: 'grid', columns: 2, items: [
+                                        { type: 'input', name: 'width', label: 'Width (px)' },
+                                        { type: 'input', name: 'height', label: 'Height (px)' }
+                                    ]},
+                                    { type: 'checkbox', name: 'constrain', label: 'Constrain proportions' },
+                                    { type: 'checkbox', name: 'blurred', label: 'Apply Premium Blur (Page 2+)' }
+                                ]
+                            },
+                            buttons: [
+                                { type: 'cancel', text: 'Close' },
+                                { type: 'submit', text: submitLabel, primary: true }
+                            ],
+                            initialData: defaults,
+                            onChange: function (api, details) {
+                                const data = api.getData();
+                                const w = parseInt(data.width) || 0;
+                                const h = parseInt(data.height) || 0;
+                                if (data.constrain && w > 0 && h > 0) {
+                                    if (details.name === 'width') {
+                                        api.setData({ height: String(Math.round(w / ratio)) });
+                                    } else if (details.name === 'height') {
+                                        api.setData({ width: String(Math.round(h * ratio)) });
+                                    }
+                                }
+                                if (details.name === 'constrain' && data.constrain && w > 0 && h > 0) {
+                                    ratio = w / h;
+                                }
+                            },
+                            onSubmit: function (api) {
+                                const data = api.getData();
+                                if (!data.url) return;
+
+                                const fullUrl = buildPreviewUrl(data.url, data.title, data.blurred);
+                                const boxWidth = parseInt(data.width) || 900;
+                                const boxHeight = parseInt(data.height) || 600;
+                                const html = buildPreviewBoxHtml(fullUrl, boxWidth, boxHeight, data.url, data.title, data.blurred);
+
+                                if (existingNode) {
+                                    // Edit mode: replace existing node
+                                    const tempDiv = editor.dom.create('div');
+                                    tempDiv.innerHTML = html;
+                                    const newNode = tempDiv.firstChild;
+                                    editor.dom.replace(newNode, existingNode);
+                                } else {
+                                    // Insert mode
+                                    editor.insertContent(html);
+                                }
+                                api.close();
+                            }
+                        });
+                    }
+
+                    // === Button: Insert GDrive ===
                     editor.ui.registry.addButton('insert_gdrive', {
                         icon: 'gdrive',
                         tooltip: 'Insert GDrive Document (Premium Box)',
                         onAction: function (_) {
-                            editor.windowManager.open({
-                                title: 'Insert Google Drive Preview',
-                                body: {
-                                    type: 'panel',
-                                    items: [
-                                        { type: 'input', name: 'url', label: 'Google Drive Link (Sharing URL)', placeholder: 'https://drive.google.com/file/d/...' },
-                                        { type: 'input', name: 'title', label: 'Document Title' },
-                                        { type: 'selectbox', name: 'size', label: 'Box Size', items: [
-                                            { text: 'Medium (Image Friendly)', value: '600' },
-                                            { text: 'Extra Large (Document Friendly)', value: '900' }
-                                        ]},
-                                        { type: 'checkbox', name: 'blurred', label: 'Apply Premium Blur (Page 2+)' }
-                                    ]
-                                },
-                                buttons: [
-                                    { type: 'cancel', text: 'Close' },
-                                    { type: 'submit', text: 'Insert GDrive', primary: true }
-                                ],
-                                initialData: {
-                                    blurred: true,
-                                    size: '600'
-                                },
-                                onSubmit: function (api) {
-                                    const data = api.getData();
-                                    if (!data.url) return;
-
-                                    const baseUrl = "{{ route('preview.dokumen') }}";
-                                    const fullUrl = baseUrl + "?file=" + encodeURIComponent(data.url) + "&title=" + encodeURIComponent(data.title || 'Dokumen GDrive') + (data.blurred ? "&is_blurred=1" : "");
-                                    
-                                    const height = data.size || '600';
-                                    const html = `<div class="premium-box-outer" contenteditable="false" style="width: 100%; display: flex; justify-content: center; margin: 40px 0; outline: 2px dashed #004a99; outline-offset: 10px; border-radius: 24px; cursor: pointer; user-select: all; background: #f8fafc; padding: 15px;">
-                                                    <div class="premium-box-wrapper" style="width: 100%; max-width: 900px; height: ${height}px; overflow: hidden; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); background: #ffffff; pointer-events: none;">
-                                                      <iframe src="${fullUrl}" style="width: 100%; height: 100%; border: none;"></iframe>
-                                                    </div>
-                                                  </div><p>&nbsp;</p>`;
-                                    editor.insertContent(html);
-                                    api.close();
-                                }
-                            });
+                            openPreviewDialog('Insert Google Drive Preview', 'Insert GDrive', {
+                                url: '', title: '', width: '500', height: '400', constrain: true, blurred: true
+                            }, true, null);
                         }
                     });
 
+                    // === Button: Insert Document Preview ===
                     editor.ui.registry.addButton('insert_preview', {
                         icon: 'preview',
                         tooltip: 'Insert Document Preview (Premium Box)',
                         onAction: function (_) {
-                            editor.windowManager.open({
-                                title: 'Insert Document Preview',
-                                body: {
-                                    type: 'panel',
-                                    items: [
-                                        { type: 'input', name: 'url', label: 'File URL (e.g. storage/berita/file.pdf)' },
-                                        { type: 'input', name: 'title', label: 'Document Title' },
-                                        { type: 'selectbox', name: 'size', label: 'Box Size', items: [
-                                            { text: 'Medium (Image Friendly)', value: '600' },
-                                            { text: 'Extra Large (Document Friendly)', value: '900' }
-                                        ]},
-                                        { type: 'checkbox', name: 'blurred', label: 'Apply Premium Blur (Page 2+)' }
-                                    ]
-                                },
-                                buttons: [
-                                    { type: 'cancel', text: 'Close' },
-                                    { type: 'submit', text: 'Insert', primary: true }
-                                ],
-                                initialData: {
-                                    size: '600',
-                                    blurred: false
-                                },
-                                onSubmit: function (api) {
-                                    const data = api.getData();
-                                    const baseUrl = "{{ route('preview.dokumen') }}";
-                                    const fullUrl = baseUrl + "?file=" + encodeURIComponent(data.url) + "&title=" + encodeURIComponent(data.title) + (data.blurred ? "&is_blurred=1" : "");
-                                    
-                                    const height = data.size || '600';
-                                    const html = `<div class="premium-box-outer" contenteditable="false" style="width: 100%; display: flex; justify-content: center; margin: 40px 0; outline: 2px dashed #004a99; outline-offset: 10px; border-radius: 24px; cursor: pointer; user-select: all; background: #f8fafc; padding: 15px;">
-                                                    <div class="premium-box-wrapper" style="width: 100%; max-width: 900px; height: ${height}px; overflow: hidden; border-radius: 24px; border: 1px solid #e2e8f0; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); background: #ffffff; pointer-events: none;">
-                                                      <iframe src="${fullUrl}" style="width: 100%; height: 100%; border: none;"></iframe>
-                                                    </div>
-                                                  </div><p>&nbsp;</p>`;
-                                    editor.insertContent(html);
-                                    api.close();
-                                }
-                            });
+                            openPreviewDialog('Insert Document Preview', 'Insert', {
+                                url: '', title: '', width: '500', height: '400', constrain: true, blurred: false
+                            }, false, null);
                         }
+                    });
+
+                    // === Click to edit existing preview box ===
+                    editor.on('click', function (e) {
+                        const box = e.target.closest('.premium-box-outer');
+                        if (!box) return;
+
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        const savedUrl = box.getAttribute('data-url') || '';
+                        const savedTitle = box.getAttribute('data-title') || '';
+                        const savedWidth = box.getAttribute('data-width') || '500';
+                        const savedHeight = box.getAttribute('data-height') || '400';
+                        const savedBlurred = box.getAttribute('data-blurred') === '1';
+                        const isGdrive = savedUrl.includes('drive.google.com');
+
+                        openPreviewDialog(
+                            isGdrive ? 'Edit Google Drive Preview' : 'Edit Document Preview',
+                            'Save',
+                            { url: savedUrl, title: savedTitle, width: savedWidth, height: savedHeight, constrain: true, blurred: savedBlurred },
+                            isGdrive,
+                            box
+                        );
                     });
                     
                     editor.on('init', function() {
@@ -665,7 +719,9 @@
                     { title: 'Premium Button', inline: 'span', classes: 'premium-cta-trigger' }
                 ],
                 content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #0f172a; padding: 20px; line-height: 1.6; } ' +
-                              '.premium-blur { filter: blur(5px); background: #f1f5f9; display: inline-block; padding: 2px 4px; border-radius: 4px; border: 1px dashed #004a99; }'
+                              '.premium-blur { filter: blur(5px); background: #f1f5f9; display: inline-block; padding: 2px 4px; border-radius: 4px; border: 1px dashed #004a99; } ' +
+                              '.premium-box-outer { display: inline-block !important; vertical-align: bottom !important; cursor: pointer; outline: none !important; border: none !important; } ' +
+                              '[contenteditable=false] { outline: none !important; border: none !important; }'
             });
             
             $(document).on('submit', 'form', function() { if (typeof tinymce !== 'undefined') tinymce.triggerSave(); });
@@ -711,6 +767,14 @@
                         const target = e.target.closest('a');
                         if (target && target.href) {
                             const url = target.href;
+
+                            // Jangan intersep: btn-premium-action (tombol blur overlay) dan link ke permohonan
+                            if (target.classList.contains('btn-premium-action') || 
+                                url.includes('/permohonan-informasi') || 
+                                url.includes('/permohonan')) {
+                                return; // biarkan navigasi normal
+                            }
+
                             const isPreview = url.includes('/preview-dokumen') || 
                                               url.includes('/preview-peraturan') || 
                                               url.includes('/dokumen/view/');

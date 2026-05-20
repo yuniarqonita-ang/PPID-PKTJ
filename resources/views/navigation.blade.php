@@ -233,11 +233,8 @@
             </ul>
 
             <div class="d-flex gap-2">
-                <a class="btn btn-warning fw-bold px-3 py-2 text-dark rounded-1 shadow-sm" href="{{ route('permohonan.form') }}" style="font-size: 11px;">
+                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="{{ route('permohonan.form') }}" style="font-size: 12px; letter-spacing: 0.5px;">
                     PERMOHONAN INFORMASI
-                </a>
-                <a class="btn btn-outline-light fw-bold px-3 py-2 rounded-1 shadow-sm" href="{{ route('keberatan.create') }}" style="font-size: 11px; border-width: 2px;">
-                    AJUKAN KEBERATAN
                 </a>
             </div>
         </div>
