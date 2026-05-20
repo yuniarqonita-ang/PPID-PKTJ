@@ -276,25 +276,7 @@
             </div>
         </div>
 
-        <!-- Footer Info Box -->
-        <div class="row mt-5">
-            <div class="col-lg-10 mx-auto">
-                <div class="p-5 rounded-[2.5rem] bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-2xl relative overflow-hidden mb-5" style="background: linear-gradient(to right, #004a99, #006ccf);">
-                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/10 rounded-full blur-2xl"></div>
-                    <div class="row align-items-center">
-                        <div class="col-md-8">
-                            <h3 class="h2 fw-black mb-3">Butuh Informasi Lebih Lanjut?</h3>
-                            <p class="opacity-90 fw-medium">Anda dapat mengajukan permohonan informasi terkait kegiatan melalui formulir resmi kami.</p>
-                        </div>
-                        <div class="col-md-4 text-md-end">
-                            <a href="/permohonan-informasi" class="btn btn-warning px-5 py-3 rounded-xl fw-black shadow-xl shadow-amber-500/20" style="background-color: #ffc107; border: none; color: #004a99;">
-                                AJUKAN PERMOHONAN
-                            </a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 
     <!-- Footer -->

@@ -151,9 +151,25 @@
                     </div>
                     <div class="space-y-4">
                         <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">PENANGGUNG JAWAB UNIT</label>
-                        <input type="text" name="penanggung_jawab" value="{{ old('penanggung_jawab', $item->penanggung_jawab) }}"
-                            class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]"
-                            placeholder="Nama Unit Kerja/Seksi...">
+                        <select name="penanggung_jawab" class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c] appearance-none cursor-pointer">
+                            <option value="">PILIH PENANGGUNG JAWAB</option>
+                            @php
+                                $units = [
+                                    "PPID UTAMA",
+                                    "Inspektorat Jenderal Kementerian Perhubungan",
+                                    "Direktorat Jenderal Perhubungan Darat",
+                                    "Direktorat Jenderal Perhubungan Laut",
+                                    "Direktorat Jenderal Perhubungan Udara",
+                                    "Direktorat Jenderal Perkeretaapian",
+                                    "Direktorat Jenderal Integrasi Transportasi dan Multimoda",
+                                    "Badan Kebijakan Transportasi",
+                                    "Badan Pengembangan Sumber Daya Manusia Perhubungan"
+                                ];
+                            @endphp
+                            @foreach($units as $u)
+                                <option value="{{ $u }}" {{ old('penanggung_jawab', $item->penanggung_jawab) == $u ? 'selected' : '' }}>{{ $u }}</option>
+                            @endforeach
+                        </select>
                     </div>
                 </div>
             </div>
@@ -168,10 +184,17 @@
 
                 <div class="space-y-6">
                     <div class="space-y-3">
-                        <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Waktu Pembuatan</label>
-                        <input type="text" name="waktu_pembuatan" value="{{ old('waktu_pembuatan', $item->waktu_pembuatan) }}"
-                            class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-black text-[#002b5c]"
-                            placeholder="CONTOH: TAHUN 2025">
+                        <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Waktu Pembuatan (Tahun)</label>
+                        <select name="waktu_pembuatan" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-black text-[#002b5c] appearance-none cursor-pointer">
+                            <option value="">PILIH TAHUN</option>
+                            @php
+                                $currentYear = date('Y');
+                                $startYear = 2009;
+                            @endphp
+                            @for($i = $currentYear; $i >= $startYear; $i--)
+                                <option value="{{ $i }}" {{ old('waktu_pembuatan', $item->waktu_pembuatan) == $i ? 'selected' : '' }}>{{ $i }}</option>
+                            @endfor
+                        </select>
                     </div>
                     <div class="space-y-3">
                         <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Bentuk Informasi</label>

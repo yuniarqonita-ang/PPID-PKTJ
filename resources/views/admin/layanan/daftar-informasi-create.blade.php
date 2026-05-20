@@ -164,9 +164,19 @@
                             </div>
                             <div class="space-y-4">
                                 <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest ml-1">PENANGGUNG JAWAB UNIT *</label>
-                                <input type="text" name="penanggung_jawab" required
-                                    class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c]"
-                                    placeholder="Nama Unit Kerja/Seksi...">
+                                <select name="penanggung_jawab" required
+                                    class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-bold text-[#002b5c] appearance-none cursor-pointer">
+                                    <option value="">PILIH PENANGGUNG JAWAB</option>
+                                    <option value="PPID UTAMA">PPID UTAMA</option>
+                                    <option value="Inspektorat Jenderal Kementerian Perhubungan">Inspektorat Jenderal Kementerian Perhubungan</option>
+                                    <option value="Direktorat Jenderal Perhubungan Darat">Direktorat Jenderal Perhubungan Darat</option>
+                                    <option value="Direktorat Jenderal Perhubungan Laut">Direktorat Jenderal Perhubungan Laut</option>
+                                    <option value="Direktorat Jenderal Perhubungan Udara">Direktorat Jenderal Perhubungan Udara</option>
+                                    <option value="Direktorat Jenderal Perkeretaapian">Direktorat Jenderal Perkeretaapian</option>
+                                    <option value="Direktorat Jenderal Integrasi Transportasi dan Multimoda">Direktorat Jenderal Integrasi Transportasi dan Multimoda</option>
+                                    <option value="Badan Kebijakan Transportasi">Badan Kebijakan Transportasi</option>
+                                    <option value="Badan Pengembangan Sumber Daya Manusia Perhubungan">Badan Pengembangan Sumber Daya Manusia Perhubungan</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -184,10 +194,18 @@
 
                     <div class="space-y-8">
                         <div class="space-y-3">
-                            <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Waktu Pembuatan</label>
-                            <input type="text" name="waktu_pembuatan"
-                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-black text-[#002b5c]"
-                                placeholder="CONTOH: TAHUN 2025">
+                            <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Waktu Pembuatan (Tahun)</label>
+                            <select name="waktu_pembuatan"
+                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#002b5c]/10 text-lg font-black text-[#002b5c] appearance-none cursor-pointer">
+                                <option value="">PILIH TAHUN</option>
+                                @php
+                                    $currentYear = date('Y');
+                                    $startYear = 2009;
+                                @endphp
+                                @for($i = $currentYear; $i >= $startYear; $i--)
+                                    <option value="{{ $i }}">{{ $i }}</option>
+                                @endfor
+                            </select>
                         </div>
                         <div class="space-y-3">
                             <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Bentuk Informasi</label>
