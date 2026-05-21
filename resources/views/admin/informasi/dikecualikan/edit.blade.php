@@ -64,23 +64,26 @@
                     </div>
 
                     <!-- Dasar Hukum -->
-                    <div class="space-y-3">
+                    <div class="space-y-3 text-gray-800">
                         <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Dasar Hukum Pengecualian Informasi</label>
-                        <textarea name="dasar_hukum" rows="3"
-                            class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c]">{{ old('dasar_hukum', $item->dasar_hukum) }}</textarea>
+                        <div class="rounded-3xl overflow-hidden border-2 border-slate-100 text-gray-800">
+                            <textarea name="dasar_hukum" id="dasar_hukum_editor" class="tinymce-editor text-gray-800">{{ old('dasar_hukum', $item->dasar_hukum) }}</textarea>
+                        </div>
                     </div>
 
                     <!-- Konsekuensi Section -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                        <div class="space-y-3">
+                        <div class="space-y-3 text-gray-800">
                             <label class="text-xs font-black text-green-600 uppercase tracking-[2px] block">Konsekuensi Dibuka Bagi Publik</label>
-                            <textarea name="konsekuensi_dibuka" rows="3"
-                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-green-100 focus:bg-white transition-all font-bold text-gray-700">{{ old('konsekuensi_dibuka', $item->konsekuensi_dibuka) }}</textarea>
+                            <div class="rounded-3xl overflow-hidden border-2 border-slate-100 text-gray-800">
+                                <textarea name="konsekuensi_dibuka" id="konsekuensi_dibuka_editor" class="tinymce-editor text-gray-800">{{ old('konsekuensi_dibuka', $item->konsekuensi_dibuka) }}</textarea>
+                            </div>
                         </div>
-                        <div class="space-y-3">
+                        <div class="space-y-3 text-gray-800">
                             <label class="text-xs font-black text-red-600 uppercase tracking-[2px] block">Konsekuensi Ditutup Bagi Publik</label>
-                            <textarea name="konsekuensi_ditutup" rows="3"
-                                class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-red-100 focus:bg-white transition-all font-bold text-gray-700">{{ old('konsekuensi_ditutup', $item->konsekuensi_ditutup) }}</textarea>
+                            <div class="rounded-3xl overflow-hidden border-2 border-slate-100 text-gray-800">
+                                <textarea name="konsekuensi_ditutup" id="konsekuensi_ditutup_editor" class="tinymce-editor text-gray-800">{{ old('konsekuensi_ditutup', $item->konsekuensi_ditutup) }}</textarea>
+                            </div>
                         </div>
                     </div>
 

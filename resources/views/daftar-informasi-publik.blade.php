@@ -189,35 +189,22 @@
                         <label class="form-label text-muted small fw-bold">Waktu Pembuatan</label>
                         <select name="tahun" class="form-select py-2 border-0 bg-light" style="border-radius: 8px;">
                             <option value="">Pilih Tahun</option>
-                            @php
-                                $currentYear = date('Y');
-                                $startYear = 2009;
-                            @endphp
-                            @for($i = $currentYear; $i >= $startYear; $i--)
-                                <option value="{{ $i }}" {{ request('tahun') == $i ? 'selected' : '' }}>{{ $i }}</option>
-                            @endfor
+                            @if(isset($years) && $years->count() > 0)
+                                @foreach($years as $year)
+                                    <option value="{{ $year }}" {{ request('tahun') == $year ? 'selected' : '' }}>{{ $year }}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                     <div class="col-md-3">
                         <label class="form-label text-muted small fw-bold">Penanggung Jawab</label>
                         <select name="penanggung_jawab" class="form-select py-2 border-0 bg-light" style="border-radius: 8px;">
                             <option value="">Pilih Penanggung Jawab</option>
-                            @php
-                                $unit_list = [
-                                    "PPID UTAMA",
-                                    "Inspektorat Jenderal Kementerian Perhubungan",
-                                    "Direktorat Jenderal Perhubungan Darat",
-                                    "Direktorat Jenderal Perhubungan Laut",
-                                    "Direktorat Jenderal Perhubungan Udara",
-                                    "Direktorat Jenderal Perkeretaapian",
-                                    "Direktorat Jenderal Integrasi Transportasi dan Multimoda",
-                                    "Badan Kebijakan Transportasi",
-                                    "Badan Pengembangan Sumber Daya Manusia Perhubungan"
-                                ];
-                            @endphp
-                            @foreach($unit_list as $u)
-                                <option value="{{ $u }}" {{ request('penanggung_jawab') == $u ? 'selected' : '' }}>{{ $u }}</option>
-                            @endforeach
+                            @if(isset($units) && $units->count() > 0)
+                                @foreach($units as $unit)
+                                    <option value="{{ $unit }}" {{ request('penanggung_jawab') == $unit ? 'selected' : '' }}>{{ $unit }}</option>
+                                @endforeach
+                            @endif
                         </select>
                     </div>
                     <div class="col-12">

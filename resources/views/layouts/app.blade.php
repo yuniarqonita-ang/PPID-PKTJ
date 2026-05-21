@@ -599,6 +599,7 @@
                         }
                     });
                 },
+                file_picker_types: 'file image media',
                 setup: function(editor) {
                     // Custom GDrive Icon
                     editor.ui.registry.addIcon('gdrive', '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.5 15.5L14.5 6.5H9.5L14.5 15.5H19.5Z" fill="#004a99"/><path d="M9.5 6.5L4.5 15.5L7 19.5L12 10.5L9.5 6.5Z" fill="#ffc107"/><path d="M12 10.5L7 19.5H17L22 10.5H12Z" fill="#006ccf"/></svg>');

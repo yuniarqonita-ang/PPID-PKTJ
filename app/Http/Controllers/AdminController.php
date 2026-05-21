@@ -82,4 +82,35 @@ class AdminController extends Controller
 
         return view('admin.file-browser', compact('files'));
     }
+
+    /**
+     * Upload file to File Browser
+     */
+    public function uploadFileBrowser(Request $request)
+    {
+        try {
+            $request->validate([
+                'file' => 'required|file|max:20480', // 20MB max
+                'folder' => 'required|string|in:editor_uploads,halaman,permohonan/ktp,permohonan/berkas'
+            ]);
+
+            $file = $request->file('file');
+            $folder = $request->input('folder', 'editor_uploads');
+            
+            if (!$file->isValid()) {
+                return response()->json(['success' => false, 'message' => 'File tidak valid'], 400);
+            }
+
+            $filename = time() . '_' . uniqid() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
+            $path = $file->storeAs('public/' . $folder, $filename);
+            
+            if ($path) {
+                return response()->json(['success' => true, 'message' => 'File berhasil diupload']);
+            }
+            
+            return response()->json(['success' => false, 'message' => 'Gagal menyimpan file'], 500);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
 }

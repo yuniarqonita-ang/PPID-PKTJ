@@ -276,6 +276,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     // Image upload and File Browser for TinyMCE
     Route::post('/upload/image', [AdminController::class, 'uploadImage'])->name('admin.upload.image');
+    Route::post('/upload/file-browser', [AdminController::class, 'uploadFileBrowser'])->name('admin.upload.file-browser');
     Route::get('/file-browser', [AdminController::class, 'fileBrowser'])->name('admin.file-browser');
 
     // Link Aplikasi Terkait

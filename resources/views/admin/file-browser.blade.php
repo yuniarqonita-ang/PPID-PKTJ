@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>File Browser - PPID PKTJ</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -75,6 +76,27 @@
             <input type="text" id="fileSearch" class="form-control w-50" placeholder="Cari nama file...">
         </div>
 
+        <!-- Upload Form -->
+        <div class="mb-4 p-4 bg-light border-2 border-dashed border-primary rounded-3">
+            <div class="row align-items-center">
+                <div class="col-auto">
+                    <label class="form-label fw-bold mb-2 small text-uppercase">Upload File Baru</label>
+                    <div class="d-flex gap-2">
+                        <input type="file" id="uploadFile" class="form-control form-control-sm" accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" style="max-width: 300px;">
+                        <select id="uploadFolder" class="form-select form-select-sm" style="max-width: 200px;">
+                            <option value="editor_uploads">Upload Folder</option>
+                            <option value="editor_uploads">Editor Uploads</option>
+                            <option value="halaman">Halaman</option>
+                        </select>
+                        <button class="btn btn-sm btn-primary" onclick="uploadFile()" id="uploadBtn">
+                            <i class="fas fa-upload me-1"></i> Upload
+                        </button>
+                    </div>
+                </div>
+                <div class="col-auto" id="uploadStatus"></div>
+            </div>
+        </div>
+
         <div class="row g-3" id="fileList">
             @foreach($files as $file)
                 <div class="col-6 col-md-4 col-lg-3 file-item" data-name="{{ strtolower($file['name']) }}">
@@ -111,6 +133,55 @@
                 const name = item.getAttribute('data-name');
                 item.style.display = name.includes(query) ? 'block' : 'none';
             });
+        });
+
+        // Upload file handler
+        function uploadFile() {
+            const fileInput = document.getElementById('uploadFile');
+            const uploadFolder = document.getElementById('uploadFolder').value;
+            const uploadStatus = document.getElementById('uploadStatus');
+            const uploadBtn = document.getElementById('uploadBtn');
+            
+            if (!fileInput.files || fileInput.files.length === 0) {
+                uploadStatus.innerHTML = '<span class="text-danger small fw-bold">Pilih file terlebih dahulu</span>';
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('folder', uploadFolder);
+
+            uploadBtn.disabled = true;
+            uploadStatus.innerHTML = '<span class="text-info small fw-bold">Uploading...</span>';
+
+            fetch("{{ route('admin.upload.file-browser') }}", {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
+                },
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                uploadBtn.disabled = false;
+                if (data.success) {
+                    uploadStatus.innerHTML = '<span class="text-success small fw-bold">✓ Upload berhasil!</span>';
+                    fileInput.value = '';
+                    selectFile(data.url);
+                } else {
+                    uploadStatus.innerHTML = '<span class="text-danger small fw-bold">' + (data.message || 'Upload gagal') + '</span>';
+                }
+            })
+            .catch(error => {
+                uploadBtn.disabled = false;
+                uploadStatus.innerHTML = '<span class="text-danger small fw-bold">Error: ' + error.message + '</span>';
+            });
+        }
+
+        // Allow enter key to upload
+        document.getElementById('uploadFile').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') uploadFile();
         });
     </script>
 </body>

@@ -180,7 +180,8 @@
                             <th style="min-width: 200px;" class="py-4 px-3 border-end">Konsekuensi/Pertimbangan Dibuka Bagi Publik</th>
                             <th style="min-width: 200px;" class="py-4 px-3 border-end">Konsekuensi/Pertimbangan Ditutup Bagi Publik</th>
                             <th style="min-width: 120px;" class="py-4 px-3 border-end">Jangka Waktu</th>
-                            <th style="min-width: 150px;" class="py-4 px-3">Penanggung Jawab</th>
+                            <th style="min-width: 150px;" class="py-4 px-3 border-end">Penanggung Jawab</th>
+                            <th style="min-width: 120px;" class="py-4 px-3">File / Lampiran</th>
                         </tr>
                     </thead>
                     <tbody class="border-top-0">
@@ -191,15 +192,34 @@
                                 <div class="fw-bold text-dark mb-2">{{ $item->judul }}</div>
                                 <div class="text-muted opacity-75">{!! $item->deskripsi !!}</div>
                             </td>
-                            <td class="py-4 px-4 border-end text-center">{{ $item->dasar_hukum ?: '-' }}</td>
-                            <td class="py-4 px-4 border-end text-center">{{ $item->konsekuensi_dibuka ?: '-' }}</td>
-                            <td class="py-4 px-4 border-end text-center">{{ $item->konsekuensi_ditutup ?: '-' }}</td>
+                            <td class="py-4 px-4 border-end text-center"><div class="rich-content">{!! $item->dasar_hukum ?: '-' !!}</div></td>
+                            <td class="py-4 px-4 border-end text-center"><div class="rich-content">{!! $item->konsekuensi_dibuka ?: '-' !!}</div></td>
+                            <td class="py-4 px-4 border-end text-center"><div class="rich-content">{!! $item->konsekuensi_ditutup ?: '-' !!}</div></td>
                             <td class="py-4 px-4 border-end text-center fw-bold">{{ $item->jangka_waktu ?: '-' }}</td>
-                            <td class="py-4 px-4 text-center fw-bold text-primary">{{ $item->penanggung_jawab ?: '-' }}</td>
+                            <td class="py-4 px-4 border-end text-center fw-bold text-primary">{{ $item->penanggung_jawab ?: '-' }}</td>
+                            <td class="py-4 px-4 text-center">
+                                @if($item->file_path)
+                                    @if(strtolower($item->file_type) === 'gdrive')
+                                        <button type="button" class="btn btn-sm btn-outline-info" 
+                                            data-bs-toggle="modal" data-bs-target="#previewModal" 
+                                            data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
+                                            <i class="fab fa-google-drive"></i> Lihat
+                                        </button>
+                                    @else
+                                        <button type="button" class="btn btn-sm btn-outline-danger" 
+                                            data-bs-toggle="modal" data-bs-target="#previewModal" 
+                                            data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
+                                            <i class="fas fa-file-download"></i> Lihat
+                                        </button>
+                                    @endif
+                                @else
+                                    -
+                                @endif
+                            </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="text-center py-5">
+                            <td colspan="8" class="text-center py-5">
                                 <div class="py-5">
                                     <i class="fas fa-shield-alt fa-4x text-muted mb-4 opacity-25"></i>
                                     <h3 class="text-muted">Data Tidak Ditemukan</h3>
