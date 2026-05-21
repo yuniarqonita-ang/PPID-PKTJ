@@ -131,15 +131,15 @@
     body {
         overflow-x: hidden !important;
     }
-    .rich-content iframe,
-    .content-area iframe,
-    .prose iframe,
-    .info-item iframe,
-    .konten-dinamis iframe,
-    article iframe,
-    .gdrive-preview-wrapper iframe,
-    [class*="content"] iframe,
-    .mce-content-body iframe {
+    .rich-content iframe:not([src*="preview-dokumen"]):not([src*="drive.google.com"]),
+    .content-area iframe:not([src*="preview-dokumen"]):not([src*="drive.google.com"]),
+    .prose iframe:not([src*="preview-dokumen"]):not([src*="drive.google.com"]),
+    .info-item iframe:not([src*="preview-dokumen"]):not([src*="drive.google.com"]),
+    .konten-dinamis iframe:not([src*="preview-dokumen"]):not([src*="drive.google.com"]),
+    article iframe:not([src*="preview-dokumen"]):not([src*="drive.google.com"]),
+    .gdrive-preview-wrapper iframe:not([src*="preview-dokumen"]):not([src*="drive.google.com"]),
+    [class*="content"] iframe:not([src*="preview-dokumen"]):not([src*="drive.google.com"]),
+    .mce-content-body iframe:not([src*="preview-dokumen"]):not([src*="drive.google.com"]) {
         width: 100% !important;
         max-width: 100% !important;
         min-width: 0 !important;
@@ -148,6 +148,49 @@
         display: block;
         margin: 15px auto;
     }
+
+    /* Google Drive & Document Preview Iframe Portrait custom styles */
+    .rich-content iframe[src*="preview-dokumen"],
+    .rich-content iframe[src*="drive.google.com"],
+    .content-area iframe[src*="preview-dokumen"],
+    .content-area iframe[src*="drive.google.com"],
+    .konten-dinamis iframe[src*="preview-dokumen"],
+    .konten-dinamis iframe[src*="drive.google.com"],
+    .prose iframe[src*="preview-dokumen"],
+    .prose iframe[src*="drive.google.com"],
+    article iframe[src*="preview-dokumen"],
+    article iframe[src*="drive.google.com"],
+    .gdrive-preview-wrapper iframe[src*="preview-dokumen"],
+    .gdrive-preview-wrapper iframe[src*="drive.google.com"],
+    .premium-box-outer iframe,
+    iframe[src*="preview-dokumen"],
+    iframe[src*="drive.google.com"] {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: 0 !important;
+        aspect-ratio: auto !important;
+        height: 80vh !important;
+        min-height: 650px !important;
+        max-height: 1000px !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        display: block !important;
+        margin: 20px auto !important;
+        pointer-events: auto !important;
+    }
+
+    /* Inside admin-inserted tiny boxes, override to fill the outer box */
+    .premium-box-outer iframe {
+        height: 100% !important;
+        min-height: 0 !important;
+        max-height: none !important;
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+    }
+
     .gdrive-preview-wrapper {
         width: 100% !important;
         max-width: 100% !important;
@@ -242,19 +285,56 @@
 </nav>
 
 <!-- PREMIUM DOCUMENT VIEWER MODAL (GLOBAL) -->
-<div class="modal fade" id="previewModal" tabindex="-1" aria-labelledby="previewModalLabel" aria-hidden="true" style="z-index: 1060; backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
-    <div class="modal-dialog modal-dialog-centered" style="max-width: 900px; margin: 1.75rem auto;">
-        <div class="modal-content border-0 shadow-2xl overflow-hidden" style="border-radius: 28px; background: #fff; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.35);">
-            <div class="modal-header border-0 p-0">
-                <div class="position-absolute top-0 start-0 m-4" style="z-index: 1100;">
-                    <div style="background: rgba(255,255,255,0.9); padding: 5px 15px; border-radius: 20px; font-weight: 700; color: #004a99; font-size: 0.9rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
-                        <i class="fas fa-file-alt mr-2"></i> PRATINJAU DOKUMEN
-                    </div>
-                </div>
-                <button type="button" class="btn-close btn-close-dark position-absolute top-0 end-0 m-4 shadow-lg" data-bs-dismiss="modal" aria-label="Close" style="z-index: 1100; background-color: #fff; opacity: 1; border-radius: 50%; padding: 10px;"></button>
-            </div>
-            <div class="modal-body p-0 overflow-hidden" style="height: 85vh; background: #fff;">
-                <iframe id="previewIframe" src="" frameborder="0" style="width: 100%; height: 100%; background: #fff; display: block;"></iframe>
+<style>
+    /* Override agar modal-body mengisi seluruh sisa ruang */
+    #previewModal .modal-content {
+        height: 100%;
+        background: #e8ecf0;
+        border-radius: 0;
+        border: none;
+    }
+    #previewModal .modal-body {
+        flex: 1;
+        padding: 0;
+        overflow: hidden;
+        position: relative;
+    }
+    #previewModal .modal-body iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+        background: #e8ecf0;
+    }
+    #previewModal .btn-close-custom {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 9999;
+        background: rgba(0,0,0,0.6);
+        border: none;
+        border-radius: 50%;
+        width: 38px;
+        height: 38px;
+        color: white;
+        font-size: 20px;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 1;
+        backdrop-filter: blur(4px);
+        transition: background 0.2s;
+    }
+    #previewModal .btn-close-custom:hover { background: rgba(0,0,0,0.85); }
+</style>
+<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-body">
+                <button class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                <iframe id="previewIframe" src="" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -271,19 +351,6 @@
                 const button = event.relatedTarget;
                 if (button) {
                     const url = button.getAttribute('data-url');
-                    const dialog = previewModal.querySelector('.modal-dialog');
-                    
-                    // Reset classes
-                    dialog.classList.remove('modal-xl', 'modal-lg');
-                    
-                    // Check if it's likely an image
-                    const isImg = url && url.match(/\.(jpg|jpeg|png|webp|gif)/i);
-                    if (isImg) {
-                        dialog.classList.add('modal-lg'); // Medium box for images
-                    } else {
-                        dialog.classList.add('modal-xl'); // Extra large for documents
-                    }
-
                     if (url) previewIframe.src = url;
                 }
             });
@@ -301,26 +368,12 @@
 
                     if ((isPreview || isDirectDoc || url.includes('drive.google.com')) && !target.hasAttribute('data-bs-toggle')) {
                         e.preventDefault();
-                        
-                        // Use Bootstrap Modal API to show it
                         const modalInstance = bootstrap.Modal.getOrCreateInstance(previewModal);
-                        const dialog = previewModal.querySelector('.modal-dialog');
-                        
-                        // Reset and apply size
-                        dialog.classList.remove('modal-xl', 'modal-lg');
-                        const isImg = url.match(/\.(jpg|jpeg|png|webp|gif)/i);
-                        if (isImg) {
-                            dialog.classList.add('modal-lg'); // Medium for images
-                        } else {
-                            dialog.classList.add('modal-xl'); // XL for documents
-                        }
 
                         let finalUrl = url;
-                        // Transform direct storage or GDrive links into the preview route
                         if (!url.includes('/preview-dokumen')) {
                             const params = new URLSearchParams(new URL(url).search);
                             const isBlurred = params.get('is_blurred') || '0';
-                            
                             if (url.includes('/storage/')) {
                                 const relativePath = url.split('/storage/').pop();
                                 finalUrl = `/preview-dokumen?file=storage/${relativePath}&is_blurred=${isBlurred}`;
@@ -334,6 +387,22 @@
                     }
                 }
             });
+
+            // Global helper to open the preview modal programmatically
+            window.openGlobalPreview = function(url, isBlurred) {
+                let finalUrl = url;
+                if (!url.includes('/preview-dokumen')) {
+                    if (url.includes('/storage/')) {
+                        const relativePath = url.split('/storage/').pop();
+                        finalUrl = `/preview-dokumen?file=storage/${relativePath}&is_blurred=${isBlurred ? '1' : '0'}`;
+                    } else if (url.includes('drive.google.com')) {
+                        finalUrl = `/preview-dokumen?file=${encodeURIComponent(url)}&is_blurred=${isBlurred ? '1' : '0'}`;
+                    }
+                }
+                previewIframe.src = finalUrl;
+                const modalInstance = bootstrap.Modal.getOrCreateInstance(previewModal);
+                modalInstance.show();
+            };
 
             // Clear iframe when modal is hidden to stop any background processing
             previewModal.addEventListener('hidden.bs.modal', function () {

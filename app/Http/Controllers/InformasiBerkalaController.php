@@ -35,6 +35,7 @@ class InformasiBerkalaController extends Controller
         $validated = $request->validate([
             'judul'       => 'required|string|max:255',
             'deskripsi'   => 'nullable|string',
+            'tanggal'     => 'required|date',
             'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:10240',
             'gdrive_link' => 'nullable|url',
             'aktif'       => 'boolean',
@@ -43,6 +44,7 @@ class InformasiBerkalaController extends Controller
         $data = [
             'judul'      => $validated['judul'],
             'deskripsi'  => $validated['deskripsi'] ?? null,
+            'tanggal'    => $validated['tanggal'],
             'aktif'      => $request->has('aktif'),
             'is_blurred' => $request->has('is_blurred'),
         ];
@@ -87,6 +89,7 @@ class InformasiBerkalaController extends Controller
         $validated = $request->validate([
             'judul'       => 'required|string|max:255',
             'deskripsi'   => 'nullable|string',
+            'tanggal'     => 'required|date',
             'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx|max:10240',
             'gdrive_link' => 'nullable|url',
             'aktif'       => 'boolean',
@@ -96,6 +99,7 @@ class InformasiBerkalaController extends Controller
 
         $item->judul      = $validated['judul'];
         $item->deskripsi  = $validated['deskripsi'] ?? null;
+        $item->tanggal    = $validated['tanggal'];
         $item->aktif      = $request->has('aktif');
         $item->is_blurred = $request->has('is_blurred');
 

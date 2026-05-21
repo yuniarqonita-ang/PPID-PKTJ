@@ -16,10 +16,10 @@ class AddIsBlurredToInformasiTables extends Migration
         Schema::table('informasi_berkalas', function (Blueprint $table) {
             $table->boolean('is_blurred')->default(false)->after('aktif');
         });
-        Schema::table('informasi_serta_mertas', function (Blueprint $table) {
+        Schema::table('informasi_sertamertas', function (Blueprint $table) {
             $table->boolean('is_blurred')->default(false)->after('aktif');
         });
-        Schema::table('informasi_setiap_saats', function (Blueprint $table) {
+        Schema::table('informasi_setiapsaats', function (Blueprint $table) {
             $table->boolean('is_blurred')->default(false)->after('aktif');
         });
         Schema::table('informasi_dikecualikans', function (Blueprint $table) {
@@ -37,10 +37,10 @@ class AddIsBlurredToInformasiTables extends Migration
         Schema::table('informasi_berkalas', function (Blueprint $table) {
             $table->dropColumn('is_blurred');
         });
-        Schema::table('informasi_serta_mertas', function (Blueprint $table) {
+        Schema::table('informasi_sertamertas', function (Blueprint $table) {
             $table->dropColumn('is_blurred');
         });
-        Schema::table('informasi_setiap_saats', function (Blueprint $table) {
+        Schema::table('informasi_setiapsaats', function (Blueprint $table) {
             $table->dropColumn('is_blurred');
         });
         Schema::table('informasi_dikecualikans', function (Blueprint $table) {

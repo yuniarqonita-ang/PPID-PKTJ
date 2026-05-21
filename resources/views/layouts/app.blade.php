@@ -286,15 +286,40 @@
                 max-width: 100% !important;
                 overflow: hidden !important;
             }
-            /* Ensure TinyMCE editor iframe is fully scrollable */
-            .tox-edit-area__iframe {
-                overflow: auto !important;
-            }
+            /* ============================================
+               FIX TINYMCE EDITOR: BISA SCROLL ATAS-BAWAH
+               ============================================ */
+            /* Container utama TinyMCE: pastikan tidak clip konten */
             .tox-tinymce {
                 overflow: visible !important;
+                display: flex !important;
+                flex-direction: column !important;
             }
+            /* Sidebar toolbar wrapper – tidak boleh overflow:hidden */
+            .tox-sidebar-wrap {
+                overflow: visible !important;
+                flex: 1 !important;
+            }
+            /* Area editable: bisa scroll atas-bawah */
             .tox-edit-area {
+                flex: 1 !important;
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
+                position: relative !important;
+            }
+            /* Iframe editor itu sendiri */
+            .tox-edit-area__iframe {
+                width: 100% !important;
+                /* Jangan set height:100% di sini – biarkan TinyMCE atur via JS */
+                border: none !important;
+                display: block !important;
                 overflow: auto !important;
+            }
+            /* Pastikan body di dalam iframe bisa scroll */
+            .tox-tinymce iframe body,
+            .mce-content-body {
+                overflow-y: auto !important;
+                overflow-x: hidden !important;
             }
             /* Fix: Hilangkan whitespace putih kosong di bawah halaman admin */
             /* min-h-screen di dalam content-area menyebabkan ruang kosong berlebih */
@@ -484,12 +509,14 @@
             tinymce.init({
                 selector: '.tinymce-editor, #editor, [id^="editor_"], #deskripsi, #konten, #isi_informasi, #isi_maklumat, #isi_standar, #dasar_hukum, #deskripsi_singkat, textarea[name="konten"], textarea[name="deskripsi"], textarea[name="isi"], textarea[name="isi_informasi"], textarea[name="isi_maklumat"], textarea[name="isi_standar"], textarea[name="jawaban"], textarea[name="isi_prosedur"], textarea[name="dasar_hukum"], textarea[name="konsekuensi_dibuka"], textarea[name="konsekuensi_ditutup"], textarea[name="catatan"], textarea[name="keterangan"]',
                 license_key: 'gpl',
-                height: 550,
+                min_height: 400,
+                max_height: 900,
+                autoresize_bottom_margin: 30,
                 menubar: 'edit insert view format table tools help',
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
-                    'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons', 'noneditable'
+                    'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons', 'noneditable', 'autoresize'
                 ],
                 noneditable_noneditable_class: 'mce-no-border-dummy',
                 toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline forecolor | ' +
@@ -497,7 +524,7 @@
                          'bullist numlist outdent indent | link image media emoticons | premium_blur insert_preview insert_gdrive removeformat fullscreen',
                 skin: 'oxide',
                 content_css: 'default',
-                content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #0f172a; padding: 20px; line-height: 1.6; }',
+                content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #0f172a; padding: 20px; line-height: 1.6; min-height: 200px; }',
                 branding: false,
                 promotion: false,
                 image_title: true,
@@ -727,18 +754,32 @@
             $(document).on('submit', 'form', function() { if (typeof tinymce !== 'undefined') tinymce.triggerSave(); });
         </script>
         <!-- PREMIUM DOCUMENT VIEWER MODAL (UNIVERSAL) -->
-        <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true" style="z-index: 9999;">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
-                <div class="modal-content border-0 shadow-2xl overflow-hidden" style="border-radius: 24px; background: #fff;">
-                    <div class="modal-header border-0 p-0">
-                        <button type="button" class="btn-close btn-close-dark position-absolute top-0 end-0 m-4 shadow-lg" data-bs-dismiss="modal" aria-label="Close" style="z-index: 10000;"></button>
-                    </div>
-                    <div class="modal-body p-0 overflow-hidden" style="height: 85vh; background: #fff;">
-                        <iframe id="previewIframe" src="" frameborder="0" style="width: 100%; height: 100%; background: #fff;"></iframe>
+        <style>
+            #previewModal .modal-content { height:100%; background:#e8ecf0; border-radius:0; border:none; }
+            #previewModal .modal-body { flex:1; padding:0; overflow:hidden; position:relative; }
+            #previewModal .modal-body iframe { width:100%; height:100%; border:none; display:block; background:#e8ecf0; }
+            #previewModal .btn-close-custom {
+                position:absolute; top:10px; right:10px; z-index:9999;
+                background:rgba(0,0,0,0.6); border:none; border-radius:50%;
+                width:38px; height:38px; color:white; font-size:20px; font-weight:bold;
+                cursor:pointer; display:flex; align-items:center; justify-content:center;
+                line-height:1; backdrop-filter:blur(4px); transition:background 0.2s;
+            }
+            #previewModal .btn-close-custom:hover { background:rgba(0,0,0,0.85); }
+        </style>
+        <div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true" style="z-index:9999;">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <button class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+                        <iframe id="previewIframe" src="" frameborder="0" allowfullscreen></iframe>
                     </div>
                 </div>
             </div>
         </div>
+
+        <!-- Bootstrap JS Bundle for Modal Previews -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {
@@ -751,13 +792,6 @@
                         const button = event.relatedTarget;
                         if (button) {
                             const url = button.getAttribute('data-url');
-                            const dialog = previewModal.querySelector('.modal-dialog');
-                            dialog.classList.remove('modal-xl', 'modal-lg');
-                            if (url && url.match(/\.(jpg|jpeg|png|webp|gif)/i)) {
-                                dialog.classList.add('modal-lg');
-                            } else {
-                                dialog.classList.add('modal-xl');
-                            }
                             if (url) previewIframe.src = url;
                         }
                     });
@@ -784,21 +818,11 @@
                                 e.preventDefault();
                                 if (typeof bootstrap !== 'undefined') {
                                     const modalInstance = bootstrap.Modal.getOrCreateInstance(previewModal);
-                                    const dialog = previewModal.querySelector('.modal-dialog');
-                                    
-                                    dialog.classList.remove('modal-xl', 'modal-lg');
-                                    if (url.match(/\.(jpg|jpeg|png|webp|gif)/i)) {
-                                        dialog.classList.add('modal-lg');
-                                    } else {
-                                        dialog.classList.add('modal-xl');
-                                    }
-
                                     let finalUrl = url;
                                     if (isDirectDoc && !isPreview) {
                                         const relativePath = url.split('/storage/').pop();
                                         finalUrl = `/preview-dokumen?file=storage/${relativePath}`;
                                     }
-
                                     previewIframe.src = finalUrl;
                                     modalInstance.show();
                                 } else {

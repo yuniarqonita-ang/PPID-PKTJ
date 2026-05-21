@@ -5,17 +5,14 @@ $kernel = $app->make(Illuminate\Contracts\Console\Kernel::class);
 $kernel->bootstrap();
 
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 $tables = ['informasi_berkalas', 'informasi_sertamertas', 'informasi_setiapsaats', 'informasi_dikecualikans'];
 foreach ($tables as $table) {
     if (Schema::hasTable($table)) {
-        $rows = DB::table($table)->select('*')->get();
-        echo "Data for $table:\n";
-        print_r($rows->toArray());
+        $columns = Schema::getColumnListing($table);
+        echo "Table: $table\n";
+        echo "Columns: " . implode(', ', $columns) . "\n\n";
     } else {
-        echo "Table $table does not exist.\n";
+        echo "Table $table does not exist.\n\n";
     }
 }
-
-

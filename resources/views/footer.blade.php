@@ -135,10 +135,47 @@
     @endif
 </style>
 
-@if($settings['premium_view_enabled'] ?? false)
 <script>
     document.addEventListener('DOMContentLoaded', function() {
+        // --- HELPERS ---
+        function getOriginalDocUrl(src) {
+            if (!src) return '';
+            if (src.includes('drive.google.com')) {
+                let match = src.match(/\/d\/([a-zA-Z0-9_-]+)/);
+                if (match && match[1]) {
+                    return `https://drive.google.com/file/d/${match[1]}/view`;
+                }
+                return src;
+            }
+            if (src.includes('/preview-dokumen')) {
+                try {
+                    let urlObj = new URL(src, window.location.origin);
+                    let filePath = urlObj.searchParams.get('file');
+                    if (filePath) {
+                        if (filePath.includes('drive.google.com')) {
+                            return getOriginalDocUrl(filePath);
+                        }
+                        return window.location.origin + '/' + filePath;
+                    }
+                } catch(e) {
+                    console.error(e);
+                }
+            }
+            return src;
+        }
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
         // 1. HANDLE PREMIUM BLUR (MANUAL & AUTOMATIC)
+        @if($settings['premium_view_enabled'] ?? false)
         const processBlur = (el) => {
             if (el.dataset.blurProcessed) return;
             el.dataset.blurProcessed = "true";
@@ -171,23 +208,209 @@
         };
 
         document.querySelectorAll('.premium-blur').forEach(processBlur);
+        @endif
 
-        // 2. HANDLE GOOGLE DRIVE EMBEDS (CONVERT VIEW TO PREVIEW)
+        // 2. DYNAMICALLY ENHANCE ALL GOOGLE DRIVE EMBEDS & PREVIEW IFRAMES
         document.querySelectorAll('iframe').forEach(iframe => {
+            // Skip modal iframes, in-page custom views, or admin panels
+            if (iframe.closest('#previewModal') || iframe.closest('#gdrive-frame-wrapper') || window.location.pathname.includes('/admin')) {
+                return;
+            }
+
             let src = iframe.getAttribute('src');
-            if (src && src.includes('drive.google.com')) {
-                // Convert /view?usp=sharing to /preview
-                if (src.includes('/view')) {
-                    src = src.replace(/\/view.*/, '/preview');
-                    iframe.setAttribute('src', src);
+            if (src) {
+                // Determine if blurred from parent container
+                let parentBox = iframe.closest('.premium-box-outer');
+                let isBlurred = false;
+                if (parentBox) {
+                    isBlurred = parentBox.getAttribute('data-blurred') === '1' || parentBox.classList.contains('premium-blur');
+                } else if (iframe.classList.contains('premium-blur')) {
+                    isBlurred = true;
                 }
-                
-                // Add professional styling to the iframe
-                iframe.style.width = '100%';
-                iframe.style.minHeight = '500px';
-                iframe.style.borderRadius = '12px';
-                iframe.style.border = '1px solid #e2e8f0';
-                iframe.style.boxShadow = '0 10px 25px rgba(0,0,0,0.05)';
+
+                // Respect original size of the iframe itself
+                let customWidth = '100%';
+                let customHeight = '700px';
+
+                let originalWidth = iframe.getAttribute('width') || iframe.style.width;
+                let originalHeight = iframe.getAttribute('height') || iframe.style.height;
+
+                if (originalWidth && originalWidth.trim() !== '') {
+                    customWidth = isNaN(originalWidth) ? originalWidth : `${originalWidth}px`;
+                }
+                if (originalHeight && originalHeight.trim() !== '') {
+                    customHeight = isNaN(originalHeight) ? originalHeight : `${originalHeight}px`;
+                }
+
+                // If parentBox specifies explicit size, that takes precedence (edited in CMS)
+                if (parentBox) {
+                    let dataWidth = parentBox.getAttribute('data-width');
+                    if (dataWidth && dataWidth.trim() !== '') {
+                        customWidth = isNaN(dataWidth) ? dataWidth : `${dataWidth}px`;
+                    }
+                    let dataHeight = parentBox.getAttribute('data-height');
+                    if (dataHeight && dataHeight.trim() !== '') {
+                        customHeight = isNaN(dataHeight) ? dataHeight : `${dataHeight}px`;
+                    }
+                }
+
+                // Transform URL for clean premium display
+                let isLocalPreview = src.includes('preview-dokumen');
+                let isDirectDrive = src.includes('drive.google.com') && !isLocalPreview;
+
+                if (isLocalPreview) {
+                    try {
+                        let separator = src.includes('?') ? '&' : '?';
+                        if (!src.includes('embed=')) {
+                            src += separator + 'embed=1';
+                            separator = '&';
+                        }
+                        if (isBlurred && !src.includes('is_blurred=')) {
+                            src += separator + 'is_blurred=1';
+                        }
+                        iframe.setAttribute('src', src);
+                    } catch (e) {
+                        console.error('Error enhancing preview src:', e);
+                    }
+                } else if (isDirectDrive) {
+                    // Convert direct Google Drive link into our custom borderless previewer!
+                    let driveId = '';
+                    let match = src.match(/\/d\/([a-zA-Z0-9_-]+)/) || src.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+                    if (match && match[1]) {
+                        driveId = match[1];
+                    }
+                    if (driveId) {
+                        let previewUrl = `/preview-dokumen?file=https://drive.google.com/file/d/${driveId}/preview&embed=1`;
+                        if (isBlurred) {
+                            previewUrl += '&is_blurred=1';
+                        }
+                        src = previewUrl;
+                        iframe.setAttribute('src', src);
+                        isLocalPreview = true; // Mark as local preview now
+                    }
+                }
+
+                // Style the iframe (completely borderless and premium)
+                iframe.style.setProperty('width', '100%', 'important');
+                iframe.style.setProperty('border', 'none', 'important');
+                iframe.style.setProperty('border-radius', '0', 'important');
+                iframe.style.setProperty('box-shadow', 'none', 'important');
+                iframe.style.setProperty('display', 'block', 'important');
+                iframe.style.setProperty('margin', '0', 'important');
+
+                if (isBlurred) {
+                    if (isLocalPreview) {
+                        // The local preview page handles its own selective page-level blur internally!
+                        // So we DO NOT apply a hard blur to the outer iframe, keeping page 1 readable!
+                        iframe.style.setProperty('pointer-events', 'auto', 'important');
+                        iframe.setAttribute('scrolling', 'yes');
+                        
+                        if (parentBox) {
+                            parentBox.style.setProperty('display', 'block', 'important');
+                            parentBox.style.setProperty('position', 'relative', 'important');
+                            parentBox.style.setProperty('width', '100%', 'important');
+                            parentBox.style.setProperty('max-width', customWidth, 'important');
+                            parentBox.style.setProperty('height', customHeight, 'important');
+                            parentBox.style.setProperty('margin', '20px auto', 'important');
+                            parentBox.style.setProperty('border', 'none', 'important');
+                            parentBox.style.setProperty('box-shadow', 'none', 'important');
+                            parentBox.style.setProperty('background', 'transparent', 'important');
+                        }
+                    } else {
+                        // Hard full blur for non-custom external iframes
+                        iframe.style.setProperty('pointer-events', 'none', 'important');
+                        iframe.style.setProperty('filter', 'blur(12px)', 'important');
+                        iframe.setAttribute('scrolling', 'no');
+
+                        if (parentBox) {
+                            parentBox.style.setProperty('display', 'block', 'important');
+                            parentBox.style.setProperty('position', 'relative', 'important');
+                            parentBox.style.setProperty('width', '100%', 'important');
+                            parentBox.style.setProperty('max-width', customWidth, 'important');
+                            parentBox.style.setProperty('height', customHeight, 'important');
+                            parentBox.style.setProperty('margin', '20px auto', 'important');
+                            parentBox.style.setProperty('overflow', 'hidden', 'important');
+                            parentBox.style.setProperty('border-radius', '16px', 'important');
+                            parentBox.style.setProperty('border', '1px solid #e2e8f0', 'important');
+                            parentBox.style.setProperty('box-shadow', '0 20px 40px rgba(0,74,153,0.08)', 'important');
+                            parentBox.style.setProperty('background', '#fff', 'important');
+
+                            // Render premium full-blur overlay
+                            if (!parentBox.querySelector('.premium-blur-overlay')) {
+                                const overlay = document.createElement('div');
+                                overlay.className = 'premium-blur-overlay';
+                                overlay.style.cssText = 'position: absolute; inset: 0; z-index: 50; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px; background: rgba(255, 255, 255, 0.45); backdrop-filter: blur(2px);';
+                                
+                                const iconWrap = document.createElement('div');
+                                iconWrap.style.cssText = 'width: 64px; height: 64px; background: rgba(0, 74, 153, 0.1); color: #004a99; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0, 74, 153, 0.1);';
+                                iconWrap.innerHTML = '<i class="fas fa-lock"></i>';
+                                
+                                const text = document.createElement('div');
+                                text.className = 'premium-blur-text';
+                                text.style.cssText = 'color: #004a99; font-weight: 800; font-size: 1.1rem; margin-bottom: 20px; text-transform: uppercase; max-width: 500px; text-shadow: 0 0 10px rgba(255,255,255,0.8); line-height: 1.4;';
+                                text.innerText = "{{ $settings['premium_view_blur_text'] ?? 'Dokumen ini dikunci untuk alasan keamanan. Silakan ajukan permohonan informasi untuk melihat konten lengkap.' }}";
+                                
+                                const btn = document.createElement('a');
+                                btn.className = 'premium-blur-btn';
+                                btn.href = "{{ $settings['premium_view_cta_url'] ?? route('permohonan.form') }}";
+                                btn.style.cssText = 'background: #ffc107; color: #004a99; padding: 12px 30px; border-radius: 50px; font-weight: 900; text-decoration: none; text-transform: uppercase; font-size: 13px; box-shadow: 0 10px 25px rgba(255, 193, 7, 0.4); border: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;';
+                                btn.innerHTML = '<i class="fas fa-file-signature"></i> Ajukan Permohonan';
+                                
+                                btn.onmouseover = () => {
+                                    btn.style.transform = 'translateY(-3px)';
+                                    btn.style.boxShadow = '0 15px 30px rgba(255, 193, 7, 0.6)';
+                                };
+                                btn.onmouseout = () => {
+                                    btn.style.transform = 'translateY(0)';
+                                    btn.style.boxShadow = '0 10px 25px rgba(255, 193, 7, 0.4)';
+                                };
+                                
+                                overlay.appendChild(iconWrap);
+                                overlay.appendChild(text);
+                                overlay.appendChild(btn);
+                                parentBox.appendChild(overlay);
+                            }
+                        }
+                    }
+                } else {
+                    // Normal document display
+                    iframe.style.setProperty('pointer-events', 'auto', 'important');
+                    iframe.setAttribute('scrolling', 'yes');
+
+                    if (parentBox) {
+                        parentBox.style.setProperty('display', 'block', 'important');
+                        parentBox.style.setProperty('position', 'relative', 'important');
+                        parentBox.style.setProperty('width', '100%', 'important');
+                        parentBox.style.setProperty('max-width', customWidth, 'important');
+                        parentBox.style.setProperty('height', customHeight, 'important');
+                        parentBox.style.setProperty('margin', '20px auto', 'important');
+                        parentBox.style.setProperty('border', 'none', 'important');
+                        parentBox.style.setProperty('box-shadow', 'none', 'important');
+                        parentBox.style.setProperty('background', 'transparent', 'important');
+                    } else {
+                        iframe.style.setProperty('height', customHeight, 'important');
+                        iframe.style.setProperty('margin', '20px 0', 'important');
+                    }
+                }
+            }
+        });
+
+        // 3. LISTEN FOR RESIZE MESSAGES FROM EMBEDDED DOCS FOR NATURAL SCROLLING
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.type === 'resize-iframe') {
+                const height = event.data.height;
+                document.querySelectorAll('iframe').forEach(iframe => {
+                    if (iframe.contentWindow === event.source) {
+                        // Apply natural scrollable height to the iframe
+                        iframe.style.setProperty('height', height + 'px', 'important');
+                        
+                        // Also expand parent wrapper box if exists
+                        const parentBox = iframe.closest('.premium-box-outer');
+                        if (parentBox) {
+                            parentBox.style.setProperty('height', height + 'px', 'important');
+                        }
+                    }
+                });
             }
         });
 
@@ -200,7 +423,7 @@
                     const driveId = href.match(/\/d\/([^\/]+)/)?.[1];
                     if (driveId) {
                         const baseUrl = "{{ route('preview.dokumen') }}";
-                        const embedUrl = `${baseUrl}?file=${encodeURIComponent(href)}&title=${encodeURIComponent(link.innerText)}&is_blurred=1`;
+                        const embedUrl = `${baseUrl}?file=${encodeURIComponent(href)}&title=${encodeURIComponent(link.innerText)}`;
                         const iframe = document.createElement('iframe');
                         iframe.setAttribute('src', embedUrl);
                         iframe.style.width = '100%';
@@ -217,4 +440,3 @@
         });
     });
 </script>
-@endif
