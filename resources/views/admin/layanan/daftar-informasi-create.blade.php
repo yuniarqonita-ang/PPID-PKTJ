@@ -270,6 +270,17 @@
                         </label>
                     </div>
 
+                    <div class="pt-2 flex items-center justify-between border-t border-slate-100 pt-6">
+                        <div>
+                            <h4 class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Bisa Download</h4>
+                            <p class="text-[10px] text-slate-400 font-bold">Pengunjung dapat mengunduh dokumen secara langsung.</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="bisa_download" value="1" class="sr-only peer">
+                            <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
+                        </label>
+                    </div>
+
                     <div class="pt-2 flex items-center justify-between">
                         <div>
                             <h4 class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Status Aktif</h4>

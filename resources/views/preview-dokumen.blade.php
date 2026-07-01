@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Pratinjau Dokumen' }}</title>
@@ -16,19 +17,24 @@
             --toolbar-height: 56px;
         }
 
-        @if(request()->query('embed') === '1')
+        @if(request()->query('embed') === '1' && request()->query('controls') !== '1')
         :root {
             --toolbar-height: 0px !important;
         }
         #top-bar, #bottom-bar {
             display: none !important;
         }
-        html, body, #page-wrapper, #scroll-area, #viewer-content {
-            height: auto !important;
-            overflow: visible !important;
+        html, body, #page-wrapper, #scroll-area {
+            height: 100% !important;
+            overflow: hidden !important;
+            background: transparent !important;
         }
         #scroll-area {
-            flex: none !important;
+            height: 100% !important;
+            overflow-y: auto !important;
+            overflow-x: hidden !important;
+            display: block !important;
+            background: transparent !important;
         }
         .pdf-page-container {
             margin-bottom: 15px !important;
@@ -39,6 +45,8 @@
         }
         #viewer-content {
             padding: 10px 0 !important;
+            width: 100% !important;
+            max-width: 100% !important;
         }
         @endif
 
@@ -119,7 +127,7 @@
         #scroll-area {
             flex: 1;
             overflow-y: auto;  /* SCROLL ATAS-BAWAH DI SINI */
-            overflow-x: hidden;
+            overflow-x: auto;
             background: #e8ecf0;
             position: relative;
         }
@@ -239,8 +247,7 @@
            =========================== */
         #viewer-content {
             width: 100%;
-            max-width: 100%;
-            overflow-x: hidden;
+            min-width: max-content;
             padding: 24px 0 32px;
             display: flex;
             flex-direction: column;
@@ -253,17 +260,15 @@
             position: relative;
             background: white;
             box-shadow: 0 2px 12px rgba(0,0,0,0.25);
-            width: calc(100% - 32px);
-            max-width: 900px;
-            overflow: hidden;
             border-radius: 4px;
+            margin-left: auto;
+            margin-right: auto;
+            overflow: hidden;
         }
 
-        /* Canvas di dalam setiap halaman — scaling otomatis */
+        /* Canvas di dalam setiap halaman */
         .pdf-page-container canvas {
             display: block;
-            width: 100% !important;
-            height: auto !important;
         }
 
         /* ===========================
@@ -357,6 +362,25 @@
             display: block; 
             margin: auto;
             border-radius: 12px;
+            transition: transform 0.2s ease;
+            transform-origin: top center;
+        }
+
+        /* Image Zoom Toolbar */
+        .image-zoom-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 52px;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 20px;
+            z-index: 200;
+            box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
         }
 
         /* GDrive Premium Blur Overlay */
@@ -482,11 +506,19 @@
                 <div id="viewer-content">
                     <div id="pdf-viewer"></div>
                 </div>
+                <div id="gdrive-frame-wrapper" style="display: none;">
+                    <iframe
+                        src=""
+                        allow="autoplay"
+                        allowfullscreen
+                        id="gdrive-iframe"
+                        style="width:100%; height:100%; border:none; display:block;"></iframe>
+                </div>
 
             @elseif($isImg)
                 {{-- Viewer Gambar --}}
-                <div class="image-preview-container">
-                    <img src="{{ asset($file_path) }}" alt="{{ $title ?? 'Dokumen' }}">
+                <div class="image-preview-container" id="img-container">
+                    <img src="{{ asset($file_path) }}" alt="{{ $title ?? 'Dokumen' }}" id="preview-img" style="transform-origin:top center;">
                     @if($premiumEnabled)
                     <div class="premium-blur-overlay">
                         <div class="blur-icon"><i class="fas fa-lock"></i></div>
@@ -496,6 +528,15 @@
                         </button>
                     </div>
                     @endif
+                </div>
+                {{-- Image Zoom Toolbar --}}
+                <div class="image-zoom-bar" id="img-zoom-bar">
+                    <button class="bar-btn" id="img-zoom-out" title="Perkecil"><i class="fas fa-search-minus"></i></button>
+                    <span id="img-zoom-label" style="color:#94a3b8;font-size:12px;font-weight:600;min-width:52px;text-align:center;">100%</span>
+                    <button class="bar-btn" id="img-zoom-in" title="Perbesar"><i class="fas fa-search-plus"></i></button>
+                    <button class="bar-btn" id="img-zoom-fit" title="Sesuaikan Lebar" style="width:auto;padding:0 10px;font-size:11px;font-weight:700;">FIT</button>
+                    <div class="bar-sep" style="width:1px;height:24px;background:rgba(255,255,255,0.12);margin:0 4px;"></div>
+                    <button class="bar-btn" id="img-zoom-orig" title="Ukuran Asli" style="width:auto;padding:0 10px;font-size:11px;font-weight:700;">1:1</button>
                 </div>
 
             @elseif($isOffice)
@@ -532,15 +573,40 @@
 
             {{-- Zoom --}}
             <button class="bar-btn" id="btn-zoom-out" title="Perkecil"><i class="fas fa-search-minus"></i></button>
-            <span id="zoom-label">100%</span>
+            <select id="zoom-select" style="background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; color: #fff; font-size: 13px; font-weight: 500; height: 36px; padding: 0 10px; cursor: pointer; outline: none; width: 110px;">
+                <option value="0.5" style="background:#1e293b;">50%</option>
+                <option value="0.75" style="background:#1e293b;">75%</option>
+                <option value="1.0" selected style="background:#1e293b;">100%</option>
+                <option value="1.25" style="background:#1e293b;">125%</option>
+                <option value="1.5" style="background:#1e293b;">150%</option>
+                <option value="2.0" style="background:#1e293b;">200%</option>
+                <option value="3.0" style="background:#1e293b;">300%</option>
+                <option value="fit" style="background:#1e293b;">Lebar Pas</option>
+            </select>
             <button class="bar-btn" id="btn-zoom-in" title="Perbesar"><i class="fas fa-search-plus"></i></button>
-            <button class="bar-btn" id="btn-zoom-fit" title="Sesuaikan Lebar" style="width:auto; padding:0 10px; font-size:11px; font-weight:700;">FIT</button>
         </div>{{-- /#bottom-bar --}}
         @endif
 
     </div>{{-- /#page-wrapper --}}
 
     <script>
+    // Force embed styling if loaded inside an iframe (even if embed=1 parameter is missing)
+    const urlParams = new URLSearchParams(window.location.search);
+    const isEmbedMode = (window.self !== window.top) && (urlParams.get('controls') !== '1');
+    if (isEmbedMode) {
+        document.documentElement.classList.add('embedded-frame');
+        const style = document.createElement('style');
+        style.innerHTML = `
+            #top-bar, #bottom-bar { display: none !important; }
+            :root { --toolbar-height: 0px !important; }
+            html, body, #page-wrapper { height: 100% !important; overflow: hidden !important; }
+            #scroll-area { height: 100% !important; overflow-y: auto !important; overflow-x: hidden !important; display: block !important; }
+            .pdf-page-container { margin-bottom: 15px !important; box-shadow: 0 1px 6px rgba(0,0,0,0.15) !important; border-radius: 8px !important; width: 100% !important; max-width: 100% !important; }
+            #viewer-content { padding: 10px 0 !important; width: 100% !important; max-width: 100% !important; }
+        `;
+        document.head.appendChild(style);
+    }
+
     document.addEventListener('DOMContentLoaded', function () {
         const loading = document.getElementById('loading');
         const bottomBar = document.getElementById('bottom-bar');
@@ -550,6 +616,10 @@
         // Helper for iframe auto-resizing when in embed mode
         function sendHeightToParent() {
             @if(request()->query('embed') === '1')
+            // Exclude GDrive and Office previews from auto-resizing via postMessage
+            @if($isGDrive || $isOffice)
+            return;
+            @endif
             if (window.parent && window.parent !== window) {
                 // Measure the actual scroll height of the page content
                 const height = document.documentElement.scrollHeight || document.body.scrollHeight;
@@ -578,6 +648,7 @@
             const blurText = '{{ addslashes($blurText) }}';
             const btnText  = '{{ addslashes($btnText) }}';
             const btnLink  = '{{ $btnLink }}';
+            const blurredPagesStr = '{{ $blurredPages ?? "" }}'; // Custom page blur list
             const container = document.getElementById('pdf-viewer');
             const scrollArea = document.getElementById('scroll-area');
 
@@ -604,9 +675,6 @@
                     const num = idx + 1;
                     rerenderPage(pdfDoc, num, pageDiv);
                 });
-                if (zoomLabel) {
-                    zoomLabel.textContent = Math.round(currentZoom * 100) + '%';
-                }
                 // Send height update after rendering
                 setTimeout(sendHeightToParent, 300);
             }
@@ -614,8 +682,12 @@
             function rerenderPage(pdf, num, pageDiv) {
                 pdf.getPage(num).then(function(page) {
                     const unscaledVp = page.getViewport({ scale: 1 });
-                    const scale = fitWidth / unscaledVp.width * getContainerWidth() * currentZoom;
+                    const scale = (getContainerWidth() / unscaledVp.width) * currentZoom;
                     const viewport = page.getViewport({ scale: scale });
+
+                    // Update pageDiv size
+                    pageDiv.style.width = viewport.width + 'px';
+                    pageDiv.style.height = viewport.height + 'px';
 
                     // Buat canvas baru
                     const oldCanvas = pageDiv.querySelector('canvas');
@@ -631,7 +703,33 @@
                     if (oldCanvas) pageDiv.replaceChild(canvas, oldCanvas);
                     else pageDiv.insertBefore(canvas, pageDiv.firstChild);
 
+                    // Re-render premium overlay if blurred
+                    const oldOverlay = pageDiv.querySelector('.premium-blur-overlay');
+                    if (oldOverlay) oldOverlay.remove();
+
                     page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function() {
+                        let shouldBlur = false;
+                        if (premiumEnabled) {
+                            if (blurredPagesStr) {
+                                const blurredPagesArr = blurredPagesStr.split(',').map(p => p.trim());
+                                shouldBlur = blurredPagesArr.includes(String(num));
+                            } else {
+                                shouldBlur = num > 1;
+                            }
+                        }
+
+                        if (shouldBlur) {
+                            canvas.style.filter = 'blur(8px)';
+                            const overlay = document.createElement('div');
+                            overlay.className = 'premium-blur-overlay';
+                            overlay.innerHTML = `
+                                <div class="blur-icon"><i class="fas fa-lock"></i></div>
+                                <p class="blur-message">${blurText}</p>
+                                <button onclick="window.top.location.href='${btnLink}'" class="btn-premium-action">
+                                    <i class="fas fa-paper-plane"></i> ${btnText}
+                                </button>`;
+                            pageDiv.appendChild(overlay);
+                        }
                         sendHeightToParent();
                     });
                 });
@@ -641,16 +739,16 @@
             function renderPageInitial(pdf, num) {
                 pdf.getPage(num).then(function (page) {
                     const unscaledVp = page.getViewport({ scale: 1 });
-                    // fitWidth = lebar container / lebar halaman native
                     if (num === 1) fitWidth = unscaledVp.width; // simpan lebar referensi
 
-                    const containerW = getContainerWidth();
-                    const scale = (containerW / unscaledVp.width) * currentZoom;
+                    const scale = (getContainerWidth() / unscaledVp.width) * currentZoom;
                     const viewport = page.getViewport({ scale: scale });
 
                     const pageDiv = document.createElement('div');
                     pageDiv.className = 'pdf-page-container';
                     pageDiv.id = 'pdf-page-' + num;
+                    pageDiv.style.width = viewport.width + 'px';
+                    pageDiv.style.height = viewport.height + 'px';
                     PAGE_DIVS.push(pageDiv);
 
                     const canvas = document.createElement('canvas');
@@ -666,7 +764,19 @@
                     container.appendChild(pageDiv);
 
                     page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function () {
-                        if (premiumEnabled && num > 1) {
+                        // Determine if this specific page should be blurred based on checked list
+                        let shouldBlur = false;
+                        if (premiumEnabled) {
+                            if (blurredPagesStr) {
+                                const blurredPagesArr = blurredPagesStr.split(',').map(p => p.trim());
+                                shouldBlur = blurredPagesArr.includes(String(num));
+                            } else {
+                                // Default fallback: blur page 2+
+                                shouldBlur = num > 1;
+                            }
+                        }
+
+                        if (shouldBlur) {
                             canvas.style.filter = 'blur(8px)';
                             const overlay = document.createElement('div');
                             overlay.className = 'premium-blur-overlay';
@@ -678,7 +788,6 @@
                                 </button>`;
                             pageDiv.appendChild(overlay);
                         }
-                        // Send height update to parent as pages load
                         sendHeightToParent();
                     });
                 });
@@ -703,8 +812,6 @@
             }).catch(function (err) {
                 console.error('PDF.js Error:', err);
                 
-                @if($isGDrive)
-                // Fallback to Google Drive native iframe inside #gdrive-frame-wrapper
                 const gdriveWrapper = document.getElementById('gdrive-frame-wrapper');
                 const viewerContent = document.getElementById('viewer-content');
                 if (gdriveWrapper) {
@@ -713,6 +820,16 @@
                     
                     if (viewerContent) viewerContent.style.display = 'none';
                     gdriveWrapper.style.display = 'block';
+                    
+                    const iframe = gdriveWrapper.querySelector('iframe');
+                    if (iframe) {
+                        @if($isGDrive)
+                            // Already has src set in Blade
+                        @else
+                            const publicUrl = '{{ url($file_path) }}';
+                            iframe.src = "https://docs.google.com/gview?url=" + encodeURIComponent(publicUrl) + "&embedded=true";
+                        @endif
+                    }
                     
                     if (premiumEnabled) {
                         const overlay = document.createElement('div');
@@ -725,16 +842,13 @@
                             </button>`;
                         gdriveWrapper.appendChild(overlay);
                         
-                        const iframe = gdriveWrapper.querySelector('iframe');
                         if (iframe) {
                             iframe.style.filter = 'blur(12px)';
                             iframe.style.pointerEvents = 'none';
                         }
                     }
-                    sendHeightToParent();
                     return;
                 }
-                @endif
 
                 loading.style.opacity = '0';
                 setTimeout(() => {
@@ -818,11 +932,50 @@
             const ZOOM_MIN  = 0.5;
             const ZOOM_MAX  = 3.0;
 
+            const zoomSelect = document.getElementById('zoom-select');
+
+            function updateZoomUI(zoomValue) {
+                if (!zoomSelect) return;
+                
+                // Remove temporary option if exists
+                const tempOpt = document.getElementById('temp-zoom-opt');
+                if (tempOpt) tempOpt.remove();
+                
+                const valStr = String(zoomValue);
+                const hasOption = Array.from(zoomSelect.options).some(opt => opt.value === valStr);
+                
+                if (hasOption) {
+                    zoomSelect.value = valStr;
+                } else {
+                    const newOpt = document.createElement('option');
+                    newOpt.id = 'temp-zoom-opt';
+                    newOpt.value = valStr;
+                    newOpt.textContent = Math.round(zoomValue * 100) + '%';
+                    newOpt.selected = true;
+                    newOpt.style.background = '#1e293b';
+                    zoomSelect.insertBefore(newOpt, zoomSelect.firstChild);
+                }
+            }
+
+            if (zoomSelect) {
+                zoomSelect.addEventListener('change', function() {
+                    const val = this.value;
+                    if (val === 'fit') {
+                        currentZoom = 1.0;
+                    } else {
+                        currentZoom = parseFloat(val);
+                    }
+                    updateZoomUI(currentZoom);
+                    rerenderAll();
+                });
+            }
+
             const btnZoomIn = document.getElementById('btn-zoom-in');
             if (btnZoomIn) {
                 btnZoomIn.addEventListener('click', function() {
                     if (currentZoom < ZOOM_MAX) {
                         currentZoom = Math.min(ZOOM_MAX, parseFloat((currentZoom + ZOOM_STEP).toFixed(2)));
+                        updateZoomUI(currentZoom);
                         rerenderAll();
                     }
                 });
@@ -832,32 +985,109 @@
                 btnZoomOut.addEventListener('click', function() {
                     if (currentZoom > ZOOM_MIN) {
                         currentZoom = Math.max(ZOOM_MIN, parseFloat((currentZoom - ZOOM_STEP).toFixed(2)));
+                        updateZoomUI(currentZoom);
                         rerenderAll();
                     }
                 });
             }
-            const btnZoomFit = document.getElementById('btn-zoom-fit');
-            if (btnZoomFit) {
-                btnZoomFit.addEventListener('click', function() {
-                    currentZoom = 1.0;
-                    rerenderAll();
-                });
-            }
 
-            if (zoomLabel) {
-                zoomLabel.textContent = '100%';
-            }
+            // Sync initial zoom select
+            updateZoomUI(currentZoom);
         })();
 
         @elseif($isImg)
-            // Gambar: Sembunyikan loading cepat
-            setTimeout(() => {
-                loading.style.opacity = '0';
+            // Gambar: Sembunyikan loading + aktifkan zoom controls
+            const previewImg = document.getElementById('preview-img');
+            const imgZoomBar = document.getElementById('img-zoom-bar');
+            const imgZoomLabel = document.getElementById('img-zoom-label');
+            let imgZoom = 1.0;
+            const IMG_ZOOM_STEP = 0.25;
+            const IMG_ZOOM_MIN  = 0.25;
+            const IMG_ZOOM_MAX  = 4.0;
+
+            function applyImgZoom() {
+                if (previewImg) {
+                    previewImg.style.transform = `scale(${imgZoom})`;
+                    previewImg.style.transformOrigin = 'top center';
+                    // Adjust container height to fit scaled image
+                    const container = document.getElementById('img-container');
+                    if (container && previewImg) {
+                        const naturalH = previewImg.naturalHeight || previewImg.offsetHeight;
+                        container.style.minHeight = (naturalH * imgZoom) + 'px';
+                        container.style.overflow = 'visible';
+                    }
+                }
+                if (imgZoomLabel) {
+                    imgZoomLabel.textContent = Math.round(imgZoom * 100) + '%';
+                }
+                sendHeightToParent();
+            }
+
+            const btnImgZoomIn = document.getElementById('img-zoom-in');
+            if (btnImgZoomIn) {
+                btnImgZoomIn.addEventListener('click', function() {
+                    imgZoom = Math.min(IMG_ZOOM_MAX, parseFloat((imgZoom + IMG_ZOOM_STEP).toFixed(2)));
+                    applyImgZoom();
+                });
+            }
+            const btnImgZoomOut = document.getElementById('img-zoom-out');
+            if (btnImgZoomOut) {
+                btnImgZoomOut.addEventListener('click', function() {
+                    imgZoom = Math.max(IMG_ZOOM_MIN, parseFloat((imgZoom - IMG_ZOOM_STEP).toFixed(2)));
+                    applyImgZoom();
+                });
+            }
+            const btnImgZoomFit = document.getElementById('img-zoom-fit');
+            if (btnImgZoomFit) {
+                btnImgZoomFit.addEventListener('click', function() {
+                    imgZoom = 1.0;
+                    applyImgZoom();
+                });
+            }
+            const btnImgZoomOrig = document.getElementById('img-zoom-orig');
+            if (btnImgZoomOrig) {
+                btnImgZoomOrig.addEventListener('click', function() {
+                    // Calculate scale that shows image at natural resolution
+                    if (previewImg && previewImg.naturalWidth) {
+                        const containerW = document.getElementById('scroll-area').clientWidth - 32;
+                        imgZoom = previewImg.naturalWidth / containerW;
+                        if (imgZoom > IMG_ZOOM_MAX) imgZoom = IMG_ZOOM_MAX;
+                    } else {
+                        imgZoom = 1.0;
+                    }
+                    applyImgZoom();
+                });
+            }
+
+            // Wait for image to load before showing
+            if (previewImg) {
+                previewImg.addEventListener('load', function() {
+                    loading.style.opacity = '0';
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                        applyImgZoom();
+                        sendHeightToParent();
+                    }, 300);
+                });
+                // Fallback
                 setTimeout(() => {
-                    loading.style.display = 'none';
-                    sendHeightToParent();
-                }, 400);
-            }, 600);
+                    if (loading.style.display !== 'none') {
+                        loading.style.opacity = '0';
+                        setTimeout(() => {
+                            loading.style.display = 'none';
+                            sendHeightToParent();
+                        }, 400);
+                    }
+                }, 3000);
+            } else {
+                setTimeout(() => {
+                    loading.style.opacity = '0';
+                    setTimeout(() => {
+                        loading.style.display = 'none';
+                        sendHeightToParent();
+                    }, 400);
+                }, 600);
+            }
 
         @elseif($isOffice)
             // Iframe (Office) — tidak perlu bottom bar

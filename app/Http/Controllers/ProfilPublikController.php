@@ -113,6 +113,34 @@ class ProfilPublikController extends Controller
         return view('profil-kontak', compact('profil', 'settings'));
     }
 
+    public function submitKontak(\Illuminate\Http\Request $request)
+    {
+        $request->validate([
+            'nama' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'telepon' => 'required|string|max:20',
+            'judul' => 'required|string|max:255',
+            'pesan' => 'required|string',
+            'captcha' => 'required|integer',
+            'captcha_answer' => 'required|integer',
+        ], [
+            'nama.required' => 'Nama lengkap wajib diisi.',
+            'email.required' => 'Email wajib diisi.',
+            'email.email' => 'Format email tidak valid.',
+            'telepon.required' => 'Nomor telepon wajib diisi.',
+            'judul.required' => 'Judul pesan wajib diisi.',
+            'pesan.required' => 'Pesan wajib diisi.',
+        ]);
+
+        if (intval($request->captcha) !== intval($request->captcha_answer)) {
+            return back()->withErrors(['captcha' => 'Jawaban Captcha tidak tepat. Silakan coba lagi.'])->withInput();
+        }
+
+        \App\Models\PesanKontak::create($request->only(['nama', 'email', 'telepon', 'judul', 'pesan']));
+
+        return back()->with('success_message', 'Terima kasih! Pesan, saran, atau pengaduan Anda berhasil terkirim. Tim kami akan segera menindaklanjutinya.');
+    }
+
     /**
      * Generic method for dynamic pages (SOP, Maklumat, Laporan)
      */
@@ -199,12 +227,154 @@ class ProfilPublikController extends Controller
         }
 
         // Fetch reports dynamically based on type
+        $useTanggal = false;
+        try {
+            $useTanggal = \Illuminate\Support\Facades\Schema::hasColumn('dokumens', 'tanggal');
+        } catch (\Exception $e) {
+            // Fallback safely if database is offline or schema cannot be queried
+        }
+
+        $sopCategoryMap = [
+            'sop_permintaan' => 'SOP Permintaan Informasi Publik',
+            'sop_keberatan' => 'SOP Penanganan Keberatan',
+            'sop_sengketa' => 'SOP Pengajuan Sengketa Informasi Publik',
+            'sop_penetapan' => 'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik',
+            'sop_pengujian' => 'SOP Pengujian Konsekuensi',
+            'sop_pendokumentasian' => 'SOP Pendokumentasian Informasi Publik',
+        ];
+
+        if (isset($sopCategoryMap[$type])) {
+            $catName = $sopCategoryMap[$type];
+            $query = \App\Models\Dokumen::where('kategori', $catName)->where('aktif', true);
+            $extraData['laporan'] = $useTanggal 
+                ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
+                : $query->orderBy('created_at', 'desc')->get();
+        }
+
         if ($type === 'laporan-layanan') {
-            $extraData['laporan'] = \App\Models\Dokumen::where('kategori', 'Laporan Layanan')->latest()->get();
+            $query = \App\Models\Dokumen::where('kategori', 'Laporan Layanan')->where('aktif', true);
+            $extraData['laporan'] = $useTanggal 
+                ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
+                : $query->orderBy('created_at', 'desc')->get();
         } elseif ($type === 'laporan-akses') {
-            $extraData['laporan'] = \App\Models\Dokumen::where('kategori', 'Laporan Akses')->latest()->get();
+            $query = \App\Models\Dokumen::where('kategori', 'Laporan Akses')->where('aktif', true);
+            $extraData['laporan'] = $useTanggal 
+                ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
+                : $query->orderBy('created_at', 'desc')->get();
+
+            // Aggregations for Laporan Akses Visualizations
+            $dbYears = collect();
+            try {
+                if (\Illuminate\Support\Facades\Schema::hasTable('permohonan')) {
+                    $dbYears = \App\Models\Permohonan::selectRaw('YEAR(tanggal_permohonan) as year')
+                        ->whereNotNull('tanggal_permohonan')
+                        ->distinct()
+                        ->pluck('year');
+                }
+            } catch (\Exception $e) {
+                // Ignore
+            }
+            
+            if ($dbYears->isEmpty()) {
+                $dbYears = collect([2024, date('Y')]);
+            }
+            $available_years = $dbYears->unique()->sortDesc()->values();
+            
+            $selectedYear = request('filter_year', $available_years->first());
+            
+            $monthlyData = [];
+            $months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+            
+            $totalYearly = 0;
+            $ditindaklanjuti = 0;
+            $perorangan = 0;
+            $kelompok = 0;
+            $badanHukum = 0;
+            $medsos = 0;
+            $website = 0;
+            
+            try {
+                if (\Illuminate\Support\Facades\Schema::hasTable('permohonan')) {
+                    foreach (range(1, 12) as $m) {
+                        $mQuery = \App\Models\Permohonan::whereYear('tanggal_permohonan', $selectedYear)->whereMonth('tanggal_permohonan', $m);
+                        
+                        $total = (clone $mQuery)->count();
+                        $diterima = (clone $mQuery)->where('status', 'selesai')->count();
+                        $ditolak = (clone $mQuery)->where('status', 'ditolak')->count();
+                        
+                        $monthlyData[] = [
+                            'bulan' => $months[$m - 1],
+                            'total' => $total,
+                            'diterima' => $diterima,
+                            'ditolak' => $ditolak
+                        ];
+                    }
+                    
+                    $totalYearly = \App\Models\Permohonan::whereYear('tanggal_permohonan', $selectedYear)->count();
+                    $ditindaklanjuti = \App\Models\Permohonan::whereYear('tanggal_permohonan', $selectedYear)
+                        ->whereIn('status', ['diproses', 'selesai', 'ditolak'])->count();
+                    
+                    $allYearly = \App\Models\Permohonan::whereYear('tanggal_permohonan', $selectedYear)->get();
+                    foreach ($allYearly as $p) {
+                        $cat = 'Perorangan';
+                        if ($p->custom_fields_data) {
+                            $cData = is_array($p->custom_fields_data) ? $p->custom_fields_data : json_decode($p->custom_fields_data, true);
+                            $cat = $cData['jenis_pemohon'] ?? 'Perorangan';
+                        }
+                        
+                        if (stripos($cat, 'Perorangan') !== false) {
+                            $perorangan++;
+                        } elseif (stripos($cat, 'Badan Hukum') !== false) {
+                            $badanHukum++;
+                        } else {
+                            $kelompok++;
+                        }
+                        
+                        $met = 'E-PPID/Website';
+                        if ($p->custom_fields_data) {
+                            $cData = is_array($p->custom_fields_data) ? $p->custom_fields_data : json_decode($p->custom_fields_data, true);
+                            $met = $cData['metode'] ?? ($cData['cara_mendapatkan'] ?? 'E-PPID/Website');
+                        }
+                        
+                        if (stripos($met, 'Medsos') !== false || stripos($met, 'Media Sosial') !== false) {
+                            $medsos++;
+                        } else {
+                            $website++;
+                        }
+                    }
+                }
+            } catch (\Exception $e) {
+                // Keep defaults if table doesn't exist
+            }
+            
+            if (empty($monthlyData)) {
+                foreach ($months as $mName) {
+                    $monthlyData[] = ['bulan' => $mName, 'total' => 0, 'diterima' => 0, 'ditolak' => 0];
+                }
+            }
+            
+            $belum_ditindaklanjuti = $totalYearly - $ditindaklanjuti;
+            
+            $extraData['available_years'] = $available_years;
+            $extraData['selectedYear'] = $selectedYear;
+            $extraData['monthlyData'] = $monthlyData;
+            $extraData['totalYearly'] = $totalYearly;
+            $extraData['ditindaklanjuti'] = $ditindaklanjuti;
+            $extraData['belum_ditindaklanjuti'] = $belum_ditindaklanjuti;
+            $extraData['categories'] = [
+                'perorangan' => $perorangan,
+                'kelompok' => $kelompok,
+                'badan_hukum' => $badanHukum
+            ];
+            $extraData['channels'] = [
+                'medsos' => $medsos,
+                'website' => $website
+            ];
         } elseif ($type === 'laporan-survey') {
-            $extraData['laporan'] = \App\Models\Dokumen::where('kategori', 'Laporan Survey')->latest()->get();
+            $query = \App\Models\Dokumen::where('kategori', 'Laporan Survey')->where('aktif', true);
+            $extraData['laporan'] = $useTanggal 
+                ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
+                : $query->orderBy('created_at', 'desc')->get();
         }
 
         // Check if view exists, otherwise use a generic skeleton
@@ -232,6 +402,7 @@ class ProfilPublikController extends Controller
 
         // Search for is_blurred flag
         $isBlurred = false;
+        $blurredPages = $request->query('blurred_pages', '');
         
         // 1. Priority: Explicit flag from request (used by TinyMCE button)
         if ($request->has('is_blurred')) {
@@ -250,12 +421,19 @@ class ProfilPublikController extends Controller
 
             if ($di) {
                 $isBlurred = (bool)$di->is_blurred;
+            } else {
+                $dok = \App\Models\Dokumen::where('file_path', $pathWithoutStorage)
+                    ->orWhere('file_path', $file_path)
+                    ->first();
+                if ($dok) {
+                    $isBlurred = (bool)$dok->is_blurred;
+                }
             }
         }
 
         $settings = Dashboard::pluck('value', 'key')->toArray();
 
-        return view('preview-dokumen', compact('file_path', 'title', 'settings', 'isBlurred'));
+        return view('preview-dokumen', compact('file_path', 'title', 'settings', 'isBlurred', 'blurredPages'));
     }
 
     /**

@@ -23,7 +23,21 @@ class Dokumen extends Model
         'file_path',
         'kategori',
         'user_id',
-        'is_blurred'
+        'is_blurred',
+        'bisa_download',
+        'tanggal',
+        'deskripsi',
+        'file_name',
+        'file_size',
+        'file_type',
+        'aktif'
+    ];
+
+    protected $casts = [
+        'is_blurred' => 'boolean',
+        'bisa_download' => 'boolean',
+        'aktif' => 'boolean',
+        'tanggal' => 'date'
     ];
 
     /**

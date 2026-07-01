@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $profil->judul ?? 'Struktur Organisasi' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
@@ -12,8 +13,8 @@
     
     <style>
         :root {
-            --primary-blue: {{ $settings['primary_color'] ?? '#004A99' }};
-            --secondary-gold: {{ $settings['secondary_color'] ?? '#FFC107' }};
+            --primary-blue: {{ !empty($settings['primary_color']) ? $settings['primary_color'] : '#004A99' }};
+            --secondary-gold: {{ !empty($settings['secondary_color']) ? $settings['secondary_color'] : '#FFC107' }};
         }
         
         body { 
@@ -107,6 +108,28 @@
     <div class="container mb-5">
         <div class="content-card">
             @if($profil)
+                @php
+                    $videoUrl = $settings['struktur_youtube_link'] ?? null;
+                    $embedUrl = null;
+                    if ($videoUrl) {
+                        $videoUrl = trim($videoUrl);
+                        $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/ ]{11})/i';
+                        if (preg_match($pattern, $videoUrl, $matches)) {
+                            $embedUrl = "https://www.youtube.com/embed/" . $matches[1];
+                        } elseif (preg_match('/^[a-zA-Z0-9_-]{11}$/', $videoUrl)) {
+                            $embedUrl = "https://www.youtube.com/embed/" . $videoUrl;
+                        }
+                    }
+                @endphp
+
+                @if($embedUrl)
+                    <div class="video-container mb-5 rounded-4 overflow-hidden shadow-sm border border-slate-100">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="{{ $embedUrl }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                @endif
+
                 @if($profil->konten_pembuka)
                     <div class="mb-5 rich-content">
                         <h2 class="section-title">Dasar Struktur</h2>

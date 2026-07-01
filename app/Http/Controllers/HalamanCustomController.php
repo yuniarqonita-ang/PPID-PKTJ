@@ -16,6 +16,11 @@ class HalamanCustomController extends Controller
         // 1. Handle regular inputs (text, date, tinymce html)
         $inputs = $request->except(['_token', '_method']);
         
+        // Checkboxes check (if unchecked, they won't be sent in the request)
+        if (in_array($type, ['laporan_layanan', 'laporan_akses', 'laporan_survey'])) {
+            $inputs['bisa_download'] = $request->has('bisa_download') ? '1' : '0';
+        }
+        
         foreach ($inputs as $key => $value) {
             // Skip keys that are actually files
             if ($request->hasFile($key)) continue;

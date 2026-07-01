@@ -1,5 +1,30 @@
 <?php
 
+if (!function_exists('is_previewable')) {
+    function is_previewable($file_path) {
+        if (!$file_path || $file_path === '#' || $file_path === '') {
+            return false;
+        }
+        
+        // Check if Google Drive/Docs link
+        if (str_contains($file_path, 'drive.google.com') || str_contains($file_path, 'docs.google.com')) {
+            return true;
+        }
+
+        // Parse path to ignore query parameters
+        $parsedUrl = parse_url($file_path);
+        $path = $parsedUrl['path'] ?? $file_path;
+        $extension = strtolower(pathinfo($path, PATHINFO_EXTENSION));
+        
+        $previewableExtensions = [
+            'pdf', 'jpg', 'jpeg', 'png', 'webp', 'gif',
+            'doc', 'docx', 'xls', 'xlsx', 'ppt', 'pptx'
+        ];
+        
+        return in_array($extension, $previewableExtensions);
+    }
+}
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BeritaController;
@@ -25,6 +50,60 @@ use App\Http\Controllers\HalamanCustomController;
 // DB MIGRATION & CLEANUP: Permanently Drop Keberatans & Obsolete Views
 // ==========================================
 try {
+    // 1. Run migrations programmatically if the latest recovery migration hasn't run yet
+    $hasTable = \Illuminate\Support\Facades\Schema::hasTable('migrations');
+    $hasRun = false;
+    if ($hasTable) {
+        $hasRun = \Illuminate\Support\Facades\DB::table('migrations')
+            ->where('migration', '2026_06_11_030000_convert_sop_hardcoded_to_dokumens')
+            ->exists();
+    }
+    
+    if (!$hasRun) {
+        // Run pending migrations
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        
+        // Seed any missing dashboard/default configurations if needed
+        if (\Illuminate\Support\Facades\Schema::hasTable('dashboards')) {
+            \App\Models\Dashboard::updateOrCreate(
+                ['key' => 'laporan_layanan_ringkasan_eksekutif'],
+                ['value' => '<p>Laporan Pelayanan Informasi Publik menyajikan rincian statistik permohonan informasi yang diterima, diproses, dan diselesaikan oleh PPID PKTJ. Laporan ini merefleksikan transparansi, akuntabilitas, dan komitmen penuh kami dalam melayani seluruh kebutuhan informasi publik masyarakat.</p>', 'type' => 'text', 'aktif' => true]
+            );
+            \App\Models\Dashboard::updateOrCreate(
+                ['key' => 'laporan_akses_ringkasan_eksekutif'],
+                ['value' => '<p>Laporan Akses Informasi menyajikan statistik kunjungan dan frekuensi akses masyarakat terhadap layanan informasi publik PPID PKTJ. Data ini digunakan untuk terus mengevaluasi dan meningkatkan aksesibilitas portal informasi kami agar semakin mudah dijangkau.</p>', 'type' => 'text', 'aktif' => true]
+            );
+            \App\Models\Dashboard::updateOrCreate(
+                ['key' => 'laporan_survey_ringkasan_eksekutif'],
+                ['value' => '<p>Laporan Indeks Survey Kepuasan Masyarakat menyajikan hasil evaluasi masyarakat terhadap kualitas pelayanan informasi publik PPID PKTJ. Hasil survey ini menjadi acuan utama kami untuk terus berinovasi dan memperbaiki kualitas layanan demi kepuasan publik.</p>', 'type' => 'text', 'aktif' => true]
+            );
+        }
+
+        // Clear view cache so new views take effect immediately
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        
+        if (function_exists('opcache_reset')) {
+            @opcache_reset();
+        }
+    }
+
+    // Translate/Update document category names to the exact long spelling
+    if (\Illuminate\Support\Facades\Schema::hasTable('dokumens')) {
+        \Illuminate\Support\Facades\DB::table('dokumens')
+            ->where('kategori', 'SOP Pendokumentasian')
+            ->update(['kategori' => 'SOP Pendokumentasian Informasi Publik']);
+        \Illuminate\Support\Facades\DB::table('dokumens')
+            ->where('kategori', 'SOP Permintaan Informasi')
+            ->update(['kategori' => 'SOP Permintaan Informasi Publik']);
+        \Illuminate\Support\Facades\DB::table('dokumens')
+            ->where('kategori', 'SOP Pengajuan Sengketa')
+            ->update(['kategori' => 'SOP Pengajuan Sengketa Informasi Publik']);
+        \Illuminate\Support\Facades\DB::table('dokumens')
+            ->where('kategori', 'SOP Penetapan Pemutakhiran')
+            ->update(['kategori' => 'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik']);
+    }
+
     if (\Illuminate\Support\Facades\Schema::hasTable('keberatans')) {
         \Illuminate\Support\Facades\Schema::dropIfExists('keberatans');
     }
@@ -74,20 +153,40 @@ Route::redirect('/permohonan-informasi.html', '/permohonan-informasi');
 // ==========================================
 Route::get('/', function () { 
     try {
-        // Ambil data dari database
-        $dokumen = \App\Models\Dokumen::where('aktif', true)->latest()->take(6)->get();
-        $artikel = \App\Models\Berita::where('aktif', true)->latest()->take(3)->get();
-
+        $dokumen = collect([]);
+        if (\Illuminate\Support\Facades\Schema::hasTable('dokumens')) {
+            $dokumen = \App\Models\Dokumen::where('aktif', true)->latest()->take(6)->get();
+        }
+        
+        $artikel = collect([]);
+        if (\Illuminate\Support\Facades\Schema::hasTable('beritas')) {
+            $query = \App\Models\Berita::where('aktif', true);
+            if (\Illuminate\Support\Facades\Schema::hasColumn('beritas', 'tanggal')) {
+                $query->orderBy('tanggal', 'desc');
+            }
+            $artikel = $query->orderBy('created_at', 'desc')->take(3)->get();
+        }
         
         return view('welcome', compact('dokumen', 'artikel')); 
     } catch (\Exception $e) {
-        // Jika error, tampilkan pesan error yang lebih user-friendly
-        return response()->view('errors.500', [], 500);
+        $dokumen = collect([]);
+        $artikel = collect([]);
+        return view('welcome', compact('dokumen', 'artikel'));
     }
 })->name('home');
 
-// Track visitor (enabled)
+// Track visitor (enabled with database self-healing)
 try {
+    if (!\Illuminate\Support\Facades\Schema::hasTable('visitors')) {
+        \Illuminate\Support\Facades\Schema::create('visitors', function (\Illuminate\Database\Schema\Blueprint $table) {
+            $table->id();
+            $table->string('ip');
+            $table->text('user_agent')->nullable();
+            $table->date('tanggal');
+            $table->timestamps();
+        });
+    }
+
     \App\Models\Visitor::firstOrCreate([
         'ip' => request()->ip(),
         'tanggal' => date('Y-m-d')
@@ -150,6 +249,8 @@ Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.lo
 // ==========================================
 // 3. ADMIN DASHBOARD (BACK OFFICE)
 // ==========================================
+Route::redirect('/dashboard', '/admin');
+
 Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Dashboard routes
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -168,10 +269,28 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/', function() { return redirect()->route('halaman.index'); })->name('index');
         
         // CRUD untuk setiap tipe profil
-        Route::get('/{type}', [ProfilPpidController::class, 'edit'])->name('edit');
-        Route::put('/{type}', [ProfilPpidController::class, 'update'])->name('update');
+        Route::get('/profil/{type}', [ProfilPpidController::class, 'edit'])->name('edit');
+        Route::put('/profil/{type}', [ProfilPpidController::class, 'update'])->name('update');
+
         Route::delete('/{type}', [ProfilPpidController::class, 'destroy'])->name('destroy');
     });
+
+    // Pesan Kontak
+    Route::get('/pesan-kontak', [\App\Http\Controllers\PesanKontakController::class, 'index'])->name('admin.pesan-kontak.index');
+    Route::get('/pesan-kontak/{id}', [\App\Http\Controllers\PesanKontakController::class, 'show'])->name('admin.pesan-kontak.show');
+    Route::delete('/pesan-kontak/{id}', [\App\Http\Controllers\PesanKontakController::class, 'destroy'])->name('admin.pesan-kontak.destroy');
+
+    // Temporary route to run migrations and fix db on cPanel
+    Route::get('/setup-db-2025', function() {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            return 'Database migrated successfully!';
+        } catch (\Exception $e) {
+            return 'Migration error: ' . $e->getMessage();
+        }
+    });
+
+
 
     // Agenda CRUD
     Route::resource('agenda', AgendaController::class)->names('admin.agenda');
@@ -288,6 +407,390 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
 });
 
+// Temporary seed route for Informasi Dikecualikan
+Route::get('/seed-dikecualikan-safe-run', function() {
+    try {
+        $records = [
+            [
+                'judul'               => 'Dokumen Hasil Penilaian Proses Penetapan Seleksi Penerimaan Calon Mahasiswa/i',
+                'deskripsi'           => 'Dokumen rincian hasil penilaian proses penetapan seleksi Penerimaan Calon Mahasiswa/i',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Pasal 17 huruf h angka 4: informasi publik yang apabila dibuka dan diberikan kepada pemohon informasi publik dapat mengungkap rahasia pribadi yaitu hasil-hasil evaluasi sehubungan dengan kapabilitas, intelektualitas, dan rekomendasi kemampuan seseorang',
+                'konsekuensi_dibuka'  => 'Dapat mengungkap rahasia pribadi seseorang mengenai hasil evaluasi kapabilitas, intelektualitas, dan rekomendasi kemampuannya.',
+                'konsekuensi_ditutup' => 'Melindungi kerahasiaan dan privasi data pribadi peserta seleksi dari akses pihak ketiga yang tidak berkepentingan.',
+                'jangka_waktu'        => '1 Tahun',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT PKTJ',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'Realisasi Belanja',
+                'deskripsi'           => 'Pengeluaran Belanja BLU PKTJ',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Pasal 17 huruf h angka 3: kondisi keuangan, aset, pendapatan, dan rekening bank seseorang',
+                'konsekuensi_dibuka'  => 'Dapat mengungkap kondisi keuangan, aset, pendapatan, dan rekening bank pribadi seseorang yang bersifat rahasia.',
+                'konsekuensi_ditutup' => 'Menjaga kerahasiaan data finansial pribadi pegawai/pihak terkait sesuai ketentuan perlindungan privasi.',
+                'jangka_waktu'        => '1 Tahun',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT PKTJ',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'Nilai Tes Siswa Diklat',
+                'deskripsi'           => 'Berisi Daftar Nilai Tes Siswa Diklat',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Pasal 17 huruf h angka 4: informasi publik yang apabila dibuka dan diberikan kepada pemohon informasi publik dapat mengungkap rahasia pribadi yaitu hasil-hasil evaluasi sehubungan dengan kapabilitas, intelektualitas, dan rekomendasi kemampuan seseorang',
+                'konsekuensi_dibuka'  => 'Dapat mempublikasikan hasil evaluasi kemampuan pribadi siswa diklat tanpa hak.',
+                'konsekuensi_ditutup' => 'Melindungi privasi hasil evaluasi intelektual dan kemampuan akademik siswa.',
+                'jangka_waktu'        => '1 Tahun / Diberikan jika ada persetujuan tertulis dari pihak/CPNS yang bersangkutan',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT PKTJ',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'Nilai Tes Mahasiswa/i',
+                'deskripsi'           => 'Berisi Daftar Nilai Tes Mahasiswa',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Pasal 17 huruf h angka 4: informasi publik yang apabila dibuka dan diberikan kepada pemohon informasi publik dapat mengungkap rahasia pribadi yaitu hasil-hasil evaluasi sehubungan dengan kapabilitas, intelektualitas, dan rekomendasi kemampuan seseorang',
+                'konsekuensi_dibuka'  => 'Dapat menyebarluaskan riwayat akademik dan nilai evaluasi personal mahasiswa.',
+                'konsekuensi_ditutup' => 'Menjamin perlindungan data pribadi mahasiswa terkait hasil evaluasi akademik.',
+                'jangka_waktu'        => '1 Tahun / Diberikan jika ada persetujuan tertulis dari pihak/CPNS yang bersangkutan',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT PKTJ',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'Hasil Proses Penjatuhan Hukuman',
+                'deskripsi'           => 'Hasil dari Proses Penjatuhan Hukuman Disiplin bagi pegawai',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Undang-Undang No.8 Tahun 1981 tentang Hukum Acara Pidana, Undang-Undang No. 43 Tahun 2009 tentang Kearsipan',
+                'konsekuensi_dibuka'  => 'Dapat mengganggu proses penegakan disiplin dan mencemarkan nama baik pegawai sebelum adanya keputusan yang berkekuatan hukum tetap.',
+                'konsekuensi_ditutup' => 'Menjaga objektivitas proses hukum disiplin dan melindungi hak-hak kepegawaian selama proses berjalan.',
+                'jangka_waktu'        => 'Dibuka setelah ada keputusan tetap dari pimpinan Politeknik Keselamatan Transportasi Jalan',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'Rekam Medis Calon Mahasiswa/i, dan Pegawai di Lingkungan PKTJ',
+                'deskripsi'           => 'Data rekam medis Calon Mahasiswa/i',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Pasal 17 huruf h angka 2: informasi publik yang apabila dibuka dan diberikan kepada pemohon informasi publik dapat mengungkap rahasia pribadi yaitu riwayat, kondisi dan perawatan, pengobatan kesehatan fisik, dan psikis seseorang',
+                'konsekuensi_dibuka'  => 'Mengungkap kondisi kesehatan fisik dan psikis yang sangat bersifat pribadi dan sensitif.',
+                'konsekuensi_ditutup' => 'Menjaga kerahasiaan medis pasien sesuai etika kedokteran dan hukum perlindungan konsumen/pasien.',
+                'jangka_waktu'        => '1 Tahun / Diberikan jika ada persetujuan tertulis dari pihak yang bersangkutan',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT PKTJ',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'Analisis dan Hasil Audit Internal',
+                'deskripsi'           => 'Kegiatan analisis dan hasil audit SPI, SPM dan Inspektorat',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Pasal 17 huruf h angka 3: kondisi keuangan, aset, pendapatan, dan rekening bank seseorang; Undang-Undang No.15 Tahun 2004 tentang Pemeriksaan Pengelolaan dan Tanggung Jawab Keuangan Negara',
+                'konsekuensi_dibuka'  => 'Dapat menimbulkan kesalahpahaman publik terhadap proses evaluasi internal yang belum bersifat final.',
+                'konsekuensi_ditutup' => 'Memberikan ruang bagi tim auditor internal untuk bekerja secara independen dan menyusun rekomendasi perbaikan sebelum dipublikasikan secara resmi.',
+                'jangka_waktu'        => '1 Tahun',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT PKTJ',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'Hasil Proses Penjatuhan Hukuman Pegawai',
+                'deskripsi'           => 'Hasil dari Proses Penjatuhan Hukuman Disiplin bagi pegawai',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Undang-Undang No.8 Tahun 1981 tentang Hukum Acara Pidana, Undang-Undang No. 43 Tahun 2009 tentang Kearsipan',
+                'konsekuensi_dibuka'  => 'Dapat mengganggu penegakan tata tertib disiplin di lingkungan institusi sebelum ada keputusan yang inkrah.',
+                'konsekuensi_ditutup' => 'Melindungi nama baik pegawai dan menjaga kerahasiaan berkas kepegawaian internal.',
+                'jangka_waktu'        => '1 Tahun / Dibuka setelah ada keputusan tetap dari pimpinan PKTJ',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT PKTJ',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'Analisis dan Hasil Audit External',
+                'deskripsi'           => 'Kegiatan analisis dan hasil audit KAP dan BPK',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Pasal 17 huruf h angka 3: kondisi keuangan, aset, pendapatan, dan rekening bank seseorang; Undang-Undang No.15 Tahun 2004 tentang Pemeriksaan Pengelolaan dan Tanggung Jawab Keuangan Negara',
+                'konsekuensi_dibuka'  => 'Dapat memicu interpretasi keliru terhadap laporan keuangan sebelum selesainya audit formal.',
+                'konsekuensi_ditutup' => 'Menjaga objektivitas pemeriksaan laporan keuangan eksternal oleh BPK/KAP.',
+                'jangka_waktu'        => '1 Tahun',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT PKTJ',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'POK PKTJ',
+                'deskripsi'           => 'Berisi tentang Dokumen yang memuat uraian kerja dan biaya yang diperlukan PKTJ',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Pasal 17 huruf h angka 3: kondisi keuangan, aset, pendapatan, dan rekening bank seseorang',
+                'konsekuensi_dibuka'  => 'Membuka rincian alokasi anggaran internal secara mendalam kepada pihak luar yang berpotensi disalahgunakan.',
+                'konsekuensi_ditutup' => 'Melindungi rincian rencana keuangan internal dan efisiensi pengeluaran institusi.',
+                'jangka_waktu'        => '1 Tahun',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT PKTJ',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'Realisasi Penerimaan',
+                'deskripsi'           => 'Pendapatan BLU PKTJ',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Pasal 17 huruf h angka 3: kondisi keuangan, aset, pendapatan, dan rekening bank seseorang',
+                'konsekuensi_dibuka'  => 'Mengungkap data aliran dana masuk secara mendetail yang dapat disalahgunakan.',
+                'konsekuensi_ditutup' => 'Menjaga integritas data finansial penerimaan negara bukan pajak (PNBP) / BLU.',
+                'jangka_waktu'        => '1 Tahun',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT PKTJ',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+            [
+                'judul'               => 'Rekam Medis Calon Taruna, Taruna, dan Pegawai di Lingkungan Politeknik Keselamatan Transportasi Jalan',
+                'deskripsi'           => 'Data rekam medis Calon Tarun',
+                'tanggal'             => '2025-09-19',
+                'dasar_hukum'         => 'Pasal 17 huruf h angka 2 : informasi publik yang apabila dibuka dan diberikan kepada pemohon informasi publik dapat mengungkap rahasia pribadi yaitu riwayat, kondisi dan perawatan, pengobatan kesehatan fisik, dan psikis seseorang',
+                'konsekuensi_dibuka'  => 'Dapat menyebarkan riwayat medis personal yang sangat rahasia tanpa persetujuan.',
+                'konsekuensi_ditutup' => 'Menjaga hak kerahasiaan pasien and integritas riwayat medis pegawai/taruna.',
+                'jangka_waktu'        => 'Diberikan jika ada persetujuan tertulis dari pihak yang bersangkutan',
+                'penanggung_jawab'    => 'PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan',
+                'file_path'           => 'https://drive.google.com/file/d/1OsgYkgEeCjHrSRn5lU5wMdz-h0YrA3mR/view?usp=sharing',
+                'file_name'           => 'Daftar Informasi Dikecualikan (PDF)',
+                'file_size'           => '-',
+                'file_type'           => 'gdrive',
+                'aktif'               => true,
+                'is_blurred'          => false,
+            ],
+        ];
+
+        foreach ($records as $record) {
+            \App\Models\InformasiDikecualikan::updateOrCreate(
+                ['judul' => $record['judul']],
+                $record
+            );
+        }
+        return "SUCCESS: All 12 records of Informasi Dikecualikan have been seeded successfully! You can now visit your admin panel to manage them.";
+    } catch (\Exception $e) {
+        return "ERROR: " . $e->getMessage();
+    }
+});
+
+// Temporary seed route for Daftar Informasi Publik
+Route::get('/seed-daftar-informasi-safe-run', function() {
+    try {
+        $migration = require database_path('migrations/2026_06_05_160000_seed_daftar_informasi_data.php');
+        $migration->up();
+        return "SUCCESS: All 80 records of Daftar Informasi Publik have been seeded successfully! You can now visit your admin panel or public page to view them.";
+    } catch (\Exception $e) {
+        return "ERROR: " . $e->getMessage();
+    }
+});
+
+// Temporary seed route for Laporan Pelayanan Informasi 2024
+Route::get('/seed-laporan-2024-safe-run', function() {
+    try {
+        $data = [
+            'laporan_layanan_judul_hero' => 'Laporan Pelayanan Informasi Publik',
+            'laporan_layanan_tagline_hero' => 'Wujud Komitmen Keterbukaan dan Akuntabilitas PPID Pelaksana UPT PKTJ',
+            'laporan_layanan_tahun_laporan' => '2024',
+            'laporan_layanan_ringkasan_eksekutif' => '<p>Laporan Pelayanan Informasi Publik menyajikan rincian statistik permohonan informasi yang diterima, diproses, dan diselesaikan oleh PPID PKTJ. Laporan ini merefleksikan transparansi, akuntabilitas, dan komitmen penuh kami dalam melayani seluruh kebutuhan informasi publik masyarakat.</p>'
+        ];
+
+        foreach ($data as $key => $val) {
+            \App\Models\Dashboard::updateOrCreate(
+                ['key' => $key],
+                ['value' => $val, 'type' => 'text', 'aktif' => true]
+            );
+        }
+
+        return "SUCCESS: Laporan Pelayanan Informasi 2024 title and summary have been seeded successfully! Go check your public page.";
+    } catch (\Exception $e) {
+        return "ERROR: " . $e->getMessage();
+    }
+});
+
+
+// Diagnostic route for Hero Video
+Route::get('/debug-hero-video', function() {
+    $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+    $heroVidFile = $settings['hero_video_file'] ?? null;
+    $heroVidLink = $settings['hero_video_link'] ?? null;
+
+    $res = "<h1>🔍 Hero Video Diagnostics</h1>";
+    $res .= "<p><b>hero_video_file (DB value):</b> " . ($heroVidFile ?: "<i>(empty)</i>") . "</p>";
+    $res .= "<p><b>hero_video_link (DB value):</b> " . ($heroVidLink ?: "<i>(empty)</i>") . "</p>";
+
+    // Attempt to automatically fix/recreate the symlink!
+    $target = storage_path('app/public');
+    $links = [
+        public_path('storage'),
+        '/home/ppid2026/public_html/storage'
+    ];
+
+    $fixResults = [];
+    foreach ($links as $link) {
+        if (file_exists($link) || is_link($link)) {
+            // Unlink symlink
+            if (is_link($link)) {
+                @unlink($link);
+            } else {
+                @unlink($link);
+            }
+        }
+        if (@symlink($target, $link)) {
+            $fixResults[$link] = "<span style='color:green;'>SUCCESSFULLY CREATED</span>";
+        } else {
+            $fixResults[$link] = "<span style='color:red;'>FAILED (Permission Denied or Symlink Disabled)</span>";
+        }
+    }
+
+    $res .= "<h3>🔧 Symlink Autocure Results:</h3><ul>";
+    foreach ($fixResults as $path => $status) {
+        $res .= "<li><code>$path</code> -> $status</li>";
+    }
+    $res .= "</ul>";
+    
+    $res .= "<h3>📂 File Path Verification:</h3><ul>";
+    if ($heroVidFile) {
+        $storagePath = storage_path('app/public/' . $heroVidFile);
+        $publicPath = public_path('storage/' . $heroVidFile);
+        $publicHtmlPath = '/home/ppid2026/public_html/storage/' . $heroVidFile;
+        
+        $res .= "<li><b>Storage Path (Core):</b> <code>$storagePath</code> -> " . (file_exists($storagePath) ? "<span style='color:green;'>EXISTS (" . number_format(filesize($storagePath) / 1024 / 1024, 2) . " MB)</span>" : "<span style='color:red;'>NOT FOUND</span>") . "</li>";
+        $res .= "<li><b>Public Path (Symlink 1):</b> <code>$publicPath</code> -> " . (file_exists($publicPath) ? "<span style='color:green;'>EXISTS</span>" : "<span style='color:red;'>NOT FOUND</span>") . "</li>";
+        $res .= "<li><b>Public HTML Path (Symlink 2):</b> <code>$publicHtmlPath</code> -> " . (file_exists($publicHtmlPath) ? "<span style='color:green;'>EXISTS</span>" : "<span style='color:red;'>NOT FOUND</span>") . "</li>";
+    } else {
+        $res .= "<li>No file is currently set in the database.</li>";
+    }
+    $res .= "</ul>";
+
+    $res .= "<h3>⚙️ Server Upload Limits:</h3><ul>";
+    $res .= "<li><b>upload_max_filesize:</b> " . ini_get('upload_max_filesize') . "</li>";
+    $res .= "<li><b>post_max_size:</b> " . ini_get('post_max_size') . "</li>";
+    $res .= "<li><b>memory_limit:</b> " . ini_get('memory_limit') . "</li>";
+    $res .= "</ul>";
+
+    return $res;
+});
+
+
+// Diagnostic route for Dokumens Table
+Route::get('/debug-dokumens', function() {
+    try {
+        $tableExists = Schema::hasTable('dokumens');
+        $columns = [];
+        if ($tableExists) {
+            $colQuery = DB::select("SHOW COLUMNS FROM " . DB::connection()->getTablePrefix() . "dokumens");
+            foreach ($colQuery as $col) {
+                $columns[] = $col->Field . " (" . $col->Type . ")";
+            }
+        }
+        $records = $tableExists ? DB::table('dokumens')->get() : [];
+        return response()->json([
+            'database' => DB::connection()->getDatabaseName(),
+            'table_prefix' => DB::connection()->getTablePrefix(),
+            'table_exists' => $tableExists,
+            'columns' => $columns,
+            'records' => $records
+        ], 200, [], JSON_PRETTY_PRINT);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
+});
+
+
+// Diagnostic route to check the view file contents
+Route::get('/debug-view', function() {
+    try {
+        $path = resource_path('views/laporan-layanan-informasi.blade.php');
+        if (file_exists($path)) {
+            return response(file_get_contents($path), 200, ['Content-Type' => 'text/plain']);
+        }
+        return "File not found";
+    } catch (\Exception $e) {
+        return "ERROR: " . $e->getMessage();
+    }
+});
+
+Route::get('/debug-visitors', function() {
+    try {
+        $tableExists = Schema::hasTable('visitors');
+        $columns = [];
+        if ($tableExists) {
+            $colQuery = DB::select("SHOW COLUMNS FROM " . DB::connection()->getTablePrefix() . "visitors");
+            foreach ($colQuery as $col) {
+                $columns[] = $col->Field . " (" . $col->Type . ")";
+            }
+        }
+        $count = $tableExists ? DB::table('visitors')->count() : 0;
+        $records = $tableExists ? DB::table('visitors')->orderBy('tanggal', 'desc')->take(10)->get() : [];
+        
+        // Let's also get all table names
+        $tables = [];
+        $tablesQuery = DB::select('SHOW TABLES');
+        $dbName = DB::connection()->getDatabaseName();
+        $prop = "Tables_in_" . $dbName;
+        foreach ($tablesQuery as $t) {
+            $tables[] = $t->$prop;
+        }
+
+        return response()->json([
+            'database' => $dbName,
+            'table_prefix' => DB::connection()->getTablePrefix(),
+            'visitors_table_exists' => $tableExists,
+            'visitors_columns' => $columns,
+            'visitors_count' => $count,
+            'visitors_records' => $records,
+            'all_tables' => $tables
+        ], 200, [], JSON_PRETTY_PRINT);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
+});
+
+
 // ==========================================
 // 4. FRONTEND USER (PUBLIC PAGES)
 // ==========================================
@@ -302,6 +805,7 @@ Route::name('profil.')->prefix('profil')->group(function () {
     Route::get('/struktur-organisasi', [ProfilPublikController::class, 'showStruktur'])->name('struktur-organisasi');
     Route::get('/regulasi', [ProfilPublikController::class, 'showRegulasi'])->name('regulasi');
     Route::get('/kontak', [ProfilPublikController::class, 'showKontak'])->name('kontak');
+    Route::post('/kontak', [ProfilPublikController::class, 'submitKontak'])->name('kontak.submit');
 });
 
 // Prosedur Routes (Public - Dynamic from Controller)
@@ -321,6 +825,35 @@ Route::name('prosedur.')->prefix('prosedur')->group(function () {
     Route::get('/sop-alur-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_alur_keberatan')->defaults('view', 'sop-generic')->name('sop-alur-keberatan');
 });
 
+// Printable Forms
+Route::get('/dokumen/formulir-permohonan-cetak', function() {
+    return view('dokumen.formulir-permohonan-cetak');
+})->name('dokumen.formulir-permohonan-cetak');
+
+Route::get('/dokumen/formulir-keberatan-cetak', function() {
+    return view('dokumen.formulir-keberatan-cetak');
+})->name('dokumen.formulir-keberatan-cetak');
+
+Route::get('/dokumen/formulir-braille-cetak', function() {
+    return view('dokumen.formulir-braille-cetak');
+})->name('dokumen.formulir-braille-cetak');
+
+Route::get('/dokumen/formulir-braille-word', function() {
+    $html = view('dokumen.formulir-braille-cetak')->render();
+    
+    // Clean up buttons and non-printable structures for Microsoft Word conversion
+    $html = preg_replace('/<div[^>]*class="[^"]*no-print[^"]*"[^>]*>.*?<\/div>/is', '', $html);
+    $html = preg_replace('/<button[^>]*class="[^"]*no-print-btn[^"]*"[^>]*>.*?<\/button>/is', '', $html);
+    
+    return response($html)
+        ->header('Content-Type', 'application/vnd.ms-word')
+        ->header('Content-Disposition', 'attachment; filename="Formulir-Permohonan-Informasi-Braille.doc"');
+})->name('dokumen.formulir-braille-word');
+
+Route::get('/dokumen/laporan-braille', function() {
+    return view('dokumen.laporan-braille');
+})->name('dokumen.laporan-braille');
+
 // Download Route
 Route::get('/download/{model}/{id}', [InformasiPublikController::class, 'downloadFile'])->name('download.file');
 Route::get('/preview-dokumen', [ProfilPublikController::class, 'previewDokumen'])->name('preview.dokumen');
@@ -329,6 +862,31 @@ Route::get('/proxy-gdrive/{id}', [ProfilPublikController::class, 'proxyGdrive'])
 Route::get('/agenda', [AgendaController::class, 'publicIndex'])->name('agenda.public');
 Route::get('/faq', [FaqController::class, 'publicIndex'])->name('faq.public');
 
-// Public Berita Routes
-Route::get('/berita', [BeritaController::class, 'publicIndex'])->name('berita.index');
-Route::get('/berita/{slug}', [BeritaController::class, 'publicShow'])->name('berita.show');
+// Temporary diagnostic route to check categories in the live database
+Route::get('/debug-live-categories', function() {
+    try {
+        $counts = \Illuminate\Support\Facades\DB::table('daftar_informasis')
+            ->select('kategori', \Illuminate\Support\Facades\DB::raw('count(*) as total'))
+            ->groupBy('kategori')
+            ->get();
+        
+        $migrations = \Illuminate\Support\Facades\DB::table('migrations')->get();
+        
+        return response()->json([
+            'database' => \Illuminate\Support\Facades\DB::connection()->getDatabaseName(),
+            'category_counts' => $counts,
+            'migrations' => $migrations
+        ], 200, [], JSON_PRETTY_PRINT);
+    } catch (\Exception $e) {
+        return response()->json(['error' => $e->getMessage()]);
+    }
+});
+
+// Fallback storage server route (serves storage files directly via Laravel when public/storage symlink is broken)
+Route::get('storage/{path}', function ($path) {
+    $filePath = storage_path('app/public/' . $path);
+    if (file_exists($filePath)) {
+        return response()->file($filePath);
+    }
+    abort(404);
+})->where('path', '.*');

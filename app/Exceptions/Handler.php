@@ -46,5 +46,11 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+
+        $this->renderable(function (\Illuminate\Http\Exceptions\PostTooLargeException $e, $request) {
+            return redirect()->back()
+                ->withInput()
+                ->with('error', 'Ukuran file video yang Anda unggah terlalu besar! Silakan gunakan opsi "Link YouTube" saja (tidak perlu upload file), atau naikkan batas upload (upload_max_filesize & post_max_size) di cPanel MultiPHP INI Editor.');
+        });
     }
 }

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daftar Informasi Publik - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
@@ -269,11 +270,20 @@
                             </td>
                             <td>
                                 @if($item->file_informasi)
-                                <button type="button" class="btn btn-sm btn-outline-danger" 
-                                    data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                    data-url="{{ route('preview.dokumen', ['file' => $item->file_informasi, 'title' => $item->judul_informasi, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
-                                    <i class="fas fa-eye"></i> Lihat Dokumen
-                                </button>
+                                <div class="d-flex justify-content-center align-items-center gap-1">
+                                    @if(is_previewable($item->file_informasi))
+                                    <button type="button" class="btn btn-sm btn-outline-danger" 
+                                        data-bs-toggle="modal" data-bs-target="#previewModal" 
+                                        data-url="{{ route('preview.dokumen', ['file' => $item->file_informasi, 'title' => $item->judul_informasi, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
+                                        <i class="fas fa-eye"></i> Lihat Dokumen
+                                    </button>
+                                    @endif
+                                    @if($item->bisa_download)
+                                    <a href="{{ route('download.file', ['model' => 'dip', 'id' => $item->id]) }}" class="btn btn-sm btn-outline-success">
+                                        <i class="fas fa-download"></i> Unduh
+                                    </a>
+                                    @endif
+                                </div>
                                 @else
                                 -
                                 @endif
@@ -288,8 +298,8 @@
                 </table>
             </div>
 
-            <div class="mt-4">
-                {{ $items->links() }}
+            <div class="mt-4 d-flex justify-content-center">
+                {{ $items->links('pagination::bootstrap-4') }}
             </div>
         </div>
     </div>

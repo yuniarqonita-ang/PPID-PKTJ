@@ -11,6 +11,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <title>Laporan Pelayanan PPID - {{ $periodeLabel }}</title>
     <style>

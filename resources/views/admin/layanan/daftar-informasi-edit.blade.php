@@ -210,13 +210,27 @@
                     </div>
                 </div>
 
+                @php
+                    $isGdrive = false;
+                    $gdriveUrl = '';
+                    if ($item->file_informasi && (strpos($item->file_informasi, 'drive.google.com') !== false || strpos($item->file_informasi, 'docs.google.com') !== false)) {
+                        $isGdrive = true;
+                        $gdriveUrl = $item->file_informasi;
+                    }
+                @endphp
+
                 @if($item->file_informasi)
                 <div class="p-4 bg-blue-50 border-2 border-blue-100 rounded-2xl flex items-center justify-between">
                     <div class="flex items-center gap-3">
-                        <i class="fas fa-file-pdf text-2xl text-red-500"></i>
-                        <p class="text-xs font-bold text-slate-500 truncate max-w-xs">File: {{ basename($item->file_informasi) }}</p>
+                        @if($isGdrive)
+                            <i class="fab fa-google-drive text-2xl text-blue-500"></i>
+                            <p class="text-xs font-bold text-slate-500 truncate max-w-xs">Link: Google Drive</p>
+                        @else
+                            <i class="fas fa-file-pdf text-2xl text-red-500"></i>
+                            <p class="text-xs font-bold text-slate-500 truncate max-w-xs">File: {{ basename($item->file_informasi) }}</p>
+                        @endif
                     </div>
-                    <a href="{{ asset($item->file_informasi) }}" target="_blank" class="text-xs font-black text-[#004a99] uppercase hover:underline">Lihat</a>
+                    <a href="{{ $isGdrive ? $item->file_informasi : asset($item->file_informasi) }}" target="_blank" class="text-xs font-black text-[#004a99] uppercase hover:underline">Lihat</a>
                 </div>
                 @endif
 
@@ -225,6 +239,20 @@
                     <i class="fas fa-file-pdf text-4xl text-[#002b5c] mb-3"></i>
                     <p class="text-xs font-black text-[#002b5c] uppercase tracking-widest">Ganti Dokumen (Opsional)</p>
                     <p class="text-xs text-slate-400 mt-1">Format: PDF, DOC, DOCX (Max 20MB)</p>
+                </div>
+
+                {{-- Google Drive Link --}}
+                <div class="space-y-3 pt-2">
+                    <label class="text-sm font-black text-[#002b5c] uppercase tracking-widest flex items-center">
+                        <i class="fab fa-google-drive mr-2 text-blue-500"></i> ATAU Link Google Drive
+                    </label>
+                    <input type="url" name="gdrive_link"
+                        class="w-full px-8 py-5 bg-slate-50 border-2 border-blue-200 rounded-2xl focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all font-bold text-[#002b5c] text-lg"
+                        placeholder="https://drive.google.com/file/d/xxx/view"
+                        value="{{ old('gdrive_link', $gdriveUrl) }}">
+                    <p class="text-[11px] text-blue-500 font-bold">
+                        <i class="fas fa-info-circle mr-1"></i> Jika diisi, link Google Drive ini digunakan sebagai dokumen preview (menggantikan upload file lokal).
+                    </p>
                 </div>
 
                 <!-- IMAGE UPLOAD -->
@@ -244,6 +272,17 @@
                 </div>
 
                 <div class="pt-2 flex items-center justify-between border-t border-slate-100 pt-6">
+                    <div>
+                        <h4 class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Bisa Download</h4>
+                        <p class="text-[10px] text-slate-400 font-bold">Izinkan publik mengunduh dokumen langsung tanpa permohonan.</p>
+                    </div>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" name="bisa_download" value="1" {{ ($item->bisa_download ?? false) ? 'checked' : '' }} class="sr-only peer">
+                        <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
+                    </label>
+                </div>
+
+                <div class="pt-2 flex items-center justify-between">
                     <div>
                         <h4 class="text-sm font-black text-[#002b5c] uppercase tracking-widest">Premium View (Blurring)</h4>
                         <p class="text-[10px] text-slate-400 font-bold">Hanya halaman pertama yang terlihat, sisanya blur.</p>

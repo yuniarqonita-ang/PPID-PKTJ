@@ -47,19 +47,8 @@
                     <!-- Penanggung Jawab -->
                     <div class="space-y-3">
                         <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Penanggung Jawab</label>
-                        @php
-                            $listPj = \App\Models\Dashboard::getValue('list_penanggung_jawab', "PPID UTAMA\nInspektorat Jenderal Kementerian Perhubungan\nDirektorat Jenderal Perhubungan Darat\nDirektorat Jenderal Perhubungan Laut\nDirektorat Jenderal Perhubungan Udara\nDirektorat Jenderal Perkeretaapian\nBadan Kebijakan Transportasi\nBadan Pengembangan Sumber Daya Manusia Perhubungan\nBadan Pengelola Transportasi Jabodetabek");
-                            $options = explode("\n", str_replace("\r", "", $listPj));
-                        @endphp
-                        <select name="penanggung_jawab"
+                        <input type="text" name="penanggung_jawab" value="{{ old('penanggung_jawab', 'PPID Pelaksana UPT PKTJ') }}" placeholder="Contoh: PPID Pelaksana UPT PKTJ"
                             class="w-full px-8 py-5 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c]">
-                            <option value="">-- Pilih Penanggung Jawab --</option>
-                            @foreach($options as $opt)
-                                @if(trim($opt))
-                                    <option value="{{ trim($opt) }}" {{ old('penanggung_jawab') == trim($opt) ? 'selected' : '' }}>{{ trim($opt) }}</option>
-                                @endif
-                            @endforeach
-                        </select>
                     </div>
 
                     <!-- Dasar Hukum -->
@@ -116,6 +105,23 @@
                         <label class="relative inline-flex items-center cursor-pointer">
                             <input type="checkbox" name="aktif" value="1" checked class="sr-only peer">
                             <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-[#004a99]"></div>
+                        </label>
+                    </div>
+
+                    <!-- BISA DOWNLOAD TOGGLE -->
+                    <div class="pt-6 border-t border-slate-50 flex items-center justify-between p-6 bg-gradient-to-r from-emerald-50 to-white rounded-3xl border border-emerald-100 shadow-sm">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-600">
+                                <i class="fas fa-download text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-black text-gray-800 uppercase tracking-widest leading-tight">Bisa Download</h4>
+                                <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-tighter">Direct Download Link</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="bisa_download" value="1" class="sr-only peer">
+                            <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
                         </label>
                     </div>
 

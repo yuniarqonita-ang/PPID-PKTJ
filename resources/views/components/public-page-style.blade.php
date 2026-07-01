@@ -1,8 +1,10 @@
-{{-- Shared CSS untuk semua halaman publik Layanan Informasi & Prosedur --}}
+{{-- Shared CSS untuk semua halaman Informasi & Prosedur --}}
+<!-- Common Public Page Styles -->
+<link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
 <style>
     :root {
-        --primary-blue: {{ $settings['primary_color'] ?? '#004A99' }};
-        --secondary-gold: {{ $settings['secondary_color'] ?? '#FFC107' }};
+        --primary-blue: {{ !empty($settings['primary_color']) ? $settings['primary_color'] : '#004A99' }};
+        --secondary-gold: {{ !empty($settings['secondary_color']) ? $settings['secondary_color'] : '#FFC107' }};
         --bg-page: #f0f4f8;
     }
 
@@ -107,6 +109,7 @@
     @media (max-width: 768px) {
         .content-card { padding: 28px 20px; }
         .hero-section { padding: 80px 0 110px; }
+        .content-box { padding: 24px 20px 24px 28px !important; }
     }
 
     /* ── Section Title ── */
@@ -124,15 +127,39 @@
 
     /* ── Content styling (dari konten-dinamis) ── */
     .content-box {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 24px;
+        padding: 40px 48px 40px 52px;
         margin-bottom: 32px;
-        padding-bottom: 32px;
-        border-bottom: 1px solid #f1f5f9;
+        box-shadow: 0 10px 30px rgba(0, 74, 153, 0.02);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
     }
 
-    .content-box:last-child {
-        border-bottom: none;
-        margin-bottom: 0;
-        padding-bottom: 0;
+    .content-box::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 150px;
+        height: 150px;
+        background: radial-gradient(circle, rgba(0, 74, 153, 0.015) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .content-box:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 45px rgba(0, 74, 153, 0.06);
+        border-color: #cbd5e1;
+    }
+
+    .content-box .section-title {
+        border-left: none !important;
+        padding-left: 0 !important;
+        margin-bottom: 20px;
+        font-size: 1.6rem;
     }
 
     .profil-content {
@@ -258,39 +285,225 @@
         margin-bottom: 24px;
     }
 
-    /* ── Table for laporan ── */
-    .laporan-table {
-        width: 100%;
-        border-collapse: separate;
-        border-spacing: 0 8px;
+    /* ── Premium Report Card Grid ── */
+    .report-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 28px;
+        margin-top: 24px;
     }
 
-    .laporan-table thead th {
-        background: #f0f4f8;
+    @media (max-width: 640px) {
+        .report-grid {
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+    }
+
+    .report-card {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 24px;
+        padding: 30px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0, 74, 153, 0.015);
+        cursor: pointer;
+    }
+
+    .report-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--secondary-gold);
+        box-shadow: 0 20px 45px rgba(0, 74, 153, 0.08);
+    }
+
+    .report-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 4px;
+        height: 100%;
+        background: var(--primary-blue);
+        opacity: 0;
+        transition: opacity 0.3s;
+    }
+
+    .report-card:hover::after {
+        opacity: 1;
+    }
+
+    .report-icon-container {
+        width: 54px;
+        height: 54px;
+        background: rgba(0, 74, 153, 0.05);
         color: var(--primary-blue);
-        font-weight: 800;
-        font-size: 0.75rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        padding: 14px 20px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 20px;
+        transition: all 0.3s;
+    }
+
+    .report-card:hover .report-icon-container {
+        background: var(--primary-blue);
+        color: white;
+        transform: scale(1.05);
+    }
+
+    .report-title-text {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: #1e293b;
+        margin-bottom: 12px;
+        line-height: 1.45;
+    }
+
+    .report-meta-info {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        font-size: 0.85rem;
+        color: #64748b;
+        margin-bottom: 16px;
+    }
+
+    .report-meta-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .report-desc-text {
+        font-size: 0.95rem;
+        color: #475569;
+        line-height: 1.6;
+        margin-bottom: 24px;
+        flex-grow: 1;
+    }
+
+    .report-card-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: auto;
+        padding-top: 20px;
+        border-top: 1px solid #f1f5f9;
+    }
+
+    .btn-report-preview {
+        flex: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        background: rgba(0, 74, 153, 0.05);
+        color: var(--primary-blue);
+        padding: 12px 20px;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        border: none;
+        transition: all 0.3s;
+    }
+
+    .btn-report-preview:hover {
+        background: var(--primary-blue);
+        color: white;
+    }
+
+    .btn-report-download {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(16, 185, 129, 0.1);
+        color: #10b981;
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+        border: none;
+        transition: all 0.3s;
+        flex-shrink: 0;
+    }
+
+    .btn-report-download:hover {
+        background: #10b981;
+        color: white;
+    }
+
+    /* ── Serta Merta Style info-item List ── */
+    .info-item {
+        background: #ffffff;
+        border-radius: 24px;
+        padding: 32px;
+        margin-bottom: 24px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 10px 30px rgba(0, 74, 153, 0.015);
+    }
+
+    .info-item:hover {
+        transform: translateY(-5px);
+        border-color: var(--secondary-gold);
+        box-shadow: 0 20px 45px rgba(0, 74, 153, 0.08);
+    }
+
+    .info-icon {
+        width: 60px;
+        height: 60px;
+        background: rgba(0, 74, 153, 0.05);
+        color: var(--primary-blue);
+        border-radius: 18px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-right: 25px;
+        flex-shrink: 0;
+    }
+
+    @media (max-width: 768px) {
+        .info-icon {
+            margin-right: 0;
+            margin-bottom: 15px;
+        }
+    }
+
+    .btn-download-premium {
+        background: var(--primary-blue);
+        color: white;
+        padding: 12px 25px;
+        border-radius: 14px;
+        font-weight: 700;
+        font-size: 0.9rem;
+        text-decoration: none;
+        transition: all 0.3s;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
         border: none;
     }
 
-    .laporan-table thead th:first-child { border-radius: 12px 0 0 12px; }
-    .laporan-table thead th:last-child { border-radius: 0 12px 12px 0; }
-
-    .laporan-table tbody tr td {
-        background: #f8fafc;
-        padding: 16px 20px;
-        border: none;
-        transition: all 0.2s;
-        vertical-align: middle;
+    .btn-download-premium:hover {
+        background: var(--secondary-gold);
+        color: var(--primary-blue);
+        transform: scale(1.03);
     }
 
-    .laporan-table tbody tr:hover td {
-        background: #eff6ff;
+    .rich-content {
+        color: #475569;
+        font-size: 0.95rem;
+        line-height: 1.7;
     }
 
-    .laporan-table tbody tr td:first-child { border-radius: 12px 0 0 12px; }
-    .laporan-table tbody tr td:last-child { border-radius: 0 12px 12px 0; }
+    .rich-content img {
+        max-width: 100%;
+        border-radius: 12px;
+        margin: 15px 0;
+    }
 </style>

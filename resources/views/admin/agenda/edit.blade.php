@@ -90,17 +90,6 @@
                                         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none ring-0 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#004a99]"></div>
                                     </label>
                                 </div>
-
-                                <div class="flex items-center justify-between p-3 bg-blue-50 rounded-xl border border-blue-200">
-                                    <div class="flex items-center gap-2">
-                                        <i class="fas fa-lock text-[#004a99] text-[10px]"></i>
-                                        <span class="text-[10px] font-black text-[#004a99] uppercase">Premium Blur?</span>
-                                    </div>
-                                    <label class="relative inline-flex items-center cursor-pointer">
-                                        <input type="checkbox" name="is_blurred" value="1" class="sr-only peer" {{ $agenda->is_blurred ? 'checked' : '' }}>
-                                        <div class="w-9 h-5 bg-blue-100 peer-focus:outline-none ring-0 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-[#004a99]"></div>
-                                    </label>
-                                </div>
                             </div>
                         </div>
 

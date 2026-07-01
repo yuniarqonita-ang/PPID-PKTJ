@@ -14,6 +14,7 @@ class DashboardController extends Controller
 {
     public function index()
     {
+        $currentYear = date('Y');
         // Statistics Data (real counts from DB)
         $stats = [
             'totalBerita'  => Schema::hasTable('beritas')   ? DB::table('beritas')->count()   : 0,
@@ -33,33 +34,34 @@ class DashboardController extends Controller
                 ->get();
         }
 
-        // Visitor Statistics by Month (Trend Analysis)
-        $currentYear = now()->year;
+        // Visitor Statistics by Day (Last 30 Days Daily Trend)
         $visitorData = [];
-        $months = ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'];
-        
-        foreach (range(1, 12) as $month) {
-            // Priority 1: Real Visitor Data
-            $count = 0;
-            if (Schema::hasTable('visitors')) {
-                $count = DB::table('visitors')->whereYear('tanggal', $currentYear)->whereMonth('tanggal', $month)->count();
-            }
+        if (Schema::hasTable('visitors')) {
+            $startDate = now()->subDays(29)->toDateString();
+            $dailyCounts = DB::table('visitors')
+                ->selectRaw('tanggal, count(*) as count')
+                ->where('tanggal', '>=', $startDate)
+                ->groupBy('tanggal')
+                ->orderBy('tanggal', 'asc')
+                ->pluck('count', 'tanggal')
+                ->toArray();
             
-            // Priority 2: If no visitors, use Permohonan as proxy for activity
-            if ($count == 0 && Schema::hasTable('permohonan')) {
-                $count = DB::table('permohonan')->whereYear('created_at', $currentYear)->whereMonth('created_at', $month)->count();
+            for ($i = 29; $i >= 0; $i--) {
+                $date = now()->subDays($i)->toDateString();
+                $label = now()->subDays($i)->translatedFormat('d M');
+                $count = $dailyCounts[$date] ?? 0;
+                $visitorData[] = ['bulan' => $label, 'count' => $count];
             }
-
-            // Fallback for visual professionality if still 0 (realistic random base)
-            if ($count == 0) {
-                $count = rand(10, 25);
+        } else {
+            // Fallback empty data
+            for ($i = 29; $i >= 0; $i--) {
+                $label = now()->subDays($i)->translatedFormat('d M');
+                $visitorData[] = ['bulan' => $label, 'count' => 0];
             }
-
-            $visitorData[] = ['bulan' => $months[$month - 1], 'count' => $count];
         }
 
         $visitorMetrics = [
-            'online' => rand(2, 8), 
+            'online' => 1, 
             'today' => 0, 
             'hits_today' => 0,
             'yesterday' => 0, 
@@ -72,6 +74,13 @@ class DashboardController extends Controller
             $visitorMetrics['today'] = DB::table('visitors')->whereDate('tanggal', Carbon::today())->count();
             $visitorMetrics['yesterday'] = DB::table('visitors')->whereDate('tanggal', Carbon::yesterday())->count();
             $visitorMetrics['total_visitors'] = DB::table('visitors')->count();
+            
+            // Calculate active online users in last 10 minutes (based on distinct IP addresses)
+            $onlineCount = DB::table('visitors')
+                ->where('created_at', '>=', now()->subMinutes(10))
+                ->distinct('ip')
+                ->count();
+            $visitorMetrics['online'] = max(1, $onlineCount); // minimum 1 (current user)
         }
 
         // ── DATA MASUK: Permohonan ──
@@ -122,11 +131,10 @@ class DashboardController extends Controller
         $settings = [
             'hero_title' => $request->hero_title,
             'hero_subtitle' => $request->hero_subtitle,
+            'hero_content' => $request->hero_content,
             'primary_color' => $request->primary_color,
             'secondary_color' => $request->secondary_color,
             'bg_color' => $request->bg_color,
-            'video_url' => $request->video_url,
-            'video_title' => $request->video_title,
             'app_eppid' => $request->app_eppid,
             'app_lpse' => $request->app_lpse,
             'app_jdih' => $request->app_jdih,
@@ -140,19 +148,16 @@ class DashboardController extends Controller
             'kontak_telepon' => $request->kontak_telepon,
             'kontak_email' => $request->kontak_email,
             'youtube_link' => $request->youtube_link,
-            'premium_view_enabled' => $request->premium_view_enabled,
-            'premium_view_blur_text' => $request->premium_view_blur_text,
-            'premium_view_button_text' => $request->premium_view_button_text,
-            'premium_view_button_link' => $request->premium_view_button_link,
             'list_penanggung_jawab' => $request->list_penanggung_jawab,
+            'hero_video_link' => $request->hero_video_link,
         ];
 
-        // Handle Video Thumbnail Upload
-        if ($request->hasFile('video_thumbnail')) {
-            $file = $request->file('video_thumbnail');
-            $filename = 'yt_thumb_' . time() . '.' . $file->getClientOriginalExtension();
+        // Handle Hero Background Video Upload
+        if ($request->hasFile('hero_video_file')) {
+            $file = $request->file('hero_video_file');
+            $filename = 'hero_vid_' . time() . '.' . $file->getClientOriginalExtension();
             $path = $file->storeAs('public/dashboard', $filename);
-            $settings['video_thumbnail'] = str_replace('public/', '', $path);
+            $settings['hero_video_file'] = str_replace('public/', '', $path);
         }
 
         foreach ($settings as $key => $value) {
@@ -160,7 +165,7 @@ class DashboardController extends Controller
                 ['key' => $key],
                 [
                     'value' => $value ?? '',
-                    'type' => ($key === 'video_thumbnail' ? 'image' : 'text'),
+                    'type' => (in_array($key, ['video_thumbnail', 'hero_video_file']) ? 'file' : 'text'),
                     'description' => $this->getDescription($key),
                     'aktif' => true
                 ]
@@ -175,6 +180,7 @@ class DashboardController extends Controller
         $descriptions = [
             'hero_title' => 'Judul utama di hero section',
             'hero_subtitle' => 'Subjudul di hero section',
+            'hero_content' => 'Konten kustom editor teks / HTML di hero banner',
             'primary_color' => 'Warna primer tema',
             'secondary_color' => 'Warna sekunder tema',
             'bg_color' => 'Warna background halaman',
@@ -198,6 +204,8 @@ class DashboardController extends Controller
             'premium_view_button_text' => 'Teks tombol di atas blur',
             'premium_view_button_link' => 'Link tujuan tombol di atas blur',
             'list_penanggung_jawab' => 'Daftar penanggung jawab (Pisahkan dengan baris baru)',
+            'hero_video_link' => 'Link YouTube atau direct MP4 video background hero',
+            'hero_video_file' => 'File video background hero (.mp4)',
         ];
 
         return $descriptions[$key] ?? 'Pengaturan dashboard';

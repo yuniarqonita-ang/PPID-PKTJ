@@ -1,14 +1,44 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @php
-        $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
-        $total_permohonan = \App\Models\Permohonan::count();
-        $total_berita = \App\Models\Berita::count();
-        $total_informasi = \App\Models\DaftarInformasi::count();
-        $total_dokumen = \App\Models\Dokumen::count();
+        $settings = [];
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('dashboards')) {
+                $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+            }
+        } catch (\Exception $e) {}
+
+        $total_permohonan = 0;
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('permohonan')) {
+                $total_permohonan = \App\Models\Permohonan::count();
+            }
+        } catch (\Exception $e) {}
+
+        $total_berita = 0;
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('beritas')) {
+                $total_berita = \App\Models\Berita::count();
+            }
+        } catch (\Exception $e) {}
+
+        $total_informasi = 0;
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('daftar_informasis')) {
+                $total_informasi = \App\Models\DaftarInformasi::count();
+            }
+        } catch (\Exception $e) {}
+
+        $total_dokumen = 0;
+        try {
+            if (\Illuminate\Support\Facades\Schema::hasTable('dokumens')) {
+                $total_dokumen = \App\Models\Dokumen::count();
+            }
+        } catch (\Exception $e) {}
     @endphp
     <title>{{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     
@@ -50,24 +80,78 @@
         }
 
         /* Hero Section - The WOW Factor */
-                .hero-section {
-            background: linear-gradient(rgba(0, 74, 153, 0.8), rgba(0, 74, 153, 0.8)), 
-                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069');
-            background-size: cover;
-            background-position: center;
-            padding: 80px 0;
+        .hero-section {
+            position: relative;
+            background-color: var(--dark-blue);
+            padding: 100px 0;
             color: white;
             text-align: center;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-video-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .hero-video-wrapper video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .hero-video-wrapper iframe {
+            width: 100vw;
+            height: 56.25vw; /* 16:9 aspect ratio */
+            min-height: 100vh;
+            min-width: 177.77vh; /* 16:9 aspect ratio */
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(1.15);
+        }
+
+        .hero-image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 5;
+            width: 100%;
+        }
+
+        .hero-shapes {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            z-index: 3;
+            pointer-events: none;
         }
 
         .glass-hero-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            backdrop-filter: none;
+            -webkit-backdrop-filter: none;
+            border: 2.5px solid rgba(255, 255, 255, 0.9);
             border-radius: 50px;
             padding: 60px 40px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            box-shadow: none;
             max-width: 1000px;
             margin: 0 auto;
             animation: float-in 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -97,19 +181,36 @@
         .hero-title {
             font-size: clamp(2.5rem, 6vw, 4.5rem);
             font-weight: 900;
-            color: white;
+            color: #ffffff;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
             line-height: 1;
             margin-bottom: 25px;
-            text-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
         .hero-subtitle {
             font-size: clamp(1rem, 2vw, 1.35rem);
-            color: rgba(255, 255, 255, 0.85);
-            font-weight: 500;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+            font-weight: 600;
             max-width: 700px;
             margin: 0 auto 40px;
             line-height: 1.6;
+        }
+
+        .hero-custom-content {
+            margin: 0 auto 40px;
+            max-width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+        }
+
+        .hero-custom-content iframe {
+            max-width: 100%;
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
         }
 
         .btn-premium {
@@ -136,6 +237,19 @@
             transform: translateY(-5px);
             background: white;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline-white {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.85);
+            color: #ffffff;
+        }
+
+        .btn-outline-white:hover {
+            transform: translateY(-5px);
+            background: #ffffff;
+            color: var(--primary-blue);
+            box-shadow: 0 20px 40px rgba(255, 255, 255, 0.25);
         }
 
         /* Stats Section */
@@ -262,8 +376,48 @@
 
     <!-- HERO SECTION -->
     <section class="hero-section">
+        @php
+            $heroVidLink = $settings['hero_video_link'] ?? null;
+            $heroVidFile = $settings['hero_video_file'] ?? null;
+            $hasHeroVideo = false;
+            $heroEmbedUrl = null;
+            
+            if ($heroVidFile && file_exists(public_path('storage/' . $heroVidFile))) {
+                $hasHeroVideo = true;
+            } elseif ($heroVidLink) {
+                if (str_ends_with(strtolower($heroVidLink), '.mp4') || str_contains(strtolower($heroVidLink), '.mp4')) {
+                    $hasHeroVideo = true;
+                } else {
+                    $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/ ]{11})/i';
+                    if (preg_match($pattern, $heroVidLink, $matches)) {
+                        $heroEmbedUrl = "https://www.youtube.com/embed/" . $matches[1] . "?autoplay=1&mute=1&controls=0&loop=1&playlist=" . $matches[1] . "&playsinline=1&enablejsapi=1";
+                        $hasHeroVideo = true;
+                    }
+                }
+            }
+        @endphp
+
+        @if($hasHeroVideo)
+            <div class="hero-video-wrapper">
+                @if($heroVidFile)
+                    <video autoplay loop muted playsinline preload="auto">
+                        <source src="{{ asset('storage/' . $heroVidFile) }}" type="video/mp4">
+                    </video>
+                @elseif($heroEmbedUrl)
+                    <iframe src="{{ $heroEmbedUrl }}" title="Hero Video" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+                @else
+                    <video autoplay loop muted playsinline preload="auto">
+                        <source src="{{ $heroVidLink }}" type="video/mp4">
+                    </video>
+                @endif
+                <div class="hero-image-overlay" style="background: rgba(0, 0, 0, 0.35);"></div>
+            </div>
+        @else
+            <div class="hero-image-overlay" style="background: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069') center/cover no-repeat;"></div>
+        @endif
+
         <div class="hero-shapes">
-            <svg class="absolute bottom-0 w-full" height="150" viewBox="0 0 1440 150" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-100" style="height: 6vw; min-height: 40px; margin-bottom: -1px;" viewBox="0 0 1440 150" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
                 <path d="M0 150V50C100 20 200 0 400 0C600 0 800 50 1000 50C1200 50 1340 20 1440 0V150H0Z" fill="#f8fbff"/>
             </svg>
         </div>
@@ -277,11 +431,17 @@
                 <h1 class="hero-title">{{ $settings['hero_title'] ?? 'SELAMAT DATANG DI PORTAL PPID PKTJ' }}</h1>
                 <p class="hero-subtitle">{{ $settings['hero_subtitle'] ?? 'Wujudkan transparansi informasi publik melalui layanan prima berbasis teknologi informasi yang cepat, mudah, dan transparan.' }}</p>
                 
+                @if(!empty($settings['hero_content']))
+                    <div class="hero-custom-content">
+                        {!! $settings['hero_content'] !!}
+                    </div>
+                @endif
+                
                 <div class="d-flex flex-wrap justify-content-center gap-4">
                     <a href="#informasi-publik" class="btn-premium btn-gold">
                         <i class="fas fa-search"></i> CARI INFORMASI
                     </a>
-                    <a href="{{ route('permohonan.form') }}" class="btn-premium px-8" style="background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.3); color: white;">
+                    <a href="{{ route('permohonan.form') }}" class="btn-premium px-8 btn-outline-white">
                         <i class="fas fa-paper-plane mr-2"></i> AJUKAN PERMOHONAN
                     </a>
                 </div>
@@ -389,7 +549,7 @@
             <div class="section-header">
                 <h2>Warta &amp; Dokumentasi</h2>
                 <div class="d-flex justify-content-center mt-3">
-                    <div class="h-1 w-20 bg-warning rounded-full"></div>
+                    <div class="bg-warning rounded-pill" style="height: 4px; width: 80px;"></div>
                 </div>
                 <p class="text-muted mt-3" style="font-size: 0.95rem;">Informasi terkini dan pengumuman resmi PPID PKTJ.</p>
             </div>
@@ -429,84 +589,110 @@
         </div>
     </section>
 
-    <!-- VIDEO & KONTAK -->
-    <section class="py-20 bg-white">
+    <!-- KONTAK TERPUSAT -->
+    <section class="bg-white" style="padding-top: 80px; padding-bottom: 120px; position: relative; z-index: 10;">
         <div class="container">
-            <div class="row g-5 align-items-center">
-                <div class="col-lg-7">
-                    <h2 class="font-black uppercase text-4xl mb-8" style="color: #004a99;">{{ $settings['video_title'] ?? 'Video Layanan Informasi' }}</h2>
-                    <div class="video-box ratio ratio-16x9">
-                        @php
-                            $videoUrl = $settings['video_url'] ?? 'https://www.youtube.com/watch?v=dQw4w9WgXcQ';
-                            $thumbnail = $settings['video_thumbnail'] ?? null;
-                            
-                            $hasThumbnail = false;
-                            if ($thumbnail && file_exists(public_path('storage/' . $thumbnail))) {
-                                $hasThumbnail = true;
-                            }
-
-                            if (strpos($videoUrl, 'watch?v=') !== false) {
-                                $parts = parse_url($videoUrl);
-                                parse_str($parts['query'], $query);
-                                $videoUrl = "https://www.youtube.com/embed/" . ($query['v'] ?? '') . "?autoplay=1";
-                            } elseif (strpos($videoUrl, 'youtu.be/') !== false) {
-                                $videoId = substr(parse_url($videoUrl, PHP_URL_PATH), 1);
-                                $videoUrl = "https://www.youtube.com/embed/" . $videoId . "?autoplay=1";
-                            }
-                        @endphp
-
-                        @if($hasThumbnail)
-                            <div class="position-absolute w-100 h-100 top-0 left-0" style="cursor: pointer; overflow: hidden; border-radius: 40px;" onclick="this.innerHTML = '<iframe src=\'{{ $videoUrl }}\' style=\'width:100%; height:100%; border:0;\' title=\'Video Layanan\' allow=\'autoplay; encrypted-media\' allowfullscreen></iframe>'">
-                                <img src="{{ asset('storage/' . $thumbnail) }}" class="w-100 h-100" style="object-fit: cover; transition: all 0.5s ease;" alt="Thumbnail Video" onmouseover="this.style.filter='brightness(0.7)'" onmouseout="this.style.filter='none'">
-                                <div class="position-absolute top-50 start-50 translate-middle d-flex align-items-center justify-content-center" style="width: 80px; height: 80px; background: rgba(255, 193, 7, 0.9); border-radius: 50%; color: #002b5c; font-size: 30px;">
-                                    <i class="fas fa-play ml-1"></i>
-                                </div>
-                            </div>
-                        @else
-                            <iframe src="{{ str_replace('?autoplay=1', '', $videoUrl) }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                        @endif
-                    </div>
-                </div>
-                <div class="col-lg-5">
-                    <div class="p-10 rounded-[3rem] bg-[#004a99] text-white shadow-2xl relative overflow-hidden">
+            <div class="row g-5 align-items-stretch">
+                <!-- Kolom Kiri: Detail Kontak -->
+                <div class="col-lg-6">
+                    <div class="shadow-2xl relative overflow-hidden h-100" style="background-color: var(--primary-blue); border-radius: 30px; padding: 40px !important; color: white; display: flex; flex-direction: column; justify-content: space-between; min-height: 520px;">
                         <div class="absolute -right-20 -top-20 w-60 h-60 bg-white/5 rounded-full blur-3xl"></div>
-                        <h3 class="font-black uppercase tracking-widest text-xl mb-8 mt-5 border-b border-white/10 pb-6">
-                            <i class="fas fa-headset text-yellow-500 mr-3"></i> Pusat Kontak
-                        </h3>
-                        
-                        <div class="space-y-6 mb-10">
-                            <div class="d-flex align-items-center gap-4">
-                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex align-items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-envelope text-yellow-500"></i>
-                                </div>
-                                <div>
-                                    <div class="text-xs font-bold text-blue-200 uppercase tracking-widest">Email Resmi</div>
-                                    <div class="font-bold text-sm">{{ $settings['kontak_email'] ?? 'ppid@pktj.ac.id' }}</div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-4">
-                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex align-items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-phone-alt text-yellow-500"></i>
-                                </div>
-                                <div>
-                                    <div class="text-xs font-bold text-blue-200 uppercase tracking-widest">Hotline</div>
-                                    <div class="font-bold text-sm">{{ $settings['kontak_telepon'] ?? '(021) 1234-5678' }}</div>
-                                </div>
-                            </div>
-                            <div class="d-flex align-items-center gap-4">
-                                <div class="w-12 h-12 bg-white/10 rounded-2xl flex align-items-center justify-center flex-shrink-0">
-                                    <i class="fas fa-map-marked-alt text-yellow-500"></i>
-                                </div>
-                                <div>
-                                    <div class="text-xs font-bold text-blue-200 uppercase tracking-widest">Alamat Kantor</div>
-                                    <div class="font-bold text-xs leading-relaxed text-blue-50 text-wrap">{{ $settings['kontak_alamat'] ?? 'Jl. Raya Tegal - Pemalang Km. 2, Tegal, Jawa Tengah' }}</div>
-                                </div>
+                        <div>
+                            <h3 class="uppercase tracking-widest text-center mb-4" style="font-family: 'Outfit', sans-serif; font-weight: 900; font-size: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 15px;">
+                                <i class="fas fa-headset text-yellow-500 mr-3"></i> Pusat Kontak
+                            </h3>
+                            
+                            <div class="space-y-4">
+                                <a href="mailto:{{ $settings['kontak_email'] ?? 'pktj@pktj.ac.id' }}" class="d-flex align-items-center gap-3 mb-3 text-decoration-none" style="color: inherit; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                    <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <i class="fas fa-envelope text-yellow-500"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;">Email Resmi</div>
+                                        <div style="font-weight: 700; font-size: 14px; color: white;">{{ $settings['kontak_email'] ?? 'pktj@pktj.ac.id' }}</div>
+                                    </div>
+                                </a>
+                                <a href="tel:{{ $settings['kontak_telepon'] ?? '(0283) 351061' }}" class="d-flex align-items-center gap-3 mb-3 text-decoration-none" style="color: inherit; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                    <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <i class="fas fa-phone-alt text-yellow-500"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;">Hotline</div>
+                                        <div style="font-weight: 700; font-size: 14px; color: white;">{{ $settings['kontak_telepon'] ?? '(0283) 351061' }}</div>
+                                    </div>
+                                </a>
+                                <a href="tel:(0283)358965" class="d-flex align-items-center gap-3 mb-3 text-decoration-none" style="color: inherit; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                    <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                        <i class="fas fa-print text-yellow-500"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 2px;">Fax</div>
+                                        <div style="font-weight: 700; font-size: 14px; color: white;">(0283) 358965</div>
+                                    </div>
+                                </a>
+                                <a href="https://maps.google.com/?q=Politeknik+Keselamatan+Transportasi+Jalan+Tegal" target="_blank" class="d-flex align-items-start gap-3 text-decoration-none" style="color: inherit; transition: opacity 0.2s;" onmouseover="this.style.opacity='0.8'" onmouseout="this.style.opacity='1'">
+                                    <div style="width: 48px; height: 48px; background: rgba(255,255,255,0.1); border-radius: 16px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;">
+                                        <i class="fas fa-map-marked-alt text-yellow-500"></i>
+                                    </div>
+                                    <div>
+                                        <div style="font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Alamat Kantor</div>
+                                        <div style="font-weight: 700; font-size: 12px; line-height: 1.6; color: rgba(255,255,255,0.9);" class="text-wrap">
+                                            Kampus I: {{ $settings['kontak_alamat'] ?? 'Jl. Perintis Kemerdekaan No. 17, Kota Tegal' }}<br>
+                                            Kampus II: Jl. Abdul Syukur No. 17, Kota Tegal
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         </div>
 
-                        <a href="{{ route('permohonan.form') }}" class="btn-premium btn-gold w-100 justify-content-center py-4 mb-5">
+                        <a href="{{ route('permohonan.form') }}" class="btn-premium btn-gold w-100 justify-content-center py-4 mt-4">
                             KIRIM PERMOHONAN SEKARANG
                         </a>
+                    </div>
+                </div>
+
+                <!-- Kolom Kanan: Peta Lokasi (Maps) -->
+                <div class="col-lg-6">
+                    <div class="card border-0 shadow-lg h-100 p-4" style="border-radius: 30px; background: #f8fafc; border: 1px solid #e2e8f0; min-height: 520px; display: flex; flex-direction: column;">
+                        <h4 class="outfit fw-black text-[#002b5c] mb-4 text-center uppercase tracking-wide" style="font-size: 1.1rem; border-bottom: 2px solid var(--secondary-gold); padding-bottom: 10px; display: inline-block;">
+                            <i class="fas fa-map-marked-alt text-[#004a99] mr-2"></i> Peta Lokasi Kampus PKTJ
+                        </h4>
+                        
+                        <div class="row g-3 flex-grow-1">
+                            <!-- Kampus I Map -->
+                            <div class="col-sm-6 d-flex flex-column">
+                                <div class="mb-2">
+                                    <span class="badge bg-warning text-xs px-3 py-2 rounded-pill font-bold text-dark">Kampus I (Perintis)</span>
+                                </div>
+                                <div class="flex-grow-1 rounded-3xl overflow-hidden border border-slate-200 shadow-sm" style="min-height: 320px; height: 100%;">
+                                    <iframe 
+                                        width="100%" 
+                                        height="100%" 
+                                        frameborder="0" 
+                                        style="border:0; min-height: 320px; width: 100%; height: 100%;" 
+                                        src="https://maps.google.com/maps?q=Politeknik%20Keselamatan%20Transportasi%20Jalan%20(PKTJ)%20Kampus%20I%20Tegal&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                            
+                            <!-- Kampus II Map -->
+                            <div class="col-sm-6 d-flex flex-column">
+                                <div class="mb-2">
+                                    <span class="badge bg-warning text-xs px-3 py-2 rounded-pill font-bold text-dark">Kampus II (Margadana)</span>
+                                </div>
+                                <div class="flex-grow-1 rounded-3xl overflow-hidden border border-slate-200 shadow-sm" style="min-height: 320px; height: 100%;">
+                                    <iframe 
+                                        width="100%" 
+                                        height="100%" 
+                                        frameborder="0" 
+                                        style="border:0; min-height: 320px; width: 100%; height: 100%;" 
+                                        src="https://maps.google.com/maps?q=Politeknik%20Keselamatan%20Transportasi%20Jalan%20(PKTJ)%20Kampus%20II%20Tegal&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                        allowfullscreen>
+                                    </iframe>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

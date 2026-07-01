@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @php
@@ -36,7 +37,8 @@
                               ($d[$pfx . '_gambar_sop'] ?? null) ||
                               ($d[$pfx . '_gambar_proses'] ?? null) ||
                               ($d[$pfx . '_youtube_link'] ?? null) ||
-                              ($d[$pfx . '_isi_maklumat'] ?? null);
+                              ($d[$pfx . '_isi_maklumat'] ?? null) ||
+                              (isset($laporan) && $laporan->count() > 0);
             @endphp
 
             @if($hasContent)

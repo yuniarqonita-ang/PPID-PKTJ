@@ -40,6 +40,13 @@
     </div>
     @endif
 
+    @if(session('error'))
+    <div class="bg-red-50 border border-red-100 text-red-700 px-6 py-4 rounded-2xl flex items-center gap-4 text-gray-800">
+        <i class="fas fa-exclamation-circle text-xl text-red-600"></i>
+        <p class="font-bold text-red-700">{{ session('error') }}</p>
+    </div>
+    @endif
+
     <form action="{{ route('dashboard.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
@@ -66,38 +73,43 @@
                                class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] focus:bg-white transition-all font-semibold text-slate-700">
                     </div>
                 </div>
-                
-                <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50/20">
+
+                <div class="p-8 border-b border-slate-50 bg-white">
                     <div class="space-y-2">
-                        <label class="text-xs font-bold text-[#004a99] uppercase tracking-widest flex items-center">
-                            <i class="fab fa-youtube mr-2"></i> Link Video YouTube Profil
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center">
+                            <i class="fas fa-edit mr-2"></i> Konten Kustom Hero (Teks Editor / Video Embed)
                         </label>
-                        <input type="url" name="video_url" value="{{ old('video_url', \App\Models\Dashboard::getValue('video_url', '')) }}"
-                               placeholder="Contoh: https://www.youtube.com/watch?v=..."
-                               class="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ffc107] transition-all font-semibold text-slate-700">
-                        <p class="text-[10px] text-slate-400 italic">Anda bisa memasukkan link YouTube biasa, sistem akan otomatis menyesuaikannya.</p>
+                        <textarea name="hero_content" class="tinymce-editor">{{ old('hero_content', \App\Models\Dashboard::getValue('hero_content', '')) }}</textarea>
+                        <p class="text-[10px] text-slate-400 italic">Gunakan teks editor ini untuk menambahkan teks tambahan, gambar, atau menyematkan (embed) iframe video YouTube di banner depan.</p>
                     </div>
+                </div>
+
+                <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-6 border-b border-slate-100 bg-slate-50/10">
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-[#004a99] uppercase tracking-widest flex items-center">
-                            <i class="fas fa-image mr-2"></i> Foto Thumbnail Video Halaman Depan
+                            <i class="fas fa-video mr-2"></i> File Video Background Hero (.mp4)
                         </label>
-                        <input type="file" name="video_thumbnail" accept="image/*"
+                        <input type="file" name="hero_video_file" accept="video/mp4"
                                class="w-full px-5 py-2.5 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ffc107] transition-all text-xs font-bold text-slate-500">
-                        @if($thumb = \App\Models\Dashboard::getValue('video_thumbnail'))
+                        @if($heroVidFile = \App\Models\Dashboard::getValue('hero_video_file'))
                             <div class="mt-2 flex items-center gap-3 p-2 bg-blue-50 rounded-lg border border-blue-100">
-                                <img src="{{ asset('storage/' . $thumb) }}" class="w-16 h-10 object-cover rounded shadow-sm">
-                                <span class="text-[10px] font-bold text-blue-700 uppercase tracking-tighter">Foto Aktif Digunakan</span>
+                                <span class="text-[10px] font-bold text-blue-700 uppercase tracking-tighter">Video Aktif: {{ basename($heroVidFile) }}</span>
                             </div>
                         @else
-                            <p class="text-[10px] text-slate-400 italic">Unggah foto (Rekomendasi: 1280x720px) untuk dijadikan sampul video di beranda.</p>
+                            <p class="text-[10px] text-slate-400 italic">Pilih file .mp4 untuk dijadikan background video di bagian atas halaman beranda.</p>
                         @endif
                     </div>
                     <div class="space-y-2">
-                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Judul Di Atas Video</label>
-                        <input type="text" name="video_title" value="{{ old('video_title', \App\Models\Dashboard::getValue('video_title', 'Video Profil PKTJ Tegal')) }}"
-                               class="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700">
+                        <label class="text-xs font-bold text-[#004a99] uppercase tracking-widest flex items-center">
+                            <i class="fab fa-youtube mr-2"></i> Link Video Background Hero (YouTube)
+                        </label>
+                        <input type="url" name="hero_video_link" value="{{ old('hero_video_link', \App\Models\Dashboard::getValue('hero_video_link', '')) }}"
+                               placeholder="Contoh: https://www.youtube.com/watch?v=..."
+                               class="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#ffc107] transition-all font-semibold text-slate-700">
+                        <p class="text-[10px] text-slate-400 italic">Jika diisi, YouTube ini akan diputar sebagai background video di hero atas beranda (prioritas di bawah file MP4).</p>
                     </div>
                 </div>
+
             </div>
 
             <!-- SECTION: MEDIA SOSIAL -->
@@ -132,56 +144,6 @@
                 </div>
             </div>
 
-            <!-- SECTION: PREMIUM DOCUMENT VIEWER -->
-            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
-                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
-                    <div class="w-10 h-10 bg-purple-600 rounded-xl flex items-center justify-center text-white text-sm">
-                        <i class="fas fa-file-shield"></i>
-                    </div>
-                    <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Premium Document Viewer (Blurring)</h3>
-                </div>
-                <div class="p-8 space-y-6">
-                    <div class="flex items-center gap-4 p-4 bg-purple-50 rounded-2xl border border-purple-100">
-                        <div class="flex-1">
-                            <h4 class="text-sm font-black text-purple-900 uppercase">Aktifkan Fitur Blur Premium</h4>
-                            <p class="text-xs text-purple-700 opacity-70">Jika aktif, dokumen PDF halaman 2+ akan diburamkan dan muncul tombol ajuan informasi.</p>
-                        </div>
-                        <label class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" name="premium_view_enabled" value="1" class="sr-only peer" {{ \App\Models\Dashboard::getValue('premium_view_enabled') ? 'checked' : '' }}>
-                            <div class="w-14 h-7 bg-slate-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-purple-600"></div>
-                        </label>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="space-y-2">
-                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Teks Pesan Blur</label>
-                            <input type="text" name="premium_view_blur_text" value="{{ old('premium_view_blur_text', \App\Models\Dashboard::getValue('premium_view_blur_text', 'Lanjutkan Membaca? Silakan Ajukan Permohonan Informasi')) }}"
-                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white transition-all font-semibold text-slate-700">
-                        </div>
-                        <div class="space-y-2">
-                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Teks Tombol</label>
-                            <input type="text" name="premium_view_button_text" value="{{ old('premium_view_button_text', \App\Models\Dashboard::getValue('premium_view_button_text', 'AJUKAN SEKARANG')) }}"
-                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white transition-all font-semibold text-slate-700">
-                        </div>
-                        <div class="md:col-span-2 space-y-2">
-                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Link Tujuan Tombol</label>
-                            <input type="text" name="premium_view_button_link" value="{{ old('premium_view_button_link', \App\Models\Dashboard::getValue('premium_view_button_link', '/permohonan-informasi')) }}"
-                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-purple-600 focus:bg-white transition-all font-semibold text-slate-700">
-                            <p class="text-[10px] text-slate-400 italic">Default: /permohonan-informasi</p>
-                        </div>
-                    </div>
-
-                    <div class="p-4 bg-slate-100 rounded-2xl border border-slate-200">
-                        <h4 class="text-xs font-black text-slate-700 uppercase mb-2"><i class="fas fa-info-circle mr-2"></i> Penggunaan di Teks Editor</h4>
-                        <p class="text-xs text-slate-600 leading-relaxed">
-                            Anda juga dapat mengunci bagian tertentu dalam teks editor (TinyMCE) dengan cara:
-                            <br>1. Seleksi teks yang ingin dikunci/diblur.
-                            <br>2. Klik menu <strong>Format</strong> > <strong>Styles</strong> > <strong>Premium Blur</strong>.
-                            <br>3. Teks tersebut akan otomatis diblur di halaman publik jika fitur ini aktif.
-                        </p>
-                    </div>
-                </div>
-            </div>
 
             <!-- SECTION: PENGATURAN INFORMASI DIKECUALIKAN -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">

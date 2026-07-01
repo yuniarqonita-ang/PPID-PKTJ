@@ -8,6 +8,7 @@ use App\Models\InformasiSetiapSaat;
 use App\Models\InformasiDikecualikan;
 use App\Models\Prosedur;
 use App\Models\Dashboard;
+use App\Models\DaftarInformasi;
 use Illuminate\Support\Facades\Storage;
 
 class InformasiPublikController extends Controller
@@ -31,13 +32,28 @@ class InformasiPublikController extends Controller
         }, $content);
     }
 
+    private function mapDaftarInformasi($item)
+    {
+        $item->judul = $item->judul_informasi;
+        $item->deskripsi = $this->processContent($item->isi_informasi, $item->is_blurred ?? false);
+        $item->file_path = $item->file_informasi;
+        $item->tanggal = $item->created_at;
+        $item->file_size = '-';
+        return $item;
+    }
+
     // Informasi Berkala
     public function informasiBerkala()
     {
-        $items = InformasiBerkala::where('aktif', true)->orderBy('created_at', 'desc')->get();
-        foreach ($items as $item) {
-            $item->deskripsi = $this->processContent($item->deskripsi, $item->is_blurred ?? false);
-        }
+        $rawItems = DaftarInformasi::where('aktif', true)
+            ->where('kategori', 'informasi-berkala')
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
+        $items = $rawItems->map(function($item) {
+            return $this->mapDaftarInformasi($item);
+        });
+
         $settings = $this->getSettings();
         return view('informasi-berkala', compact('items', 'settings'));
     }
@@ -45,10 +61,15 @@ class InformasiPublikController extends Controller
     // Informasi Serta Merta
     public function informasiSertamerta()
     {
-        $items = InformasiSertaMerta::where('aktif', true)->orderBy('created_at', 'desc')->get();
-        foreach ($items as $item) {
-            $item->deskripsi = $this->processContent($item->deskripsi, $item->is_blurred ?? false);
-        }
+        $rawItems = DaftarInformasi::where('aktif', true)
+            ->where('kategori', 'informasi-serta-merta')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $items = $rawItems->map(function($item) {
+            return $this->mapDaftarInformasi($item);
+        });
+
         $settings = $this->getSettings();
         return view('informasi-serta-merta', compact('items', 'settings'));
     }
@@ -56,10 +77,15 @@ class InformasiPublikController extends Controller
     // Informasi Setiap Saat
     public function informasiSetiapsaat()
     {
-        $items = InformasiSetiapSaat::where('aktif', true)->orderBy('created_at', 'desc')->get();
-        foreach ($items as $item) {
-            $item->deskripsi = $this->processContent($item->deskripsi, $item->is_blurred ?? false);
-        }
+        $rawItems = DaftarInformasi::where('aktif', true)
+            ->where('kategori', 'informasi-setiap-saat')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        $items = $rawItems->map(function($item) {
+            return $this->mapDaftarInformasi($item);
+        });
+
         $settings = $this->getSettings();
         return view('informasi-setiap-saat', compact('items', 'settings'));
     }
@@ -79,7 +105,7 @@ class InformasiPublikController extends Controller
             $query->where('penanggung_jawab', 'like', '%' . $request->penanggung_jawab . '%');
         }
 
-        $items = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
+        $items = $query->orderBy('tanggal', 'desc')->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
         
         foreach ($items as $item) {
             $item->deskripsi = $this->processContent($item->deskripsi, $item->is_blurred ?? false);
@@ -109,22 +135,45 @@ class InformasiPublikController extends Controller
     {
         switch($model) {
             case 'berkala':
-                $data = InformasiBerkala::findOrFail($id);
+                $data = DaftarInformasi::find($id);
+                if ($data) {
+                    $data->file_path = $data->file_informasi;
+                } else {
+                    $data = InformasiBerkala::findOrFail($id);
+                }
                 break;
             case 'sertamerta':
-                $data = InformasiSertaMerta::findOrFail($id);
+                $data = DaftarInformasi::find($id);
+                if ($data) {
+                    $data->file_path = $data->file_informasi;
+                } else {
+                    $data = InformasiSertaMerta::findOrFail($id);
+                }
                 break;
             case 'setiapsaat':
-                $data = InformasiSetiapSaat::findOrFail($id);
+                $data = DaftarInformasi::find($id);
+                if ($data) {
+                    $data->file_path = $data->file_informasi;
+                } else {
+                    $data = InformasiSetiapSaat::findOrFail($id);
+                }
                 break;
             case 'dikecualikan':
                 $data = InformasiDikecualikan::findOrFail($id);
+                break;
+            case 'dip':
+                $data = DaftarInformasi::findOrFail($id);
+                $data->file_path = $data->file_informasi;
                 break;
             case 'prosedur':
                 $data = Prosedur::findOrFail($id);
                 break;
             default:
                 abort(404);
+        }
+
+        if (str_starts_with($data->file_path, 'http://') || str_starts_with($data->file_path, 'https://')) {
+            return redirect($data->file_path);
         }
 
         // Clean path to remove /storage/ prefix if present in DB

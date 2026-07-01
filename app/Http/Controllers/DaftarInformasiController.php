@@ -37,21 +37,28 @@ class DaftarInformasiController extends Controller
             'file_informasi'     => 'nullable|file|mimes:pdf,doc,docx|max:20480',
             'gdrive_link'        => 'nullable|url',
             'image'              => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ], [
+            'file_informasi.uploaded' => 'Gagal mengunggah file. Ukuran file mungkin melebihi batas maksimal server. Silakan coba kompres PDF Anda atau gunakan opsi Link Google Drive.',
+            'file_informasi.max' => 'Ukuran file tidak boleh melebihi 20 MB.',
+            'file_informasi.mimes' => 'Format file harus berupa pdf, doc, atau docx.',
+            'image.uploaded' => 'Gagal mengunggah gambar. Ukuran file gambar terlalu besar (maksimal 5MB).',
+            'gdrive_link.url' => 'Format link Google Drive tidak valid.',
         ]);
 
         try {
             $data = $request->except(['_token', 'file_informasi', 'image', 'gdrive_link']);
-            $data['aktif']      = $request->has('aktif');
-            $data['is_blurred'] = $request->has('is_blurred');
+            $data['aktif']         = $request->has('aktif');
+            $data['is_blurred']    = $request->has('is_blurred');
+            $data['bisa_download'] = $request->has('bisa_download');
 
-            // Prioritas: GDrive Link > Upload Lokal
-            if ($request->filled('gdrive_link')) {
-                $data['file_informasi'] = $request->gdrive_link;
-            } elseif ($request->hasFile('file_informasi')) {
+            // Prioritas: Upload File Lokal > GDrive Link
+            if ($request->hasFile('file_informasi')) {
                 $file = $request->file('file_informasi');
                 $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-._]/', '_', $file->getClientOriginalName());
                 $path = $file->storeAs('daftar-informasi', $filename, 'public');
                 $data['file_informasi'] = 'storage/' . $path;
+            } elseif ($request->filled('gdrive_link')) {
+                $data['file_informasi'] = $request->gdrive_link;
             }
 
             if ($request->hasFile('image')) {
@@ -80,28 +87,39 @@ class DaftarInformasiController extends Controller
     {
         $item = DaftarInformasi::findOrFail($id);
 
-        $validated = $request->validate([
-            'judul_informasi'  => 'required|string|max:255',
-            'kategori'         => 'nullable|string|max:100',
-            'tipe_informasi'   => 'nullable|string|max:100',
-            'isi_informasi'    => 'nullable|string',
-            'pejabat_penguasa' => 'nullable|string|max:255',
+        $request->validate([
+            'judul_informasi'    => 'required|string|max:255',
+            'kategori'           => 'nullable|string|max:100',
+            'tipe_informasi'     => 'nullable|string|max:100',
+            'isi_informasi'      => 'nullable|string',
+            'pejabat_penguasa'   => 'nullable|string|max:255',
             'penerbit_informasi' => 'nullable|string|max:255',
-            'tempat_pembuatan' => 'nullable|string|max:255',
-            'penanggung_jawab' => 'nullable|string|max:255',
-            'waktu_pembuatan'  => 'nullable|string|max:100',
-            'bentuk_informasi' => 'nullable|string|max:100',
-            'jangka_waktu'     => 'nullable|string|max:100',
-            'file_informasi'   => 'nullable|file|mimes:pdf,doc,docx|max:20480',
-            'image'            => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+            'tempat_pembuatan'   => 'nullable|string|max:255',
+            'penanggung_jawab'   => 'nullable|string|max:255',
+            'waktu_pembuatan'    => 'nullable|string|max:100',
+            'bentuk_informasi'   => 'nullable|string|max:100',
+            'jangka_waktu'       => 'nullable|string|max:100',
+            'file_informasi'     => 'nullable|file|mimes:pdf,doc,docx|max:20480',
+            'gdrive_link'        => 'nullable|url',
+            'image'              => 'nullable|image|mimes:jpg,jpeg,png,webp|max:5120',
+        ], [
+            'file_informasi.uploaded' => 'Gagal mengunggah file. Ukuran file mungkin melebihi batas maksimal server. Silakan coba kompres PDF Anda atau gunakan opsi Link Google Drive.',
+            'file_informasi.max' => 'Ukuran file tidak boleh melebihi 20 MB.',
+            'file_informasi.mimes' => 'Format file harus berupa pdf, doc, atau docx.',
+            'image.uploaded' => 'Gagal mengunggah gambar. Ukuran file gambar terlalu besar (maksimal 5MB).',
+            'gdrive_link.url' => 'Format link Google Drive tidak valid.',
         ]);
 
         try {
-            $data = $validated;
+            $data = $request->except(['_token', '_method', 'file_informasi', 'image', 'gdrive_link']);
+            $data['aktif']         = $request->has('aktif');
+            $data['is_blurred']    = $request->has('is_blurred');
+            $data['bisa_download'] = $request->has('bisa_download');
 
+            // Handle file_informasi logic (Google Drive vs Local File Upload) - Prioritas: Upload File Lokal > GDrive Link
             if ($request->hasFile('file_informasi')) {
-                // Delete old file
-                if ($item->file_informasi) {
+                // Delete old local file if one existed
+                if ($item->file_informasi && strpos($item->file_informasi, 'http') === false) {
                     $oldPath = str_replace('storage/', '', $item->file_informasi);
                     if (Storage::disk('public')->exists($oldPath)) {
                         Storage::disk('public')->delete($oldPath);
@@ -111,8 +129,21 @@ class DaftarInformasiController extends Controller
                 $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-._]/', '_', $file->getClientOriginalName());
                 $path = $file->storeAs('daftar-informasi', $filename, 'public');
                 $data['file_informasi'] = 'storage/' . $path;
+            } elseif ($request->filled('gdrive_link')) {
+                // Delete old local file if one existed
+                if ($item->file_informasi && strpos($item->file_informasi, 'http') === false) {
+                    $oldPath = str_replace('storage/', '', $item->file_informasi);
+                    if (Storage::disk('public')->exists($oldPath)) {
+                        Storage::disk('public')->delete($oldPath);
+                    }
+                }
+                $data['file_informasi'] = $request->gdrive_link;
             } else {
-                unset($data['file_informasi']);
+                // If gdrive_link was cleared AND no new file is uploaded, but previously it was a GDrive link,
+                // set file_informasi to null. Otherwise keep the old file.
+                if ($item->file_informasi && (strpos($item->file_informasi, 'drive.google.com') !== false || strpos($item->file_informasi, 'docs.google.com') !== false) && !$request->filled('gdrive_link')) {
+                    $data['file_informasi'] = null;
+                }
             }
 
             if ($request->hasFile('image')) {
@@ -127,12 +158,7 @@ class DaftarInformasiController extends Controller
                 $filename = time() . '_img_' . preg_replace('/[^A-Za-z0-9\-._]/', '_', $file->getClientOriginalName());
                 $path = $file->storeAs('daftar-informasi', $filename, 'public');
                 $data['image'] = 'storage/' . $path;
-            } else {
-                unset($data['image']);
             }
-
-            $data['aktif'] = $request->has('aktif');
-            $data['is_blurred'] = $request->has('is_blurred');
 
             $item->update($data);
 

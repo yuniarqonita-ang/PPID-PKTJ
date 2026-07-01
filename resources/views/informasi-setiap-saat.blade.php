@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informasi Setiap Saat - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
@@ -127,8 +128,6 @@
 
     <div class="container">
         <div class="content-card">
-            <h2 class="section-title">Akses Dokumen</h2>
-
             @include('components.konten-dinamis', ['prefix' => 'informasi_setiapsaat'])
 
             <div class="row mt-4">
@@ -149,19 +148,30 @@
                                             <span class="badge bg-light text-primary border px-3 py-2 rounded-pill">
                                                 <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->format('d M Y') }}
                                             </span>
-                                            @if(isset($item->file_size))
+                                            @if($item->file_path && $item->file_path !== '#' && $item->file_path !== '' && isset($item->file_size) && $item->file_size !== '-' && $item->file_size !== '')
                                             <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">
                                                 <i class="fas fa-file-pdf me-1"></i> {{ $item->file_size }}
                                             </span>
                                             @endif
                                         </div>
-                                        <button type="button" 
-                                                class="btn-download-premium" 
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#previewModal" 
-                                                data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
-                                            <i class="fas fa-eye"></i> Lihat Dokumen
-                                        </button>
+                                        @if($item->file_path && $item->file_path !== '#' && $item->file_path !== '')
+                                        <div class="d-flex gap-2">
+                                            @if(is_previewable($item->file_path))
+                                            <button type="button" 
+                                                    class="btn-download-premium" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#previewModal" 
+                                                    data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
+                                                <i class="fas fa-eye"></i> Lihat Dokumen
+                                            </button>
+                                            @endif
+                                            @if($item->bisa_download)
+                                            <a href="{{ route('download.file', ['model' => 'setiapsaat', 'id' => $item->id]) }}" class="btn-download-premium" style="background: #198754; color: white;">
+                                                <i class="fas fa-download"></i> Unduh
+                                            </a>
+                                            @endif
+                                        </div>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

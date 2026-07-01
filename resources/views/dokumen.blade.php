@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dokumentasi - Portal PPID PKTJ</title>
@@ -172,16 +173,23 @@
                                 </small>
                                 
                                 <div class="d-flex justify-content-center flex-wrap">
+                                    @php
+                                        $isGDrive = str_starts_with($doc->file_path, 'http://') || str_starts_with($doc->file_path, 'https://');
+                                    @endphp
+                                    @if(is_previewable($isGDrive ? $doc->file_path : 'storage/' . $doc->file_path))
                                     <button type="button" 
                                             class="btn-action btn-view" 
                                             data-bs-toggle="modal" 
                                             data-bs-target="#previewModal" 
-                                            data-url="{{ route('preview.dokumen', ['file' => 'storage/' . $doc->file_path, 'title' => $doc->judul]) }}">
+                                            data-url="{{ route('preview.dokumen', ['file' => ($isGDrive ? $doc->file_path : 'storage/' . $doc->file_path), 'title' => $doc->judul]) }}">
                                         <i class="fas fa-eye"></i> Lihat
                                     </button>
+                                    @endif
+                                    @if($doc->bisa_download)
                                     <a href="{{ route('dokumen.download', $doc->id) }}" class="btn-action btn-download">
                                         <i class="fas fa-download"></i> Download
                                     </a>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -191,7 +199,7 @@
 
             <!-- Pagination -->
             <div class="d-flex justify-content-center mt-5">
-                {{ $dokumen->links('pagination::bootstrap-5') }}
+                {{ $dokumen->links('pagination::bootstrap-4') }}
             </div>
         @else
             <div class="alert alert-info text-center py-5">

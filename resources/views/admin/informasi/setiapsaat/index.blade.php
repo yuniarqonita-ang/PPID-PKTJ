@@ -55,18 +55,31 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse($items as $item)
-                        <tr class="hover:bg-blue-50/30 transition-colors group">
+                        <tr class="hover:bg-blue-50/30 transition-colors group {{ !$item->file_path ? 'bg-red-50/30' : '' }}">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-blue-50 text-[#004a99] rounded-xl flex items-center justify-center text-xl group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm">
-                                        <i class="fas fa-folder-open"></i>
+                                    <div class="w-12 h-12 {{ $item->file_path ? 'bg-blue-50 text-[#004a99]' : 'bg-red-50 text-red-400' }} rounded-xl flex items-center justify-center text-xl group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm">
+                                        <i class="fas {{ $item->file_path ? 'fa-folder-open' : 'fa-exclamation-triangle' }}"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-sm font-bold text-gray-800">{{ $item->judul }}</h3>
-                                        <p class="text-[10px] text-gray-400 font-bold uppercase mt-1">
-                                            <i class="fas fa-hdd mr-1"></i> {{ $item->file_size ?: 'No File' }} | 
-                                            <i class="fas fa-calendar-day ml-2 mr-1"></i> {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
-                                        </p>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            @if($item->file_path)
+                                                <span class="inline-flex items-center px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-[9px] font-black uppercase">
+                                                    <i class="fas fa-check-circle mr-1"></i> Ada Dokumen
+                                                </span>
+                                            @else
+                                                <span class="inline-flex items-center px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-[9px] font-black uppercase">
+                                                    <i class="fas fa-times-circle mr-1"></i> Belum Ada Link/File
+                                                </span>
+                                            @endif
+                                            <span class="text-[10px] text-gray-400 font-bold uppercase">
+                                                <i class="fas fa-calendar-day mr-1"></i> {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+                                            </span>
+                                        </div>
+                                        @if(!$item->file_path)
+                                            <p class="text-[10px] text-red-500 font-bold mt-1">⚠️ Klik Edit → tambahkan Link Google Drive agar tombol "Lihat Dokumen" muncul di halaman publik.</p>
+                                        @endif
                                     </div>
                                 </div>
                             </td>
@@ -95,6 +108,10 @@
                                             data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
                                         <i class="fas fa-file-pdf"></i>
                                     </button>
+                                    @else
+                                    <a href="{{ route('admin.informasi.setiapsaat.edit', $item->id) }}" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm" title="Tambah Link/File Dokumen">
+                                        <i class="fas fa-link"></i>
+                                    </a>
                                     @endif
                                     <a href="{{ route('admin.informasi.setiapsaat.edit', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm">
                                         <i class="fas fa-edit"></i>

@@ -74,7 +74,8 @@
                             </td>
                             <td class="px-8 py-6 text-center">
                                 @php
-                                    $ext = pathinfo($dok->file_path, PATHINFO_EXTENSION);
+                                    $isGDrive = str_starts_with($dok->file_path, 'http://') || str_starts_with($dok->file_path, 'https://');
+                                    $ext = $isGDrive ? 'GDRIVE' : pathinfo($dok->file_path, PATHINFO_EXTENSION);
                                 @endphp
                                 <span class="px-3 py-1 bg-slate-100 text-[10px] font-black text-slate-500 rounded-lg uppercase tracking-widest">
                                     {{ $ext ?: 'FILE' }}
@@ -85,12 +86,14 @@
                                         class="inline-flex items-center gap-2 text-[10px] font-black uppercase text-[#004a99] hover:text-[#ffc107] transition-colors border-none bg-transparent cursor-pointer"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#previewModal" 
-                                        data-url="{{ route('preview.dokumen', ['file' => 'storage/' . $dok->file_path, 'title' => $dok->judul]) }}">
+                                        data-url="{{ route('preview.dokumen', ['file' => ($isGDrive ? $dok->file_path : 'storage/' . $dok->file_path), 'title' => $dok->judul]) }}">
                                     <i class="fas fa-eye"></i> Pratinjau
                                 </button>
-                            </td>
                             <td class="px-8 py-6">
                                 <div class="flex justify-center items-center gap-2">
+                                    <a href="{{ route('admin.dokumen.edit', $dok->id) }}" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-[#004a99] hover:border-blue-200 hover:bg-blue-50 transition-all flex items-center justify-center group/btn shadow-sm">
+                                        <i class="fas fa-edit text-sm group-hover/btn:scale-110"></i>
+                                    </a>
                                     <form action="{{ route('admin.dokumen.destroy', $dok->id) }}" method="POST" class="inline" onsubmit="return confirm('Yakin ingin menghapus dokumen ini?')">
                                         @csrf
                                         @method('DELETE')
@@ -103,7 +106,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="px-8 py-20 text-center bg-slate-50/30">
+                            <td colspan="6" class="px-8 py-20 text-center bg-slate-50/30">
                                 <div class="max-w-xs mx-auto space-y-3 opacity-30 text-gray-800">
                                     <i class="fas fa-folder-open text-6xl"></i>
                                     <p class="text-sm font-bold uppercase tracking-widest">Belum ada dokumen diunggah</p>

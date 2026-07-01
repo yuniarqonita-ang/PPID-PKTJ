@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $settings['sop_permintaan_judul_hero'] ?? 'SOP Permintaan Informasi' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
@@ -32,7 +33,8 @@
                               ($d['sop_permintaan_gambar_sop'] ?? null) ||
                               ($d['sop_permintaan_gambar_proses'] ?? null) ||
                               ($d['sop_permintaan_youtube_link'] ?? null) ||
-                              ($d['sop_permintaan_isi_maklumat'] ?? null);
+                              ($d['sop_permintaan_isi_maklumat'] ?? null) ||
+                              (isset($laporan) && $laporan->count() > 0);
             @endphp
 
             @if($hasContent)

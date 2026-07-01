@@ -12,7 +12,7 @@ class InformasiDikecualikanController extends Controller
 {
     public function index(): View
     {
-        $items = InformasiDikecualikan::latest()->get();
+        $items = InformasiDikecualikan::orderBy('tanggal', 'desc')->orderBy('created_at', 'desc')->get();
         return view('admin.informasi.dikecualikan.index', compact('items'));
     }
 
@@ -34,6 +34,11 @@ class InformasiDikecualikanController extends Controller
             'penanggung_jawab'    => 'nullable|string|max:255',
             'file'                => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
             'gdrive_link'         => 'nullable|url',
+        ], [
+            'file.uploaded' => 'Gagal mengunggah file. Ukuran file mungkin melebihi batas maksimal server. Silakan coba kompres PDF Anda atau gunakan opsi Link Google Drive di bawah.',
+            'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
+            'file.mimes' => 'Format file harus berupa pdf, doc, docx, xls, xlsx, atau gambar.',
+            'gdrive_link.url' => 'Format link Google Drive tidak valid.',
         ]);
 
         $data = [
@@ -47,15 +52,11 @@ class InformasiDikecualikanController extends Controller
             'penanggung_jawab'    => $request->penanggung_jawab,
             'aktif'               => $request->has('aktif'),
             'is_blurred'          => $request->has('is_blurred'),
+            'bisa_download'       => $request->has('bisa_download'),
         ];
 
-        // Prioritas: GDrive Link > Upload Lokal
-        if ($request->filled('gdrive_link')) {
-            $data['file_path'] = $request->gdrive_link;
-            $data['file_name'] = 'Google Drive Document';
-            $data['file_size'] = '-';
-            $data['file_type'] = 'gdrive';
-        } elseif ($request->hasFile('file')) {
+        // Prioritas: Upload Lokal > GDrive Link
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
             $file->storeAs('public/informasi/dikecualikan', $filename);
@@ -63,6 +64,11 @@ class InformasiDikecualikanController extends Controller
             $data['file_name'] = $file->getClientOriginalName();
             $data['file_size'] = $this->formatFileSize($file->getSize());
             $data['file_type'] = $file->getClientOriginalExtension();
+        } elseif ($request->filled('gdrive_link')) {
+            $data['file_path'] = $request->gdrive_link;
+            $data['file_name'] = 'Google Drive Document';
+            $data['file_size'] = '-';
+            $data['file_type'] = 'gdrive';
         }
 
         InformasiDikecualikan::create($data);
@@ -90,6 +96,11 @@ class InformasiDikecualikanController extends Controller
             'penanggung_jawab'    => 'nullable|string|max:255',
             'file'                => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
             'gdrive_link'         => 'nullable|url',
+        ], [
+            'file.uploaded' => 'Gagal mengunggah file. Ukuran file mungkin melebihi batas maksimal server. Silakan coba kompres PDF Anda atau gunakan opsi Link Google Drive di bawah.',
+            'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
+            'file.mimes' => 'Format file harus berupa pdf, doc, docx, xls, xlsx, atau gambar.',
+            'gdrive_link.url' => 'Format link Google Drive tidak valid.',
         ]);
 
         $item = InformasiDikecualikan::findOrFail($id);
@@ -104,14 +115,10 @@ class InformasiDikecualikanController extends Controller
         $item->penanggung_jawab    = $request->penanggung_jawab;
         $item->aktif               = $request->has('aktif');
         $item->is_blurred          = $request->has('is_blurred');
+        $item->bisa_download       = $request->has('bisa_download');
 
-        // Prioritas: GDrive Link > Upload Lokal
-        if ($request->filled('gdrive_link')) {
-            $item->file_path = $request->gdrive_link;
-            $item->file_name = 'Google Drive Document';
-            $item->file_size = '-';
-            $item->file_type = 'gdrive';
-        } elseif ($request->hasFile('file')) {
+        // Prioritas: Upload Lokal > GDrive Link
+        if ($request->hasFile('file')) {
             if ($item->file_path && !str_starts_with($item->file_path, 'http') &&
                 Storage::exists(str_replace('storage/', 'public/', $item->file_path))) {
                 Storage::delete(str_replace('storage/', 'public/', $item->file_path));
@@ -123,6 +130,15 @@ class InformasiDikecualikanController extends Controller
             $item->file_name = $file->getClientOriginalName();
             $item->file_size = $this->formatFileSize($file->getSize());
             $item->file_type = $file->getClientOriginalExtension();
+        } elseif ($request->filled('gdrive_link')) {
+            if ($item->file_path && !str_starts_with($item->file_path, 'http') &&
+                Storage::exists(str_replace('storage/', 'public/', $item->file_path))) {
+                Storage::delete(str_replace('storage/', 'public/', $item->file_path));
+            }
+            $item->file_path = $request->gdrive_link;
+            $item->file_name = 'Google Drive Document';
+            $item->file_size = '-';
+            $item->file_type = 'gdrive';
         }
 
         $item->save();

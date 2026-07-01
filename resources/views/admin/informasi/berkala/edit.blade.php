@@ -156,6 +156,23 @@
                                     </label>
                                 </div>
 
+                                <!-- BISA DOWNLOAD TOGGLE -->
+                                <div class="flex items-center justify-between p-4 bg-gradient-to-r from-emerald-50 to-white rounded-2xl border border-emerald-100 shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center text-emerald-600">
+                                            <i class="fas fa-download text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <span class="text-[10px] font-black text-gray-800 uppercase block leading-none">Bisa Download</span>
+                                            <span class="text-[8px] text-emerald-600 font-bold uppercase tracking-tighter">Direct Download Link</span>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" name="bisa_download" value="1" class="sr-only peer" {{ ($item->bisa_download ?? false) ? 'checked' : '' }}>
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none ring-0 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
+                                    </label>
+                                </div>
+
                                 <!-- PREMIUM BLUR TOGGLE -->
                                 <div class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-white rounded-2xl border border-blue-100 shadow-sm">
                                     <div class="flex items-center space-x-3">

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Informasi Dikecualikan - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
@@ -141,8 +142,11 @@
                     <div class="col-md-4">
                         <label class="form-label text-muted small fw-bold uppercase">Penanggung Jawab</label>
                         @php
-                            $listPj = \App\Models\Dashboard::getValue('list_penanggung_jawab', "PPID UTAMA\nInspektorat Jenderal Kementerian Perhubungan\nDirektorat Jenderal Perhubungan Darat\nDirektorat Jenderal Perhubungan Laut\nDirektorat Jenderal Perhubungan Udara\nDirektorat Jenderal Perkeretaapian\nBadan Kebijakan Transportasi\nBadan Pengembangan Sumber Daya Manusia Perhubungan\nBadan Pengelola Transportasi Jabodetabek");
-                            $options = explode("\n", str_replace("\r", "", $listPj));
+                            $options = \App\Models\InformasiDikecualikan::whereNotNull('penanggung_jawab')
+                                ->where('penanggung_jawab', '!=', '')
+                                ->distinct()
+                                ->pluck('penanggung_jawab')
+                                ->toArray();
                         @endphp
                         <select name="penanggung_jawab" class="form-select shadow-sm border-0 py-3 px-4 rounded-3">
                             <option value="">Semua Penanggung Jawab</option>
@@ -199,18 +203,25 @@
                             <td class="py-4 px-4 border-end text-center fw-bold text-primary">{{ $item->penanggung_jawab ?: '-' }}</td>
                             <td class="py-4 px-4 text-center">
                                 @if($item->file_path)
-                                    @if(strtolower($item->file_type) === 'gdrive')
-                                        <button type="button" class="btn btn-sm btn-outline-info" 
-                                            data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                            data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
-                                            <i class="fab fa-google-drive"></i> Lihat
-                                        </button>
-                                    @else
-                                        <button type="button" class="btn btn-sm btn-outline-danger" 
-                                            data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                            data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
-                                            <i class="fas fa-file-download"></i> Lihat
-                                        </button>
+                                    @if(is_previewable($item->file_path))
+                                        @if(strtolower($item->file_type) === 'gdrive')
+                                            <button type="button" class="btn btn-sm btn-outline-info" 
+                                                data-bs-toggle="modal" data-bs-target="#previewModal" 
+                                                data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
+                                                <i class="fab fa-google-drive"></i> Lihat
+                                            </button>
+                                        @else
+                                            <button type="button" class="btn btn-sm btn-outline-danger" 
+                                                data-bs-toggle="modal" data-bs-target="#previewModal" 
+                                                data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
+                                                <i class="fas fa-file-download"></i> Lihat
+                                            </button>
+                                        @endif
+                                    @endif
+                                    @if($item->bisa_download)
+                                        <a href="{{ route('download.file', ['model' => 'dikecualikan', 'id' => $item->id]) }}" class="btn btn-sm btn-outline-success ms-1">
+                                            <i class="fas fa-download"></i> Unduh
+                                        </a>
                                     @endif
                                 @else
                                     -
@@ -234,7 +245,7 @@
 
             <!-- Pagination -->
             <div class="mt-5 d-flex justify-content-center">
-                {{ $items->links() }}
+                {{ $items->links('pagination::bootstrap-4') }}
             </div>
 
         </div>

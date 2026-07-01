@@ -224,7 +224,7 @@
                         <p class="text-sm font-medium text-[#004a99]">Laporan Layanan</p>
                         <p class="text-xs text-gray-500">Info Laporan</p>
                     </div>
-                    <a href="{{ route('admin.profil.edit', 'laporan-layanan') }}" class="text-[#004a99] hover:text-blue-300">
+                    <a href="{{ route('admin.layanan.laporan-layanan') }}" class="text-[#004a99] hover:text-blue-300">
                         <i class="fas fa-edit text-sm"></i>
                     </a>
                 </div>
@@ -233,7 +233,7 @@
                         <p class="text-sm font-medium text-[#004a99]">Laporan Akses</p>
                         <p class="text-xs text-gray-500">Info Akses</p>
                     </div>
-                    <a href="{{ route('admin.profil.edit', 'laporan-akses') }}" class="text-[#004a99] hover:text-blue-300">
+                    <a href="{{ route('admin.layanan.laporan-akses') }}" class="text-[#004a99] hover:text-blue-300">
                         <i class="fas fa-edit text-sm"></i>
                     </a>
                 </div>
@@ -242,7 +242,7 @@
                         <p class="text-sm font-medium text-[#004a99]">Laporan Survey</p>
                         <p class="text-xs text-gray-500">Survey Kepuasan</p>
                     </div>
-                    <a href="{{ route('admin.profil.edit', 'laporan-survey') }}" class="text-[#004a99] hover:text-blue-300">
+                    <a href="{{ route('admin.layanan.laporan-survey') }}" class="text-[#004a99] hover:text-blue-300">
                         <i class="fas fa-edit text-sm"></i>
                     </a>
                 </div>

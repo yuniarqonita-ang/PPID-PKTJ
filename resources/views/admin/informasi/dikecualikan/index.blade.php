@@ -197,7 +197,7 @@
     function confirmDelete(id) {
         const modal = document.getElementById('deleteModal');
         const form = document.getElementById('deleteForm');
-        form.action = `/admin/informasi-publik/dikecualikan/${id}`;
+        form.action = `/admin/informasi/dikecualikan/${id}`;
         modal.classList.remove('hidden');
         setTimeout(() => {
             modal.classList.add('opacity-100');

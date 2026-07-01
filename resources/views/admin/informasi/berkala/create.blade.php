@@ -17,6 +17,24 @@
             </div>
         </div>
 
+        @if(session('success'))
+        <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-6 py-4 rounded-2xl flex items-center gap-4">
+            <i class="fas fa-check-circle text-xl text-emerald-500"></i>
+            <p class="font-bold">{{ session('success') }}</p>
+        </div>
+        @endif
+
+        @if($errors->any())
+        <div class="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl">
+            <p class="font-bold mb-2"><i class="fas fa-exclamation-circle mr-2"></i>Ada kesalahan, silakan periksa:</p>
+            <ul class="list-disc list-inside text-sm">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
         <!-- FORM CARD -->
         <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-4 border-[#ffc107]">
             <form action="{{ route('admin.informasi.berkala.store') }}" method="POST" enctype="multipart/form-data" class="p-6 md:p-10 space-y-8" id="create-berkala-form">
@@ -60,6 +78,16 @@
                                 <i class="fas fa-info-circle mr-1"></i> Jika diisi, link ini akan digunakan sebagai dokumen preview (menggantikan upload file lokal).
                             </p>
                             @error('gdrive_link') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
+                        </div>
+
+                    <!-- TANGGAL -->
+                        <div class="space-y-2 text-gray-800">
+                            <label for="tanggal" class="block text-sm font-bold text-gray-700 uppercase tracking-wide">
+                                Tanggal Dokumen <span class="text-red-500">*</span>
+                            </label>
+                            <input type="date" name="tanggal" id="tanggal" value="{{ old('tanggal', date('Y-m-d')) }}" required
+                                class="w-full px-5 py-4 bg-gray-50 border border-gray-300 rounded-2xl text-gray-800 focus:ring-4 focus:ring-[#004a99]/10 focus:border-[#004a99] focus:outline-none transition-all shadow-sm">
+                            @error('tanggal') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>
 
                     </div>
@@ -118,6 +146,23 @@
                                     <label class="relative inline-flex items-center cursor-pointer">
                                         <input type="checkbox" name="aktif" value="1" class="sr-only peer" checked>
                                         <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none ring-0 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#004a99]"></div>
+                                    </label>
+                                </div>
+
+                                <!-- BISA DOWNLOAD TOGGLE -->
+                                <div class="flex items-center justify-between p-4 bg-gradient-to-r from-emerald-50 to-white rounded-2xl border border-emerald-100 shadow-sm">
+                                    <div class="flex items-center space-x-3">
+                                        <div class="w-8 h-8 bg-emerald-500/10 rounded-lg flex items-center justify-center text-emerald-600">
+                                            <i class="fas fa-download text-xs"></i>
+                                        </div>
+                                        <div>
+                                            <span class="text-[10px] font-black text-gray-800 uppercase block leading-none">Bisa Download</span>
+                                            <span class="text-[8px] text-emerald-600 font-bold uppercase tracking-tighter">Direct Download Link</span>
+                                        </div>
+                                    </div>
+                                    <label class="relative inline-flex items-center cursor-pointer">
+                                        <input type="checkbox" name="bisa_download" value="1" class="sr-only peer">
+                                        <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none ring-0 rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-emerald-500"></div>
                                     </label>
                                 </div>
 

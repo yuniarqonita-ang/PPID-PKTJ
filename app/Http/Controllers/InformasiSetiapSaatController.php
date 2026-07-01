@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\InformasiSetiapSaat;
+use App\Models\DaftarInformasi;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -10,17 +10,36 @@ use Illuminate\Support\Facades\Storage;
 
 class InformasiSetiapSaatController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
     public function index(): View
     {
-        $items = InformasiSetiapSaat::latest()->get();
+        $items = DaftarInformasi::where('kategori', 'informasi-setiap-saat')
+            ->orderBy('created_at', 'desc')
+            ->get();
+            
+        foreach ($items as $item) {
+            $item->judul = $item->judul_informasi;
+            $item->deskripsi = $item->isi_informasi;
+            $item->file_path = $item->file_informasi;
+            $item->file_size = '-';
+        }
+        
         return view('admin.informasi.setiapsaat.index', compact('items'));
     }
 
+    /**
+     * Show the form for creating a new resource.
+     */
     public function create(): View
     {
         return view('admin.informasi.setiapsaat.create');
     }
 
+    /**
+     * Store a newly created resource in storage.
+     */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
@@ -29,44 +48,61 @@ class InformasiSetiapSaatController extends Controller
             'tanggal'     => 'required|date',
             'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
             'gdrive_link' => 'nullable|url',
+        ], [
+            'file.uploaded' => 'Gagal mengunggah file. Ukuran file mungkin melebihi batas maksimal server. Silakan coba kompres PDF Anda atau gunakan opsi Link Google Drive di bawah.',
+            'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
+            'file.mimes' => 'Format file harus berupa pdf, doc, docx, xls, xlsx, atau gambar.',
+            'gdrive_link.url' => 'Format link Google Drive tidak valid.',
         ]);
 
         $data = [
-            'judul'      => $request->judul,
-            'deskripsi'  => $request->deskripsi ?? '',
-            'tanggal'    => $request->tanggal,
-            'aktif'      => $request->has('aktif'),
-            'is_blurred' => $request->has('is_blurred'),
+            'judul_informasi' => $request->judul,
+            'isi_informasi'   => $request->deskripsi ?? '',
+            'kategori'        => 'informasi-setiap-saat',
+            'tipe_informasi'  => 'setiapsaat',
+            'aktif'           => $request->has('aktif'),
+            'is_blurred'      => $request->has('is_blurred'),
+            'bisa_download'   => $request->has('bisa_download'),
         ];
 
-        // Prioritas: GDrive Link > Upload Lokal
-        if ($request->filled('gdrive_link')) {
-            $data['file_path'] = $request->gdrive_link;
-            $data['file_name'] = 'Google Drive Document';
-            $data['file_size'] = '-';
-            $data['file_type'] = 'gdrive';
-        } elseif ($request->hasFile('file')) {
+        // Prioritas: Upload Lokal > GDrive Link
+        if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
-            $file->storeAs('public/informasi/setiapsaat', $filename);
-            $data['file_path'] = 'storage/informasi/setiapsaat/' . $filename;
-            $data['file_name'] = $file->getClientOriginalName();
-            $data['file_size'] = $this->formatFileSize($file->getSize());
-            $data['file_type'] = $file->getClientOriginalExtension();
+            $file->storeAs('public/daftar-informasi', $filename);
+
+            $data['file_informasi'] = 'storage/daftar-informasi/' . $filename;
+        } elseif ($request->filled('gdrive_link')) {
+            $data['file_informasi'] = $request->gdrive_link;
         }
 
-        InformasiSetiapSaat::create($data);
+        $item = DaftarInformasi::create($data);
+        if ($request->filled('tanggal')) {
+            $item->created_at = $request->tanggal;
+            $item->waktu_pembuatan = date('Y', strtotime($request->tanggal));
+            $item->save();
+        }
 
         return redirect()->route('admin.informasi.setiapsaat.index')
             ->with('success', 'Informasi setiap saat berhasil ditambahkan!');
     }
 
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(string $id): View
     {
-        $item = InformasiSetiapSaat::findOrFail($id);
+        $item = DaftarInformasi::findOrFail($id);
+        $item->judul = $item->judul_informasi;
+        $item->deskripsi = $item->isi_informasi;
+        $item->file_path = $item->file_informasi;
+        $item->tanggal = $item->created_at;
         return view('admin.informasi.setiapsaat.edit', compact('item'));
     }
 
+    /**
+     * Update the specified resource in storage.
+     */
     public function update(Request $request, string $id): RedirectResponse
     {
         $request->validate([
@@ -75,64 +111,68 @@ class InformasiSetiapSaatController extends Controller
             'tanggal'     => 'required|date',
             'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
             'gdrive_link' => 'nullable|url',
+        ], [
+            'file.uploaded' => 'Gagal mengunggah file. Ukuran file mungkin melebihi batas maksimal server. Silakan coba kompres PDF Anda atau gunakan opsi Link Google Drive di bawah.',
+            'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
+            'file.mimes' => 'Format file harus berupa pdf, doc, docx, xls, xlsx, atau gambar.',
+            'gdrive_link.url' => 'Format link Google Drive tidak valid.',
         ]);
 
-        $item = InformasiSetiapSaat::findOrFail($id);
+        $item = DaftarInformasi::findOrFail($id);
 
-        $item->judul      = $request->judul;
-        $item->deskripsi  = $request->deskripsi ?? '';
-        $item->tanggal    = $request->tanggal;
-        $item->aktif      = $request->has('aktif');
-        $item->is_blurred = $request->has('is_blurred');
+        $data = [
+            'judul_informasi' => $request->judul,
+            'isi_informasi'   => $request->deskripsi ?? '',
+            'aktif'           => $request->has('aktif'),
+            'is_blurred'      => $request->has('is_blurred'),
+            'bisa_download'   => $request->has('bisa_download'),
+        ];
 
-        // Prioritas: GDrive Link > Upload Lokal
-        if ($request->filled('gdrive_link')) {
-            $item->file_path = $request->gdrive_link;
-            $item->file_name = 'Google Drive Document';
-            $item->file_size = '-';
-            $item->file_type = 'gdrive';
-        } elseif ($request->hasFile('file')) {
-            if ($item->file_path && !str_starts_with($item->file_path, 'http') &&
-                Storage::exists(str_replace('storage/', 'public/', $item->file_path))) {
-                Storage::delete(str_replace('storage/', 'public/', $item->file_path));
+        // Prioritas: Upload Lokal > GDrive Link
+        if ($request->hasFile('file')) {
+            if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
+                Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
+                Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
             }
             $file = $request->file('file');
             $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
-            $file->storeAs('public/informasi/setiapsaat', $filename);
-            $item->file_path = 'storage/informasi/setiapsaat/' . $filename;
-            $item->file_name = $file->getClientOriginalName();
-            $item->file_size = $this->formatFileSize($file->getSize());
-            $item->file_type = $file->getClientOriginalExtension();
+            $file->storeAs('public/daftar-informasi', $filename);
+
+            $data['file_informasi'] = 'storage/daftar-informasi/' . $filename;
+        } elseif ($request->filled('gdrive_link')) {
+            if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
+                Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
+                Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
+            }
+            $data['file_informasi'] = $request->gdrive_link;
         }
 
-        $item->save();
+        $item->update($data);
+        if ($request->filled('tanggal')) {
+            $item->created_at = $request->tanggal;
+            $item->waktu_pembuatan = date('Y', strtotime($request->tanggal));
+            $item->save();
+        }
 
         return redirect()->route('admin.informasi.setiapsaat.index')
             ->with('success', 'Informasi setiap saat berhasil diperbarui!');
     }
 
+    /**
+     * Remove the specified resource from storage.
+     */
     public function destroy(string $id): RedirectResponse
     {
-        $item = InformasiSetiapSaat::findOrFail($id);
+        $item = DaftarInformasi::findOrFail($id);
 
-        if ($item->file_path && Storage::exists(str_replace('storage/', 'public/', $item->file_path))) {
-            Storage::delete(str_replace('storage/', 'public/', $item->file_path));
+        if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
+            Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
+            Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
         }
 
         $item->delete();
 
         return redirect()->route('admin.informasi.setiapsaat.index')
             ->with('success', 'Informasi setiap saat berhasil dihapus!');
-    }
-
-    private function formatFileSize($bytes): string
-    {
-        if ($bytes >= 1048576) {
-            return number_format($bytes / 1048576, 2) . ' MB';
-        } elseif ($bytes >= 1024) {
-            return number_format($bytes / 1024, 2) . ' KB';
-        } else {
-            return $bytes . ' bytes';
-        }
     }
 }

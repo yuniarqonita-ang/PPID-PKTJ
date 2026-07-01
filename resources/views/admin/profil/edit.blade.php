@@ -21,8 +21,194 @@
             @csrf
             @method('PUT')
 
+            @if($type === 'kontak')
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                
+                <!-- MAIN CONTENT AREA (Left 2/3) -->
+                <div class="lg:col-span-2 space-y-8 animate-fade-in">
+                    <!-- Title & Subtitle Card -->
+                    <div class="bg-white rounded-[2rem] shadow-xl ring-1 ring-gray-200 overflow-hidden">
+                        <div class="p-8 md:p-10 space-y-8">
+                            <h3 class="text-sm font-black text-[#002b5c] uppercase tracking-widest flex items-center border-b border-slate-50 pb-6">
+                                <span class="w-8 h-8 bg-[#004a99] text-white rounded-lg flex items-center justify-center mr-3 text-xs">
+                                    <i class="fas fa-align-left"></i>
+                                </span>
+                                Pengaturan Utama Halaman Kontak
+                            </h3>
+
+                            <div class="grid grid-cols-1 gap-6">
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Judul Halaman (H1)</label>
+                                    <input type="text" name="judul" value="{{ old('judul', $profil->judul) }}" required
+                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-lg text-[#002b5c]">
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Tagline Hero Banner</label>
+                                    <input type="text" name="tagline_hero" value="{{ old('tagline_hero', $profil->tagline_hero) }}"
+                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c]"
+                                        placeholder="Muncul di bawah judul besar di halaman publik...">
+                                </div>
+
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Deskripsi Pembuka Form (Editor)</label>
+                                    <div class="rounded-3xl overflow-hidden border-2 border-slate-100">
+                                        <textarea name="konten_pembuka" id="editor_pembuka" class="tinymce-editor">{!! old('konten_pembuka',$profil->konten_pembuka) !!}</textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Media Links Card -->
+                    <div class="bg-white rounded-[2rem] shadow-xl ring-1 ring-gray-200 overflow-hidden">
+                        <div class="p-8 md:p-10 space-y-8">
+                            <h3 class="text-sm font-black text-[#002b5c] uppercase tracking-widest flex items-center border-b border-slate-50 pb-6">
+                                <span class="w-8 h-8 bg-[#004a99] text-white rounded-lg flex items-center justify-center mr-3 text-xs">
+                                    <i class="fas fa-share-alt"></i>
+                                </span>
+                                Tautan Media Sosial & Hubungi Kami
+                            </h3>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Facebook Link</label>
+                                    <input type="url" name="facebook_link" value="{{ old('facebook_link', $settings['facebook_link'] ?? '') }}"
+                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://facebook.com/...">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Instagram Link</label>
+                                    <input type="url" name="instagram_link" value="{{ old('instagram_link', $settings['instagram_link'] ?? '') }}"
+                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://instagram.com/...">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Twitter/X Link</label>
+                                    <input type="url" name="twitter_link" value="{{ old('twitter_link', $settings['twitter_link'] ?? '') }}"
+                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://twitter.com/...">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">YouTube Link</label>
+                                    <input type="url" name="youtube_link" value="{{ old('youtube_link', $settings['youtube_link'] ?? '') }}"
+                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://youtube.com/...">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Linktree Link</label>
+                                    <input type="url" name="linktree_link" value="{{ old('linktree_link', $settings['linktree_link'] ?? '') }}"
+                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://linktr.ee/...">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">WhatsApp Link</label>
+                                    <input type="url" name="whatsapp_link" value="{{ old('whatsapp_link', $settings['whatsapp_link'] ?? '') }}"
+                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://wa.me/...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kampus I Card -->
+                    <div class="bg-white rounded-[2rem] shadow-xl ring-1 ring-gray-200 overflow-hidden">
+                        <div class="p-8 md:p-10 space-y-8">
+                            <h3 class="text-sm font-black text-[#002b5c] uppercase tracking-widest flex items-center border-b border-slate-50 pb-6">
+                                <span class="w-8 h-8 bg-[#004a99] text-white rounded-lg flex items-center justify-center mr-3 text-xs">
+                                    <i class="fas fa-university"></i>
+                                </span>
+                                Detail Kampus I (Perintis)
+                            </h3>
+
+                            <div class="space-y-4">
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Nama Kampus I</label>
+                                    <input type="text" name="kampus_1_nama" value="{{ old('kampus_1_nama', $settings['kampus_1_nama'] ?? '') }}" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c]">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Alamat Kampus I</label>
+                                    <input type="text" name="kampus_1_alamat" value="{{ old('kampus_1_alamat', $settings['kampus_1_alamat'] ?? '') }}" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700">
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Email Kampus I</label>
+                                        <input type="email" name="kampus_1_email" value="{{ old('kampus_1_email', $settings['kampus_1_email'] ?? '') }}" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Telepon Kampus I</label>
+                                        <input type="text" name="kampus_1_telepon" value="{{ old('kampus_1_telepon', $settings['kampus_1_telepon'] ?? '') }}" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700">
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Google Maps Embed HTML (Iframe) Kampus I</label>
+                                    <textarea name="kampus_1_map" rows="4" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-medium text-xs text-slate-600 font-mono" placeholder='<iframe src="https://www.google.com/maps/embed?pb=..." ...></iframe>'>{{ old('kampus_1_map', $settings['kampus_1_map'] ?? '') }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kampus II Card -->
+                    <div class="bg-white rounded-[2rem] shadow-xl ring-1 ring-gray-200 overflow-hidden">
+                        <div class="p-8 md:p-10 space-y-8">
+                            <h3 class="text-sm font-black text-[#002b5c] uppercase tracking-widest flex items-center border-b border-slate-50 pb-6">
+                                <span class="w-8 h-8 bg-[#004a99] text-white rounded-lg flex items-center justify-center mr-3 text-xs">
+                                    <i class="fas fa-university"></i>
+                                </span>
+                                Detail Kampus II (Abdul Syukur)
+                            </h3>
+
+                            <div class="space-y-4">
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Nama Kampus II</label>
+                                    <input type="text" name="kampus_2_nama" value="{{ old('kampus_2_nama', $settings['kampus_2_nama'] ?? '') }}" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-bold text-[#002b5c]">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Alamat Kampus II</label>
+                                    <input type="text" name="kampus_2_alamat" value="{{ old('kampus_2_alamat', $settings['kampus_2_alamat'] ?? '') }}" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700">
+                                </div>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Email Kampus II</label>
+                                        <input type="email" name="kampus_2_email" value="{{ old('kampus_2_email', $settings['kampus_2_email'] ?? '') }}" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700">
+                                    </div>
+                                    <div class="space-y-2">
+                                        <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Telepon Kampus II</label>
+                                        <input type="text" name="kampus_2_telepon" value="{{ old('kampus_2_telepon', $settings['kampus_2_telepon'] ?? '') }}" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700">
+                                    </div>
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Google Maps Embed HTML (Iframe) Kampus II</label>
+                                    <textarea name="kampus_2_map" rows="4" class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-medium text-xs text-slate-600 font-mono" placeholder='<iframe src="https://www.google.com/maps/embed?pb=..." ...></iframe>'>{{ old('kampus_2_map', $settings['kampus_2_map'] ?? '') }}</textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SIDEBAR PANEL -->
+                <div class="space-y-8">
+                    <!-- Save Card -->
+                    <div class="bg-[#002b5c] rounded-[2.5rem] p-8 text-white shadow-2xl relative overflow-hidden ring-1 ring-white/10">
+                        <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white/5 rounded-full blur-3xl"></div>
+                        <div class="relative z-10 space-y-6">
+                            <div class="flex items-center gap-3 border-b border-white/10 pb-6">
+                                <div class="w-10 h-10 bg-[#ffc107] text-[#002b5c] rounded-xl flex items-center justify-center text-lg">
+                                    <i class="fas fa-save"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-black uppercase tracking-widest">Aksi Editor</h4>
+                                    <p class="text-[10px] text-blue-200/60 font-bold uppercase mt-1">Klik untuk simpan</p>
+                                </div>
+                            </div>
+                            <button type="submit" class="w-full py-5 bg-[#ffc107] text-[#002b5c] font-black text-xs uppercase tracking-[3px] rounded-2xl hover:bg-white hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-amber-500/20">
+                                SIMPAN PERUBAHAN
+                            </button>
+                            <div class="pt-4 space-y-3">
+                                <div class="flex items-center justify-between text-[10px]">
+                                    <span class="font-bold text-blue-200/50 uppercase">Update:</span>
+                                    <span class="font-black text-[#ffc107] uppercase">{{ $profil->updated_at->diffForHumans() }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @else
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- MAIN CONTENT AREA (Left 2/3) -->
                 <div class="lg:col-span-2 space-y-8">
                     <div class="bg-white rounded-[2rem] shadow-xl ring-1 ring-gray-200 overflow-hidden">
@@ -126,26 +312,6 @@
                         </div>
                     </div>
 
-                    <!-- PREMIUM BLUR CARD -->
-                    <div class="bg-blue-50 rounded-[2.5rem] p-8 border border-blue-100 shadow-lg shadow-blue-900/5 relative overflow-hidden">
-                        <div class="absolute -right-10 -top-10 w-32 h-32 bg-blue-100/50 rounded-full blur-2xl"></div>
-                        <div class="relative z-10 flex items-center justify-between">
-                            <div class="flex items-center gap-4">
-                                <div class="w-12 h-12 bg-[#004a99] text-white rounded-[1.2rem] flex items-center justify-center shadow-lg shadow-blue-900/20">
-                                    <i class="fas fa-lock text-[#ffc107] text-xl"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-black text-blue-900 uppercase tracking-widest">Premium Blur</h4>
-                                    <p class="text-blue-600 text-[10px] font-bold mt-0.5">Proteksi konten halaman 2+</p>
-                                </div>
-                            </div>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" name="is_blurred" value="1" {{ $profil->is_blurred ? 'checked' : '' }} class="sr-only peer">
-                                <div class="w-14 h-7 bg-blue-200/50 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-6 after:transition-all peer-checked:bg-[#004a99]"></div>
-                            </label>
-                        </div>
-                    </div>
-
                     <!-- Assets Card -->
                     <div class="bg-white rounded-[2.5rem] shadow-sm border border-slate-200/60 p-8 space-y-6">
                         <h4 class="text-xs font-black text-[#002b5c] uppercase tracking-widest flex items-center border-b border-slate-50 pb-6">
@@ -235,6 +401,7 @@
                     </div>
                 </div>
             </div>
+            @endif    </div>
         </form>
     </div>
 </div>

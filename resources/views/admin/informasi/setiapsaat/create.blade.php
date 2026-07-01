@@ -83,6 +83,23 @@
                         </label>
                     </div>
 
+                    <!-- BISA DOWNLOAD TOGGLE -->
+                    <div class="pt-6 border-t border-slate-50 flex items-center justify-between p-6 bg-gradient-to-r from-emerald-50 to-white rounded-3xl border border-emerald-100 shadow-sm">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-emerald-500/10 rounded-2xl flex items-center justify-center text-emerald-600">
+                                <i class="fas fa-download text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="text-sm font-black text-gray-800 uppercase tracking-widest leading-tight">Bisa Download</h4>
+                                <p class="text-[10px] text-emerald-600 font-bold uppercase tracking-tighter">Direct Download Link</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="bisa_download" value="1" class="sr-only peer">
+                            <div class="w-14 h-8 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
+                        </label>
+                    </div>
+
                     <!-- PREMIUM BLUR TOGGLE -->
                     <div class="pt-6 border-t border-slate-50 flex items-center justify-between p-6 bg-gradient-to-r from-blue-50 to-white rounded-3xl border border-blue-100 shadow-sm">
                         <div class="flex items-center space-x-4">

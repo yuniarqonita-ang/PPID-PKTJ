@@ -27,10 +27,12 @@ class DaftarInformasi extends Model
         'file_informasi',
         'aktif',
         'is_blurred',
+        'bisa_download'
     ];
 
     protected $casts = [
         'aktif' => 'boolean',
         'is_blurred' => 'boolean',
+        'bisa_download' => 'boolean'
     ];
 }

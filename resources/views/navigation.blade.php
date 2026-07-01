@@ -4,6 +4,13 @@
     }
 @endphp
 <style>
+    /* Prevent horizontal overflow and blank white gaps on mobile devices */
+    html, body {
+        overflow-x: hidden !important;
+        max-width: 100% !important;
+        width: 100% !important;
+    }
+
     /* Hover Dropdown Logic */
     @media (min-width: 992px) {
         .nav-item.dropdown:hover .dropdown-menu {
@@ -214,6 +221,10 @@
             <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}" style="height: 50px; margin-right: 12px;">
             <span>{{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}</span>
         </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
         
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav me-auto align-items-center">
@@ -350,8 +361,14 @@
             previewModal.addEventListener('show.bs.modal', function (event) {
                 const button = event.relatedTarget;
                 if (button) {
-                    const url = button.getAttribute('data-url');
-                    if (url) previewIframe.src = url;
+                    let url = button.getAttribute('data-url');
+                    if (url) {
+                        const separator = url.includes('?') ? '&' : '?';
+                        if (!url.includes('controls=')) {
+                            url = url + separator + 'controls=1';
+                        }
+                        previewIframe.src = url;
+                    }
                 }
             });
 
@@ -376,9 +393,14 @@
                             const isBlurred = params.get('is_blurred') || '0';
                             if (url.includes('/storage/')) {
                                 const relativePath = url.split('/storage/').pop();
-                                finalUrl = `/preview-dokumen?file=storage/${relativePath}&is_blurred=${isBlurred}`;
+                                finalUrl = `/preview-dokumen?file=storage/${relativePath}&is_blurred=${isBlurred}&controls=1`;
                             } else if (url.includes('drive.google.com')) {
-                                finalUrl = `/preview-dokumen?file=${encodeURIComponent(url)}&is_blurred=${isBlurred}`;
+                                finalUrl = `/preview-dokumen?file=${encodeURIComponent(url)}&is_blurred=${isBlurred}&controls=1`;
+                            }
+                        } else {
+                            if (!finalUrl.includes('controls=')) {
+                                const separator = finalUrl.includes('?') ? '&' : '?';
+                                finalUrl = finalUrl + separator + 'controls=1';
                             }
                         }
 
@@ -394,9 +416,14 @@
                 if (!url.includes('/preview-dokumen')) {
                     if (url.includes('/storage/')) {
                         const relativePath = url.split('/storage/').pop();
-                        finalUrl = `/preview-dokumen?file=storage/${relativePath}&is_blurred=${isBlurred ? '1' : '0'}`;
+                        finalUrl = `/preview-dokumen?file=storage/${relativePath}&is_blurred=${isBlurred ? '1' : '0'}&controls=1`;
                     } else if (url.includes('drive.google.com')) {
-                        finalUrl = `/preview-dokumen?file=${encodeURIComponent(url)}&is_blurred=${isBlurred ? '1' : '0'}`;
+                        finalUrl = `/preview-dokumen?file=${encodeURIComponent(url)}&is_blurred=${isBlurred ? '1' : '0'}&controls=1`;
+                    }
+                } else {
+                    if (!finalUrl.includes('controls=')) {
+                        const separator = finalUrl.includes('?') ? '&' : '?';
+                        finalUrl = finalUrl + separator + 'controls=1';
                     }
                 }
                 previewIframe.src = finalUrl;

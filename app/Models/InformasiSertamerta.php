@@ -17,12 +17,14 @@ class InformasiSertaMerta extends Model
         'file_size',
         'file_type',
         'aktif',
-        'is_blurred'
+        'is_blurred',
+        'bisa_download'
     ];
     
     protected $casts = [
         'aktif'   => 'boolean',
         'is_blurred' => 'boolean',
+        'bisa_download' => 'boolean',
         'tanggal' => 'date',
     ];
 }

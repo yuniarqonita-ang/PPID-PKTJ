@@ -16,13 +16,31 @@
                 <p class="text-slate-500 text-sm font-medium mt-1">Tulis dan terbitkan artikel informasi resmi ke portal publik</p>
             </div>
             <div class="flex items-center gap-3">
-                <button type="submit" class="px-8 py-4 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-[#004a99] hover:scale-105 active:scale-95 transition-all flex items-center border-none">
+                <button type="submit" form="main-create-form" class="px-8 py-4 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-[#004a99] hover:scale-105 active:scale-95 transition-all flex items-center border-none">
                     <i class="fas fa-paper-plane mr-2 text-[#ffc107]"></i> Terbitkan Sekarang
                 </button>
             </div>
         </div>
 
-        <form action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8 mt-8">
+        @if(session('success'))
+        <div class="bg-emerald-50 border border-emerald-200 text-emerald-700 px-6 py-4 rounded-2xl flex items-center gap-4 animate-pulse">
+            <i class="fas fa-check-circle text-xl text-emerald-500"></i>
+            <p class="font-bold">{{ session('success') }}</p>
+        </div>
+        @endif
+
+        @if($errors->any())
+        <div class="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl">
+            <p class="font-bold mb-2"><i class="fas fa-exclamation-circle mr-2"></i>Ada kesalahan:</p>
+            <ul class="list-disc list-inside text-sm">
+                @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+        @endif
+
+        <form id="main-create-form" action="{{ route('admin.berita.store') }}" method="POST" enctype="multipart/form-data" class="space-y-8 mt-8">
             @csrf
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                 <!-- MAIN CONTENT AREA -->
@@ -103,26 +121,12 @@
                                             <span class="ml-2 text-sm font-bold text-gray-700">Draft</span>
                                         </label>
                                     </div>
+                            <div class="pt-2">
+                                <label for="tanggal" class="block text-xs font-bold text-slate-500 uppercase mb-2">Tanggal Publikasi</label>
+                                <input type="date" name="tanggal" id="tanggal"
+                                    class="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#004a99]"
+                                    value="{{ old('tanggal', date('Y-m-d')) }}">
                             </div>
-                        </div>
-                    </div>
-
-                    <!-- PREMIUM BLUR CARD -->
-                    <div class="bg-blue-50 rounded-2xl p-6 border border-blue-100">
-                        <div class="flex items-center justify-between">
-                            <div class="flex items-center gap-3">
-                                <div class="w-10 h-10 bg-[#004a99] text-white rounded-xl flex items-center justify-center">
-                                    <i class="fas fa-lock text-[#ffc107]"></i>
-                                </div>
-                                <div>
-                                    <h4 class="text-xs font-black text-blue-900 uppercase tracking-widest">Premium Blur View</h4>
-                                    <p class="text-blue-700 text-[10px] font-bold">Blur dokumen halaman 2+</p>
-                                </div>
-                            </div>
-                            <label class="relative inline-flex items-center cursor-pointer">
-                                <input type="checkbox" name="is_blurred" value="1" {{ old('is_blurred') ? 'checked' : '' }} class="sr-only peer">
-                                <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-[#004a99]"></div>
-                            </label>
                         </div>
                     </div>
                         <div class="bg-gray-50 rounded-2xl p-6 border border-gray-200">

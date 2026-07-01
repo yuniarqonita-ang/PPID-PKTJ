@@ -141,7 +141,10 @@ class ProfilPpidController extends Controller
         $pfx = str_replace('-', '_', $type);
         $dashboardFields = [
             'youtube_link', 'judul_maklumat', 'isi_maklumat', 'judul_standar', 'isi_standar',
-            'judul_konten', 'isi_konten', 'ringkasan_eksekutif', 'isi_laporan', 'tahun_laporan', 'jenis_laporan'
+            'judul_konten', 'isi_konten', 'ringkasan_eksekutif', 'isi_laporan', 'tahun_laporan', 'jenis_laporan',
+            'facebook_link', 'instagram_link', 'twitter_link', 'linktree_link', 'whatsapp_link',
+            'kampus_1_nama', 'kampus_1_alamat', 'kampus_1_email', 'kampus_1_telepon', 'kampus_1_map',
+            'kampus_2_nama', 'kampus_2_alamat', 'kampus_2_email', 'kampus_2_telepon', 'kampus_2_map'
         ];
 
         foreach ($dashboardFields as $field) {

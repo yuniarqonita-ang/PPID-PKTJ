@@ -32,11 +32,13 @@
                                             <i class="fas fa-file me-1"></i>{{ Str::limit($item->file_name, 15) }}
                                         </small>
                                         <div class="btn-group shadow-sm">
-                                            <button type="button" class="btn btn-outline-primary btn-sm" 
-                                                data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                                data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
-                                                <i class="fas fa-eye"></i>
-                                            </button>
+                                            @if(is_previewable($item->file_path))
+                                                <button type="button" class="btn btn-outline-primary btn-sm" 
+                                                    data-bs-toggle="modal" data-bs-target="#previewModal" 
+                                                    data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
+                                                    <i class="fas fa-eye"></i>
+                                                </button>
+                                            @endif
                                             <a href="{{ route('download.file', ['model' => 'berkala', 'id' => $item->id]) }}" 
                                                class="btn btn-primary btn-sm" 
                                                title="Download {{ $item->file_name }}">

@@ -56,25 +56,42 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse($items as $item)
-                        <tr class="hover:bg-blue-50/30 transition-colors group">
+                        <tr class="hover:bg-blue-50/30 transition-colors group {{ !$item->file_path ? 'bg-red-50/30' : '' }}">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-blue-50 text-[#004a99] rounded-xl flex items-center justify-center text-xl group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm">
-                                        <i class="fas fa-file-pdf"></i>
+                                    <div class="w-12 h-12 {{ $item->file_path ? 'bg-blue-50 text-[#004a99]' : 'bg-red-50 text-red-400' }} rounded-xl flex items-center justify-center text-xl group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm">
+                                        <i class="fas {{ $item->file_path ? 'fa-file-pdf' : 'fa-exclamation-triangle' }}"></i>
                                     </div>
                                     <div>
                                         <h3 class="text-sm font-bold text-gray-800">{{ $item->judul }}</h3>
-                                        <p class="text-[10px] text-gray-400 font-bold uppercase mt-1">
-                                            <i class="fas fa-hdd mr-1"></i> {{ $item->file_size }} | 
-                                            <i class="fas fa-calendar-day ml-2 mr-1"></i> {{ $item->created_at->format('d M Y') }}
-                                        </p>
+                                        <div class="flex items-center gap-2 mt-1">
+                                            @if($item->file_path)
+                                                <span class="inline-flex items-center px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-[9px] font-black uppercase">
+                                                    <i class="fas fa-check-circle mr-1"></i> Ada Dokumen
+                                                </span>
+                                            @else
+                                                <span class="inline-flex items-center px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-[9px] font-black uppercase">
+                                                    <i class="fas fa-times-circle mr-1"></i> Belum Ada Link/File
+                                                </span>
+                                            @endif
+                                            <span class="text-[10px] text-gray-400 font-bold uppercase">
+                                                <i class="fas fa-calendar-day mr-1"></i> {{ $item->created_at->format('d M Y') }}
+                                            </span>
+                                        </div>
                                     </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4 hidden lg:table-cell">
-                                <p class="text-xs text-gray-500 leading-relaxed line-clamp-2 max-w-xs italic font-medium">
-                                    {{ $item->deskripsi ? strip_tags($item->deskripsi) : 'Tidak ada deskripsi singkat.' }}
-                                </p>
+                                @if(!$item->file_path)
+                                    <div class="flex items-center gap-2 p-2 bg-red-50 border border-red-200 rounded-xl">
+                                        <i class="fas fa-exclamation-circle text-red-400 text-sm"></i>
+                                        <p class="text-[11px] text-red-500 font-bold">Klik Edit untuk menambahkan Link Google Drive atau Upload File agar tombol "Lihat Dokumen" muncul di halaman publik.</p>
+                                    </div>
+                                @else
+                                    <p class="text-xs text-gray-500 leading-relaxed line-clamp-2 max-w-xs italic font-medium">
+                                        {{ $item->deskripsi ? strip_tags($item->deskripsi) : 'Tidak ada deskripsi singkat.' }}
+                                    </p>
+                                @endif
                             </td>
                             <td class="px-6 py-4 text-center">
                                 @if($item->aktif)
@@ -101,6 +118,10 @@
                                             data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
                                         <i class="fas fa-file-pdf"></i>
                                     </button>
+                                    @else
+                                    <a href="{{ route('admin.informasi.berkala.edit', $item->id) }}" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm" title="Tambah Link/File Dokumen">
+                                        <i class="fas fa-link"></i>
+                                    </a>
                                     @endif
                                     <a href="{{ route('admin.informasi.berkala.edit', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm">
                                         <i class="fas fa-edit"></i>
@@ -129,9 +150,7 @@
                 </table>
             </div>
         </div>
-
     </div>
-</div>
 
 <!-- DETAIL MODAL -->
 <div id="detailModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">

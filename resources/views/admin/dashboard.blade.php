@@ -115,9 +115,9 @@
                     <div>
                         <h3 class="text-2xl font-black text-[#004a99] tracking-tight flex items-center">
                             <span class="w-3 h-8 bg-[#ffc107] rounded-full mr-4"></span>
-                            Visualisasi Pengunjung
+                            Visualisasi Kunjungan Harian
                         </h3>
-                        <p class="text-[13px] text-slate-500 font-black uppercase tracking-widest mt-2">Update terakhir: {{ date('d F Y') }}</p>
+                        <p class="text-[13px] text-slate-500 font-black uppercase tracking-widest mt-2">Tren Kunjungan 30 Hari Terakhir | Update terakhir: {{ date('d F Y') }}</p>
                     </div>
                 </div>
                 <div class="h-[400px]">
@@ -314,7 +314,7 @@
         data: {
             labels: labels,
             datasets: [{
-                label: 'Aktivitas',
+                label: 'Pengunjung',
                 data: dataValues,
                 borderColor: '#002b5c',
                 backgroundColor: gradient,
@@ -337,7 +337,16 @@
             scales: {
                 y: {
                     grid: { color: 'rgba(0,0,0,0.05)', borderDash: [5, 5] },
-                    ticks: { color: '#002b5c', font: { weight: '900', size: 12, family: 'Inter' } }
+                    ticks: { 
+                        color: '#002b5c', 
+                        font: { weight: '900', size: 12, family: 'Inter' },
+                        precision: 0,
+                        callback: function(value) {
+                            if (value % 1 === 0) {
+                                return value;
+                            }
+                        }
+                    }
                 },
                 x: {
                     grid: { display: false },

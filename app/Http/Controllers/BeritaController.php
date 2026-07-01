@@ -12,7 +12,7 @@ class BeritaController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Berita::latest();
+        $query = Berita::orderBy('tanggal', 'desc')->orderBy('created_at', 'desc');
 
         if ($request->filled('search')) {
             $q = $request->search;
@@ -34,9 +34,10 @@ class BeritaController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'judul'  => 'required|max:255',
-            'konten' => 'required',
-            'gambar' => 'nullable|image|max:5120',
+            'judul'   => 'required|max:255',
+            'konten'  => 'required',
+            'gambar'  => 'nullable|image|max:5120',
+            'tanggal' => 'nullable|date',
         ]);
 
         // Hanya kolom yang ada di tabel beritas
@@ -48,7 +49,7 @@ class BeritaController extends Controller
             'tags'     => $request->tags,
             'aktif'    => 1,
             'is_blurred' => $request->has('is_blurred'),
-            'tanggal'  => now()->format('Y-m-d'),
+            'tanggal'  => $request->input('tanggal', now()->format('Y-m-d')),
             'views'    => 0,
         ];
 
@@ -76,9 +77,10 @@ class BeritaController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'judul'  => 'required|max:255',
-            'konten' => 'required',
-            'gambar' => 'nullable|image|max:5120',
+            'judul'   => 'required|max:255',
+            'konten'  => 'required',
+            'gambar'  => 'nullable|image|max:5120',
+            'tanggal' => 'nullable|date',
         ]);
 
         $berita = Berita::findOrFail($id);
@@ -90,6 +92,9 @@ class BeritaController extends Controller
         $berita->tags     = $request->tags;
         $berita->aktif    = 1; // selalu aktif/published
         $berita->is_blurred = $request->has('is_blurred');
+        if ($request->filled('tanggal')) {
+            $berita->tanggal = $request->tanggal;
+        }
 
         if ($request->hasFile('gambar')) {
             // Delete old image
@@ -126,7 +131,7 @@ class BeritaController extends Controller
     public function publicIndex()
     {
         $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
-        $beritas  = Berita::where('aktif', true)->latest()->paginate(9);
+        $beritas  = Berita::where('aktif', true)->orderBy('tanggal', 'desc')->orderBy('created_at', 'desc')->paginate(9);
         return view('berita.index', compact('beritas', 'settings'));
     }
 
@@ -142,7 +147,7 @@ class BeritaController extends Controller
         // Apply Premium Blur logic to content
         $berita->konten = $this->processContent($berita->konten, $berita->is_blurred ?? false);
         
-        $related = Berita::where('aktif', true)->where('id', '!=', $berita->id)->latest()->take(3)->get();
+        $related = Berita::where('aktif', true)->where('id', '!=', $berita->id)->orderBy('tanggal', 'desc')->orderBy('created_at', 'desc')->take(3)->get();
         return view('berita.show', compact('berita', 'related', 'settings'));
     }
 

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Berita & Artikel - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
@@ -271,7 +272,7 @@
 
             @if($beritas->hasPages())
                 <div class="d-flex justify-content-center mt-5">
-                    {{ $beritas->links('pagination::bootstrap-5') }}
+                    {{ $beritas->links('pagination::bootstrap-4') }}
                 </div>
             @endif
         </div>
