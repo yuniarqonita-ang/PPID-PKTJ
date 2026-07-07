@@ -114,6 +114,11 @@
             line-height: 1.8;
         }
     </style>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    </style>
 </head>
 <body>
 
@@ -127,13 +132,13 @@
     </div>
 
     <div class="container">
-        <div class="content-card">
+        <div class="content-card" data-aos="fade-up" data-aos-delay="100">
             @include('components.konten-dinamis', ['prefix' => 'informasi_sertamerta'])
 
             <div class="row mt-4">
                 @forelse($items as $item)
                     <div class="col-12">
-                        <div class="info-item">
+                        <div class="info-item hover-lift" data-aos="fade-up">
                             <div class="d-flex align-items-start">
                                 <div class="info-icon">
                                     <i class="fas fa-bolt"></i>
@@ -191,6 +196,8 @@
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({duration: 800, once: true});</script>
 </body>
 </html>
 

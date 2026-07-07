@@ -98,6 +98,11 @@
         
         .rich-content p { margin-bottom: 1.5rem; }
     </style>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    </style>
 </head>
 <body>
 
@@ -111,7 +116,7 @@
     </div>
 
     <div class="container mb-5">
-        <div class="content-card">
+        <div class="content-card" data-aos="fade-up" data-aos-delay="100">
             @if($profil)
                 @php
                     $videoUrl = $settings['profil_youtube_link'] ?? null;
@@ -223,5 +228,7 @@
             });
         });
     </script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({duration: 800, once: true});</script>
 </body>
 </html>

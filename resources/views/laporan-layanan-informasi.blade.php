@@ -10,6 +10,11 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     @include('components.public-page-style')
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    </style>
 </head>
 <body>
     @include('navigation')
@@ -25,7 +30,7 @@
     </div>
 
     <div class="container page-container">
-        <div class="content-card">
+        <div class="content-card" data-aos="fade-up" data-aos-delay="100">
             @php
                 $hasLaporanList = isset($laporan) && $laporan->count() > 0;
             @endphp
@@ -38,7 +43,7 @@
                         $previewUrl = $item->file_path ? ($isGDrive ? $item->file_path : 'storage/' . $item->file_path) : null;
                     @endphp
                     <div class="col-12">
-                        <div class="info-item">
+                        <div class="info-item hover-lift" data-aos="fade-up">
                             <div class="d-flex align-items-start flex-column flex-md-row">
                                 <div class="info-icon">
                                     <i class="fas fa-file-contract"></i>
@@ -101,5 +106,7 @@
 
     @include('footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({duration: 800, once: true});</script>
 </body>
 </html>

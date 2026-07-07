@@ -284,7 +284,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/setup-db-2025', function() {
         try {
             \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-            return 'Database migrated successfully!';
+            \Illuminate\Support\Facades\Artisan::call('view:clear');
+            \Illuminate\Support\Facades\Artisan::call('cache:clear');
+            return 'Database migrated and cache cleared successfully!';
         } catch (\Exception $e) {
             return 'Migration error: ' . $e->getMessage();
         }

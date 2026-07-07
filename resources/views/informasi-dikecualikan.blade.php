@@ -112,6 +112,11 @@
             line-height: 1.8;
         }
     </style>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    </style>
 </head>
 <body>
 
@@ -125,7 +130,7 @@
     </div>
 
     <div class="container">
-        <div class="content-card">
+        <div class="content-card" data-aos="fade-up" data-aos-delay="100">
             <h1 class="section-title">Informasi Dikecualikan</h1>
 
             <!-- Search Filters -->
@@ -185,7 +190,6 @@
                             <th style="min-width: 200px;" class="py-4 px-3 border-end">Konsekuensi/Pertimbangan Ditutup Bagi Publik</th>
                             <th style="min-width: 120px;" class="py-4 px-3 border-end">Jangka Waktu</th>
                             <th style="min-width: 150px;" class="py-4 px-3 border-end">Penanggung Jawab</th>
-                            <th style="min-width: 120px;" class="py-4 px-3">File / Lampiran</th>
                         </tr>
                     </thead>
                     <tbody class="border-top-0">
@@ -201,36 +205,11 @@
                             <td class="py-4 px-4 border-end text-center"><div class="rich-content">{!! $item->konsekuensi_ditutup ?: '-' !!}</div></td>
                             <td class="py-4 px-4 border-end text-center fw-bold">{{ $item->jangka_waktu ?: '-' }}</td>
                             <td class="py-4 px-4 border-end text-center fw-bold text-primary">{{ $item->penanggung_jawab ?: '-' }}</td>
-                            <td class="py-4 px-4 text-center">
-                                @if($item->file_path)
-                                    @if(is_previewable($item->file_path))
-                                        @if(strtolower($item->file_type) === 'gdrive')
-                                            <button type="button" class="btn btn-sm btn-outline-info" 
-                                                data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                                data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
-                                                <i class="fab fa-google-drive"></i> Lihat
-                                            </button>
-                                        @else
-                                            <button type="button" class="btn btn-sm btn-outline-danger" 
-                                                data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                                data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
-                                                <i class="fas fa-file-download"></i> Lihat
-                                            </button>
-                                        @endif
-                                    @endif
-                                    @if($item->bisa_download)
-                                        <a href="{{ route('download.file', ['model' => 'dikecualikan', 'id' => $item->id]) }}" class="btn btn-sm btn-outline-success ms-1">
-                                            <i class="fas fa-download"></i> Unduh
-                                        </a>
-                                    @endif
-                                @else
-                                    -
-                                @endif
-                            </td>
+
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="8" class="text-center py-5">
+                            <td colspan="7" class="text-center py-5">
                                 <div class="py-5">
                                     <i class="fas fa-shield-alt fa-4x text-muted mb-4 opacity-25"></i>
                                     <h3 class="text-muted">Data Tidak Ditemukan</h3>
@@ -254,6 +233,8 @@
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({duration: 800, once: true});</script>
 </body>
 </html>
 

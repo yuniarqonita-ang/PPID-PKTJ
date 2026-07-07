@@ -369,6 +369,11 @@
             color: white;
         }
     </style>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+    </style>
 </head>
 <body>
 
@@ -653,7 +658,7 @@
 
                 <!-- Kolom Kanan: Peta Lokasi (Maps) -->
                 <div class="col-lg-6">
-                    <div class="card border-0 shadow-lg h-100 p-4" style="border-radius: 30px; background: #f8fafc; border: 1px solid #e2e8f0; min-height: 520px; display: flex; flex-direction: column;">
+                    <div class="card hover-lift " data-aos="fade-up" border-0 shadow-lg h-100 p-4" style="border-radius: 30px; background: #f8fafc; border: 1px solid #e2e8f0; min-height: 520px; display: flex; flex-direction: column;">
                         <h4 class="outfit fw-black text-[#002b5c] mb-4 text-center uppercase tracking-wide" style="font-size: 1.1rem; border-bottom: 2px solid var(--secondary-gold); padding-bottom: 10px; display: inline-block;">
                             <i class="fas fa-map-marked-alt text-[#004a99] mr-2"></i> Peta Lokasi Kampus PKTJ
                         </h4>
@@ -714,5 +719,7 @@
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init({duration: 800, once: true});</script>
 </body>
 </html>
