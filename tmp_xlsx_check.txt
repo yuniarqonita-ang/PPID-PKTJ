@@ -1,0 +1,23 @@
+﻿python : Traceback (most recent call last):
+At line:1 char:1
++ python -c "
++ ~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (Traceback (most recent call last)::String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+  File "<string>", line 3, in <module>
+    wb = openpyxl.load_workbook('dip_data.xlsx', data_only=True)
+  File "C:\laragon\bin\python\python-3.13\Lib\site-packages\openpyxl\reader\excel.py", line 346, in load_workbook
+    reader = ExcelReader(filename, read_only, keep_vba,
+                         data_only, keep_links, rich_text)
+  File "C:\laragon\bin\python\python-3.13\Lib\site-packages\openpyxl\reader\excel.py", line 123, in __init__
+    self.archive = _validate_archive(fn)
+                   ~~~~~~~~~~~~~~~~~^^^^
+  File "C:\laragon\bin\python\python-3.13\Lib\site-packages\openpyxl\reader\excel.py", line 95, in _validate_archive
+    archive = ZipFile(filename, 'r')
+  File "C:\laragon\bin\python\python-3.13\Lib\zipfile\__init__.py", line 1380, in __init__
+    self._RealGetContents()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\laragon\bin\python\python-3.13\Lib\zipfile\__init__.py", line 1447, in _RealGetContents
+    raise BadZipFile("File is not a zip file")
+zipfile.BadZipFile: File is not a zip file

@@ -47,7 +47,10 @@ class InformasiPublikController extends Controller
     {
         $rawItems = DaftarInformasi::where('aktif', true)
             ->where('kategori', 'informasi-berkala')
+            ->whereNotNull('file_informasi')
+            ->where('file_informasi', '!=', '')
             ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
             
         $items = $rawItems->map(function($item) {
@@ -63,7 +66,10 @@ class InformasiPublikController extends Controller
     {
         $rawItems = DaftarInformasi::where('aktif', true)
             ->where('kategori', 'informasi-serta-merta')
+            ->whereNotNull('file_informasi')
+            ->where('file_informasi', '!=', '')
             ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
 
         $items = $rawItems->map(function($item) {
@@ -79,7 +85,10 @@ class InformasiPublikController extends Controller
     {
         $rawItems = DaftarInformasi::where('aktif', true)
             ->where('kategori', 'informasi-setiap-saat')
+            ->whereNotNull('file_informasi')
+            ->where('file_informasi', '!=', '')
             ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
 
         $items = $rawItems->map(function($item) {
@@ -93,7 +102,9 @@ class InformasiPublikController extends Controller
     // Informasi Dikecualikan
     public function informasiDikecualikan(\Illuminate\Http\Request $request)
     {
-        $query = InformasiDikecualikan::where('aktif', true);
+        $query = InformasiDikecualikan::where('aktif', true)
+            ->whereNotNull('file_path')
+            ->where('file_path', '!=', '');
 
         if ($request->filled('informasi')) {
             $query->where('judul', 'like', '%' . $request->informasi . '%');
@@ -105,7 +116,7 @@ class InformasiPublikController extends Controller
             $query->where('penanggung_jawab', 'like', '%' . $request->penanggung_jawab . '%');
         }
 
-        $items = $query->orderBy('tanggal', 'desc')->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
+        $items = $query->orderBy('tanggal', 'desc')->orderBy('id', 'asc')->paginate(20)->withQueryString();
         
         foreach ($items as $item) {
             $item->deskripsi = $this->processContent($item->deskripsi, $item->is_blurred ?? false);

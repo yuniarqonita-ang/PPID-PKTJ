@@ -62,6 +62,24 @@ try {
     if (!$hasRun) {
         // Run pending migrations
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+
+        // Seed the new contact and social media links first
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--class' => 'ContactSocialMediaSeeder',
+            '--force' => true
+        ]);
+        
+        // Seed DIP data
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--class' => 'DipSeeder',
+            '--force' => true
+        ]);
+
+        // Update Profil PPID
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--class' => 'UpdateProfilSeeder',
+            '--force' => true
+        ]);
         
         // Seed any missing dashboard/default configurations if needed
         if (\Illuminate\Support\Facades\Schema::hasTable('dashboards')) {
@@ -280,12 +298,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/pesan-kontak/{id}', [\App\Http\Controllers\PesanKontakController::class, 'show'])->name('admin.pesan-kontak.show');
     Route::delete('/pesan-kontak/{id}', [\App\Http\Controllers\PesanKontakController::class, 'destroy'])->name('admin.pesan-kontak.destroy');
 
-    // Temporary route to run migrations and fix db on cPanel
     Route::get('/setup-db-2025', function() {
         try {
             \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
             \Illuminate\Support\Facades\Artisan::call('view:clear');
             \Illuminate\Support\Facades\Artisan::call('cache:clear');
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DipSeeder']);
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'UpdateProfilSeeder']);
             return 'Database migrated and cache cleared successfully!';
         } catch (\Exception $e) {
             return 'Migration error: ' . $e->getMessage();
@@ -892,3 +911,6 @@ Route::get('storage/{path}', function ($path) {
     }
     abort(404);
 })->where('path', '.*');
+// Public Berita Routes
+Route::get('/berita', [\App\Http\Controllers\BeritaController::class, 'publicIndex'])->name('berita.public');
+Route::get('/berita/{slug}', [\App\Http\Controllers\BeritaController::class, 'publicShow'])->name('berita.public.show');

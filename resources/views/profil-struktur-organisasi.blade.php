@@ -65,33 +65,84 @@
         }
 
         /* Organizational Chart Styling */
-        .org-chart { text-align: center; padding: 40px 0; }
-        .org-level { margin: 30px 0; }
-        .org-box {
-            background: white;
-            color: var(--primary-blue);
-            padding: 25px;
-            border-radius: 20px;
-            display: inline-block;
-            box-shadow: 0 10px 30px rgba(0, 74, 153, 0.1);
-            min-width: 250px;
-            border: 2px solid var(--primary-blue);
-            transition: transform 0.3s ease;
+        .org-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 0;
+            gap: 20px;
         }
-        .org-box:hover { transform: translateY(-5px); }
-        .org-box.director {
-            background: var(--primary-blue);
+        .org-group-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--primary-blue);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(0, 74, 153, 0.05);
+            padding: 10px 24px;
+            border-radius: 30px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 74, 153, 0.1);
+            display: inline-block;
+            font-family: 'Outfit', sans-serif;
+        }
+        .org-card {
+            background: white;
+            border-radius: 18px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 74, 153, 0.06);
+            border: 1px solid #e2e8f0;
+            min-width: 230px;
+            max-width: 280px;
+            text-align: center;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .org-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 74, 153, 0.12);
+            border-color: var(--primary-blue);
+        }
+        .org-card.level-1 {
+            background: linear-gradient(135deg, var(--primary-blue), #002d62);
             color: white;
             border: 2px solid var(--secondary-gold);
+            min-width: 320px;
         }
-        .org-line {
-            border-left: 3px dashed var(--secondary-gold);
+        .org-card.level-1 .role-name {
+            color: var(--secondary-gold);
+        }
+        .org-card .role-name {
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #64748b;
+            margin-bottom: 8px;
+            letter-spacing: 0.5px;
+        }
+        .org-card .person-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #1e293b;
+            line-height: 1.4;
+        }
+        .org-card.level-1 .person-name {
+            color: white;
+            font-size: 1.15rem;
+        }
+        .org-level-row {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            width: 100%;
+        }
+        .org-connector {
+            width: 2px;
             height: 40px;
+            background: linear-gradient(to bottom, var(--secondary-gold), var(--primary-blue));
             margin: 0 auto;
-            width: 3px;
         }
-        .org-box strong { display: block; font-size: 1.1rem; margin-bottom: 5px; font-family: 'Outfit', sans-serif; }
-        .org-box small { opacity: 0.8; font-weight: 500; }
     </style>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
@@ -150,37 +201,86 @@
                             <h2 class="section-title">{{ $section['title'] }}</h2>
                             
                             @if(($section['layout'] ?? 'default') === 'diagram')
-                                <div class="org-chart">
-                                    <div class="org-level">
-                                        <div class="org-box director">
-                                            <strong>{{ $settings['struktur_role_1'] ?? 'DIREKTUR PKTJ' }}</strong>
-                                            <small>{{ $settings['struktur_sub_1'] ?? 'Pembina PPID' }}</small>
+                                <div class="org-container">
+                                    <!-- Level 1 -->
+                                    <div class="org-group-title" data-aos="fade-down">Tingkat 1: Pelaksana UPT</div>
+                                    <div class="org-level-row">
+                                        <div class="org-card level-1 hover-lift" data-aos="zoom-in">
+                                            <div class="role-name">PPID Pelaksana UPT</div>
+                                            <div class="person-name">Direktur PKTJ</div>
                                         </div>
                                     </div>
 
-                                    <div class="org-line"></div>
+                                    <div class="org-connector"></div>
 
-                                    <div class="org-level">
-                                        <div class="org-box">
-                                            <strong>{{ $settings['struktur_role_2'] ?? 'KOORDINATOR PPID' }}</strong>
-                                            <small>{{ $settings['struktur_sub_2'] ?? 'Kepala Bagian/Program' }}</small>
+                                    <!-- Level 2 -->
+                                    <div class="org-group-title" data-aos="fade-down">Tingkat 2: Manager Informasi & Dokumentasi</div>
+                                    <div class="org-level-row">
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="100">
+                                            <div class="role-name">Manager Bidang 1</div>
+                                            <div class="person-name">Wakil Direktur 1</div>
+                                        </div>
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="200">
+                                            <div class="role-name">Manager Bidang 2</div>
+                                            <div class="person-name">Wakil Direktur 2</div>
+                                        </div>
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="300">
+                                            <div class="role-name">Manager Bidang 3</div>
+                                            <div class="person-name">Wakil Direktur 3</div>
+                                        </div>
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="400">
+                                            <div class="role-name">Manager Administrasi</div>
+                                            <div class="person-name">Kepala Bagian Administrasi Akademik dan Ketarunaan</div>
                                         </div>
                                     </div>
 
-                                    <div class="org-line"></div>
+                                    <div class="org-connector"></div>
 
-                                    <div class="org-level d-flex flex-wrap justify-content-center gap-4">
-                                        <div class="org-box">
-                                            <strong>{{ $settings['struktur_role_3'] ?? 'TIM PPID' }}</strong>
-                                            <small>{{ $settings['struktur_sub_3'] ?? 'Staff Teknis' }}</small>
+                                    <!-- Level 3 -->
+                                    <div class="org-group-title" data-aos="fade-down">Tingkat 3: Pengelola Dokumentasi</div>
+                                    <div class="org-level-row">
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="100">
+                                            <div class="role-name">Pengelola Dokumentasi</div>
+                                            <div class="person-name">Kepala Bagian Keuangan, Umum dan Kerjasama</div>
                                         </div>
-                                        <div class="org-box">
-                                            <strong>{{ $settings['struktur_role_4'] ?? 'TIM PPID' }}</strong>
-                                            <small>{{ $settings['struktur_sub_4'] ?? 'Staff Teknis' }}</small>
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="200">
+                                            <div class="role-name">Humas</div>
+                                            <div class="person-name">Pranata Hubungan Masyarakat Ahli Muda</div>
                                         </div>
-                                        <div class="org-box">
-                                            <strong>{{ $settings['struktur_role_5'] ?? 'TIM PPID' }}</strong>
-                                            <small>{{ $settings['struktur_sub_5'] ?? 'Staff Teknis' }}</small>
+                                    </div>
+
+                                    <div class="org-connector"></div>
+
+                                    <!-- Level 4 -->
+                                    <div class="org-group-title" data-aos="fade-down">Tingkat 4: Petugas Informasi</div>
+                                    <div class="org-level-row">
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="50">
+                                            <div class="role-name">Petugas Keuangan</div>
+                                            <div class="person-name">Analis Pengelolaan Keuangan APBN Ahli Muda</div>
+                                        </div>
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="100">
+                                            <div class="role-name">Petugas SDM</div>
+                                            <div class="person-name">Analis Sumber Daya Manusia Aparatur Ahli Muda</div>
+                                        </div>
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="150">
+                                            <div class="role-name">Teknologi Pembelajaran</div>
+                                            <div class="person-name">Para Pengembangan Teknologi Pembelajaran Ahli Muda</div>
+                                        </div>
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="200">
+                                            <div class="role-name">Kepala Pusat</div>
+                                            <div class="person-name">Para Kepala Pusat</div>
+                                        </div>
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="250">
+                                            <div class="role-name">Ketua Program Studi</div>
+                                            <div class="person-name">Para Ketua Program Studi</div>
+                                        </div>
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="300">
+                                            <div class="role-name">Kepala Unit</div>
+                                            <div class="person-name">Para Kepala Unit</div>
+                                        </div>
+                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="350">
+                                            <div class="role-name">Kehumasan</div>
+                                            <div class="person-name">Pranata Kehumasan</div>
                                         </div>
                                     </div>
                                 </div>
@@ -192,6 +292,167 @@
                         </div>
                     @endforeach
                 @endif
+
+                <!-- Section Tugas & Wewenang Accordion -->
+                <div class="mt-5" data-aos="fade-up" data-aos-delay="200">
+                    @if($profil->konten_detail)
+                        {!! $profil->konten_detail !!}
+                    @else
+                        <h2 class="section-title">Tugas & Wewenang Struktur PPID</h2>
+                        <p class="text-muted mb-4">Uraian tugas, wewenang, dan tanggung jawab masing-masing bagian dalam struktur PPID Politeknik Keselamatan Transportasi Jalan sesuai Keputusan Direktur PKTJ.</p>
+                        
+                        <div class="accordion" id="accordionTugas">
+                            <!-- Item 1: PPID Pelaksana UPT -->
+                            <div class="accordion-item rounded-4 overflow-hidden border mb-3 shadow-sm bg-white">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button fw-bold outfit text-primary collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="false">
+                                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center me-3 d-inline-flex align-items-center justify-content-center"><i class="fas fa-user-tie"></i></span>
+                                        1. PPID Pelaksana UPT (Direktur PKTJ)
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionTugas">
+                                    <div class="accordion-body bg-light/50 p-4">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <h5 class="fw-bold text-[#004a99]"><i class="fas fa-tasks me-2 text-warning"></i> Tugas:</h5>
+                                                <ol class="ps-3 mb-0 small text-justify">
+                                                    <li class="mb-2">Menyediakan informasi secara baik dan efisien sehingga dapat diakses dengan mudah;</li>
+                                                    <li class="mb-2">Melakukan pengawasan terhadap pelaksanaan layanan informasi sehingga dapat diakses dengan mudah;</li>
+                                                    <li class="mb-2">Meningkatkan sumber daya manusia dalam pelayanan informasi; dan</li>
+                                                    <li class="mb-2">Mengkoordinasikan setiap unit/satuan kerja di lingkup kerja Eselon I dalam melaksanakan pelayanan informasi.</li>
+                                                </ol>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="fw-bold text-[#004a99]"><i class="fas fa-shield-alt me-2 text-warning"></i> Wewenang:</h5>
+                                                <ol class="ps-3 mb-0 small text-justify">
+                                                    <li class="mb-2">Mengajukan usulan daftar informasi publik dan informasi yang dikecualikan kepada PPID Pelaksana;</li>
+                                                    <li class="mb-2">Menjamin tersimpan dan terdokumentasi seluruh informasi secara fisik yang meliputi:
+                                                        <ul class="ps-3 list-disc mt-1">
+                                                            <li>Informasi yang wajib disediakan dan diumumkan secara berkala;</li>
+                                                            <li>Informasi yang wajib tersedia setiap saat; dan</li>
+                                                            <li>Informasi terbuka lainnya yang diminta pemohon informasi.</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="mb-2">Menolak permohonan informasi apabila informasi yang dimohon termasuk informasi yang dikecualikan/rahasia dengan disertai alasan;</li>
+                                                    <li class="mb-2">Membuat dan mengumumkan laporan tentang pelaksanaan layanan informasi serta menyampaikan salinan laporan kepada Komisi Informasi dan atasan PPID;</li>
+                                                    <li class="mb-2">Menyediakan sarana dan prasarana layanan informasi;</li>
+                                                    <li class="mb-2">Menugaskan pejabat fungsional dan/atau petugas informasi di bawah wewenang dan koordinasinya untuk membuat, memelihara, dan/atau memutakhirkan informasi;</li>
+                                                    <li class="mb-2">Menetapkan program meningkatkan sumber daya manusia dalam pelayanan informasi; dan</li>
+                                                    <li class="mb-2">Melakukan evaluasi terhadap pelaksanaan layanan informasi pada instansinya.</li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Item 2: Manager Informasi dan Dokumentasi -->
+                            <div class="accordion-item rounded-4 overflow-hidden border mb-3 shadow-sm bg-white">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button fw-bold outfit text-primary collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false">
+                                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center me-3 d-inline-flex align-items-center justify-content-center"><i class="fas fa-project-diagram"></i></span>
+                                        2. Manager Informasi dan Dokumentasi
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionTugas">
+                                    <div class="accordion-body bg-light/50 p-4">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <h5 class="fw-bold text-[#004a99]"><i class="fas fa-clipboard-list me-2 text-warning"></i> Tanggung Jawab:</h5>
+                                                <ol class="ps-3 mb-0 small text-justify">
+                                                    <li class="mb-2">Menyediakan Informasi secara baik dan efisien;</li>
+                                                    <li class="mb-2">Melakukan pengawasan terhadap pelaksanaan layanan Informasi secara baik dan efisien;</li>
+                                                    <li class="mb-2">Meningkatkan sumber daya manusia dalam pelayanan Informasi;</li>
+                                                    <li class="mb-2">Mengkoordinasikan setiap unit/satuan kerja di Badan Publik dalam melaksanakan pelayanan Informasi; dan</li>
+                                                    <li class="mb-2">Menyimpan dan mendokumentasikan serta memutakhirkan seluruh Informasi secara fisik.</li>
+                                                </ol>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="fw-bold text-[#004a99]"><i class="fas fa-tasks me-2 text-warning"></i> Tugas:</h5>
+                                                <ol class="ps-3 mb-0 small text-justify">
+                                                    <li class="mb-2">Memberikan Informasi secara baik dan efisien sehingga dapat diakses dengan mudah;</li>
+                                                    <li class="mb-2">Menyediakan seluruh Informasi secara fisik yang meliputi:
+                                                        <ul class="ps-3 list-disc mt-1">
+                                                            <li>Informasi yang wajib disediakan dan diumumkan secara berkala;</li>
+                                                            <li>Informasi yang wajib tersedia setiap saat; dan</li>
+                                                            <li>Informasi terbuka lainnya yang diminta pemohon Informasi.</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="mb-2">Menolak permohonan Informasi apabila Informasi yang dimohon termasuk Informasi yang dikecualikan/rahasia dengan disertai alasan;</li>
+                                                    <li class="mb-2">Mengumumkan laporan tentang layanan Informasi serta menyampaikan salinan laporan kepada Komisi Informasi dan Atasan PPID;</li>
+                                                    <li class="mb-2">Menyiapkan pejabat fungsional dan/atau petugas Informasi dibawah wewenang dan koordinasinya untuk membuat, memelihara, dan/atau memutakhirkan Informasi;</li>
+                                                    <li class="mb-2">Menyusun program peningkatan sumber daya manusia dalam pelayanan Informasi;</li>
+                                                    <li class="mb-2">Melakukan evaluasi terhadap pelaksanaan layanan Informasi pada instansinya;</li>
+                                                    <li class="mb-2">Menyediakan dokumentasi dan Informasi secara fisik; dan</li>
+                                                    <li class="mb-2">Menunjuk pejabat fungsional dibawah wewenang dan koordinasinya untuk menyimpan, mendokumentasikan dan memutakhirkan seluruh Informasi secara fisik.</li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Item 3: Pengelola Dokumentasi -->
+                            <div class="accordion-item rounded-4 overflow-hidden border mb-3 shadow-sm bg-white">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button fw-bold outfit text-primary collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false">
+                                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center me-3 d-inline-flex align-items-center justify-content-center"><i class="fas fa-folder-open"></i></span>
+                                        3. Pengelola Dokumentasi
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionTugas">
+                                    <div class="accordion-body bg-light/50 p-4">
+                                        <div class="row">
+                                            <div class="col-md-6 mb-3">
+                                                <h5 class="fw-bold text-[#004a99]"><i class="fas fa-clipboard-list me-2 text-warning"></i> Tanggung Jawab:</h5>
+                                                <p class="small ps-3 text-justify">Mengelola and mendokumentasikan informasi yang berada di bawah kewenangannya.</p>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h5 class="fw-bold text-[#004a99]"><i class="fas fa-tasks me-2 text-warning"></i> Tugas:</h5>
+                                                <ol class="ps-3 mb-0 small text-justify">
+                                                    <li class="mb-2">Menyediakan dokumentasi dan Informasi secara fisik yang meliputi:
+                                                        <ul class="ps-3 list-disc mt-1">
+                                                            <li>Informasi yang wajib disediakan dan diumumkan secara berkala;</li>
+                                                            <li>Informasi yang wajib tersedia setiap saat; dan</li>
+                                                            <li>Informasi terbuka lainnya yang diminta pemohon Informasi.</li>
+                                                        </ul>
+                                                    </li>
+                                                    <li class="mb-2">Melakukan koordinasi dengan manager dokumentasi untuk menyimpan, mendokumentasikan dan memutakhirkan seluruh Informasi secara fisik.</li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Item 4: Petugas Informasi -->
+                            <div class="accordion-item rounded-4 overflow-hidden border mb-3 shadow-sm bg-white">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button fw-bold outfit text-primary collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false">
+                                        <span class="w-8 h-8 bg-primary text-white rounded-lg flex items-center justify-center me-3 d-inline-flex align-items-center justify-content-center"><i class="fas fa-user-clock"></i></span>
+                                        4. Petugas Informasi
+                                    </button>
+                                </h2>
+                                <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionTugas">
+                                    <div class="accordion-body bg-light/50 p-4">
+                                        <h5 class="fw-bold text-[#004a99]"><i class="fas fa-tasks me-2 text-warning"></i> Tugas Petugas Informasi:</h5>
+                                        <ol class="ps-3 mb-0 small text-justify">
+                                            <li class="mb-2">Menyiapkan formulir aplikasi permohonan Informasi;</li>
+                                            <li class="mb-2">Menerima aplikasi permohonan Informasi;</li>
+                                            <li class="mb-2">Melakukan verifikasi data pemohon;</li>
+                                            <li class="mb-2">Melakukan verifikasi Informasi yang diminta (Informasi yang terbuka atau dikecualikan);</li>
+                                            <li class="mb-2">Registrasi pencatatan permintaan Informasi dalam buku besar setelah selesai verifikasi;</li>
+                                            <li class="mb-2">Memproses lanjut Informasi ke Pejabat Pengelola dan Informasi dan Dokumentasi;</li>
+                                            <li class="mb-2">Melakukan pencatatan penomoran surat Informasi yang disampaikan kepada pemohon;</li>
+                                            <li class="mb-2">Mendokumentasikan dan menyiapkan evaluasi pelaporan layanan Informasi setiap bulan dan setiap akhir tahun; dan</li>
+                                            <li class="mb-2">Apabila menerima permohonan Informasi yang dikecualikan, wajib meneruskan kepada PPID.</li>
+                                        </ol>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                </div>
             @else
                 <div class="text-center py-5">
                     <i class="fas fa-sitemap fa-4x text-muted mb-4"></i>

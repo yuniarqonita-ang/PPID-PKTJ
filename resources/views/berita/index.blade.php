@@ -250,8 +250,8 @@
                                 <div class="news-meta d-flex align-items-center gap-3">
                                     <i class="fas fa-calendar-alt text-warning"></i>
                                     {{ $berita->tanggal ? \Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d F Y') : $berita->created_at->translatedFormat('d F Y') }}
-                                    @if($berita->views)
-                                        <span class="ms-auto"><i class="fas fa-eye me-1 text-blue-400"></i>{{ number_format($berita->views) }}</span>
+                                    @if(isset($berita->views))
+                                        <span class="ms-auto"><i class="fas fa-eye me-1 text-blue-400"></i>{{ number_format($berita->views) }} views</span>
                                     @endif
                                 </div>
                                 <a href="{{ url('/berita/' . $berita->slug) }}" class="btn-read-more">

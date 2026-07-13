@@ -181,7 +181,9 @@ class ProfilPublikController extends Controller
         // Special case: Daftar Informasi Publik needs all info types
         $extraData = [];
         if ($type === 'layanan-daftar') {
-            $query = \App\Models\DaftarInformasi::where('aktif', true);
+            $query = \App\Models\DaftarInformasi::where('aktif', true)
+                ->whereNotNull('file_informasi')
+                ->where('file_informasi', '!=', '');
             
             // Search filters
             if (request('informasi')) {
@@ -202,7 +204,7 @@ class ProfilPublikController extends Controller
                 $query->where('kategori', request('kategori'));
             }
 
-            $items = $query->orderBy('created_at', 'desc')->paginate(20)->withQueryString();
+            $items = $query->orderByRaw('COALESCE(waktu_pembuatan, "0") DESC')->orderBy('id', 'asc')->paginate(20)->withQueryString();
             
             // Apply Premium Blur to Ringkasan Informasi (isi_informasi)
             foreach ($items as $di_item) {
@@ -215,12 +217,18 @@ class ProfilPublikController extends Controller
             
             // Get available years for dropdown
             $extraData['years'] = \App\Models\DaftarInformasi::selectRaw('DISTINCT(waktu_pembuatan) as tahun')
+                ->where('aktif', true)
+                ->whereNotNull('file_informasi')
+                ->where('file_informasi', '!=', '')
                 ->whereNotNull('waktu_pembuatan')
                 ->orderBy('tahun', 'desc')
                 ->pluck('tahun');
 
             // Get available units for dropdown
             $extraData['units'] = \App\Models\DaftarInformasi::selectRaw('DISTINCT(penanggung_jawab) as unit')
+                ->where('aktif', true)
+                ->whereNotNull('file_informasi')
+                ->where('file_informasi', '!=', '')
                 ->whereNotNull('penanggung_jawab')
                 ->orderBy('unit', 'asc')
                 ->pluck('unit');

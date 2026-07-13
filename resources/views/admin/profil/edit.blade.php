@@ -86,9 +86,10 @@
                                         class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://twitter.com/...">
                                 </div>
                                 <div class="space-y-2">
-                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">YouTube Link</label>
-                                    <input type="url" name="youtube_link" value="{{ old('youtube_link', $settings['youtube_link'] ?? '') }}"
-                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://youtube.com/...">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">ID Video YouTube (11 Karakter)</label>
+                                    <input type="text" name="youtube_link" id="youtube_link_kontak" value="{{ old('youtube_link', $settings['youtube_link'] ?? '') }}"
+                                         class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="Contoh: dQw4w9WgXcQ">
+                                    <p class="text-[10px] text-slate-400">Masukkan kode ID video YouTube saja (11 karakter). Jika Anda menempelkan link penuh, sistem akan otomatis mengubahnya menjadi ID saja untuk menghindari pemblokiran server.</p>
                                 </div>
                                 <div class="space-y-2">
                                     <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Linktree Link</label>
@@ -240,6 +241,16 @@
                                         <textarea name="konten_pembuka" id="editor_pembuka" class="tinymce-editor">{!! old('konten_pembuka',$profil->konten_pembuka) !!}</textarea>
                                     </div>
                                 </div>
+
+                                @if($type === 'struktur')
+                                <div class="space-y-2 animate-fade-in">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Tugas & Wewenang Detail (Editor)</label>
+                                    <div class="rounded-3xl overflow-hidden border-2 border-slate-100">
+                                        <textarea name="konten_detail" id="editor_detail" class="tinymce-editor">{!! old('konten_detail',$profil->konten_detail) !!}</textarea>
+                                    </div>
+                                    <p class="text-[10px] text-slate-400 mt-1">Masukkan rincian tugas dan wewenang (dalam bentuk list, tabel, atau accordion) yang akan tampil di bawah bagan organisasi.</p>
+                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -394,8 +405,9 @@
 
 
                             <div class="space-y-2">
-                                <label class="text-[10px] font-black text-slate-400 uppercase">Youtube Video Link</label>
-                                <input type="url" name="youtube_link" value="{{ $settings['youtube_link'] ?? '' }}" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" placeholder="https://youtube.com/watch?v=...">
+                                <label class="text-[10px] font-black text-[#004a99] uppercase">ID Video YouTube (11 Karakter)</label>
+                                <input type="text" name="youtube_link" id="youtube_link_umum" value="{{ $settings['youtube_link'] ?? '' }}" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: dQw4w9WgXcQ">
+                                <p class="text-[9px] text-slate-400">Masukkan kode ID video saja (11 karakter). Link penuh otomatis diubah menjadi ID saat ditempelkan.</p>
                             </div>
                         </div>
                     </div>
@@ -454,5 +466,66 @@
             document.getElementById(`section-${id}`).remove();
         }
     }
+
+    function setupYoutubeExtractor(inputId) {
+        const input = document.getElementById(inputId);
+        if (!input) return;
+        
+        const extractId = () => {
+            let val = input.value.trim();
+            if (!val) return;
+            
+            // Regex to match YouTube video ID from various formats
+            const pattern = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^\"&?\/ ]{11})/i;
+            const match = val.match(pattern);
+            if (match && match[1]) {
+                input.value = match[1];
+            } else if (val.length > 11 && (val.includes('http') || val.includes('youtube') || val.includes('youtu.be'))) {
+                try {
+                    const url = new URL(val);
+                    let id = url.searchParams.get('v');
+                    if (id && id.length === 11) {
+                        input.value = id;
+                    }
+                } catch(e) {}
+            }
+        };
+        
+        input.addEventListener('input', extractId);
+        input.addEventListener('paste', () => setTimeout(extractId, 10));
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        setupYoutubeExtractor('youtube_link_kontak');
+        setupYoutubeExtractor('youtube_link_umum');
+        
+        // Clean YouTube fields on form submit to bypass ModSecurity blocks
+        const form = document.getElementById('profil-form');
+        if (form) {
+            form.addEventListener('submit', () => {
+                ['youtube_link_kontak', 'youtube_link_umum'].forEach(id => {
+                    const input = document.getElementById(id);
+                    if (input) {
+                        let val = input.value.trim();
+                        if (val) {
+                            const pattern = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^\"&?\/ ]{11})/i;
+                            const match = val.match(pattern);
+                            if (match && match[1]) {
+                                input.value = match[1];
+                            } else if (val.length > 11 && (val.includes('http') || val.includes('youtube') || val.includes('youtu.be'))) {
+                                try {
+                                    const url = new URL(val);
+                                    let idVal = url.searchParams.get('v');
+                                    if (idVal && idVal.length === 11) {
+                                        input.value = idVal;
+                                    }
+                                } catch(e) {}
+                            }
+                        }
+                    }
+                });
+            });
+        }
+    });
 </script>
 @endpush

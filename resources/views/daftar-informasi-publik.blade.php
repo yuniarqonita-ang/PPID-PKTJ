@@ -244,8 +244,6 @@
                             <th>TEMPAT PEMBUATAN</th>
                             <th>WAKTU PEMBUATAN</th>
                             <th>JANGKA WAKTU PENYIMPANAN / RETENSI WAKTU</th>
-                            <th>GAMBAR</th>
-                            <th>FILE</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -262,41 +260,10 @@
                             <td>{{ $item->tempat_pembuatan }}</td>
                             <td>{{ $item->waktu_pembuatan }}</td>
                             <td>{{ $item->jangka_waktu }}</td>
-                            <td>
-                                @if($item->image)
-                                <button type="button" class="btn btn-sm btn-outline-info" 
-                                    data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                    data-url="{{ route('preview.dokumen', ['file' => $item->image, 'title' => $item->judul_informasi, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
-                                    <i class="fas fa-image"></i> Lihat Gambar
-                                </button>
-                                @else
-                                -
-                                @endif
-                            </td>
-                            <td>
-                                @if($item->file_informasi)
-                                <div class="d-flex justify-content-center align-items-center gap-1">
-                                    @if(is_previewable($item->file_informasi))
-                                    <button type="button" class="btn btn-sm btn-outline-danger" 
-                                        data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                        data-url="{{ route('preview.dokumen', ['file' => $item->file_informasi, 'title' => $item->judul_informasi, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
-                                        <i class="fas fa-eye"></i> Lihat Dokumen
-                                    </button>
-                                    @endif
-                                    @if($item->bisa_download)
-                                    <a href="{{ route('download.file', ['model' => 'dip', 'id' => $item->id]) }}" class="btn btn-sm btn-outline-success">
-                                        <i class="fas fa-download"></i> Unduh
-                                    </a>
-                                    @endif
-                                </div>
-                                @else
-                                -
-                                @endif
-                            </td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="12" class="py-5 text-muted">Data tidak ditemukan.</td>
+                            <td colspan="10" class="py-5 text-muted">Data tidak ditemukan.</td>
                         </tr>
                         @endforelse
                     </tbody>
