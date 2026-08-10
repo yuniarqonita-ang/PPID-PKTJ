@@ -15,3 +15,4 @@ class PesanKontak extends Model
         'pesan',
         'is_read',
     ];
+}

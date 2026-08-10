@@ -7,18 +7,12 @@
         'SOP Permintaan Informasi Publik' => 'sop_permintaan',
         'SOP Penanganan Keberatan' => 'sop_keberatan',
         'SOP Pengajuan Sengketa Informasi Publik' => 'sop_sengketa',
-        'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' => 'sop_penetapan',
-        'SOP Pengujian Konsekuensi' => 'sop_pengujian',
-        'SOP Pendokumentasian Informasi Publik' => 'sop_pendokumentasian',
     ];
     
     $sopCategoryRoutes = [
         'SOP Permintaan Informasi Publik' => route('admin.prosedur.sop-permintaan'),
         'SOP Penanganan Keberatan' => route('admin.prosedur.sop-keberatan'),
         'SOP Pengajuan Sengketa Informasi Publik' => route('admin.prosedur.sop-sengketa'),
-        'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' => route('admin.prosedur.sop-penetapan'),
-        'SOP Pengujian Konsekuensi' => route('admin.prosedur.sop-pengujian'),
-        'SOP Pendokumentasian Informasi Publik' => route('admin.prosedur.sop-pendokumentasian'),
     ];
 
     $isSop = str_starts_with($kategori ?? '', 'SOP ');
@@ -95,9 +89,6 @@
                                 <option value="SOP Permintaan Informasi Publik" {{ old('kategori', $dokumen->kategori) == 'SOP Permintaan Informasi Publik' ? 'selected' : '' }}>SOP Permintaan Informasi Publik</option>
                                 <option value="SOP Penanganan Keberatan" {{ old('kategori', $dokumen->kategori) == 'SOP Penanganan Keberatan' ? 'selected' : '' }}>SOP Penanganan Keberatan</option>
                                 <option value="SOP Pengajuan Sengketa Informasi Publik" {{ old('kategori', $dokumen->kategori) == 'SOP Pengajuan Sengketa Informasi Publik' ? 'selected' : '' }}>SOP Pengajuan Sengketa Informasi Publik</option>
-                                <option value="SOP Penetapan dan Pemutakhiran Daftar Informasi Publik" {{ old('kategori', $dokumen->kategori) == 'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' ? 'selected' : '' }}>SOP Penetapan & Pemutakhiran Daftar Informasi</option>
-                                <option value="SOP Pengujian Konsekuensi" {{ old('kategori', $dokumen->kategori) == 'SOP Pengujian Konsekuensi' ? 'selected' : '' }}>SOP Pengujian Konsekuensi</option>
-                                <option value="SOP Pendokumentasian Informasi Publik" {{ old('kategori', $dokumen->kategori) == 'SOP Pendokumentasian Informasi Publik' ? 'selected' : '' }}>SOP Pendokumentasian Informasi Publik</option>
                             </select>
                             @error('kategori') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>
@@ -125,7 +116,7 @@
                     @endphp
 
                     <!-- Current File Info -->
-                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200">
+                    <div class="p-6 bg-slate-50 rounded-2xl border border-slate-200 space-y-3">
                         <h4 class="text-xs font-black text-[#002b5c] uppercase tracking-widest mb-2">Dokumen Saat Ini:</h4>
                         @if($isGDrive)
                             <div class="flex items-center text-blue-600 font-bold text-sm">
@@ -141,6 +132,17 @@
                         @else
                             <div class="text-slate-400 font-bold text-sm">
                                 Belum ada dokumen terunggah
+                            </div>
+                        @endif
+
+                        @if($dokumen->file_path)
+                            <div class="pt-2 border-t border-slate-200">
+                                <label class="flex items-center space-x-3 cursor-pointer">
+                                    <input type="checkbox" name="hapus_file" value="1" class="w-5 h-5 text-red-600 rounded border-slate-300 focus:ring-red-500 cursor-pointer">
+                                    <span class="text-xs font-black text-red-600 uppercase tracking-wider">
+                                        <i class="fas fa-trash-alt mr-1"></i> Hapus File Dokumen / Reset Lampiran Ini
+                                    </span>
+                                </label>
                             </div>
                         @endif
                     </div>

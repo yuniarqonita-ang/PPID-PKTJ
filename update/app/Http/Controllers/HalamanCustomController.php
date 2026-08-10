@@ -1,0 +1,81 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use App\Models\Dashboard;
+use Illuminate\Support\Facades\Storage;
+
+class HalamanCustomController extends Controller
+{
+    /**
+     * Menyimpan data form dinamis ke tabel dashboards
+     */
+    public function store(Request $request, $type)
+    {
+        // 1. Handle regular inputs (text, date, tinymce html)
+        $inputs = $request->except(['_token', '_method']);
+        
+        // Checkboxes check (if unchecked, they won't be sent in the request)
+        if (in_array($type, ['laporan_layanan', 'laporan_akses', 'laporan_survey'])) {
+            $inputs['bisa_download'] = $request->has('bisa_download') ? '1' : '0';
+        }
+        
+        foreach ($inputs as $key => $value) {
+            // Skip keys that are actually files
+            if ($request->hasFile($key)) continue;
+
+            $settingKey = $type . '_' . $key;
+            
+            if(!is_array($value)) {
+                Dashboard::updateOrCreate(
+                    ['key' => $settingKey],
+                    ['value' => $value ?? '', 'type' => 'text', 'description' => "Teks dinamis untuk $type $key"]
+                );
+            }
+        }
+
+        // 2. Handle file uploads
+        if ($request->hasFile('*') || count($request->allFiles()) > 0) {
+            foreach ($request->allFiles() as $key => $file) {
+                $settingKey = $type . '_' . $key;
+                
+                if (!is_array($file) && $file->isValid()) {
+                    $filename = time() . '_' . $settingKey . '.' . $file->getClientOriginalExtension();
+                    
+                    // Ensure storage directory exists
+                    if (!Storage::disk('public')->exists('halaman')) {
+                        Storage::disk('public')->makeDirectory('halaman');
+                    }
+                    
+                    // Store in storage/app/public/halaman
+                    $file->storeAs('halaman', $filename, 'public');
+                    
+                    // Delete old file if exists
+                    $old = Dashboard::where('key', $settingKey)->first();
+                    if ($old && $old->value && Storage::disk('public')->exists('halaman/' . $old->value)) {
+                        Storage::disk('public')->delete('halaman/' . $old->value);
+                    }
+                    
+                    Dashboard::updateOrCreate(
+                        ['key' => $settingKey],
+                        ['value' => $filename, 'type' => 'file', 'description' => "File untuk $type $key"]
+                    );
+                }
+            }
+        }
+
+        return back()->with('success', 'Informasi pada halaman ' . ucwords(str_replace('-', ' ', $type)) . ' berhasil diperbarui!');
+    }
+
+    /**
+     * Display a custom dynamic page.
+     */
+    public function showDynamicPage($slug)
+    {
+        $settings = Dashboard::pluck('value', 'key')->toArray();
+        $menu = \App\Models\CustomMenu::where('slug', $slug)->where('aktif', true)->firstOrFail();
+
+        return view('halaman-custom', compact('menu', 'settings'));
+    }
+}

@@ -139,16 +139,30 @@ try {
             @unlink($file);
         }
     }
-    if (is_dir(resource_path('views/admin/keberatan'))) {
-        @rmdir(resource_path('views/admin/keberatan'));
+    if (\Illuminate\Support\Facades\Schema::hasTable('custom_menus')) {
+        \Illuminate\Support\Facades\DB::table('custom_menus')
+            ->where('slug', 'agenda-menu')
+            ->orWhere('url', '/agenda')
+            ->delete();
+
+        \Illuminate\Support\Facades\DB::table('custom_menus')
+            ->where('slug', 'jdih-sub')
+            ->orWhere('url', 'like', '%jdih%')
+            ->orWhere('nama', 'like', '%JDIH%')
+            ->update([
+                'nama' => 'JDIH BPSDM Kemenhub',
+                'url'  => 'https://bpsdm.kemenhub.go.id/jdih/'
+            ]);
     }
 } catch (\Exception $e) {
     // Silent
 }
 
 // ==========================================
-// 0. REDIRECT URL LAMA (.html)
+// 0. REDIRECT URL LAMA (.html) & EXTERNAL
 // ==========================================
+Route::redirect('/jdih', 'https://bpsdm.kemenhub.go.id/jdih/');
+Route::redirect('/layanan-informasi/jdih', 'https://bpsdm.kemenhub.go.id/jdih/');
 Route::redirect('/daftar-informasi-publik.html', '/layanan-informasi/daftar');
 Route::redirect('/informasi-berkala.html', '/informasi-publik/berkala');
 Route::redirect('/informasi-dikecualikan.html', '/informasi-publik/dikecualikan');
@@ -253,6 +267,9 @@ Route::get('/layanan-informasi/laporan', [ProfilPublikController::class, 'showPa
 Route::get('/layanan-informasi/laporan-akses', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-akses')->defaults('view', 'laporan-akses-informasi-publik')->name('layanan.laporan-akses');
 Route::get('/layanan-informasi/laporan-survey', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-survey')->defaults('view', 'laporan-survey-kepuasan')->name('layanan.laporan-survey');
 
+// Dynamic public pages from custom menus
+Route::get('/halaman/{slug}', [\App\Http\Controllers\HalamanCustomController::class, 'showDynamicPage'])->name('halaman.dynamic');
+
 
 // ==========================================
 // 2. AUTH SYSTEM (LOGIN & LOGOUT)
@@ -269,11 +286,55 @@ Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.lo
 // ==========================================
 Route::redirect('/dashboard', '/admin');
 
+Route::get('/setup-db-2025', function() {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DipSeeder', '--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'UpdateProfilSeeder', '--force' => true]);
+        try {
+            \Illuminate\Support\Facades\Artisan::call('storage:link');
+        } catch (\Exception $ex) {}
+        return 'Database migrated and cache cleared successfully!<br><br><strong>Penting:</strong> Karena database lokal Kakak menggunakan password bawaan seeder, maka password login admin panel cPanel Kakak saat ini kembali ke password default: <strong>admin123</strong>. Kakak bisa menggunakannya untuk login dan menggantinya kembali setelah masuk.';
+    } catch (\Exception $e) {
+        return 'Migration error: ' . $e->getMessage();
+    }
+});
+
 Route::middleware(['auth'])->prefix('admin')->group(function () {
+    // Real-time submission check for live notification banner & chime sound
+    Route::get('/api/check-new-submissions', function() {
+        try {
+            $latestPesan = \Illuminate\Support\Facades\Schema::hasTable('pesan_kontaks')
+                ? \App\Models\PesanKontak::latest()->first()
+                : null;
+            $latestPermohonan = \Illuminate\Support\Facades\Schema::hasTable('permohonans')
+                ? \App\Models\Permohonan::latest()->first()
+                : null;
+            
+            return response()->json([
+                'status' => 'success',
+                'pesan_latest_id' => $latestPesan ? $latestPesan->id : null,
+                'pesan_latest_time' => $latestPesan && $latestPesan->created_at ? $latestPesan->created_at->timestamp : 0,
+                'pesan_latest_nama' => $latestPesan ? $latestPesan->nama : '',
+                'pesan_latest_judul' => $latestPesan ? $latestPesan->judul : '',
+                'permohonan_latest_id' => $latestPermohonan ? $latestPermohonan->id : null,
+                'permohonan_latest_time' => $latestPermohonan && $latestPermohonan->created_at ? $latestPermohonan->created_at->timestamp : 0,
+                'permohonan_latest_nama' => $latestPermohonan ? $latestPermohonan->nama_pemohon : '',
+            ]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        }
+    })->name('admin.api.check-submissions');
+
     // Dashboard routes
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/dashboard/edit', [DashboardController::class, 'edit'])->name('dashboard.edit');
     Route::put('/dashboard', [DashboardController::class, 'update'])->name('dashboard.update');
+    
+    // Custom Menu CRUD routes
+    Route::resource('/menu', \App\Http\Controllers\CustomMenuController::class)->names('admin.menu');
     
     // Content management routes
     Route::get('/content', function() { return view('admin.content.index'); })->name('content.index');
@@ -298,23 +359,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/pesan-kontak/{id}', [\App\Http\Controllers\PesanKontakController::class, 'show'])->name('admin.pesan-kontak.show');
     Route::delete('/pesan-kontak/{id}', [\App\Http\Controllers\PesanKontakController::class, 'destroy'])->name('admin.pesan-kontak.destroy');
 
-    Route::get('/setup-db-2025', function() {
-        try {
-            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-            \Illuminate\Support\Facades\Artisan::call('view:clear');
-            \Illuminate\Support\Facades\Artisan::call('cache:clear');
-            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DipSeeder']);
-            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'UpdateProfilSeeder']);
-            return 'Database migrated and cache cleared successfully!';
-        } catch (\Exception $e) {
-            return 'Migration error: ' . $e->getMessage();
-        }
-    });
 
 
 
-    // Agenda CRUD
-    Route::resource('agenda', AgendaController::class)->names('admin.agenda');
 
     // Kelola Halaman Tambahan (CMS Dinamis untuk konten halaman)
     Route::post('/halaman-custom/{type}', [App\Http\Controllers\HalamanCustomController::class, 'store'])->name('admin.halaman-custom.store');
@@ -340,10 +387,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/sop-permintaan', function() { return view('admin.prosedur.sop-permintaan'); })->name('sop-permintaan');
         Route::get('/sop-keberatan', function() { return view('admin.prosedur.sop-keberatan'); })->name('sop-keberatan');
         Route::get('/sop-sengketa', function() { return view('admin.prosedur.sop-sengketa'); })->name('sop-sengketa');
-        Route::get('/sop-penetapan', function() { return view('admin.prosedur.sop-penetapan'); })->name('sop-penetapan');
-        Route::get('/sop-pengujian', function() { return view('admin.prosedur.sop-pengujian'); })->name('sop-pengujian');
-        Route::get('/sop-pendokumentasian', function() { return view('admin.prosedur.sop-pendokumentasian'); })->name('sop-pendokumentasian');
-        
+        Route::post('/save-sop-settings', [ProsedurController::class, 'updateSettings'])->name('save-sop-settings');
     });
 
     // Menu Informasi Publik
@@ -384,7 +428,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Resource CRUD
     Route::resource('berita', BeritaController::class)->names('admin.berita');
     Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
-    Route::resource('prosedur-crud', ProsedurController::class)->names('admin.prosedur-crud');
+    Route::resource('prosedur-crud', DokumenController::class)->names('admin.prosedur-crud');
     
     // Custom FAQ routes for admin
     Route::get('/faq', [FaqController::class, 'adminIndex'])->name('admin.faq.index');
@@ -831,12 +875,22 @@ Route::name('profil.')->prefix('profil')->group(function () {
 
 // Prosedur Routes (Public - Dynamic from Controller)
 Route::name('prosedur.')->prefix('prosedur')->group(function () {
-    Route::get('/sop-permintaan-informasi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_permintaan')->defaults('view', 'sop-permintaan')->name('sop-permintaan');
-    Route::get('/sop-penanganan-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_keberatan')->defaults('view', 'sop-penanganan-keberatan')->name('sop-keberatan');
-    Route::get('/sop-pengajuan-sengketa', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_sengketa')->defaults('view', 'sop-sengketa')->name('sop-sengketa');
-    Route::get('/sop-penetapan-pemutakhiran', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_penetapan')->defaults('view', 'sop-pemutakhiran-daftar')->name('sop-penetapan');
-    Route::get('/sop-pengujian-konsekuensi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_pengujian')->defaults('view', 'sop-pengujian-konsekuensi')->name('sop-pengujian');
-    Route::get('/sop-pendokumentasian', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_pendokumentasian')->defaults('view', 'sop-pendokumentasian')->name('sop-pendokumentasian');
+    Route::get('/sop-permintaan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_permintaan')->defaults('view', 'sop-permintaan')->name('sop-permintaan');
+    Route::get('/sop-permintaan-informasi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_permintaan')->defaults('view', 'sop-permintaan');
+    
+    Route::get('/sop-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_keberatan')->defaults('view', 'sop-penanganan-keberatan')->name('sop-keberatan');
+    Route::get('/sop-penanganan-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_keberatan')->defaults('view', 'sop-penanganan-keberatan');
+    
+    Route::get('/sop-sengketa', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_sengketa')->defaults('view', 'sop-sengketa')->name('sop-sengketa');
+    Route::get('/sop-pengajuan-sengketa', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_sengketa')->defaults('view', 'sop-sengketa');
+    
+    Route::get('/sop-penetapan', function() { return redirect()->route('prosedur.sop-permintaan'); });
+    Route::get('/sop-penetapan-pemutakhiran', function() { return redirect()->route('prosedur.sop-permintaan'); });
+    
+    Route::get('/sop-pengujian', function() { return redirect()->route('prosedur.sop-permintaan'); });
+    Route::get('/sop-pengujian-konsekuensi', function() { return redirect()->route('prosedur.sop-permintaan'); });
+    
+    Route::get('/sop-pendokumentasian', function() { return redirect()->route('prosedur.sop-permintaan'); });
     
     // Additional Public Procedures
     Route::get('/sop-maklumat-pelayanan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_maklumat')->defaults('view', 'sop-generic')->name('sop-maklumat');
@@ -880,7 +934,6 @@ Route::get('/download/{model}/{id}', [InformasiPublikController::class, 'downloa
 Route::get('/preview-dokumen', [ProfilPublikController::class, 'previewDokumen'])->name('preview.dokumen');
 Route::get('/proxy-gdrive/{id}', [ProfilPublikController::class, 'proxyGdrive'])->name('proxy.gdrive');
 
-Route::get('/agenda', [AgendaController::class, 'publicIndex'])->name('agenda.public');
 Route::get('/faq', [FaqController::class, 'publicIndex'])->name('faq.public');
 
 // Temporary diagnostic route to check categories in the live database

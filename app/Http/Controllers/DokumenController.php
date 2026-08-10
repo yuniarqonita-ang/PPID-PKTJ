@@ -162,7 +162,15 @@ class DokumenController extends Controller
             'deskripsi'     => $request->input('deskripsi'),
         ];
 
-        if ($request->hasFile('file')) {
+        if ($request->has('hapus_file')) {
+            if ($dokumen->file_path && !str_starts_with($dokumen->file_path, 'http') && Storage::disk('public')->exists($dokumen->file_path)) {
+                Storage::disk('public')->delete($dokumen->file_path);
+            }
+            $data['file_path'] = null;
+            $data['file_name'] = null;
+            $data['file_size'] = null;
+            $data['file_type'] = null;
+        } elseif ($request->hasFile('file')) {
             if ($dokumen->file_path && !str_starts_with($dokumen->file_path, 'http') && Storage::disk('public')->exists($dokumen->file_path)) {
                 Storage::disk('public')->delete($dokumen->file_path);
             }
@@ -233,6 +241,39 @@ class DokumenController extends Controller
     }
 
     /**
+     * Update SOP page settings directly from admin SOP settings form
+     */
+    public function updateSopSettings(Request $request)
+    {
+        $prefix = $request->input('prefix');
+        if (!$prefix) {
+            return back()->with('error', 'Prefix SOP tidak valid.');
+        }
+
+        // Handle text fields
+        $fields = ['judul_hero', 'tagline_hero', 'konten', 'youtube_link'];
+        foreach ($fields as $field) {
+            if ($request->has($field)) {
+                $val = $request->input($field) ?? '';
+                if ($field === 'konten') {
+                    $val = $this->processBase64ImagesInHtml($val);
+                }
+
+                \App\Models\Dashboard::updateOrCreate(
+                    ['key' => $prefix . '_' . $field],
+                    [
+                        'value'       => $val,
+                        'type'        => 'text',
+                        'description' => "Pengaturan $prefix $field"
+                    ]
+                );
+            }
+        }
+
+        return back()->with('success', 'Pengaturan Halaman SOP berhasil diperbarui!');
+    }
+
+    /**
      * Helper to save SOP page settings to dashboards table
      */
     private function saveSopPageSettings(Request $request, $kategori)
@@ -256,9 +297,14 @@ class DokumenController extends Controller
         $fields = ['judul_hero', 'tagline_hero', 'konten', 'youtube_link'];
         foreach ($fields as $field) {
             if ($request->has($field)) {
+                $val = $request->input($field) ?? '';
+                if ($field === 'konten') {
+                    $val = $this->processBase64ImagesInHtml($val);
+                }
+
                 \App\Models\Dashboard::updateOrCreate(
                     ['key' => $type . '_' . $field],
-                    ['value' => $request->input($field) ?? '', 'type' => 'text', 'description' => "Teks dinamis untuk $type $field"]
+                    ['value' => $val, 'type' => 'text', 'description' => "Teks dinamis untuk $type $field"]
                 );
             }
         }
@@ -363,5 +409,36 @@ class DokumenController extends Controller
     {
         $dokumen = Dokumen::latest()->get();
         return view('informasi-dikecualikan', compact('dokumen'));
+    }
+
+    /**
+     * Process base64 images inside HTML string to real files
+     */
+    private function processBase64ImagesInHtml($html)
+    {
+        if (empty($html)) return $html;
+
+        $pattern = '/src=["\']data:image\/(png|jpeg|jpg|gif|webp);base64,([^"\']+)["\']/i';
+
+        return preg_replace_callback($pattern, function ($matches) {
+            $ext = strtolower($matches[1]);
+            $base64Data = $matches[2];
+            $decodedData = base64_decode($base64Data);
+
+            if ($decodedData === false) {
+                return $matches[0];
+            }
+
+            $filename = time() . '_' . uniqid() . '.' . $ext;
+
+            if (!Storage::disk('public')->exists('editor_uploads')) {
+                Storage::disk('public')->makeDirectory('editor_uploads');
+            }
+
+            Storage::disk('public')->put('editor_uploads/' . $filename, $decodedData);
+            $fileUrl = asset('storage/editor_uploads/' . $filename);
+
+            return 'src="' . $fileUrl . '"';
+        }, $html);
     }
 }

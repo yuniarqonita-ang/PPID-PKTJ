@@ -7,18 +7,12 @@
         'SOP Permintaan Informasi Publik' => 'sop_permintaan',
         'SOP Penanganan Keberatan' => 'sop_keberatan',
         'SOP Pengajuan Sengketa Informasi Publik' => 'sop_sengketa',
-        'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' => 'sop_penetapan',
-        'SOP Pengujian Konsekuensi' => 'sop_pengujian',
-        'SOP Pendokumentasian Informasi Publik' => 'sop_pendokumentasian',
     ];
     
     $sopCategoryRoutes = [
         'SOP Permintaan Informasi Publik' => route('admin.prosedur.sop-permintaan'),
         'SOP Penanganan Keberatan' => route('admin.prosedur.sop-keberatan'),
         'SOP Pengajuan Sengketa Informasi Publik' => route('admin.prosedur.sop-sengketa'),
-        'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' => route('admin.prosedur.sop-penetapan'),
-        'SOP Pengujian Konsekuensi' => route('admin.prosedur.sop-pengujian'),
-        'SOP Pendokumentasian Informasi Publik' => route('admin.prosedur.sop-pendokumentasian'),
     ];
 
     $isSop = str_starts_with($kategori ?? '', 'SOP ');
@@ -95,9 +89,6 @@
                                 <option value="SOP Permintaan Informasi Publik" {{ old('kategori') == 'SOP Permintaan Informasi Publik' ? 'selected' : '' }}>SOP Permintaan Informasi Publik</option>
                                 <option value="SOP Penanganan Keberatan" {{ old('kategori') == 'SOP Penanganan Keberatan' ? 'selected' : '' }}>SOP Penanganan Keberatan</option>
                                 <option value="SOP Pengajuan Sengketa Informasi Publik" {{ old('kategori') == 'SOP Pengajuan Sengketa Informasi Publik' ? 'selected' : '' }}>SOP Pengajuan Sengketa Informasi Publik</option>
-                                <option value="SOP Penetapan dan Pemutakhiran Daftar Informasi Publik" {{ old('kategori') == 'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' ? 'selected' : '' }}>SOP Penetapan & Pemutakhiran Daftar Informasi</option>
-                                <option value="SOP Pengujian Konsekuensi" {{ old('kategori') == 'SOP Pengujian Konsekuensi' ? 'selected' : '' }}>SOP Pengujian Konsekuensi</option>
-                                <option value="SOP Pendokumentasian Informasi Publik" {{ old('kategori') == 'SOP Pendokumentasian Informasi Publik' ? 'selected' : '' }}>SOP Pendokumentasian Informasi Publik</option>
                             </select>
                             @error('kategori') <p class="text-red-500 text-xs mt-1 font-bold">{{ $message }}</p> @enderror
                         </div>

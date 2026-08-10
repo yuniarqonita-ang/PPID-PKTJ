@@ -117,8 +117,16 @@ class InformasiDikecualikanController extends Controller
         $item->is_blurred          = $request->has('is_blurred');
         $item->bisa_download       = $request->has('bisa_download');
 
-        // Prioritas: Upload Lokal > GDrive Link
-        if ($request->hasFile('file')) {
+        if ($request->has('hapus_file')) {
+            if ($item->file_path && !str_starts_with($item->file_path, 'http') &&
+                Storage::exists(str_replace('storage/', 'public/', $item->file_path))) {
+                Storage::delete(str_replace('storage/', 'public/', $item->file_path));
+            }
+            $item->file_path = null;
+            $item->file_name = null;
+            $item->file_size = null;
+            $item->file_type = null;
+        } elseif ($request->hasFile('file')) {
             if ($item->file_path && !str_starts_with($item->file_path, 'http') &&
                 Storage::exists(str_replace('storage/', 'public/', $item->file_path))) {
                 Storage::delete(str_replace('storage/', 'public/', $item->file_path));

@@ -232,58 +232,66 @@
                     <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('home') }}">BERANDA</a>
                 </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">PROFIL PPID</a>
-                    <ul class="dropdown-menu" style="min-width: 280px;">
-                        <li><a class="dropdown-item" href="{{ route('profil.ppid.html') }}">Profil PPID</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.tugas.html') }}">Tugas dan Tanggung Jawab PPID</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.visi.html') }}">Visi dan Misi</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.struktur.html') }}">Struktur Organisasi</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.regulasi.html') }}">Regulasi</a></li>
-                        <li><a class="dropdown-item" href="{{ route('profil.kontak.html') }}">Kontak</a></li>
-                    </ul>
-                </li>
+                @php
+                    try {
+                        $headerMenus = \App\Models\CustomMenu::with(['children' => function($query) {
+                            $query->where('aktif', true)->orderBy('urutan', 'asc');
+                        }])
+                        ->whereNull('parent_id')
+                        ->where('aktif', true)
+                        ->whereIn('penempatan', ['header', 'both'])
+                        ->orderBy('urutan', 'asc')
+                        ->get();
+                    } catch (\Exception $e) {
+                        $headerMenus = collect([]);
+                    }
+                @endphp
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">INFORMASI PUBLIK</a>
-                    <ul class="dropdown-menu" style="min-width: 250px;">
-                        <li><a class="dropdown-item" href="{{ route('informasi.berkala') }}">Informasi Berkala</a></li>
-                        <li><a class="dropdown-item" href="{{ route('informasi.serta-merta') }}">Informasi Serta Merta</a></li>
-                        <li><a class="dropdown-item" href="{{ route('informasi.setiap-saat') }}">Informasi Setiap Saat</a></li>
-                        <li><a class="dropdown-item" href="{{ route('informasi.dikecualikan') }}">Informasi Dikecualikan</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">LAYANAN INFORMASI</a>
-                    <ul class="dropdown-menu" style="min-width: 320px;">
-                        <li><a class="dropdown-item" href="{{ route('layanan.daftar-informasi') }}">Daftar Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="{{ route('layanan.maklumat-pelayanan') }}">Maklumat Pelayanan & Standar Biaya</a></li>
-                        <li><a class="dropdown-item" href="{{ route('layanan.laporan-layanan') }}">Laporan Layanan Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="{{ route('layanan.laporan-akses') }}">Laporan Akses Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="{{ route('layanan.laporan-survey') }}">Laporan Survey Kepuasan Layanan Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="https://jdih.dephub.go.id/" target="_blank">JDIH Kementerian Perhubungan</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">PROSEDUR</a>
-                    <ul class="dropdown-menu" style="min-width: 380px;">
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-permintaan') }}">SOP Permintaan Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-keberatan') }}">SOP Penanganan Keberatan</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-sengketa') }}">SOP Pengajuan Sengketa Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-penetapan') }}">SOP Penetapan dan Pemutakhiran Daftar Informasi Publik</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-pengujian') }}">SOP Pengujian Konsekuensi</a></li>
-                        <li><a class="dropdown-item" href="{{ route('prosedur.sop-pendokumentasian') }}">SOP Pendokumentasian Informasi Publik</a></li>
-                    </ul>
-                </li>
-
-                <li class="nav-item">
-                    <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('agenda.public') }}">AGENDA</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('faq.public') }}">FAQ</a>
-                </li>
+                @foreach($headerMenus as $menu)
+                    @if($menu->children->count() > 0)
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{ $menu->nama }}</a>
+                            <ul class="dropdown-menu" style="min-width: 250px;">
+                                @foreach($menu->children as $child)
+                                    @if(in_array($child->slug, ['sop-penetapan-sub', 'sop-pengujian-sub', 'sop-pendokumentasian-sub']) || str_contains($child->url, 'sop-penetapan') || str_contains($child->url, 'sop-pengujian') || str_contains($child->url, 'sop-pendokumentasian'))
+                                        @continue
+                                    @endif
+                                    @php
+                                        $childNama = $child->nama;
+                                        $childUrl = $child->url;
+                                        if ($child->slug === 'jdih-sub' || str_contains(strtolower($child->slug), 'jdih') || str_contains(strtolower($childUrl ?? ''), 'jdih') || str_contains(strtolower($childNama), 'jdih')) {
+                                            $childNama = 'JDIH BPSDM Kemenhub';
+                                            $childUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
+                                        }
+                                    @endphp
+                                    <li>
+                                        @if(str_starts_with($childUrl, 'http://') || str_starts_with($childUrl, 'https://'))
+                                            <a class="dropdown-item" href="{{ $childUrl }}" target="_blank">{{ $childNama }}</a>
+                                        @else
+                                            <a class="dropdown-item" href="{{ $childUrl ?: '/halaman/' . $child->slug }}">{{ $childNama }}</a>
+                                        @endif
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </li>
+                    @else
+                        <li class="nav-item">
+                            @php
+                                $menuNama = $menu->nama;
+                                $menuUrl = $menu->url;
+                                if ($menu->slug === 'jdih-sub' || str_contains(strtolower($menu->slug), 'jdih') || str_contains(strtolower($menuUrl ?? ''), 'jdih') || str_contains(strtolower($menuNama), 'jdih')) {
+                                    $menuNama = 'JDIH BPSDM Kemenhub';
+                                    $menuUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
+                                }
+                            @endphp
+                            @if(str_starts_with($menuUrl, 'http://') || str_starts_with($menuUrl, 'https://'))
+                                <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ $menuUrl }}" target="_blank">{{ $menuNama }}</a>
+                            @else
+                                <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ $menuUrl ?: '/halaman/' . $menu->slug }}">{{ $menuNama }}</a>
+                            @endif
+                        </li>
+                    @endif
+                @endforeach
             </ul>
 
             <div class="d-flex gap-2">
@@ -297,54 +305,61 @@
 
 <!-- PREMIUM DOCUMENT VIEWER MODAL (GLOBAL) -->
 <style>
-    /* Override agar modal-body mengisi seluruh sisa ruang */
+    #previewModal .modal-dialog {
+        max-width: 96vw !important;
+        width: 96vw !important;
+        height: 94vh !important;
+        margin: 3vh auto !important;
+    }
     #previewModal .modal-content {
-        height: 100%;
-        background: #e8ecf0;
-        border-radius: 0;
-        border: none;
+        height: 100% !important;
+        background: #0f172a !important;
+        border-radius: 20px !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        overflow: hidden !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    #previewModal .modal-header-custom {
+        background: #1e293b;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #334155;
+        color: white;
     }
     #previewModal .modal-body {
         flex: 1;
         padding: 0;
         overflow: hidden;
         position: relative;
+        background: #0f172a;
     }
     #previewModal .modal-body iframe {
         width: 100%;
         height: 100%;
         border: none;
         display: block;
-        background: #e8ecf0;
+        background: #0f172a;
     }
-    #previewModal .btn-close-custom {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 9999;
-        background: rgba(0,0,0,0.6);
-        border: none;
-        border-radius: 50%;
-        width: 38px;
-        height: 38px;
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
-        backdrop-filter: blur(4px);
-        transition: background 0.2s;
-    }
-    #previewModal .btn-close-custom:hover { background: rgba(0,0,0,0.85); }
 </style>
-<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
+<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true" style="z-index: 10050;">
+    <div class="modal-dialog">
         <div class="modal-content">
+            <div class="modal-header-custom">
+                <div class="d-flex align-items-center gap-3">
+                    <i class="fas fa-file-pdf text-warning fs-5"></i>
+                    <h5 class="m-0 font-weight-bold text-white text-truncate" id="previewModalTitle" style="max-width: 60vw; font-size: 15px;">Pratinjau Dokumen</h5>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-outline-light rounded-pill px-3" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i> Tutup
+                    </button>
+                </div>
+            </div>
             <div class="modal-body">
-                <button class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">&times;</button>
                 <iframe id="previewIframe" src="" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>

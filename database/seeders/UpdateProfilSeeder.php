@@ -9,26 +9,15 @@ class UpdateProfilSeeder extends Seeder
 {
     public function run()
     {
-        // ±300 kata - sesuai permintaan, mengacu pada profil ppid.dephub.go.id
-        $profil = "Sejak diberlakukannya Undang-Undang Nomor 14 Tahun 2008 Tentang Keterbukaan Informasi Publik (UU KIP) secara efektif pada tanggal 30 April 2010, seluruh badan publik di Indonesia didorong untuk mengambil satu langkah maju ke depan — menjadi lebih transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP merupakan instrumen hukum yang mengikat dan menjadi tonggak bagi seluruh rakyat Indonesia untuk bersama-sama mengawasi secara langsung pelayanan publik yang diselenggarakan oleh badan publik.
-
-Keterbukaan informasi adalah salah satu pilar penting yang mendorong terciptanya tata kelola pemerintahan yang baik (good governance). Melalui keterbukaan ini, masyarakat dapat berperan aktif dalam proses pengambilan kebijakan serta mengawasi penyelenggaraan layanan publik yang dijalankan oleh Politeknik Keselamatan Transportasi Jalan (PKTJ) selaku Unit Pelaksana Teknis (UPT) di bawah Direktorat Jenderal Perhubungan Darat, Kementerian Perhubungan Republik Indonesia.
-
-Dalam rangka memenuhi amanat UU KIP, PKTJ membentuk Pejabat Pengelola Informasi dan Dokumentasi (PPID). PPID PKTJ bertugas merencanakan, mengorganisasikan, melaksanakan, dan mengawasi pengelolaan informasi dan dokumentasi di lingkungan PKTJ. PPID bertanggung jawab dalam menyimpan, mendokumentasikan, menyediakan, dan memberikan pelayanan informasi kepada publik dengan cepat, tepat waktu, dan dengan biaya yang terjangkau.
-
-Visi PPID PKTJ adalah terwujudnya pelayanan informasi publik yang terbuka, mudah diakses, tepat waktu, dan dapat dipertanggungjawabkan. Hal ini sejalan dengan komitmen PKTJ sebagai institusi pendidikan vokasi di bidang keselamatan transportasi jalan yang terus mengutamakan nilai integritas dan profesionalisme dalam setiap aspek layanan kepada masyarakat.
-
-Kami berkomitmen untuk terus meningkatkan kualitas pelayanan informasi publik. Dengan mengedepankan prinsip transparansi dan akuntabilitas, PPID PKTJ berupaya menyediakan informasi yang akurat, mutakhir, dan mudah diakses oleh seluruh elemen masyarakat, sehingga kepercayaan publik terhadap institusi dapat terus terjaga dan ditingkatkan.";
-
-        DB::table('profil_ppids')->updateOrInsert(
-            ['type' => 'profil'],
-            [
+        if (!DB::table('profil_ppids')->where('type', 'profil')->exists()) {
+            DB::table('profil_ppids')->insert([
+                'type'           => 'profil',
                 'judul'          => 'Profil PPID',
-                'konten_pembuka' => $profil,
-                'gambaran'       => 'Berkomitmen menyelenggarakan pelayanan informasi publik yang transparan, akuntabel, dan profesional di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ).',
+                'konten_pembuka' => '',
+                'gambaran'       => '',
                 'konten_detail'  => '',
-            ]
-        );
+            ]);
+        }
 
         $defaultStrukturTugas = '<h2 class="section-title">Tugas & Wewenang Struktur PPID</h2>
 <p class="text-muted mb-4">Uraian tugas, wewenang, dan tanggung jawab masing-masing bagian dalam struktur PPID Politeknik Keselamatan Transportasi Jalan sesuai Keputusan Direktur PKTJ.</p>
@@ -47,7 +36,7 @@ Kami berkomitmen untuk terus meningkatkan kualitas pelayanan informasi publik. D
                     <div class="col-md-6 mb-3">
                         <h5 class="fw-bold text-[#004a99]"><i class="fas fa-tasks me-2 text-warning"></i> Tugas:</h5>
                         <ol class="ps-3 mb-0 small text-justify">
-                            <li class="mb-2">Menyediakan informasi secara baik dan efisien sehingga dapat diakses dengan mudah;</li>
+                            <li class="mb-2">Menyediakan informasi secara baik and efisien sehingga dapat diakses dengan mudah;</li>
                             <li class="mb-2">Melakukan pengawasan terhadap pelaksanaan layanan informasi sehingga dapat diakses dengan mudah;</li>
                             <li class="mb-2">Meningkatkan sumber daya manusia dalam pelayanan informasi; dan</li>
                             <li class="mb-2">Mengkoordinasikan setiap unit/satuan kerja di lingkup kerja Eselon I dalam melaksanakan pelayanan informasi.</li>
@@ -183,14 +172,92 @@ Kami berkomitmen untuk terus meningkatkan kualitas pelayanan informasi publik. D
     </div>
 </div>';
 
-        DB::table('profil_ppids')->updateOrInsert(
-            ['type' => 'struktur'],
+        $additional_sections = [
             [
+                'title' => 'Diagram Struktur Organisasi',
+                'layout' => 'diagram',
+                'content' => '<!-- Bagian ini akan dirender dengan template diagram -->'
+            ]
+        ];
+
+        if (!DB::table('profil_ppids')->where('type', 'struktur')->exists()) {
+            DB::table('profil_ppids')->insert([
+                'type'           => 'struktur',
                 'judul'          => 'Struktur Organisasi PPID',
                 'tagline_hero'   => 'Pejabat Pengelola Informasi dan Dokumentasi',
                 'konten_pembuka' => '<p>Struktur organisasi PPID PKTJ dibentuk berdasarkan Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan.</p>',
                 'gambaran'       => 'Struktur organisasi dan susunan tim kerja Pejabat Pengelola Informasi dan Dokumentasi (PPID) di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ).',
                 'konten_detail'  => $defaultStrukturTugas,
+                'additional_sections' => json_encode($additional_sections),
+            ]);
+        }
+
+        if (!DB::table('profil_ppids')->where('type', 'visi')->exists()) {
+            DB::table('profil_ppids')->insert([
+                'type'           => 'visi',
+                'judul'          => 'Visi & Misi',
+                'tagline_hero'   => '',
+                'konten_pembuka' => '',
+                'gambaran'       => '',
+                'konten_detail'  => '',
+                'judul_sub'      => '',
+                'gambar'         => null,
+                'link_dokumen'   => null,
+            ]);
+        }
+
+        if (!DB::table('profil_ppids')->where('type', 'tugas')->exists()) {
+            DB::table('profil_ppids')->insert([
+                'type'           => 'tugas',
+                'judul'          => 'Tugas & Tanggung Jawab',
+                'tagline_hero'   => '',
+                'konten_pembuka' => '',
+                'gambaran'       => '',
+                'konten_detail'  => '',
+                'judul_sub'      => '',
+                'gambar'         => null,
+                'link_dokumen'   => null,
+            ]);
+        }
+
+        if (!DB::table('profil_ppids')->where('type', 'regulasi')->exists()) {
+            DB::table('profil_ppids')->insert([
+                'type'           => 'regulasi',
+                'judul'          => 'Regulasi PPID',
+                'tagline_hero'   => 'Landasan Hukum dan Peraturan Keterbukaan Informasi Publik',
+                'konten_pembuka' => '<p style="text-align: justify;">Pelayanan informasi publik di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) berlandaskan pada peraturan perundang-undangan berikut:</p>',
+                'gambaran'       => 'Landasan hukum utama penyelenggaraan keterbukaan informasi di PKTJ.',
+                'konten_detail'  => '<ul><li style="text-align: justify; margin-bottom: 8px;"><strong>Undang-Undang Nomor 14 Tahun 2008</strong> tentang Keterbukaan Informasi Publik (UU KIP).</li><li style="text-align: justify; margin-bottom: 8px;"><strong>Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018</strong> tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan.</li><li style="text-align: justify; margin-bottom: 8px;"><strong>Keputusan Direktur PKTJ Nomor KP-PKTJ 32 Tahun 2024</strong> tentang Pejabat Pengelola Informasi dan Dokumentasi (PPID) Politeknik Keselamatan Transportasi Jalan.</li></ul>',
+            ]);
+        }
+
+        if (!DB::table('profil_ppids')->where('type', 'kontak')->exists()) {
+            DB::table('profil_ppids')->insert([
+                'type'           => 'kontak',
+                'judul'          => 'Hubungi Kami',
+                'tagline_hero'   => 'Kontak Resmi PPID PKTJ',
+                'konten_pembuka' => '<p style="text-align: justify;">Jika Anda memiliki pertanyaan, permohonan informasi, saran, atau pengaduan mengenai layanan kami, silakan hubungi kami melalui saluran resmi berikut:</p>',
+                'gambaran'       => 'Saluran resmi komunikasi PPID Politeknik Keselamatan Transportasi Jalan.',
+                'konten_detail'  => '<ul><li style="margin-bottom: 8px;"><strong>Email:</strong> pktj@pktj.ac.id</li><li style="margin-bottom: 8px;"><strong>Telepon (Hotline):</strong> (0283) 351061</li><li style="margin-bottom: 8px;"><strong>Fax:</strong> (0283) 358965</li><li style="margin-bottom: 8px;"><strong>Alamat Kampus I:</strong> Jl. Perintis Kemerdekaan No. 17, Kota Tegal, Jawa Tengah</li></ul>',
+            ]);
+        }
+
+        // Restore default video background configuration
+        // NOTE: File video di cPanel bernama hero_vid_1780650873.mp4
+        DB::table('dashboards')->updateOrInsert(
+            ['key' => 'hero_video_file'],
+            [
+                'value' => 'dashboard/hero_vid_1780650873.mp4',
+                'type'  => 'text',
+                'aktif' => true
+            ]
+        );
+        DB::table('dashboards')->updateOrInsert(
+            ['key' => 'hero_video_link'],
+            [
+                'value' => '',
+                'type'  => 'text',
+                'aktif' => true
             ]
         );
     }

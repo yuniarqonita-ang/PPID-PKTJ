@@ -58,7 +58,7 @@
 --}}
 
 {{-- Section Maklumat Utama --}}
-@if($judulMaklumat || $isiMaklumat || $gambarMaklumat)
+@if($judulMaklumat || $isiMaklumat)
 <div class="content-box mb-4" style="border-left: 5px solid #004a99;">
     @if($judulMaklumat)
         <h2 class="section-title">{{ $judulMaklumat }}</h2>
@@ -66,33 +66,17 @@
     @if($isiMaklumat)
         <div class="profil-content">{!! $isiMaklumat !!}</div>
     @endif
-    @if($gambarMaklumat)
-        <div class="mt-4 text-center">
-            @php
-                $imageUrl = str_starts_with($gambarMaklumat, 'http') ? $gambarMaklumat : asset('storage/halaman/' . $gambarMaklumat);
-            @endphp
-            <img src="{{ $imageUrl }}" alt="Maklumat Pelayanan" class="img-fluid rounded shadow" style="max-height: 800px; width: auto;" onerror="this.style.display='none'">
-        </div>
-    @endif
 </div>
 @endif
 
 {{-- Section Standar Biaya --}}
-@if($judulStandar || $isiStandar || $gambarStandar)
+@if($judulStandar || $isiStandar)
 <div class="content-box mb-4" style="border-left: 5px solid #d4af37;">
     @if($judulStandar)
         <h2 class="section-title">{{ $judulStandar }}</h2>
     @endif
     @if($isiStandar)
         <div class="profil-content">{!! $isiStandar !!}</div>
-    @endif
-    @if($gambarStandar)
-        <div class="mt-4 text-center">
-            @php
-                $imageUrl = str_starts_with($gambarStandar, 'http') ? $gambarStandar : asset('storage/halaman/' . $gambarStandar);
-            @endphp
-            <img src="{{ $imageUrl }}" alt="Standar Biaya" class="img-fluid rounded shadow" style="max-height: 800px; width: auto;" onerror="this.style.display='none'">
-        </div>
     @endif
 </div>
 @endif
@@ -109,33 +93,7 @@
 </div>
 @endif
 
-{{-- Gambar SOP & Alur --}}
-@if($gambarSop || $gambarProses)
-<div class="row mb-4">
-    @if($gambarSop)
-    <div class="{{ $gambarProses ? 'col-md-6' : 'col-12' }}">
-        <div class="content-box text-center">
-            <h3 style="color:#004a99; font-size:20px; margin-bottom:15px;"><i class="fas fa-file-image me-2"></i>Diagram SOP</h3>
-            @php
-                $imageUrl = str_starts_with($gambarSop, 'http') ? $gambarSop : asset('storage/halaman/' . $gambarSop);
-            @endphp
-            <img src="{{ $imageUrl }}" alt="Gambar SOP" class="img-fluid rounded shadow" style="max-height: 700px;" onerror="this.style.display='none'">
-        </div>
-    </div>
-    @endif
-    @if($gambarProses)
-    <div class="{{ $gambarSop ? 'col-md-6' : 'col-12' }}">
-        <div class="content-box text-center">
-            <h3 style="color:#004a99; font-size:20px; margin-bottom:15px;"><i class="fas fa-project-diagram me-2"></i>Alur Proses</h3>
-            @php
-                $imageUrl = str_starts_with($gambarProses, 'http') ? $gambarProses : asset('storage/halaman/' . $gambarProses);
-            @endphp
-            <img src="{{ $imageUrl }}" alt="Alur Proses" class="img-fluid rounded shadow" style="max-height: 700px;" onerror="this.style.display='none'">
-        </div>
-    </div>
-    @endif
-</div>
-@endif
+
 
 {{-- Section Laporan --}}
 @if($ringkasanEks || $isiLaporan)
@@ -156,15 +114,7 @@
 </div>
 @endif
 
-{{-- Video YouTube --}}
-@if($videoId)
-<div class="content-box mb-4">
-    <h3 style="color:#004a99; font-size:20px; margin-bottom:15px;"><i class="fab fa-youtube me-2" style="color:#ff0000;"></i>Video Tutorial</h3>
-    <div class="ratio ratio-16x9" style="max-height:480px; border-radius:8px; overflow:hidden;">
-        <iframe src="https://www.youtube.com/embed/{{ $videoId }}" allowfullscreen loading="lazy" style="border:0;"></iframe>
-    </div>
-</div>
-@endif
+
 
 {{-- Custom Konten Generik --}}
 @if($customKonten)

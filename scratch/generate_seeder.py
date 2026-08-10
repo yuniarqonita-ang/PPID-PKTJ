@@ -1,114 +1,204 @@
 import pandas as pd
-import math
-import json
+import re
+import os
 
-def clean_val(val):
-    if pd.isna(val):
-        return ""
-    return str(val).strip()
-
-df = pd.read_excel('data_dip.csv', header=None)
-
-# Find the row where 'NO' is
-header_row_index = -1
-for i, row in df.iterrows():
-    if str(row[0]).strip().upper() == 'NO':
-        header_row_index = i
-        break
-
-if header_row_index == -1:
-    print("Could not find table header!")
+excel_file = 'data_dip_real.xlsx'
+if not os.path.exists(excel_file):
+    print(f"Error: {excel_file} not found")
     exit(1)
 
-records = []
-current_kategori = "INFORMASI PUBLIK"
+xl = pd.ExcelFile(excel_file)
 
-# Process rows above the header to find the initial category
-for i in range(header_row_index - 1, 0, -1):
-    val = clean_val(df.iloc[i][0])
-    if val and 'INFORMASI' in val.upper():
-        current_kategori = val.title()
-        break
+data_entries = []
+dik_entries = []
 
-for i in range(header_row_index + 1, len(df)):
-    row = df.iloc[i]
-    col0 = clean_val(row[0])
-    col1 = clean_val(row[1])
+# Helper to escape PHP single-quoted string
+def php_escape(val):
+    if val is None or pd.isna(val):
+        return ""
+    val_str = str(val).strip()
+    # Replace backslashes first, then single quotes
+    return val_str.replace('\\', '\\\\').replace("'", "\\'")
+
+# Sheets mapping
+sheets_info = [
+    ('DIP Setiap Saat', 'informasi-setiap-saat'),
+    ('DIP Sertamerta', 'informasi-serta-merta'),
+    ('DIP Berkala', 'informasi-berkala'),
+    ('DIK', 'informasi-dikecualikan')
+]
+
+for sheet_name, category in sheets_info:
+    if sheet_name not in xl.sheet_names:
+        print(f"Warning: Sheet {sheet_name} not found in Excel file.")
+        continue
+        
+    df = pd.read_excel(excel_file, sheet_name=sheet_name, header=None)
+    print(f"Processing sheet: {sheet_name} ({len(df)} rows)")
     
-    if col0 == '' and col1 != '' and 'INFORMASI' in col1.upper():
-        current_kategori = col1.title()
-        continue
-    
-    if col0 == '' and col1 != '' and 'INFORMASI' in col0.upper():
-        current_kategori = col0.title()
-        continue
+    for idx in range(6, len(df)):
+        row_vals = df.iloc[idx].tolist()
+        clean_row = [str(x).strip() if pd.notna(x) else '' for x in row_vals]
         
-    if col0 != '' and col1 == '' and 'INFORMASI' in col0.upper():
-        current_kategori = col0.title()
-        continue
-        
-    if col0.isdigit() or (col0 and col1):
-        # We have a valid row
-        judul_informasi = col1
-        isi_informasi = clean_val(row[2])
-        pejabat_penguasa = clean_val(row[3])
-        penanggung_jawab = clean_val(row[4])
-        bentuk_informasi = clean_val(row[5])
-        waktu_pembuatan = clean_val(row[6])
-        jangka_waktu = clean_val(row[7])
-        
-        if not judul_informasi:
+        # Check if first cell is a number
+        no_val = clean_row[0].strip()
+        if no_val.endswith('.0'):
+            no_val = no_val[:-2]
+        if not no_val or not no_val.isdigit():
             continue
             
-        records.append({
-            'judul_informasi': judul_informasi,
-            'kategori': current_kategori,
-            'isi_informasi': isi_informasi,
-            'pejabat_penguasa': pejabat_penguasa,
-            'penanggung_jawab': penanggung_jawab,
-            'waktu_pembuatan': waktu_pembuatan,
-            'bentuk_informasi': bentuk_informasi,
-            'jangka_waktu': jangka_waktu,
-            'aktif': 1,
-            'created_at': "2026-01-01 00:00:00",
-            'updated_at': "2026-01-01 00:00:00"
-        })
+        # Resolve Link: column 10 (sensor), column 9 (preview), column 8 (asli)
+        # For DIK, check the same columns
+        link = ''
+        for col_idx in [10, 9, 8]:
+            if col_idx < len(clean_row):
+                val = clean_row[col_idx]
+                if val and val != 'nan' and val != 'Tanpa Preview' and val != '-':
+                    link = val
+                    break
+                    
+        # Skip if no document link is found
+        if not link:
+            continue
+            
+        # Extract Year from Tempat & Waktu Pembuatan (Column 6)
+        year = '2025'
+        if len(clean_row) > 6:
+            waktu_val = clean_row[6]
+            year_match = re.search(r'\b(20\d{2})\b', waktu_val)
+            if year_match:
+                year = year_match.group(1)
+                
+        created_at_str = f"{year}-01-01 00:00:00"
+        
+        # Prefix local filenames with storage path
+        if not re.match(r'^https?://', link, re.IGNORECASE):
+            if category == 'informasi-dikecualikan':
+                link = 'storage/informasi/dikecualikan/' + link
+            else:
+                link = 'storage/daftar-informasi/' + link
 
-php_array = "[\n"
-for rec in records:
-    php_array += "    [\n"
-    for k, v in rec.items():
-        if isinstance(v, int):
-            php_array += f"        '{k}' => {v},\n"
+        # Mapping fields
+        title = clean_row[1]
+        desc = clean_row[2]
+        pejabat = clean_row[3] if len(clean_row) > 3 else ''
+        penerbit = clean_row[4] if len(clean_row) > 4 else ''
+        bentuk = clean_row[5] if len(clean_row) > 5 else ''
+        waktu = clean_row[6] if len(clean_row) > 6 else ''
+        jangka = clean_row[7] if len(clean_row) > 7 else ''
+        
+        # For DIK, if it is DIK category, we seed to both tables
+        if category == 'informasi-dikecualikan':
+            # 1. To daftar_informasis
+            data_entries.append({
+                'judul_informasi': title,
+                'kategori': category,
+                'isi_informasi': desc,
+                'pejabat_penguasa': pejabat,
+                'penanggung_jawab': penerbit,
+                'penerbit_informasi': penerbit,
+                'bentuk_informasi': bentuk,
+                'tempat_pembuatan': 'Tegal',
+                'waktu_pembuatan': waktu,
+                'jangka_waktu': jangka,
+                'file_informasi': link,
+                'aktif': 1,
+                'created_at': created_at_str,
+                'updated_at': created_at_str,
+            })
+            # 2. To informasi_dikecualikans
+            dik_entries.append({
+                'judul': title,
+                'deskripsi': desc,
+                'tanggal': f"{year}-01-01",
+                'jangka_waktu': jangka,
+                'penanggung_jawab': penerbit,
+                'file_path': link,
+                'file_name': 'Dokumen',
+                'file_size': '-',
+                'file_type': 'PDF',
+                'aktif': 1,
+                'is_blurred': 0,
+                'bisa_download': 1,
+                'created_at': created_at_str,
+                'updated_at': created_at_str,
+            })
         else:
-            val = str(v).replace("'", "\\'")
-            php_array += f"        '{k}' => '{val}',\n"
-    php_array += "    ],\n"
-php_array += "]"
+            data_entries.append({
+                'judul_informasi': title,
+                'kategori': category,
+                'isi_informasi': desc,
+                'pejabat_penguasa': pejabat,
+                'penanggung_jawab': penerbit,
+                'penerbit_informasi': penerbit,
+                'bentuk_informasi': bentuk,
+                'tempat_pembuatan': 'Tegal',
+                'waktu_pembuatan': waktu,
+                'jangka_waktu': jangka,
+                'file_informasi': link,
+                'aktif': 1,
+                'created_at': created_at_str,
+                'updated_at': created_at_str,
+            })
 
-seeder_content = f"""<?php
+# Generate Seeder PHP code
+php_code = r"""<?php
+namespace Database\Seeders;
 
-namespace Database\\Seeders;
-
-use Illuminate\\Database\\Seeder;
-use Illuminate\\Support\\Facades\\DB;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DipSeeder extends Seeder
-{{
+{
     public function run()
-    {{
+    {
+        // 1. Seed daftar_informasis
         DB::table('daftar_informasis')->truncate();
-        
-        $data = {php_array};
 
-        foreach (array_chunk($data, 100) as $chunk) {{
-            DB::table('daftar_informasis')->insert($chunk);
-        }}
-    }}
-}}
+        $data = [
 """
 
-with open('database/seeders/DipSeeder.php', 'w', encoding='utf-8') as f:
-    f.write(seeder_content)
+for entry in data_entries:
+    php_code += "        [\n"
+    for k, v in entry.items():
+        if isinstance(v, int):
+            php_code += f"            '{k}' => {v},\n"
+        else:
+            php_code += f"            '{k}' => '{php_escape(v)}',\n"
+    php_code += "        ],\n"
 
-print(f"Generated DipSeeder.php with {len(records)} records!")
+php_code += """        ];
+
+        foreach (array_chunk($data, 50) as $chunk) {
+            DB::table('daftar_informasis')->insert($chunk);
+        }
+
+        // 2. Seed informasi_dikecualikans
+        DB::table('informasi_dikecualikans')->truncate();
+
+        $data_dik = [
+"""
+
+for entry in dik_entries:
+    php_code += "        [\n"
+    for k, v in entry.items():
+        if isinstance(v, int):
+            php_code += f"            '{k}' => {v},\n"
+        else:
+            php_code += f"            '{k}' => '{php_escape(v)}',\n"
+    php_code += "        ],\n"
+
+php_code += """        ];
+
+        foreach (array_chunk($data_dik, 50) as $chunk) {
+            DB::table('informasi_dikecualikans')->insert($chunk);
+        }
+    }
+}
+"""
+
+seeder_path = 'database/seeders/DipSeeder.php'
+with open(seeder_path, 'w', encoding='utf-8') as f:
+    f.write(php_code)
+
+print(f"Successfully generated {seeder_path} with {len(data_entries)} DIP entries and {len(dik_entries)} DIK entries!")

@@ -34,6 +34,7 @@
             @php
                 $d = $settings ?? [];
                 $hasContent = ($d['sop_keberatan_isi_konten'] ?? null) ||
+                              ($d['sop_keberatan_konten'] ?? null) ||
                               ($d['sop_keberatan_gambar_sop'] ?? null) ||
                               ($d['sop_keberatan_gambar_proses'] ?? null) ||
                               ($d['sop_keberatan_youtube_link'] ?? null) ||
@@ -58,9 +59,21 @@
         </div>
     </div>
 
+    {{-- ============================================================ --}}
+    {{-- DENAH ALUR DIAGRAM SOP KEBERATAN INTERAKTIF (DATABASE-DRIVEN) --}}
+    {{-- ============================================================ --}}
+    @include('components.sop-diagram-roadmap', ['pKey' => 'sop_keb'])
+
     @include('footer')
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({duration: 800, once: true});</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({ duration: 800, once: true });
+            }
+        });
+    </script>
 </body>
 </html>

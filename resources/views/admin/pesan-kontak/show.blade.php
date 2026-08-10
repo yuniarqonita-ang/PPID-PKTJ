@@ -17,7 +17,7 @@
             <div class="border-b border-gray-100 pb-6 mb-6">
                 <h3 class="text-2xl font-black text-gray-800 mb-2">{{ $pesan->judul }}</h3>
                 <div class="flex items-center text-sm text-gray-500 gap-4">
-                    <span><i class="fas fa-calendar mr-1"></i> {{ $pesan->created_at->format('d M Y H:i') }} WIB</span>
+                    <span><i class="fas fa-calendar mr-1"></i> {{ optional($pesan->created_at)->format('d M Y H:i') ?? '-' }} WIB</span>
                 </div>
             </div>
 

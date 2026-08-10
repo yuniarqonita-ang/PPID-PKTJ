@@ -32,9 +32,26 @@
                 <h6 class="fw-bold text-white mb-4">Akses Cepat</h6>
                 <ul class="list-unstyled small">
                     <li class="mb-2"><a href="{{ route('home') }}" class="text-decoration-none text-reset opacity-75">Beranda</a></li>
-                    <li class="mb-2"><a href="{{ route('profil.ppid') }}" class="text-decoration-none text-reset opacity-75">Profil PPID</a></li>
-                    <li class="mb-2"><a href="{{ route('informasi.berkala') }}" class="text-decoration-none text-reset opacity-75">Informasi Publik</a></li>
-                    <li class="mb-2"><a href="{{ route('prosedur.sop-permintaan') }}" class="text-decoration-none text-reset opacity-75">Prosedur SOP</a></li>
+                    @php
+                        try {
+                            $footerMenus = \App\Models\CustomMenu::whereNull('parent_id')
+                                ->where('aktif', true)
+                                ->whereIn('penempatan', ['footer', 'both'])
+                                ->orderBy('urutan', 'asc')
+                                ->get();
+                        } catch (\Exception $e) {
+                            $footerMenus = collect([]);
+                        }
+                    @endphp
+                    @foreach($footerMenus as $fMenu)
+                        <li class="mb-2">
+                            @if(str_starts_with($fMenu->url, 'http://') || str_starts_with($fMenu->url, 'https://'))
+                                <a href="{{ $fMenu->url }}" target="_blank" class="text-decoration-none text-reset opacity-75">{{ $fMenu->nama }}</a>
+                            @else
+                                <a href="{{ $fMenu->url ?: '/halaman/' . $fMenu->slug }}" class="text-decoration-none text-reset opacity-75">{{ $fMenu->nama }}</a>
+                            @endif
+                        </li>
+                    @endforeach
                 </ul>
             </div>
             <div class="col-lg-2">

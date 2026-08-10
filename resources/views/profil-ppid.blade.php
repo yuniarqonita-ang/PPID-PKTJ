@@ -140,8 +140,6 @@
                     </div>
                 @endif
 
-                <h2 class="section-title">{{ $profil->judul }}</h2>
-                
                 <div class="rich-content">
                     @if($profil->konten_pembuka)
                         <div class="text-justify mb-4">
@@ -176,7 +174,6 @@
 
                 @if($profil->gambaran)
                     <div class="mt-5 pt-4 border-top">
-                        <h3 class="section-title" style="font-size: 1.8rem;">Gambaran Umum</h3>
                         <div class="rich-content text-justify">
                             {!! $profil->gambaran !!}
                         </div>

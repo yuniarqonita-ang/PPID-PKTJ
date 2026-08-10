@@ -124,15 +124,10 @@
                     </div>
                 @endif
 
-                <h2 class="section-title">Visi & Misi</h2>
-                
                 <div class="rich-content">
                     @if($profil->konten_pembuka)
-                        <div class="vision-box shadow-sm">
-                            <h4 class="outfit fw-bold text-blue-900 mb-3"><i class="fas fa-eye me-2 text-warning"></i> Visi Kami</h4>
-                            <div class="text-justify">
-                                {!! $profil->konten_pembuka !!}
-                            </div>
+                        <div class="text-justify mb-4">
+                            {!! $profil->konten_pembuka !!}
                         </div>
                     @endif
                     
@@ -141,7 +136,7 @@
                     @endif
                     
                     @if($profil->konten_detail)
-                        <div class="text-justify">
+                        <div class="text-justify mb-4">
                             {!! $profil->konten_detail !!}
                         </div>
                     @endif
@@ -166,7 +161,6 @@
                 
                 @if($profil->gambaran)
                     <div class="mt-5 pt-4 border-top">
-                        <h3 class="outfit fw-bold text-dark mb-3">Filosofi Layanan</h3>
                         <div class="rich-content">
                             {!! $profil->gambaran !!}
                         </div>

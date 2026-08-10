@@ -47,8 +47,6 @@ class InformasiPublikController extends Controller
     {
         $rawItems = DaftarInformasi::where('aktif', true)
             ->where('kategori', 'informasi-berkala')
-            ->whereNotNull('file_informasi')
-            ->where('file_informasi', '!=', '')
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
             ->get();
@@ -65,9 +63,7 @@ class InformasiPublikController extends Controller
     public function informasiSertamerta()
     {
         $rawItems = DaftarInformasi::where('aktif', true)
-            ->where('kategori', 'informasi-serta-merta')
-            ->whereNotNull('file_informasi')
-            ->where('file_informasi', '!=', '')
+            ->whereIn('kategori', ['informasi-serta-merta', 'informasi-sertamerta'])
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
             ->get();
@@ -84,9 +80,7 @@ class InformasiPublikController extends Controller
     public function informasiSetiapsaat()
     {
         $rawItems = DaftarInformasi::where('aktif', true)
-            ->where('kategori', 'informasi-setiap-saat')
-            ->whereNotNull('file_informasi')
-            ->where('file_informasi', '!=', '')
+            ->whereIn('kategori', ['informasi-setiap-saat', 'informasi-setiapsaat'])
             ->orderBy('created_at', 'desc')
             ->orderBy('id', 'asc')
             ->get();

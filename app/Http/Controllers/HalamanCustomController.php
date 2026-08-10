@@ -30,7 +30,7 @@ class HalamanCustomController extends Controller
             if(!is_array($value)) {
                 Dashboard::updateOrCreate(
                     ['key' => $settingKey],
-                    ['value' => $value ?? '', 'type' => 'text', 'description' => "Teks dinamis untuk $type $key"]
+                    ['value' => $value ?? '', 'type' => 'text', 'aktif' => true, 'description' => "Teks dinamis untuk $type $key"]
                 );
             }
         }
@@ -59,12 +59,23 @@ class HalamanCustomController extends Controller
                     
                     Dashboard::updateOrCreate(
                         ['key' => $settingKey],
-                        ['value' => $filename, 'type' => 'file', 'description' => "File untuk $type $key"]
+                        ['value' => $filename, 'type' => 'file', 'aktif' => true, 'description' => "File untuk $type $key"]
                     );
                 }
             }
         }
 
         return back()->with('success', 'Informasi pada halaman ' . ucwords(str_replace('-', ' ', $type)) . ' berhasil diperbarui!');
+    }
+
+    /**
+     * Display a custom dynamic page.
+     */
+    public function showDynamicPage($slug)
+    {
+        $settings = Dashboard::pluck('value', 'key')->toArray();
+        $menu = \App\Models\CustomMenu::where('slug', $slug)->where('aktif', true)->firstOrFail();
+
+        return view('halaman-custom', compact('menu', 'settings'));
     }
 }

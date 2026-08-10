@@ -116,8 +116,15 @@ class DaftarInformasiController extends Controller
             $data['is_blurred']    = $request->has('is_blurred');
             $data['bisa_download'] = $request->has('bisa_download');
 
-            // Handle file_informasi logic (Google Drive vs Local File Upload) - Prioritas: Upload File Lokal > GDrive Link
-            if ($request->hasFile('file_informasi')) {
+            if ($request->has('hapus_file')) {
+                if ($item->file_informasi && strpos($item->file_informasi, 'http') === false) {
+                    $oldPath = str_replace('storage/', '', $item->file_informasi);
+                    if (Storage::disk('public')->exists($oldPath)) {
+                        Storage::disk('public')->delete($oldPath);
+                    }
+                }
+                $data['file_informasi'] = null;
+            } elseif ($request->hasFile('file_informasi')) {
                 // Delete old local file if one existed
                 if ($item->file_informasi && strpos($item->file_informasi, 'http') === false) {
                     $oldPath = str_replace('storage/', '', $item->file_informasi);

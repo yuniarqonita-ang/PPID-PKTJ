@@ -1,0 +1,30 @@
+{
+  "active_patterns": {
+    "[Ps.17h] NIK (Nomor Induk Kependudukan)": true,
+    "[Ps.17h] Nomor Kartu Keluarga (KK)": true,
+    "[Ps.17h] Nomor Paspor": true,
+    "[Ps.17h] Nomor SIM": true,
+    "[Ps.17h] Alamat Rumah (lengkap)": true,
+    "[Ps.17h] Diagnosa/Rekam Medis (kata kunci)": true,
+    "[Ps.17h] NPWP": true,
+    "[Ps.17h] Nomor Rekening Bank": true,
+    "[Ps.17h] Nominal Gaji/Pendapatan": true,
+    "[Ps.17h] Jumlah Rupiah (umum)": true,
+    "[Ps.17h] Nilai/Skor Ujian Pribadi": true,
+    "[Ps.17h] Peringkat/Ranking Individu": true,
+    "[Ps.17g] Nomor Akta Kelahiran/Nikah": true,
+    "[PM46+KIP] Dokumen Hukuman Disiplin Pegawai": true,
+    "[PM46+KIP] Proses Investigasi Internal": true,
+    "[PM46+KIP] Informasi Pengadaan Belum Final": true,
+    "[PM46+KIP] Nomor HP / Telepon Pribadi": true,
+    "[PM46+KIP] Alamat Email": true,
+    "[PM46+KIP] Tanggal Lahir": true,
+    "[PM46+KIP] Nama Ibu Kandung": true
+  },
+  "custom_keywords": [
+    "1. KODE QR",
+    "2. GAMBAR TANDA TANGAN"
+  ],
+  "flatten": true,
+  "output_suffix": "_TERSENSOR"
+}

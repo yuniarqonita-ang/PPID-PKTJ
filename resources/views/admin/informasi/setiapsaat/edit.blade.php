@@ -49,16 +49,27 @@
                     <!-- File Upload -->
                     <div class="space-y-3 text-gray-800">
                         <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Lampiran Dokumen (Biarkan kosong jika tidak diubah)</label>
-                        @if($item->file_path)
-                            <div class="mb-4 p-4 bg-blue-50 border-2 border-blue-100 rounded-2xl flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <i class="{{ str_starts_with($item->file_path, 'http') ? 'fab fa-google-drive text-blue-500' : 'fas fa-file-pdf text-red-500' }} text-2xl"></i>
-                                    <div>
-                                        <p class="text-xs font-black text-[#002b5c] uppercase">{{ str_starts_with($item->file_path, 'http') ? 'Google Drive Aktif:' : 'File Saat Ini:' }}</p>
-                                        <p class="text-[10px] font-bold text-slate-500 truncate max-w-xs">{{ $item->file_name ?? basename($item->file_path) }}</p>
+                        @if($item->file_path || $item->file_informasi)
+                            @php $activeFile = $item->file_path ?: $item->file_informasi; @endphp
+                            <div class="mb-4 p-4 bg-blue-50 border-2 border-blue-100 rounded-2xl flex flex-col space-y-2">
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <i class="{{ str_starts_with($activeFile, 'http') ? 'fab fa-google-drive text-blue-500' : 'fas fa-file-pdf text-red-500' }} text-2xl"></i>
+                                        <div>
+                                            <p class="text-xs font-black text-[#002b5c] uppercase">{{ str_starts_with($activeFile, 'http') ? 'Google Drive Aktif:' : 'File Saat Ini:' }}</p>
+                                            <p class="text-[10px] font-bold text-slate-500 truncate max-w-xs">{{ $item->file_name ?? basename($activeFile) }}</p>
+                                        </div>
                                     </div>
+                                    <a href="{{ str_starts_with($activeFile, 'http') ? $activeFile : asset($activeFile) }}" target="_blank" class="text-xs font-black text-[#004a99] uppercase hover:underline">Lihat File</a>
                                 </div>
-                                <a href="{{ str_starts_with($item->file_path, 'http') ? $item->file_path : asset($item->file_path) }}" target="_blank" class="text-xs font-black text-[#004a99] uppercase hover:underline">Lihat File</a>
+                                <div class="pt-2 border-t border-blue-200">
+                                    <label class="flex items-center space-x-2 cursor-pointer">
+                                        <input type="checkbox" name="hapus_file" value="1" class="w-4 h-4 text-red-600 rounded border-slate-300 focus:ring-red-500 cursor-pointer">
+                                        <span class="text-xs font-black text-red-600 uppercase">
+                                            <i class="fas fa-trash-alt mr-1"></i> Hapus Berkas PDF / Reset File
+                                        </span>
+                                    </label>
+                                </div>
                             </div>
                         @endif
                         <div class="relative group">

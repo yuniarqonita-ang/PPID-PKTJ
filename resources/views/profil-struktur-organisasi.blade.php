@@ -110,7 +110,11 @@
             min-width: 320px;
         }
         .org-card.level-1 .role-name {
-            color: var(--secondary-gold);
+            color: #ffffff !important;
+            opacity: 0.95;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
         .org-card .role-name {
             font-size: 0.85rem;
@@ -206,8 +210,8 @@
                                     <div class="org-group-title" data-aos="fade-down">Tingkat 1: Pelaksana UPT</div>
                                     <div class="org-level-row">
                                         <div class="org-card level-1 hover-lift" data-aos="zoom-in">
-                                            <div class="role-name">PPID Pelaksana UPT</div>
-                                            <div class="person-name">Direktur PKTJ</div>
+                                            <div class="role-name">{{ $settings['struktur_l1_role'] ?? 'PPID Pelaksana UPT' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l1_name'] ?? 'Direktur PKTJ' }}</div>
                                         </div>
                                     </div>
 
@@ -217,20 +221,20 @@
                                     <div class="org-group-title" data-aos="fade-down">Tingkat 2: Manager Informasi & Dokumentasi</div>
                                     <div class="org-level-row">
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="100">
-                                            <div class="role-name">Manager Bidang 1</div>
-                                            <div class="person-name">Wakil Direktur 1</div>
+                                            <div class="role-name">{{ $settings['struktur_l2_c1_role'] ?? 'Manager Bidang 1' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l2_c1_name'] ?? 'Wakil Direktur 1' }}</div>
                                         </div>
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="200">
-                                            <div class="role-name">Manager Bidang 2</div>
-                                            <div class="person-name">Wakil Direktur 2</div>
+                                            <div class="role-name">{{ $settings['struktur_l2_c2_role'] ?? 'Manager Bidang 2' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l2_c2_name'] ?? 'Wakil Direktur 2' }}</div>
                                         </div>
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="300">
-                                            <div class="role-name">Manager Bidang 3</div>
-                                            <div class="person-name">Wakil Direktur 3</div>
+                                            <div class="role-name">{{ $settings['struktur_l2_c3_role'] ?? 'Manager Bidang 3' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l2_c3_name'] ?? 'Wakil Direktur 3' }}</div>
                                         </div>
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="400">
-                                            <div class="role-name">Manager Administrasi</div>
-                                            <div class="person-name">Kepala Bagian Administrasi Akademik dan Ketarunaan</div>
+                                            <div class="role-name">{{ $settings['struktur_l2_c4_role'] ?? 'Manager Administrasi' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l2_c4_name'] ?? 'Kepala Bagian Administrasi Akademik dan Ketarunaan' }}</div>
                                         </div>
                                     </div>
 
@@ -240,12 +244,12 @@
                                     <div class="org-group-title" data-aos="fade-down">Tingkat 3: Pengelola Dokumentasi</div>
                                     <div class="org-level-row">
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="100">
-                                            <div class="role-name">Pengelola Dokumentasi</div>
-                                            <div class="person-name">Kepala Bagian Keuangan, Umum dan Kerjasama</div>
+                                            <div class="role-name">{{ $settings['struktur_l3_c1_role'] ?? 'Pengelola Dokumentasi' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l3_c1_name'] ?? 'Kepala Bagian Keuangan, Umum dan Kerjasama' }}</div>
                                         </div>
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="200">
-                                            <div class="role-name">Humas</div>
-                                            <div class="person-name">Pranata Hubungan Masyarakat Ahli Muda</div>
+                                            <div class="role-name">{{ $settings['struktur_l3_c2_role'] ?? 'Humas' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l3_c2_name'] ?? 'Pranata Hubungan Masyarakat Ahli Muda' }}</div>
                                         </div>
                                     </div>
 
@@ -255,32 +259,32 @@
                                     <div class="org-group-title" data-aos="fade-down">Tingkat 4: Petugas Informasi</div>
                                     <div class="org-level-row">
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="50">
-                                            <div class="role-name">Petugas Keuangan</div>
-                                            <div class="person-name">Analis Pengelolaan Keuangan APBN Ahli Muda</div>
+                                            <div class="role-name">{{ $settings['struktur_l4_c1_role'] ?? 'Petugas Keuangan' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l4_c1_name'] ?? 'Analis Pengelolaan Keuangan APBN Ahli Muda' }}</div>
                                         </div>
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="100">
-                                            <div class="role-name">Petugas SDM</div>
-                                            <div class="person-name">Analis Sumber Daya Manusia Aparatur Ahli Muda</div>
+                                            <div class="role-name">{{ $settings['struktur_l4_c2_role'] ?? 'Petugas SDM' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l4_c2_name'] ?? 'Analis Sumber Daya Manusia Aparatur Ahli Muda' }}</div>
                                         </div>
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="150">
-                                            <div class="role-name">Teknologi Pembelajaran</div>
-                                            <div class="person-name">Para Pengembangan Teknologi Pembelajaran Ahli Muda</div>
+                                            <div class="role-name">{{ $settings['struktur_l4_c3_role'] ?? 'Teknologi Pembelajaran' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l4_c3_name'] ?? 'Para Pengembangan Teknologi Pembelajaran Ahli Muda' }}</div>
                                         </div>
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="200">
-                                            <div class="role-name">Kepala Pusat</div>
-                                            <div class="person-name">Para Kepala Pusat</div>
+                                            <div class="role-name">{{ $settings['struktur_l4_c4_role'] ?? 'Kepala Pusat' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l4_c4_name'] ?? 'Para Kepala Pusat' }}</div>
                                         </div>
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="250">
-                                            <div class="role-name">Ketua Program Studi</div>
-                                            <div class="person-name">Para Ketua Program Studi</div>
+                                            <div class="role-name">{{ $settings['struktur_l4_c5_role'] ?? 'Ketua Program Studi' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l4_c5_name'] ?? 'Para Ketua Program Studi' }}</div>
                                         </div>
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="300">
-                                            <div class="role-name">Kepala Unit</div>
-                                            <div class="person-name">Para Kepala Unit</div>
+                                            <div class="role-name">{{ $settings['struktur_l4_c6_role'] ?? 'Kepala Unit' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l4_c6_name'] ?? 'Para Kepala Unit' }}</div>
                                         </div>
                                         <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="350">
-                                            <div class="role-name">Kehumasan</div>
-                                            <div class="person-name">Pranata Kehumasan</div>
+                                            <div class="role-name">{{ $settings['struktur_l4_c7_role'] ?? 'Kehumasan' }}</div>
+                                            <div class="person-name">{{ $settings['struktur_l4_c7_name'] ?? 'Pranata Kehumasan' }}</div>
                                         </div>
                                     </div>
                                 </div>

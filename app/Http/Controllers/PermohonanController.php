@@ -144,7 +144,7 @@ class PermohonanController extends Controller
             'email_or_phone'     => $validated['nomor_telepon'],
         ];
 
-        Permohonan::create([
+        $permohonan = Permohonan::create([
             'tanggal_permohonan'                      => $validated['tanggal_permohonan'],
             'nama_pemohon'                            => $validated['nama_pemohon'],
             'alamat'                                  => $validated['alamat'],
@@ -164,6 +164,27 @@ class PermohonanController extends Controller
             'status_informasi_belum_didokumentasikan' => 0,
             'bentuk_informasi_salinan'                => $validated['jenis_permohonan_salinan'] == 'Mendapatkan salinan' ? 'Softcopy' : 'N/A',
         ]);
+
+        // Try sending email notification to Humas / Admin users
+        try {
+            $adminEmails = \App\Models\User::pluck('email')->filter()->toArray();
+            if (!empty($adminEmails)) {
+                $emailBody = "Yth. Tim Humas / Admin PPID PKTJ,\n\nAda Permohonan Informasi Publik Baru yang Diterima:\n\n"
+                    . "Nama Pemohon: {$permohonan->nama_pemohon}\n"
+                    . "Pekerjaan: {$permohonan->pekerjaan}\n"
+                    . "Kontak/Telepon: {$permohonan->nomor_telepon}\n"
+                    . "Rincian Informasi Dituju: {$permohonan->deskripsi_permohonan}\n"
+                    . "Tujuan Penggunaan: {$permohonan->jenis_informasi}\n\n"
+                    . "Mohon segera diproses dan diverifikasi di Admin Panel PPID PKTJ.";
+
+                \Illuminate\Support\Facades\Mail::raw($emailBody, function ($mail) use ($adminEmails, $permohonan) {
+                    $mail->to($adminEmails)
+                        ->subject("[PPID PKTJ] NOTIFIKASI PERMOHONAN INFORMASI BARU: {$permohonan->nama_pemohon}");
+                });
+            }
+        } catch (\Exception $ex) {
+            // Fail silently if mail server is unconfigured
+        }
 
         return redirect()->route('permohonan.form')->with('success', 'Permohonan informasi Anda berhasil dikirimkan! Silakan tunggu konfirmasi dari pihak PPID PKTJ.');
     }

@@ -25,8 +25,8 @@
                     @forelse($pesans as $item)
                     <tr class="hover:bg-blue-50/30 transition-colors {{ !$item->is_read ? 'bg-blue-50/10' : '' }}">
                         <td class="px-6 py-4">
-                            <span class="text-xs font-bold text-gray-700">{{ $item->created_at->format('d M Y') }}</span>
-                            <div class="text-[10px] text-gray-400">{{ $item->created_at->format('H:i') }} WIB</div>
+                            <span class="text-xs font-bold text-gray-700">{{ optional($item->created_at)->format('d M Y') ?? '-' }}</span>
+                            <div class="text-[10px] text-gray-400">{{ optional($item->created_at)->format('H:i') ?? '-' }} WIB</div>
                         </td>
                         <td class="px-6 py-4">
                             <div class="text-sm font-bold text-[#004a99]">{{ $item->nama }}</div>

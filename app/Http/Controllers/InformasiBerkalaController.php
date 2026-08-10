@@ -130,8 +130,13 @@ class InformasiBerkalaController extends Controller
             'bisa_download'   => $request->has('bisa_download'),
         ];
 
-        // Prioritas: Upload File Lokal > Google Drive Link
-        if ($request->hasFile('file')) {
+        if ($request->has('hapus_file')) {
+            if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
+                Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
+                Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
+            }
+            $data['file_informasi'] = null;
+        } elseif ($request->hasFile('file')) {
             // Delete old file (hanya jika bukan GDrive link)
             if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
                 Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {

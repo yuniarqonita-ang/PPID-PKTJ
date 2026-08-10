@@ -15,7 +15,7 @@ class InformasiSetiapSaatController extends Controller
      */
     public function index(): View
     {
-        $items = DaftarInformasi::where('kategori', 'informasi-setiap-saat')
+        $items = DaftarInformasi::whereIn('kategori', ['informasi-setiap-saat', 'informasi-setiapsaat'])
             ->orderBy('created_at', 'desc')
             ->get();
             
@@ -128,8 +128,13 @@ class InformasiSetiapSaatController extends Controller
             'bisa_download'   => $request->has('bisa_download'),
         ];
 
-        // Prioritas: Upload Lokal > GDrive Link
-        if ($request->hasFile('file')) {
+        if ($request->has('hapus_file')) {
+            if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
+                Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
+                Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
+            }
+            $data['file_informasi'] = null;
+        } elseif ($request->hasFile('file')) {
             if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
                 Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
                 Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));

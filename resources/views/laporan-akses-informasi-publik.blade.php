@@ -284,7 +284,7 @@
                     <div class="metric-card">
                         <div class="metric-icon-wrapper" style="color: #ca8a04; background: rgba(202, 138, 4, 0.08);"><i class="fas fa-history"></i></div>
                         <div>
-                            <div class="metric-value">5 - 7</div>
+                            <div class="metric-value">{{ $rata_rata_hari ?? '5 - 7' }}</div>
                             <div class="metric-label">Rata-rata Hari Jawab</div>
                         </div>
                     </div>
@@ -347,79 +347,6 @@
             </div>
         </div>
 
-        <!-- HISTORICAL ARCHIVE SECTION -->
-        <div class="content-card" data-aos="fade-up" data-aos-delay="100">
-            <h3 class="fw-bold outfit text-[#002b5c] mb-4 border-bottom pb-3">
-                <i class="far fa-folder-open me-2 text-warning"></i> Arsip Dokumen Laporan Resmi
-            </h3>
-
-            @php
-                $hasLaporanList = isset($laporan) && $laporan->count() > 0;
-            @endphp
-
-            @if($hasLaporanList)
-                <div class="row">
-                    @foreach($laporan as $item)
-                    @php
-                        $isGDrive = $item->file_path && (\Illuminate\Support\Str::startsWith($item->file_path, ['http://', 'https://']));
-                        $previewUrl = $item->file_path ? ($isGDrive ? $item->file_path : 'storage/' . $item->file_path) : null;
-                    @endphp
-                    <div class="col-12">
-                        <div class="info-item hover-lift" data-aos="fade-up">
-                            <div class="d-flex align-items-start flex-column flex-md-row">
-                                <div class="info-icon">
-                                    <i class="fas fa-file-pdf"></i>
-                                </div>
-                                <div class="flex-grow-1 w-100">
-                                    <h4 class="fw-bold outfit text-dark mb-3">{{ $item->judul }}</h4>
-                                    
-                                    <div class="rich-content mb-4">
-                                        {!! $item->deskripsi ?? 'Tidak ada deskripsi terperinci untuk laporan ini.' !!}
-                                    </div>
-                                    
-                                    <div class="d-flex align-items-center justify-content-between pt-3 border-top flex-wrap gap-3">
-                                        <div class="d-flex gap-3">
-                                            <span class="badge bg-light text-primary border px-3 py-2 rounded-pill">
-                                                <i class="fas fa-calendar-alt me-1"></i> {{ $item->tanggal ? $item->tanggal->translatedFormat('d F Y') : ($item->created_at ? $item->created_at->translatedFormat('d F Y') : '-') }}
-                                            </span>
-                                            @if($item->file_size && $item->file_size !== '-')
-                                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">
-                                                <i class="fas fa-hdd me-1"></i> {{ $item->file_size }}
-                                            </span>
-                                            @endif
-                                        </div>
-                                        
-                                        <div class="d-flex gap-2">
-                                            @if($previewUrl && is_previewable($previewUrl))
-                                            <a href="#" class="btn-download-premium" 
-                                                data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                                data-url="{{ route('preview.dokumen', ['file' => $previewUrl, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
-                                                <i class="fas fa-eye"></i> Lihat Laporan
-                                            </a>
-                                            @endif
-                                            
-                                            @if($item->file_path && $item->bisa_download)
-                                            <a href="{{ route('dokumen.download', $item->id) }}" class="btn-download-premium" style="background: #10b981; color: white;">
-                                                <i class="fas fa-download"></i> Unduh
-                                            </a>
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
-            @else
-                <div class="empty-state text-center py-5">
-                    <div class="empty-icon text-muted mb-3" style="font-size: 48px;">
-                        <i class="far fa-file-alt"></i>
-                    </div>
-                    <h3>Dokumen Belum Tersedia</h3>
-                    <p class="text-muted">Arsip dokumen rekapitulasi akses informasi belum diunggah.</p>
-                </div>
-            @endif
         </div>
     </div>
 

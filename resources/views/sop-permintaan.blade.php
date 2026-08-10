@@ -35,9 +35,7 @@
             @php
                 $d = $settings ?? [];
                 $hasContent = ($d['sop_permintaan_isi_konten'] ?? null) ||
-                              ($d['sop_permintaan_gambar_sop'] ?? null) ||
-                              ($d['sop_permintaan_gambar_proses'] ?? null) ||
-                              ($d['sop_permintaan_youtube_link'] ?? null) ||
+                              ($d['sop_permintaan_konten'] ?? null) ||
                               ($d['sop_permintaan_isi_maklumat'] ?? null) ||
                               (isset($laporan) && $laporan->count() > 0);
             @endphp
@@ -59,9 +57,21 @@
         </div>
     </div>
 
+    {{-- ============================================================ --}}
+    {{-- DENAH ALUR DIAGRAM SOP PERMINTAAN INTERAKTIF (DATABASE-DRIVEN) --}}
+    {{-- ============================================================ --}}
+    @include('components.sop-diagram-roadmap', ['pKey' => 'sop_perm'])
+
     @include('footer')
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({duration: 800, once: true});</script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            if (typeof AOS !== 'undefined') {
+                AOS.init({ duration: 800, once: true });
+            }
+        });
+    </script>
 </body>
 </html>

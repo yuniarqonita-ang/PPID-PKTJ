@@ -123,7 +123,6 @@
 
                 @if($profil->konten_pembuka)
                     <div class="mb-5 rich-content">
-                        <h2 class="section-title">Informasi Regulasi</h2>
                         <div class="text-justify">
                             {!! $profil->konten_pembuka !!}
                         </div>

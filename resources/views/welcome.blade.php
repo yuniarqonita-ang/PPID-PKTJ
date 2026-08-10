@@ -368,6 +368,228 @@
             border-radius: 60px 60px 0 0;
             color: white;
         }
+
+        /* ============================================================ */
+        /* PINTASAN PROSEDUR & ALUR LAYANAN (SUPER PREMIUM DESIGN)      */
+        /* ============================================================ */
+        .prosedur-shortcut-wrapper {
+            background: linear-gradient(145deg, #ffffff 0%, #f0f7ff 60%, #fffdf0 100%);
+            border: 2.5px solid #e2e8f0;
+            border-radius: 40px;
+            padding: 55px 35px 60px;
+            margin-top: 60px;
+            position: relative;
+            box-shadow: 0 25px 60px rgba(0, 74, 153, 0.07);
+            overflow: hidden;
+        }
+
+        .prosedur-shortcut-wrapper::before {
+            content: '';
+            position: absolute;
+            top: -120px;
+            right: -120px;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(255, 193, 7, 0.15) 0%, rgba(255, 193, 7, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .prosedur-shortcut-wrapper::after {
+            content: '';
+            position: absolute;
+            bottom: -120px;
+            left: -120px;
+            width: 320px;
+            height: 320px;
+            background: radial-gradient(circle, rgba(0, 74, 153, 0.12) 0%, rgba(0, 74, 153, 0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .prosedur-badge-head {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #e0f2fe;
+            color: #004a99;
+            border: 1.5px solid #bae6fd;
+            font-weight: 900;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 7px 22px;
+            border-radius: 50px;
+            margin-bottom: 16px;
+        }
+
+        .prosedur-main-title {
+            font-size: clamp(28px, 3.5vw, 42px);
+            font-weight: 900;
+            font-family: 'Outfit', sans-serif;
+            color: #0f172a;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            line-height: 1.15;
+        }
+
+        .prosedur-main-title span {
+            color: #004a99;
+        }
+
+        .prosedur-main-subtitle {
+            font-size: 15px;
+            color: #64748b;
+            font-weight: 500;
+            max-width: 650px;
+            margin: 0 auto 45px;
+            line-height: 1.6;
+        }
+
+        /* 3 CARDS BESPOKE DESIGN */
+        .prosedur-card {
+            background: #ffffff;
+            border-radius: 32px;
+            border: 2.5px solid #e2e8f0;
+            padding: 34px 28px 28px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 12px 35px rgba(0, 0, 0, 0.04);
+            text-decoration: none;
+        }
+
+        .prosedur-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 7px;
+            background: var(--card-accent, #004a99);
+            transition: height 0.3s ease;
+        }
+
+        .prosedur-card:hover {
+            transform: translateY(-10px) scale(1.015);
+            border-color: var(--card-accent, #004a99);
+            box-shadow: 0 25px 50px rgba(0, 74, 153, 0.14);
+        }
+
+        .prosedur-card:hover::before {
+            height: 10px;
+        }
+
+        .prosedur-card-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 22px;
+        }
+
+        .prosedur-icon-box {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            background: var(--icon-bg, #f0f7ff);
+            color: var(--icon-color, #004a99);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 26px;
+            box-shadow: 0 10px 22px -4px var(--icon-shadow, rgba(0, 74, 153, 0.2));
+            transition: all 0.4s ease;
+        }
+
+        .prosedur-card:hover .prosedur-icon-box {
+            transform: scale(1.1) rotate(5deg);
+            background: var(--card-accent, #004a99);
+            color: #ffffff;
+        }
+
+        .prosedur-step-badge {
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            padding: 6px 16px;
+            border-radius: 50px;
+            background: var(--badge-bg, #e0f2fe);
+            color: var(--badge-color, #004a99);
+            border: 1.5px solid var(--badge-border, #bae6fd);
+        }
+
+        .prosedur-card-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: #0f172a;
+            margin: 0 0 10px;
+            line-height: 1.3;
+            transition: color 0.3s ease;
+        }
+
+        .prosedur-card:hover .prosedur-card-title {
+            color: var(--card-accent, #004a99);
+        }
+
+        .prosedur-card-desc {
+            font-size: 13.5px;
+            color: #64748b;
+            line-height: 1.6;
+            margin: 0 0 20px;
+            font-weight: 500;
+        }
+
+        .prosedur-pill-time {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            border: 2px dashed #dc2626;
+            color: #dc2626;
+            background: #fff1f2;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 11.5px;
+            font-weight: 800;
+            margin-bottom: 22px;
+        }
+
+        .prosedur-action-btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 20px;
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 16px;
+            color: var(--card-accent, #004a99);
+            font-weight: 900;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+        }
+
+        .prosedur-card:hover .prosedur-action-btn {
+            background: var(--card-accent, #004a99);
+            color: #ffffff;
+            border-color: var(--card-accent, #004a99);
+            box-shadow: 0 8px 20px -2px var(--card-accent, #004a99);
+        }
+
+        .prosedur-action-btn i {
+            transition: transform 0.3s ease;
+        }
+
+        .prosedur-card:hover .prosedur-action-btn i {
+            transform: translateX(4px);
+        }
     </style>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
@@ -387,7 +609,7 @@
             $hasHeroVideo = false;
             $heroEmbedUrl = null;
             
-            if ($heroVidFile && file_exists(public_path('storage/' . $heroVidFile))) {
+            if ($heroVidFile) {
                 $hasHeroVideo = true;
             } elseif ($heroVidLink) {
                 if (str_ends_with(strtolower($heroVidLink), '.mp4') || str_contains(strtolower($heroVidLink), '.mp4')) {
@@ -454,7 +676,163 @@
         </div>
     </section>
 
-    <!-- STATS COUNTER -->
+    <!-- INFORMASI PUBLIK / KLASIFIKASI INFORMASI & LAYANAN CEPAT -->
+    <section class="info-grid-section py-16" id="informasi-publik">
+        <div class="container">
+            <div class="section-header text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-black text-[#004a99]">Klasifikasi Informasi</h2>
+                <p class="text-muted font-bold mt-2">Akses daftar informasi publik berdasarkan kategorinya</p>
+            </div>
+
+            <div class="row justify-content-center g-4">
+                <div class="col-lg-3 col-md-6">
+                    <a href="{{ route('informasi.berkala') }}" class="text-decoration-none">
+                        <div class="feature-card h-100">
+                            <div class="icon-box">
+                                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M20 36 Q20 28 28 28 L52 28 Q60 28 60 36 L60 44 Q60 52 52 52 L28 52 Q20 52 20 44 Z" fill="#fbbf24"/>
+                                    <text x="40" y="44" text-anchor="middle" fill="#1a1a1a" font-size="8" font-weight="900">BERKALA</text>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">Informasi Berkala</h3>
+                            <p class="mt-3 text-muted text-sm px-2">Daftar informasi yang wajib diperbarui dan dipublikasikan secara berkala.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <a href="{{ route('informasi.setiap-saat') }}" class="text-decoration-none">
+                        <div class="feature-card h-100">
+                            <div class="icon-box">
+                                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <rect x="18" y="14" width="44" height="52" rx="6" fill="#3b82f6"/>
+                                    <rect x="26" y="32" width="28" height="4" rx="2" fill="white"/>
+                                    <rect x="26" y="42" width="20" height="4" rx="2" fill="white"/>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">Informasi Tersedia Setiap Saat</h3>
+                            <p class="mt-3 text-muted text-sm px-2">Informasi yang wajib tersedia setiap saat untuk melayani masyarakat.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <a href="{{ route('informasi.serta-merta') }}" class="text-decoration-none">
+                        <div class="feature-card h-100">
+                            <div class="icon-box">
+                                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M18 30 L42 22 L42 55 L18 47 Z" fill="#fbbf24"/>
+                                    <path d="M52 28 Q58 34 58 38.5 Q58 43 52 49" stroke="#004a99" stroke-width="3" fill="none"/>
+                                </svg>
+                            </div>
+                            <h3 class="feature-title">Informasi Serta Merta</h3>
+                            <p class="mt-3 text-muted text-sm px-2">Pengumuman darurat atau mendadak yang menyangkut hajat hidup orang banyak.</p>
+                        </div>
+                    </a>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <a href="{{ route('permohonan.form') }}" class="text-decoration-none">
+                        <div class="feature-card h-100 border-warning border-2">
+                            <div class="icon-box" style="background: linear-gradient(135deg, #004a99, #002b5c);">
+                                <i class="fas fa-file-signature text-warning text-4xl"></i>
+                            </div>
+                            <h3 class="feature-title text-[#004a99]">Ajukan Permohonan Informasi Publik</h3>
+                            <p class="mt-3 text-muted text-sm px-2">Layanan pengajuan permohonan informasi publik secara online resmi PPID PKTJ.</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- PINTASAN PROSEDUR & ALUR LAYANAN (SUPER PREMIUM DESIGN) -->
+            <div class="prosedur-shortcut-wrapper" data-aos="fade-up" data-aos-delay="100">
+                <div class="text-center">
+                    <div class="prosedur-badge-head">
+                        <i class="fas fa-sitemap text-[#ffc107]"></i> Pintasan Prosedur Layanan
+                    </div>
+                    <h2 class="prosedur-main-title">
+                        Alur &amp; Tata Cara <span>Pengajuan Layanan</span>
+                    </h2>
+                    <p class="prosedur-main-subtitle">
+                        Panduan langkah demi langkah prosedur resmi permohonan informasi publik, penanganan keberatan, dan penyelesaian sengketa PPID PKTJ.
+                    </p>
+                </div>
+
+                <div class="row g-4 justify-content-center">
+                    <!-- Kartu 1: SOP Permintaan -->
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="150">
+                        <a href="{{ route('prosedur.sop-permintaan') }}" class="prosedur-card" style="--card-accent: #004a99; --icon-bg: #e0f2fe; --icon-color: #004a99; --icon-shadow: rgba(0,74,153,0.3); --badge-bg: #e0f2fe; --badge-color: #004a99; --badge-border: #bae6fd;">
+                            <div>
+                                <div class="prosedur-card-top">
+                                    <div class="prosedur-icon-box">
+                                        <i class="fas fa-file-signature"></i>
+                                    </div>
+                                    <span class="prosedur-step-badge">Prosedur 01</span>
+                                </div>
+                                <h3 class="prosedur-card-title">SOP Permintaan Informasi</h3>
+                                <p class="prosedur-card-desc">Tata cara dan syarat pengajuan permohonan informasi publik secara online maupun langsung.</p>
+                                <div class="prosedur-pill-time">
+                                    <i class="fas fa-clock"></i> 10 Menit / 10 Hari Kerja
+                                </div>
+                            </div>
+                            <div class="prosedur-action-btn">
+                                <span>Lihat Alur Permintaan</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Kartu 2: SOP Keberatan -->
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                        <a href="{{ route('prosedur.sop-keberatan') }}" class="prosedur-card" style="--card-accent: #d97706; --icon-bg: #fef3c7; --icon-color: #d97706; --icon-shadow: rgba(217,119,6,0.3); --badge-bg: #fef3c7; --badge-color: #d97706; --badge-border: #fde68a;">
+                            <div>
+                                <div class="prosedur-card-top">
+                                    <div class="prosedur-icon-box">
+                                        <i class="fas fa-user-shield"></i>
+                                    </div>
+                                    <span class="prosedur-step-badge">Prosedur 02</span>
+                                </div>
+                                <h3 class="prosedur-card-title">SOP Penanganan Keberatan</h3>
+                                <p class="prosedur-card-desc">Tata cara pengajuan keberatan jika permohonan informasi ditolak, terlambat, atau tidak memuaskan.</p>
+                                <div class="prosedur-pill-time">
+                                    <i class="fas fa-clock"></i> 30 Hari Kerja
+                                </div>
+                            </div>
+                            <div class="prosedur-action-btn">
+                                <span>Lihat Alur Keberatan</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Kartu 3: SOP Sengketa -->
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="250">
+                        <a href="{{ route('prosedur.sop-sengketa') }}" class="prosedur-card" style="--card-accent: #dc2626; --icon-bg: #fee2e2; --icon-color: #dc2626; --icon-shadow: rgba(220,38,38,0.3); --badge-bg: #fee2e2; --badge-color: #dc2626; --badge-border: #fecaca;">
+                            <div>
+                                <div class="prosedur-card-top">
+                                    <div class="prosedur-icon-box">
+                                        <i class="fas fa-scale-balanced"></i>
+                                    </div>
+                                    <span class="prosedur-step-badge">Prosedur 03</span>
+                                </div>
+                                <h3 class="prosedur-card-title">SOP Penyelesaian Sengketa</h3>
+                                <p class="prosedur-card-desc">Tata cara penyelesaian sengketa informasi publik melalui proses mediasi &amp; adjudikasi Komisi Informasi.</p>
+                                <div class="prosedur-pill-time">
+                                    <i class="fas fa-clock"></i> 14 Hari / 100 Hari Kerja
+                                </div>
+                            </div>
+                            <div class="prosedur-action-btn">
+                                <span>Lihat Alur Sengketa</span>
+                                <i class="fas fa-arrow-right"></i>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- STATS COUNTER SECTION -->
     <section class="stats-section">
         <div class="container">
             <div class="row g-4">
@@ -485,64 +863,6 @@
                         <div class="stat-number">{{ number_format($total_berita) }}</div>
                         <div class="stat-label">Berita & Artikel</div>
                     </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- INFORMASI PUBLIK -->
-    <section class="info-grid-section" id="informasi-publik">
-        <div class="container">
-            <div class="section-header">
-                <h2>Klasifikasi Informasi</h2>
-                <p class="text-muted font-bold">Akses daftar informasi publik berdasarkan kategorinya</p>
-            </div>
-
-            <div class="row justify-content-center g-5">
-                <div class="col-lg-4 col-md-6">
-                    <a href="{{ route('informasi.berkala') }}" class="text-decoration-none">
-                        <div class="feature-card">
-                            <div class="icon-box">
-                                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M20 36 Q20 28 28 28 L52 28 Q60 28 60 36 L60 44 Q60 52 52 52 L28 52 Q20 52 20 44 Z" fill="#fbbf24"/>
-                                    <text x="40" y="45" text-anchor="middle" fill="#1a1a1a" font-size="8" font-weight="900">BERKALA</text>
-                                </svg>
-                            </div>
-                            <h3 class="feature-title">Informasi Berkala</h3>
-                            <p class="mt-3 text-muted text-sm px-4">Daftar informasi yang wajib diperbarui dan dipulikasikan secara berkala.</p>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <a href="{{ route('informasi.setiap-saat') }}" class="text-decoration-none">
-                        <div class="feature-card">
-                            <div class="icon-box">
-                                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <rect x="15" y="10" width="42" height="55" rx="4" fill="#3b82f6"/>
-                                    <rect x="22" y="32" width="28" height="3" rx="1.5" fill="white"/>
-                                    <rect x="22" y="40" width="20" height="3" rx="1.5" fill="white"/>
-                                </svg>
-                            </div>
-                            <h3 class="feature-title">Informasi Setiap Saat</h3>
-                            <p class="mt-3 text-muted text-sm px-4">Informasi yang wajib tersedia setiap saat untuk melayani masyarakat.</p>
-                        </div>
-                    </a>
-                </div>
-
-                <div class="col-lg-4 col-md-6">
-                    <a href="{{ route('informasi.serta-merta') }}" class="text-decoration-none">
-                        <div class="feature-card">
-                            <div class="icon-box">
-                                <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M18 30 L42 22 L42 55 L18 47 Z" fill="#fbbf24"/>
-                                    <path d="M52 28 Q58 34 58 38.5 Q58 43 52 49" stroke="#004a99" stroke-width="3" fill="none"/>
-                                </svg>
-                            </div>
-                            <h3 class="feature-title">Informasi Serta Merta</h3>
-                            <p class="mt-3 text-muted text-sm px-4">Pengumuman darurat atau mendadak yang menyangkut hajat hidup orang banyak.</p>
-                        </div>
-                    </a>
                 </div>
             </div>
         </div>

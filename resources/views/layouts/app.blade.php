@@ -219,12 +219,21 @@
             /* Responsive Adjustments */
             @media (max-width: 1024px) {
                 .sidebar { 
-                    position: fixed;
+                    position: fixed !important;
                     left: -280px; 
-                    transition: left 0.3s; 
+                    transition: left 0.3s ease; 
+                    z-index: 10001 !important;
+                    box-shadow: 10px 0 30px rgba(0,0,0,0.25);
                 }
-                .sidebar.open { left: 0; }
-                .main-content { margin-left: 0; }
+                .sidebar.open { left: 0 !important; }
+                .sidebar .nav-link,
+                .sidebar .accordion-toggle,
+                .sidebar .submenu-link {
+                    pointer-events: auto !important;
+                    position: relative;
+                    z-index: 10002 !important;
+                }
+                .main-content { margin-left: 0 !important; }
             }
             /* MOBILE SIDEBAR OVERLAY */
             #sidebar-overlay {
@@ -232,13 +241,12 @@
                 position: fixed;
                 inset: 0;
                 background: rgba(0, 0, 0, 0.4);
-                backdrop-filter: blur(2px);
-                z-index: 9999;
+                z-index: 9998 !important;
                 pointer-events: none;
             }
             #sidebar-overlay.active { 
-                display: block; 
-                pointer-events: auto;
+                display: block !important; 
+                pointer-events: auto !important;
             }
 
             /* ANIMATIONS */
@@ -438,9 +446,6 @@
                             <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-permintaan*') ? 'active' : '' }}">SOP Permintaan</a>
                             <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-keberatan*') ? 'active' : '' }}">SOP Keberatan</a>
                             <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-sengketa*') ? 'active' : '' }}">SOP Sengketa</a>
-                            <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-penetapan*') ? 'active' : '' }}">SOP Penetapan DIP</a>
-                            <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pengujian*') ? 'active' : '' }}">SOP Pengujian Konsekuensi</a>
-                            <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pendokumentasian*') ? 'active' : '' }}">SOP Pendokumentasian</a>
                         </div>
 
                         <a href="{{ route('admin.faq.index') }}" class="nav-link {{ request()->routeIs('admin.faq.*') || request()->is('admin/faq*') ? 'active' : '' }}">
@@ -462,11 +467,11 @@
                         <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
                             <i class="fas fa-newspaper nav-icon"></i> BERITA & ARTIKEL
                         </a>
-                        <a href="{{ route('admin.agenda.index') }}" class="nav-link {{ request()->routeIs('admin.agenda.*') ? 'active' : '' }}">
-                            <i class="fas fa-calendar-alt nav-icon"></i> AGENDA KEGIATAN
-                        </a>
                         <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                             <i class="fas fa-users-cog nav-icon"></i> MANAJEMEN USER
+                        </a>
+                        <a href="{{ route('admin.menu.index') }}" class="nav-link {{ request()->routeIs('admin.menu.*') ? 'active' : '' }}">
+                            <i class="fas fa-compass nav-icon"></i> KELOLA MENU NAVIGASI
                         </a>
                         <a href="{{ route('dashboard.edit') }}" class="nav-link {{ request()->routeIs('dashboard.edit') ? 'active' : '' }}">
                             <i class="fas fa-images nav-icon"></i> HERO BANNER
@@ -745,8 +750,37 @@
                 },
                 file_picker_types: 'file image media',
                 setup: function(editor) {
-                    // Custom GDrive Icon
-                    editor.ui.registry.addIcon('gdrive', '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.5 15.5L14.5 6.5H9.5L14.5 15.5H19.5Z" fill="#004a99"/><path d="M9.5 6.5L4.5 15.5L7 19.5L12 10.5L9.5 6.5Z" fill="#ffc107"/><path d="M12 10.5L7 19.5H17L22 10.5H12Z" fill="#006ccf"/></svg>');
+                    // === SMART GDRIVE LINK CHIP CONVERTER (TAB / AUTO CONVERT) ===
+                    editor.on('PastePostProcess keyup', function(e) {
+                        try {
+                            const content = editor.getContent();
+                            const gdriveRegex = /(https?:\/\/(?:drive|docs)\.google\.com\/[^\s<"']+)/gi;
+                            
+                            if (gdriveRegex.test(content)) {
+                                const body = editor.getBody();
+                                const textNodes = editor.dom.select('p, span, div, td');
+                                
+                                textNodes.forEach(node => {
+                                    const text = node.textContent || '';
+                                    const match = text.match(gdriveRegex);
+                                    if (match && match.length > 0) {
+                                        const rawUrl = match[0];
+                                        if (!node.querySelector('.gdrive-pdf-chip') && !node.classList.contains('gdrive-pdf-chip')) {
+                                            if (e.type === 'paste' || (e.type === 'keyup' && (e.keyCode === 9 || e.key === 'Tab'))) {
+                                                const docTitle = prompt('Google Drive Link Terdeteksi!\nMasukkan Nama File PDF (contoh: Dokumen_SOP_Informasi.pdf):', '📄 Dokumen PDF Google Drive');
+                                                if (docTitle) {
+                                                    const chipHtml = `<a href="${rawUrl}" target="_blank" class="gdrive-pdf-chip" style="display:inline-flex; align-items:center; gap:8px; background:#eff6ff; color:#004a99; padding:6px 14px; border-radius:10px; font-weight:700; border:1px solid #bfdbfe; text-decoration:none; margin:4px 2px;"><i class="fas fa-file-pdf" style="color:#e11d48; font-size:16px;"></i> <span>${docTitle}</span> <i class="fas fa-external-link-alt" style="font-size:11px; opacity:0.6;"></i></a>&nbsp;`;
+                                                    node.innerHTML = node.innerHTML.replace(rawUrl, chipHtml);
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                            }
+                        } catch (err) {
+                            console.log('GDrive chip error:', err);
+                        }
+                    });
 
                     editor.ui.registry.addButton('premium_blur', {
                         icon: 'lock',
@@ -1105,6 +1139,124 @@
                 }
             });
         </script>
+        <!-- REAL-TIME SUBMISSION ALERT TOAST & AUDIO CHIME -->
+        <div id="realtime-notification-toast" style="display:none; position:fixed; top:20px; right:20px; z-index:99999; max-width:420px; width:90%; background:#004a99; color:white; padding:16px 20px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.35); border:2px solid #ffc107;">
+            <div style="display:flex; align-items:flex-start; gap:12px;">
+                <div style="background:#ffc107; color:#002b5c; width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:20px; font-weight:bold;">
+                    🔔
+                </div>
+                <div style="flex:1;">
+                    <h5 id="notif-title" style="margin:0 0 4px 0; font-size:14px; font-weight:800; text-transform:uppercase; color:#ffc107;">Notifikasi Masuk!</h5>
+                    <p id="notif-body" style="margin:0 0 10px 0; font-size:12px; line-height:1.4; opacity:0.9;">Permohonan informasi atau pesan kontak baru diterima.</p>
+                    <a id="notif-link" href="#" style="display:inline-block; background:#ffc107; color:#002b5c; padding:6px 14px; border-radius:8px; font-size:11px; font-weight:800; text-decoration:none; text-transform:uppercase;">Buka Sekarang &rarr;</a>
+                </div>
+                <button onclick="document.getElementById('realtime-notification-toast').style.display='none'" style="background:transparent; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
+            </div>
+        </div>
+
+        <script>
+            (function() {
+                let lastPesanTime = localStorage.getItem('last_seen_pesan_time');
+                let lastPermohonanTime = localStorage.getItem('last_seen_permohonan_time');
+
+                function playLoudNotificationChime() {
+                    try {
+                        const AudioContext = window.AudioContext || window.webkitAudioContext;
+                        if (!AudioContext) return;
+                        const ctx = new AudioContext();
+                        const now = ctx.currentTime;
+                        
+                        // Note 1 (D5)
+                        const osc1 = ctx.createOscillator();
+                        const gain1 = ctx.createGain();
+                        osc1.type = 'sine';
+                        osc1.frequency.setValueAtTime(587.33, now);
+                        gain1.gain.setValueAtTime(0.6, now);
+                        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                        osc1.connect(gain1);
+                        gain1.connect(ctx.destination);
+                        osc1.start(now);
+                        osc1.stop(now + 0.35);
+
+                        // Note 2 (A5)
+                        const osc2 = ctx.createOscillator();
+                        const gain2 = ctx.createGain();
+                        osc2.type = 'sine';
+                        osc2.frequency.setValueAtTime(880, now + 0.18);
+                        gain2.gain.setValueAtTime(0.7, now + 0.18);
+                        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+                        osc2.connect(gain2);
+                        gain2.connect(ctx.destination);
+                        osc2.start(now + 0.18);
+                        osc2.stop(now + 0.55);
+
+                        // Note 3 (High Loud D6)
+                        const osc3 = ctx.createOscillator();
+                        const gain3 = ctx.createGain();
+                        osc3.type = 'triangle';
+                        osc3.frequency.setValueAtTime(1174.66, now + 0.38);
+                        gain3.gain.setValueAtTime(0.9, now + 0.38);
+                        gain3.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+                        osc3.connect(gain3);
+                        gain3.connect(ctx.destination);
+                        osc3.start(now + 0.38);
+                        osc3.stop(now + 0.9);
+                    } catch(e){}
+                }
+
+                function checkNewSubmissions() {
+                    fetch("{{ route('admin.api.check-submissions') }}")
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.status !== 'success') return;
+
+                            if (lastPesanTime === null || lastPermohonanTime === null) {
+                                // Initial setup: store current baseline
+                                lastPesanTime = data.pesan_latest_time || 0;
+                                lastPermohonanTime = data.permohonan_latest_time || 0;
+                                localStorage.setItem('last_seen_pesan_time', lastPesanTime);
+                                localStorage.setItem('last_seen_permohonan_time', lastPermohonanTime);
+                                return;
+                            }
+
+                            // Check Permohonan Baru
+                            if (data.permohonan_latest_time > parseInt(lastPermohonanTime)) {
+                                lastPermohonanTime = data.permohonan_latest_time;
+                                localStorage.setItem('last_seen_permohonan_time', lastPermohonanTime);
+                                
+                                playLoudNotificationChime();
+                                showToast('🔴 PERMOHONAN INFORMASI BARU!', 
+                                          'Pemohon: ' + (data.permohonan_latest_nama || 'Masyarakat'), 
+                                          "{{ route('admin.permohonan.submissions') }}");
+                            } 
+                            // Check Pesan Kontak Baru
+                            else if (data.pesan_latest_time > parseInt(lastPesanTime)) {
+                                lastPesanTime = data.pesan_latest_time;
+                                localStorage.setItem('last_seen_pesan_time', lastPesanTime);
+                                
+                                playLoudNotificationChime();
+                                showToast('✉️ PESAN KONTAK BARU!', 
+                                          'Dari: ' + (data.pesan_latest_nama || 'Pengunjung') + ' (' + (data.pesan_latest_judul || 'Pesan Baru') + ')', 
+                                          "{{ route('admin.pesan-kontak.index') }}");
+                            }
+                        })
+                        .catch(e => {});
+                }
+
+                function showToast(title, body, link) {
+                    const toast = document.getElementById('realtime-notification-toast');
+                    document.getElementById('notif-title').innerText = title;
+                    document.getElementById('notif-body').innerText = body;
+                    document.getElementById('notif-link').href = link;
+                    toast.style.display = 'block';
+                }
+
+                // Poll every 8 seconds
+                setInterval(checkNewSubmissions, 8000);
+                setTimeout(checkNewSubmissions, 2000);
+            })();
+        </script>
+
         @stack('scripts')
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>AOS.init({duration: 800, once: true});</script>

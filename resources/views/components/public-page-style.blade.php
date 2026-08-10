@@ -1,21 +1,25 @@
 {{-- Shared CSS untuk semua halaman Informasi & Prosedur --}}
 <!-- Common Public Page Styles -->
 <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@300;400;600;700;800;900&family=Poppins:wght@400;500;600;700&family=Roboto:wght@400;500;700&family=Montserrat:wght@400;500;600;700;800&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <style>
     :root {
         --primary-blue: {{ !empty($settings['primary_color']) ? $settings['primary_color'] : '#004A99' }};
         --secondary-gold: {{ !empty($settings['secondary_color']) ? $settings['secondary_color'] : '#FFC107' }};
-        --bg-page: #f0f4f8;
+        --bg-page: {{ !empty($settings['bg_color']) ? $settings['bg_color'] : '#f0f4f8' }};
+        --base-font-size: {{ !empty($settings['font_size']) ? $settings['font_size'] : '16px' }};
+        --heading-size: {{ !empty($settings['heading_size']) ? $settings['heading_size'] : '2.5rem' }};
     }
 
     body {
-        font-family: 'Inter', sans-serif;
+        font-family: {!! !empty($settings['font_family']) ? $settings['font_family'] : "'Inter', sans-serif" !!};
+        font-size: var(--base-font-size);
         background-color: var(--bg-page);
         color: #1e293b;
         line-height: 1.7;
     }
 
-    .outfit { font-family: 'Outfit', sans-serif; }
+    .outfit { font-family: {!! !empty($settings['font_family']) ? $settings['font_family'] : "'Inter', sans-serif" !!}; }
 
     /* ── Hero Section ── */
     .hero-section {
@@ -168,10 +172,18 @@
         line-height: 1.8;
     }
 
-    .profil-content img {
-        max-width: 100%;
-        border-radius: 12px;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    .profil-content img,
+    .rich-content img,
+    .content-box img,
+    .content-card img {
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        display: block !important;
+        margin: 24px auto !important;
+        border-radius: 16px !important;
+        box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08) !important;
+        object-fit: contain !important;
     }
 
     .profil-content table {

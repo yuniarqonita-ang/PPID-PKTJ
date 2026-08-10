@@ -475,10 +475,14 @@
                 <span class="doc-title">{{ $title ?? 'Pratinjau Dokumen' }}</span>
             </div>
             <div style="display:flex; align-items:center; gap:10px;">
-                @if($isPdf || ($isGDrive && !$premiumEnabled))
+                @if($isPdf || $isGDrive)
                     @if($isGDrive && $gdriveId)
-                        <a href="https://drive.google.com/file/d/{{ $gdriveId }}/view" target="_blank" class="btn-gold-action">
-                            <i class="fas fa-external-link-alt"></i> Buka di Drive
+                        <a href="{{ route('proxy.gdrive', ['id' => $gdriveId]) }}" class="btn-gold-action" target="_blank" download>
+                            <i class="fas fa-download"></i> Unduh PDF
+                        </a>
+                    @elseif($isPdf)
+                        <a href="{{ asset($file_path) }}" class="btn-gold-action" target="_blank" download>
+                            <i class="fas fa-download"></i> Unduh PDF
                         </a>
                     @endif
                 @endif

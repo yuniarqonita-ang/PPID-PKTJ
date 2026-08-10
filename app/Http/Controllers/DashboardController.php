@@ -18,7 +18,6 @@ class DashboardController extends Controller
         // Statistics Data (real counts from DB)
         $stats = [
             'totalBerita'  => Schema::hasTable('beritas')   ? DB::table('beritas')->count()   : 0,
-            'totalAgenda'  => Schema::hasTable('agendas')   ? DB::table('agendas')->count()   : 0,
             'totalFaq'     => Schema::hasTable('faqs')      ? DB::table('faqs')->count()      : 0,
             'totalGaleri'  => Schema::hasTable('galeris')   ? DB::table('galeris')->count()   : 0,
             'totalVideo'   => Schema::hasTable('videos')    ? DB::table('videos')->count()    : 0,
@@ -135,6 +134,9 @@ class DashboardController extends Controller
             'primary_color' => $request->primary_color,
             'secondary_color' => $request->secondary_color,
             'bg_color' => $request->bg_color,
+            'font_family' => $request->font_family,
+            'font_size' => $request->font_size,
+            'heading_size' => $request->heading_size,
             'app_eppid' => $request->app_eppid,
             'app_lpse' => $request->app_lpse,
             'app_jdih' => $request->app_jdih,

@@ -220,17 +220,27 @@
                 @endphp
 
                 @if($item->file_informasi)
-                <div class="p-4 bg-blue-50 border-2 border-blue-100 rounded-2xl flex items-center justify-between">
-                    <div class="flex items-center gap-3">
-                        @if($isGdrive)
-                            <i class="fab fa-google-drive text-2xl text-blue-500"></i>
-                            <p class="text-xs font-bold text-slate-500 truncate max-w-xs">Link: Google Drive</p>
-                        @else
-                            <i class="fas fa-file-pdf text-2xl text-red-500"></i>
-                            <p class="text-xs font-bold text-slate-500 truncate max-w-xs">File: {{ basename($item->file_informasi) }}</p>
-                        @endif
+                <div class="p-4 bg-blue-50 border-2 border-blue-100 rounded-2xl flex flex-col space-y-2">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3">
+                            @if($isGdrive)
+                                <i class="fab fa-google-drive text-2xl text-blue-500"></i>
+                                <p class="text-xs font-bold text-slate-500 truncate max-w-xs">Link: Google Drive</p>
+                            @else
+                                <i class="fas fa-file-pdf text-2xl text-red-500"></i>
+                                <p class="text-xs font-bold text-slate-500 truncate max-w-xs">File: {{ basename($item->file_informasi) }}</p>
+                            @endif
+                        </div>
+                        <a href="{{ $isGdrive ? $item->file_informasi : asset($item->file_informasi) }}" target="_blank" class="text-xs font-black text-[#004a99] uppercase hover:underline">Lihat</a>
                     </div>
-                    <a href="{{ $isGdrive ? $item->file_informasi : asset($item->file_informasi) }}" target="_blank" class="text-xs font-black text-[#004a99] uppercase hover:underline">Lihat</a>
+                    <div class="pt-2 border-t border-blue-200">
+                        <label class="flex items-center space-x-2 cursor-pointer">
+                            <input type="checkbox" name="hapus_file" value="1" class="w-4 h-4 text-red-600 rounded border-slate-300 focus:ring-red-500 cursor-pointer">
+                            <span class="text-xs font-black text-red-600 uppercase">
+                                <i class="fas fa-trash-alt mr-1"></i> Hapus Dokumen PDF / Reset File
+                            </span>
+                        </label>
+                    </div>
                 </div>
                 @endif
 

@@ -92,56 +92,6 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            <!-- LEFT: MAKLUMAT IMAGE -->
-            <div class="space-y-10">
-                <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 p-10">
-                    <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8 mb-10">
-                        <h4 class="text-xl font-black text-[#004a99] uppercase tracking-widest flex items-center">
-                            <i class="fas fa-image mr-4 text-[#ffc107]"></i> Gambar Maklumat
-                        </h4>
-                        <button type="button" onclick="document.getElementById('gambar_maklumat').click()" class="px-6 py-2 bg-slate-100 text-[#004a99] font-black text-sm uppercase tracking-widest rounded-xl hover:bg-[#004a99] hover:text-white transition-all border-none cursor-pointer">UPLOAD BARU</button>
-                    </div>
-
-                    <div class="relative aspect-video bg-slate-50 rounded-[2rem] overflow-hidden border-2 border-dashed border-slate-200 flex flex-col items-center justify-center">
-                        @if(isset($settings['maklumat_pelayanan_gambar_maklumat']) && !empty($settings['maklumat_pelayanan_gambar_maklumat']))
-                            <img id="preview_maklumat" src="{{ asset('storage/halaman/'.$settings['maklumat_pelayanan_gambar_maklumat']) }}" class="w-full h-full object-contain">
-                        @else
-                            <div class="text-center" id="placeholder_maklumat">
-                                <i class="fas fa-file-image text-6xl text-slate-200 mb-4"></i>
-                                <p class="text-sm font-black text-slate-400 uppercase tracking-widest">Belum Ada Gambar Maklumat</p>
-                            </div>
-                        @endif
-                        <input type="file" name="gambar_maklumat" id="gambar_maklumat" class="hidden" onchange="previewImage(this, 'preview_maklumat', 'placeholder_maklumat')">
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT: STANDAR BIAYA IMAGE -->
-            <div class="space-y-10">
-                <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 p-10">
-                    <div class="flex items-center justify-between border-b-2 border-slate-50 pb-8 mb-10">
-                        <h4 class="text-xl font-black text-[#d4af37] uppercase tracking-widest flex items-center">
-                            <i class="fas fa-image mr-4 text-[#ffc107]"></i> Gambar Standar Biaya
-                        </h4>
-                        <button type="button" onclick="document.getElementById('gambar_standar').click()" class="px-6 py-2 bg-slate-100 text-[#d4af37] font-black text-sm uppercase tracking-widest rounded-xl hover:bg-[#d4af37] hover:text-white transition-all border-none cursor-pointer">UPLOAD BARU</button>
-                    </div>
-
-                    <div class="relative aspect-video bg-slate-50 rounded-[2rem] overflow-hidden border-2 border-dashed border-slate-200 flex flex-col items-center justify-center">
-                        @if(isset($settings['maklumat_pelayanan_gambar_standar']) && !empty($settings['maklumat_pelayanan_gambar_standar']))
-                            <img id="preview_standar" src="{{ asset('storage/halaman/'.$settings['maklumat_pelayanan_gambar_standar']) }}" class="w-full h-full object-contain">
-                        @else
-                            <div class="text-center" id="placeholder_standar">
-                                <i class="fas fa-file-image text-6xl text-slate-200 mb-4"></i>
-                                <p class="text-sm font-black text-slate-400 uppercase tracking-widest">Belum Ada Gambar Standar Biaya</p>
-                            </div>
-                        @endif
-                        <input type="file" name="gambar_standar" id="gambar_standar" class="hidden" onchange="previewImage(this, 'preview_standar', 'placeholder_standar')">
-                    </div>
-                </div>
-            </div>
-        </div>
-
         <div class="pt-5">
             <button type="submit" class="w-full py-8 bg-gradient-to-r from-[#004a99] to-[#006ccf] text-white font-black text-2xl uppercase tracking-[5px] rounded-[2rem] shadow-2xl hover:scale-[1.01] active:scale-95 transition-all border-none cursor-pointer flex items-center justify-center gap-4">
                 <i class="fas fa-save text-[#ffc107]"></i> SIMPAN PERUBAHAN LAYANAN

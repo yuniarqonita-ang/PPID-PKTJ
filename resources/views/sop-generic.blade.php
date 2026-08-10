@@ -39,9 +39,7 @@
             @php
                 $pfx = $profil->type;
                 $hasContent = ($d[$pfx . '_konten'] ?? null) ||
-                              ($d[$pfx . '_gambar_sop'] ?? null) ||
-                              ($d[$pfx . '_gambar_proses'] ?? null) ||
-                              ($d[$pfx . '_youtube_link'] ?? null) ||
+                              ($d[$pfx . '_isi_konten'] ?? null) ||
                               ($d[$pfx . '_isi_maklumat'] ?? null) ||
                               (isset($laporan) && $laporan->count() > 0);
             @endphp

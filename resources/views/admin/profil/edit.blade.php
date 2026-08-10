@@ -240,17 +240,135 @@
                                     <div class="rounded-3xl overflow-hidden border-2 border-slate-100">
                                         <textarea name="konten_pembuka" id="editor_pembuka" class="tinymce-editor">{!! old('konten_pembuka',$profil->konten_pembuka) !!}</textarea>
                                     </div>
+                                    @if($type === 'profil')
+                                    <label class="flex items-center gap-3 p-4 bg-rose-50 rounded-2xl border border-rose-100 mt-3 cursor-pointer select-none">
+                                        <input type="checkbox" name="hapus_konten_pembuka" value="1" class="w-5 h-5 text-rose-600 rounded border-slate-300">
+                                        <span class="text-xs font-bold text-rose-800">Centang untuk Hapus / Sembunyikan Isi Konten Utama dari Halaman Publik</span>
+                                    </label>
+                                    @endif
                                 </div>
 
-                                @if($type === 'struktur')
-                                <div class="space-y-2 animate-fade-in">
-                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Tugas & Wewenang Detail (Editor)</label>
+                                @if($type === 'profil')
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Gambaran Umum (Editor)</label>
                                     <div class="rounded-3xl overflow-hidden border-2 border-slate-100">
-                                        <textarea name="konten_detail" id="editor_detail" class="tinymce-editor">{!! old('konten_detail',$profil->konten_detail) !!}</textarea>
+                                        <textarea name="gambaran" id="editor_gambaran" class="tinymce-editor">{!! old('gambaran', $profil->gambaran) !!}</textarea>
                                     </div>
-                                    <p class="text-[10px] text-slate-400 mt-1">Masukkan rincian tugas dan wewenang (dalam bentuk list, tabel, atau accordion) yang akan tampil di bawah bagan organisasi.</p>
+                                    <label class="flex items-center gap-3 p-4 bg-rose-50 rounded-2xl border border-rose-100 mt-3 cursor-pointer select-none">
+                                        <input type="checkbox" name="hapus_gambaran" value="1" class="w-5 h-5 text-rose-600 rounded border-slate-300">
+                                        <span class="text-xs font-bold text-rose-800">Centang untuk Hapus / Sembunyikan Gambaran Umum beserta Judulnya dari Halaman Publik</span>
+                                    </label>
                                 </div>
                                 @endif
+
+                                @if($type === 'struktur')
+                                <!-- Dynamic Organization Chart Editor -->
+                                <div class="bg-slate-50 p-6 rounded-[2rem] border-2 border-dashed border-slate-200 space-y-6 mt-6">
+                                    <h4 class="text-xs font-black text-[#004a99] uppercase tracking-[2px]">Pengaturan Bagan Struktur Organisasi</h4>
+                                    <p class="text-xs text-slate-500">Edit peranan dan nama pejabat yang tampil pada diagram organisasi secara real-time.</p>
+
+                                    <!-- Level 1 -->
+                                    <div class="bg-white p-6 rounded-2xl border border-slate-100 space-y-4">
+                                        <span class="inline-block bg-[#004a99] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">Tingkat 1 (Pelaksana UPT)</span>
+                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            <div class="space-y-1">
+                                                <label class="text-[10px] font-bold text-slate-500 uppercase">Peran / Jabatan</label>
+                                                <input type="text" name="l1_role" value="{{ old('l1_role', $settings['l1_role'] ?? 'PPID Pelaksana UPT') }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
+                                            </div>
+                                            <div class="space-y-1">
+                                                <label class="text-[10px] font-bold text-slate-500 uppercase">Nama Pejabat</label>
+                                                <input type="text" name="l1_name" value="{{ old('l1_name', $settings['l1_name'] ?? 'Direktur PKTJ') }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Level 2 -->
+                                    <div class="bg-white p-6 rounded-2xl border border-slate-100 space-y-6">
+                                        <span class="inline-block bg-[#004a99] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">Tingkat 2 (Manager)</span>
+                                        @for($i = 1; $i <= 4; $i++)
+                                            @php
+                                                $defaultRole = $i == 4 ? 'Manager Administrasi' : 'Manager Bidang ' . $i;
+                                                $defaultName = $i == 1 ? 'Wakil Direktur 1' : ($i == 2 ? 'Wakil Direktur 2' : ($i == 3 ? 'Wakil Direktur 3' : 'Kepala Bagian Administrasi Akademik dan Ketarunaan'));
+                                            @endphp
+                                            <div class="border-t border-slate-100 pt-4 first:border-0 first:pt-0">
+                                                <div class="text-[10px] font-bold text-slate-400 mb-2">MANAGER #{{ $i }}</div>
+                                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                    <div class="space-y-1">
+                                                        <label class="text-[10px] font-bold text-slate-500 uppercase">Peran / Jabatan</label>
+                                                        <input type="text" name="l2_c{{ $i }}_role" value="{{ old('l2_c'.$i.'_role', $settings['l2_c'.$i.'_role'] ?? $defaultRole) }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
+                                                     </div>
+                                                     <div class="space-y-1">
+                                                         <label class="text-[10px] font-bold text-slate-500 uppercase">Nama Pejabat</label>
+                                                         <input type="text" name="l2_c{{ $i }}_name" value="{{ old('l2_c'.$i.'_name', $settings['l2_c'.$i.'_name'] ?? $defaultName) }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         @endfor
+                                     </div>
+
+                                     <!-- Level 3 -->
+                                     <div class="bg-white p-6 rounded-2xl border border-slate-100 space-y-6">
+                                         <span class="inline-block bg-[#004a99] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">Tingkat 3 (Pengelola Dokumentasi)</span>
+                                         @for($i = 1; $i <= 2; $i++)
+                                             @php
+                                                 $defaultRole = $i == 1 ? 'Pengelola Dokumentasi' : 'Humas';
+                                                 $defaultName = $i == 1 ? 'Kepala Bagian Keuangan, Umum dan Kerjasama' : 'Pranata Hubungan Masyarakat Ahli Muda';
+                                             @endphp
+                                             <div class="border-t border-slate-100 pt-4 first:border-0 first:pt-0">
+                                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                     <div class="space-y-1">
+                                                         <label class="text-[10px] font-bold text-slate-500 uppercase">Peran / Jabatan</label>
+                                                         <input type="text" name="l3_c{{ $i }}_role" value="{{ old('l3_c'.$i.'_role', $settings['l3_c'.$i.'_role'] ?? $defaultRole) }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
+                                                     </div>
+                                                     <div class="space-y-1">
+                                                         <label class="text-[10px] font-bold text-slate-500 uppercase">Nama Pejabat</label>
+                                                         <input type="text" name="l3_c{{ $i }}_name" value="{{ old('l3_c'.$i.'_name', $settings['l3_c'.$i.'_name'] ?? $defaultName) }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         @endfor
+                                     </div>
+
+                                     <!-- Level 4 -->
+                                     <div class="bg-white p-6 rounded-2xl border border-slate-100 space-y-6">
+                                         <span class="inline-block bg-[#004a99] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">Tingkat 4 (Petugas)</span>
+                                         @php
+                                             $l4Defaults = [
+                                                 1 => ['role' => 'Petugas Keuangan', 'name' => 'Analis Pengelolaan Keuangan APBN Ahli Muda'],
+                                                 2 => ['role' => 'Petugas SDM', 'name' => 'Analis Sumber Daya Manusia Aparatur Ahli Muda'],
+                                                 3 => ['role' => 'Teknologi Pembelajaran', 'name' => 'Para Pengembangan Teknologi Pembelajaran Ahli Muda'],
+                                                 4 => ['role' => 'Kepala Pusat', 'name' => 'Para Kepala Pusat'],
+                                                 5 => ['role' => 'Ketua Program Studi', 'name' => 'Para Ketua Program Studi'],
+                                                 6 => ['role' => 'Kepala Unit', 'name' => 'Para Kepala Unit'],
+                                                 7 => ['role' => 'Kehumasan', 'name' => 'Pranata Kehumasan'],
+                                             ];
+                                         @endphp
+                                         @for($i = 1; $i <= 7; $i++)
+                                             <div class="border-t border-slate-100 pt-4 first:border-0 first:pt-0">
+                                                 <div class="text-[10px] font-bold text-slate-400 mb-2">PETUGAS #{{ $i }}</div>
+                                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                     <div class="space-y-1">
+                                                         <label class="text-[10px] font-bold text-slate-500 uppercase">Peran / Jabatan</label>
+                                                         <input type="text" name="l4_c{{ $i }}_role" value="{{ old('l4_c'.$i.'_role', $settings['l4_c'.$i.'_role'] ?? $l4Defaults[$i]['role']) }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
+                                                     </div>
+                                                     <div class="space-y-1">
+                                                         <label class="text-[10px] font-bold text-slate-500 uppercase">Nama Pejabat</label>
+                                                         <input type="text" name="l4_c{{ $i }}_name" value="{{ old('l4_c'.$i.'_name', $settings['l4_c'.$i.'_name'] ?? $l4Defaults[$i]['name']) }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
+                                                     </div>
+                                                 </div>
+                                             </div>
+                                         @endfor
+                                     </div>
+                                 </div>
+
+                                 <div class="space-y-2 animate-fade-in mt-6">
+                                     <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Tugas & Wewenang Detail (Editor)</label>
+                                     <div class="rounded-3xl overflow-hidden border-2 border-slate-100">
+                                         <textarea name="konten_detail" id="editor_detail" class="tinymce-editor">{!! old('konten_detail',$profil->konten_detail) !!}</textarea>
+                                     </div>
+                                     <p class="text-[10px] text-slate-400 mt-1">Masukkan rincian tugas dan wewenang (dalam bentuk list, tabel, atau accordion) yang akan tampil di bawah bagan organisasi.</p>
+                                 </div>
+                                 @endif
                             </div>
                         </div>
                     </div>
@@ -367,41 +485,7 @@
                             </div>
                             @endif
 
-                            @if($type === 'struktur')
-                            <div class="space-y-4 border border-slate-100 rounded-2xl p-5 bg-slate-50/50">
-                                <h5 class="text-[11px] font-black text-[#004a99] uppercase tracking-widest">Bagan Struktur Organisasi</h5>
-                                
-                                <div class="space-y-3">
-                                    <label class="text-[10px] font-black text-slate-400 uppercase">Level 1 — Pimpinan (Jabatan)</label>
-                                    <input type="text" name="role_1" value="{{ $settings['role_1'] ?? 'DIREKTUR PKTJ' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: DIREKTUR PKTJ">
-                                    <input type="text" name="sub_1" value="{{ $settings['sub_1'] ?? 'Pembina PPID' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-500" placeholder="Sub keterangan, contoh: Pembina PPID">
-                                </div>
 
-                                <div class="space-y-3">
-                                    <label class="text-[10px] font-black text-slate-400 uppercase">Level 2 — Koordinator</label>
-                                    <input type="text" name="role_2" value="{{ $settings['role_2'] ?? 'KOORDINATOR PPID' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: KOORDINATOR PPID">
-                                    <input type="text" name="sub_2" value="{{ $settings['sub_2'] ?? 'Kepala Bagian/Program' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-500" placeholder="Sub keterangan">
-                                </div>
-
-                                <div class="space-y-3">
-                                    <label class="text-[10px] font-black text-slate-400 uppercase">Level 3 — Tim PPID (1)</label>
-                                    <input type="text" name="role_3" value="{{ $settings['role_3'] ?? 'TIM PPID' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: TIM PPID">
-                                    <input type="text" name="sub_3" value="{{ $settings['sub_3'] ?? 'Staff Teknis' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-500" placeholder="Sub keterangan">
-                                </div>
-
-                                <div class="space-y-3">
-                                    <label class="text-[10px] font-black text-slate-400 uppercase">Level 3 — Tim PPID (2)</label>
-                                    <input type="text" name="role_4" value="{{ $settings['role_4'] ?? 'TIM PPID' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: TIM PPID">
-                                    <input type="text" name="sub_4" value="{{ $settings['sub_4'] ?? 'Staff Teknis' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-500" placeholder="Sub keterangan">
-                                </div>
-
-                                <div class="space-y-3">
-                                    <label class="text-[10px] font-black text-slate-400 uppercase">Level 3 — Tim PPID (3)</label>
-                                    <input type="text" name="role_5" value="{{ $settings['role_5'] ?? 'TIM PPID' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: TIM PPID">
-                                    <input type="text" name="sub_5" value="{{ $settings['sub_5'] ?? 'Staff Teknis' }}" class="w-full px-4 py-2 bg-white border border-slate-200 rounded-xl text-xs font-medium text-slate-500" placeholder="Sub keterangan">
-                                </div>
-                            </div>
-                            @endif
 
 
                             <div class="space-y-2">
@@ -522,6 +606,14 @@
                                 } catch(e) {}
                             }
                         }
+                    }
+                });
+
+                // Clean all other link/url fields of http/https protocol to bypass ModSecurity
+                form.querySelectorAll('input[type="url"], input[name$="link"], input[name="link_dokumen"]').forEach(input => {
+                    let val = input.value.trim();
+                    if (val && val !== '#') {
+                        input.value = val.replace(/^https?:\/\//i, '');
                     }
                 });
             });

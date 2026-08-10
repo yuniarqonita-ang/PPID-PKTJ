@@ -124,16 +124,53 @@ class ProfilPpidController extends Controller
             }
         }
 
+        // If type is 'struktur', always ensure the Diagram section is preserved
+        if ($type === 'struktur') {
+            $hasDiagram = false;
+            foreach ($sections as $sec) {
+                if (($sec['layout'] ?? '') === 'diagram') {
+                    $hasDiagram = true;
+                    break;
+                }
+            }
+            if (!$hasDiagram) {
+                $existingSections = $profil->additional_sections ?? [];
+                $foundDiagram = false;
+                foreach ($existingSections as $sec) {
+                    if (($sec['layout'] ?? '') === 'diagram') {
+                        array_unshift($sections, $sec);
+                        $foundDiagram = true;
+                        break;
+                    }
+                }
+                if (!$foundDiagram) {
+                    array_unshift($sections, [
+                        'title' => 'Diagram Struktur Organisasi',
+                        'layout' => 'diagram',
+                        'content' => '<!-- Bagian ini akan dirender dengan template diagram -->'
+                    ]);
+                }
+            }
+        }
+
         // Update profile data
         $profil->type                = $type;
         $profil->judul               = $validated['judul'];
         $profil->tagline_hero        = $validated['tagline_hero'] ?? null;
-        $profil->konten_pembuka      = $cleanHtml($validated['konten_pembuka'] ?? null);
+        if ($request->has('hapus_konten_pembuka')) {
+            $profil->konten_pembuka = null;
+        } else {
+            $profil->konten_pembuka = $cleanHtml($validated['konten_pembuka'] ?? null);
+        }
         $profil->judul_sub           = $validated['judul_sub'] ?? null;
         $profil->konten_detail       = $cleanHtml($validated['konten_detail'] ?? null);
         $profil->link_dokumen        = $validated['link_dokumen'] ?? null;
         $profil->additional_sections = $sections;
-        $profil->gambaran            = $cleanHtml($validated['gambaran'] ?? null);
+        if ($request->has('hapus_gambaran')) {
+            $profil->gambaran = null;
+        } else {
+            $profil->gambaran = $cleanHtml($validated['gambaran'] ?? null);
+        }
         $profil->is_blurred          = $request->has('is_blurred');
         $profil->save();
 
@@ -144,15 +181,28 @@ class ProfilPpidController extends Controller
             'judul_konten', 'isi_konten', 'ringkasan_eksekutif', 'isi_laporan', 'tahun_laporan', 'jenis_laporan',
             'facebook_link', 'instagram_link', 'twitter_link', 'linktree_link', 'whatsapp_link',
             'kampus_1_nama', 'kampus_1_alamat', 'kampus_1_email', 'kampus_1_telepon', 'kampus_1_map',
-            'kampus_2_nama', 'kampus_2_alamat', 'kampus_2_email', 'kampus_2_telepon', 'kampus_2_map'
+            'kampus_2_nama', 'kampus_2_alamat', 'kampus_2_email', 'kampus_2_telepon', 'kampus_2_map',
+            'l1_role', 'l1_name',
+            'l2_c1_role', 'l2_c1_name', 'l2_c2_role', 'l2_c2_name', 'l2_c3_role', 'l2_c3_name', 'l2_c4_role', 'l2_c4_name',
+            'l3_c1_role', 'l3_c1_name', 'l3_c2_role', 'l3_c2_name',
+            'l4_c1_role', 'l4_c1_name', 'l4_c2_role', 'l4_c2_name', 'l4_c3_role', 'l4_c3_name', 'l4_c4_role', 'l4_c4_name', 'l4_c5_role', 'l4_c5_name', 'l4_c6_role', 'l4_c6_name', 'l4_c7_role', 'l4_c7_name'
         ];
 
         foreach ($dashboardFields as $field) {
             if ($request->has($field)) {
                 $key = $pfx . '_' . $field;
+                $value = $request->input($field) ?? '';
+
+                // Restore https:// if it was stripped by client JS to bypass ModSecurity
+                if (in_array($field, ['facebook_link', 'instagram_link', 'twitter_link', 'linktree_link', 'whatsapp_link']) && !empty($value)) {
+                    if (!preg_match('/^https?:\/\//i', $value) && $value !== '#') {
+                        $value = 'https://' . $value;
+                    }
+                }
+
                 \App\Models\Dashboard::updateOrCreate(
                     ['key' => $key],
-                    ['value' => $request->input($field) ?? '', 'type' => 'text', 'aktif' => true]
+                    ['value' => $value, 'type' => 'text', 'aktif' => true]
                 );
             }
         }

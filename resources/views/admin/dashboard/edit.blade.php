@@ -193,6 +193,81 @@
                 </div>
             </div>
 
+            <!-- SECTION: THEME EDITOR -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-indigo-500 rounded-xl flex items-center justify-center text-white text-sm">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Pengatur Desain & Tema (Kustomisasi Warna & Font)</h3>
+                </div>
+                <div class="p-8 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Warna Utama (Primary Color)</label>
+                            <div class="flex gap-2">
+                                <input type="color" name="primary_color" value="{{ old('primary_color', \App\Models\Dashboard::getValue('primary_color', '#004a99')) }}"
+                                       class="h-11 w-14 p-1 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer">
+                                <input type="text" id="primary_color_text" value="{{ \App\Models\Dashboard::getValue('primary_color', '#004a99') }}"
+                                       class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 text-sm" readonly>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Warna Sekunder (Secondary Color)</label>
+                            <div class="flex gap-2">
+                                <input type="color" name="secondary_color" value="{{ old('secondary_color', \App\Models\Dashboard::getValue('secondary_color', '#ffc107')) }}"
+                                       class="h-11 w-14 p-1 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer">
+                                <input type="text" id="secondary_color_text" value="{{ \App\Models\Dashboard::getValue('secondary_color', '#ffc107') }}"
+                                       class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 text-sm" readonly>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Warna Latar Halaman (Background Color)</label>
+                            <div class="flex gap-2">
+                                <input type="color" name="bg_color" value="{{ old('bg_color', \App\Models\Dashboard::getValue('bg_color', '#f0f4f8')) }}"
+                                       class="h-11 w-14 p-1 bg-slate-50 border border-slate-200 rounded-xl cursor-pointer">
+                                <input type="text" id="bg_color_text" value="{{ \App\Models\Dashboard::getValue('bg_color', '#f0f4f8') }}"
+                                       class="w-full px-4 py-2 bg-slate-50 border border-slate-200 rounded-xl font-semibold text-slate-700 text-sm" readonly>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Font Family (Gaya Tulisan)</label>
+                            <select name="font_family" class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700">
+                                @php
+                                    $currentFont = \App\Models\Dashboard::getValue('font_family', "'Inter', sans-serif");
+                                    $fonts = [
+                                        "'Inter', sans-serif" => "Inter (Modern/Sleek)",
+                                        "'Outfit', sans-serif" => "Outfit (Elegant/Premium)",
+                                        "'Poppins', sans-serif" => "Poppins (Clean/Minimal)",
+                                        "'Roboto', sans-serif" => "Roboto (Formal/Neutral)",
+                                        "'Montserrat', sans-serif" => "Montserrat (Geometric/Bold)",
+                                        "'Lora', serif" => "Lora (Serif/Classic)",
+                                    ];
+                                @endphp
+                                @foreach($fonts as $val => $lbl)
+                                    <option value="{{ $val }}" {{ $currentFont == $val ? 'selected' : '' }}>{{ $lbl }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Ukuran Font Dasar (Base Font Size)</label>
+                            <input type="text" name="font_size" value="{{ old('font_size', \App\Models\Dashboard::getValue('font_size', '16px')) }}"
+                                   placeholder="Contoh: 16px, 14px, 15px"
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Ukuran Judul (Heading Size)</label>
+                            <input type="text" name="heading_size" value="{{ old('heading_size', \App\Models\Dashboard::getValue('heading_size', '2.5rem')) }}"
+                                   placeholder="Contoh: 2.5rem, 2rem, 30px"
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- SAVE BAR -->
             <div class="flex items-center justify-end gap-4 pb-10">
                 <button type="submit" class="px-10 py-4 bg-[#ffc107] text-[#002b5c] rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all">
@@ -202,4 +277,13 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.querySelectorAll('input[type="color"]').forEach(picker => {
+        picker.addEventListener('input', function() {
+            const textInput = document.getElementById(this.name + '_text');
+            if (textInput) textInput.value = this.value;
+        });
+    });
+</script>
 @endsection

@@ -9,8 +9,16 @@ class PesanKontakController extends Controller
 {
     public function index()
     {
-        $pesans = PesanKontak::latest()->paginate(15);
-        return view('admin.pesan-kontak.index', compact('pesans'));
+        try {
+            $pesans = PesanKontak::latest()->paginate(15);
+            return view('admin.pesan-kontak.index', compact('pesans'));
+        } catch (\Exception $e) {
+            return response()->json([
+                'error' => 'Database Query Error',
+                'message' => $e->getMessage(),
+                'hint' => 'Pastikan tabel "pesan_kontaks" sudah ada di database cPanel Anda.'
+            ], 500);
+        }
     }
 
     public function show($id)

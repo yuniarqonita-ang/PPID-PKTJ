@@ -34,10 +34,9 @@
             @php
                 $d = $settings ?? [];
                 $hasContent = ($d['sop_permintaan_isi_konten'] ?? null) ||
-                              ($d['sop_permintaan_gambar_sop'] ?? null) ||
-                              ($d['sop_permintaan_gambar_proses'] ?? null) ||
-                              ($d['sop_permintaan_youtube_link'] ?? null) ||
-                              ($d['sop_permintaan_isi_maklumat'] ?? null);
+                              ($d['sop_permintaan_konten'] ?? null) ||
+                              ($d['sop_permintaan_isi_maklumat'] ?? null) ||
+                              (isset($laporan) && $laporan->count() > 0);
             @endphp
 
             @if($hasContent)

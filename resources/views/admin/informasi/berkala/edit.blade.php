@@ -93,7 +93,7 @@
                             </h3>
                             
                             <div class="space-y-4">
-                                @if($item->file_path)
+                                @if($item->file_path || $item->file_informasi)
                                 <div class="p-4 bg-blue-50 border border-blue-100 rounded-2xl mb-4">
                                     <div class="flex items-center gap-3">
                                         <div class="w-10 h-10 bg-white text-red-500 rounded-xl flex items-center justify-center shadow-sm">
@@ -101,11 +101,19 @@
                                         </div>
                                         <div class="min-w-0 flex-1">
                                             <p class="text-[10px] font-black text-gray-400 uppercase leading-none mb-1">File Aktif</p>
-                                            <p class="text-[11px] font-bold text-[#004a99] truncate">{{ $item->file_name ?? basename($item->file_path) }}</p>
+                                            <p class="text-[11px] font-bold text-[#004a99] truncate">{{ $item->file_name ?? basename($item->file_path ?? $item->file_informasi) }}</p>
                                         </div>
-                                        <a href="{{ asset($item->file_path) }}" target="_blank" class="text-[#004a99] hover:text-blue-700 p-2">
+                                        <a href="{{ asset($item->file_path ?? $item->file_informasi) }}" target="_blank" class="text-[#004a99] hover:text-blue-700 p-2">
                                             <i class="fas fa-external-link-alt text-xs"></i>
                                         </a>
+                                    </div>
+                                    <div class="mt-3 pt-3 border-t border-blue-200">
+                                        <label class="flex items-center space-x-2 cursor-pointer">
+                                            <input type="checkbox" name="hapus_file" value="1" class="w-4 h-4 text-red-600 rounded border-gray-300 focus:ring-red-500 cursor-pointer">
+                                            <span class="text-[11px] font-black text-red-600 uppercase">
+                                                <i class="fas fa-trash-alt mr-1"></i> Hapus Berkas PDF / Reset File
+                                            </span>
+                                        </label>
                                     </div>
                                 </div>
                                 @endif

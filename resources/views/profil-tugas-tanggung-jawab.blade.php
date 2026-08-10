@@ -130,8 +130,6 @@
                     </div>
                 @endif
 
-                <h2 class="section-title">Tugas & Fungsi</h2>
-                
                 <div class="rich-content">
                     @if($profil->konten_pembuka)
                         <div class="text-justify mb-4">
@@ -169,7 +167,6 @@
                 
                 @if($profil->gambaran)
                     <div class="mt-5 pt-4 border-top">
-                        <h3 class="outfit fw-bold text-dark mb-3">Informasi Tambahan</h3>
                         <div class="rich-content">
                             {!! $profil->gambaran !!}
                         </div>

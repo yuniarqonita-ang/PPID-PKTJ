@@ -46,14 +46,19 @@ PASAL_17H_PATTERNS = {
         "pasal": "Ps. 17h(1) UU KIP - Identitas Pribadi",
         "enabled": True,
     },
+    "Nomor Rekening Bank": {
+        "regex": r'(?i)(?:rekening|rek\.?\s*bank|no\.?\s*rek)\s*[:\-]?\s*\b\d{10,16}\b',
+        "pasal": "Ps. 17h(3) UU KIP - Kondisi Keuangan",
+        "enabled": True,
+    },
     "Nomor SIM": {
-        "regex": r'\b\d{12,14}\b',
+        "regex": r'(?i)(?:sim|no\.?\s*sim|nomor\s*sim)\s*[:\-]?\s*\b\d{12,14}\b',
         "pasal": "Ps. 17h(1) UU KIP - Identitas Pribadi",
         "enabled": True,
     },
     "Alamat Rumah (lengkap)": {
-        "regex": r'(?i)(jl\.|jalan|gg\.|gang|no\.|nomor|rt\.?\s*\d+|rw\.?\s*\d+|blok\s+[a-z0-9]+)',
-        "pasal": "Ps. 17h(1) UU KIP - Identitas Pribadi",
+        "regex": r'(?i)(?<!transpo[rt]asi[ \t])(?:jl\.|jalan|gg\.|gang)[ \t]+[A-Za-z0-9\.\-]{3,30}(?:[ \t]+[A-Za-z0-9\.\-]{2,20}){0,2}[ \t]+(?:no\.?|nomor|blok|rt|rw)[ \t]*[a-zA-Z0-9\/\-]+',
+        "pasal": "Ps. 17h(1) UU KIP - Identitas Pribadi (Alamat)",
         "enabled": False,  # Off by default - terlalu luas, aktifkan manual jika perlu
     },
 
@@ -70,18 +75,13 @@ PASAL_17H_PATTERNS = {
         "pasal": "Ps. 17h(3) UU KIP - Kondisi Keuangan",
         "enabled": True,
     },
-    "Nomor Rekening Bank": {
-        "regex": r'\b\d{10,16}\b',
-        "pasal": "Ps. 17h(3) UU KIP - Kondisi Keuangan",
-        "enabled": True,
-    },
     "Nominal Gaji/Pendapatan": {
         "regex": r'(?i)(gaji\s*(pokok|bersih|kotor|net|bruto)?|tunjangan\s*\w+|take\s*home\s*pay|pendapatan\s*(bersih|kotor)|honor\w*|insentif|remunerasi)\s*[:\-]?\s*Rp\.?\s*[\d\.,]+',
         "pasal": "Ps. 17h(3) UU KIP - Kondisi Keuangan Pribadi",
         "enabled": True,
     },
     "Jumlah Rupiah (umum)": {
-        "regex": r'Rp\.?\s*[\d]{3,}(?:[.,]\d+)*',
+        "regex": r'\bRp\.?[ \t]*[\d]{3,}(?:[.,]\d+)*',
         "pasal": "Ps. 17h(3) UU KIP - Data Keuangan",
         "enabled": False,  # Off by default - terlalu luas
     },
@@ -145,7 +145,7 @@ PASAL_17AF_PM46_PATTERNS = {
         "enabled": True,
     },
     "Tanggal Lahir": {
-        "regex": r'(?i)(tgl\.?\s*lahir|tanggal\s*lahir|ttl|tempat.*tgl.*lahir)[:\s]+[A-Za-z0-9\s,/\-]+|\b\d{2}[/\-\.]\d{2}[/\-\.]\d{4}\b',
+        "regex": r'(?i)(?:tgl\.?[ \t]*lahir|tanggal[ \t]*lahir|ttl|tempat.*tgl.*lahir)[: \t]+[A-Za-z0-9[ \t]\.\-,/]+|\b\d{2}[/\-\.](?:0[1-9]|1[0-2])[/\-\.](?:194[5-9]|19[5-9]\d|200\d|2010)\b',
         "pasal": "Ps. 17h(1) UU KIP - Identitas Pribadi",
         "enabled": True,
     },
@@ -178,6 +178,7 @@ def load_config():
         "custom_keywords": [],
         "flatten": True,
         "output_suffix": "_TERSENSOR",
+        "sensor_gambar": True,
     }
     if os.path.exists(CONFIG_FILE):
         try:
@@ -221,9 +222,10 @@ def sensor_satu_file(input_path, output_path, config, log_callback=None):
                     "Kata kunci kustom pengguna"
                 ))
 
-        if not pola_aktif:
-            log("  ⚠️  Tidak ada pola aktif, lewati.")
-            return 0, "Tidak ada pola aktif"
+        # Jika tidak ada pola aktif, tidak ada sensor gambar, dan tidak ada flatten, baru kita lewati
+        if not pola_aktif and not config.get("sensor_gambar", True) and not config.get("flatten", True):
+            log("  ⚠️  Tidak ada aksi aktif (pola teks, sensor gambar, atau perataan dinonaktifkan), lewati.")
+            return 0, "Tidak ada aksi aktif"
 
         for nomor_hal, halaman in enumerate(doc, start=1):
             teks = halaman.get_text("text")
@@ -236,6 +238,28 @@ def sensor_satu_file(input_path, output_path, config, log_callback=None):
                         total_redaksi += 1
                         preview = kata[:25] + "..." if len(kata) > 25 else kata
                         log(f"    🔒 Hal.{nomor_hal} | {nama_pola} | '{preview}'")
+
+            # Auto-detect and censor signatures & QR codes (images in the lower portion of the page)
+            if config.get("sensor_gambar", True):
+                try:
+                    for img in halaman.get_image_info():
+                        bbox = img.get("bbox")
+                        if bbox:
+                            x0, y0, x1, y1 = bbox
+                            w = x1 - x0
+                            h = y1 - y0
+                            # Heuristic for signature / QR code area
+                            if (y0 > halaman.rect.height * 0.55 and 
+                                w < halaman.rect.width * 0.7 and 
+                                h < halaman.rect.height * 0.5 and 
+                                w > 15 and h > 15):
+                                rect = fitz.Rect(x0, y0, x1, y1)
+                                halaman.add_redact_annot(rect, fill=WARNA_HITAM, cross_out=False)
+                                total_redaksi += 1
+                                log(f"    🔒 Hal.{nomor_hal} | Auto-Sensor Gambar (Ttd/QR) | Posisi: [{int(x0)}, {int(y0)}]")
+                except Exception as e_img:
+                    log(f"    ⚠️ Gagal memindai gambar pada Hal.{nomor_hal}: {str(e_img)}")
+
             halaman.apply_redactions()
 
         # === FLATTENING (Kunci Keamanan Utama) ===
@@ -467,6 +491,43 @@ class AplikasiSensorPDF:
                 tk.Label(row, text=f"({data['pasal']})",
                          font=("Arial", 8), fg="#94a3b8", bg="#f0f4ff").pack(side="left", padx=5)
 
+        # Opsi Sensor Gambar (Tanda Tangan & QR Code)
+        fg_img = tk.LabelFrame(scroll_frame, text=" 🖊️ Sensor Gambar Otomatis ",
+                               font=("Arial", 10, "bold"), bg="#f0f4ff",
+                               fg="#16a34a", padx=10, pady=5)
+        fg_img.pack(fill="x", padx=15, pady=8, ipady=5)
+
+        tk.Label(fg_img, text="Meliputi: Gambar scan tanda tangan basah dan Kode QR (barcode 2D) di bagian bawah dokumen.",
+                 font=("Arial", 8, "italic"), bg="#f0f4ff", fg="#64748b", justify="left").pack(anchor="w", pady=(0, 8))
+
+        self.var_sensor_gambar = tk.BooleanVar(value=self.config.get("sensor_gambar", True))
+        tk.Checkbutton(fg_img,
+                       text="  Sensor Otomatis Tanda Tangan & Kode QR di Area Bawah (Disarankan)",
+                       variable=self.var_sensor_gambar, bg="#f0f4ff",
+                       font=("Arial", 10, "bold"), fg="#1e293b",
+                       activebackground="#f0f4ff", cursor="hand2").pack(anchor="w")
+
+        # Opsi lanjutan (Flatten & Suffix)
+        fl = tk.LabelFrame(scroll_frame, text=" ⚙️ Opsi Keamanan & Output ", font=("Arial", 10, "bold"),
+                            bg="#f0f4ff", fg="#004a99")
+        fl.pack(fill="x", padx=15, pady=5)
+
+        self.var_flatten = tk.BooleanVar(value=self.config.get("flatten", True))
+        tk.Checkbutton(fl,
+                       text="  🛡️ FLATTEN — Ubah PDF ke Gambar Permanen (WAJIB untuk keamanan maksimal)",
+                       variable=self.var_flatten, bg="#f0f4ff",
+                       font=("Arial", 10, "bold"), fg="#004a99",
+                       activebackground="#f0f4ff", cursor="hand2").pack(anchor="w", pady=5, padx=5)
+
+        rs = tk.Frame(fl, bg="#f0f4ff")
+        rs.pack(anchor="w", pady=5, padx=5)
+        tk.Label(rs, text="Nama tambahan file output:", font=("Arial", 10), bg="#f0f4ff").pack(side="left")
+        self.var_suffix = tk.StringVar(value=self.config.get("output_suffix", "_TERSENSOR"))
+        tk.Entry(rs, textvariable=self.var_suffix, width=18,
+                 font=("Arial", 10), bg="white", relief="flat", bd=1).pack(side="left", padx=10, ipady=3)
+        tk.Label(rs, text="→ Contoh: Dokumen.pdf ➡ Dokumen_TERSENSOR.pdf",
+                 font=("Arial", 9, "italic"), bg="#f0f4ff", fg="#64748b").pack(side="left")
+
         # Tombol simpan di bawah
         tk.Button(scroll_frame, text="💾 Simpan Pengaturan Sensor",
                   command=self._simpan_pengaturan,
@@ -492,31 +553,7 @@ class AplikasiSensorPDF:
         if kws:
             self.text_keywords.insert("1.0", "\n".join(kws))
 
-        # Opsi lanjutan
-        fl = tk.LabelFrame(f, text=" ⚙️ Opsi Lanjutan ", font=("Arial", 10, "bold"),
-                            bg="#f0f4ff", fg="#004a99")
-        fl.pack(fill="x", padx=15, pady=5)
-
-        self.var_flatten = tk.BooleanVar(value=self.config.get("flatten", True))
-        tk.Checkbutton(fl,
-                       text="  🛡️ FLATTEN — Ubah PDF ke Gambar Permanen (WAJIB untuk keamanan maksimal)",
-                       variable=self.var_flatten, bg="#f0f4ff",
-                       font=("Arial", 10, "bold"), fg="#004a99",
-                       activebackground="#f0f4ff", cursor="hand2").pack(anchor="w", pady=5, padx=5)
-
-        rs = tk.Frame(fl, bg="#f0f4ff")
-        rs.pack(anchor="w", pady=5, padx=5)
-        tk.Label(rs, text="Nama tambahan file output:", font=("Arial", 10), bg="#f0f4ff").pack(side="left")
-        self.var_suffix = tk.StringVar(value=self.config.get("output_suffix", "_TERSENSOR"))
-        tk.Entry(rs, textvariable=self.var_suffix, width=18,
-                 font=("Arial", 10), bg="white", relief="flat", bd=1).pack(side="left", padx=10, ipady=3)
-        tk.Label(rs, text="→ Contoh: DokumenA.pdf ➡ DokumenA_TERSENSOR.pdf",
-                 font=("Arial", 9, "italic"), bg="#f0f4ff", fg="#64748b").pack(side="left")
-
-        tk.Button(f, text="💾 Simpan Pengaturan",
-                  command=self._simpan_pengaturan,
-                  bg="#ffc107", fg="#004a99", font=("Arial", 11, "bold"),
-                  relief="flat", padx=20, pady=8, cursor="hand2").pack(pady=10)
+        # (Opsi Lanjutan & Simpan moved to Settings Tab for single page controls)
 
     def _buat_tab_proses(self):
         f = self.tab_proses
@@ -602,6 +639,7 @@ class AplikasiSensorPDF:
         self.config["custom_keywords"] = [k.strip() for k in raw.split("\n") if k.strip()]
         # Opsi
         self.config["flatten"] = self.var_flatten.get()
+        self.config["sensor_gambar"] = self.var_sensor_gambar.get()
         self.config["output_suffix"] = self.var_suffix.get()
         save_config(self.config)
         messagebox.showinfo("✅ Tersimpan", "Pengaturan berhasil disimpan!")
