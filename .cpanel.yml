@@ -2,7 +2,14 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/ppid2026/Laravel-Core
-    - /bin/cp -rf . $DEPLOYPATH
+    - /bin/cp -rf app $DEPLOYPATH/app
+    - /bin/cp -rf resources $DEPLOYPATH/resources
+    - /bin/cp -rf routes $DEPLOYPATH/routes
+    - /bin/cp -rf database $DEPLOYPATH/database
+    - /bin/cp -rf config $DEPLOYPATH/config
+    - /bin/cp -rf bootstrap $DEPLOYPATH/bootstrap
+    - /bin/cp -rf public $DEPLOYPATH/public
+    - /bin/cp -f .cpanel.yml $DEPLOYPATH/.cpanel.yml
     - cd $DEPLOYPATH && php artisan config:clear
     - cd $DEPLOYPATH && php artisan cache:clear
     - cd $DEPLOYPATH && php artisan view:clear
