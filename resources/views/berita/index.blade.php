@@ -300,7 +300,7 @@
 
             @if($paginatedNews->hasPages())
                 <div class="d-flex justify-content-center mt-5">
-                    {{ $paginatedNews->links('pagination::bootstrap-5') }}
+                    {{ $paginatedNews->links('pagination::bootstrap-4') }}
                 </div>
             @endif
         </div>
