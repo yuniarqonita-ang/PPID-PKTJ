@@ -668,7 +668,7 @@
                     <a href="#informasi-publik" class="btn-premium btn-gold">
                         <i class="fas fa-search"></i> CARI INFORMASI
                     </a>
-                    <a href="{{ route('permohonan.form') }}" class="btn-premium px-8 btn-outline-white">
+                    <a href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" class="btn-premium px-8 btn-outline-white">
                         <i class="fas fa-paper-plane mr-2"></i> AJUKAN PERMOHONAN
                     </a>
                 </div>
@@ -732,7 +732,7 @@
                 </div>
 
                 <div class="col-lg-3 col-md-6">
-                    <a href="{{ route('permohonan.form') }}" class="text-decoration-none">
+                    <a href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" class="text-decoration-none">
                         <div class="feature-card h-100 border-warning border-2">
                             <div class="icon-box" style="background: linear-gradient(135deg, #004a99, #002b5c);">
                                 <i class="fas fa-file-signature text-warning text-4xl"></i>
@@ -992,7 +992,7 @@
                             </div>
                         </div>
 
-                        <a href="{{ route('permohonan.form') }}" class="btn-premium btn-gold w-100 justify-content-center py-4 mt-4">
+                        <a href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" class="btn-premium btn-gold w-100 justify-content-center py-4 mt-4">
                             KIRIM PERMOHONAN SEKARANG
                         </a>
                     </div>

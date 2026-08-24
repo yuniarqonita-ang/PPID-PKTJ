@@ -3,8 +3,8 @@
 <head>
     <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0;url={{ route('permohonan.form') }}">
-    <title>Redirecting...</title>
+    <meta http-equiv="refresh" content="0;url=https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login">
+    <title>Mengalihkan ke Portal PPID BPSDM...</title>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
@@ -12,9 +12,9 @@
     </style>
 </head>
 <body>
-    <p>Jika Anda tidak dialihkan secara otomatis, silakan klik <a href="{{ route('permohonan.form') }}">di sini</a>.</p>
+    <p>Jika Anda tidak dialihkan secara otomatis, silakan klik <a href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login">di sini</a>.</p>
     <script>
-        window.location.href = "{{ route('permohonan.form') }}";
+        window.location.href = "https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login";
     </script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>AOS.init({duration: 800, once: true});</script>

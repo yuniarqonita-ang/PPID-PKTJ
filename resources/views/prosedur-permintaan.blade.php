@@ -48,7 +48,7 @@
                     </div>
                     <h3>Konten Sedang Disiapkan</h3>
                     <p>Informasi mengenai Prosedur Permintaan Informasi sedang dalam proses penyusunan oleh tim PPID PKTJ.</p>
-                    <a href="{{ route('permohonan.form') }}" class="btn-action btn-action-gold">
+                    <a href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" class="btn-action btn-action-gold">
                         <i class="fas fa-paper-plane"></i> Ajukan Permohonan Sekarang
                     </a>
                 </div>

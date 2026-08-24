@@ -49,7 +49,7 @@
                     </div>
                     <h3>Konten Sedang Disiapkan</h3>
                     <p>Informasi mengenai SOP Permintaan Informasi sedang dalam proses penyusunan oleh tim PPID PKTJ.</p>
-                    <a href="{{ route('permohonan.form') }}" class="btn-action">
+                    <a href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" class="btn-action">
                         <i class="fas fa-file-alt me-2"></i> Ajukan Permohonan Informasi
                     </a>
                 </div>

@@ -298,11 +298,10 @@ try {
 // Profil Publik
 Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');
 
-// Permohonan Informasi Routes (Public)
-Route::get('/permohonan-informasi', [PermohonanController::class, 'form'])->name('permohonan.form');
-Route::get('/permohonan', [PermohonanController::class, 'form']); // Alias for shorter URL
-Route::post('/permohonan-informasi', [PermohonanController::class, 'store'])->name('permohonan.store');
-Route::post('/permohonan', [PermohonanController::class, 'store']); // Alias for shorter URL form submission
+// Permohonan Informasi Routes (Public - Redirect directly to BPSDM PPID Portal like JDIH)
+Route::redirect('/permohonan-informasi', 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login')->name('permohonan.form');
+Route::redirect('/permohonan', 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login');
+Route::redirect('/permohonan-informasi.html', 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login');
 
 
 

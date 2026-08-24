@@ -461,7 +461,7 @@
         $premiumEnabled = ($settings['premium_view_enabled'] ?? '0') === '1' && ($isBlurred ?? false);
         $blurText = $settings['premium_view_blur_text'] ?? 'Dokumen ini Terlindungi. Ajukan Permohonan untuk Akses Penuh.';
         $btnText  = $settings['premium_view_button_text'] ?? 'AJUKAN PERMOHONAN';
-        $btnLink  = route('permohonan.form');
+        $btnLink  = 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login';
     @endphp
 
     {{-- PAGE WRAPPER --}}

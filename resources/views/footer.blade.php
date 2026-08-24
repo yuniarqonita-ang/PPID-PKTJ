@@ -60,7 +60,7 @@
                     <li class="mb-2"><a href="{{ route('layanan.maklumat-pelayanan') }}" class="text-decoration-none text-reset opacity-75">Maklumat Pelayanan</a></li>
                     <li class="mb-2"><a href="{{ route('layanan.laporan-layanan') }}" class="text-decoration-none text-reset opacity-75">Laporan Tahunan</a></li>
                     <li class="mb-2"><a href="{{ route('faq.public') }}" class="text-decoration-none text-reset opacity-75">FAQ</a></li>
-                    <li class="mb-2"><a href="{{ route('permohonan.form') }}" class="text-decoration-none text-reset opacity-75">Permohonan Informasi</a></li>
+                    <li class="mb-2"><a href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" class="text-decoration-none text-reset opacity-75">Permohonan Informasi</a></li>
                 </ul>
             </div>
             <div class="col-lg-3">
@@ -268,7 +268,7 @@
             btn.innerText = 'Ajukan Permohonan';
             btn.onclick = function(e) {
                 e.preventDefault();
-                window.location.href = "{{ $settings['premium_view_cta_url'] ?? route('permohonan.form') }}";
+                window.location.href = "{{ $settings['premium_view_cta_url'] ?? 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login' }}";
             };
             
             overlay.appendChild(text);
@@ -469,7 +469,8 @@
                                 
                                 const btn = document.createElement('a');
                                 btn.className = 'premium-blur-btn';
-                                btn.href = "{{ $settings['premium_view_cta_url'] ?? route('permohonan.form') }}";
+                                btn.href = "{{ $settings['premium_view_cta_url'] ?? 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login' }}";
+                                btn.target = "_blank";
                                 btn.style.cssText = 'background: #ffc107; color: #004a99; padding: 12px 30px; border-radius: 50px; font-weight: 900; text-decoration: none; text-transform: uppercase; font-size: 13px; box-shadow: 0 10px 25px rgba(255, 193, 7, 0.4); border: none; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 8px;';
                                 btn.innerHTML = '<i class="fas fa-file-signature"></i> Ajukan Permohonan';
                                 
