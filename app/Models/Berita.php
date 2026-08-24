@@ -17,6 +17,9 @@ class Berita extends Model
     protected $fillable = [
         'judul',
         'slug',
+        'link_sumber',
+        'guid',
+        'is_external',
         'konten',
         'gambar',
         'kategori',
@@ -34,14 +37,13 @@ class Berita extends Model
 
     /**
      * Otomatis membuat slug dari judul saat menyimpan berita.
-     * Contoh: "Berita Hari Ini" jadi "berita-hari-ini"
      */
     protected static function boot()
     {
         parent::boot();
         static::creating(function ($berita) {
             if (empty($berita->slug)) {
-                $berita->slug = Str::slug($berita->judul);
+                $berita->slug = Str::slug($berita->judul) . '-' . time();
             }
         });
     }
@@ -60,8 +62,25 @@ class Berita extends Model
     public function getGambarUrlAttribute()
     {
         if ($this->gambar) {
+            if (str_starts_with($this->gambar, 'http://') || str_starts_with($this->gambar, 'https://')) {
+                return $this->gambar;
+            }
+            if (str_starts_with($this->gambar, 'berita/')) {
+                return asset('storage/' . $this->gambar);
+            }
             return asset('storage/berita/' . $this->gambar);
         }
-        return asset('images/no-image.png');
+        return 'https://images.unsplash.com/photo-1585829365295-ab7cd400c167?q=80&w=800';
+    }
+
+    /**
+     * Helper untuk mengambil link berita tujuan
+     */
+    public function getUrlBeritaAttribute()
+    {
+        if ($this->link_sumber && ($this->is_external || filter_var($this->link_sumber, FILTER_VALIDATE_URL))) {
+            return $this->link_sumber;
+        }
+        return url('/berita/' . $this->slug);
     }
 }

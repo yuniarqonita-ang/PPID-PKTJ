@@ -164,64 +164,45 @@
                 </div>
             </div>
 
+            {{-- PROFIL PEMOHON TERAUTENTIKASI (PENGGANTI FORM IDENTITAS) --}}
+            @if(Auth::check())
+            <div class="section-card" style="background: #f0f7ff; border-color: #c7d9ff;">
+                <div class="d-flex align-items-center justify-content-between flex-wrap gap-3">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle d-flex align-items-center justify-content-center text-white fw-bold shadow-sm" style="width: 48px; height: 48px; background: linear-gradient(135deg, #004a99, #0066cc); font-size: 18px;">
+                            {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
+                        </div>
+                        <div>
+                            <div class="d-flex align-items-center gap-2">
+                                <h4 class="outfit fw-bold text-dark mb-0 fs-5">{{ Auth::user()->name }}</h4>
+                                @if(Auth::user()->status_verifikasi === 'verified')
+                                    <span class="badge bg-success-subtle text-success border border-success-subtle rounded-pill text-xs px-2 py-1">
+                                        <i class="fas fa-check-circle me-1"></i> Terverifikasi
+                                    </span>
+                                @else
+                                    <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle rounded-pill text-xs px-2 py-1">
+                                        <i class="far fa-clock me-1"></i> Menunggu Verifikasi
+                                    </span>
+                                @endif
+                            </div>
+                            <div class="text-muted small mt-0.5">
+                                <span><i class="fas fa-id-card me-1 text-primary"></i> {{ Auth::user()->nomor_identitas ?? '-' }} ({{ strtoupper(Auth::user()->jenis_identitas ?? 'KTP') }})</span> &bull; 
+                                <span><i class="fas fa-envelope me-1 text-primary"></i> {{ Auth::user()->email }}</span> &bull;
+                                <span><i class="fas fa-phone me-1 text-primary"></i> {{ Auth::user()->no_telp ?? '-' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <a href="{{ route('user.profile') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-semibold text-xs">
+                        <i class="fas fa-user-edit me-1"></i> Ubah Data Profil
+                    </a>
+                </div>
+            </div>
+            @endif
+
             <form action="{{ route('permohonan.store') }}" method="POST" enctype="multipart/form-data" id="mainForm">
                 @csrf
 
-                {{-- BAGIAN 1: DATA IDENTITAS --}}
-                <div class="section-card">
-                    <div class="sec-title"><i class="fas fa-user-circle"></i> Data Identitas Pemohon</div>
-                    <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="nama_pemohon">Nama Lengkap Pemohon Informasi <span class="req">*</span></label>
-                            <input type="text" class="form-control @error('nama_pemohon') is-invalid @enderror"
-                                id="nama_pemohon" name="nama_pemohon" placeholder="Nama sesuai KTP"
-                                value="{{ old('nama_pemohon') }}" required>
-                            @error('nama_pemohon')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="alamat">Alamat <span class="req">*</span></label>
-                            <input type="text" class="form-control @error('alamat') is-invalid @enderror"
-                                id="alamat" name="alamat" placeholder="Alamat lengkap"
-                                value="{{ old('alamat') }}" required>
-                            @error('alamat')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="nomor_telepon">Nomor Telepon / Email <span class="req">*</span></label>
-                            <input type="text" class="form-control @error('nomor_telepon') is-invalid @enderror"
-                                id="nomor_telepon" name="nomor_telepon" placeholder="No HP atau Alamat Email"
-                                value="{{ old('nomor_telepon') }}" required>
-                            @error('nomor_telepon')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="pekerjaan">Pekerjaan <span class="req">*</span></label>
-                            <input type="text" class="form-control @error('pekerjaan') is-invalid @enderror"
-                                id="pekerjaan" name="pekerjaan" placeholder="Contoh: Pegawai Swasta, Mahasiswa"
-                                value="{{ old('pekerjaan') }}" required>
-                            @error('pekerjaan')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="npwp">NIK / NPWP <span class="req">*</span></label>
-                            <input type="text" class="form-control @error('npwp') is-invalid @enderror"
-                                id="npwp" name="npwp" placeholder="Nomor Induk Kependudukan atau NPWP"
-                                value="{{ old('npwp') }}" required>
-                            @error('npwp')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
-
-                        <div class="col-md-6">
-                            <label for="foto_ktp">Upload KTP <span class="req">*</span></label>
-                            <input type="file" class="form-control @error('foto_ktp') is-invalid @enderror"
-                                name="foto_ktp" accept=".jpg,.jpeg,.png,.pdf" required>
-                            <div class="text-muted small mt-1">Maks 10 MB (JPG, PNG, PDF)</div>
-                            @error('foto_ktp')<div class="invalid-feedback">{{ $message }}</div>@enderror
-                        </div>
-                    </div>
-                </div>
-
-                {{-- BAGIAN 2: JENIS PERMOHONAN --}}
+                {{-- BAGIAN 1: JENIS PERMOHONAN --}}
                 <div class="section-card">
                     <div class="sec-title"><i class="fas fa-users"></i> Jenis Permohonan</div>
                     <p class="text-muted small mb-3">Silahkan pilih jenis permohonan untuk perorangan atau organisasi. Jika anda memerlukan informasi untuk keperluan pribadi silahkan memilih pilihan perorangan. Jika anda mewakili suatu organisasi/kelompok silahkan memilih pilihan organisasi/kelompok.</p>

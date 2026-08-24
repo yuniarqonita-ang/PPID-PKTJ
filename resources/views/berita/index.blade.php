@@ -216,46 +216,69 @@
 
     <!-- CONTENT -->
     <div class="container content-wrap">
-        <div class="bg-white p-5 rounded-4 shadow-lg mb-5" style="border-radius: 40px !important;">
-            <div class="d-flex align-items-center justify-content-between mb-4 flex-wrap gap-3">
-                <h2 class="section-title mb-0">
-                    @if(request('search'))
-                        Hasil: "{{ request('search') }}"
-                    @else
-                        Semua Artikel
-                    @endif
-                </h2>
-                <span class="badge text-bg-light border fw-bold px-4 py-2" style="font-size: 12px; border-radius: 20px;">
-                    {{ $beritas->total() }} Artikel
-                </span>
+        <div class="bg-white p-4 p-md-5 rounded-4 shadow-lg mb-5" style="border-radius: 36px !important; border: 1px solid rgba(0,74,153,0.06);">
+            
+            <!-- Category Navigation Pills -->
+            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4 pb-3 border-bottom">
+                <div class="d-flex flex-wrap gap-2">
+                    @foreach($kategoriList as $kat)
+                        @php
+                            $isActive = ($kategoriAktif == $kat) || (empty($kategoriAktif) && $kat == 'Semua');
+                            $catUrl = url('/berita') . ($kat == 'Semua' ? '' : '?kategori=' . urlencode($kat));
+                            if (request('search')) {
+                                $catUrl .= ($kat == 'Semua' ? '?' : '&') . 'search=' . urlencode(request('search'));
+                            }
+                        @endphp
+                        <a href="{{ $catUrl }}" class="btn btn-sm rounded-pill px-3 py-2 fw-bold text-decoration-none transition-all {{ $isActive ? 'btn-primary' : 'btn-outline-secondary' }}" style="{{ $isActive ? 'background-color: #004a99; border-color: #004a99;' : 'border-color: #cbd5e1; color: #475569;' }}">
+                            {{ $kat }}
+                        </a>
+                    @endforeach
+                </div>
+                <div class="d-flex align-items-center gap-2 text-muted small">
+                    <span class="badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill">
+                        <i class="fas fa-satellite-dish me-1"></i> Realtime PKTJ.ac.id
+                    </span>
+                    <span class="badge text-bg-light border px-3 py-2 rounded-pill fw-bold">
+                        {{ $paginatedNews->total() }} Berita
+                    </span>
+                </div>
             </div>
 
             <div class="row g-4">
-                @forelse($beritas as $berita)
-                    <div class="col-lg-4 col-md-6">
-                        <div class="news-card">
-                            <div class="news-card-img-wrap">
-                                @if($berita->gambar)
-                                    <img src="{{ asset('storage/' . $berita->gambar) }}" class="news-card-img" alt="{{ $berita->judul }}">
-                                @else
-                                    <div class="no-image-placeholder">
-                                        <i class="fas fa-newspaper fa-3x text-primary opacity-25"></i>
-                                    </div>
-                                @endif
-                                <span class="news-badge">{{ $berita->kategori ?? 'Berita Utama' }}</span>
+                @forelse($paginatedNews as $item)
+                    @php
+                        $isArr = is_array($item);
+                        $judul = $isArr ? ($item['judul'] ?? '') : $item->judul;
+                        $ringkasan = $isArr ? ($item['ringkasan'] ?? \Illuminate\Support\Str::limit(strip_tags($item['konten'] ?? ''), 120)) : \Illuminate\Support\Str::limit(strip_tags($item->konten ?? ''), 120);
+                        $kategori = $isArr ? ($item['kategori'] ?? 'Liputan/Berita') : ($item->kategori ?? 'Liputan/Berita');
+                        $gambar = $isArr ? ($item['gambar'] ?? 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png') : ($item->gambar_url ?? 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png');
+                        $link = $isArr ? ($item['link'] ?? url('/berita/' . ($item['slug'] ?? ''))) : ($item->url_berita ?? url('/berita/' . $item->slug));
+                        $tanggal = $isArr ? ($item['tanggal_f'] ?? date('d M Y')) : ($item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') : $item->created_at->translatedFormat('d F Y'));
+                        $isExternal = $isArr ? ($item['is_external'] ?? true) : ($item->is_external ?? false);
+                    @endphp
+                    <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ ($loop->iteration % 3) * 100 }}">
+                        <div class="news-card d-flex flex-column h-100 shadow-sm hover-lift" style="border-radius: 22px; overflow: hidden; border: 1px solid #e2e8f0;">
+                            <div class="news-card-img-wrap position-relative" style="height: 220px; overflow: hidden; background: #0f172a;">
+                                <img src="{{ $gambar }}" class="news-card-img w-100 h-100" alt="{{ $judul }}" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1585829365295-ab7cd400c167?q=80&w=800'">
+                                <span class="news-badge position-absolute top-0 start-0 m-3 px-3 py-1 rounded-pill text-xs fw-bold shadow-sm" style="background: var(--secondary-gold); color: #004a99; font-size: 11px;">
+                                    <i class="fas fa-tag me-1"></i> {{ $kategori }}
+                                </span>
                             </div>
-                            <div class="news-card-body">
-                                <h3 class="news-card-title">{{ $berita->judul }}</h3>
-                                <p class="news-card-excerpt">{{ Str::limit(strip_tags($berita->konten), 120) }}</p>
-                                <div class="news-meta d-flex align-items-center gap-3">
-                                    <i class="fas fa-calendar-alt text-warning"></i>
-                                    {{ $berita->tanggal ? \Carbon\Carbon::parse($berita->tanggal)->translatedFormat('d F Y') : $berita->created_at->translatedFormat('d F Y') }}
-                                    @if(isset($berita->views))
-                                        <span class="ms-auto"><i class="fas fa-eye me-1 text-blue-400"></i>{{ number_format($berita->views) }} views</span>
-                                    @endif
+                            <div class="news-card-body p-4 d-flex flex-column flex-grow-1">
+                                <h3 class="news-card-title fw-bold mb-2" style="font-family: 'Outfit', sans-serif; font-size: 1.1rem; line-height: 1.4; color: #1e293b;">
+                                    <a href="{{ $link }}" {{ $isExternal ? 'target=_blank rel=noopener' : '' }} class="text-decoration-none text-dark hover-primary transition-all">
+                                        {{ $judul }}
+                                    </a>
+                                </h3>
+                                <p class="news-card-excerpt text-muted small mb-4 flex-grow-1" style="line-height: 1.6;">
+                                    {{ $ringkasan }}
+                                </p>
+                                <div class="news-meta d-flex align-items-center justify-content-between pt-3 border-top mt-auto text-xs text-muted" style="font-size: 11px;">
+                                    <span><i class="far fa-calendar-alt text-warning me-1"></i> {{ $tanggal }}</span>
+                                    <span class="badge bg-light text-muted border">pktj.ac.id</span>
                                 </div>
-                                <a href="{{ url('/berita/' . $berita->slug) }}" class="btn-read-more">
-                                    Baca Selengkapnya <i class="fas fa-arrow-right"></i>
+                                <a href="{{ $link }}" {{ $isExternal ? 'target=_blank rel=noopener' : '' }} class="btn-read-more justify-content-center mt-3 shadow-sm">
+                                    Baca Selengkapnya <i class="fas fa-external-link-alt ms-1 text-warning" style="font-size: 11px;"></i>
                                 </a>
                             </div>
                         </div>
@@ -263,21 +286,21 @@
                 @empty
                     <div class="col-12 text-center py-5">
                         <i class="fas fa-newspaper fa-5x text-muted mb-4 opacity-25"></i>
-                        <h4 class="text-muted">
+                        <h4 class="text-muted fw-bold">
                             @if(request('search'))
                                 Tidak ditemukan berita dengan kata kunci "{{ request('search') }}"
                             @else
-                                Belum ada artikel yang dipublikasikan
+                                Tidak ada berita untuk kategori "{{ $kategoriAktif }}"
                             @endif
                         </h4>
-                        <p class="text-muted">Coba kata kunci lain atau kembali nanti.</p>
+                        <p class="text-muted">Coba pilih kategori lain atau kembali ke kategori <a href="{{ url('/berita') }}" class="text-primary fw-bold">Semua</a>.</p>
                     </div>
                 @endforelse
             </div>
 
-            @if($beritas->hasPages())
+            @if($paginatedNews->hasPages())
                 <div class="d-flex justify-content-center mt-5">
-                    {{ $beritas->links('pagination::bootstrap-4') }}
+                    {{ $paginatedNews->links('pagination::bootstrap-5') }}
                 </div>
             @endif
         </div>

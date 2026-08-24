@@ -79,4 +79,65 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus');
     }
+
+    /**
+     * Admin: Daftar Pemohon Informasi Terdaftar
+     */
+    public function pemohonIndex(Request $request)
+    {
+        $status = $request->query('status');
+        $search = $request->query('search');
+
+        $query = User::where('role', 'pemohon');
+
+        if ($status && in_array($status, ['pending', 'verified', 'rejected'])) {
+            $query->where('status_verifikasi', $status);
+        }
+
+        if ($search) {
+            $query->where(function($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('username', 'like', "%{$search}%")
+                  ->orWhere('nomor_identitas', 'like', "%{$search}%")
+                  ->orWhere('instansi', 'like', "%{$search}%");
+            });
+        }
+
+        $pemohons = $query->latest()->paginate(15);
+        $counts = [
+            'all'      => User::where('role', 'pemohon')->count(),
+            'pending'  => User::where('role', 'pemohon')->where(function($q){ $q->where('status_verifikasi', 'pending')->orWhereNull('status_verifikasi'); })->count(),
+            'verified' => User::where('role', 'pemohon')->where('status_verifikasi', 'verified')->count(),
+            'rejected' => User::where('role', 'pemohon')->where('status_verifikasi', 'rejected')->count(),
+        ];
+
+        return view('admin.users.pemohon', compact('pemohons', 'counts', 'status', 'search'));
+    }
+
+    /**
+     * Admin: Verifikasi Pemohon
+     */
+    public function verifyPemohon(Request $request, User $user)
+    {
+        $user->update([
+            'status_verifikasi'  => 'verified',
+            'catatan_verifikasi' => $request->input('catatan', 'Identitas pemohon telah diverifikasi dan valid.'),
+        ]);
+
+        return back()->with('success', "Akun pemohon {$user->name} berhasil diverifikasi.");
+    }
+
+    /**
+     * Admin: Tolak Verifikasi Pemohon
+     */
+    public function rejectPemohon(Request $request, User $user)
+    {
+        $user->update([
+            'status_verifikasi'  => 'rejected',
+            'catatan_verifikasi' => $request->input('catatan', 'Berkas identitas tidak memenuhi syarat atau tidak jelas.'),
+        ]);
+
+        return back()->with('warning', "Status verifikasi akun {$user->name} ditolak.");
+    }
 }

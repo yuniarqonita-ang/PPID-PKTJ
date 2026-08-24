@@ -144,14 +144,14 @@
     tinymce.init({
         selector: '.tinymce-editor',
         plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | alignjustify align | link image media table | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | alignleft aligncenter alignright alignjustify | table tableprops tablerowprops tablecellprops tablemergecells tablesplitcells | lineheight | numlist bullist indent outdent | emoticons charmap | removeformat fullscreen',
         height: 600,
         skin: 'oxide',
         content_css: 'default',
-        content_style: 'body { font-family:"Inter",sans-serif; font-size:16px; color: #475569; text-align: justify; }',
+        content_style: 'body { font-family:"Inter",sans-serif; font-size:15px; color: #334155; line-height: 1.6; } table { width:100%; border-collapse:collapse; } table th, table td { vertical-align: top !important; padding:10px; border:1px solid #e2e8f0; } table th { background:#004a99; color:#fff; } a { color:#004a99; font-weight:bold; }',
         branding: false,
         elementpath: false,
-        menubar: false,
+        menubar: 'file edit insert view format table tools help',
         promotion: false
     });
 </script>

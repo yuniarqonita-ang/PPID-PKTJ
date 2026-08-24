@@ -148,6 +148,7 @@
             margin: 0 auto;
         }
     </style>
+    @include('components.public-page-style')
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }

@@ -154,6 +154,66 @@ try {
                 'url'  => 'https://bpsdm.kemenhub.go.id/jdih/'
             ]);
     }
+
+    if (\Illuminate\Support\Facades\Schema::hasTable('users')) {
+        \Illuminate\Support\Facades\Schema::table('users', function (\Illuminate\Database\Schema\Blueprint $table) {
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'username')) {
+                $table->string('username')->nullable()->unique()->after('email');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'jenis_identitas')) {
+                $table->string('jenis_identitas')->nullable()->default('KTP')->after('password');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'nomor_identitas')) {
+                $table->string('nomor_identitas')->nullable()->after('jenis_identitas');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'file_identitas')) {
+                $table->string('file_identitas')->nullable()->after('nomor_identitas');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'alamat')) {
+                $table->text('alamat')->nullable()->after('file_identitas');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'no_telp')) {
+                $table->string('no_telp')->nullable()->after('alamat');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'pekerjaan')) {
+                $table->string('pekerjaan')->nullable()->after('no_telp');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'instansi')) {
+                $table->string('instansi')->nullable()->after('pekerjaan');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'status_verifikasi')) {
+                $table->string('status_verifikasi')->default('pending')->after('instansi');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'catatan_verifikasi')) {
+                $table->text('catatan_verifikasi')->nullable()->after('status_verifikasi');
+            }
+        });
+    }
+
+    if (\Illuminate\Support\Facades\Schema::hasTable('beritas')) {
+        \Illuminate\Support\Facades\Schema::table('beritas', function (\Illuminate\Database\Schema\Blueprint $table) {
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('beritas', 'link_sumber')) {
+                $table->string('link_sumber')->nullable()->after('gambar');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('beritas', 'guid')) {
+                $table->string('guid')->nullable()->after('link_sumber');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('beritas', 'is_external')) {
+                $table->boolean('is_external')->default(false)->after('guid');
+            }
+        });
+    }
+
+    if (\Illuminate\Support\Facades\Schema::hasTable('permohonans')) {
+        \Illuminate\Support\Facades\Schema::table('permohonans', function (\Illuminate\Database\Schema\Blueprint $table) {
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('permohonans', 'user_id')) {
+                $table->unsignedBigInteger('user_id')->nullable()->after('id');
+            }
+            if (!\Illuminate\Support\Facades\Schema::hasColumn('permohonans', 'nomor_registrasi')) {
+                $table->string('nomor_registrasi')->nullable()->after('user_id');
+            }
+        });
+    }
 } catch (\Exception $e) {
     // Silent
 }
@@ -191,12 +251,18 @@ Route::get('/', function () {
         }
         
         $artikel = collect([]);
-        if (\Illuminate\Support\Facades\Schema::hasTable('beritas')) {
-            $query = \App\Models\Berita::where('aktif', true);
-            if (\Illuminate\Support\Facades\Schema::hasColumn('beritas', 'tanggal')) {
-                $query->orderBy('tanggal', 'desc');
+        try {
+            $newsService = app(\App\Services\PktjNewsService::class);
+            $liveNews = $newsService->getLiveNews(6);
+            $artikel = collect($liveNews);
+        } catch (\Throwable $ex) {
+            if (\Illuminate\Support\Facades\Schema::hasTable('beritas')) {
+                $query = \App\Models\Berita::where('aktif', true);
+                if (\Illuminate\Support\Facades\Schema::hasColumn('beritas', 'tanggal')) {
+                    $query->orderBy('tanggal', 'desc');
+                }
+                $artikel = $query->orderBy('created_at', 'desc')->take(6)->get();
             }
-            $artikel = $query->orderBy('created_at', 'desc')->take(3)->get();
         }
         
         return view('welcome', compact('dokumen', 'artikel')); 
@@ -272,14 +338,29 @@ Route::get('/halaman/{slug}', [\App\Http\Controllers\HalamanCustomController::cl
 
 
 // ==========================================
-// 2. AUTH SYSTEM (LOGIN & LOGOUT)
+// 2. AUTH SYSTEM (LOGIN, REGISTER, SSO & LOGOUT)
 // ==========================================
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 
+Route::get('/register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'store']);
+
+Route::get('/auth/google', [LoginController::class, 'googleLogin'])->name('auth.google');
+Route::get('/auth/sso-kemenhub', [LoginController::class, 'ssoKemenhub'])->name('auth.sso-kemenhub');
+
 // Logout dibuat fleksibel agar tidak error di app.blade maupun dashboard.blade
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/admin/logout', [LoginController::class, 'logout'])->name('admin.logout');
+
+// ==========================================
+// USER DASHBOARD (PEMOHON INFORMASI)
+// ==========================================
+Route::middleware(['auth'])->group(function () {
+    Route::get('/user/dashboard', [\App\Http\Controllers\UserDashboardController::class, 'index'])->name('user.dashboard');
+    Route::get('/user/profile', [\App\Http\Controllers\UserDashboardController::class, 'profile'])->name('user.profile');
+    Route::post('/user/profile', [\App\Http\Controllers\UserDashboardController::class, 'updateProfile'])->name('user.profile.update');
+});
 
 // ==========================================
 // 3. ADMIN DASHBOARD (BACK OFFICE)
@@ -425,6 +506,10 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/dikecualikan/{id}', [InformasiDikecualikanController::class, 'destroy'])->name('dikecualikan.destroy');
     });
 
+    // PKTJ News Sync & Clean
+    Route::post('berita/sync-pktj', [BeritaController::class, 'syncPktjNews'])->name('admin.berita.sync-pktj');
+    Route::post('berita/clean-dummy', [BeritaController::class, 'cleanDummy'])->name('admin.berita.clean-dummy');
+
     // Resource CRUD
     Route::resource('berita', BeritaController::class)->names('admin.berita');
     Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
@@ -466,6 +551,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     // Link Aplikasi Terkait
     Route::get('/lpse', function() { return "Halaman LPSE"; })->name('admin.lpse.index');
     Route::get('/jdih', function() { return "Halaman JDIH"; })->name('admin.jdih.index');
+
+    // Verifikasi Pemohon Informasi
+    Route::get('/pemohon', [UserController::class, 'pemohonIndex'])->name('admin.pemohon.index');
+    Route::post('/pemohon/{user}/verify', [UserController::class, 'verifyPemohon'])->name('admin.pemohon.verify');
+    Route::post('/pemohon/{user}/reject', [UserController::class, 'rejectPemohon'])->name('admin.pemohon.reject');
 
     Route::resource('/user-management', UserController::class)->names('admin.users')->parameters(['user-management' => 'user']);
     Route::get('/settings', [DashboardController::class, 'settings'])->name('admin.settings');

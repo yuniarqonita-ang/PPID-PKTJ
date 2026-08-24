@@ -11,28 +11,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     @include('components.public-page-style')
     <style>
-
         .outfit { font-family: 'Outfit', sans-serif; }
 
-        /* Hero Section */
+        /* Modern Hero Section */
         .hero-section {
-            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.8)), 
+            background: linear-gradient(135deg, rgba(0, 30, 64, 0.95) 0%, rgba(0, 74, 153, 0.88) 100%), 
                         url('https://images.unsplash.com/photo-1589829545856-d10d557cf95f?q=80&w=2070');
             background-size: cover;
             background-position: center;
-            padding: 120px 0;
+            padding: 130px 0 140px;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to top, rgba(248, 250, 252, 1), transparent);
+            pointer-events: none;
         }
 
         .hero-content { position: relative; z-index: 10; }
 
         .content-card {
             background: white;
-            padding: 60px;
-            border-radius: 40px;
-            box-shadow: 0 30px 60px rgba(0, 74, 153, 0.1);
-            margin-top: -80px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 50px 55px;
+            border-radius: 36px;
+            box-shadow: 0 25px 60px rgba(0, 43, 92, 0.09), 0 4px 16px rgba(0,0,0,0.02);
+            margin-top: -70px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
             position: relative;
             z-index: 20;
             margin-bottom: 80px;
@@ -45,32 +57,34 @@
             border-left: 8px solid var(--secondary-gold);
             padding-left: 25px;
             text-transform: uppercase;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
             font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
         }
 
         .info-item {
-            background: #f8fafc;
-            border-radius: 24px;
-            padding: 30px;
-            margin-bottom: 25px;
-            border: 1px solid #e2e8f0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
+            border-radius: 26px;
+            padding: 32px 36px;
+            margin-bottom: 28px;
+            border: 1.5px solid #e2e8f0;
+            border-left: 6px solid #ef4444;
+            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.04);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
 
         .info-item:hover {
-            transform: translateY(-10px);
-            background: white;
+            transform: translateY(-6px);
+            background: #ffffff;
             border-color: #ef4444;
-            box-shadow: 0 20px 40px rgba(239, 68, 68, 0.1);
+            box-shadow: 0 20px 45px rgba(239, 68, 68, 0.12);
         }
 
         .info-icon {
-            width: 60px;
-            height: 60px;
+            width: 58px;
+            height: 58px;
             background: rgba(239, 68, 68, 0.1);
             color: #ef4444;
             border-radius: 18px;
@@ -78,13 +92,14 @@
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            margin-right: 25px;
+            margin-right: 20px;
             flex-shrink: 0;
+            border: 1px solid rgba(239, 68, 68, 0.2);
         }
 
         .badge-locked {
-            background: #f1f5f9;
-            color: #64748b;
+            background: #fef2f2;
+            color: #b91c1c;
             padding: 10px 20px;
             border-radius: 12px;
             font-weight: 800;
@@ -92,15 +107,32 @@
             align-items: center;
             gap: 8px;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
             font-size: 0.85rem;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #fecaca;
         }
 
         .rich-content {
-            color: #64748b;
-            font-size: 1rem;
+            color: #334155;
+            font-size: 1.02rem;
             line-height: 1.8;
+        }
+
+        .rich-content p {
+            margin-bottom: 14px;
+            line-height: 1.8;
+            color: #334155;
+        }
+
+        .rich-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .rich-content p:empty,
+        .rich-content p > br:only-child {
+            min-height: 1.5em;
+            display: block;
+            margin-bottom: 14px;
         }
     </style>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">

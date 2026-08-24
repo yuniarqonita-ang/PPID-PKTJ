@@ -12,6 +12,7 @@ class Permohonan extends Model
     protected $table = 'permohonan';
 
     protected $fillable = [
+        'user_id', 'nomor_registrasi',
         'tanggal_permohonan', 'nama_pemohon', 'alamat', 'nomor_telepon',
         'pekerjaan', 'npwp', 'email',
         'rincian_informasi', 'tujuan_penggunaan',
@@ -33,6 +34,11 @@ class Permohonan extends Model
         'tanggal_pemberitahuan_tertulis' => 'date',
         'tanggal_pemberian_informasi' => 'date',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
     public function keberatans()
     {

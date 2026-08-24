@@ -22,11 +22,47 @@
                 </div>
             </div>
 
-            <div class="flex items-center gap-4">
-                <a href="{{ route('admin.berita.create') }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
-                    <i class="fas fa-plus mr-3"></i> Buat Berita Baru
+            <div class="flex flex-wrap items-center gap-3">
+                <form action="{{ route('admin.berita.sync-pktj') }}" method="POST" id="syncForm">
+                    @csrf
+                    <button type="submit" id="syncBtn" class="px-6 py-4 bg-emerald-500 hover:bg-emerald-600 text-white font-black text-xs uppercase tracking-[2px] rounded-2xl shadow-xl shadow-emerald-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
+                        <i class="fas fa-sync-alt mr-2" id="syncIcon"></i> Sinkronkan dari PKTJ.ac.id
+                    </button>
+                </form>
+                <a href="{{ route('admin.berita.create') }}" class="px-6 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[2px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
+                    <i class="fas fa-plus mr-2"></i> Buat Berita Manual
                 </a>
             </div>
+        </div>
+    </div>
+
+    <!-- LIVE INTEGRATION STATUS BANNER -->
+    @php
+        $lastSync = \App\Models\Dashboard::where('key', 'pktj_news_last_sync')->value('value');
+        $totalSynced = \App\Models\Dashboard::where('key', 'pktj_news_total_synced')->value('value');
+    @endphp
+    <div class="bg-blue-50/70 border border-blue-200/80 rounded-3xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 rounded-2xl bg-[#004a99] text-white flex items-center justify-center flex-shrink-0 shadow-md">
+                <i class="fas fa-satellite-dish text-xl"></i>
+            </div>
+            <div>
+                <h4 class="text-sm font-black text-[#002b5c]">Integrasi Berita Realtime PKTJ.ac.id</h4>
+                <p class="text-xs text-slate-500 mt-0.5">
+                    Halaman Beranda & Daftar Berita Publik otomatis terhubung realtime dengan feed resmi <code class="bg-blue-100/80 text-[#004a99] px-1.5 py-0.5 rounded text-[11px] font-mono">https://pktj.ac.id/feed</code>
+                </p>
+            </div>
+        </div>
+        <div class="flex items-center gap-3 text-xs">
+            <div class="px-4 py-2 bg-white rounded-xl border border-slate-200 shadow-sm font-bold text-slate-600">
+                <i class="far fa-clock text-amber-500 mr-1.5"></i> Sinkronisasi Terakhir: <span class="text-[#004a99]">{{ $lastSync ?? 'Otomatis Realtime' }}</span>
+            </div>
+            <form action="{{ route('admin.berita.clean-dummy') }}" method="POST" onsubmit="return confirm('Hapus semua data berita dummy/patrick?')">
+                @csrf
+                <button type="submit" class="px-3 py-2 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 rounded-xl font-bold transition-all text-xs cursor-pointer">
+                    <i class="fas fa-trash-alt mr-1"></i> Bersihkan Dummy
+                </button>
+            </form>
         </div>
     </div>
 
@@ -39,7 +75,7 @@
                     class="w-full pl-14 pr-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-2 focus:ring-[#004a99] focus:bg-white focus:outline-none text-sm font-semibold transition-all"
                     placeholder="Cari judul berita atau isi konten...">
             </div>
-            <button type="submit" class="px-8 py-4 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-[#002b5c] transition-all">
+            <button type="submit" class="px-8 py-4 bg-[#004a99] text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-[#002b5c] transition-all cursor-pointer">
                 Cari & Filter
             </button>
         </form>
@@ -61,7 +97,7 @@
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Detail Artikel</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Publikasi</th>
                         <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center">Views</th>
-                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center">Status</th>
+                        <th class="px-8 py-6 text-[10px] font-black text-slate-400 uppercase tracking-[2px] text-center">Sumber</th>
                         <th class="px-8 py-6 text-center text-[10px] font-black text-slate-400 uppercase tracking-[2px]">Aksi</th>
                     </tr>
                 </thead>
@@ -71,21 +107,22 @@
                             <td class="px-8 py-6">
                                 <div class="flex items-center gap-5">
                                     <div class="w-16 h-16 rounded-2xl bg-slate-100 flex-shrink-0 overflow-hidden border border-slate-200/60 shadow-sm relative">
-                                        @if($berita->gambar)
-                                            <img src="{{ asset('storage/' . $berita->gambar) }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-                                        @else
-                                            <div class="w-full h-full flex items-center justify-center bg-slate-50 text-slate-200">
-                                                <i class="fas fa-image text-2xl"></i>
-                                            </div>
-                                        @endif
+                                        <img src="{{ $berita->gambar_url }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png'">
                                     </div>
                                     <div class="min-w-0">
                                         <div class="text-sm font-black text-[#002b5c] group-hover:text-[#004a99] transition-colors leading-tight mb-2">
-                                            {{ Str::limit($berita->judul, 75) }}
+                                            @if($berita->link_sumber)
+                                                <a href="{{ $berita->link_sumber }}" target="_blank" class="hover:underline flex items-center gap-1.5">
+                                                    {{ Str::limit($berita->judul, 75) }}
+                                                    <i class="fas fa-external-link-alt text-[10px] text-slate-400"></i>
+                                                </a>
+                                            @else
+                                                {{ Str::limit($berita->judul, 75) }}
+                                            @endif
                                         </div>
                                         <div class="flex items-center gap-3">
                                             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest flex items-center">
-                                                <i class="fas fa-feather-alt mr-1.5 text-[#ffc107]"></i> Admin PPID
+                                                <i class="fas fa-feather-alt mr-1.5 text-[#ffc107]"></i> {{ $berita->is_external ? 'pktj.ac.id' : 'Admin PPID' }}
                                             </span>
                                             <span class="w-1 h-1 bg-slate-200 rounded-full"></span>
                                             <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">

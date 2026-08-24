@@ -66,14 +66,6 @@
 
         .text-justify { text-align: justify; }
 
-        /* Rich Editor Content Styling */
-        .rich-content {
-            font-size: 1.05rem;
-            color: #334155;
-        }
-        
-        .rich-content p { margin-bottom: 1.5rem; }
-        
         .additional-section {
             background: #fdfdfd;
             border: 1px solid #f1f5f9;
@@ -88,6 +80,7 @@
             border-color: var(--primary-blue);
         }
     </style>
+    @include('components.public-page-style')
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }

@@ -456,6 +456,10 @@
                             <i class="fas fa-envelope-open-text nav-icon"></i> PERMOHONAN INFORMASI
                         </a>
 
+                        <a href="{{ route('admin.pemohon.index') }}" class="nav-link {{ request()->routeIs('admin.pemohon.*') ? 'active' : '' }}">
+                            <i class="fas fa-id-card nav-icon"></i> VERIFIKASI PEMOHON
+                        </a>
+
                         <a href="{{ route('admin.pesan-kontak.index') }}" class="nav-link {{ request()->is('admin/pesan-kontak*') ? 'active' : '' }}">
                             <i class="fas fa-inbox nav-icon"></i> PESAN KONTAK
                         </a>
@@ -661,19 +665,78 @@
                 max_height: 900,
                 autoresize_bottom_margin: 30,
                 object_resizing: 'img,table,iframe',
-                menubar: 'edit insert view format table tools help',
+                menubar: 'file edit insert view format table tools help',
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                     'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons', 'noneditable', 'autoresize'
                 ],
                 noneditable_noneditable_class: 'mce-no-border-dummy',
-                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline forecolor | ' +
+                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | ' +
                          'alignleft aligncenter alignright alignjustify | ' +
-                         'bullist numlist outdent indent | link image media emoticons | premium_blur insert_preview insert_gdrive removeformat fullscreen',
+                         'table tableprops tablerowprops tablecellprops table_valign_menu tablemergecells tablesplitcells | ' +
+                         'bullist numlist outdent indent | link image media emoticons | premium_blur insert_preview insert_gdrive | removeformat code fullscreen',
+                table_appearance_options: true,
+                table_grid: true,
+                table_cell_advtab: true,
+                table_row_advtab: true,
+                table_advtab: true,
+                table_resize_bars: true,
+                table_responsive_width: true,
+                table_default_styles: {
+                    'width': '100%',
+                    'border-collapse': 'collapse'
+                },
+                table_default_attributes: {
+                    'class': 'table-custom-ppid'
+                },
+                table_toolbar: 'tableprops tablecellprops | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | tablemergecells tablesplitcells | alignleft aligncenter alignright alignjustify | table_valign_top table_valign_middle table_valign_bottom',
+                color_map: [
+                    '004A99', 'Navy PPID PKTJ',
+                    '002B5C', 'Dark Navy',
+                    '0284C7', 'Sky Blue',
+                    '2563EB', 'Royal Blue',
+                    'FFC107', 'Gold PKTJ',
+                    'D97706', 'Amber Gold',
+                    'DC2626', 'Red Accent',
+                    '16A34A', 'Green Success',
+                    '0F172A', 'Dark Text',
+                    '475569', 'Slate Gray',
+                    '94A3B8', 'Light Slate',
+                    'FFFFFF', 'White',
+                    'FEF08A', 'Highlight Kuning',
+                    'BBF7D0', 'Highlight Hijau',
+                    'BFDBFE', 'Highlight Biru',
+                    'FECACA', 'Highlight Merah',
+                    'FBCFE8', 'Highlight Pink',
+                    'E2E8F0', 'Highlight Abu-abu'
+                ],
+                custom_colors: true,
+                color_cols: 6,
                 skin: 'oxide',
                 content_css: 'default',
-                content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #0f172a; padding: 20px; line-height: 1.6; min-height: 200px; }',
+                content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #334155; padding: 25px; line-height: 1.8; min-height: 250px; } ' +
+                              'p { margin: 0 0 18px 0; line-height: 1.8; color: #334155; font-size: 16px; } ' +
+                              'p:empty, p > br:only-child { min-height: 1.6em; display: block; margin-bottom: 18px; } ' +
+                              'ol, ul { margin: 0 0 22px 0; padding-left: 28px; } ' +
+                              'ol > li, ul > li { margin-bottom: 16px; line-height: 1.8; color: #334155; font-size: 16px; } ' +
+                              'ol > li:last-child, ul > li:last-child { margin-bottom: 0; } ' +
+                              'ol > li > p, ul > li > p { margin-bottom: 12px; } ' +
+                              'ol > li > p:last-child, ul > li > p:last-child { margin-bottom: 0; } ' +
+                              'table { border-collapse: collapse !important; width: 100% !important; margin: 20px 0 !important; border: 1.5px solid #cbd5e1 !important; border-radius: 12px; overflow: hidden; background: #ffffff !important; box-shadow: 0 4px 16px rgba(0,0,0,0.03); } ' +
+                              'table th, table td { padding: 18px 24px !important; border: 1px solid #cbd5e1 !important; vertical-align: top !important; text-align: left; color: #334155 !important; line-height: 1.75 !important; font-size: 15px; } ' +
+                              'table th { background: linear-gradient(135deg, #001e40 0%, #004a99 100%) !important; color: #ffffff !important; font-weight: 700; border: 1px solid rgba(255,255,255,0.2) !important; font-size: 15px; } ' +
+                              'table th p, table td p, table th div, table td div { margin: 0 0 14px 0 !important; padding: 0 !important; line-height: 1.75 !important; } ' +
+                              'table th p:empty, table td p:empty, table th p > br:only-child, table td p > br:only-child { min-height: 1.5em; display: block; margin-bottom: 14px !important; } ' +
+                              'table td ul, table td ol { padding-left: 24px !important; margin: 0 0 14px 0 !important; } ' +
+                              'table td li { margin-bottom: 12px !important; line-height: 1.75 !important; } ' +
+                              'table td li:last-child { margin-bottom: 0 !important; } ' +
+                              'table th > *:first-child, table td > *:first-child { margin-top: 0 !important; padding-top: 0 !important; } ' +
+                              'table th > *:last-child, table td > *:last-child { margin-bottom: 0 !important; } ' +
+                              'table tr:nth-child(even) td { background-color: #f8fafc; } ' +
+                              'table tr:hover td { background-color: #f1f5f9; } ' +
+                              'a, a:link, a:visited { color: #004a99; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; } ' +
+                              'a:hover { color: #002b5c; }',
                 branding: false,
                 promotion: false,
                 image_title: true,
@@ -750,35 +813,33 @@
                 },
                 file_picker_types: 'file image media',
                 setup: function(editor) {
-                    // === SMART GDRIVE LINK CHIP CONVERTER (TAB / AUTO CONVERT) ===
-                    editor.on('PastePostProcess keyup', function(e) {
-                        try {
-                            const content = editor.getContent();
-                            const gdriveRegex = /(https?:\/\/(?:drive|docs)\.google\.com\/[^\s<"']+)/gi;
-                            
-                            if (gdriveRegex.test(content)) {
-                                const body = editor.getBody();
-                                const textNodes = editor.dom.select('p, span, div, td');
-                                
-                                textNodes.forEach(node => {
-                                    const text = node.textContent || '';
-                                    const match = text.match(gdriveRegex);
-                                    if (match && match.length > 0) {
-                                        const rawUrl = match[0];
-                                        if (!node.querySelector('.gdrive-pdf-chip') && !node.classList.contains('gdrive-pdf-chip')) {
-                                            if (e.type === 'paste' || (e.type === 'keyup' && (e.keyCode === 9 || e.key === 'Tab'))) {
-                                                const docTitle = prompt('Google Drive Link Terdeteksi!\nMasukkan Nama File PDF (contoh: Dokumen_SOP_Informasi.pdf):', '📄 Dokumen PDF Google Drive');
-                                                if (docTitle) {
-                                                    const chipHtml = `<a href="${rawUrl}" target="_blank" class="gdrive-pdf-chip" style="display:inline-flex; align-items:center; gap:8px; background:#eff6ff; color:#004a99; padding:6px 14px; border-radius:10px; font-weight:700; border:1px solid #bfdbfe; text-decoration:none; margin:4px 2px;"><i class="fas fa-file-pdf" style="color:#e11d48; font-size:16px;"></i> <span>${docTitle}</span> <i class="fas fa-external-link-alt" style="font-size:11px; opacity:0.6;"></i></a>&nbsp;`;
-                                                    node.innerHTML = node.innerHTML.replace(rawUrl, chipHtml);
-                                                }
-                                            }
-                                        }
-                                    }
-                                });
+                    // Otomatis terapkan Standar Excel & Word: Rata Atas di setiap sel tabel
+                    editor.on('init', function() {
+                        editor.dom.select('table td, table th').forEach(function(cell) {
+                            if (!cell.style.verticalAlign) {
+                                cell.style.verticalAlign = 'top';
                             }
+                        });
+                    });
+
+                    // Pastikan saat paste link GDrive ditangani tanpa mengganggu ketikan normal (TIDAK memakai keyup)
+                    editor.on('PastePostProcess', function(e) {
+                        try {
+                            const gdriveRegex = /(https?:\/\/(?:drive|docs)\.google\.com\/[^\s<"']+)/gi;
+                            const textNodes = editor.dom.select('p, span, div, td', e.node);
+                            textNodes.forEach(node => {
+                                const text = node.textContent || '';
+                                const match = text.match(gdriveRegex);
+                                if (match && match.length > 0) {
+                                    const rawUrl = match[0];
+                                    if (!node.querySelector('.gdrive-pdf-chip') && !node.classList.contains('gdrive-pdf-chip')) {
+                                        const chipHtml = `<a href="${rawUrl}" target="_blank" class="gdrive-pdf-chip" style="display:inline-flex; align-items:center; gap:8px; background:#eff6ff; color:#004a99; padding:6px 14px; border-radius:10px; font-weight:700; border:1px solid #bfdbfe; text-decoration:none; margin:4px 2px;"><i class="fas fa-file-pdf" style="color:#e11d48; font-size:16px;"></i> <span>Dokumen PDF</span> <i class="fas fa-external-link-alt" style="font-size:11px; opacity:0.6;"></i></a>&nbsp;`;
+                                        node.innerHTML = node.innerHTML.replace(rawUrl, chipHtml);
+                                    }
+                                }
+                            });
                         } catch (err) {
-                            console.log('GDrive chip error:', err);
+                            console.log('GDrive paste error:', err);
                         }
                     });
 
@@ -787,6 +848,98 @@
                         tooltip: 'Apply Premium Blur to Selection',
                         onAction: function (_) {
                             editor.execCommand('mceToggleFormat', false, 'premium-blur');
+                        }
+                    });
+
+                    // === CUSTOM TABLE VERTICAL ALIGNMENT TOOLS ===
+                    editor.ui.registry.addButton('table_valign_top', {
+                        text: '⬆️ Atas',
+                        tooltip: 'Rata Atas Sel Tabel (Vertical Align Top)',
+                        onAction: function () {
+                            const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                            if (selectedCells.length > 0) {
+                                selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'top'));
+                            } else {
+                                const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                if (cell) editor.dom.setStyle(cell, 'vertical-align', 'top');
+                            }
+                        }
+                    });
+
+                    editor.ui.registry.addButton('table_valign_middle', {
+                        text: '↕️ Tengah',
+                        tooltip: 'Rata Tengah Sel Tabel (Vertical Align Middle)',
+                        onAction: function () {
+                            const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                            if (selectedCells.length > 0) {
+                                selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'middle'));
+                            } else {
+                                const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                if (cell) editor.dom.setStyle(cell, 'vertical-align', 'middle');
+                            }
+                        }
+                    });
+
+                    editor.ui.registry.addButton('table_valign_bottom', {
+                        text: '⬇️ Bawah',
+                        tooltip: 'Rata Bawah Sel Tabel (Vertical Align Bottom)',
+                        onAction: function () {
+                            const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                            if (selectedCells.length > 0) {
+                                selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'bottom'));
+                            } else {
+                                const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                if (cell) editor.dom.setStyle(cell, 'vertical-align', 'bottom');
+                            }
+                        }
+                    });
+
+                    editor.ui.registry.addMenuButton('table_valign_menu', {
+                        text: 'Posisi Tabel ↕',
+                        tooltip: 'Atur Posisi Teks Sel Tabel (Atas, Tengah, Bawah)',
+                        fetch: function (callback) {
+                            var items = [
+                                {
+                                    type: 'menuitem',
+                                    text: '⬆️ Rata Atas (Top)',
+                                    onAction: function () {
+                                        const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                                        if (selectedCells.length > 0) {
+                                            selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'top'));
+                                        } else {
+                                            const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                            if (cell) editor.dom.setStyle(cell, 'vertical-align', 'top');
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'menuitem',
+                                    text: '↕️ Rata Tengah (Middle)',
+                                    onAction: function () {
+                                        const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                                        if (selectedCells.length > 0) {
+                                            selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'middle'));
+                                        } else {
+                                            const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                            if (cell) editor.dom.setStyle(cell, 'vertical-align', 'middle');
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'menuitem',
+                                    text: '⬇️ Rata Bawah (Bottom)',
+                                    onAction: function () {
+                                        const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                                        if (selectedCells.length > 0) {
+                                            selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'bottom'));
+                                        } else {
+                                            const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                            if (cell) editor.dom.setStyle(cell, 'vertical-align', 'bottom');
+                                        }
+                                    }
+                                }
+                            ];
+                            callback(items);
                         }
                     });
 

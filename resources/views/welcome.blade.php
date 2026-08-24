@@ -881,34 +881,56 @@
 
             <div class="row g-4">
                 @forelse($artikel as $item)
-                <div class="col-lg-4">
-                    <div class="article-card h-100">
-                        <div class="article-image">
-                            <img src="{{ $item->gambar ? asset('storage/'.$item->gambar) : 'https://via.placeholder.com/600x400' }}" alt="Berita">
-                            <div class="article-badge">Publikasi</div>
+                @php
+                    $isArr = is_array($item);
+                    $judul = $isArr ? ($item['judul'] ?? '') : $item->judul;
+                    $ringkasan = $isArr ? ($item['ringkasan'] ?? \Illuminate\Support\Str::limit(strip_tags($item['konten'] ?? ''), 110)) : \Illuminate\Support\Str::limit(strip_tags($item->konten ?? ''), 110);
+                    $kategori = $isArr ? ($item['kategori'] ?? 'Liputan/Berita') : ($item->kategori ?? 'Liputan/Berita');
+                    $gambar = $isArr ? ($item['gambar'] ?? 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png') : ($item->gambar_url ?? 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png');
+                    $link = $isArr ? ($item['link'] ?? url('/berita/' . ($item['slug'] ?? ''))) : ($item->url_berita ?? url('/berita/' . $item->slug));
+                    $tanggal = $isArr ? ($item['tanggal_f'] ?? date('d M Y')) : ($item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') : $item->created_at->translatedFormat('d F Y'));
+                    $isExternal = $isArr ? ($item['is_external'] ?? true) : ($item->is_external ?? false);
+                @endphp
+                <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 100 }}">
+                    <div class="article-card h-100 shadow-sm hover-lift d-flex flex-column" style="border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; background: white;">
+                        <div class="article-image position-relative" style="height: 220px; overflow: hidden; background: #0f172a;">
+                            <img src="{{ $gambar }}" alt="{{ $judul }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1585829365295-ab7cd400c167?q=80&w=800'">
+                            <div class="article-badge position-absolute top-0 start-0 m-3 px-3 py-1 rounded-pill text-xs fw-bold text-white shadow-sm" style="background: linear-gradient(135deg, #004a99, #0066cc); font-size: 11px; letter-spacing: 0.5px;">
+                                <i class="fas fa-tag me-1 text-warning"></i> {{ $kategori }}
+                            </div>
+                            <div class="position-absolute bottom-0 end-0 m-3 px-2 py-1 rounded text-white text-xs" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); font-size: 11px;">
+                                <i class="far fa-calendar-alt me-1"></i> {{ $tanggal }}
+                            </div>
                         </div>
-                        <div class="article-body">
-                            <h3 class="article-title">{{ $item->judul }}</h3>
-                            <p class="article-text">{{ \Illuminate\Support\Str::limit(strip_tags($item->konten), 100) }}</p>
-                            <a href="{{ url('/berita/' . $item->slug) }}" class="text-decoration-none font-black text-xs text-[#004a99] uppercase tracking-widest hover:text-black transition-all">
-                                Baca Selengkapnya <i class="fas fa-arrow-right ml-2 text-warning"></i>
-                            </a>
+                        <div class="article-body p-4 d-flex flex-column flex-grow-1">
+                            <h3 class="article-title fw-bold mb-2" style="font-family: 'Outfit', sans-serif; font-size: 1.15rem; line-height: 1.4; color: #1e293b;">
+                                <a href="{{ $link }}" {{ $isExternal ? 'target=_blank rel=noopener' : '' }} class="text-decoration-none text-dark hover-primary transition-all">
+                                    {{ $judul }}
+                                </a>
+                            </h3>
+                            <p class="article-text text-muted small mb-4 flex-grow-1" style="line-height: 1.6;">{{ $ringkasan }}</p>
+                            <div class="pt-3 border-top d-flex justify-content-between align-items-center">
+                                <a href="{{ $link }}" {{ $isExternal ? 'target=_blank rel=noopener' : '' }} class="text-decoration-none fw-bold text-xs text-primary text-uppercase tracking-wider hover-dark d-inline-flex align-items-center" style="color: #004a99 !important;">
+                                    Baca Selengkapnya <i class="fas fa-external-link-alt ms-2 text-warning" style="font-size: 11px;"></i>
+                                </a>
+                                <span class="badge bg-light text-muted border text-xs" style="font-size: 10px;">pktj.ac.id</span>
+                            </div>
                         </div>
                     </div>
                 </div>
                 @empty
                 <div class="col-12 py-10 text-center">
                     <div class="p-10 bg-white rounded-3xl border-2 border-dashed border-slate-200">
-                        <i class="fas fa-newspaper text-6xl text-slate-100 mb-4"></i>
-                        <p class="text-slate-400 font-bold">Belum ada artikel yang dipublikasikan saat ini.</p>
+                        <i class="fas fa-newspaper text-6xl text-slate-200 mb-4"></i>
+                        <p class="text-slate-400 font-bold">Sedang menyinkronkan warta dan berita resmi dari pktj.ac.id...</p>
                     </div>
                 </div>
                 @endforelse
             </div>
 
             <div class="text-center mt-5">
-                <a href="{{ url('/berita') }}" class="btn btn-outline-primary fw-bold px-5 py-3 rounded-pill" style="color: #004a99; border-color: #004a99;">
-                    <i class="fas fa-newspaper me-2"></i> Lihat Semua Berita
+                <a href="{{ url('/berita') }}" class="btn btn-outline-primary fw-bold px-5 py-3 rounded-pill shadow-sm" style="color: #004a99; border-color: #004a99; font-family: 'Outfit', sans-serif;">
+                    <i class="fas fa-newspaper me-2"></i> Jelajahi Semua Berita PKTJ
                 </a>
             </div>
         </div>

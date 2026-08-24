@@ -186,23 +186,416 @@
         object-fit: contain !important;
     }
 
-    .profil-content table {
+    /* ── Super-Premium Responsive Table Styling ── */
+    .table-responsive-wrapper {
         width: 100%;
-        border-collapse: collapse;
-        margin: 16px 0;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin: 32px 0;
+        border-radius: 24px;
+        box-shadow: 0 20px 50px rgba(0, 43, 92, 0.08), 0 4px 12px rgba(0,0,0,0.03);
+        border: 1.5px solid #cbd5e1;
+        background: #ffffff;
+        position: relative;
+    }
+    .table-responsive-wrapper::-webkit-scrollbar {
+        height: 8px;
+    }
+    .table-responsive-wrapper::-webkit-scrollbar-track {
+        background: #f1f5f9;
+        border-radius: 10px;
+    }
+    .table-responsive-wrapper::-webkit-scrollbar-thumb {
+        background: #94a3b8;
+        border-radius: 10px;
+    }
+    .table-responsive-wrapper::-webkit-scrollbar-thumb:hover {
+        background: #004a99;
+    }
+
+    .profil-content table,
+    .rich-content table,
+    .content-box table,
+    .content-card table,
+    .info-item table,
+    .page-container table,
+    table.table-custom-ppid {
+        width: 100% !important;
+        border-collapse: separate !important;
+        border-spacing: 0 !important;
+        margin: 0 !important;
+        border: none !important;
+        background: #ffffff !important;
+        font-size: 0.98rem !important;
+        table-layout: auto !important;
     }
 
     .profil-content table th,
-    .profil-content table td {
-        border: 1px solid #e2e8f0;
-        padding: 10px 14px;
-        text-align: left;
+    .rich-content table th,
+    .content-box table th,
+    .content-card table th,
+    .info-item table th,
+    .page-container table th,
+    table.table-custom-ppid th {
+        background: linear-gradient(135deg, #001e40 0%, #003366 50%, #004a99 100%) !important;
+        color: #ffffff !important;
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.85px !important;
+        font-size: 0.92rem !important;
+        padding: 18px 24px !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        vertical-align: top !important; /* STANDAR EXCEL & WORD: Lurus rata atas di baris header */
+        white-space: normal !important;
+        word-wrap: break-word !important;
+        box-shadow: inset 0 -3px 0 #d97706, 0 4px 12px rgba(0, 74, 153, 0.15) !important;
     }
 
-    .profil-content table th {
-        background: #f0f4f8;
-        font-weight: 700;
-        color: var(--primary-blue);
+    .profil-content table td,
+    .rich-content table td,
+    .content-box table td,
+    .content-card table td,
+    .info-item table td,
+    .page-container table td,
+    table.table-custom-ppid td {
+        padding: 18px 24px !important;
+        border: 1px solid #e2e8f0 !important;
+        color: #334155 !important;
+        line-height: 1.75 !important;
+        vertical-align: top !important; /* STANDAR EXCEL & WORD: Kompak rata atas sejajar di seluruh kolom */
+        white-space: normal !important;
+        word-break: normal !important;
+        overflow-wrap: break-word !important;
+        word-wrap: break-word !important;
+        transition: background-color 0.2s ease !important;
+        font-size: 0.96rem !important;
+    }
+
+    /* Hilangkan margin atas pada elemen pertama di dalam sel agar baseline huruf di semua kolom sejajar horizontal */
+    .profil-content table th > *:first-child,
+    .profil-content table td > *:first-child,
+    .rich-content table th > *:first-child,
+    .rich-content table td > *:first-child,
+    .content-box table th > *:first-child,
+    .content-box table td > *:first-child,
+    .content-card table th > *:first-child,
+    .content-card table td > *:first-child,
+    .info-item table th > *:first-child,
+    .info-item table td > *:first-child,
+    .page-container table th > *:first-child,
+    .page-container table td > *:first-child,
+    table th > *:first-child,
+    table td > *:first-child {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+    .profil-content table th > *:last-child,
+    .profil-content table td > *:last-child,
+    .rich-content table th > *:last-child,
+    .rich-content table td > *:last-child,
+    .content-box table th > *:last-child,
+    .content-box table td > *:last-child,
+    .content-card table th > *:last-child,
+    .content-card table td > *:last-child,
+    .info-item table th > *:last-child,
+    .info-item table td > *:last-child,
+    .page-container table th > *:last-child,
+    .page-container table td > *:last-child,
+    table th > *:last-child,
+    table td > *:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    /* ── Spasi Jarak Paragraf & Enter yang Lega dan Bersih (Preserve Enters & Paragraphs) ── */
+    .profil-content p,
+    .rich-content p,
+    .content-box p,
+    .content-card p,
+    .info-item p,
+    .page-container p {
+        margin: 0 0 18px 0 !important;
+        line-height: 1.8 !important;
+        color: #334155;
+        font-size: 1.02rem;
+    }
+
+    .profil-content p:last-child,
+    .rich-content p:last-child,
+    .content-box p:last-child,
+    .content-card p:last-child,
+    .info-item p:last-child,
+    .page-container p:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    /* Pertahankan tinggi spasi enter sengaja / enter kosong di seluruh halaman */
+    .profil-content p:empty,
+    .rich-content p:empty,
+    .content-box p:empty,
+    .content-card p:empty,
+    .info-item p:empty,
+    .page-container p:empty,
+    .profil-content p > br:only-child,
+    .rich-content p > br:only-child,
+    .content-box p > br:only-child,
+    .content-card p > br:only-child,
+    .info-item p > br:only-child,
+    .page-container p > br:only-child {
+        min-height: 1.6em !important;
+        display: block !important;
+        margin-bottom: 18px !important;
+    }
+
+    /* ── Jarak Antar Poin List (Numbered & Bulleted Lists) yang Lega & Nyaman ── */
+    .profil-content ol,
+    .profil-content ul,
+    .rich-content ol,
+    .rich-content ul,
+    .content-box ol,
+    .content-box ul,
+    .content-card ol,
+    .content-card ul,
+    .info-item ol,
+    .info-item ul,
+    .page-container ol,
+    .page-container ul {
+        margin: 0 0 22px 0 !important;
+        padding-left: 28px !important;
+    }
+
+    .profil-content ol > li,
+    .profil-content ul > li,
+    .rich-content ol > li,
+    .rich-content ul > li,
+    .content-box ol > li,
+    .content-box ul > li,
+    .content-card ol > li,
+    .content-card ul > li,
+    .info-item ol > li,
+    .info-item ul > li,
+    .page-container ol > li,
+    .page-container ul > li {
+        margin-bottom: 16px !important;
+        line-height: 1.8 !important;
+        color: #334155 !important;
+        font-size: 1.02rem !important;
+    }
+
+    .profil-content ol > li:last-child,
+    .profil-content ul > li:last-child,
+    .rich-content ol > li:last-child,
+    .rich-content ul > li:last-child,
+    .content-box ol > li:last-child,
+    .content-box ul > li:last-child,
+    .content-card ol > li:last-child,
+    .content-card ul > li:last-child,
+    .info-item ol > li:last-child,
+    .info-item ul > li:last-child,
+    .page-container ol > li:last-child,
+    .page-container ul > li:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    .profil-content ol > li > p,
+    .profil-content ul > li > p,
+    .rich-content ol > li > p,
+    .rich-content ul > li > p,
+    .content-box ol > li > p,
+    .content-box ul > li > p,
+    .content-card ol > li > p,
+    .content-card ul > li > p,
+    .info-item ol > li > p,
+    .info-item ul > li > p {
+        margin-bottom: 12px !important;
+    }
+
+    .profil-content ol > li > p:last-child,
+    .profil-content ul > li > p:last-child,
+    .rich-content ol > li > p:last-child,
+    .rich-content ul > li > p:last-child,
+    .content-box ol > li > p:last-child,
+    .content-box ul > li > p:last-child,
+    .content-card ol > li > p:last-child,
+    .content-card ul > li > p:last-child,
+    .info-item ol > li > p:last-child,
+    .info-item ul > li > p:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    /* Headings di dalam Rich Content */
+    .profil-content h1, .profil-content h2, .profil-content h3, .profil-content h4, .profil-content h5, .profil-content h6,
+    .rich-content h1, .rich-content h2, .rich-content h3, .rich-content h4, .rich-content h5, .rich-content h6,
+    .content-box h1, .content-box h2, .content-box h3, .content-box h4, .content-box h5, .content-box h6,
+    .content-card h1, .content-card h2, .content-card h3, .content-card h4, .content-card h5, .content-card h6,
+    .info-item h1, .info-item h2, .info-item h3, .info-item h4, .info-item h5, .info-item h6 {
+        font-family: 'Outfit', sans-serif !important;
+        font-weight: 800 !important;
+        color: #002b5c !important;
+        margin-top: 28px !important;
+        margin-bottom: 16px !important;
+        line-height: 1.4 !important;
+    }
+
+    .profil-content > *:first-child,
+    .rich-content > *:first-child,
+    .content-box > *:first-child,
+    .content-card > *:first-child,
+    .info-item > *:first-child {
+        margin-top: 0 !important;
+    }
+
+    /* ── Spasi di Dalam Sel Tabel ── */
+    .profil-content table p,
+    .rich-content table p,
+    .content-box table p,
+    .content-card table p,
+    .info-item table p,
+    .page-container table p,
+    table td p,
+    table th p {
+        margin: 0 0 14px 0 !important;
+        line-height: 1.75 !important;
+    }
+
+    .profil-content table p:empty,
+    .rich-content table p:empty,
+    .content-box table p:empty,
+    .content-card table p:empty,
+    .info-item table p:empty,
+    .page-container table p:empty,
+    table td p:empty,
+    table th p:empty,
+    .profil-content table p > br:only-child,
+    .rich-content table p > br:only-child,
+    .content-box table p > br:only-child,
+    .content-card table p > br:only-child,
+    .info-item table p > br:only-child,
+    .page-container table p > br:only-child,
+    table td p > br:only-child,
+    table th p > br:only-child {
+        min-height: 1.5em !important;
+        display: block !important;
+        margin-bottom: 14px !important;
+    }
+
+    /* List Numbering & Bullets di Dalam Tabel */
+    .profil-content table ul, .profil-content table ol,
+    .rich-content table ul, .rich-content table ol,
+    .content-box table ul, .content-box table ol,
+    .content-card table ul, .content-card table ol,
+    .info-item table ul, .info-item table ol,
+    .page-container table ul, .page-container table ol,
+    table td ul, table td ol {
+        padding-left: 24px !important;
+        margin: 0 0 14px 0 !important;
+    }
+
+    .profil-content table li,
+    .rich-content table li,
+    .content-box table li,
+    .content-card table li,
+    .info-item table li,
+    .page-container table li,
+    table td li {
+        margin-bottom: 12px !important;
+        line-height: 1.75 !important;
+        color: #334155 !important;
+    }
+
+    .profil-content table li:last-child,
+    .rich-content table li:last-child,
+    .content-box table li:last-child,
+    .content-card table li:last-child,
+    .info-item table li:last-child,
+    .page-container table li:last-child,
+    table td li:last-child {
+        margin-bottom: 0 !important;
+    }
+
+    .profil-content table tr:nth-child(even) td,
+    .rich-content table tr:nth-child(even) td,
+    .content-box table tr:nth-child(even) td,
+    .content-card table tr:nth-child(even) td,
+    .info-item table tr:nth-child(even) td,
+    .page-container table tr:nth-child(even) td {
+        background-color: #f8fafc !important;
+    }
+
+    .profil-content table tr:hover td,
+    .rich-content table tr:hover td,
+    .content-box table tr:hover td,
+    .content-card table tr:hover td,
+    .info-item table tr:hover td,
+    .page-container table tr:hover td {
+        background-color: #eff6ff !important;
+    }
+
+    /* First and Last Table Corners Rounded */
+    .profil-content table tr:first-child th:first-child,
+    .rich-content table tr:first-child th:first-child,
+    .content-box table tr:first-child th:first-child,
+    .content-card table tr:first-child th:first-child,
+    .info-item table tr:first-child th:first-child,
+    .page-container table tr:first-child th:first-child,
+    table.table-custom-ppid tr:first-child th:first-child {
+        border-top-left-radius: 22px !important;
+    }
+    .profil-content table tr:first-child th:last-child,
+    .rich-content table tr:first-child th:last-child,
+    .content-box table tr:first-child th:last-child,
+    .content-card table tr:first-child th:last-child,
+    .info-item table tr:first-child th:last-child,
+    .page-container table tr:first-child th:last-child,
+    table.table-custom-ppid tr:first-child th:last-child {
+        border-top-right-radius: 22px !important;
+    }
+    .profil-content table tr:last-child td:first-child,
+    .rich-content table tr:last-child td:first-child,
+    .content-box table tr:last-child td:first-child,
+    .content-card table tr:last-child td:first-child,
+    .info-item table tr:last-child td:first-child,
+    .page-container table tr:last-child td:first-child,
+    table.table-custom-ppid tr:last-child td:first-child {
+        border-bottom-left-radius: 22px !important;
+    }
+    .profil-content table tr:last-child td:last-child,
+    .rich-content table tr:last-child td:last-child,
+    .content-box table tr:last-child td:last-child,
+    .content-card table tr:last-child td:last-child,
+    .info-item table tr:last-child td:last-child,
+    .page-container table tr:last-child td:last-child,
+    table.table-custom-ppid tr:last-child td:last-child {
+        border-bottom-right-radius: 22px !important;
+    }
+
+    /* ── Tampilan Link Bersih & Natural di Seluruh Halaman (Tanpa Blok Kuning / Hover Aneh) ── */
+    .profil-content a,
+    .rich-content a,
+    .content-box a,
+    .content-card a,
+    .info-item a,
+    table a,
+    .table a {
+        color: #004a99 !important;
+        font-weight: 600;
+        text-decoration: underline !important;
+        text-decoration-color: rgba(0, 74, 153, 0.4) !important;
+        text-underline-offset: 3px !important;
+        transition: color 0.2s ease, text-decoration-color 0.2s ease !important;
+        background: transparent !important;
+    }
+    .profil-content a:hover,
+    .rich-content a:hover,
+    .content-box a:hover,
+    .content-card a:hover,
+    .info-item a:hover,
+    table a:hover,
+    .table a:hover {
+        color: #002b5c !important;
+        text-decoration-color: #002b5c !important;
+        background: transparent !important;
     }
 
     /* ── Empty State ── */
@@ -507,15 +900,28 @@
         transform: scale(1.03);
     }
 
-    .rich-content {
-        color: #475569;
-        font-size: 0.95rem;
-        line-height: 1.7;
-    }
-
-    .rich-content img {
-        max-width: 100%;
-        border-radius: 12px;
-        margin: 15px 0;
-    }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Automatically wrap un-wrapped tables with .table-responsive-wrapper for silky smooth scrolling & clipping prevention
+    document.querySelectorAll('.profil-content table, .rich-content table, .content-box table, .content-card table, .info-item table, .page-container table').forEach(function(tbl) {
+        if (!tbl.parentElement.classList.contains('table-responsive-wrapper')) {
+            var wrapper = document.createElement('div');
+            wrapper.className = 'table-responsive-wrapper';
+            tbl.parentNode.insertBefore(wrapper, tbl);
+            wrapper.appendChild(tbl);
+        }
+
+        // Pastikan seluruh sel td dan th di tabel mengikuti standar Excel/Word (Rata Atas)
+        tbl.querySelectorAll('td, th').forEach(function(cell) {
+            cell.style.verticalAlign = 'top';
+            var firstP = cell.querySelector('p:first-child');
+            if (firstP) {
+                firstP.style.marginTop = '0';
+                firstP.style.paddingTop = '0';
+            }
+        });
+    });
+});
+</script>

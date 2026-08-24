@@ -294,10 +294,26 @@
                 @endforeach
             </ul>
 
-            <div class="d-flex gap-2">
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="{{ route('permohonan.form') }}" style="font-size: 12px; letter-spacing: 0.5px;">
-                    PERMOHONAN INFORMASI
+            <div class="d-flex align-items-center gap-2">
+                <a class="btn btn-warning fw-bold px-3 py-2 text-dark rounded-pill shadow-sm text-xs text-uppercase" href="{{ route('permohonan.form') }}" style="font-size: 11px; letter-spacing: 0.5px;">
+                    <i class="fas fa-file-signature me-1"></i> Permohonan Informasi
                 </a>
+
+                @if(Auth::check())
+                    @if(Auth::user()->role === 'admin')
+                        <a class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill text-xs text-uppercase" href="{{ url('/admin/dashboard') }}" style="font-size: 11px;">
+                            <i class="fas fa-user-shield me-1"></i> Admin Panel
+                        </a>
+                    @else
+                        <a class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill text-xs" href="{{ route('user.dashboard') }}" style="font-size: 11px;">
+                            <i class="fas fa-user-circle me-1"></i> {{ Str::limit(Auth::user()->name, 12) }}
+                        </a>
+                    @endif
+                @else
+                    <a class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill text-xs text-uppercase" href="{{ route('login') }}" style="font-size: 11px;">
+                        <i class="fas fa-sign-in-alt me-1"></i> Masuk
+                    </a>
+                @endif
             </div>
         </div>
     </div>

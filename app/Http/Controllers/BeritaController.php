@@ -126,13 +126,89 @@ class BeritaController extends Controller
     }
 
     /**
-     * Public: Daftar semua berita
+     * Admin: Sinkronkan berita langsung dari PKTJ.ac.id
      */
-    public function publicIndex()
+    public function syncPktjNews(Request $request)
+    {
+        $service = app(\App\Services\PktjNewsService::class);
+        $result = $service->syncToDatabase();
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'message' => "Berhasil menyinkronkan {$result['new']} berita baru dan memperbarui {$result['updated']} berita dari PKTJ.ac.id!",
+                'data'    => $result,
+            ]);
+        }
+
+        return redirect()->route('admin.berita.index')->with(
+            'success',
+            "Sinkronisasi Berita PKTJ.ac.id Berhasil! ({$result['new']} berita baru ditambahkan, {$result['updated']} diperbarui pada {$result['timestamp']})."
+        );
+    }
+
+    /**
+     * Admin: Bersihkan berita dummy
+     */
+    public function cleanDummy(Request $request)
+    {
+        $service = app(\App\Services\PktjNewsService::class);
+        $deleted = $service->cleanDummyNews();
+
+        return redirect()->route('admin.berita.index')->with(
+            'success',
+            "Pembersihan selesai. Sebanyak {$deleted} data berita dummy/patrick berhasil dihapus."
+        );
+    }
+
+    /**
+     * Public: Daftar semua berita (Realtime PKTJ.ac.id + Kategori)
+     */
+    public function publicIndex(Request $request)
     {
         $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
-        $beritas  = Berita::where('aktif', true)->orderBy('tanggal', 'desc')->orderBy('created_at', 'desc')->paginate(9);
-        return view('berita.index', compact('beritas', 'settings'));
+        $service = app(\App\Services\PktjNewsService::class);
+
+        $kategoriAktif = $request->query('kategori', 'Semua');
+        $searchQuery   = $request->query('search');
+
+        // Ambil berita realtime dari PKTJ.ac.id
+        $allNews = $service->getNewsByCategory($kategoriAktif, 40);
+
+        if (!empty($searchQuery)) {
+            $q = strtolower($searchQuery);
+            $allNews = array_filter($allNews, function ($item) use ($q) {
+                return str_contains(strtolower($item['judul'] ?? ''), $q) ||
+                       str_contains(strtolower($item['konten'] ?? ''), $q);
+            });
+            $allNews = array_values($allNews);
+        }
+
+        // Pagination array manual
+        $page = (int) $request->query('page', 1);
+        $perPage = 9;
+        $totalItems = count($allNews);
+        $offset = ($page - 1) * $perPage;
+        $itemsForCurrentPage = array_slice($allNews, $offset, $perPage);
+
+        $paginatedNews = new \Illuminate\Pagination\LengthAwarePaginator(
+            $itemsForCurrentPage,
+            $totalItems,
+            $perPage,
+            $page,
+            ['path' => $request->url(), 'query' => $request->query()]
+        );
+
+        $kategoriList = [
+            'Semua',
+            'Liputan/Berita',
+            'Karir',
+            'Pengumuman',
+            'Pendidikan',
+            'Seputar Kampus',
+        ];
+
+        return view('berita.index', compact('paginatedNews', 'kategoriList', 'kategoriAktif', 'searchQuery', 'settings'));
     }
 
     /**
@@ -141,7 +217,25 @@ class BeritaController extends Controller
     public function publicShow($slug)
     {
         $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
-        $berita   = Berita::where('slug', $slug)->where('aktif', true)->firstOrFail();
+        $berita   = Berita::where('slug', $slug)->where('aktif', true)->first();
+
+        if (!$berita) {
+            // Coba cari dari live feed jika baru
+            $service = app(\App\Services\PktjNewsService::class);
+            $liveNews = $service->getLiveNews(40);
+            foreach ($liveNews as $item) {
+                if ($item['slug'] === $slug || str_contains($item['link'], $slug)) {
+                    return redirect()->away($item['link']);
+                }
+            }
+            abort(404, 'Berita tidak ditemukan.');
+        }
+
+        // Jika berita adalah link eksternal ke PKTJ.ac.id
+        if ($berita->is_external && $berita->link_sumber && filter_var($berita->link_sumber, FILTER_VALIDATE_URL)) {
+            // Bisa langsung redirect ke official pktj.ac.id jika diinginkan, atau tampilkan halaman detail dengan tombol rujukan
+        }
+
         $berita->increment('views');
         
         // Apply Premium Blur logic to content

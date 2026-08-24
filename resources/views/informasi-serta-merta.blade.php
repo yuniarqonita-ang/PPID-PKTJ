@@ -11,28 +11,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     @include('components.public-page-style')
     <style>
-
         .outfit { font-family: 'Outfit', sans-serif; }
 
-        /* Hero Section */
+        /* Modern Hero Section */
         .hero-section {
-            background: linear-gradient(rgba(0, 74, 153, 0.9), rgba(0, 74, 153, 0.8)), 
-                        url('https://images.unsplash.com/photo-1579546673336-0ca77063065b?q=80&w=2070');
+            background: linear-gradient(135deg, rgba(0, 30, 64, 0.95) 0%, rgba(0, 74, 153, 0.88) 100%), 
+                        url('https://images.unsplash.com/photo-1504384308090-c894fdcc538d?q=80&w=2070');
             background-size: cover;
             background-position: center;
-            padding: 120px 0;
+            padding: 130px 0 140px;
             color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(to top, rgba(248, 250, 252, 1), transparent);
+            pointer-events: none;
         }
 
         .hero-content { position: relative; z-index: 10; }
 
         .content-card {
             background: white;
-            padding: 60px;
-            border-radius: 40px;
-            box-shadow: 0 30px 60px rgba(0, 74, 153, 0.1);
-            margin-top: -80px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 50px 55px;
+            border-radius: 36px;
+            box-shadow: 0 25px 60px rgba(0, 43, 92, 0.09), 0 4px 16px rgba(0,0,0,0.02);
+            margin-top: -70px;
+            border: 1px solid rgba(226, 232, 240, 0.8);
             position: relative;
             z-index: 20;
             margin-bottom: 80px;
@@ -45,64 +57,89 @@
             border-left: 8px solid var(--secondary-gold);
             padding-left: 25px;
             text-transform: uppercase;
-            letter-spacing: -1px;
+            letter-spacing: -0.5px;
             font-family: 'Outfit', sans-serif;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
         }
 
         .info-item {
-            background: #f8fafc;
-            border-radius: 24px;
-            padding: 30px;
-            margin-bottom: 25px;
-            border: 1px solid #e2e8f0;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: #ffffff;
+            border-radius: 26px;
+            padding: 32px 36px;
+            margin-bottom: 28px;
+            border: 1.5px solid #e2e8f0;
+            border-left: 6px solid #004a99;
+            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.04);
+            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .info-item:hover {
-            transform: translateY(-10px);
-            background: white;
-            border-color: #f59e0b;
-            box-shadow: 0 20px 40px rgba(245, 158, 11, 0.1);
+            transform: translateY(-6px);
+            background: #ffffff;
+            border-color: #004a99;
+            border-left: 6px solid var(--secondary-gold);
+            box-shadow: 0 20px 45px rgba(0, 74, 153, 0.12);
         }
 
         .info-icon {
-            width: 60px;
-            height: 60px;
-            background: rgba(245, 158, 11, 0.1);
-            color: #f59e0b;
+            width: 58px;
+            height: 58px;
+            background: linear-gradient(135deg, rgba(0, 74, 153, 0.1) 0%, rgba(0, 74, 153, 0.04) 100%);
+            color: var(--primary-blue);
             border-radius: 18px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.5rem;
-            margin-right: 25px;
+            margin-right: 20px;
             flex-shrink: 0;
+            border: 1px solid rgba(0, 74, 153, 0.15);
         }
 
         .btn-download-premium {
-            background: var(--primary-blue);
+            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
             color: white;
-            padding: 12px 25px;
-            border-radius: 15px;
+            padding: 11px 22px;
+            border-radius: 14px;
             font-weight: 700;
             text-decoration: none;
-            transition: all 0.3s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            font-size: 0.92rem;
+            box-shadow: 0 4px 14px rgba(0, 74, 153, 0.2);
+            border: none;
         }
 
         .btn-download-premium:hover {
             background: var(--secondary-gold);
             color: var(--primary-blue);
-            transform: scale(1.05);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
         }
 
         .rich-content {
-            color: #64748b;
-            font-size: 1rem;
+            color: #334155;
+            font-size: 1.02rem;
             line-height: 1.8;
+        }
+
+        .rich-content p {
+            margin-bottom: 14px;
+            line-height: 1.8;
+            color: #334155;
+        }
+
+        .rich-content p:last-child {
+            margin-bottom: 0;
+        }
+
+        .rich-content p:empty,
+        .rich-content p > br:only-child {
+            min-height: 1.5em;
+            display: block;
+            margin-bottom: 14px;
         }
     </style>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -130,28 +167,28 @@
                 @forelse($items as $item)
                     <div class="col-12">
                         <div class="info-item hover-lift" data-aos="fade-up">
-                            <div class="d-flex align-items-start">
+                            <div class="d-flex align-items-start flex-column flex-md-row gap-4">
                                 <div class="info-icon">
                                     <i class="fas fa-bolt"></i>
                                 </div>
-                                <div class="flex-grow-1">
-                                    <h4 class="fw-bold outfit text-dark mb-3">{{ $item->judul }}</h4>
+                                <div class="flex-grow-1 w-100" style="min-width: 0;">
+                                    <h4 class="fw-bold outfit text-dark mb-3" style="font-size: 1.35rem; line-height: 1.4;">{{ $item->judul }}</h4>
                                     <div class="rich-content mb-4">
                                         {!! $item->deskripsi ?? 'Tidak ada deskripsi terperinci untuk informasi ini.' !!}
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between pt-3 border-top">
-                                        <div class="d-flex gap-3">
-                                            <span class="badge bg-light text-warning border px-3 py-2 rounded-pill">
-                                                <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->format('d M Y') }}
+                                    <div class="d-flex align-items-center justify-content-between pt-3 border-top flex-wrap gap-3">
+                                        <div class="d-flex gap-2 flex-wrap">
+                                            <span class="badge bg-light text-warning border px-3 py-2 rounded-pill" style="font-size: 12px;">
+                                                <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->translatedFormat('d F Y') }}
                                             </span>
                                             @if($item->file_path && $item->file_path !== '#' && $item->file_path !== '' && isset($item->file_size) && $item->file_size !== '-' && $item->file_size !== '')
-                                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill">
-                                                <i class="fas fa-file-pdf me-1"></i> {{ $item->file_size }}
+                                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill" style="font-size: 12px;">
+                                                <i class="fas fa-file-pdf me-1 text-danger"></i> {{ $item->file_size }}
                                             </span>
                                             @endif
                                         </div>
                                         @if($item->file_path && $item->file_path !== '#' && $item->file_path !== '')
-                                        <div class="d-flex gap-2">
+                                        <div class="d-flex gap-2 flex-wrap">
                                             @if(is_previewable($item->file_path))
                                             <button type="button" 
                                                     class="btn-download-premium" 
@@ -176,7 +213,7 @@
                 @empty
                     <div class="col-12 text-center py-5">
                         <i class="fas fa-check-circle fa-4x text-success mb-4 opacity-25"></i>
-                        <h3 class="text-muted">Data Belum Tersedia</h3>
+                        <h3 class="text-muted outfit fw-bold">Data Belum Tersedia</h3>
                         <p class="text-muted">Saat ini tidak ada informasi serta merta yang perlu diumumkan.</p>
                     </div>
                 @endforelse

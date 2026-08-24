@@ -39,11 +39,17 @@ class PermohonanController extends Controller
 
     public function form()
     {
+        if (!\Illuminate\Support\Facades\Auth::check()) {
+            return redirect()->route('login')->with('info', 'Silakan masuk atau daftar akun pemohon terlebih dahulu untuk mengajukan permohonan informasi publik.');
+        }
+
+        $user = \Illuminate\Support\Facades\Auth::user();
         $schema = $this->getFormSchema();
         $sectionTitle = $schema['section_title'];
         $customFields = $schema['fields'];
         $settings = Dashboard::pluck('value', 'key')->toArray();
-        return view('permohonan.form', compact('customFields', 'sectionTitle', 'settings'));
+
+        return view('permohonan.form', compact('user', 'customFields', 'sectionTitle', 'settings'));
     }
 
     public function adminForm()
@@ -113,45 +119,49 @@ class PermohonanController extends Controller
 
     public function store(Request $request)
     {
+        $user = \Illuminate\Support\Facades\Auth::user();
+
         $validated = $request->validate([
-            'tanggal_permohonan'    => 'required|date',
-            'nama_pemohon'          => 'required|string|max:255',
-            'alamat'                => 'required|string',
-            'nomor_telepon'         => 'required|string|max:255',
-            'pekerjaan'             => 'required|string|max:100',
-            'npwp'                  => 'required|string|max:30',
-            'jenis_pemohon'         => 'required|in:Perorangan,Organisasi',
-            'rincian_informasi'     => 'required|string',
-            'tujuan_penggunaan'     => 'required|string',
+            'tanggal_permohonan'       => 'required|date',
+            'jenis_pemohon'            => 'required|in:Perorangan,Organisasi',
+            'rincian_informasi'        => 'required|string',
+            'tujuan_penggunaan'        => 'required|string',
             'jenis_permohonan_salinan' => 'required|string',
-            'cara_mendapatkan'      => 'required|string',
-            'petugas_penerima'      => 'required|string|max:255',
-            'foto_ktp'              => 'required|file|mimes:jpg,jpeg,png,pdf|max:10240',
-            'berkas_pendukung'      => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'cara_mendapatkan'         => 'required|string',
+            'petugas_penerima'         => 'nullable|string|max:255',
+            'berkas_pendukung'         => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
         ]);
 
-        // Upload files
-        $fotoKtp = $request->file('foto_ktp')->store('permohonan/ktp', 'public');
+        // Upload berkas pendukung (Akta pendirian organisasi dll jika ada)
         $berkasPendukung = $request->hasFile('berkas_pendukung')
             ? $request->file('berkas_pendukung')->store('permohonan/berkas', 'public')
             : null;
 
-        // Map data tambahan ke JSON agar tidak perlu migrasi database besar
+        // Foto KTP diambil otomatis dari akun user, atau fallback
+        $fotoKtp = $user ? $user->file_identitas : null;
+
+        // Generate Nomor Registrasi
+        $nomorRegistrasi = 'REG-PKTJ-' . date('Ymd') . '-' . rand(1000, 9999);
+
+        // Map data tambahan ke JSON
         $customFieldsData = [
             'jenis_pemohon'      => $validated['jenis_pemohon'],
             'cara_mendapatkan'   => $validated['cara_mendapatkan'],
-            'petugas_penerima'   => $validated['petugas_penerima'],
-            'email_or_phone'     => $validated['nomor_telepon'],
+            'petugas_penerima'   => $validated['petugas_penerima'] ?? 'Petugas PPID PKTJ',
+            'instansi'           => $user ? $user->instansi : null,
+            'jenis_identitas'    => $user ? $user->jenis_identitas : 'KTP',
         ];
 
         $permohonan = Permohonan::create([
+            'user_id'                                 => $user ? $user->id : null,
+            'nomor_registrasi'                        => $nomorRegistrasi,
             'tanggal_permohonan'                      => $validated['tanggal_permohonan'],
-            'nama_pemohon'                            => $validated['nama_pemohon'],
-            'alamat'                                  => $validated['alamat'],
-            'pekerjaan'                               => $validated['pekerjaan'],
-            'npwp'                                    => $validated['npwp'],
-            'nomor_telepon'                           => $validated['nomor_telepon'],
-            'email'                                   => $validated['nomor_telepon'], // Map to nomor_telepon as form uses shared field
+            'nama_pemohon'                            => $user ? $user->name : ($request->input('nama_pemohon') ?? 'Pemohon Informasi'),
+            'alamat'                                  => $user ? $user->alamat : ($request->input('alamat') ?? '-'),
+            'pekerjaan'                               => $user ? $user->pekerjaan : ($request->input('pekerjaan') ?? '-'),
+            'npwp'                                    => $user ? $user->nomor_identitas : ($request->input('npwp') ?? '-'),
+            'nomor_telepon'                           => $user ? $user->no_telp : ($request->input('nomor_telepon') ?? '-'),
+            'email'                                   => $user ? $user->email : ($request->input('email') ?? '-'),
             'deskripsi_permohonan'                    => $validated['rincian_informasi'],
             'jenis_informasi'                         => $validated['tujuan_penggunaan'],
             'foto_ktp'                                => $fotoKtp,
@@ -159,7 +169,7 @@ class PermohonanController extends Controller
             'status'                                  => 'pending',
             'custom_fields_data'                      => $customFieldsData,
             'jenis_permohonan_salinan'                => $validated['jenis_permohonan_salinan'],
-            // Default values for fields not in form
+            // Default values
             'status_informasi_dikuasai'               => 1,
             'status_informasi_belum_didokumentasikan' => 0,
             'bentuk_informasi_salinan'                => $validated['jenis_permohonan_salinan'] == 'Mendapatkan salinan' ? 'Softcopy' : 'N/A',
@@ -167,26 +177,30 @@ class PermohonanController extends Controller
 
         // Try sending email notification to Humas / Admin users
         try {
-            $adminEmails = \App\Models\User::pluck('email')->filter()->toArray();
+            $adminEmails = \App\Models\User::where('role', 'admin')->pluck('email')->filter()->toArray();
             if (!empty($adminEmails)) {
                 $emailBody = "Yth. Tim Humas / Admin PPID PKTJ,\n\nAda Permohonan Informasi Publik Baru yang Diterima:\n\n"
+                    . "Nomor Registrasi: {$nomorRegistrasi}\n"
                     . "Nama Pemohon: {$permohonan->nama_pemohon}\n"
                     . "Pekerjaan: {$permohonan->pekerjaan}\n"
                     . "Kontak/Telepon: {$permohonan->nomor_telepon}\n"
-                    . "Rincian Informasi Dituju: {$permohonan->deskripsi_permohonan}\n"
+                    . "Rincian Informasi: {$permohonan->deskripsi_permohonan}\n"
                     . "Tujuan Penggunaan: {$permohonan->jenis_informasi}\n\n"
                     . "Mohon segera diproses dan diverifikasi di Admin Panel PPID PKTJ.";
 
-                \Illuminate\Support\Facades\Mail::raw($emailBody, function ($mail) use ($adminEmails, $permohonan) {
+                \Illuminate\Support\Facades\Mail::raw($emailBody, function ($mail) use ($adminEmails, $permohonan, $nomorRegistrasi) {
                     $mail->to($adminEmails)
-                        ->subject("[PPID PKTJ] NOTIFIKASI PERMOHONAN INFORMASI BARU: {$permohonan->nama_pemohon}");
+                        ->subject("[PPID PKTJ] PERMOHONAN INFORMASI BARU #{$nomorRegistrasi}: {$permohonan->nama_pemohon}");
                 });
             }
         } catch (\Exception $ex) {
             // Fail silently if mail server is unconfigured
         }
 
-        return redirect()->route('permohonan.form')->with('success', 'Permohonan informasi Anda berhasil dikirimkan! Silakan tunggu konfirmasi dari pihak PPID PKTJ.');
+        return redirect()->route('user.dashboard')->with(
+            'success', 
+            "Permohonan informasi Anda berhasil dikirimkan dengan Nomor Registrasi #{$nomorRegistrasi}! Tim PPID PKTJ akan segera memproses permohonan Anda."
+        );
     }
 
     public function index(Request $request)
