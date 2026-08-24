@@ -13,28 +13,37 @@ use Carbon\Carbon;
 class PktjNewsService
 {
     protected string $feedUrl = 'https://pktj.ac.id/feed';
-    protected string $beritaUrl = 'https://pktj.ac.id/berita';
+    protected array $scrapeEndpoints = [
+        'https://pktj.ac.id/berita'                  => 'Berita Utama',
+        'https://pktj.ac.id/berita/rilis'            => 'Liputan/Berita',
+        'https://pktj.ac.id/kategori/liputanberita'  => 'Liputan/Berita',
+        'https://pktj.ac.id/kategori/seputarkampus'  => 'Seputar Kampus',
+        'https://pktj.ac.id/kategori/seputar-kampus' => 'Seputar Kampus',
+        'https://pktj.ac.id/kategori/pengumuman'     => 'Pengumuman',
+        'https://pktj.ac.id/kategori/karir'          => 'Karir',
+        'https://pktj.ac.id/kategori/pendidikan'     => 'Pendidikan',
+        'https://pktj.ac.id/kategori/prestasi'       => 'Prestasi',
+        'https://pktj.ac.id/kategori/penelitian-dan-inovasi' => 'Penelitian & Inovasi',
+        'https://pktj.ac.id/kategori/alumni'         => 'Alumni',
+    ];
+    
     protected int $cacheTtlSeconds = 300; // 5 menit cache agar selalu realtime
 
     /**
-     * Mengambil daftar berita realtime dari website pktj.ac.id
+     * Mengambil seluruh daftar berita realtime lengkap dari website pktj.ac.id
      */
-    public function getLiveNews(int $limit = 30, bool $forceRefresh = false): array
+    public function getLiveNews(int $limit = 100, bool $forceRefresh = false): array
     {
-        $cacheKey = 'pktj_live_news_v2_' . $limit;
+        $cacheKey = 'pktj_live_all_news_v3';
 
         if ($forceRefresh) {
             Cache::forget($cacheKey);
         }
 
         return Cache::remember($cacheKey, $this->cacheTtlSeconds, function () use ($limit) {
-            $items = $this->fetchFromRss();
+            $items = $this->fetchAllFromPktj();
 
-            if (empty($items)) {
-                $items = $this->fetchFromScraping();
-            }
-
-            // Jika masih kosong (misal koneksi timeout), ambil dari database lokal
+            // Jika kosong (karena timeout/offline), fallback ambil dari database lokal
             if (empty($items)) {
                 $items = $this->fetchFromLocalDatabase($limit);
             }
@@ -46,7 +55,7 @@ class PktjNewsService
     /**
      * Ambil berita berdasarkan kategori
      */
-    public function getNewsByCategory(?string $category = null, int $limit = 30): array
+    public function getNewsByCategory(?string $category = null, int $limit = 100): array
     {
         $allNews = $this->getLiveNews($limit * 2);
 
@@ -66,24 +75,147 @@ class PktjNewsService
     }
 
     /**
+     * Fetch & parse semua berita dari RSS + Seluruh Halaman Kategori PKTJ.ac.id
+     */
+    public function fetchAllFromPktj(): array
+    {
+        $allArticles = [];
+
+        // 1. Fetch from RSS feed
+        $rssArticles = $this->fetchFromRss();
+        foreach ($rssArticles as $art) {
+            $allArticles[$art['link']] = $art;
+        }
+
+        // 2. Fetch from all Category & News pages on PKTJ
+        foreach ($this->scrapeEndpoints as $url => $defaultCategory) {
+            try {
+                $ch = curl_init($url);
+                curl_setopt_array($ch, [
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_FOLLOWLOCATION => true,
+                    CURLOPT_USERAGENT      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                    CURLOPT_TIMEOUT        => 8,
+                    CURLOPT_SSL_VERIFYPEER => false,
+                ]);
+                $html = curl_exec($ch);
+                curl_close($ch);
+
+                if (empty($html)) continue;
+
+                preg_match_all('/<article[^>]*class=["\'][^"\']*post[^"\']*["\'][^>]*>(.*?)<\/article>/is', $html, $matches);
+                
+                foreach ($matches[1] as $block) {
+                    if (!preg_match('/<a[^>]+href=["\'](https:\/\/pktj\.ac\.id\/berita\/[0-9]{8}-[0-9]+-[^"\']+)["\'][^>]*>(.*?)<\/a>/is', $block, $linkM)) {
+                        continue;
+                    }
+                    $link = $linkM[1];
+                    $title = trim(strip_tags($linkM[2]));
+
+                    if (strtolower($title) === 'baca selengkapnya' || strlen($title) < 5) {
+                        if (preg_match('/<h3[^>]*>(.*?)<\/h3>/is', $block, $h3M)) {
+                            $title = trim(strip_tags($h3M[1]));
+                        }
+                    }
+
+                    // Clean title from date prefix if exists (e.g., "13 Oktober 2022 | Judul...")
+                    if (preg_match('/^[0-9]{1,2}\s+[a-zA-Z]+\s+[0-9]{4}\s*\|\s*(.*)$/i', $title, $titleCleanM)) {
+                        $title = trim($titleCleanM[1]);
+                    }
+
+                    if (strlen($title) < 5) continue;
+
+                    // Extract Image
+                    $img = 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png';
+                    if (preg_match('/(data-lazy|data-src|src)=["\']([^"\']+\.(jpg|jpeg|png|webp|gif)[^"\']*)["\']/i', $block, $imgM)) {
+                        $img = $imgM[2];
+                        if (str_starts_with($img, '/')) {
+                            $img = 'https://pktj.ac.id' . $img;
+                        }
+                    }
+
+                    // Extract Category
+                    $cat = $defaultCategory;
+                    if (preg_match('/class=["\'][^"\']*post-category[^"\']*["\'][^>]*>(.*?)<\/span>/is', $block, $catM)) {
+                        $extractedCat = trim(strip_tags($catM[1]));
+                        if (!empty($extractedCat)) {
+                            $cat = ucwords(strtolower($extractedCat));
+                        }
+                    }
+
+                    // Normalize category names
+                    $cat = $this->normalizeCategory($cat, $title);
+
+                    // Extract Snippet
+                    $snippet = '';
+                    if (preg_match('/<div[^>]*class=["\'][^"\']*entry-content[^"\']*["\'][^>]*>(.*?)<\/div>/is', $block, $snipM)) {
+                        $snippet = trim(strip_tags($snipM[1]));
+                    }
+                    $snippet = preg_replace('/\s+/', ' ', $snippet);
+
+                    // Extract Date
+                    $date = date('Y-m-d');
+                    if (preg_match('/\/berita\/([0-9]{4})([0-9]{2})([0-9]{2})-/', $link, $dateM)) {
+                        $date = "{$dateM[1]}-{$dateM[2]}-{$dateM[3]}";
+                    }
+
+                    $dateObj = null;
+                    try {
+                        $dateObj = Carbon::parse($date);
+                    } catch (\Exception $e) {}
+
+                    if (!isset($allArticles[$link])) {
+                        $allArticles[$link] = [
+                            'judul'       => $title,
+                            'slug'        => Str::slug($title),
+                            'link'        => $link,
+                            'guid'        => $link,
+                            'gambar'      => $img,
+                            'konten'      => $snippet,
+                            'ringkasan'   => Str::limit($snippet, 140),
+                            'kategori'    => $cat,
+                            'tanggal_raw' => $date,
+                            'tanggal'     => $date,
+                            'tanggal_f'   => $dateObj ? $dateObj->translatedFormat('d F Y') : $date,
+                            'is_external' => true,
+                            'sumber'      => 'pktj.ac.id',
+                        ];
+                    }
+                }
+            } catch (\Throwable $e) {
+                // Log & continue
+            }
+        }
+
+        // Sort descending by date
+        usort($allArticles, function ($a, $b) {
+            return strcmp($b['tanggal'], $a['tanggal']);
+        });
+
+        return array_values($allArticles);
+    }
+
+    /**
      * Fetch & parse RSS Feed XML dari pktj.ac.id/feed
      */
     protected function fetchFromRss(): array
     {
         try {
-            $response = Http::timeout(6)
-                ->withHeaders([
-                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-                    'Accept'     => 'application/rss+xml, application/xml, text/xml, */*'
-                ])
-                ->get($this->feedUrl);
+            $ch = curl_init($this->feedUrl);
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_USERAGENT      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                CURLOPT_TIMEOUT        => 8,
+                CURLOPT_SSL_VERIFYPEER => false,
+            ]);
+            $xmlString = curl_exec($ch);
+            curl_close($ch);
 
-            if (!$response->successful()) {
+            if (empty($xmlString)) {
                 return [];
             }
 
-            $xmlString = $response->body();
-            // Suppress XML errors
             libxml_use_internal_errors(true);
             $xml = simplexml_load_string($xmlString, 'SimpleXMLElement', LIBXML_NOCDATA);
 
@@ -102,31 +234,17 @@ class PktjNewsService
                 $pubDateRaw  = (string) $item->pubDate;
                 $imgUrl      = (string) ($item->img_url ?? '');
 
-                // Fallback ekstrasi gambar dari CDATA description jika img_url kosong
                 if (empty($imgUrl) && !empty($description)) {
                     if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $description, $m)) {
                         $imgUrl = $m[1];
                     }
                 }
 
-                // Default gambar jika tidak ada
                 if (empty($imgUrl)) {
                     $imgUrl = 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png';
                 }
 
-                // Deteksi kategori dari link atau judul
-                $kategori = 'Liputan/Berita';
-                if (str_contains(strtolower($link), 'karir') || str_contains(strtolower($title), 'recruitment') || str_contains(strtolower($title), 'lowongan')) {
-                    $kategori = 'Karir';
-                } elseif (str_contains(strtolower($title), 'pengumuman') || str_contains(strtolower($title), 'sipencatar') || str_contains(strtolower($title), 'penerimaan')) {
-                    $kategori = 'Pengumuman';
-                } elseif (str_contains(strtolower($title), 'wisuda') || str_contains(strtolower($title), 'kuliah') || str_contains(strtolower($title), 'akademik')) {
-                    $kategori = 'Pendidikan';
-                } elseif (str_contains(strtolower($title), 'kunjungan') || str_contains(strtolower($title), 'kerjasama') || str_contains(strtolower($title), 'upacara')) {
-                    $kategori = 'Seputar Kampus';
-                }
-
-                // Parse tanggal
+                $kategori = $this->normalizeCategory('Liputan/Berita', $title);
                 $tanggalObj = $this->parseIndonesianDate($pubDateRaw);
 
                 $cleanSnippet = !empty($detail) ? strip_tags($detail) : strip_tags($description);
@@ -139,7 +257,7 @@ class PktjNewsService
                     'guid'        => $guid,
                     'gambar'      => $imgUrl,
                     'konten'      => $cleanSnippet,
-                    'ringkasan'   => Str::limit($cleanSnippet, 130),
+                    'ringkasan'   => Str::limit($cleanSnippet, 140),
                     'kategori'    => $kategori,
                     'tanggal_raw' => $pubDateRaw,
                     'tanggal'     => $tanggalObj ? $tanggalObj->format('Y-m-d') : date('Y-m-d'),
@@ -151,94 +269,121 @@ class PktjNewsService
 
             return $newsList;
         } catch (\Throwable $e) {
-            Log::warning('PktjNewsService RSS fetch error: ' . $e->getMessage());
             return [];
         }
     }
 
     /**
-     * Fallback web crawler dari https://pktj.ac.id/berita
+     * Normalisasi kategori artikel
      */
-    protected function fetchFromScraping(): array
+    protected function normalizeCategory(string $cat, string $title): string
     {
-        try {
-            $response = Http::timeout(6)
-                ->withHeaders([
-                    'User-Agent' => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-                ])
-                ->get($this->beritaUrl);
+        $t = strtolower($title);
+        $c = strtolower($cat);
 
-            if (!$response->successful()) {
-                return [];
-            }
-
-            $html = $response->body();
-            $newsList = [];
-
-            // Pattern regex untuk article post di html pktj.ac.id
-            $pattern = '/<article[^>]*class=["\'][^"\']*post[^"\']*["\'][^>]*>(.*?)<\/article>/is';
-            if (preg_match_all($pattern, $html, $articles)) {
-                foreach ($articles[1] as $artHtml) {
-                    // Image
-                    $img = 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png';
-                    if (preg_match('/src=["\']([^"\']+)["\']/i', $artHtml, $mImg)) {
-                        $img = $mImg[1];
-                        if (str_contains($img, 'ajax-loader.gif') && preg_match('/data-lazy=["\']([^"\']+)["\']/i', $artHtml, $mLazy)) {
-                            $img = $mLazy[1];
-                        }
-                    }
-
-                    // Category
-                    $cat = 'Liputan/Berita';
-                    if (preg_match('/<span[^>]*class=["\']post-category["\'][^>]*>.*?<a[^>]*>(.*?)<\/a>/is', $artHtml, $mCat)) {
-                        $cat = trim(strip_tags($mCat[1]));
-                    }
-
-                    // Title & Link
-                    $title = '';
-                    $link = 'https://pktj.ac.id/berita';
-                    if (preg_match('/<div[^>]*class=["\']post-title["\'][^>]*>.*?<h3><a\s+href=["\']([^"\']+)["\'][^>]*>(.*?)<\/a><\/h3>/is', $artHtml, $mTitle)) {
-                        $link = $mTitle[1];
-                        $title = html_entity_decode(trim(strip_tags($mTitle[2])));
-                    }
-
-                    // Content snippet
-                    $desc = '';
-                    if (preg_match('/<div[^>]*class=["\']entry-content["\'][^>]*>(.*?)<\/div>/is', $artHtml, $mDesc)) {
-                        $desc = preg_replace('/\s+/', ' ', trim(strip_tags($mDesc[1])));
-                    }
-
-                    if (!empty($title)) {
-                        $newsList[] = [
-                            'judul'       => $title,
-                            'slug'        => Str::slug($title),
-                            'link'        => $link,
-                            'guid'        => $link,
-                            'gambar'      => $img,
-                            'konten'      => $desc,
-                            'ringkasan'   => Str::limit($desc, 130),
-                            'kategori'    => ucfirst($cat),
-                            'tanggal_raw' => date('d F Y'),
-                            'tanggal'     => date('Y-m-d'),
-                            'tanggal_f'   => date('d F Y'),
-                            'is_external' => true,
-                            'sumber'      => 'pktj.ac.id',
-                        ];
-                    }
-                }
-            }
-
-            return $newsList;
-        } catch (\Throwable $e) {
-            Log::warning('PktjNewsService Scrape error: ' . $e->getMessage());
-            return [];
+        if (str_contains($c, 'karir') || str_contains($t, 'recruitment') || str_contains($t, 'lowongan') || str_contains($t, 'hiring') || str_contains($t, 'job')) {
+            return 'Karir';
         }
+        if (str_contains($c, 'pengumuman') || str_contains($t, 'pengumuman') || str_contains($t, 'sipencatar') || str_contains($t, 'daftar ulang')) {
+            return 'Pengumuman';
+        }
+        if (str_contains($c, 'pendidikan') || str_contains($c, 'diklat') || str_contains($t, 'diklat') || str_contains($t, 'kuliah') || str_contains($t, 'akademik')) {
+            return 'Pendidikan';
+        }
+        if (str_contains($c, 'prestasi') || str_contains($t, 'juara') || str_contains($t, 'penghargaan') || str_contains($t, 'medali') || str_contains($t, 'meraih')) {
+            return 'Prestasi';
+        }
+        if (str_contains($c, 'alumni') || str_contains($t, 'alumni') || str_contains($t, 'tracer study')) {
+            return 'Alumni';
+        }
+        if (str_contains($c, 'seputar') || str_contains($t, 'upacara') || str_contains($t, 'kunjungan') || str_contains($t, 'donor darah') || str_contains($t, 'hut')) {
+            return 'Seputar Kampus';
+        }
+        
+        return 'Liputan/Berita';
     }
 
     /**
-     * Ambil dari database lokal jika offline / fallback
+     * Sinkronisasi seluruh berita PKTJ.ac.id ke Database Lokal
      */
-    protected function fetchFromLocalDatabase(int $limit = 30): array
+    public function syncToDatabase(): array
+    {
+        $articles = $this->fetchAllFromPktj();
+        $newCount = 0;
+        $updatedCount = 0;
+
+        foreach ($articles as $art) {
+            $guid = $art['guid'] ?? $art['link'];
+            
+            $existing = Berita::where('link_sumber', $art['link'])
+                ->orWhere('guid', $guid)
+                ->orWhere('judul', $art['judul'])
+                ->first();
+
+            if ($existing) {
+                $existing->update([
+                    'gambar'      => !empty($art['gambar']) ? $art['gambar'] : $existing->gambar,
+                    'konten'      => !empty($art['konten']) ? $art['konten'] : $existing->konten,
+                    'kategori'    => $art['kategori'],
+                    'tanggal'     => $art['tanggal'],
+                    'link_sumber' => $art['link'],
+                    'guid'        => $guid,
+                    'is_external' => true,
+                    'aktif'       => 1,
+                ]);
+                $updatedCount++;
+            } else {
+                Berita::create([
+                    'judul'       => $art['judul'],
+                    'slug'        => $art['slug'] . '-' . Str::random(4),
+                    'konten'      => $art['konten'] ?: $art['judul'],
+                    'kategori'    => $art['kategori'],
+                    'gambar'      => $art['gambar'],
+                    'link_sumber' => $art['link'],
+                    'guid'        => $guid,
+                    'is_external' => true,
+                    'tanggal'     => $art['tanggal'],
+                    'views'       => rand(10, 50),
+                    'aktif'       => 1,
+                    'is_blurred'  => 0,
+                ]);
+                $newCount++;
+            }
+        }
+
+        // Refresh cache
+        Cache::forget('pktj_live_all_news_v3');
+
+        return [
+            'total_fetched' => count($articles),
+            'new'           => $newCount,
+            'updated'       => $updatedCount,
+            'timestamp'     => now()->translatedFormat('d F Y H:i:s'),
+        ];
+    }
+
+    /**
+     * Bersihkan berita dummy
+     */
+    public function cleanDummyNews(): int
+    {
+        $dummyKeywords = ['patrick', 'dummy', 'lorem ipsum', 'test berita', 'testing', 'contoh berita'];
+        
+        $deleted = 0;
+        foreach ($dummyKeywords as $keyword) {
+            $deleted += Berita::where('judul', 'like', "%{$keyword}%")
+                ->orWhere('konten', 'like', "%{$keyword}%")
+                ->orWhere('gambar', 'like', "%{$keyword}%")
+                ->delete();
+        }
+
+        return $deleted;
+    }
+
+    /**
+     * Fallback dari database lokal
+     */
+    protected function fetchFromLocalDatabase(int $limit = 100): array
     {
         try {
             $beritas = Berita::where('aktif', true)
@@ -247,159 +392,65 @@ class PktjNewsService
                 ->take($limit)
                 ->get();
 
-            $newsList = [];
-            foreach ($beritas as $b) {
-                $newsList[] = [
-                    'id'          => $b->id,
+            return $beritas->map(function ($b) {
+                $img = $b->gambar;
+                if (!empty($img) && !str_starts_with($img, 'http')) {
+                    $img = asset('storage/' . $img);
+                }
+
+                $tglObj = $b->tanggal ? Carbon::parse($b->tanggal) : Carbon::parse($b->created_at);
+
+                return [
                     'judul'       => $b->judul,
                     'slug'        => $b->slug,
-                    'link'        => $b->url_berita,
-                    'guid'        => $b->guid ?? $b->link_sumber ?? url('/berita/' . $b->slug),
-                    'gambar'      => $b->gambar_url,
+                    'link'        => $b->link_sumber ?: url('/berita/' . $b->slug),
+                    'guid'        => $b->guid ?: $b->slug,
+                    'gambar'      => $img ?: 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png',
                     'konten'      => strip_tags($b->konten),
-                    'ringkasan'   => Str::limit(strip_tags($b->konten), 130),
-                    'kategori'    => $b->kategori ?? 'Liputan/Berita',
-                    'tanggal'     => $b->tanggal ? Carbon::parse($b->tanggal)->format('Y-m-d') : $b->created_at->format('Y-m-d'),
-                    'tanggal_f'   => $b->tanggal ? Carbon::parse($b->tanggal)->translatedFormat('d F Y') : $b->created_at->translatedFormat('d F Y'),
-                    'is_external' => $b->is_external ?? false,
+                    'ringkasan'   => Str::limit(strip_tags($b->konten), 140),
+                    'kategori'    => $b->kategori ?: 'Liputan/Berita',
+                    'tanggal_raw' => $b->tanggal,
+                    'tanggal'     => $tglObj->format('Y-m-d'),
+                    'tanggal_f'   => $tglObj->translatedFormat('d F Y'),
+                    'is_external' => (bool) $b->is_external,
                     'sumber'      => $b->is_external ? 'pktj.ac.id' : 'PPID PKTJ',
                 ];
-            }
-            return $newsList;
-        } catch (\Throwable $e) {
+            })->toArray();
+        } catch (\Exception $e) {
             return [];
         }
     }
 
     /**
-     * Sinkronisasi data berita ke tabel database 'beritas'
+     * Parse string tanggal ke Carbon
      */
-    public function syncToDatabase(): array
-    {
-        $liveNews = $this->getLiveNews(40, true);
-        $syncedCount = 0;
-        $newCount = 0;
-
-        foreach ($liveNews as $item) {
-            try {
-                $existing = Berita::where('guid', $item['guid'])
-                    ->orWhere('link_sumber', $item['link'])
-                    ->orWhere('judul', $item['judul'])
-                    ->first();
-
-                if ($existing) {
-                    $existing->update([
-                        'judul'       => $item['judul'],
-                        'konten'      => $item['konten'],
-                        'gambar'      => $item['gambar'],
-                        'kategori'    => $item['kategori'],
-                        'tanggal'     => $item['tanggal'],
-                        'link_sumber' => $item['link'],
-                        'guid'        => $item['guid'],
-                        'is_external' => true,
-                        'aktif'       => 1,
-                        'is_published'=> 1,
-                    ]);
-                    $syncedCount++;
-                } else {
-                    Berita::create([
-                        'judul'       => $item['judul'],
-                        'slug'        => Str::slug($item['judul']) . '-' . time() . '-' . rand(10, 99),
-                        'konten'      => $item['konten'],
-                        'gambar'      => $item['gambar'],
-                        'kategori'    => $item['kategori'],
-                        'tanggal'     => $item['tanggal'],
-                        'link_sumber' => $item['link'],
-                        'guid'        => $item['guid'],
-                        'is_external' => true,
-                        'aktif'       => 1,
-                        'is_published'=> 1,
-                        'views'       => 0,
-                    ]);
-                    $newCount++;
-                }
-            } catch (\Throwable $e) {
-                Log::warning('Sync single news error: ' . $e->getMessage());
-            }
-        }
-
-        // Catat waktu sinkronisasi terakhir di dashboards
-        try {
-            Dashboard::updateOrCreate(
-                ['key' => 'pktj_news_last_sync'],
-                [
-                    'value'       => now()->toDateTimeString(),
-                    'type'        => 'text',
-                    'description' => 'Waktu terakhir sinkronisasi berita PKTJ.ac.id',
-                    'aktif'       => true,
-                ]
-            );
-            Dashboard::updateOrCreate(
-                ['key' => 'pktj_news_total_synced'],
-                [
-                    'value'       => (string) ($syncedCount + $newCount),
-                    'type'        => 'text',
-                    'description' => 'Total berita PKTJ tersinkron',
-                    'aktif'       => true,
-                ]
-            );
-        } catch (\Throwable $e) {}
-
-        return [
-            'total_fetched' => count($liveNews),
-            'updated'       => $syncedCount,
-            'new'           => $newCount,
-            'timestamp'     => now()->translatedFormat('d F Y H:i:s'),
-        ];
-    }
-
-    /**
-     * Hapus berita dummy / patrick
-     */
-    public function cleanDummyNews(): int
-    {
-        try {
-            // Hapus berita yang memiliki gambar patrick atau kata kunci dummy
-            $deleted = Berita::where('gambar', 'like', '%patrick%')
-                ->orWhere('judul', 'like', '%patrick%')
-                ->orWhere('judul', 'like', '%dummy%')
-                ->orWhere('konten', 'like', '%patrick%')
-                ->delete();
-
-            return $deleted;
-        } catch (\Throwable $e) {
-            return 0;
-        }
-    }
-
-    /**
-     * Helper parsing tanggal Indonesia
-     */
-    protected function parseIndonesianDate(string $dateStr): ?Carbon
+    protected function parseIndonesianDate(?string $dateStr): ?Carbon
     {
         if (empty($dateStr)) return null;
 
-        $bulanIndo = [
-            'Januari'   => 'January',
-            'Februari'  => 'February',
-            'Maret'     => 'March',
-            'April'     => 'April',
-            'Mei'       => 'May',
-            'Juni'      => 'June',
-            'Juli'      => 'July',
-            'Agustus'   => 'August',
-            'September' => 'September',
-            'Oktober'   => 'October',
-            'November'  => 'November',
-            'Desember'  => 'December',
-        ];
-
-        $englishDateStr = strtr($dateStr, $bulanIndo);
-
         try {
-            return Carbon::parse($englishDateStr);
-        } catch (\Throwable $e) {
-            return null;
+            return Carbon::parse($dateStr);
+        } catch (\Exception $e) {
+            // Regex match dd-mm-yyyy or yyyy-mm-dd
+            if (preg_match('/([0-9]{1,2})[\s\/-]([a-zA-Z]+|[0-9]{1,2})[\s\/-]([0-9]{4})/', $dateStr, $m)) {
+                $day = $m[1];
+                $month = $m[2];
+                $year = $m[3];
+
+                $months = [
+                    'januari' => 1, 'jan' => 1, 'februari' => 2, 'feb' => 2,
+                    'maret' => 3, 'mar' => 3, 'april' => 4, 'apr' => 4,
+                    'mei' => 5, 'may' => 5, 'juni' => 6, 'jun' => 6,
+                    'juli' => 7, 'jul' => 7, 'agustus' => 8, 'aug' => 8, 'agt' => 8,
+                    'september' => 9, 'sep' => 9, 'oktober' => 10, 'oct' => 10, 'okt' => 10,
+                    'november' => 11, 'nov' => 11, 'desember' => 12, 'dec' => 12, 'des' => 12
+                ];
+
+                $monthNum = is_numeric($month) ? (int)$month : ($months[strtolower($month)] ?? 1);
+                return Carbon::createFromDate($year, $monthNum, $day);
+            }
         }
+
+        return null;
     }
 }

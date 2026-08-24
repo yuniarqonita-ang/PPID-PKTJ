@@ -172,14 +172,16 @@ class BeritaController extends Controller
         $kategoriAktif = $request->query('kategori', 'Semua');
         $searchQuery   = $request->query('search');
 
-        // Ambil berita realtime dari PKTJ.ac.id
-        $allNews = $service->getNewsByCategory($kategoriAktif, 40);
+        // Ambil semua berita realtime dari seluruh kategori PKTJ.ac.id
+        $allNews = $service->getNewsByCategory($kategoriAktif, 200);
 
         if (!empty($searchQuery)) {
             $q = strtolower($searchQuery);
             $allNews = array_filter($allNews, function ($item) use ($q) {
                 return str_contains(strtolower($item['judul'] ?? ''), $q) ||
-                       str_contains(strtolower($item['konten'] ?? ''), $q);
+                       str_contains(strtolower($item['konten'] ?? ''), $q) ||
+                       str_contains(strtolower($item['kategori'] ?? ''), $q) ||
+                       str_contains(strtolower($item['tanggal_f'] ?? ''), $q);
             });
             $allNews = array_values($allNews);
         }
@@ -202,10 +204,12 @@ class BeritaController extends Controller
         $kategoriList = [
             'Semua',
             'Liputan/Berita',
-            'Karir',
-            'Pengumuman',
-            'Pendidikan',
             'Seputar Kampus',
+            'Pengumuman',
+            'Karir',
+            'Pendidikan',
+            'Prestasi',
+            'Alumni',
         ];
 
         return view('berita.index', compact('paginatedNews', 'kategoriList', 'kategoriAktif', 'searchQuery', 'settings'));

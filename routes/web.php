@@ -376,7 +376,13 @@ Route::get('/setup-db-2025', function() {
         try {
             \Illuminate\Support\Facades\Artisan::call('storage:link');
         } catch (\Exception $ex) {}
-        return 'Database migrated and cache cleared successfully!<br><br><strong>Penting:</strong> Karena database lokal Kakak menggunakan password bawaan seeder, maka password login admin panel cPanel Kakak saat ini kembali ke password default: <strong>admin123</strong>. Kakak bisa menggunakannya untuk login dan menggantinya kembali setelah masuk.';
+
+        $newsResult = ['total_fetched' => 0];
+        try {
+            $newsResult = app(\App\Services\PktjNewsService::class)->syncToDatabase();
+        } catch (\Exception $ex) {}
+
+        return 'Database migrated and cache cleared successfully!<br><strong>Berita PKTJ Terhubung:</strong> ' . ($newsResult['total_fetched'] ?? 0) . ' artikel resmi berhasil disinkronkan langsung dari PKTJ.ac.id.<br><br><strong>Penting:</strong> Karena database lokal Kakak menggunakan password bawaan seeder, maka password login admin panel cPanel Kakak saat ini kembali ke password default: <strong>admin123</strong>. Kakak bisa menggunakannya untuk login dan menggantinya kembali setelah masuk.';
     } catch (\Exception $e) {
         return 'Migration error: ' . $e->getMessage();
     }
