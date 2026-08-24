@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="id">
 <head>
     <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
@@ -306,22 +306,22 @@
                     @csrf
                     
                     <div class="form-group">
-                        <label class="form-label" for="email">
-                            <i class="fas fa-envelope" style="margin-right: 8px; color: #667eea;"></i>
-                            Email Address
+                        <label class="form-label" for="login">
+                            <i class="fas fa-user" style="margin-right: 8px; color: #667eea;"></i>
+                            Username / Email
                         </label>
                         <input 
-                            type="email" 
-                            id="email" 
-                            class="form-input @error('email') error @enderror" 
-                            name="email" 
-                            value="{{ old('email') }}" 
-                            placeholder="Masukkan email Anda"
+                            type="text" 
+                            id="login" 
+                            class="form-input @error('login') error @enderror" 
+                            name="login" 
+                            value="{{ old('login') }}" 
+                            placeholder="Masukkan username atau email"
                             required 
-                            autocomplete="email" 
+                            autocomplete="username" 
                             autofocus
                         >
-                        @error('email')
+                        @error('login')
                             <span class="error-message">{{ $message }}</span>
                         @enderror
                     </div>
