@@ -411,6 +411,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     // Dashboard routes
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/dashboard/edit', [DashboardController::class, 'edit'])->name('dashboard.edit');
     Route::put('/dashboard', [DashboardController::class, 'update'])->name('dashboard.update');
     
