@@ -227,16 +227,11 @@ class ProfilPublikController extends Controller
                 ->orderByRaw("
                     CASE 
                         WHEN waktu_pembuatan IS NULL OR TRIM(waktu_pembuatan) = '' THEN 0 
-                        ELSE 1 
+                        WHEN TRIM(waktu_pembuatan) REGEXP '^[0-9]{4}-[0-9]{2}' THEN CAST(LEFT(TRIM(waktu_pembuatan), 4) AS UNSIGNED)
+                        WHEN TRIM(waktu_pembuatan) REGEXP '[0-9]{4}$' THEN CAST(RIGHT(TRIM(waktu_pembuatan), 4) AS UNSIGNED)
+                        WHEN CAST(TRIM(waktu_pembuatan) AS UNSIGNED) > 1900 THEN CAST(TRIM(waktu_pembuatan) AS UNSIGNED)
+                        ELSE 1
                     END DESC
-                ")
-                ->orderByRaw("
-                    CAST(
-                        COALESCE(
-                            NULLIF(REGEXP_SUBSTR(TRIM(waktu_pembuatan), '[0-9]{4}'), ''),
-                            '0'
-                        ) AS UNSIGNED
-                    ) DESC
                 ")
                 ->orderBy('id', 'desc')
                 ->paginate(20)
@@ -256,7 +251,14 @@ class ProfilPublikController extends Controller
                 ->where('aktif', true)
                 ->whereNotNull('waktu_pembuatan')
                 ->whereRaw('TRIM(waktu_pembuatan) != ""')
-                ->orderByRaw("CAST(COALESCE(NULLIF(REGEXP_SUBSTR(TRIM(waktu_pembuatan), '[0-9]{4}'), ''), '0') AS UNSIGNED) DESC")
+                ->orderByRaw("
+                    CASE 
+                        WHEN TRIM(waktu_pembuatan) REGEXP '^[0-9]{4}-[0-9]{2}' THEN CAST(LEFT(TRIM(waktu_pembuatan), 4) AS UNSIGNED)
+                        WHEN TRIM(waktu_pembuatan) REGEXP '[0-9]{4}$' THEN CAST(RIGHT(TRIM(waktu_pembuatan), 4) AS UNSIGNED)
+                        WHEN CAST(TRIM(waktu_pembuatan) AS UNSIGNED) > 1900 THEN CAST(TRIM(waktu_pembuatan) AS UNSIGNED)
+                        ELSE 0
+                    END DESC
+                ")
                 ->pluck('tahun');
 
             // Get available units for dropdown
