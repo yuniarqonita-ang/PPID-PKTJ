@@ -55,10 +55,7 @@ class InformasiPublikController extends Controller
             return $this->mapDaftarInformasi($item);
         });
 
-        $pejabats = \App\Models\Pejabat::where('aktif', true)
-            ->orderBy('urutan', 'asc')
-            ->orderBy('id', 'asc')
-            ->get();
+        $pejabats = \App\Models\Pejabat::getActivePejabats();
 
         $settings = $this->getSettings();
         return view('informasi-berkala', compact('items', 'settings', 'pejabats'));
@@ -67,10 +64,7 @@ class InformasiPublikController extends Controller
     // Profil Pejabat Publik & LHKPN (Dedicated Page)
     public function profilPejabat()
     {
-        $pejabats = \App\Models\Pejabat::where('aktif', true)
-            ->orderBy('urutan', 'asc')
-            ->orderBy('id', 'asc')
-            ->get();
+        $pejabats = \App\Models\Pejabat::getActivePejabats();
 
         $settings = $this->getSettings();
         return view('profil-pejabat', compact('pejabats', 'settings'));

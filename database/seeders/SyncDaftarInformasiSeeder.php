@@ -14,6 +14,23 @@ class SyncDaftarInformasiSeeder extends Seeder
     {
         $items = [
             [
+                'judul_informasi'    => 'Profil Pejabat Publik dan Laporan Harta Kekayaan Penyelenggara Negara (LHKPN)',
+                'kategori'           => 'informasi-berkala',
+                'tipe_informasi'     => 'informasi-berkala',
+                'isi_informasi'      => '<p>Profil pimpinan, riwayat jabatan, riwayat pendidikan, serta laporan harta kekayaan penyelenggara negara (LHKPN) jajaran pimpinan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal sesuai standar Slide 25 PPID Kementerian Perhubungan.</p>',
+                'pejabat_penguasa'   => 'Direktur & Manajemen PKTJ',
+                'penerbit_informasi' => 'Politeknik Keselamatan Transportasi Jalan (PKTJ)',
+                'tempat_pembuatan'   => 'Tegal',
+                'penanggung_jawab'   => 'PPID PKTJ',
+                'waktu_pembuatan'    => '2025/2026',
+                'bentuk_informasi'   => 'Softcopy / PDF',
+                'jangka_waktu'       => '5 Tahun / Selama Menjabat',
+                'file_informasi'     => '/profil-pejabat.html',
+                'is_blurred'         => false,
+                'bisa_download'      => true,
+                'aktif'              => true,
+            ],
+            [
                 'judul_informasi'    => 'Daftar Aplikasi Internal PKTJ dan Monitoring Aksesibilitas',
                 'kategori'           => 'informasi-dikecualikan',
                 'tipe_informasi'     => 'informasi-dikecualikan',

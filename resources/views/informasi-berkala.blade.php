@@ -165,18 +165,115 @@
 
             <!-- SECTION PROFIL PEJABAT PUBLIK & LHKPN (STANDAR PPID KEMENHUB SLIDE 25) -->
             @if(isset($pejabats) && $pejabats->count() > 0)
-            <div class="my-5 p-4 p-md-5 rounded-4 border" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); border-color: #e2e8f0;">
+            <div class="my-5 p-4 p-md-5 rounded-4 border shadow-sm" style="background: #ffffff; border-color: #cbd5e1;">
                 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
                     <div>
-                        <div class="badge bg-warning text-dark font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase">Slide 25 Sosialisasi Kemenhub</div>
-                        <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.6rem;">
-                            <i class="fas fa-user-tie me-2 text-warning"></i> Profil Pejabat Publik & LHKPN
+                        <div class="badge bg-warning text-dark font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">
+                            <i class="fas fa-certificate me-1"></i> Standar PPID Kemenhub: Slide 25
+                        </div>
+                        <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.7rem;">
+                            <i class="fas fa-user-tie me-2 text-primary"></i> Profil Pejabat Publik & LHKPN PKTJ
                         </h3>
-                        <p class="text-muted small mb-0">Laporan Profil Pimpinan, Riwayat Jabatan, & Laporan Harta Kekayaan Pejabat Negara (LHKPN)</p>
+                        <p class="text-muted small mb-0">Informasi profil, riwayat jabatan, riwayat pendidikan, dan laporan harta kekayaan jajaran Pimpinan PKTJ Tegal.</p>
+                    </div>
+
+                    <!-- VIEW SWITCHER (TABEL / KARTU) -->
+                    <div class="btn-group p-1 bg-light rounded-pill border" role="group">
+                        <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold" id="btnViewTable" onclick="switchPejabatView('table')">
+                            <i class="fas fa-table me-1"></i> Mode Tabel
+                        </button>
+                        <button type="button" class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-muted" id="btnViewGrid" onclick="switchPejabatView('grid')">
+                            <i class="fas fa-th-large me-1"></i> Mode Kartu
+                        </button>
                     </div>
                 </div>
 
-                <div class="row g-4">
+                <!-- 1. TAMPILAN MODE TABEL RESMI (ALA PPID KEMENHUB) -->
+                <div id="pejabatTableView" class="table-responsive">
+                    <table class="table table-bordered table-hover align-middle mb-0" style="border-color: #e2e8f0;">
+                        <thead style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;">
+                            <tr class="text-center align-middle" style="font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase;">
+                                <th style="width: 50px; padding: 14px 10px;">No</th>
+                                <th style="width: 100px; padding: 14px 10px;">Pas Foto</th>
+                                <th style="width: 220px; padding: 14px 15px;" class="text-start">Nama & NIP</th>
+                                <th style="width: 200px; padding: 14px 15px;" class="text-start">Jabatan</th>
+                                <th style="min-width: 320px; padding: 14px 15px;" class="text-start">Riwayat Pendidikan & Karir</th>
+                                <th style="width: 130px; padding: 14px 10px;">LHKPN</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y">
+                            @foreach($pejabats as $pejabat)
+                            <tr style="background: {{ $loop->even ? '#f8fafc' : '#ffffff' }}; font-size: 13px;">
+                                <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
+                                <td class="text-center p-2">
+                                    @if($pejabat->foto)
+                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="rounded-3 shadow-sm border" style="width: 75px; height: 95px; object-fit: cover; object-position: top center;">
+                                    @else
+                                        <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 75px; height: 95px;">
+                                            <i class="fas fa-user-tie fa-2x text-muted opacity-50"></i>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="p-3">
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 13.5px; line-height: 1.4;">{{ $pejabat->nama }}</h6>
+                                    <span class="badge bg-light text-secondary border font-mono px-2 py-1" style="font-size: 11px;">
+                                        NIP: {{ $pejabat->nip ?? '-' }}
+                                    </span>
+                                </td>
+                                <td class="p-3">
+                                    <span class="badge bg-primary text-wrap text-start lh-base px-2.5 py-1.5" style="background-color: #004a99 !important; font-size: 11.5px;">
+                                        {{ $pejabat->jabatan }}
+                                    </span>
+                                </td>
+                                <td class="p-3 text-secondary" style="line-height: 1.6;">
+                                    @if($pejabat->biografi)
+                                        <p class="mb-2 text-dark small" style="font-size: 12.5px;">{{ $pejabat->biografi }}</p>
+                                    @endif
+
+                                    @if(!empty($pejabat->pendidikan) && is_array($pejabat->pendidikan))
+                                        <div class="mb-1.5">
+                                            <strong class="text-primary d-block" style="font-size: 11.5px; text-transform: uppercase;">
+                                                <i class="fas fa-graduation-cap me-1"></i> Pendidikan:
+                                            </strong>
+                                            <ul class="mb-0 ps-3 small text-muted" style="font-size: 12px;">
+                                                @foreach($pejabat->pendidikan as $pend)
+                                                    <li>{{ $pend }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+
+                                    @if(!empty($pejabat->riwayat_jabatan) && is_array($pejabat->riwayat_jabatan))
+                                        <div class="mt-2">
+                                            <strong class="text-primary d-block" style="font-size: 11.5px; text-transform: uppercase;">
+                                                <i class="fas fa-briefcase me-1"></i> Riwayat Jabatan:
+                                            </strong>
+                                            <ul class="mb-0 ps-3 small text-muted" style="font-size: 12px;">
+                                                @foreach(array_slice($pejabat->riwayat_jabatan, 0, 3) as $jab)
+                                                    <li>{{ $jab }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </td>
+                                <td class="text-center p-3">
+                                    @if($pejabat->lhkpn_link || $pejabat->lhkpn_file)
+                                        <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 11.5px;">
+                                            <i class="fas fa-file-invoice-dollar"></i> LHKPN
+                                        </a>
+                                        <div class="text-muted mt-1" style="font-size: 10px;">{{ $pejabat->lhkpn_tahun ?? '2025/2026' }}</div>
+                                    @else
+                                        <span class="badge bg-light text-muted border">Tersedia</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 2. TAMPILAN MODE GRID KARTU (RESPONSIF) -->
+                <div id="pejabatGridView" class="row g-4 d-none">
                     @foreach($pejabats as $pejabat)
                         <div class="col-lg-4 col-md-6">
                             <div class="card h-100 border rounded-4 shadow-sm overflow-hidden hover-lift" style="background: #ffffff;">
@@ -282,6 +379,27 @@
                     @endforeach
                 </div>
             </div>
+
+            <script>
+                function switchPejabatView(mode) {
+                    const tableV = document.getElementById('pejabatTableView');
+                    const gridV = document.getElementById('pejabatGridView');
+                    const btnT = document.getElementById('btnViewTable');
+                    const btnG = document.getElementById('btnViewGrid');
+
+                    if (mode === 'table') {
+                        tableV.classList.remove('d-none');
+                        gridV.classList.add('d-none');
+                        btnT.className = 'btn btn-sm btn-primary rounded-pill px-3 fw-bold';
+                        btnG.className = 'btn btn-sm btn-light rounded-pill px-3 fw-bold text-muted';
+                    } else {
+                        tableV.classList.add('d-none');
+                        gridV.classList.remove('d-none');
+                        btnT.className = 'btn btn-sm btn-light rounded-pill px-3 fw-bold text-muted';
+                        btnG.className = 'btn btn-sm btn-primary rounded-pill px-3 fw-bold';
+                    }
+                }
+            </script>
             @endif
 
             <!-- DOKUMEN LAINNYA DI INFORMASI BERKALA -->
