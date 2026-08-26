@@ -223,8 +223,21 @@ class ProfilPublikController extends Controller
                 $query->where('kategori', request('kategori'));
             }
 
-            $items = $query->orderByRaw('CASE WHEN waktu_pembuatan IS NULL OR TRIM(waktu_pembuatan) = "" THEN 0 ELSE 1 END DESC')
-                ->orderByRaw('SUBSTR(TRIM(waktu_pembuatan), -4) DESC')
+            $items = $query
+                ->orderByRaw("
+                    CASE 
+                        WHEN waktu_pembuatan IS NULL OR TRIM(waktu_pembuatan) = '' THEN 0 
+                        ELSE 1 
+                    END DESC
+                ")
+                ->orderByRaw("
+                    CAST(
+                        COALESCE(
+                            NULLIF(REGEXP_SUBSTR(TRIM(waktu_pembuatan), '[0-9]{4}'), ''),
+                            '0'
+                        ) AS UNSIGNED
+                    ) DESC
+                ")
                 ->orderBy('id', 'desc')
                 ->paginate(20)
                 ->withQueryString();
@@ -243,7 +256,7 @@ class ProfilPublikController extends Controller
                 ->where('aktif', true)
                 ->whereNotNull('waktu_pembuatan')
                 ->whereRaw('TRIM(waktu_pembuatan) != ""')
-                ->orderByRaw('SUBSTR(TRIM(waktu_pembuatan), -4) DESC')
+                ->orderByRaw("CAST(COALESCE(NULLIF(REGEXP_SUBSTR(TRIM(waktu_pembuatan), '[0-9]{4}'), ''), '0') AS UNSIGNED) DESC")
                 ->pluck('tahun');
 
             // Get available units for dropdown
