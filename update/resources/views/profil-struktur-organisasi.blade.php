@@ -110,7 +110,11 @@
             min-width: 320px;
         }
         .org-card.level-1 .role-name {
-            color: var(--secondary-gold);
+            color: #ffffff !important;
+            opacity: 0.95;
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
         .org-card .role-name {
             font-size: 0.85rem;
@@ -144,6 +148,7 @@
             margin: 0 auto;
         }
     </style>
+    @include('components.public-page-style')
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
         .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }

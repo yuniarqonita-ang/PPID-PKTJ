@@ -253,11 +253,22 @@
                             <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{ $menu->nama }}</a>
                             <ul class="dropdown-menu" style="min-width: 250px;">
                                 @foreach($menu->children as $child)
+                                    @if(in_array($child->slug, ['sop-penetapan-sub', 'sop-pengujian-sub', 'sop-pendokumentasian-sub']) || str_contains($child->url, 'sop-penetapan') || str_contains($child->url, 'sop-pengujian') || str_contains($child->url, 'sop-pendokumentasian'))
+                                        @continue
+                                    @endif
+                                    @php
+                                        $childNama = $child->nama;
+                                        $childUrl = $child->url;
+                                        if ($child->slug === 'jdih-sub' || str_contains(strtolower($child->slug), 'jdih') || str_contains(strtolower($childUrl ?? ''), 'jdih') || str_contains(strtolower($childNama), 'jdih')) {
+                                            $childNama = 'JDIH BPSDM Kemenhub';
+                                            $childUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
+                                        }
+                                    @endphp
                                     <li>
-                                        @if(str_starts_with($child->url, 'http://') || str_starts_with($child->url, 'https://'))
-                                            <a class="dropdown-item" href="{{ $child->url }}" target="_blank">{{ $child->nama }}</a>
+                                        @if(str_starts_with($childUrl, 'http://') || str_starts_with($childUrl, 'https://'))
+                                            <a class="dropdown-item" href="{{ $childUrl }}" target="_blank">{{ $childNama }}</a>
                                         @else
-                                            <a class="dropdown-item" href="{{ $child->url ?: '/halaman/' . $child->slug }}">{{ $child->nama }}</a>
+                                            <a class="dropdown-item" href="{{ $childUrl ?: '/halaman/' . $child->slug }}">{{ $childNama }}</a>
                                         @endif
                                     </li>
                                 @endforeach
@@ -265,20 +276,44 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            @if(str_starts_with($menu->url, 'http://') || str_starts_with($menu->url, 'https://'))
-                                <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ $menu->url }}" target="_blank">{{ $menu->nama }}</a>
+                            @php
+                                $menuNama = $menu->nama;
+                                $menuUrl = $menu->url;
+                                if ($menu->slug === 'jdih-sub' || str_contains(strtolower($menu->slug), 'jdih') || str_contains(strtolower($menuUrl ?? ''), 'jdih') || str_contains(strtolower($menuNama), 'jdih')) {
+                                    $menuNama = 'JDIH BPSDM Kemenhub';
+                                    $menuUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
+                                }
+                            @endphp
+                            @if(str_starts_with($menuUrl, 'http://') || str_starts_with($menuUrl, 'https://'))
+                                <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ $menuUrl }}" target="_blank">{{ $menuNama }}</a>
                             @else
-                                <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ $menu->url ?: '/halaman/' . $menu->slug }}">{{ $menu->nama }}</a>
+                                <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ $menuUrl ?: '/halaman/' . $menu->slug }}">{{ $menuNama }}</a>
                             @endif
                         </li>
                     @endif
                 @endforeach
             </ul>
 
-            <div class="d-flex gap-2">
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="{{ route('permohonan.form') }}" style="font-size: 12px; letter-spacing: 0.5px;">
-                    PERMOHONAN INFORMASI
+            <div class="d-flex align-items-center gap-2">
+                <a class="btn btn-warning fw-bold px-3 py-2 text-dark rounded-pill shadow-sm text-xs text-uppercase" href="{{ route('permohonan.form') }}" style="font-size: 11px; letter-spacing: 0.5px;">
+                    <i class="fas fa-file-signature me-1"></i> Permohonan Informasi
                 </a>
+
+                @if(Auth::check())
+                    @if(Auth::user()->role === 'admin')
+                        <a class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill text-xs text-uppercase" href="{{ url('/admin/dashboard') }}" style="font-size: 11px;">
+                            <i class="fas fa-user-shield me-1"></i> Admin Panel
+                        </a>
+                    @else
+                        <a class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill text-xs" href="{{ route('user.dashboard') }}" style="font-size: 11px;">
+                            <i class="fas fa-user-circle me-1"></i> {{ Str::limit(Auth::user()->name, 12) }}
+                        </a>
+                    @endif
+                @else
+                    <a class="btn btn-outline-light fw-bold px-3 py-2 rounded-pill text-xs text-uppercase" href="{{ route('login') }}" style="font-size: 11px;">
+                        <i class="fas fa-sign-in-alt me-1"></i> Masuk
+                    </a>
+                @endif
             </div>
         </div>
     </div>
@@ -286,54 +321,61 @@
 
 <!-- PREMIUM DOCUMENT VIEWER MODAL (GLOBAL) -->
 <style>
-    /* Override agar modal-body mengisi seluruh sisa ruang */
+    #previewModal .modal-dialog {
+        max-width: 96vw !important;
+        width: 96vw !important;
+        height: 94vh !important;
+        margin: 3vh auto !important;
+    }
     #previewModal .modal-content {
-        height: 100%;
-        background: #e8ecf0;
-        border-radius: 0;
-        border: none;
+        height: 100% !important;
+        background: #0f172a !important;
+        border-radius: 20px !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        overflow: hidden !important;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    #previewModal .modal-header-custom {
+        background: #1e293b;
+        padding: 12px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid #334155;
+        color: white;
     }
     #previewModal .modal-body {
         flex: 1;
         padding: 0;
         overflow: hidden;
         position: relative;
+        background: #0f172a;
     }
     #previewModal .modal-body iframe {
         width: 100%;
         height: 100%;
         border: none;
         display: block;
-        background: #e8ecf0;
+        background: #0f172a;
     }
-    #previewModal .btn-close-custom {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 9999;
-        background: rgba(0,0,0,0.6);
-        border: none;
-        border-radius: 50%;
-        width: 38px;
-        height: 38px;
-        color: white;
-        font-size: 20px;
-        font-weight: bold;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        line-height: 1;
-        backdrop-filter: blur(4px);
-        transition: background 0.2s;
-    }
-    #previewModal .btn-close-custom:hover { background: rgba(0,0,0,0.85); }
 </style>
-<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-fullscreen">
+<div class="modal fade" id="previewModal" tabindex="-1" aria-hidden="true" style="z-index: 10050;">
+    <div class="modal-dialog">
         <div class="modal-content">
+            <div class="modal-header-custom">
+                <div class="d-flex align-items-center gap-3">
+                    <i class="fas fa-file-pdf text-warning fs-5"></i>
+                    <h5 class="m-0 font-weight-bold text-white text-truncate" id="previewModalTitle" style="max-width: 60vw; font-size: 15px;">Pratinjau Dokumen</h5>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <button class="btn btn-sm btn-outline-light rounded-pill px-3" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-1"></i> Tutup
+                    </button>
+                </div>
+            </div>
             <div class="modal-body">
-                <button class="btn-close-custom" data-bs-dismiss="modal" aria-label="Close">&times;</button>
                 <iframe id="previewIframe" src="" frameborder="0" allowfullscreen></iframe>
             </div>
         </div>

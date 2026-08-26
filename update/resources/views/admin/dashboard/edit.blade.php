@@ -268,9 +268,47 @@
                 </div>
             </div>
 
+            <!-- SECTION: AUTHENTICATION & LOGIN BRANDING -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
+                    <div class="w-10 h-10 bg-[#004a99] rounded-xl flex items-center justify-center text-white text-sm">
+                        <i class="fas fa-user-lock"></i>
+                    </div>
+                    <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Pengaturan Halaman Login &amp; Registrasi (BPSDM / PKTJ Layout)</h3>
+                </div>
+                <div class="p-8 space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Nama Instansi Banner Login</label>
+                            <input type="text" name="auth_login_agency" value="{{ old('auth_login_agency', \App\Models\Dashboard::getValue('auth_login_agency', 'Politeknik Keselamatan Transportasi Jalan')) }}"
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] font-semibold text-slate-700">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Sub-Instansi / Kementerian</label>
+                            <input type="text" name="auth_login_subagency" value="{{ old('auth_login_subagency', \App\Models\Dashboard::getValue('auth_login_subagency', 'Kementerian Perhubungan Republik Indonesia')) }}"
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] font-semibold text-slate-700">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">URL Login SSO Kemenhub (Opsional)</label>
+                            <input type="url" name="auth_sso_kemenhub_url" value="{{ old('auth_sso_kemenhub_url', \App\Models\Dashboard::getValue('auth_sso_kemenhub_url', '')) }}"
+                                   placeholder="https://sso.dephub.go.id/..."
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] font-semibold text-slate-700">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">URL Login Google OAuth (Opsional)</label>
+                            <input type="url" name="auth_google_login_url" value="{{ old('auth_google_login_url', \App\Models\Dashboard::getValue('auth_google_login_url', '')) }}"
+                                   placeholder="https://accounts.google.com/..."
+                                   class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] font-semibold text-slate-700">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <!-- SAVE BAR -->
             <div class="flex items-center justify-end gap-4 pb-10">
-                <button type="submit" class="px-10 py-4 bg-[#ffc107] text-[#002b5c] rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all">
+                <button type="submit" class="px-10 py-4 bg-[#ffc107] text-[#002b5c] rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl shadow-amber-500/20 hover:scale-105 active:scale-95 transition-all cursor-pointer">
                     Simpan Perubahan
                 </button>
             </div>

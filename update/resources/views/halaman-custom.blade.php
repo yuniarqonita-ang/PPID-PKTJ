@@ -59,28 +59,6 @@
             font-size: 2.2rem;
         }
         
-        .rich-content {
-            text-align: justify;
-            font-size: 1.05rem;
-            color: #334155;
-        }
-        
-        .rich-content table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        
-        .rich-content table th, .rich-content table td {
-            border: 1px solid #e2e8f0;
-            padding: 12px;
-        }
-        
-        .rich-content table th {
-            background-color: #f8fafc;
-            font-weight: 700;
-        }
-
         /* Flow Chart CSS Mockup */
         .chart-box {
             background: #f8fafc;
@@ -111,6 +89,7 @@
             display: block;
         }
     </style>
+    @include('components.public-page-style')
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>

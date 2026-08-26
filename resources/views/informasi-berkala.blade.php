@@ -163,7 +163,133 @@
         <div class="content-card" data-aos="fade-up" data-aos-delay="100">
             @include('components.konten-dinamis', ['prefix' => 'informasi_berkala'])
 
-            <div class="row mt-4">
+            <!-- SECTION PROFIL PEJABAT PUBLIK & LHKPN (STANDAR PPID KEMENHUB SLIDE 25) -->
+            @if(isset($pejabats) && $pejabats->count() > 0)
+            <div class="my-5 p-4 p-md-5 rounded-4 border" style="background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%); border-color: #e2e8f0;">
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
+                    <div>
+                        <div class="badge bg-warning text-dark font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase">Slide 25 Sosialisasi Kemenhub</div>
+                        <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.6rem;">
+                            <i class="fas fa-user-tie me-2 text-warning"></i> Profil Pejabat Publik & LHKPN
+                        </h3>
+                        <p class="text-muted small mb-0">Laporan Profil Pimpinan, Riwayat Jabatan, & Laporan Harta Kekayaan Pejabat Negara (LHKPN)</p>
+                    </div>
+                </div>
+
+                <div class="row g-4">
+                    @foreach($pejabats as $pejabat)
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card h-100 border rounded-4 shadow-sm overflow-hidden hover-lift" style="background: #ffffff;">
+                                <div style="height: 240px; background: #f1f5f9; overflow: hidden; position: relative;">
+                                    @if($pejabat->foto)
+                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" style="width: 100%; height: 100%; object-fit: cover; object-position: top center;">
+                                    @else
+                                        <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                                            <i class="fas fa-user-tie fa-3x opacity-25"></i>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="card-body p-4 d-flex flex-column justify-content-between">
+                                    <div>
+                                        <span class="badge bg-primary text-uppercase small mb-2 text-wrap text-start" style="font-size: 0.75rem; background-color: #004a99 !important;">
+                                            {{ $pejabat->jabatan }}
+                                        </span>
+                                        <h5 class="fw-bold outfit text-dark mb-1" style="font-size: 1.1rem;">{{ $pejabat->nama }}</h5>
+                                        <p class="text-muted small mb-3">NIP: {{ $pejabat->nip ?? '-' }}</p>
+                                    </div>
+                                    <div class="pt-3 border-top d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#modalPejabatBerkala{{ $pejabat->id }}">
+                                            <i class="fas fa-id-card me-1"></i> Detail
+                                        </button>
+                                        @if($pejabat->lhkpn_link || $pejabat->lhkpn_file)
+                                            <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 fw-bold">
+                                                <i class="fas fa-file-invoice-dollar me-1"></i> LHKPN
+                                            </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MODAL PEJABAT -->
+                        <div class="modal fade" id="modalPejabatBerkala{{ $pejabat->id }}" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-lg">
+                                <div class="modal-content rounded-4 border-0 shadow-2xl overflow-hidden">
+                                    <div class="modal-header text-white p-4" style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);">
+                                        <div class="d-flex align-items-center gap-3">
+                                            @if($pejabat->foto)
+                                                <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="rounded-circle border border-white" style="width: 50px; height: 50px; object-fit: cover;">
+                                            @endif
+                                            <div>
+                                                <h5 class="modal-title fw-bold outfit text-white mb-0">{{ $pejabat->nama }}</h5>
+                                                <span class="badge bg-warning text-dark font-black mt-1">{{ $pejabat->jabatan }}</span>
+                                            </div>
+                                        </div>
+                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-4 p-md-5">
+                                        @if($pejabat->biografi)
+                                        <div class="mb-4">
+                                            <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-quote-left me-2"></i>Biografi</h6>
+                                            <p class="text-secondary">{{ $pejabat->biografi }}</p>
+                                        </div>
+                                        @endif
+
+                                        @if(!empty($pejabat->pendidikan) && is_array($pejabat->pendidikan))
+                                        <div class="mb-4">
+                                            <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-graduation-cap me-2"></i>Riwayat Pendidikan</h6>
+                                            <ul class="list-group list-group-flush border rounded-3">
+                                                @foreach($pejabat->pendidikan as $pend)
+                                                    <li class="list-group-item small py-2"><i class="fas fa-check text-success me-2"></i>{{ $pend }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        @endif
+
+                                        @if(!empty($pejabat->riwayat_jabatan) && is_array($pejabat->riwayat_jabatan))
+                                        <div class="mb-4">
+                                            <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-briefcase me-2"></i>Riwayat Jabatan</h6>
+                                            <ul class="list-group list-group-flush border rounded-3">
+                                                @foreach($pejabat->riwayat_jabatan as $jab)
+                                                    <li class="list-group-item small py-2"><i class="fas fa-chevron-right text-primary me-2"></i>{{ $jab }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        @endif
+
+                                        @if(!empty($pejabat->penghargaan) && is_array($pejabat->penghargaan))
+                                        <div>
+                                            <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-medal me-2"></i>Penghargaan</h6>
+                                            <ul class="list-group list-group-flush border rounded-3">
+                                                @foreach($pejabat->penghargaan as $peng)
+                                                    <li class="list-group-item small py-2"><i class="fas fa-star text-warning me-2"></i>{{ $peng }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                        @endif
+                                    </div>
+                                    <div class="modal-footer bg-light p-3">
+                                        @if($pejabat->lhkpn_link || $pejabat->lhkpn_file)
+                                            <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-success fw-bold px-4 py-2 rounded-pill small">
+                                                <i class="fas fa-file-invoice-dollar me-2"></i> LHKPN ({{ $pejabat->lhkpn_tahun ?? '2025/2026' }})
+                                            </a>
+                                        @endif
+                                        <button type="button" class="btn btn-secondary fw-bold px-4 py-2 rounded-pill small" data-bs-dismiss="modal">Tutup</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
+            <!-- DOKUMEN LAINNYA DI INFORMASI BERKALA -->
+            <h3 class="fw-bold outfit text-dark mb-4" style="color: #004a99; font-size: 1.5rem;">
+                <i class="fas fa-file-alt me-2 text-primary"></i> Dokumen & Laporan Informasi Berkala
+            </h3>
+
+            <div class="row mt-2">
                 @forelse($items as $item)
                     <div class="col-12">
                         <div class="info-item hover-lift" data-aos="fade-up">

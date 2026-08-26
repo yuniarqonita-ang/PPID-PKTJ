@@ -24,3 +24,11 @@ yarn-error.log
 /storage/logs/*
 /bootstrap/cache/*
 .phpunit.cache
+
+# Heavy external materials
+Bahan Website PPID PKTJ/
+DAFTAR_LINK_GDRIVE_YANG_PERLU_DITEMPEL.xlsx
+update/
+*.crdownload
+*.zip
+

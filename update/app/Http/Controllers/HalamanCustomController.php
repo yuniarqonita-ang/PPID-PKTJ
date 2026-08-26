@@ -30,7 +30,7 @@ class HalamanCustomController extends Controller
             if(!is_array($value)) {
                 Dashboard::updateOrCreate(
                     ['key' => $settingKey],
-                    ['value' => $value ?? '', 'type' => 'text', 'description' => "Teks dinamis untuk $type $key"]
+                    ['value' => $value ?? '', 'type' => 'text', 'aktif' => true, 'description' => "Teks dinamis untuk $type $key"]
                 );
             }
         }
@@ -59,7 +59,7 @@ class HalamanCustomController extends Controller
                     
                     Dashboard::updateOrCreate(
                         ['key' => $settingKey],
-                        ['value' => $filename, 'type' => 'file', 'description' => "File untuk $type $key"]
+                        ['value' => $filename, 'type' => 'file', 'aktif' => true, 'description' => "File untuk $type $key"]
                     );
                 }
             }

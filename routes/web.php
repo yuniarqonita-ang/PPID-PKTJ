@@ -55,7 +55,7 @@ try {
     $hasRun = false;
     if ($hasTable) {
         $hasRun = \Illuminate\Support\Facades\DB::table('migrations')
-            ->where('migration', '2026_06_11_030000_convert_sop_hardcoded_to_dokumens')
+            ->where('migration', '2026_08_26_000001_create_pejabats_table')
             ->exists();
     }
     
@@ -75,26 +75,45 @@ try {
             '--force' => true
         ]);
 
-        // Update Profil PPID
+        // Seed Pejabat profiles (Slide 25)
         \Illuminate\Support\Facades\Artisan::call('db:seed', [
-            '--class' => 'UpdateProfilSeeder',
+            '--class' => 'PejabatSeeder',
             '--force' => true
         ]);
-        
-        // Seed any missing dashboard/default configurations if needed
-        if (\Illuminate\Support\Facades\Schema::hasTable('dashboards')) {
-            \App\Models\Dashboard::updateOrCreate(
-                ['key' => 'laporan_layanan_ringkasan_eksekutif'],
-                ['value' => '<p>Laporan Pelayanan Informasi Publik menyajikan rincian statistik permohonan informasi yang diterima, diproses, dan diselesaikan oleh PPID PKTJ. Laporan ini merefleksikan transparansi, akuntabilitas, dan komitmen penuh kami dalam melayani seluruh kebutuhan informasi publik masyarakat.</p>', 'type' => 'text', 'aktif' => true]
-            );
-            \App\Models\Dashboard::updateOrCreate(
-                ['key' => 'laporan_akses_ringkasan_eksekutif'],
-                ['value' => '<p>Laporan Akses Informasi menyajikan statistik kunjungan dan frekuensi akses masyarakat terhadap layanan informasi publik PPID PKTJ. Data ini digunakan untuk terus mengevaluasi dan meningkatkan aksesibilitas portal informasi kami agar semakin mudah dijangkau.</p>', 'type' => 'text', 'aktif' => true]
-            );
-            \App\Models\Dashboard::updateOrCreate(
-                ['key' => 'laporan_survey_ringkasan_eksekutif'],
-                ['value' => '<p>Laporan Indeks Survey Kepuasan Masyarakat menyajikan hasil evaluasi masyarakat terhadap kualitas pelayanan informasi publik PPID PKTJ. Hasil survey ini menjadi acuan utama kami untuk terus berinovasi dan memperbaiki kualitas layanan demi kepuasan publik.</p>', 'type' => 'text', 'aktif' => true]
-            );
+
+        // Seed Synchronized DIP items ready for GDrive links
+        \Illuminate\Support\Facades\Artisan::call('db:seed', [
+            '--class' => 'SyncDaftarInformasiSeeder',
+            '--force' => true
+        ]);
+
+        // Add Profil Pejabat to CustomMenu if missing
+        if (\Illuminate\Support\Facades\Schema::hasTable('custom_menus')) {
+            $parentProfil = \Illuminate\Support\Facades\DB::table('custom_menus')
+                ->where('slug', 'profil')
+                ->orWhere('nama', 'like', '%profil%')
+                ->whereNull('parent_id')
+                ->first();
+
+            $existsPejabat = \Illuminate\Support\Facades\DB::table('custom_menus')
+                ->where('slug', 'profil-pejabat')
+                ->orWhere('url', '/profil/pejabat')
+                ->orWhere('url', '/profil-pejabat.html')
+                ->exists();
+
+            if (!$existsPejabat && $parentProfil) {
+                \Illuminate\Support\Facades\DB::table('custom_menus')->insert([
+                    'parent_id'   => $parentProfil->id,
+                    'nama'        => 'Profil Pejabat & LHKPN',
+                    'slug'        => 'profil-pejabat',
+                    'url'         => '/profil-pejabat.html',
+                    'penempatan'  => 'header',
+                    'urutan'      => 2,
+                    'aktif'       => true,
+                    'created_at'  => now(),
+                    'updated_at'  => now(),
+                ]);
+            }
         }
 
         // Clear view cache so new views take effect immediately
@@ -312,6 +331,8 @@ Route::get('/dokumen/{id}/download', [DokumenController::class, 'download'])->na
 
 // Profil PPID (Public - Dynamic from Database matching the original HTML links)
 Route::get('/profil-ppid.html', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil'])->name('profil.ppid.html');
+Route::get('/profil-pejabat.html', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('profil.pejabat.html');
+Route::get('/profil/pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('profil.pejabat');
 Route::get('/profil-tugas-tanggung-jawab.html', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas'])->name('profil.tugas.html');
 Route::get('/profil-visi-misi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showVisi'])->name('profil.visi.html');
 Route::get('/profil-struktur-organisasi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur'])->name('profil.struktur.html');
@@ -373,6 +394,8 @@ Route::get('/setup-db-2025', function() {
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DipSeeder', '--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'UpdateProfilSeeder', '--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'PejabatSeeder', '--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'SyncDaftarInformasiSeeder', '--force' => true]);
         try {
             \Illuminate\Support\Facades\Artisan::call('storage:link');
         } catch (\Exception $ex) {}
@@ -517,6 +540,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('berita/clean-dummy', [BeritaController::class, 'cleanDummy'])->name('admin.berita.clean-dummy');
 
     // Resource CRUD
+    Route::resource('pejabat', \App\Http\Controllers\PejabatController::class)->names('admin.pejabat');
     Route::resource('berita', BeritaController::class)->names('admin.berita');
     Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
     Route::resource('prosedur-crud', DokumenController::class)->names('admin.prosedur-crud');

@@ -136,7 +136,28 @@ class ProfilPublikController extends Controller
             return back()->withErrors(['captcha' => 'Jawaban Captcha tidak tepat. Silakan coba lagi.'])->withInput();
         }
 
-        \App\Models\PesanKontak::create($request->only(['nama', 'email', 'telepon', 'judul', 'pesan']));
+        $pesan = \App\Models\PesanKontak::create($request->only(['nama', 'email', 'telepon', 'judul', 'pesan']));
+
+        // Try sending email notification to Humas / Admin users
+        try {
+            $adminEmails = \App\Models\User::pluck('email')->filter()->toArray();
+            if (!empty($adminEmails)) {
+                $emailBody = "Yth. Tim Humas / Admin PPID PKTJ,\n\nAda Pesan Kontak / Pengaduan Baru dari Halaman Publik:\n\n"
+                    . "Nama: {$pesan->nama}\n"
+                    . "Email: {$pesan->email}\n"
+                    . "Telepon: {$pesan->telepon}\n"
+                    . "Judul: {$pesan->judul}\n"
+                    . "Pesan:\n{$pesan->pesan}\n\n"
+                    . "Silakan segera buka Admin Panel PPID PKTJ untuk memproses pesan ini.";
+
+                \Illuminate\Support\Facades\Mail::raw($emailBody, function ($mail) use ($adminEmails, $pesan) {
+                    $mail->to($adminEmails)
+                        ->subject("[PPID PKTJ] NOTIFIKASI PESAN KONTAK BARU: {$pesan->judul}");
+                });
+            }
+        } catch (\Exception $ex) {
+            // Fail silently if mail server is unconfigured
+        }
 
         return back()->with('success_message', 'Terima kasih! Pesan, saran, atau pengaduan Anda berhasil terkirim. Tim kami akan segera menindaklanjutinya.');
     }
@@ -360,14 +381,45 @@ class ProfilPublikController extends Controller
                 }
             }
             
-            $belum_ditindaklanjuti = $totalYearly - $ditindaklanjuti;
+            $belum_ditindaklanjuti = max(0, $totalYearly - $ditindaklanjuti);
             
+            // Dynamic realtime overrides from Admin Settings (tabel dashboards)
+            $overrideTotal = $settings['laporan_akses_total_permohonan'] ?? null;
+            $overrideDitindaklanjuti = $settings['laporan_akses_ditindaklanjuti'] ?? null;
+            $overrideDalamProses = $settings['laporan_akses_dalam_proses'] ?? null;
+            $overrideRataRataHari = $settings['laporan_akses_rata_rata_hari'] ?? '5 - 7';
+            
+            $overridePerorangan = $settings['laporan_akses_cat_perorangan'] ?? null;
+            $overrideKelompok = $settings['laporan_akses_cat_kelompok'] ?? null;
+            $overrideBadanHukum = $settings['laporan_akses_cat_badan_hukum'] ?? null;
+            
+            $overrideMedsos = $settings['laporan_akses_channel_medsos'] ?? null;
+            $overrideWebsite = $settings['laporan_akses_channel_website'] ?? null;
+
+            if ($overrideTotal !== null && trim($overrideTotal) !== '') {
+                $totalYearly = (int)$overrideTotal;
+            }
+            if ($overrideDitindaklanjuti !== null && trim($overrideDitindaklanjuti) !== '') {
+                $ditindaklanjuti = (int)$overrideDitindaklanjuti;
+            }
+            if ($overrideDalamProses !== null && trim($overrideDalamProses) !== '') {
+                $belum_ditindaklanjuti = (int)$overrideDalamProses;
+            }
+
+            if ($overridePerorangan !== null && trim($overridePerorangan) !== '') $perorangan = (int)$overridePerorangan;
+            if ($overrideKelompok !== null && trim($overrideKelompok) !== '') $kelompok = (int)$overrideKelompok;
+            if ($overrideBadanHukum !== null && trim($overrideBadanHukum) !== '') $badanHukum = (int)$overrideBadanHukum;
+
+            if ($overrideMedsos !== null && trim($overrideMedsos) !== '') $medsos = (int)$overrideMedsos;
+            if ($overrideWebsite !== null && trim($overrideWebsite) !== '') $website = (int)$overrideWebsite;
+
             $extraData['available_years'] = $available_years;
             $extraData['selectedYear'] = $selectedYear;
             $extraData['monthlyData'] = $monthlyData;
             $extraData['totalYearly'] = $totalYearly;
             $extraData['ditindaklanjuti'] = $ditindaklanjuti;
             $extraData['belum_ditindaklanjuti'] = $belum_ditindaklanjuti;
+            $extraData['rata_rata_hari'] = $overrideRataRataHari;
             $extraData['categories'] = [
                 'perorangan' => $perorangan,
                 'kelompok' => $kelompok,
@@ -448,17 +500,21 @@ class ProfilPublikController extends Controller
      */
     public function proxyGdrive($id)
     {
-        // Try multiple export/download URLs depending on the file type
-        // 1. Direct download for PDFs
-        // 2. Export for Google Docs/Sheets/Slides
-        
+        $isDownload = request()->has('download') || request()->query('dl') == '1';
+
+        // Instant Download Redirect: Fast, zero-server-delay download!
+        if ($isDownload) {
+            return redirect("https://drive.google.com/uc?export=download&confirm=no_antivirus&id={$id}");
+        }
+
+        $disposition = 'inline; filename="Dokumen_PPID_PKTJ.pdf"';
+
         $urls = [
+            "https://drive.google.com/uc?export=download&confirm=no_antivirus&id={$id}",
             "https://drive.google.com/uc?id={$id}&export=download",
-            "https://drive.google.com/file/d/{$id}/view",
             "https://docs.google.com/document/d/{$id}/export?format=pdf",
             "https://docs.google.com/spreadsheets/d/{$id}/export?format=pdf",
-            "https://docs.google.com/presentation/d/{$id}/export?format=pdf",
-            "https://drive.google.com/viewer?id={$id}"
+            "https://docs.google.com/presentation/d/{$id}/export?format=pdf"
         ];
 
         foreach ($urls as $url) {
@@ -467,33 +523,32 @@ class ProfilPublikController extends Controller
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 15);
+            curl_setopt($ch, CURLOPT_TIMEOUT, 4); // Fast 4-second timeout per attempt
             curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
             
             $body = curl_exec($ch);
             $info = curl_getinfo($ch);
-            $error = curl_error($ch);
             curl_close($ch);
 
             if ($body !== false && $info['http_code'] === 200) {
                 $contentType = strtolower($info['content_type'] ?? '');
                 $isPdfHeader = strpos($body, '%PDF-') === 0;
 
-                // Google Drive often returns application/octet-stream for downloads
                 if (strpos($contentType, 'application/pdf') !== false || 
                     (strpos($contentType, 'application/octet-stream') !== false && $isPdfHeader) ||
                     $isPdfHeader) {
                     
                     return response($body, 200, [
                         'Content-Type' => 'application/pdf',
-                        'Content-Disposition' => 'inline; filename="document.pdf"',
-                        'Cache-Control' => 'public, max-age=3600'
+                        'Content-Disposition' => $disposition,
+                        'Cache-Control' => 'public, max-age=86400'
                     ]);
                 }
             }
         }
 
-        abort(404, 'Gagal mengambil dokumen dari Google Drive atau format tidak didukung');
+        // Fast fallback to Google Drive viewer
+        return redirect("https://drive.google.com/file/d/{$id}/preview");
     }
 
     /**

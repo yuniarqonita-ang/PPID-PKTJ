@@ -32,7 +32,7 @@ class DefaultMenuSeeder extends Seeder
             ]);
         };
 
-        // Helper function to insert child menu if missing
+        // Helper function to insert child menu if missing or update URL
         $ensureChild = function($parentId, $nama, $slug, $url, $urutan) {
             $existing = DB::table('custom_menus')->where('slug', $slug)->first();
             if (!$existing) {
@@ -47,17 +47,22 @@ class DefaultMenuSeeder extends Seeder
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+            } else {
+                DB::table('custom_menus')->where('slug', $slug)->update([
+                    'url'        => $url,
+                    'updated_at' => now(),
+                ]);
             }
         };
 
-        // 1. PROFIL PPID
-        $profilId = $ensureParent('PROFIL PPID', 'profil-menu', null, 1);
-        $ensureChild($profilId, 'Profil PPID', 'profil-ppid-sub', '/profil-ppid.html', 1);
-        $ensureChild($profilId, 'Visi & Misi', 'visi-misi-sub', '/profil-visi-misi.html', 2);
-        $ensureChild($profilId, 'Tugas & Tanggung Jawab', 'tugas-tanggung-jawab-sub', '/profil-tugas-tanggung-jawab.html', 3);
-        $ensureChild($profilId, 'Struktur Organisasi', 'struktur-organisasi-sub', '/profil-struktur-organisasi.html', 4);
-        $ensureChild($profilId, 'Regulasi', 'regulasi-sub', '/profil-regulasi.html', 5);
-        $ensureChild($profilId, 'Kontak', 'kontak-sub', '/profil-kontak.html', 6);
+        // 1. PROFIL
+        $profilId = $ensureParent('PROFIL', 'profil-menu', null, 1);
+        $ensureChild($profilId, 'Profil PPID', 'profil-ppid-sub', '/profil/ppid', 1);
+        $ensureChild($profilId, 'Visi dan Misi', 'visi-misi-sub', '/profil/visi-misi', 2);
+        $ensureChild($profilId, 'Tugas, Fungsi & Tanggung Jawab', 'tugas-fungsi-sub', '/profil/tugas-fungsi', 3);
+        $ensureChild($profilId, 'Struktur Organisasi', 'struktur-organisasi-sub', '/profil/struktur-organisasi', 4);
+        $ensureChild($profilId, 'Regulasi / Dasar Hukum', 'regulasi-sub', '/profil/regulasi', 5);
+        $ensureChild($profilId, 'Kontak & Lokasi', 'kontak-sub', '/profil/kontak', 6);
 
         // 2. INFORMASI PUBLIK
         $infoId = $ensureParent('INFORMASI PUBLIK', 'informasi-publik-menu', null, 2);
@@ -73,21 +78,18 @@ class DefaultMenuSeeder extends Seeder
         $ensureChild($layananId, 'Laporan Layanan Informasi Publik', 'laporan-layanan-sub', '/layanan-informasi/laporan', 3);
         $ensureChild($layananId, 'Laporan Akses Informasi Publik', 'laporan-akses-sub', '/layanan-informasi/laporan-akses', 4);
         $ensureChild($layananId, 'Laporan Survey Kepuasan Layanan', 'laporan-survey-sub', '/layanan-informasi/laporan-survey', 5);
-        $ensureChild($layananId, 'JDIH Kementerian Perhubungan', 'jdih-sub', 'https://jdih.dephub.go.id/', 6);
+        $ensureChild($layananId, 'JDIH BPSDM Kemenhub', 'jdih-sub', 'https://bpsdm.kemenhub.go.id/jdih/', 6);
 
         // 4. PROSEDUR
         $prosedurId = $ensureParent('PROSEDUR', 'prosedur-menu', null, 4);
         $ensureChild($prosedurId, 'SOP Permintaan Informasi Publik', 'sop-permintaan-sub', '/prosedur/sop-permintaan', 1);
         $ensureChild($prosedurId, 'SOP Penanganan Keberatan', 'sop-keberatan-sub', '/prosedur/sop-keberatan', 2);
         $ensureChild($prosedurId, 'SOP Pengajuan Sengketa Informasi Publik', 'sop-sengketa-sub', '/prosedur/sop-sengketa', 3);
-        $ensureChild($prosedurId, 'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik', 'sop-penetapan-sub', '/prosedur/sop-penetapan', 4);
-        $ensureChild($prosedurId, 'SOP Pengujian Konsekuensi', 'sop-pengujian-sub', '/prosedur/sop-pengujian', 5);
-        $ensureChild($prosedurId, 'SOP Pendokumentasian Informasi Publik', 'sop-pendokumentasian-sub', '/prosedur/sop-pendokumentasian', 6);
 
-        // 5. AGENDA
-        $ensureParent('AGENDA', 'agenda-menu', '/agenda', 5);
+        // Clean up deleted submenus
+        DB::table('custom_menus')->whereIn('slug', ['sop-penetapan-sub', 'sop-pengujian-sub', 'sop-pendokumentasian-sub'])->delete();
 
-        // 6. FAQ
-        $ensureParent('FAQ', 'faq-menu', '/faq', 6);
+        // 5. FAQ
+        $ensureParent('FAQ', 'faq-menu', '/faq', 5);
     }
 }

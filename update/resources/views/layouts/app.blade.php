@@ -219,12 +219,21 @@
             /* Responsive Adjustments */
             @media (max-width: 1024px) {
                 .sidebar { 
-                    position: fixed;
+                    position: fixed !important;
                     left: -280px; 
-                    transition: left 0.3s; 
+                    transition: left 0.3s ease; 
+                    z-index: 10001 !important;
+                    box-shadow: 10px 0 30px rgba(0,0,0,0.25);
                 }
-                .sidebar.open { left: 0; }
-                .main-content { margin-left: 0; }
+                .sidebar.open { left: 0 !important; }
+                .sidebar .nav-link,
+                .sidebar .accordion-toggle,
+                .sidebar .submenu-link {
+                    pointer-events: auto !important;
+                    position: relative;
+                    z-index: 10002 !important;
+                }
+                .main-content { margin-left: 0 !important; }
             }
             /* MOBILE SIDEBAR OVERLAY */
             #sidebar-overlay {
@@ -232,13 +241,12 @@
                 position: fixed;
                 inset: 0;
                 background: rgba(0, 0, 0, 0.4);
-                backdrop-filter: blur(2px);
-                z-index: 9999;
+                z-index: 9998 !important;
                 pointer-events: none;
             }
             #sidebar-overlay.active { 
-                display: block; 
-                pointer-events: auto;
+                display: block !important; 
+                pointer-events: auto !important;
             }
 
             /* ANIMATIONS */
@@ -438,9 +446,6 @@
                             <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-permintaan*') ? 'active' : '' }}">SOP Permintaan</a>
                             <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-keberatan*') ? 'active' : '' }}">SOP Keberatan</a>
                             <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-sengketa*') ? 'active' : '' }}">SOP Sengketa</a>
-                            <a href="{{ route('admin.prosedur.sop-penetapan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-penetapan*') ? 'active' : '' }}">SOP Penetapan DIP</a>
-                            <a href="{{ route('admin.prosedur.sop-pengujian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pengujian*') ? 'active' : '' }}">SOP Pengujian Konsekuensi</a>
-                            <a href="{{ route('admin.prosedur.sop-pendokumentasian') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-pendokumentasian*') ? 'active' : '' }}">SOP Pendokumentasian</a>
                         </div>
 
                         <a href="{{ route('admin.faq.index') }}" class="nav-link {{ request()->routeIs('admin.faq.*') || request()->is('admin/faq*') ? 'active' : '' }}">
@@ -449,6 +454,10 @@
 
                         <a href="{{ route('admin.permohonan.index') }}" class="nav-link {{ request()->is('admin/permohonan*') && !request()->is('admin/permohonan/report*') ? 'active' : '' }}">
                             <i class="fas fa-envelope-open-text nav-icon"></i> PERMOHONAN INFORMASI
+                        </a>
+
+                        <a href="{{ route('admin.pemohon.index') }}" class="nav-link {{ request()->routeIs('admin.pemohon.*') ? 'active' : '' }}">
+                            <i class="fas fa-id-card nav-icon"></i> VERIFIKASI PEMOHON
                         </a>
 
                         <a href="{{ route('admin.pesan-kontak.index') }}" class="nav-link {{ request()->is('admin/pesan-kontak*') ? 'active' : '' }}">
@@ -461,9 +470,6 @@
 
                         <a href="{{ route('admin.berita.index') }}" class="nav-link {{ request()->routeIs('admin.berita.*') ? 'active' : '' }}">
                             <i class="fas fa-newspaper nav-icon"></i> BERITA & ARTIKEL
-                        </a>
-                        <a href="{{ route('admin.agenda.index') }}" class="nav-link {{ request()->routeIs('admin.agenda.*') ? 'active' : '' }}">
-                            <i class="fas fa-calendar-alt nav-icon"></i> AGENDA KEGIATAN
                         </a>
                         <a href="{{ route('admin.users.index') }}" class="nav-link {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                             <i class="fas fa-users-cog nav-icon"></i> MANAJEMEN USER
@@ -659,19 +665,78 @@
                 max_height: 900,
                 autoresize_bottom_margin: 30,
                 object_resizing: 'img,table,iframe',
-                menubar: 'edit insert view format table tools help',
+                menubar: 'file edit insert view format table tools help',
                 plugins: [
                     'advlist', 'autolink', 'lists', 'link', 'image', 'charmap', 'preview',
                     'anchor', 'searchreplace', 'visualblocks', 'code', 'fullscreen',
                     'insertdatetime', 'media', 'table', 'help', 'wordcount', 'emoticons', 'noneditable', 'autoresize'
                 ],
                 noneditable_noneditable_class: 'mce-no-border-dummy',
-                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline forecolor | ' +
+                toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | forecolor backcolor | ' +
                          'alignleft aligncenter alignright alignjustify | ' +
-                         'bullist numlist outdent indent | link image media emoticons | premium_blur insert_preview insert_gdrive removeformat fullscreen',
+                         'table tableprops tablerowprops tablecellprops table_valign_menu tablemergecells tablesplitcells | ' +
+                         'bullist numlist outdent indent | link image media emoticons | premium_blur insert_preview insert_gdrive | removeformat code fullscreen',
+                table_appearance_options: true,
+                table_grid: true,
+                table_cell_advtab: true,
+                table_row_advtab: true,
+                table_advtab: true,
+                table_resize_bars: true,
+                table_responsive_width: true,
+                table_default_styles: {
+                    'width': '100%',
+                    'border-collapse': 'collapse'
+                },
+                table_default_attributes: {
+                    'class': 'table-custom-ppid'
+                },
+                table_toolbar: 'tableprops tablecellprops | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol | tablemergecells tablesplitcells | alignleft aligncenter alignright alignjustify | table_valign_top table_valign_middle table_valign_bottom',
+                color_map: [
+                    '004A99', 'Navy PPID PKTJ',
+                    '002B5C', 'Dark Navy',
+                    '0284C7', 'Sky Blue',
+                    '2563EB', 'Royal Blue',
+                    'FFC107', 'Gold PKTJ',
+                    'D97706', 'Amber Gold',
+                    'DC2626', 'Red Accent',
+                    '16A34A', 'Green Success',
+                    '0F172A', 'Dark Text',
+                    '475569', 'Slate Gray',
+                    '94A3B8', 'Light Slate',
+                    'FFFFFF', 'White',
+                    'FEF08A', 'Highlight Kuning',
+                    'BBF7D0', 'Highlight Hijau',
+                    'BFDBFE', 'Highlight Biru',
+                    'FECACA', 'Highlight Merah',
+                    'FBCFE8', 'Highlight Pink',
+                    'E2E8F0', 'Highlight Abu-abu'
+                ],
+                custom_colors: true,
+                color_cols: 6,
                 skin: 'oxide',
                 content_css: 'default',
-                content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #0f172a; padding: 20px; line-height: 1.6; min-height: 200px; }',
+                content_style: 'body { font-family: "Inter", sans-serif; font-size: 16px; color: #334155; padding: 25px; line-height: 1.8; min-height: 250px; } ' +
+                              'p { margin: 0 0 18px 0; line-height: 1.8; color: #334155; font-size: 16px; } ' +
+                              'p:empty, p > br:only-child { min-height: 1.6em; display: block; margin-bottom: 18px; } ' +
+                              'ol, ul { margin: 0 0 22px 0; padding-left: 28px; } ' +
+                              'ol > li, ul > li { margin-bottom: 16px; line-height: 1.8; color: #334155; font-size: 16px; } ' +
+                              'ol > li:last-child, ul > li:last-child { margin-bottom: 0; } ' +
+                              'ol > li > p, ul > li > p { margin-bottom: 12px; } ' +
+                              'ol > li > p:last-child, ul > li > p:last-child { margin-bottom: 0; } ' +
+                              'table { border-collapse: collapse !important; width: 100% !important; margin: 20px 0 !important; border: 1.5px solid #cbd5e1 !important; border-radius: 12px; overflow: hidden; background: #ffffff !important; box-shadow: 0 4px 16px rgba(0,0,0,0.03); } ' +
+                              'table th, table td { padding: 18px 24px !important; border: 1px solid #cbd5e1 !important; vertical-align: top !important; text-align: left; color: #334155 !important; line-height: 1.75 !important; font-size: 15px; } ' +
+                              'table th { background: linear-gradient(135deg, #001e40 0%, #004a99 100%) !important; color: #ffffff !important; font-weight: 700; border: 1px solid rgba(255,255,255,0.2) !important; font-size: 15px; } ' +
+                              'table th p, table td p, table th div, table td div { margin: 0 0 14px 0 !important; padding: 0 !important; line-height: 1.75 !important; } ' +
+                              'table th p:empty, table td p:empty, table th p > br:only-child, table td p > br:only-child { min-height: 1.5em; display: block; margin-bottom: 14px !important; } ' +
+                              'table td ul, table td ol { padding-left: 24px !important; margin: 0 0 14px 0 !important; } ' +
+                              'table td li { margin-bottom: 12px !important; line-height: 1.75 !important; } ' +
+                              'table td li:last-child { margin-bottom: 0 !important; } ' +
+                              'table th > *:first-child, table td > *:first-child { margin-top: 0 !important; padding-top: 0 !important; } ' +
+                              'table th > *:last-child, table td > *:last-child { margin-bottom: 0 !important; } ' +
+                              'table tr:nth-child(even) td { background-color: #f8fafc; } ' +
+                              'table tr:hover td { background-color: #f1f5f9; } ' +
+                              'a, a:link, a:visited { color: #004a99; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; } ' +
+                              'a:hover { color: #002b5c; }',
                 branding: false,
                 promotion: false,
                 image_title: true,
@@ -748,14 +813,133 @@
                 },
                 file_picker_types: 'file image media',
                 setup: function(editor) {
-                    // Custom GDrive Icon
-                    editor.ui.registry.addIcon('gdrive', '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.5 15.5L14.5 6.5H9.5L14.5 15.5H19.5Z" fill="#004a99"/><path d="M9.5 6.5L4.5 15.5L7 19.5L12 10.5L9.5 6.5Z" fill="#ffc107"/><path d="M12 10.5L7 19.5H17L22 10.5H12Z" fill="#006ccf"/></svg>');
+                    // Otomatis terapkan Standar Excel & Word: Rata Atas di setiap sel tabel
+                    editor.on('init', function() {
+                        editor.dom.select('table td, table th').forEach(function(cell) {
+                            if (!cell.style.verticalAlign) {
+                                cell.style.verticalAlign = 'top';
+                            }
+                        });
+                    });
+
+                    // Pastikan saat paste link GDrive ditangani tanpa mengganggu ketikan normal (TIDAK memakai keyup)
+                    editor.on('PastePostProcess', function(e) {
+                        try {
+                            const gdriveRegex = /(https?:\/\/(?:drive|docs)\.google\.com\/[^\s<"']+)/gi;
+                            const textNodes = editor.dom.select('p, span, div, td', e.node);
+                            textNodes.forEach(node => {
+                                const text = node.textContent || '';
+                                const match = text.match(gdriveRegex);
+                                if (match && match.length > 0) {
+                                    const rawUrl = match[0];
+                                    if (!node.querySelector('.gdrive-pdf-chip') && !node.classList.contains('gdrive-pdf-chip')) {
+                                        const chipHtml = `<a href="${rawUrl}" target="_blank" class="gdrive-pdf-chip" style="display:inline-flex; align-items:center; gap:8px; background:#eff6ff; color:#004a99; padding:6px 14px; border-radius:10px; font-weight:700; border:1px solid #bfdbfe; text-decoration:none; margin:4px 2px;"><i class="fas fa-file-pdf" style="color:#e11d48; font-size:16px;"></i> <span>Dokumen PDF</span> <i class="fas fa-external-link-alt" style="font-size:11px; opacity:0.6;"></i></a>&nbsp;`;
+                                        node.innerHTML = node.innerHTML.replace(rawUrl, chipHtml);
+                                    }
+                                }
+                            });
+                        } catch (err) {
+                            console.log('GDrive paste error:', err);
+                        }
+                    });
 
                     editor.ui.registry.addButton('premium_blur', {
                         icon: 'lock',
                         tooltip: 'Apply Premium Blur to Selection',
                         onAction: function (_) {
                             editor.execCommand('mceToggleFormat', false, 'premium-blur');
+                        }
+                    });
+
+                    // === CUSTOM TABLE VERTICAL ALIGNMENT TOOLS ===
+                    editor.ui.registry.addButton('table_valign_top', {
+                        text: '⬆️ Atas',
+                        tooltip: 'Rata Atas Sel Tabel (Vertical Align Top)',
+                        onAction: function () {
+                            const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                            if (selectedCells.length > 0) {
+                                selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'top'));
+                            } else {
+                                const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                if (cell) editor.dom.setStyle(cell, 'vertical-align', 'top');
+                            }
+                        }
+                    });
+
+                    editor.ui.registry.addButton('table_valign_middle', {
+                        text: '↕️ Tengah',
+                        tooltip: 'Rata Tengah Sel Tabel (Vertical Align Middle)',
+                        onAction: function () {
+                            const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                            if (selectedCells.length > 0) {
+                                selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'middle'));
+                            } else {
+                                const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                if (cell) editor.dom.setStyle(cell, 'vertical-align', 'middle');
+                            }
+                        }
+                    });
+
+                    editor.ui.registry.addButton('table_valign_bottom', {
+                        text: '⬇️ Bawah',
+                        tooltip: 'Rata Bawah Sel Tabel (Vertical Align Bottom)',
+                        onAction: function () {
+                            const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                            if (selectedCells.length > 0) {
+                                selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'bottom'));
+                            } else {
+                                const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                if (cell) editor.dom.setStyle(cell, 'vertical-align', 'bottom');
+                            }
+                        }
+                    });
+
+                    editor.ui.registry.addMenuButton('table_valign_menu', {
+                        text: 'Posisi Tabel ↕',
+                        tooltip: 'Atur Posisi Teks Sel Tabel (Atas, Tengah, Bawah)',
+                        fetch: function (callback) {
+                            var items = [
+                                {
+                                    type: 'menuitem',
+                                    text: '⬆️ Rata Atas (Top)',
+                                    onAction: function () {
+                                        const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                                        if (selectedCells.length > 0) {
+                                            selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'top'));
+                                        } else {
+                                            const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                            if (cell) editor.dom.setStyle(cell, 'vertical-align', 'top');
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'menuitem',
+                                    text: '↕️ Rata Tengah (Middle)',
+                                    onAction: function () {
+                                        const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                                        if (selectedCells.length > 0) {
+                                            selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'middle'));
+                                        } else {
+                                            const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                            if (cell) editor.dom.setStyle(cell, 'vertical-align', 'middle');
+                                        }
+                                    }
+                                },
+                                {
+                                    type: 'menuitem',
+                                    text: '⬇️ Rata Bawah (Bottom)',
+                                    onAction: function () {
+                                        const selectedCells = editor.dom.select('td[data-mce-selected], th[data-mce-selected]');
+                                        if (selectedCells.length > 0) {
+                                            selectedCells.forEach(cell => editor.dom.setStyle(cell, 'vertical-align', 'bottom'));
+                                        } else {
+                                            const cell = editor.dom.getParent(editor.selection.getNode(), 'td,th');
+                                            if (cell) editor.dom.setStyle(cell, 'vertical-align', 'bottom');
+                                        }
+                                    }
+                                }
+                            ];
+                            callback(items);
                         }
                     });
 
@@ -1108,6 +1292,124 @@
                 }
             });
         </script>
+        <!-- REAL-TIME SUBMISSION ALERT TOAST & AUDIO CHIME -->
+        <div id="realtime-notification-toast" style="display:none; position:fixed; top:20px; right:20px; z-index:99999; max-width:420px; width:90%; background:#004a99; color:white; padding:16px 20px; border-radius:16px; box-shadow:0 10px 30px rgba(0,0,0,0.35); border:2px solid #ffc107;">
+            <div style="display:flex; align-items:flex-start; gap:12px;">
+                <div style="background:#ffc107; color:#002b5c; width:40px; height:40px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:20px; font-weight:bold;">
+                    🔔
+                </div>
+                <div style="flex:1;">
+                    <h5 id="notif-title" style="margin:0 0 4px 0; font-size:14px; font-weight:800; text-transform:uppercase; color:#ffc107;">Notifikasi Masuk!</h5>
+                    <p id="notif-body" style="margin:0 0 10px 0; font-size:12px; line-height:1.4; opacity:0.9;">Permohonan informasi atau pesan kontak baru diterima.</p>
+                    <a id="notif-link" href="#" style="display:inline-block; background:#ffc107; color:#002b5c; padding:6px 14px; border-radius:8px; font-size:11px; font-weight:800; text-decoration:none; text-transform:uppercase;">Buka Sekarang &rarr;</a>
+                </div>
+                <button onclick="document.getElementById('realtime-notification-toast').style.display='none'" style="background:transparent; border:none; color:white; font-size:18px; cursor:pointer;">&times;</button>
+            </div>
+        </div>
+
+        <script>
+            (function() {
+                let lastPesanTime = localStorage.getItem('last_seen_pesan_time');
+                let lastPermohonanTime = localStorage.getItem('last_seen_permohonan_time');
+
+                function playLoudNotificationChime() {
+                    try {
+                        const AudioContext = window.AudioContext || window.webkitAudioContext;
+                        if (!AudioContext) return;
+                        const ctx = new AudioContext();
+                        const now = ctx.currentTime;
+                        
+                        // Note 1 (D5)
+                        const osc1 = ctx.createOscillator();
+                        const gain1 = ctx.createGain();
+                        osc1.type = 'sine';
+                        osc1.frequency.setValueAtTime(587.33, now);
+                        gain1.gain.setValueAtTime(0.6, now);
+                        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                        osc1.connect(gain1);
+                        gain1.connect(ctx.destination);
+                        osc1.start(now);
+                        osc1.stop(now + 0.35);
+
+                        // Note 2 (A5)
+                        const osc2 = ctx.createOscillator();
+                        const gain2 = ctx.createGain();
+                        osc2.type = 'sine';
+                        osc2.frequency.setValueAtTime(880, now + 0.18);
+                        gain2.gain.setValueAtTime(0.7, now + 0.18);
+                        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+                        osc2.connect(gain2);
+                        gain2.connect(ctx.destination);
+                        osc2.start(now + 0.18);
+                        osc2.stop(now + 0.55);
+
+                        // Note 3 (High Loud D6)
+                        const osc3 = ctx.createOscillator();
+                        const gain3 = ctx.createGain();
+                        osc3.type = 'triangle';
+                        osc3.frequency.setValueAtTime(1174.66, now + 0.38);
+                        gain3.gain.setValueAtTime(0.9, now + 0.38);
+                        gain3.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
+                        osc3.connect(gain3);
+                        gain3.connect(ctx.destination);
+                        osc3.start(now + 0.38);
+                        osc3.stop(now + 0.9);
+                    } catch(e){}
+                }
+
+                function checkNewSubmissions() {
+                    fetch("{{ route('admin.api.check-submissions') }}")
+                        .then(r => r.json())
+                        .then(data => {
+                            if (data.status !== 'success') return;
+
+                            if (lastPesanTime === null || lastPermohonanTime === null) {
+                                // Initial setup: store current baseline
+                                lastPesanTime = data.pesan_latest_time || 0;
+                                lastPermohonanTime = data.permohonan_latest_time || 0;
+                                localStorage.setItem('last_seen_pesan_time', lastPesanTime);
+                                localStorage.setItem('last_seen_permohonan_time', lastPermohonanTime);
+                                return;
+                            }
+
+                            // Check Permohonan Baru
+                            if (data.permohonan_latest_time > parseInt(lastPermohonanTime)) {
+                                lastPermohonanTime = data.permohonan_latest_time;
+                                localStorage.setItem('last_seen_permohonan_time', lastPermohonanTime);
+                                
+                                playLoudNotificationChime();
+                                showToast('🔴 PERMOHONAN INFORMASI BARU!', 
+                                          'Pemohon: ' + (data.permohonan_latest_nama || 'Masyarakat'), 
+                                          "{{ route('admin.permohonan.submissions') }}");
+                            } 
+                            // Check Pesan Kontak Baru
+                            else if (data.pesan_latest_time > parseInt(lastPesanTime)) {
+                                lastPesanTime = data.pesan_latest_time;
+                                localStorage.setItem('last_seen_pesan_time', lastPesanTime);
+                                
+                                playLoudNotificationChime();
+                                showToast('✉️ PESAN KONTAK BARU!', 
+                                          'Dari: ' + (data.pesan_latest_nama || 'Pengunjung') + ' (' + (data.pesan_latest_judul || 'Pesan Baru') + ')', 
+                                          "{{ route('admin.pesan-kontak.index') }}");
+                            }
+                        })
+                        .catch(e => {});
+                }
+
+                function showToast(title, body, link) {
+                    const toast = document.getElementById('realtime-notification-toast');
+                    document.getElementById('notif-title').innerText = title;
+                    document.getElementById('notif-body').innerText = body;
+                    document.getElementById('notif-link').href = link;
+                    toast.style.display = 'block';
+                }
+
+                // Poll every 8 seconds
+                setInterval(checkNewSubmissions, 8000);
+                setTimeout(checkNewSubmissions, 2000);
+            })();
+        </script>
+
         @stack('scripts')
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>AOS.init({duration: 800, once: true});</script>
