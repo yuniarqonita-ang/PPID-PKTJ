@@ -457,3 +457,5 @@
         }
     });
 </script>
+
+@include('components.accessibility-widget')
