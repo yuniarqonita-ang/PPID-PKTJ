@@ -406,9 +406,8 @@
                             <i class="fas fa-university nav-icon"></i> PROFIL PPID
                             <i class="fas fa-chevron-down ml-auto opacity-50"></i>
                         </button>
-                        <div class="submenu {{ request()->is('admin/profil*') || request()->is('admin/pejabat*') ? 'open' : '' }}">
+                        <div class="submenu {{ request()->is('admin/profil*') ? 'open' : '' }}">
                             <a href="{{ route('admin.profil.edit', 'profil') }}" class="submenu-link {{ request()->is('admin/profil/profil*') ? 'active' : '' }}">Profil PPID</a>
-                            <a href="{{ route('admin.pejabat.index') }}" class="submenu-link {{ request()->is('admin/pejabat*') ? 'active' : '' }}">Profil Pejabat & LHKPN</a>
                             <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link {{ request()->is('admin/profil/tugas*') ? 'active' : '' }}">Tugas & Tanggung Jawab</a>
                             <a href="{{ route('admin.profil.edit', 'visi') }}" class="submenu-link {{ request()->is('admin/profil/visi*') ? 'active' : '' }}">Visi & Misi</a>
                             <a href="{{ route('admin.profil.edit', 'struktur') }}" class="submenu-link {{ request()->is('admin/profil/struktur*') ? 'active' : '' }}">Struktur Organisasi</a>
@@ -421,8 +420,7 @@
                             <i class="fas fa-chevron-down ml-auto opacity-50"></i>
                         </button>
                         <div class="submenu {{ request()->is('admin/informasi*') || request()->is('admin/pejabat*') ? 'open' : '' }}">
-                            <a href="{{ route('admin.pejabat.index') }}" class="submenu-link {{ request()->is('admin/pejabat*') ? 'active' : '' }}">Profil Pejabat & LHKPN</a>
-                            <a href="{{ route('admin.informasi.berkala.index') }}" class="submenu-link {{ request()->is('admin/informasi/berkala*') ? 'active' : '' }}">Informasi Berkala</a>
+                            <a href="{{ route('admin.informasi.berkala.index') }}" class="submenu-link {{ request()->is('admin/informasi/berkala*') || request()->is('admin/pejabat*') ? 'active' : '' }}">Informasi Berkala</a>
                             <a href="{{ route('admin.informasi.sertamerta.index') }}" class="submenu-link {{ request()->is('admin/informasi/serta-merta*') ? 'active' : '' }}">Informasi Serta Merta</a>
                             <a href="{{ route('admin.informasi.setiapsaat.index') }}" class="submenu-link {{ request()->is('admin/informasi/setiap-saat*') ? 'active' : '' }}">Informasi Setiap Saat</a>
                             <a href="{{ route('admin.informasi.dikecualikan.index') }}" class="submenu-link {{ request()->is('admin/informasi/dikecualikan*') ? 'active' : '' }}">Informasi Dikecualikan</a>

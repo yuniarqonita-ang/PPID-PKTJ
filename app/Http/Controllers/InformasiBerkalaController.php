@@ -25,8 +25,14 @@ class InformasiBerkalaController extends Controller
             $item->file_path = $item->file_informasi;
             $item->file_size = '-';
         }
+
+        try {
+            $pejabats = \App\Models\Pejabat::getActivePejabats();
+        } catch (\Throwable $e) {
+            $pejabats = collect([]);
+        }
         
-        return view('admin.informasi.berkala.index', compact('items'));
+        return view('admin.informasi.berkala.index', compact('items', 'pejabats'));
     }
 
     /**

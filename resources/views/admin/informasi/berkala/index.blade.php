@@ -42,6 +42,110 @@
             </div>
         @endif
 
+        <!-- 1. SECTION PROFIL PEJABAT PUBLIK & LHKPN (SLIDE 25 KEMENHUB) -->
+        <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden mb-10">
+            <div class="p-8 md:p-10 border-b-2 border-slate-50 flex flex-col md:flex-row items-center justify-between gap-6 bg-gradient-to-r from-blue-50/50 via-white to-amber-50/30">
+                <div class="space-y-2">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-[10px] font-black uppercase tracking-wider">
+                        <i class="fas fa-certificate text-amber-600"></i> Standar PPID Kemenhub: Slide 25
+                    </div>
+                    <h3 class="text-2xl font-black text-[#004a99] tracking-tight">1. Profil Pejabat Publik & LHKPN PKTJ</h3>
+                    <p class="text-slate-500 font-medium text-xs">Kelola pas foto, teks biografi, riwayat pendidikan/karir, dan link LHKPN jajaran Pimpinan PKTJ.</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <a href="{{ route('admin.pejabat.create') }}" class="px-6 py-3 bg-[#004a99] text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-md hover:bg-[#003875] transition-all flex items-center">
+                        <i class="fas fa-user-plus mr-2"></i> Tambah Pejabat
+                    </a>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                    <thead>
+                        <tr class="bg-slate-50 border-b border-slate-100 text-[#004a99] font-black text-[11px] uppercase tracking-widest">
+                            <th class="py-4 px-5 text-center w-16">No</th>
+                            <th class="py-4 px-5 w-24 text-center">Pas Foto</th>
+                            <th class="py-4 px-5">Nama & NIP</th>
+                            <th class="py-4 px-5">Jabatan Struktural</th>
+                            <th class="py-4 px-5 hidden md:table-cell">Riwayat Singkat</th>
+                            <th class="py-4 px-5">LHKPN</th>
+                            <th class="py-4 px-5 text-center w-28">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        @forelse($pejabats as $p)
+                        <tr class="hover:bg-blue-50/20 transition-all text-xs">
+                            <td class="py-4 px-5 text-center font-black text-slate-400">
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-slate-100 rounded-lg text-slate-700 font-bold text-xs">
+                                    {{ $loop->iteration }}
+                                </span>
+                            </td>
+                            <td class="py-4 px-5 text-center">
+                                @if($p->foto)
+                                    <img src="{{ asset($p->foto) }}" alt="{{ $p->nama }}" class="object-cover rounded-xl shadow-sm border border-slate-200 mx-auto" style="width: 60px; height: 75px; object-position: top center;">
+                                @else
+                                    <div class="bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 mx-auto border border-slate-200" style="width: 60px; height: 75px;">
+                                        <i class="fas fa-user-tie fa-lg opacity-40"></i>
+                                    </div>
+                                @endif
+                            </td>
+                            <td class="py-4 px-5">
+                                <h4 class="font-bold text-slate-900 text-sm">{{ $p->nama }}</h4>
+                                <span class="inline-block text-[11px] font-mono text-slate-500 mt-0.5">NIP: {{ $p->nip ?? '-' }}</span>
+                            </td>
+                            <td class="py-4 px-5">
+                                <span class="inline-block px-2.5 py-1 bg-blue-50 text-[#004a99] font-bold text-[11px] rounded-lg border border-blue-100">
+                                    {{ $p->jabatan }}
+                                </span>
+                            </td>
+                            <td class="py-4 px-5 hidden md:table-cell text-slate-500 max-w-xs">
+                                <p class="line-clamp-2 italic text-[11px]">{{ $p->biografi ?? 'Belum ada biografi singkat.' }}</p>
+                            </td>
+                            <td class="py-4 px-5">
+                                @if($p->lhkpn_link || $p->lhkpn_file)
+                                    <a href="{{ $p->lhkpn_link ?? asset($p->lhkpn_file) }}" target="_blank" class="inline-flex items-center gap-1.5 px-2.5 py-1 bg-emerald-50 text-emerald-700 font-bold text-[11px] rounded-lg hover:bg-emerald-100 transition-all">
+                                        <i class="fas fa-file-invoice-dollar"></i> LHKPN ({{ $p->lhkpn_tahun ?? '2025/2026' }})
+                                    </a>
+                                @else
+                                    <span class="text-[11px] text-slate-400 italic">Belum ada link</span>
+                                @endif
+                            </td>
+                            <td class="py-4 px-5 text-center">
+                                <div class="flex items-center justify-center gap-2">
+                                    <a href="{{ route('admin.pejabat.edit', $p->id) }}" class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 flex items-center justify-center text-xs transition-all shadow-sm" title="Edit Pejabat & LHKPN">
+                                        <i class="fas fa-pencil-alt"></i>
+                                    </a>
+                                    <form action="{{ route('admin.pejabat.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pejabat ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center text-xs transition-all shadow-sm border-none cursor-pointer" title="Hapus Pejabat">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="7" class="text-center py-6 text-slate-400 text-xs">Belum ada data profil pejabat.</td>
+                        </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. SECTION DOKUMEN & INFORMASI BERKALA LAINNYA -->
+        <div class="p-4 md:p-6 bg-slate-50 rounded-2xl border border-slate-200 mb-4 flex items-center justify-between">
+            <div>
+                <h3 class="text-xl font-black text-[#004a99] tracking-tight">2. Daftar Dokumen & Informasi Berkala Lainnya</h3>
+                <p class="text-slate-500 font-medium text-xs">LAKIP, DIPA, SOP, Laporan Keuangan, dan Dokumen Berkala Resmi PKTJ.</p>
+            </div>
+            <a href="{{ route('admin.informasi.berkala.create') }}" class="px-5 py-2.5 bg-[#004a99] text-white font-black text-xs uppercase tracking-wider rounded-xl shadow hover:bg-[#003875] transition-all flex items-center">
+                <i class="fas fa-plus mr-2"></i> Tambah Dokumen Berkala
+            </a>
+        </div>
+
         <!-- TABLE CARD -->
         <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
             <div class="overflow-x-auto">
