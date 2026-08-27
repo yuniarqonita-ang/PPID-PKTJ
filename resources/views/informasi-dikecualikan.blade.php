@@ -154,65 +154,68 @@
 
     <div class="container">
         <div class="content-card" data-aos="fade-up" data-aos-delay="100">
-            <h1 class="section-title">Informasi Dikecualikan</h1>
-
-            <!-- Search Filters -->
-            <form action="{{ route('informasi.dikecualikan') }}" method="GET" class="mb-5">
-                <div class="row g-3">
-                    <div class="col-md-4">
-                        <label class="form-label text-muted small fw-bold uppercase">Informasi</label>
-                        <input type="text" name="informasi" value="{{ request('informasi') }}" class="form-control shadow-sm border-0 py-3 px-4 rounded-3" placeholder="Cari Informasi...">
+            <!-- TOP HERO QUICK SEARCH BAR -->
+            <div class="p-4 mb-4 rounded-4 border shadow-sm" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-color: #cbd5e1;">
+                <form action="{{ route('informasi.dikecualikan') }}" method="GET">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-lg-5">
+                            <div class="position-relative">
+                                <i class="fas fa-search position-absolute top-50 translate-middle-y text-muted ms-3" style="font-size: 15px;"></i>
+                                <input type="text" name="informasi" value="{{ request('informasi') }}" placeholder="Cari nama informasi yang dikecualikan..." class="form-control form-control-lg ps-5 rounded-pill border-2 bg-white" style="font-size: 14px;">
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <input type="text" name="dasar_hukum" value="{{ request('dasar_hukum') }}" placeholder="Dasar hukum pasal/UU..." class="form-control form-control-lg rounded-pill border-2 bg-white" style="font-size: 14px;">
+                        </div>
+                        <div class="col-lg-2">
+                            @php
+                                $options = \App\Models\InformasiDikecualikan::whereNotNull('penanggung_jawab')
+                                    ->where('penanggung_jawab', '!=', '')
+                                    ->distinct()
+                                    ->pluck('penanggung_jawab')
+                                    ->toArray();
+                            @endphp
+                            <select name="penanggung_jawab" class="form-select form-select-lg rounded-pill border-2 bg-white" style="font-size: 14px;">
+                                <option value="">Semua Unit</option>
+                                @foreach($options as $opt)
+                                    @if(trim($opt))
+                                        <option value="{{ trim($opt) }}" {{ request('penanggung_jawab') == trim($opt) ? 'selected' : '' }}>{{ trim($opt) }}</option>
+                                    @endif
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-lg-2 d-flex gap-2">
+                            <button type="submit" class="btn btn-primary rounded-pill px-4 py-2.5 fw-bold w-100 shadow-sm" style="background: #004a99;">
+                                <i class="fas fa-search me-1"></i> Filter
+                            </button>
+                            @if(request()->anyFilled(['informasi', 'dasar_hukum', 'penanggung_jawab']))
+                                <a href="{{ route('informasi.dikecualikan') }}" class="btn btn-light rounded-pill px-3 py-2.5 border" title="Reset">
+                                    <i class="fas fa-times"></i>
+                                </a>
+                            @endif
+                        </div>
                     </div>
-                    <div class="col-md-4">
-                        <label class="form-label text-muted small fw-bold uppercase">Dasar Hukum Pengecualian</label>
-                        <input type="text" name="dasar_hukum" value="{{ request('dasar_hukum') }}" class="form-control shadow-sm border-0 py-3 px-4 rounded-3" placeholder="Cari Dasar Hukum...">
-                    </div>
-                    <div class="col-md-4">
-                        <label class="form-label text-muted small fw-bold uppercase">Penanggung Jawab</label>
-                        @php
-                            $options = \App\Models\InformasiDikecualikan::whereNotNull('penanggung_jawab')
-                                ->where('penanggung_jawab', '!=', '')
-                                ->distinct()
-                                ->pluck('penanggung_jawab')
-                                ->toArray();
-                        @endphp
-                        <select name="penanggung_jawab" class="form-select shadow-sm border-0 py-3 px-4 rounded-3">
-                            <option value="">Semua Penanggung Jawab</option>
-                            @foreach($options as $opt)
-                                @if(trim($opt))
-                                    <option value="{{ trim($opt) }}" {{ request('penanggung_jawab') == trim($opt) ? 'selected' : '' }}>{{ trim($opt) }}</option>
-                                @endif
-                            @endforeach
-                        </select>
-                    </div>
-                    <div class="col-12 mt-4">
-                        <button type="submit" class="btn btn-success px-5 py-3 rounded-3 fw-bold shadow-sm">
-                            Cari <i class="fas fa-search ms-2"></i>
-                        </button>
-                        @if(request()->anyFilled(['informasi', 'dasar_hukum', 'penanggung_jawab']))
-                            <a href="{{ route('informasi.dikecualikan') }}" class="btn btn-light px-4 py-3 rounded-3 fw-bold ms-2 shadow-sm border">
-                                Reset
-                            </a>
-                        @endif
-                    </div>
-                </div>
-            </form>
-
-            <div class="mb-3 text-muted small fw-bold">
-                Showing {{ $items->firstItem() ?? 0 }}-{{ $items->lastItem() ?? 0 }} of {{ $items->total() }} items.
+                </form>
             </div>
 
-            <div class="table-responsive rounded-4 shadow-sm border">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h2 class="section-title mb-0" style="font-size: 1.5rem;">Daftar Informasi Yang Dikecualikan</h2>
+                <span class="badge bg-light text-muted border px-3 py-2 rounded-pill font-mono small">
+                    Total: {{ $items->total() }} Dokumen Uji Konsekuensi
+                </span>
+            </div>
+
+            <div class="table-responsive rounded-4 shadow-sm border overflow-hidden">
                 <table class="table table-hover align-middle mb-0">
-                    <thead class="bg-light">
-                        <tr class="text-primary small fw-black uppercase text-center align-middle">
-                            <th style="width: 50px;" class="py-4 px-3 border-end">#</th>
-                            <th style="min-width: 250px;" class="py-4 px-3 border-end">Informasi</th>
-                            <th style="min-width: 200px;" class="py-4 px-3 border-end">Dasar Hukum Pengecualian Informasi</th>
-                            <th style="min-width: 200px;" class="py-4 px-3 border-end">Konsekuensi/Pertimbangan Dibuka Bagi Publik</th>
-                            <th style="min-width: 200px;" class="py-4 px-3 border-end">Konsekuensi/Pertimbangan Ditutup Bagi Publik</th>
-                            <th style="min-width: 120px;" class="py-4 px-3 border-end">Jangka Waktu</th>
-                            <th style="min-width: 150px;" class="py-4 px-3 border-end">Penanggung Jawab</th>
+                    <thead style="background: #002b5c; color: white;">
+                        <tr class="small fw-black uppercase text-center align-middle" style="color: #ffffff;">
+                            <th style="width: 50px; background: #002b5c; color: #ffd166;" class="py-3 px-3 border-end">No</th>
+                            <th style="min-width: 250px; background: #002b5c; color: #ffffff;" class="py-3 px-3 border-end">Informasi</th>
+                            <th style="min-width: 200px; background: #002b5c; color: #ffffff;" class="py-3 px-3 border-end">Dasar Hukum Pengecualian</th>
+                            <th style="min-width: 200px; background: #002b5c; color: #ffffff;" class="py-3 px-3 border-end">Pertimbangan Dibuka</th>
+                            <th style="min-width: 200px; background: #002b5c; color: #ffffff;" class="py-3 px-3 border-end">Pertimbangan Ditutup</th>
+                            <th style="min-width: 120px; background: #002b5c; color: #ffffff;" class="py-3 px-3 border-end">Jangka Waktu</th>
+                            <th style="min-width: 150px; background: #002b5c; color: #ffffff;" class="py-3 px-3">Penanggung Jawab</th>
                         </tr>
                     </thead>
                     <tbody class="border-top-0">

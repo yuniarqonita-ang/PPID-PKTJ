@@ -137,7 +137,8 @@ Route::get('/profil/pejabat', [\App\Http\Controllers\InformasiPublikController::
 Route::get('/profil-tugas-tanggung-jawab.html', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas'])->name('profil.tugas.html');
 Route::get('/profil-visi-misi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showVisi'])->name('profil.visi.html');
 Route::get('/profil-struktur-organisasi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur'])->name('profil.struktur.html');
-Route::get('/profil-regulasi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showRegulasi'])->name('profil.regulasi.html');
+Route::get('/profil-regulasi.html', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('profil.regulasi.html');
+Route::get('/regulasi', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('regulasi');
 Route::get('/profil-kontak.html', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak'])->name('profil.kontak.html');
 
 // Informasi Publik (Public - Dynamic from Controller)
@@ -152,7 +153,10 @@ Route::get('/layanan-informasi/daftar', [ProfilPublikController::class, 'showPag
 Route::get('/layanan-informasi/maklumat', [ProfilPublikController::class, 'showPage'])->defaults('type', 'maklumat-pelayanan')->defaults('view', 'maklumat-pelayanan')->name('layanan.maklumat-pelayanan');
 Route::get('/layanan-informasi/laporan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-layanan')->defaults('view', 'laporan-layanan-informasi')->name('layanan.laporan-layanan');
 Route::get('/layanan-informasi/laporan-akses', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-akses')->defaults('view', 'laporan-akses-informasi-publik')->name('layanan.laporan-akses');
-Route::get('/layanan-informasi/laporan-survey', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-survey')->defaults('view', 'laporan-survey-kepuasan')->name('layanan.laporan-survey');
+Route::get('/layanan-informasi/laporan-survey', [\App\Http\Controllers\SurveyController::class, 'index'])->name('layanan.laporan-survey');
+Route::get('/survey-kepuasan', [\App\Http\Controllers\SurveyController::class, 'index'])->name('survey.index');
+Route::post('/survey/store', [\App\Http\Controllers\SurveyController::class, 'store'])->name('survey.store');
+Route::get('/survey/check-registrasi', [\App\Http\Controllers\SurveyController::class, 'checkRegistrasi'])->name('survey.check-registrasi');
 
 // Dynamic public pages from custom menus
 Route::get('/halaman/{slug}', [\App\Http\Controllers\HalamanCustomController::class, 'showDynamicPage'])->name('halaman.dynamic');
@@ -290,7 +294,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/maklumat-pelayanan', function() { return view('admin.layanan.maklumat-pelayanan'); })->name('maklumat-pelayanan');
         Route::get('/laporan-layanan', function() { return view('admin.layanan.laporan-layanan'); })->name('laporan-layanan');
         Route::get('/laporan-akses', function() { return view('admin.layanan.laporan-akses'); })->name('laporan-akses');
-        Route::get('/laporan-survey', function() { return view('admin.layanan.laporan-survey'); })->name('laporan-survey');
+        Route::get('/laporan-survey', [\App\Http\Controllers\SurveyController::class, 'adminIndex'])->name('laporan-survey');
+        Route::delete('/survey/{id}', [\App\Http\Controllers\SurveyController::class, 'adminDestroy'])->name('survey.destroy');
     });
 
     // Menu Prosedur
@@ -341,6 +346,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('berita/clean-dummy', [BeritaController::class, 'cleanDummy'])->name('admin.berita.clean-dummy');
 
     // Resource CRUD
+    Route::resource('regulasi', \App\Http\Controllers\RegulasiController::class)->names('admin.regulasi');
     Route::post('pejabat/update-size', [\App\Http\Controllers\PejabatController::class, 'updateSizeSettings'])->name('admin.pejabat.update-size');
     Route::resource('pejabat', \App\Http\Controllers\PejabatController::class)->names('admin.pejabat');
     Route::resource('berita', BeritaController::class)->names('admin.berita');

@@ -411,7 +411,7 @@
                             <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link {{ request()->is('admin/profil/tugas*') ? 'active' : '' }}">Tugas & Tanggung Jawab</a>
                             <a href="{{ route('admin.profil.edit', 'visi') }}" class="submenu-link {{ request()->is('admin/profil/visi*') ? 'active' : '' }}">Visi & Misi</a>
                             <a href="{{ route('admin.profil.edit', 'struktur') }}" class="submenu-link {{ request()->is('admin/profil/struktur*') ? 'active' : '' }}">Struktur Organisasi</a>
-                            <a href="{{ route('admin.profil.edit', 'regulasi') }}" class="submenu-link {{ request()->is('admin/profil/regulasi*') ? 'active' : '' }}">Regulasi</a>
+                            <a href="{{ route('admin.regulasi.index') }}" class="submenu-link {{ request()->is('admin/regulasi*') || request()->is('admin/profil/regulasi*') ? 'active' : '' }}">Regulasi & Dasar Hukum</a>
                             <a href="{{ route('admin.profil.edit', 'kontak') }}" class="submenu-link {{ request()->is('admin/profil/kontak*') ? 'active' : '' }}">Kontak Kami</a>
                         </div>
 

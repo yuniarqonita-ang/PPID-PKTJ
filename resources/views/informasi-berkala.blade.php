@@ -161,6 +161,23 @@
 
     <div class="container">
         <div class="content-card" data-aos="fade-up" data-aos-delay="100">
+            <!-- TOP HERO QUICK SEARCH BAR -->
+            <div class="p-4 mb-4 rounded-4 border shadow-sm" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-color: #cbd5e1;">
+                <div class="row g-3 align-items-center">
+                    <div class="col-lg-8">
+                        <div class="position-relative">
+                            <i class="fas fa-search position-absolute top-50 translate-middle-y text-muted ms-3" style="font-size: 16px;"></i>
+                            <input type="text" id="topSearchInputBerkala" placeholder="Cari kata kunci, nama pejabat, jenis dokumen berkala..." onkeyup="filterBerkalaContent()" class="form-control form-control-lg ps-5 rounded-pill border-2 bg-white" style="font-size: 14.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 text-lg-end text-muted small">
+                        <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs">
+                            <i class="fas fa-list-check text-primary me-1"></i> Mode Penjelajahan Publik
+                        </span>
+                    </div>
+                </div>
+            </div>
+
             @include('components.konten-dinamis', ['prefix' => 'informasi_berkala'])
 
             <!-- SECTION PROFIL PEJABAT PUBLIK & LHKPN (STANDAR PPID KEMENHUB SLIDE 25) -->
@@ -635,9 +652,9 @@
                 <i class="fas fa-file-alt me-2 text-primary"></i> Dokumen & Laporan Informasi Berkala
             </h3>
 
-            <div class="row mt-2">
+            <div class="row mt-2" id="berkalaItemsContainer">
                 @forelse($items as $item)
-                    <div class="col-12">
+                    <div class="col-12 searchable-berkala-item" data-keywords="{{ strtolower($item->judul . ' ' . strip_tags($item->deskripsi)) }}">
                         <div class="info-item hover-lift" data-aos="fade-up">
                             <div class="d-flex align-items-start flex-column flex-md-row gap-4">
                                 <div class="info-icon">
@@ -662,7 +679,7 @@
                                         @if($item->file_path && $item->file_path !== '#' && $item->file_path !== '')
                                         <div class="d-flex gap-2 flex-wrap">
                                             @if(is_previewable($item->file_path))
-                                            <button type="button" 
+                                             <button type="button" 
                                                     class="btn-download-premium" 
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#previewModal" 
@@ -697,7 +714,43 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({duration: 800, once: true});</script>
+    <script>
+        AOS.init({duration: 800, once: true});
+
+        function filterBerkalaContent() {
+            const query = document.getElementById('topSearchInputBerkala').value.toLowerCase().trim();
+            
+            // Filter berkala items
+            document.querySelectorAll('.searchable-berkala-item').forEach(el => {
+                const kw = el.getAttribute('data-keywords') || '';
+                if (!query || kw.includes(query)) {
+                    el.classList.remove('d-none');
+                } else {
+                    el.classList.add('d-none');
+                }
+            });
+
+            // Filter pejabat rows in table view
+            document.querySelectorAll('#pejabatTableBody tr').forEach(tr => {
+                const text = tr.innerText.toLowerCase();
+                if (!query || text.includes(query)) {
+                    tr.style.display = '';
+                } else {
+                    tr.style.display = 'none';
+                }
+            });
+
+            // Filter pejabat cards in grid view
+            document.querySelectorAll('#pejabatGridView .col-md-6').forEach(card => {
+                const text = card.innerText.toLowerCase();
+                if (!query || text.includes(query)) {
+                    card.style.display = '';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+    </script>
 </body>
 </html>
 
