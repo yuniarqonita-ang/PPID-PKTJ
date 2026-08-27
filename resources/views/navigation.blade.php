@@ -1,6 +1,10 @@
 @php
     if (!isset($settings)) {
-        $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+        try {
+            $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
+        } catch (\Throwable $e) {
+            $settings = [];
+        }
     }
 @endphp
 <style>

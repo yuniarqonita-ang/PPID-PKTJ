@@ -47,197 +47,6 @@ use App\Http\Controllers\InformasiDikecualikanController;
 use App\Http\Controllers\HalamanCustomController;
 
 // ==========================================
-// DB MIGRATION & CLEANUP: Permanently Drop Keberatans & Obsolete Views
-// ==========================================
-try {
-    // 1. Run migrations programmatically if the latest recovery migration hasn't run yet
-    $hasTable = \Illuminate\Support\Facades\Schema::hasTable('migrations');
-    $hasRun = false;
-    if ($hasTable) {
-        $hasRun = \Illuminate\Support\Facades\DB::table('migrations')
-            ->where('migration', '2026_08_26_000001_create_pejabats_table')
-            ->exists();
-    }
-    
-    if (!$hasRun) {
-        // Run pending migrations
-        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-
-        // Seed the new contact and social media links first
-        \Illuminate\Support\Facades\Artisan::call('db:seed', [
-            '--class' => 'ContactSocialMediaSeeder',
-            '--force' => true
-        ]);
-        
-        // Seed DIP data
-        \Illuminate\Support\Facades\Artisan::call('db:seed', [
-            '--class' => 'DipSeeder',
-            '--force' => true
-        ]);
-
-        // Seed Pejabat profiles (Slide 25)
-        \Illuminate\Support\Facades\Artisan::call('db:seed', [
-            '--class' => 'PejabatSeeder',
-            '--force' => true
-        ]);
-
-        // Seed Synchronized DIP items ready for GDrive links
-        \Illuminate\Support\Facades\Artisan::call('db:seed', [
-            '--class' => 'SyncDaftarInformasiSeeder',
-            '--force' => true
-        ]);
-
-        // Add Profil Pejabat to CustomMenu if missing
-        if (\Illuminate\Support\Facades\Schema::hasTable('custom_menus')) {
-            $parentProfil = \Illuminate\Support\Facades\DB::table('custom_menus')
-                ->where('slug', 'profil')
-                ->orWhere('nama', 'like', '%profil%')
-                ->whereNull('parent_id')
-                ->first();
-
-            $existsPejabat = \Illuminate\Support\Facades\DB::table('custom_menus')
-                ->where('slug', 'profil-pejabat')
-                ->orWhere('url', '/profil/pejabat')
-                ->orWhere('url', '/profil-pejabat.html')
-                ->exists();
-
-            if (!$existsPejabat && $parentProfil) {
-                \Illuminate\Support\Facades\DB::table('custom_menus')->insert([
-                    'parent_id'   => $parentProfil->id,
-                    'nama'        => 'Profil Pejabat & LHKPN',
-                    'slug'        => 'profil-pejabat',
-                    'url'         => '/profil-pejabat.html',
-                    'penempatan'  => 'header',
-                    'urutan'      => 2,
-                    'aktif'       => true,
-                    'created_at'  => now(),
-                    'updated_at'  => now(),
-                ]);
-            }
-        }
-
-        // Clear view cache so new views take effect immediately
-        \Illuminate\Support\Facades\Artisan::call('view:clear');
-        \Illuminate\Support\Facades\Artisan::call('cache:clear');
-        
-        if (function_exists('opcache_reset')) {
-            @opcache_reset();
-        }
-    }
-
-    // Translate/Update document category names to the exact long spelling
-    if (\Illuminate\Support\Facades\Schema::hasTable('dokumens')) {
-        \Illuminate\Support\Facades\DB::table('dokumens')
-            ->where('kategori', 'SOP Pendokumentasian')
-            ->update(['kategori' => 'SOP Pendokumentasian Informasi Publik']);
-        \Illuminate\Support\Facades\DB::table('dokumens')
-            ->where('kategori', 'SOP Permintaan Informasi')
-            ->update(['kategori' => 'SOP Permintaan Informasi Publik']);
-        \Illuminate\Support\Facades\DB::table('dokumens')
-            ->where('kategori', 'SOP Pengajuan Sengketa')
-            ->update(['kategori' => 'SOP Pengajuan Sengketa Informasi Publik']);
-        \Illuminate\Support\Facades\DB::table('dokumens')
-            ->where('kategori', 'SOP Penetapan Pemutakhiran')
-            ->update(['kategori' => 'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik']);
-    }
-
-    if (\Illuminate\Support\Facades\Schema::hasTable('keberatans')) {
-        \Illuminate\Support\Facades\Schema::dropIfExists('keberatans');
-    }
-    // Delete obsolete Keberatan view files
-    $filesToDelete = [
-        resource_path('views/admin/reports/templates/register_keberatan_word.blade.php'),
-        resource_path('views/admin/reports/templates/form_keberatan.blade.php'),
-        resource_path('views/admin/keberatan/edit.blade.php'),
-        resource_path('views/admin/keberatan/form.blade.php'),
-        resource_path('views/admin/keberatan/index.blade.php'),
-        resource_path('views/admin/keberatan/show.blade.php'),
-    ];
-    foreach ($filesToDelete as $file) {
-        if (file_exists($file)) {
-            @unlink($file);
-        }
-    }
-    if (\Illuminate\Support\Facades\Schema::hasTable('custom_menus')) {
-        \Illuminate\Support\Facades\DB::table('custom_menus')
-            ->where('slug', 'agenda-menu')
-            ->orWhere('url', '/agenda')
-            ->delete();
-
-        \Illuminate\Support\Facades\DB::table('custom_menus')
-            ->where('slug', 'jdih-sub')
-            ->orWhere('url', 'like', '%jdih%')
-            ->orWhere('nama', 'like', '%JDIH%')
-            ->update([
-                'nama' => 'JDIH BPSDM Kemenhub',
-                'url'  => 'https://bpsdm.kemenhub.go.id/jdih/'
-            ]);
-    }
-
-    if (\Illuminate\Support\Facades\Schema::hasTable('users')) {
-        \Illuminate\Support\Facades\Schema::table('users', function (\Illuminate\Database\Schema\Blueprint $table) {
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'username')) {
-                $table->string('username')->nullable()->unique()->after('email');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'jenis_identitas')) {
-                $table->string('jenis_identitas')->nullable()->default('KTP')->after('password');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'nomor_identitas')) {
-                $table->string('nomor_identitas')->nullable()->after('jenis_identitas');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'file_identitas')) {
-                $table->string('file_identitas')->nullable()->after('nomor_identitas');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'alamat')) {
-                $table->text('alamat')->nullable()->after('file_identitas');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'no_telp')) {
-                $table->string('no_telp')->nullable()->after('alamat');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'pekerjaan')) {
-                $table->string('pekerjaan')->nullable()->after('no_telp');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'instansi')) {
-                $table->string('instansi')->nullable()->after('pekerjaan');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'status_verifikasi')) {
-                $table->string('status_verifikasi')->default('pending')->after('instansi');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('users', 'catatan_verifikasi')) {
-                $table->text('catatan_verifikasi')->nullable()->after('status_verifikasi');
-            }
-        });
-    }
-
-    if (\Illuminate\Support\Facades\Schema::hasTable('beritas')) {
-        \Illuminate\Support\Facades\Schema::table('beritas', function (\Illuminate\Database\Schema\Blueprint $table) {
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('beritas', 'link_sumber')) {
-                $table->string('link_sumber')->nullable()->after('gambar');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('beritas', 'guid')) {
-                $table->string('guid')->nullable()->after('link_sumber');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('beritas', 'is_external')) {
-                $table->boolean('is_external')->default(false)->after('guid');
-            }
-        });
-    }
-
-    if (\Illuminate\Support\Facades\Schema::hasTable('permohonans')) {
-        \Illuminate\Support\Facades\Schema::table('permohonans', function (\Illuminate\Database\Schema\Blueprint $table) {
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('permohonans', 'user_id')) {
-                $table->unsignedBigInteger('user_id')->nullable()->after('id');
-            }
-            if (!\Illuminate\Support\Facades\Schema::hasColumn('permohonans', 'nomor_registrasi')) {
-                $table->string('nomor_registrasi')->nullable()->after('user_id');
-            }
-        });
-    }
-} catch (\Exception $e) {
-    // Silent
-}
-
-// ==========================================
 // 0. REDIRECT URL LAMA (.html) & EXTERNAL
 // ==========================================
 Route::redirect('/jdih', 'https://bpsdm.kemenhub.go.id/jdih/');
@@ -292,25 +101,17 @@ Route::get('/', function () {
     }
 })->name('home');
 
-// Track visitor (enabled with database self-healing)
+// Track visitor (fail-safe)
 try {
-    if (!\Illuminate\Support\Facades\Schema::hasTable('visitors')) {
-        \Illuminate\Support\Facades\Schema::create('visitors', function (\Illuminate\Database\Schema\Blueprint $table) {
-            $table->id();
-            $table->string('ip');
-            $table->text('user_agent')->nullable();
-            $table->date('tanggal');
-            $table->timestamps();
-        });
+    if (\Illuminate\Support\Facades\Schema::hasTable('visitors')) {
+        \App\Models\Visitor::firstOrCreate([
+            'ip' => request()->ip(),
+            'tanggal' => date('Y-m-d')
+        ], [
+            'user_agent' => request()->userAgent()
+        ]);
     }
-
-    \App\Models\Visitor::firstOrCreate([
-        'ip' => request()->ip(),
-        'tanggal' => date('Y-m-d')
-    ], [
-        'user_agent' => request()->userAgent()
-    ]);
-} catch (\Exception $e) {
+} catch (\Throwable $e) {
     // Fail silently to prevent site crash if DB issue
 }
 
