@@ -9,8 +9,8 @@
             <h1 class="text-3xl font-black text-[#004a99] tracking-tight">Tambah Pejabat Baru</h1>
             <p class="text-slate-500 font-medium text-sm mt-1">Input data profil, foto, biografi, riwayat pendidikan & LHKPN.</p>
         </div>
-        <a href="{{ route('admin.pejabat.index') }}" class="px-6 py-3 bg-slate-100 text-slate-700 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-slate-200 transition-all flex items-center">
-            <i class="fas fa-arrow-left mr-2"></i> Kembali
+        <a href="{{ route('admin.informasi.berkala.index') }}" class="px-6 py-3 bg-slate-100 text-slate-700 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-slate-200 transition-all flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Kembali ke Informasi Berkala
         </a>
     </div>
 
@@ -56,28 +56,27 @@
             </div>
 
             <div class="space-y-2">
-                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Upload Pas Foto Pejabat</label>
+                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Pas Foto Pejabat</label>
                 <input type="file" name="foto" accept="image/*" class="w-full px-5 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] text-xs font-medium text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#004a99] file:text-white hover:file:bg-[#003875] transition-all">
-                <p class="text-[11px] text-slate-400">Format: JPG, PNG, WEBP (Maksimal 5MB).</p>
             </div>
         </div>
 
         <!-- BIOGRAFI -->
         <div class="space-y-2">
             <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Biografi & Profil Singkat</label>
-            <textarea name="biografi" rows="3" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-sm font-medium text-slate-800 transition-all" placeholder="Tuliskan gambaran singkat mengenai profil dan pengalaman kepemimpinan beliau...">{{ old('biografi') }}</textarea>
+            <textarea name="biografi" rows="3" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-sm font-medium text-slate-800 transition-all" placeholder="Tuliskan biografi atau profil singkat pimpinan...">{{ old('biografi') }}</textarea>
         </div>
 
         <!-- RIWAYAT PENDIDIKAN & JABATAN -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="space-y-2">
                 <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Riwayat Pendidikan (1 Baris = 1 Jenjang)</label>
-                <textarea name="pendidikan" rows="4" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-xs font-medium text-slate-800 transition-all font-mono" placeholder="S2 - Magister Teknik Sipil, Institut Teknologi Bandung&#10;D4 - Transportasi Darat, STTD">{{ old('pendidikan') }}</textarea>
+                <textarea name="pendidikan" rows="5" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-xs font-medium text-slate-800 transition-all font-mono" placeholder="S2 - Magister Teknik Sipil / Transportasi, ITB&#10;D4 / S1 Terapan - STTD">{{ old('pendidikan') }}</textarea>
             </div>
 
             <div class="space-y-2">
                 <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Riwayat Jabatan / Karir (1 Baris = 1 Jabatan)</label>
-                <textarea name="riwayat_jabatan" rows="4" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-xs font-medium text-slate-800 transition-all font-mono" placeholder="Direktur PKTJ (2024 - Sekarang)&#10;Wakil Direktur I POLTRADA Bali">{{ old('riwayat_jabatan') }}</textarea>
+                <textarea name="riwayat_jabatan" rows="5" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-xs font-medium text-slate-800 transition-all font-mono" placeholder="Direktur PKTJ Tegal (2024 - Sekarang)&#10;Wakil Direktur I POLTRADA Bali">{{ old('riwayat_jabatan') }}</textarea>
             </div>
         </div>
 
@@ -104,7 +103,7 @@
         </div>
 
         <div class="pt-6 border-t-2 border-slate-100 flex items-center justify-end gap-4">
-            <a href="{{ route('admin.pejabat.index') }}" class="px-8 py-4 bg-slate-100 text-slate-700 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-slate-200 transition-all">Batal</a>
+            <a href="{{ route('admin.informasi.berkala.index') }}" class="px-8 py-4 bg-slate-100 text-slate-700 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-slate-200 transition-all">Batal</a>
             <button type="submit" class="px-10 py-4 bg-[#004a99] text-white font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-[#003875] transition-all">Simpan Pejabat</button>
         </div>
     </form>
