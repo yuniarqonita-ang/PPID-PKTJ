@@ -135,29 +135,39 @@
                 @endif
 
                 <div class="rich-content">
-                    @if($profil->konten_pembuka)
+                    @if(!empty($profil->konten_pembuka))
                         <div class="text-justify mb-4">
                             {!! $profil->konten_pembuka !!}
                         </div>
+                    @else
+                        <div class="text-justify mb-4" style="line-height: 1.8;">
+                            <p>Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Politeknik Keselamatan Transportasi Jalan (PKTJ) dibentuk sebagai wujud komitmen nyata institusi dalam mengimplementasikan keterbukaan informasi publik sesuai amanat Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik, Peraturan Komisi Informasi (PerKI) Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik, serta Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan.</p>
+                            <p>Sebagai Unit Pelaksana Teknis (UPT) Pendidikan Tinggi Vokasi di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan, PKTJ menetapkan struktur PPID Pelaksana UPT melalui Surat Keputusan Direktur PKTJ. Pembentukan ini bertujuan memberikan kepastian hak bagi masyarakat, pemohon informasi, dan seluruh pemangku kepentingan untuk memperoleh informasi publik yang cepat, akurat, transparan, dan bebas biaya (Rp 0).</p>
+                        </div>
                     @endif
                     
-                    @if($profil->judul_sub)
-                        <h3 class="outfit fw-bold text-dark mb-3 mt-5">{{ $profil->judul_sub }}</h3>
-                    @endif
+                    <h3 class="outfit fw-bold text-dark mb-3 mt-5" style="color: #004a99 !important;">
+                        <i class="fas fa-bullseye me-2 text-primary"></i> {{ $profil->judul_sub ?? 'Peran & Komitmen Pelayanan PPID PKTJ' }}
+                    </h3>
                     
-                    @if($profil->konten_detail)
+                    @if(!empty($profil->konten_detail))
                         <div class="text-justify">
                             {!! $profil->konten_detail !!}
                         </div>
-                    @endif
-                    
-                    @if($profil->gambar)
-                        <div class="image-container">
-                            <img src="{{ asset('storage/' . $profil->gambar) }}" alt="{{ $profil->judul }}" class="w-100 h-auto">
+                    @else
+                        <div class="text-justify" style="line-height: 1.8;">
+                            <p>Dalam menjalankan perannya, PPID Pelaksana PKTJ berfungsi sebagai koordinator utama pengelolaan dan pelayanan dokumentasi informasi publik yang mendukung penyelenggaraan tridharma perguruan tinggi vokasi keselamatan transportasi jalan, pelaksanaan uji kompetensi teknis, penelitian keselamatan transportasi, serta pengelolaan tata kelola keuangan Badan Layanan Umum (BLU) yang bersih, transparan, dan akuntabel.</p>
+                            <p>Pelayanan informasi publik di lingkungan PKTJ diselenggarakan secara terpadu melalui dua saluran: <strong>Layanan Daring (Online)</strong> melalui portal resmi mandiri yang ramah disabilitas (dilengkapi fitur audio Text-to-Speech, mode kontras, dan video bahasa isyarat), serta <strong>Layanan Luring (Offline)</strong> melalui Meja Layanan Terpadu PPID di Kampus I PKTJ Tegal, Jl. Perintis Kemerdekaan No. 17, Kota Tegal, Jawa Tengah.</p>
                         </div>
                     @endif
                     
-                    @if($profil->link_dokumen && is_previewable($profil->link_dokumen))
+                    @if(!empty($profil->gambar))
+                        <div class="image-container my-4">
+                            <img src="{{ asset('storage/' . $profil->gambar) }}" alt="{{ $profil->judul }}" class="w-100 h-auto rounded-4 shadow-sm">
+                        </div>
+                    @endif
+                    
+                    @if(!empty($profil->link_dokumen) && is_previewable($profil->link_dokumen))
                         <div class="mt-5 text-center">
                             <a href="{{ route('preview.dokumen', ['file' => $profil->link_dokumen, 'title' => 'Dokumen Profil Lengkap']) }}" class="btn-download btn-lg">
                                 <i class="fas fa-file-pdf me-2"></i> Lihat Dokumen Profil Lengkap
@@ -166,18 +176,44 @@
                     @endif
                 </div>
 
-                @if($profil->gambaran)
-                    <div class="mt-5 pt-4 border-top">
+                <div class="mt-5 pt-4 border-top">
+                    @if(!empty($profil->gambaran))
                         <div class="rich-content text-justify">
                             {!! $profil->gambaran !!}
                         </div>
-                    </div>
-                @endif
+                    @else
+                        <div class="alert alert-primary d-flex align-items-center rounded-4 border-0 p-3.5 mb-0" style="background: #eef2ff; color: #002b5c;">
+                            <i class="fas fa-shield-halved fa-2x me-3 text-primary"></i>
+                            <div>
+                                <strong>Standar Pelayanan PPID PKTJ:</strong> Berkomitmen memberikan pelayanan informasi publik yang cepat, tepat waktu, biaya ringan (Rp 0), serta mudah dijangkau oleh seluruh lapisan masyarakat termasuk penyandang disabilitas.
+                            </div>
+                        </div>
+                    @endif
+                </div>
             @else
-                <div class="text-center py-5">
-                    <i class="fas fa-info-circle fa-4x text-muted mb-4"></i>
-                    <h3 class="text-muted">Konten Belum Tersedia</h3>
-                    <p class="text-muted">Administrator sedang mempersiapkan informasi profil untuk Anda.</p>
+                <div class="rich-content">
+                    <div class="text-justify mb-4" style="line-height: 1.8;">
+                        <p>Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Politeknik Keselamatan Transportasi Jalan (PKTJ) dibentuk sebagai wujud komitmen nyata institusi dalam mengimplementasikan keterbukaan informasi publik sesuai amanat Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik, Peraturan Komisi Informasi (PerKI) Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik, serta Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan.</p>
+                        <p>Sebagai Unit Pelaksana Teknis (UPT) Pendidikan Tinggi Vokasi di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan, PKTJ menetapkan struktur PPID Pelaksana UPT melalui Surat Keputusan Direktur PKTJ. Pembentukan ini bertujuan memberikan kepastian hak bagi masyarakat, pemohon informasi, dan seluruh pemangku kepentingan untuk memperoleh informasi publik yang cepat, akurat, transparan, dan bebas biaya (Rp 0).</p>
+                    </div>
+
+                    <h3 class="outfit fw-bold text-dark mb-3 mt-5" style="color: #004a99 !important;">
+                        <i class="fas fa-bullseye me-2 text-primary"></i> Peran & Komitmen Pelayanan PPID PKTJ
+                    </h3>
+
+                    <div class="text-justify" style="line-height: 1.8;">
+                        <p>Dalam menjalankan perannya, PPID Pelaksana PKTJ berfungsi sebagai koordinator utama pengelolaan dan pelayanan dokumentasi informasi publik yang mendukung penyelenggaraan tridharma perguruan tinggi vokasi keselamatan transportasi jalan, pelaksanaan uji kompetensi teknis, penelitian keselamatan transportasi, serta pengelolaan tata kelola keuangan Badan Layanan Umum (BLU) yang bersih, transparan, dan akuntabel.</p>
+                        <p>Pelayanan informasi publik di lingkungan PKTJ diselenggarakan secara terpadu melalui dua saluran: <strong>Layanan Daring (Online)</strong> melalui portal resmi mandiri yang ramah disabilitas (dilengkapi fitur audio Text-to-Speech, mode kontras, dan video bahasa isyarat), serta <strong>Layanan Luring (Offline)</strong> melalui Meja Layanan Terpadu PPID di Kampus I PKTJ Tegal, Jl. Perintis Kemerdekaan No. 17, Kota Tegal, Jawa Tengah.</p>
+                    </div>
+
+                    <div class="mt-5 pt-4 border-top">
+                        <div class="alert alert-primary d-flex align-items-center rounded-4 border-0 p-3.5 mb-0" style="background: #eef2ff; color: #002b5c;">
+                            <i class="fas fa-shield-halved fa-2x me-3 text-primary"></i>
+                            <div>
+                                <strong>Standar Pelayanan PPID PKTJ:</strong> Berkomitmen memberikan pelayanan informasi publik yang cepat, tepat waktu, biaya ringan (Rp 0), serta mudah dijangkau oleh seluruh lapisan masyarakat termasuk penyandang disabilitas.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             @endif
         </div>

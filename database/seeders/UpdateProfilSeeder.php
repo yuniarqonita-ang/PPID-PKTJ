@@ -9,15 +9,23 @@ class UpdateProfilSeeder extends Seeder
 {
     public function run()
     {
-        if (!DB::table('profil_ppids')->where('type', 'profil')->exists()) {
-            DB::table('profil_ppids')->insert([
-                'type'           => 'profil',
-                'judul'          => 'Profil PPID',
-                'konten_pembuka' => '',
-                'gambaran'       => '',
-                'konten_detail'  => '',
-            ]);
-        }
+        $profilTextPembuka = '<p style="text-align: justify; line-height: 1.8; margin-bottom: 16px;">Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Politeknik Keselamatan Transportasi Jalan (PKTJ) dibentuk sebagai wujud komitmen nyata institusi dalam mengimplementasikan keterbukaan informasi publik sesuai amanat Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik, Peraturan Komisi Informasi (PerKI) Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik, serta Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan.</p>
+<p style="text-align: justify; line-height: 1.8; margin-bottom: 16px;">Sebagai Unit Pelaksana Teknis (UPT) Pendidikan Tinggi Vokasi di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan, PKTJ menetapkan struktur PPID Pelaksana UPT melalui Surat Keputusan Direktur PKTJ. Pembentukan ini bertujuan memberikan kepastian hak bagi masyarakat, pemohon informasi, dan seluruh pemangku kepentingan untuk memperoleh informasi publik yang cepat, akurat, transparan, dan bebas biaya (Rp 0).</p>';
+
+        $profilTextDetail = '<p style="text-align: justify; line-height: 1.8; margin-bottom: 16px;">Dalam menjalankan perannya, PPID Pelaksana PKTJ berfungsi sebagai koordinator utama pengelolaan dan pelayanan dokumentasi informasi publik yang mendukung penyelenggaraan tridharma perguruan tinggi vokasi keselamatan transportasi jalan, pelaksanaan uji kompetensi teknis, penelitian keselamatan transportasi, serta pengelolaan tata kelola keuangan Badan Layanan Umum (BLU) yang bersih, transparan, dan akuntabel.</p>
+<p style="text-align: justify; line-height: 1.8; margin-bottom: 16px;">Pelayanan informasi publik di lingkungan PKTJ diselenggarakan secara terpadu melalui dua saluran: <strong>Layanan Daring (Online)</strong> melalui portal resmi mandiri yang ramah disabilitas (dilengkapi fitur audio Text-to-Speech, mode kontras, dan video bahasa isyarat), serta <strong>Layanan Luring (Offline)</strong> melalui Meja Layanan Terpadu PPID di Kampus I PKTJ Tegal, Jl. Perintis Kemerdekaan No. 17, Kota Tegal, Jawa Tengah.</p>';
+
+        DB::table('profil_ppids')->updateOrInsert(
+            ['type' => 'profil'],
+            [
+                'judul'          => 'Profil PPID PKTJ Tegal',
+                'tagline_hero'   => 'Keterbukaan Informasi Publik Menuju Tata Kelola Pendidikan Vokasi yang Transparan dan Akuntabel',
+                'konten_pembuka' => $profilTextPembuka,
+                'judul_sub'      => 'Peran & Komitmen Pelayanan PPID PKTJ',
+                'konten_detail'  => $profilTextDetail,
+                'gambaran'       => '<div class="alert alert-primary d-flex align-items-center rounded-4 border-0 p-3.5 mb-0" style="background: #eef2ff; color: #002b5c;"><i class="fas fa-shield-halved fa-2x me-3 text-primary"></i><div><strong>Standar Pelayanan PPID PKTJ:</strong> Berkomitmen memberikan pelayanan informasi publik yang cepat, tepat waktu, biaya ringan (Rp 0), serta mudah dijangkau oleh seluruh lapisan masyarakat termasuk penyandang disabilitas.</div></div>',
+            ]
+        );
 
         $defaultStrukturTugas = '<h2 class="section-title">Tugas & Wewenang Struktur PPID</h2>
 <p class="text-muted mb-4">Uraian tugas, wewenang, dan tanggung jawab masing-masing bagian dalam struktur PPID Politeknik Keselamatan Transportasi Jalan sesuai Keputusan Direktur PKTJ.</p>
