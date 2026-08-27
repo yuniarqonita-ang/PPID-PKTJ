@@ -185,7 +185,7 @@
                             <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
                             <td class="text-center p-3">
                                 @if($pejabat->foto)
-                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="mx-auto rounded-3 shadow-sm border" style="width: 155px; height: 230px; object-fit: cover; object-position: top center; border: 2.5px solid #ffffff !important; outline: 1.5px solid #cbd5e1; cursor: pointer; transition: transform 0.3s ease;" onclick="window.open('{{ asset($pejabat->foto) }}', '_blank')" title="Klik untuk memperbesar foto">
+                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="mx-auto rounded-3 shadow-sm border" style="width: 155px; height: 230px; object-fit: cover; object-position: top center; border: 2.5px solid #ffffff !important; outline: 1.5px solid #cbd5e1; cursor: pointer; transition: transform 0.3s ease;" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
                                 @else
                                     <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 155px; height: 230px;">
                                         <i class="fas fa-user-tie fa-4x text-muted opacity-40"></i>
@@ -255,7 +255,7 @@
                 @forelse($pejabats as $pejabat)
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 50 }}">
                         <div class="pejabat-card">
-                            <div class="pejabat-img-wrapper">
+                            <div class="pejabat-img-wrapper" style="cursor: pointer;" @if($pejabat->foto) onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto" @endif>
                                 @if($pejabat->foto)
                                     <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}">
                                 @else
@@ -371,12 +371,140 @@
         </div>
     </div>
 
+    <!-- LIGHTBOX MODAL UNTUK PAS FOTO BESAR (BISA DITUTUP DENGAN ESC ATAU KLIK LUAR) -->
+    <div id="pejabatPhotoLightbox" class="lightbox-overlay" style="display: none;" onclick="if(event.target === this) closePejabatLightbox();">
+        <div class="lightbox-container">
+            <button type="button" class="lightbox-close-btn" onclick="closePejabatLightbox()" title="Tutup Foto (Tekan ESC)">
+                <i class="fas fa-times"></i>
+            </button>
+            <div class="lightbox-content text-center">
+                <img id="lightboxImg" src="" alt="Pas Foto Pejabat" class="lightbox-image">
+                <div class="lightbox-caption">
+                    <h4 id="lightboxName" class="fw-bold text-white mb-1" style="font-family: 'Outfit', sans-serif;"></h4>
+                    <p id="lightboxJabatan" class="text-warning mb-0 small fw-bold"></p>
+                    <div class="text-white-50 mt-2" style="font-size: 11.5px;">
+                        <i class="fas fa-info-circle me-1"></i> Klik di luar foto atau tekan tombol <kbd style="background: rgba(255,255,255,0.25); padding: 2px 7px; border-radius: 5px; color: #fff;">ESC</kbd> untuk menutup
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+    .lightbox-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 15, 35, 0.93);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        z-index: 999999 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        opacity: 0;
+        transition: opacity 0.25s ease;
+    }
+    .lightbox-overlay.active {
+        opacity: 1;
+    }
+    .lightbox-container {
+        position: relative;
+        max-width: 90vw;
+        max-height: 92vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .lightbox-close-btn {
+        position: absolute;
+        top: -48px;
+        right: 0;
+        background: #ffc107;
+        color: #002b5c;
+        border: 2px solid #ffffff;
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 900;
+        cursor: pointer;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+        transition: all 0.2s ease;
+        z-index: 1000000;
+    }
+    .lightbox-close-btn:hover {
+        background: #ffffff;
+        color: #dc2626;
+        transform: scale(1.12);
+    }
+    .lightbox-image {
+        max-width: 85vw;
+        max-height: 72vh;
+        border-radius: 18px;
+        box-shadow: 0 25px 65px rgba(0,0,0,0.7);
+        border: 4px solid #ffffff;
+        object-fit: contain;
+        background: #001f3f;
+        animation: lightboxZoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes lightboxZoomIn {
+        from { transform: scale(0.88); opacity: 0; }
+        to { transform: scale(1); opacity: 1; }
+    }
+    .lightbox-caption {
+        margin-top: 15px;
+        text-align: center;
+    }
+    </style>
+
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({duration: 800, once: true});
+
+        function openPejabatLightbox(src, name, jabatan) {
+            if (!src) return;
+            const overlay = document.getElementById('pejabatPhotoLightbox');
+            const img = document.getElementById('lightboxImg');
+            const nameEl = document.getElementById('lightboxName');
+            const jabEl = document.getElementById('lightboxJabatan');
+
+            img.src = src;
+            nameEl.textContent = name || '';
+            jabEl.textContent = jabatan || '';
+
+            overlay.style.display = 'flex';
+            setTimeout(() => {
+                overlay.classList.add('active');
+            }, 10);
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closePejabatLightbox() {
+            const overlay = document.getElementById('pejabatPhotoLightbox');
+            if (!overlay) return;
+            overlay.classList.remove('active');
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                document.body.style.overflow = '';
+            }, 250);
+        }
+
+        // Global keydown listener for ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape' || e.keyCode === 27) {
+                closePejabatLightbox();
+            }
+        });
 
         function switchPagePejabatView(mode) {
             const tableV = document.getElementById('pagePejabatTable');
