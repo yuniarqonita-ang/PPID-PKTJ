@@ -2,15 +2,20 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/ppid2026/Laravel-Core
-    - /bin/cp -rf app $DEPLOYPATH/app
-    - /bin/cp -rf resources $DEPLOYPATH/resources
-    - /bin/cp -rf routes $DEPLOYPATH/routes
-    - /bin/cp -rf database $DEPLOYPATH/database
-    - /bin/cp -rf config $DEPLOYPATH/config
-    - /bin/cp -rf bootstrap $DEPLOYPATH/bootstrap
-    - /bin/cp -rf public $DEPLOYPATH/public
+    - rm -rf $DEPLOYPATH/app/app $DEPLOYPATH/resources/resources $DEPLOYPATH/routes/routes $DEPLOYPATH/public/public 2>/dev/null || true
+    - /bin/cp -rf app/. $DEPLOYPATH/app/
+    - /bin/cp -rf resources/. $DEPLOYPATH/resources/
+    - /bin/cp -rf routes/. $DEPLOYPATH/routes/
+    - /bin/cp -rf database/. $DEPLOYPATH/database/
+    - /bin/cp -rf config/. $DEPLOYPATH/config/
+    - /bin/cp -rf bootstrap/. $DEPLOYPATH/bootstrap/
+    - /bin/cp -rf public/. $DEPLOYPATH/public/
+    - /bin/cp -rf public/. /home/ppid2026/public_html/ 2>/dev/null || true
     - /bin/cp -f .cpanel.yml $DEPLOYPATH/.cpanel.yml
     - cd $DEPLOYPATH && php artisan config:clear
     - cd $DEPLOYPATH && php artisan cache:clear
     - cd $DEPLOYPATH && php artisan view:clear
+    - cd $DEPLOYPATH && php artisan route:clear
     - cd $DEPLOYPATH && php artisan migrate --force
+    - cd $DEPLOYPATH && php artisan db:seed --class=PejabatSeeder --force 2>/dev/null || true
+    - cd $DEPLOYPATH && php artisan db:seed --class=SyncDaftarInformasiSeeder --force 2>/dev/null || true
