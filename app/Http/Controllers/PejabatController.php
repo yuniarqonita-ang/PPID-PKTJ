@@ -237,4 +237,31 @@ class PejabatController extends Controller
         return redirect()->route('admin.informasi.berkala.index')
             ->with('success', 'Data Profil Pejabat berhasil dihapus!');
     }
+
+    public function updateSizeSettings(Request $request)
+    {
+        $keys = [
+            'pejabat_foto_table_width'  => $request->input('pejabat_foto_table_width', 155),
+            'pejabat_foto_table_height' => $request->input('pejabat_foto_table_height', 230),
+            'pejabat_foto_card_height'  => $request->input('pejabat_foto_card_height', 390),
+            'pejabat_foto_position'     => $request->input('pejabat_foto_position', 'top center'),
+            'pejabat_foto_radius'       => $request->input('pejabat_foto_radius', '14px'),
+            'pejabat_foto_admin_height' => $request->input('pejabat_foto_admin_height', 125),
+        ];
+
+        foreach ($keys as $k => $val) {
+            \App\Models\Dashboard::updateOrCreate(
+                ['key' => $k],
+                [
+                    'value'       => (string)$val,
+                    'type'        => 'text',
+                    'description' => 'Pengaturan Ukuran Foto Pejabat ' . $k,
+                    'aktif'       => true
+                ]
+            );
+        }
+
+        return redirect()->route('admin.informasi.berkala.index')
+            ->with('success', 'Pengaturan ukuran tampilan foto pejabat berhasil disimpan!');
+    }
 }

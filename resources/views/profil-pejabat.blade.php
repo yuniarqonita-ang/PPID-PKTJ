@@ -166,13 +166,21 @@
                 </div>
             </div>
 
-            <!-- 1. MODE TABEL RESMI (FOTO BESAR 4x6) -->
+            @php
+                $tblW = \App\Models\Dashboard::getValue('pejabat_foto_table_width', 155);
+                $tblH = \App\Models\Dashboard::getValue('pejabat_foto_table_height', 230);
+                $crdH = \App\Models\Dashboard::getValue('pejabat_foto_card_height', 390);
+                $pos  = \App\Models\Dashboard::getValue('pejabat_foto_position', 'top center');
+                $rad  = \App\Models\Dashboard::getValue('pejabat_foto_radius', '14px');
+            @endphp
+
+            <!-- 1. MODE TABEL RESMI (FOTO BESAR) -->
             <div id="pagePejabatTable" class="table-responsive mb-5 view-animate">
                 <table class="table table-bordered table-hover align-middle mb-0" style="border-color: #e2e8f0;">
                     <thead style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;">
                         <tr class="text-center align-middle" style="font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase;">
                             <th style="width: 45px; padding: 16px 8px;">No</th>
-                            <th style="width: 185px; padding: 16px 10px;">Pas Foto Resmi (4x6)</th>
+                            <th style="width: {{ intval($tblW) + 30 }}px; padding: 16px 10px;">Pas Foto Resmi</th>
                             <th style="width: 230px; padding: 16px 15px;" class="text-start">Nama & NIP</th>
                             <th style="width: 210px; padding: 16px 15px;" class="text-start">Jabatan</th>
                             <th style="min-width: 320px; padding: 16px 15px;" class="text-start">Biografi & Riwayat Karir</th>
@@ -185,9 +193,9 @@
                             <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
                             <td class="text-center p-3">
                                 @if($pejabat->foto)
-                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="mx-auto rounded-3 shadow-sm border" style="width: 155px; height: 230px; object-fit: cover; object-position: top center; border: 2.5px solid #ffffff !important; outline: 1.5px solid #cbd5e1; cursor: pointer; transition: transform 0.3s ease;" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
+                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="mx-auto shadow-sm border" style="width: {{ $tblW }}px; height: {{ $tblH }}px; object-fit: cover; object-position: {{ $pos }}; border-radius: {{ $rad }}; border: 2.5px solid #ffffff !important; outline: 1.5px solid #cbd5e1; cursor: pointer; transition: transform 0.3s ease;" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
                                 @else
-                                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 155px; height: 230px;">
+                                    <div class="bg-light d-flex align-items-center justify-content-center border mx-auto" style="width: {{ $tblW }}px; height: {{ $tblH }}px; border-radius: {{ $rad }};">
                                         <i class="fas fa-user-tie fa-4x text-muted opacity-40"></i>
                                     </div>
                                 @endif
@@ -255,9 +263,9 @@
                 @forelse($pejabats as $pejabat)
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 50 }}">
                         <div class="pejabat-card">
-                            <div class="pejabat-img-wrapper" style="cursor: pointer;" @if($pejabat->foto) onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto" @endif>
+                            <div class="pejabat-img-wrapper" style="cursor: pointer; height: {{ $crdH }}px; padding-top: 0;" @if($pejabat->foto) onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto" @endif>
                                 @if($pejabat->foto)
-                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}">
+                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" style="object-position: {{ $pos }};">
                                 @else
                                     <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted" style="position: absolute; top:0; left:0;">
                                         <i class="fas fa-user-tie fa-4x opacity-25"></i>

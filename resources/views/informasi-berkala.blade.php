@@ -165,13 +165,20 @@
 
             <!-- SECTION PROFIL PEJABAT PUBLIK & LHKPN (STANDAR PPID KEMENHUB SLIDE 25) -->
             @if(isset($pejabats) && $pejabats->count() > 0)
+            @php
+                $tblW = \App\Models\Dashboard::getValue('pejabat_foto_table_width', 155);
+                $tblH = \App\Models\Dashboard::getValue('pejabat_foto_table_height', 230);
+                $crdH = \App\Models\Dashboard::getValue('pejabat_foto_card_height', 390);
+                $pos  = \App\Models\Dashboard::getValue('pejabat_foto_position', 'top center');
+                $rad  = \App\Models\Dashboard::getValue('pejabat_foto_radius', '14px');
+            @endphp
             <style>
                 .pejabat-table-photo {
-                    width: 155px !important;
-                    height: 230px !important;
+                    width: {{ $tblW }}px !important;
+                    height: {{ $tblH }}px !important;
                     object-fit: cover !important;
-                    object-position: top center !important;
-                    border-radius: 14px !important;
+                    object-position: {{ $pos }} !important;
+                    border-radius: {{ $rad }} !important;
                     box-shadow: 0 6px 18px rgba(0, 43, 92, 0.12) !important;
                     border: 2.5px solid #ffffff !important;
                     outline: 1.5px solid #cbd5e1 !important;
@@ -200,7 +207,7 @@
                     border-color: #004a99;
                 }
                 .pejabat-card-img-wrapper {
-                    height: 390px;
+                    height: {{ $crdH }}px !important;
                     background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
                     position: relative;
                     overflow: hidden;
@@ -209,7 +216,7 @@
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
-                    object-position: top center;
+                    object-position: {{ $pos }} !important;
                     transition: transform 0.5s ease;
                 }
                 .pejabat-card-pro:hover .pejabat-card-img-wrapper img {
@@ -258,13 +265,13 @@
                     </div>
                 </div>
 
-                <!-- 1. TAMPILAN MODE TABEL RESMI (FOTO BESAR 4x6) -->
+                <!-- 1. TAMPILAN MODE TABEL RESMI (FOTO BESAR) -->
                 <div id="pejabatTableView" class="table-responsive view-animate">
                     <table class="table table-bordered table-hover align-middle mb-0" style="border-color: #e2e8f0;">
                         <thead style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;">
                             <tr class="text-center align-middle" style="font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase;">
                                 <th style="width: 45px; padding: 16px 8px;">No</th>
-                                <th style="width: 185px; padding: 16px 10px;">Pas Foto Resmi (4x6)</th>
+                                <th style="width: {{ intval($tblW) + 30 }}px; padding: 16px 10px;">Pas Foto Resmi</th>
                                 <th style="width: 230px; padding: 16px 15px;" class="text-start">Nama & NIP</th>
                                 <th style="width: 210px; padding: 16px 15px;" class="text-start">Jabatan</th>
                                 <th style="min-width: 320px; padding: 16px 15px;" class="text-start">Biografi & Riwayat Karir</th>
@@ -279,7 +286,7 @@
                                     @if($pejabat->foto)
                                         <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="pejabat-table-photo mx-auto" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
                                     @else
-                                        <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 155px; height: 230px;">
+                                        <div class="bg-light d-flex align-items-center justify-content-center border mx-auto" style="width: {{ $tblW }}px; height: {{ $tblH }}px; border-radius: {{ $rad }};">
                                             <i class="fas fa-user-tie fa-4x text-muted opacity-40"></i>
                                         </div>
                                     @endif

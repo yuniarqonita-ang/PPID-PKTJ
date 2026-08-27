@@ -341,6 +341,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('berita/clean-dummy', [BeritaController::class, 'cleanDummy'])->name('admin.berita.clean-dummy');
 
     // Resource CRUD
+    Route::post('pejabat/update-size', [\App\Http\Controllers\PejabatController::class, 'updateSizeSettings'])->name('admin.pejabat.update-size');
     Route::resource('pejabat', \App\Http\Controllers\PejabatController::class)->names('admin.pejabat');
     Route::resource('berita', BeritaController::class)->names('admin.berita');
     Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
