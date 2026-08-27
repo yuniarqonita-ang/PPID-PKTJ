@@ -295,8 +295,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/laporan-layanan', function() { return view('admin.layanan.laporan-layanan'); })->name('laporan-layanan');
         Route::get('/laporan-akses', function() { return view('admin.layanan.laporan-akses'); })->name('laporan-akses');
         Route::get('/laporan-survey', [\App\Http\Controllers\SurveyController::class, 'adminIndex'])->name('laporan-survey');
+        Route::get('/aksesibilitas', function() { return view('admin.layanan.aksesibilitas'); })->name('aksesibilitas');
         Route::delete('/survey/{id}', [\App\Http\Controllers\SurveyController::class, 'adminDestroy'])->name('survey.destroy');
     });
+
+    // Direct Shortcut Aksesibilitas
+    Route::get('/aksesibilitas', function() { return redirect()->route('admin.layanan.aksesibilitas'); })->name('admin.aksesibilitas');
+    Route::get('/layanan/aksesibilitas-disabilitas', function() { return redirect()->route('admin.layanan.aksesibilitas'); });
 
     // Menu Prosedur
     Route::name('admin.prosedur.')->prefix('prosedur')->group(function () {

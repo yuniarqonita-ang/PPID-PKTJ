@@ -436,6 +436,9 @@
                             <a href="{{ route('admin.layanan.laporan-layanan') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-layanan*') ? 'active' : '' }}">Laporan Layanan</a>
                             <a href="{{ route('admin.layanan.laporan-akses') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-akses*') ? 'active' : '' }}">Laporan Akses</a>
                             <a href="{{ route('admin.layanan.laporan-survey') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-survey*') ? 'active' : '' }}">Laporan Survey</a>
+                            <a href="{{ route('admin.layanan.aksesibilitas') }}" class="submenu-link {{ request()->routeIs('admin.layanan.aksesibilitas*') ? 'active' : '' }}">
+                                <i class="fas fa-universal-access mr-1.5 text-[#ffc107]"></i> Layanan Inklusif (Braille)
+                            </a>
                         </div>
 
                         <button class="accordion-toggle {{ request()->is('admin/prosedur*') ? 'active' : '' }}" onclick="toggleAccordion(this)">
