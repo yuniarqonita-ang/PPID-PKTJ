@@ -11,6 +11,12 @@ class PejabatController extends Controller
     public function index()
     {
         $pejabats = Pejabat::orderBy('urutan', 'asc')->orderBy('id', 'asc')->get();
+        if ($pejabats->isEmpty()) {
+            foreach (Pejabat::getDefaultPejabatData() as $item) {
+                Pejabat::create($item);
+            }
+            $pejabats = Pejabat::orderBy('urutan', 'asc')->orderBy('id', 'asc')->get();
+        }
         return view('admin.pejabat.index', compact('pejabats'));
     }
 

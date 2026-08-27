@@ -167,45 +167,45 @@
             </div>
 
             <!-- 1. MODE TABEL RESMI -->
-            <div id="pagePejabatTable" class="table-responsive mb-5">
+            <div id="pagePejabatTable" class="table-responsive mb-5 view-animate">
                 <table class="table table-bordered table-hover align-middle mb-0" style="border-color: #e2e8f0;">
                     <thead style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;">
-                        <tr class="text-center align-middle" style="font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase;">
-                            <th style="width: 50px; padding: 14px 10px;">No</th>
-                            <th style="width: 100px; padding: 14px 10px;">Pas Foto</th>
-                            <th style="width: 220px; padding: 14px 15px;" class="text-start">Nama & NIP</th>
-                            <th style="width: 200px; padding: 14px 15px;" class="text-start">Jabatan</th>
-                            <th style="min-width: 320px; padding: 14px 15px;" class="text-start">Riwayat Pendidikan & Karir</th>
-                            <th style="width: 130px; padding: 14px 10px;">LHKPN</th>
+                        <tr class="text-center align-middle" style="font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase;">
+                            <th style="width: 50px; padding: 16px 10px;">No</th>
+                            <th style="width: 140px; padding: 16px 10px;">Pas Foto Resmi</th>
+                            <th style="width: 240px; padding: 16px 15px;" class="text-start">Nama & NIP</th>
+                            <th style="width: 210px; padding: 16px 15px;" class="text-start">Jabatan</th>
+                            <th style="min-width: 330px; padding: 16px 15px;" class="text-start">Biografi & Riwayat Karir</th>
+                            <th style="width: 130px; padding: 16px 10px;">LHKPN</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y">
                         @foreach($pejabats as $pejabat)
-                        <tr style="background: {{ $loop->even ? '#f8fafc' : '#ffffff' }}; font-size: 13px;">
+                        <tr style="background: {{ $loop->even ? '#f8fafc' : '#ffffff' }}; font-size: 13.5px;">
                             <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                            <td class="text-center p-2">
+                            <td class="text-center p-3">
                                 @if($pejabat->foto)
-                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="rounded-3 shadow-sm border" style="width: 75px; height: 95px; object-fit: cover; object-position: top center;">
+                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="rounded-3 shadow-sm border" style="width: 110px; height: 145px; object-fit: cover; object-position: top center;">
                                 @else
-                                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 75px; height: 95px;">
-                                        <i class="fas fa-user-tie fa-2x text-muted opacity-50"></i>
+                                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 110px; height: 145px;">
+                                        <i class="fas fa-user-tie fa-3x text-muted opacity-50"></i>
                                     </div>
                                 @endif
                             </td>
                             <td class="p-3">
-                                <h6 class="fw-bold text-dark mb-1" style="font-size: 13.5px; line-height: 1.4;">{{ $pejabat->nama }}</h6>
-                                <span class="badge bg-light text-secondary border font-mono px-2 py-1" style="font-size: 11px;">
+                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px; line-height: 1.4;">{{ $pejabat->nama }}</h6>
+                                <span class="badge bg-light text-secondary border font-mono px-2 py-1" style="font-size: 11.5px;">
                                     NIP: {{ $pejabat->nip ?? '-' }}
                                 </span>
                             </td>
                             <td class="p-3">
-                                <span class="badge bg-primary text-wrap text-start lh-base px-2.5 py-1.5" style="background-color: #004a99 !important; font-size: 11.5px;">
+                                <span class="badge bg-primary text-wrap text-start lh-base px-2.5 py-1.5 rounded-2" style="background-color: #004a99 !important; font-size: 12px;">
                                     {{ $pejabat->jabatan }}
                                 </span>
                             </td>
                             <td class="p-3 text-secondary" style="line-height: 1.6;">
                                 @if($pejabat->biografi)
-                                    <p class="mb-2 text-dark small" style="font-size: 12.5px;">{{ $pejabat->biografi }}</p>
+                                    <p class="mb-2 text-dark small" style="font-size: 13px;">{{ $pejabat->biografi }}</p>
                                 @endif
 
                                 @if(!empty($pejabat->pendidikan) && is_array($pejabat->pendidikan))
@@ -236,10 +236,10 @@
                             </td>
                             <td class="text-center p-3">
                                 @if($pejabat->lhkpn_link || $pejabat->lhkpn_file)
-                                    <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 11.5px;">
+                                    <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold shadow-sm d-inline-flex align-items-center gap-1.5" style="font-size: 12px;">
                                         <i class="fas fa-file-invoice-dollar"></i> LHKPN
                                     </a>
-                                    <div class="text-muted mt-1" style="font-size: 10px;">{{ $pejabat->lhkpn_tahun ?? '2025/2026' }}</div>
+                                    <div class="text-muted mt-1" style="font-size: 10.5px;">{{ $pejabat->lhkpn_tahun ?? '2025/2026' }}</div>
                                 @else
                                     <span class="badge bg-light text-muted border">Tersedia</span>
                                 @endif
@@ -251,7 +251,7 @@
             </div>
 
             <!-- 2. MODE GRID KARTU -->
-            <div id="pagePejabatGrid" class="row g-4 d-none">
+            <div id="pagePejabatGrid" class="row g-4 d-none view-animate">
                 @forelse($pejabats as $pejabat)
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 50 }}">
                         <div class="pejabat-card">

@@ -74,10 +74,10 @@
                         </td>
                         <td class="py-6 px-6 text-center">
                             @if($p->foto)
-                                <img src="{{ asset($p->foto) }}" alt="{{ $p->nama }}" class="w-14 h-18 object-cover rounded-xl shadow-md border-2 border-white mx-auto">
+                                <img src="{{ asset($p->foto) }}" alt="{{ $p->nama }}" class="w-20 h-26 object-cover rounded-xl shadow-md border-2 border-white mx-auto" style="width: 75px; height: 98px; object-position: top center;">
                             @else
-                                <div class="w-14 h-18 bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 mx-auto text-xl">
-                                    <i class="fas fa-user-tie"></i>
+                                <div class="bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 mx-auto text-xl border border-slate-200" style="width: 75px; height: 98px;">
+                                    <i class="fas fa-user-tie fa-2x opacity-40"></i>
                                 </div>
                             @endif
                         </td>

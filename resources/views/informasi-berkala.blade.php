@@ -165,13 +165,79 @@
 
             <!-- SECTION PROFIL PEJABAT PUBLIK & LHKPN (STANDAR PPID KEMENHUB SLIDE 25) -->
             @if(isset($pejabats) && $pejabats->count() > 0)
+            <style>
+                .pejabat-table-photo {
+                    width: 110px !important;
+                    height: 145px !important;
+                    object-fit: cover !important;
+                    object-position: top center !important;
+                    border-radius: 12px !important;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
+                    border: 2px solid #e2e8f0 !important;
+                    transition: transform 0.3s ease !important;
+                }
+                .pejabat-table-photo:hover {
+                    transform: scale(1.05);
+                }
+                .pejabat-card-pro {
+                    background: #ffffff;
+                    border: 1.5px solid #e2e8f0;
+                    border-radius: 20px;
+                    overflow: hidden;
+                    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+                    display: flex;
+                    flex-direction: column;
+                    height: 100%;
+                }
+                .pejabat-card-pro:hover {
+                    transform: translateY(-8px);
+                    box-shadow: 0 20px 35px rgba(0, 74, 153, 0.12);
+                    border-color: #004a99;
+                }
+                .pejabat-card-img-wrapper {
+                    height: 330px;
+                    background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
+                    position: relative;
+                    overflow: hidden;
+                }
+                .pejabat-card-img-wrapper img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    object-position: top center;
+                    transition: transform 0.5s ease;
+                }
+                .pejabat-card-pro:hover .pejabat-card-img-wrapper img {
+                    transform: scale(1.04);
+                }
+                .pejabat-card-overlay {
+                    position: absolute;
+                    bottom: 0;
+                    left: 0;
+                    right: 0;
+                    height: 90px;
+                    background: linear-gradient(to top, rgba(0, 43, 92, 0.85) 0%, transparent 100%);
+                    display: flex;
+                    align-items: flex-end;
+                    padding: 15px;
+                }
+                .view-animate {
+                    animation: viewFadeIn 0.35s ease;
+                }
+                @keyframes viewFadeIn {
+                    from { opacity: 0; transform: translateY(8px); }
+                    to { opacity: 1; transform: translateY(0); }
+                }
+            </style>
+
             <div class="my-5 p-4 p-md-5 rounded-4 border shadow-sm" style="background: #ffffff; border-color: #cbd5e1;">
                 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
                     <div>
                         <div class="badge bg-warning text-dark font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">
                             <i class="fas fa-certificate me-1"></i> Standar PPID Kemenhub: Slide 25
                         </div>
-                        <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.7rem;">
+                        <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.75rem;">
                             <i class="fas fa-user-tie me-2 text-primary"></i> Profil Pejabat Publik & LHKPN PKTJ
                         </h3>
                         <p class="text-muted small mb-0">Informasi profil, riwayat jabatan, riwayat pendidikan, dan laporan harta kekayaan jajaran Pimpinan PKTJ Tegal.</p>
@@ -179,61 +245,61 @@
 
                     <!-- VIEW SWITCHER (TABEL / KARTU) -->
                     <div class="btn-group p-1 bg-light rounded-pill border" role="group">
-                        <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 fw-bold" id="btnViewTable" onclick="switchPejabatView('table')">
+                        <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold" id="btnViewTable" onclick="switchPejabatView('table')">
                             <i class="fas fa-table me-1"></i> Mode Tabel
                         </button>
-                        <button type="button" class="btn btn-sm btn-light rounded-pill px-3 fw-bold text-muted" id="btnViewGrid" onclick="switchPejabatView('grid')">
+                        <button type="button" class="btn btn-sm btn-light rounded-pill px-3 py-1.5 fw-bold text-muted" id="btnViewGrid" onclick="switchPejabatView('grid')">
                             <i class="fas fa-th-large me-1"></i> Mode Kartu
                         </button>
                     </div>
                 </div>
 
-                <!-- 1. TAMPILAN MODE TABEL RESMI (ALA PPID KEMENHUB) -->
-                <div id="pejabatTableView" class="table-responsive">
+                <!-- 1. TAMPILAN MODE TABEL RESMI (FOTO BESAR & JELAS) -->
+                <div id="pejabatTableView" class="table-responsive view-animate">
                     <table class="table table-bordered table-hover align-middle mb-0" style="border-color: #e2e8f0;">
                         <thead style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;">
-                            <tr class="text-center align-middle" style="font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase;">
-                                <th style="width: 50px; padding: 14px 10px;">No</th>
-                                <th style="width: 100px; padding: 14px 10px;">Pas Foto</th>
-                                <th style="width: 220px; padding: 14px 15px;" class="text-start">Nama & NIP</th>
-                                <th style="width: 200px; padding: 14px 15px;" class="text-start">Jabatan</th>
-                                <th style="min-width: 320px; padding: 14px 15px;" class="text-start">Riwayat Pendidikan & Karir</th>
-                                <th style="width: 130px; padding: 14px 10px;">LHKPN</th>
+                            <tr class="text-center align-middle" style="font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase;">
+                                <th style="width: 50px; padding: 16px 10px;">No</th>
+                                <th style="width: 140px; padding: 16px 10px;">Pas Foto Resmi</th>
+                                <th style="width: 240px; padding: 16px 15px;" class="text-start">Nama & NIP</th>
+                                <th style="width: 210px; padding: 16px 15px;" class="text-start">Jabatan</th>
+                                <th style="min-width: 330px; padding: 16px 15px;" class="text-start">Biografi & Riwayat Karir</th>
+                                <th style="width: 130px; padding: 16px 10px;">LHKPN</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y">
                             @foreach($pejabats as $pejabat)
-                            <tr style="background: {{ $loop->even ? '#f8fafc' : '#ffffff' }}; font-size: 13px;">
+                            <tr style="background: {{ $loop->even ? '#f8fafc' : '#ffffff' }}; font-size: 13.5px;">
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                <td class="text-center p-2">
+                                <td class="text-center p-3">
                                     @if($pejabat->foto)
-                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="rounded-3 shadow-sm border" style="width: 75px; height: 95px; object-fit: cover; object-position: top center;">
+                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="pejabat-table-photo mx-auto">
                                     @else
-                                        <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 75px; height: 95px;">
-                                            <i class="fas fa-user-tie fa-2x text-muted opacity-50"></i>
+                                        <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 110px; height: 145px;">
+                                            <i class="fas fa-user-tie fa-3x text-muted opacity-50"></i>
                                         </div>
                                     @endif
                                 </td>
                                 <td class="p-3">
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 13.5px; line-height: 1.4;">{{ $pejabat->nama }}</h6>
-                                    <span class="badge bg-light text-secondary border font-mono px-2 py-1" style="font-size: 11px;">
+                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14px; line-height: 1.4;">{{ $pejabat->nama }}</h6>
+                                    <span class="badge bg-light text-secondary border font-mono px-2 py-1" style="font-size: 11.5px;">
                                         NIP: {{ $pejabat->nip ?? '-' }}
                                     </span>
                                 </td>
                                 <td class="p-3">
-                                    <span class="badge bg-primary text-wrap text-start lh-base px-2.5 py-1.5" style="background-color: #004a99 !important; font-size: 11.5px;">
+                                    <span class="badge bg-primary text-wrap text-start lh-base px-2.5 py-1.5 rounded-2" style="background-color: #004a99 !important; font-size: 12px;">
                                         {{ $pejabat->jabatan }}
                                     </span>
                                 </td>
                                 <td class="p-3 text-secondary" style="line-height: 1.6;">
                                     @if($pejabat->biografi)
-                                        <p class="mb-2 text-dark small" style="font-size: 12.5px;">{{ $pejabat->biografi }}</p>
+                                        <p class="mb-2 text-dark small" style="font-size: 13px;">{{ $pejabat->biografi }}</p>
                                     @endif
 
                                     @if(!empty($pejabat->pendidikan) && is_array($pejabat->pendidikan))
                                         <div class="mb-1.5">
                                             <strong class="text-primary d-block" style="font-size: 11.5px; text-transform: uppercase;">
-                                                <i class="fas fa-graduation-cap me-1"></i> Pendidikan:
+                                                <i class="fas fa-graduation-cap me-1"></i> Riwayat Pendidikan:
                                             </strong>
                                             <ul class="mb-0 ps-3 small text-muted" style="font-size: 12px;">
                                                 @foreach($pejabat->pendidikan as $pend)
@@ -258,10 +324,10 @@
                                 </td>
                                 <td class="text-center p-3">
                                     @if($pejabat->lhkpn_link || $pejabat->lhkpn_file)
-                                        <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold shadow-sm d-inline-flex align-items-center gap-1" style="font-size: 11.5px;">
+                                        <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold shadow-sm d-inline-flex align-items-center gap-1.5" style="font-size: 12px;">
                                             <i class="fas fa-file-invoice-dollar"></i> LHKPN
                                         </a>
-                                        <div class="text-muted mt-1" style="font-size: 10px;">{{ $pejabat->lhkpn_tahun ?? '2025/2026' }}</div>
+                                        <div class="text-muted mt-1" style="font-size: 10.5px;">{{ $pejabat->lhkpn_tahun ?? '2025/2026' }}</div>
                                     @else
                                         <span class="badge bg-light text-muted border">Tersedia</span>
                                     @endif
@@ -272,34 +338,41 @@
                     </table>
                 </div>
 
-                <!-- 2. TAMPILAN MODE GRID KARTU (RESPONSIF) -->
-                <div id="pejabatGridView" class="row g-4 d-none">
+                <!-- 2. TAMPILAN MODE GRID KARTU (SMOOTH & ELEGANT) -->
+                <div id="pejabatGridView" class="row g-4 d-none view-animate">
                     @foreach($pejabats as $pejabat)
                         <div class="col-lg-4 col-md-6">
-                            <div class="card h-100 border rounded-4 shadow-sm overflow-hidden hover-lift" style="background: #ffffff;">
-                                <div style="height: 240px; background: #f1f5f9; overflow: hidden; position: relative;">
+                            <div class="pejabat-card-pro">
+                                <div class="pejabat-card-img-wrapper">
                                     @if($pejabat->foto)
-                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" style="width: 100%; height: 100%; object-fit: cover; object-position: top center;">
+                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}">
                                     @else
                                         <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
-                                            <i class="fas fa-user-tie fa-3x opacity-25"></i>
+                                            <i class="fas fa-user-tie fa-4x opacity-25"></i>
                                         </div>
                                     @endif
-                                </div>
-                                <div class="card-body p-4 d-flex flex-column justify-content-between">
-                                    <div>
-                                        <span class="badge bg-primary text-uppercase small mb-2 text-wrap text-start" style="font-size: 0.75rem; background-color: #004a99 !important;">
+                                    <div class="pejabat-card-overlay">
+                                        <span class="badge bg-warning text-dark font-black px-3 py-1 rounded-pill" style="font-size: 11px;">
                                             {{ $pejabat->jabatan }}
                                         </span>
-                                        <h5 class="fw-bold outfit text-dark mb-1" style="font-size: 1.1rem;">{{ $pejabat->nama }}</h5>
+                                    </div>
+                                </div>
+                                <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
+                                    <div>
+                                        <h5 class="fw-bold outfit text-dark mb-1" style="font-size: 1.15rem; line-height: 1.35;">{{ $pejabat->nama }}</h5>
                                         <p class="text-muted small mb-3">NIP: {{ $pejabat->nip ?? '-' }}</p>
+                                        @if($pejabat->biografi)
+                                            <p class="text-secondary small mb-4" style="font-size: 12.5px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+                                                {{ $pejabat->biografi }}
+                                            </p>
+                                        @endif
                                     </div>
                                     <div class="pt-3 border-top d-flex align-items-center justify-content-between flex-wrap gap-2">
-                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 fw-bold" data-bs-toggle="modal" data-bs-target="#modalPejabatBerkala{{ $pejabat->id }}">
-                                            <i class="fas fa-id-card me-1"></i> Detail
+                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1.5 fw-bold" data-bs-toggle="modal" data-bs-target="#modalPejabatBerkala{{ $pejabat->id }}">
+                                            <i class="fas fa-id-card me-1"></i> Detail & Riwayat
                                         </button>
                                         @if($pejabat->lhkpn_link || $pejabat->lhkpn_file)
-                                            <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 fw-bold">
+                                            <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold shadow-sm">
                                                 <i class="fas fa-file-invoice-dollar me-1"></i> LHKPN
                                             </a>
                                         @endif
@@ -315,7 +388,7 @@
                                     <div class="modal-header text-white p-4" style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);">
                                         <div class="d-flex align-items-center gap-3">
                                             @if($pejabat->foto)
-                                                <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="rounded-circle border border-white" style="width: 50px; height: 50px; object-fit: cover;">
+                                                <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="rounded-3 border border-white shadow-sm" style="width: 65px; height: 80px; object-fit: cover; object-position: top center;">
                                             @endif
                                             <div>
                                                 <h5 class="modal-title fw-bold outfit text-white mb-0">{{ $pejabat->nama }}</h5>
@@ -328,16 +401,16 @@
                                         @if($pejabat->biografi)
                                         <div class="mb-4">
                                             <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-quote-left me-2"></i>Biografi</h6>
-                                            <p class="text-secondary">{{ $pejabat->biografi }}</p>
+                                            <p class="text-secondary" style="line-height: 1.7;">{{ $pejabat->biografi }}</p>
                                         </div>
                                         @endif
 
                                         @if(!empty($pejabat->pendidikan) && is_array($pejabat->pendidikan))
                                         <div class="mb-4">
                                             <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-graduation-cap me-2"></i>Riwayat Pendidikan</h6>
-                                            <ul class="list-group list-group-flush border rounded-3">
+                                            <ul class="list-group list-group-flush border rounded-3 overflow-hidden">
                                                 @foreach($pejabat->pendidikan as $pend)
-                                                    <li class="list-group-item small py-2"><i class="fas fa-check text-success me-2"></i>{{ $pend }}</li>
+                                                    <li class="list-group-item small py-2.5"><i class="fas fa-check-circle text-success me-2"></i>{{ $pend }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -346,9 +419,9 @@
                                         @if(!empty($pejabat->riwayat_jabatan) && is_array($pejabat->riwayat_jabatan))
                                         <div class="mb-4">
                                             <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-briefcase me-2"></i>Riwayat Jabatan</h6>
-                                            <ul class="list-group list-group-flush border rounded-3">
+                                            <ul class="list-group list-group-flush border rounded-3 overflow-hidden">
                                                 @foreach($pejabat->riwayat_jabatan as $jab)
-                                                    <li class="list-group-item small py-2"><i class="fas fa-chevron-right text-primary me-2"></i>{{ $jab }}</li>
+                                                    <li class="list-group-item small py-2.5"><i class="fas fa-chevron-right text-primary me-2"></i>{{ $jab }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -357,9 +430,9 @@
                                         @if(!empty($pejabat->penghargaan) && is_array($pejabat->penghargaan))
                                         <div>
                                             <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-medal me-2"></i>Penghargaan</h6>
-                                            <ul class="list-group list-group-flush border rounded-3">
+                                            <ul class="list-group list-group-flush border rounded-3 overflow-hidden">
                                                 @foreach($pejabat->penghargaan as $peng)
-                                                    <li class="list-group-item small py-2"><i class="fas fa-star text-warning me-2"></i>{{ $peng }}</li>
+                                                    <li class="list-group-item small py-2.5"><i class="fas fa-star text-warning me-2"></i>{{ $peng }}</li>
                                                 @endforeach
                                             </ul>
                                         </div>
@@ -390,13 +463,13 @@
                     if (mode === 'table') {
                         tableV.classList.remove('d-none');
                         gridV.classList.add('d-none');
-                        btnT.className = 'btn btn-sm btn-primary rounded-pill px-3 fw-bold';
-                        btnG.className = 'btn btn-sm btn-light rounded-pill px-3 fw-bold text-muted';
+                        btnT.className = 'btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold';
+                        btnG.className = 'btn btn-sm btn-light rounded-pill px-3 py-1.5 fw-bold text-muted';
                     } else {
                         tableV.classList.add('d-none');
                         gridV.classList.remove('d-none');
-                        btnT.className = 'btn btn-sm btn-light rounded-pill px-3 fw-bold text-muted';
-                        btnG.className = 'btn btn-sm btn-primary rounded-pill px-3 fw-bold';
+                        btnT.className = 'btn btn-sm btn-light rounded-pill px-3 py-1.5 fw-bold text-muted';
+                        btnG.className = 'btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold';
                     }
                 }
             </script>

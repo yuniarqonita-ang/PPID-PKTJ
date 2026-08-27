@@ -60,9 +60,12 @@
                 <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Ganti Pas Foto Pejabat</label>
                 <div class="flex items-center gap-4">
                     @if($pejabat->foto)
-                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="w-12 h-16 object-cover rounded-xl shadow-md border border-slate-200 flex-shrink-0">
+                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="object-cover rounded-2xl shadow-md border-2 border-slate-200 flex-shrink-0" style="width: 80px; height: 105px; object-position: top center;">
                     @endif
-                    <input type="file" name="foto" accept="image/*" class="w-full px-5 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] text-xs font-medium text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#004a99] file:text-white hover:file:bg-[#003875] transition-all">
+                    <div class="flex-grow space-y-1">
+                        <input type="file" name="foto" accept="image/*" class="w-full px-5 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] text-xs font-medium text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#004a99] file:text-white hover:file:bg-[#003875] transition-all">
+                        <p class="text-[11px] text-slate-400 font-medium">Format: JPG, PNG, WEBP (Maks. 5MB). Biarkan kosong jika tidak ingin mengganti foto.</p>
+                    </div>
                 </div>
             </div>
         </div>
