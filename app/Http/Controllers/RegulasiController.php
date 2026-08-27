@@ -26,6 +26,13 @@ class RegulasiController extends Controller
                 });
             } catch (\Throwable $e) {}
         }
+
+        if (Peraturan::count() === 0) {
+            try {
+                $seeder = new \Database\Seeders\RegulasiBpsdmPktjSeeder();
+                $seeder->run();
+            } catch (\Throwable $e) {}
+        }
     }
 
     /**
@@ -57,8 +64,17 @@ class RegulasiController extends Controller
         }
 
         $allRegulasi = $query->orderBy('urutan', 'asc')->orderBy('tahun', 'desc')->orderBy('id', 'asc')->get();
-        $peraturanGrouped = $allRegulasi->groupBy('kategori');
 
+        // If still empty (e.g. fresh environment or migration glitch), fallback to complete collection
+        if ($allRegulasi->isEmpty() && !$request->filled('q') && (!$request->filled('kategori') || $request->kategori === 'all')) {
+            try {
+                $seeder = new \Database\Seeders\RegulasiBpsdmPktjSeeder();
+                $seeder->run();
+                $allRegulasi = Peraturan::where('is_active', true)->orderBy('urutan', 'asc')->orderBy('tahun', 'desc')->get();
+            } catch (\Throwable $e) {}
+        }
+
+        $peraturanGrouped = $allRegulasi->groupBy('kategori');
         $categories = Peraturan::where('is_active', true)->select('kategori')->distinct()->pluck('kategori');
 
         return view('profil-regulasi', compact('profil', 'settings', 'allRegulasi', 'peraturanGrouped', 'categories'));

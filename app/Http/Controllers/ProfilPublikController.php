@@ -90,16 +90,9 @@ class ProfilPublikController extends Controller
         return view('profil-struktur-organisasi', compact('profil', 'settings'));
     }
 
-    public function showRegulasi()
+    public function showRegulasi(\Illuminate\Http\Request $request)
     {
-        $profil = ProfilPpid::where('type', 'regulasi')->first();
-        if ($profil) {
-            $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
-            $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
-        }
-        $peraturan = Peraturan::where('is_active', true)->orderBy('created_at', 'desc')->get()->groupBy('kategori');
-        $settings = Dashboard::pluck('value', 'key')->toArray();
-        return view('profil-regulasi', compact('profil', 'peraturan', 'settings'));
+        return app(RegulasiController::class)->publicIndex($request);
     }
 
     public function showKontak()
