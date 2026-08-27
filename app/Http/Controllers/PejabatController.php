@@ -43,10 +43,14 @@ class PejabatController extends Controller
 
         $request->validate([
             'nama'                 => 'required|string|max:255',
-            'nip'                  => 'nullable|string|max:100',
             'jabatan'              => 'required|string|max:255',
             'tempat_tanggal_lahir' => 'nullable|string|max:255',
             'foto'                 => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'foto_width'           => 'nullable|integer',
+            'foto_height'          => 'nullable|integer',
+            'foto_card_height'     => 'nullable|integer',
+            'foto_position'        => 'nullable|string',
+            'foto_radius'          => 'nullable|string',
             'biografi'             => 'nullable|string',
             'pendidikan'           => 'nullable|string',
             'riwayat_jabatan'      => 'nullable|string',
@@ -59,6 +63,11 @@ class PejabatController extends Controller
 
         $data = $request->except(['_token', 'foto', 'lhkpn_file']);
         $data['aktif'] = $request->has('aktif');
+        $data['foto_width'] = $request->input('foto_width', 160) ?: 160;
+        $data['foto_height'] = $request->input('foto_height', 240) ?: 240;
+        $data['foto_card_height'] = $request->input('foto_card_height', 390) ?: 390;
+        $data['foto_position'] = $request->input('foto_position', 'top center') ?: 'top center';
+        $data['foto_radius'] = $request->input('foto_radius', '14px') ?: '14px';
 
         // Handle arrays from textarea lines
         if ($request->filled('pendidikan')) {
@@ -137,6 +146,15 @@ class PejabatController extends Controller
         try {
             if (!Schema::hasTable('pejabats')) {
                 Artisan::call('migrate', ['--force' => true]);
+            } else if (!Schema::hasColumn('pejabats', 'foto_width')) {
+                \Illuminate\Database\Schema\Blueprint;
+                Schema::table('pejabats', function ($table) {
+                    $table->integer('foto_width')->nullable()->default(160);
+                    $table->integer('foto_height')->nullable()->default(240);
+                    $table->integer('foto_card_height')->nullable()->default(390);
+                    $table->string('foto_position')->nullable()->default('top center');
+                    $table->string('foto_radius')->nullable()->default('14px');
+                });
             }
         } catch (\Throwable $e) {}
 
@@ -158,10 +176,14 @@ class PejabatController extends Controller
 
         $request->validate([
             'nama'                 => 'required|string|max:255',
-            'nip'                  => 'nullable|string|max:100',
             'jabatan'              => 'required|string|max:255',
             'tempat_tanggal_lahir' => 'nullable|string|max:255',
             'foto'                 => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'foto_width'           => 'nullable|integer',
+            'foto_height'          => 'nullable|integer',
+            'foto_card_height'     => 'nullable|integer',
+            'foto_position'        => 'nullable|string',
+            'foto_radius'          => 'nullable|string',
             'biografi'             => 'nullable|string',
             'pendidikan'           => 'nullable|string',
             'riwayat_jabatan'      => 'nullable|string',
@@ -174,6 +196,11 @@ class PejabatController extends Controller
 
         $data = $request->except(['_token', '_method', 'foto', 'lhkpn_file']);
         $data['aktif'] = $request->has('aktif');
+        $data['foto_width'] = $request->input('foto_width', 160) ?: 160;
+        $data['foto_height'] = $request->input('foto_height', 240) ?: 240;
+        $data['foto_card_height'] = $request->input('foto_card_height', 390) ?: 390;
+        $data['foto_position'] = $request->input('foto_position', 'top center') ?: 'top center';
+        $data['foto_radius'] = $request->input('foto_radius', '14px') ?: '14px';
 
         if ($request->filled('pendidikan')) {
             $data['pendidikan'] = array_values(array_filter(array_map('trim', explode("\n", $request->pendidikan))));

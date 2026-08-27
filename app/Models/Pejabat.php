@@ -15,6 +15,11 @@ class Pejabat extends Model
         'jabatan',
         'tempat_tanggal_lahir',
         'foto',
+        'foto_width',
+        'foto_height',
+        'foto_card_height',
+        'foto_position',
+        'foto_radius',
         'biografi',
         'pendidikan',
         'riwayat_jabatan',
@@ -27,6 +32,9 @@ class Pejabat extends Model
     ];
 
     protected $casts = [
+        'foto_width' => 'integer',
+        'foto_height' => 'integer',
+        'foto_card_height' => 'integer',
         'pendidikan' => 'array',
         'riwayat_jabatan' => 'array',
         'penghargaan' => 'array',

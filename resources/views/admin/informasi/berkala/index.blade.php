@@ -53,171 +53,19 @@
                     <p class="text-slate-500 font-medium text-xs">Kelola pas foto, teks biografi, riwayat pendidikan/karir, dan link LHKPN jajaran Pimpinan PKTJ.</p>
                 </div>
                 <div class="flex items-center gap-3">
-                    <button type="button" onclick="toggleSizeConfigPanel()" class="px-5 py-3 bg-amber-500 text-[#002b5c] font-black text-xs uppercase tracking-wider rounded-xl shadow-md hover:bg-amber-400 transition-all flex items-center">
-                        <i class="fas fa-sliders-h mr-2"></i> Sesuaikan Ukuran Foto
-                    </button>
                     <a href="{{ route('admin.pejabat.create') }}" class="px-6 py-3 bg-[#004a99] text-white font-black text-xs uppercase tracking-wider rounded-xl shadow-md hover:bg-[#003875] transition-all flex items-center">
                         <i class="fas fa-user-plus mr-2"></i> Tambah Pejabat
                     </a>
                 </div>
             </div>
 
-            @php
-                $tblW = \App\Models\Dashboard::getValue('pejabat_foto_table_width', 155);
-                $tblH = \App\Models\Dashboard::getValue('pejabat_foto_table_height', 230);
-                $crdH = \App\Models\Dashboard::getValue('pejabat_foto_card_height', 390);
-                $pos  = \App\Models\Dashboard::getValue('pejabat_foto_position', 'top center');
-                $rad  = \App\Models\Dashboard::getValue('pejabat_foto_radius', '14px');
-                $admH = \App\Models\Dashboard::getValue('pejabat_foto_admin_height', 125);
-            @endphp
-
-            <!-- PANEL PENGATURAN UKURAN FOTO (COLLAPSIBLE) -->
-            <div id="sizeConfigPanel" class="p-6 md:p-8 bg-gradient-to-br from-slate-900 via-[#002b5c] to-[#004a99] text-white border-b-2 border-slate-200" style="display: none;">
-                <form action="{{ route('admin.pejabat.update-size') }}" method="POST">
-                    @csrf
-                    <div class="flex items-center justify-between pb-4 mb-6 border-b border-white/10">
-                        <div>
-                            <h4 class="text-lg font-black text-[#ffc107] flex items-center gap-2">
-                                <i class="fas fa-crop-alt"></i> Pengaturan & Penyesuaian Ukuran Foto Pejabat
-                            </h4>
-                            <p class="text-blue-100 text-xs mt-1">Ubah dimensi lebar, tinggi, dan posisi pas foto di Halaman Publik & Admin Panel sesuai kebutuhan.</p>
-                        </div>
-                        <button type="button" onclick="toggleSizeConfigPanel()" class="text-white/60 hover:text-white text-lg">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    </div>
-
-                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-                        <!-- PRESETS & INPUTS -->
-                        <div class="lg:col-span-2 space-y-6">
-                            <div>
-                                <label class="text-xs font-black uppercase tracking-wider text-amber-300 block mb-2">Preset Ukuran Cepat:</label>
-                                <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                                    <button type="button" onclick="applyPhotoPreset(120, 165, 330, '12px')" class="px-3 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-bold text-left transition-all">
-                                        <span class="block text-[#ffc107] text-[11px]">Pas Foto 3x4</span>
-                                        <span class="text-[10px] text-white/70">120 x 165 px</span>
-                                    </button>
-                                    <button type="button" onclick="applyPhotoPreset(155, 230, 390, '14px')" class="px-3 py-2.5 bg-amber-500/20 hover:bg-amber-500/30 border-2 border-amber-400 rounded-xl text-xs font-bold text-left transition-all">
-                                        <span class="block text-[#ffc107] text-[11px]">⭐ Pas Foto 4x6 (Resmi)</span>
-                                        <span class="text-[10px] text-white/70">155 x 230 px</span>
-                                    </button>
-                                    <button type="button" onclick="applyPhotoPreset(180, 265, 430, '16px')" class="px-3 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-bold text-left transition-all">
-                                        <span class="block text-[#ffc107] text-[11px]">Pas Foto 5x7 (Jumbo)</span>
-                                        <span class="text-[10px] text-white/70">180 x 265 px</span>
-                                    </button>
-                                    <button type="button" onclick="applyPhotoPreset(200, 290, 460, '18px')" class="px-3 py-2.5 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-bold text-left transition-all">
-                                        <span class="block text-[#ffc107] text-[11px]">Ekstra Besar</span>
-                                        <span class="text-[10px] text-white/70">200 x 290 px</span>
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                <div class="space-y-1.5">
-                                    <label class="text-[11px] font-black uppercase text-blue-200">Lebar Foto Tabel (px):</label>
-                                    <input type="number" id="inpTableW" name="pejabat_foto_table_width" value="{{ $tblW }}" min="80" max="300" class="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-white font-bold text-sm focus:bg-white focus:text-slate-900" oninput="updateLivePreview()">
-                                </div>
-                                <div class="space-y-1.5">
-                                    <label class="text-[11px] font-black uppercase text-blue-200">Tinggi Foto Tabel (px):</label>
-                                    <input type="number" id="inpTableH" name="pejabat_foto_table_height" value="{{ $tblH }}" min="100" max="400" class="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-white font-bold text-sm focus:bg-white focus:text-slate-900" oninput="updateLivePreview()">
-                                </div>
-                                <div class="space-y-1.5">
-                                    <label class="text-[11px] font-black uppercase text-blue-200">Tinggi Foto Kartu (px):</label>
-                                    <input type="number" id="inpCardH" name="pejabat_foto_card_height" value="{{ $crdH }}" min="250" max="600" class="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-white font-bold text-sm focus:bg-white focus:text-slate-900">
-                                </div>
-                            </div>
-
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                <div class="space-y-1.5">
-                                    <label class="text-[11px] font-black uppercase text-blue-200">Fokus / Posisi Pas Foto:</label>
-                                    <select id="inpPos" name="pejabat_foto_position" class="w-full px-4 py-2.5 bg-slate-800 border border-white/20 rounded-xl text-white font-bold text-xs" onchange="updateLivePreview()">
-                                        <option value="top center" {{ $pos === 'top center' ? 'selected' : '' }}>Atas (Fokus Wajah & Dasi)</option>
-                                        <option value="center center" {{ $pos === 'center center' ? 'selected' : '' }}>Tengah (Center)</option>
-                                        <option value="bottom center" {{ $pos === 'bottom center' ? 'selected' : '' }}>Bawah</option>
-                                    </select>
-                                </div>
-                                <div class="space-y-1.5">
-                                    <label class="text-[11px] font-black uppercase text-blue-200">Kelengkungan Sudut:</label>
-                                    <select id="inpRad" name="pejabat_foto_radius" class="w-full px-4 py-2.5 bg-slate-800 border border-white/20 rounded-xl text-white font-bold text-xs" onchange="updateLivePreview()">
-                                        <option value="14px" {{ $rad === '14px' ? 'selected' : '' }}>Melengkung Elegan (14px)</option>
-                                        <option value="8px" {{ $rad === '8px' ? 'selected' : '' }}>Sedang (8px)</option>
-                                        <option value="0px" {{ $rad === '0px' ? 'selected' : '' }}>Kotak Klasik Pas Foto (0px)</option>
-                                        <option value="24px" {{ $rad === '24px' ? 'selected' : '' }}>Sangat Bulat (24px)</option>
-                                    </select>
-                                </div>
-                                <div class="space-y-1.5">
-                                    <label class="text-[11px] font-black uppercase text-blue-200">Tinggi Foto Admin (px):</label>
-                                    <input type="number" id="inpAdminH" name="pejabat_foto_admin_height" value="{{ $admH }}" min="60" max="250" class="w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl text-white font-bold text-sm focus:bg-white focus:text-slate-900">
-                                </div>
-                            </div>
-
-                            <div class="pt-2 flex items-center gap-3">
-                                <button type="submit" class="px-8 py-3 bg-[#ffc107] text-[#002b5c] font-black text-xs uppercase tracking-widest rounded-xl shadow-lg hover:scale-105 active:scale-95 transition-all">
-                                    <i class="fas fa-save mr-2"></i> Simpan Pengaturan Ukuran
-                                </button>
-                                <button type="button" onclick="toggleSizeConfigPanel()" class="px-5 py-3 bg-white/10 text-white font-bold text-xs rounded-xl hover:bg-white/20 transition-all">
-                                    Tutup
-                                </button>
-                            </div>
-                        </div>
-
-                        <!-- LIVE PREVIEW BOX -->
-                        <div class="bg-white/10 p-5 rounded-2xl border border-white/20 text-center flex flex-col items-center justify-center">
-                            <span class="text-[10px] font-black uppercase text-amber-300 tracking-wider mb-3">Live Preview Ukuran Tabel</span>
-                            <div class="bg-slate-900/60 p-4 rounded-xl border border-white/10 flex items-center justify-center" style="min-height: 260px; min-width: 180px;">
-                                @php
-                                    $samplePhoto = $pejabats->first()?->foto ? asset($pejabats->first()->foto) : asset('img/pejabat/direktur_bambang.png');
-                                @endphp
-                                <img id="previewLiveImg" src="{{ $samplePhoto }}" alt="Preview" class="shadow-2xl border-2 border-white transition-all duration-200" style="width: {{ $tblW }}px; height: {{ $tblH }}px; object-fit: cover; object-position: {{ $pos }}; border-radius: {{ $rad }};">
-                            </div>
-                            <span id="previewDimensionText" class="text-[11px] font-mono text-white/80 mt-3 font-bold">{{ $tblW }}px x {{ $tblH }}px</span>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
-            <script>
-                function toggleSizeConfigPanel() {
-                    const p = document.getElementById('sizeConfigPanel');
-                    p.style.display = (p.style.display === 'none') ? 'block' : 'none';
-                }
-
-                function applyPhotoPreset(w, h, cardH, rad) {
-                    document.getElementById('inpTableW').value = w;
-                    document.getElementById('inpTableH').value = h;
-                    document.getElementById('inpCardH').value = cardH;
-                    document.getElementById('inpRad').value = rad;
-                    updateLivePreview();
-                }
-
-                function updateLivePreview() {
-                    const w = document.getElementById('inpTableW').value || 155;
-                    const h = document.getElementById('inpTableH').value || 230;
-                    const pos = document.getElementById('inpPos').value || 'top center';
-                    const rad = document.getElementById('inpRad').value || '14px';
-
-                    const img = document.getElementById('previewLiveImg');
-                    const text = document.getElementById('previewDimensionText');
-
-                    if (img) {
-                        img.style.width = w + 'px';
-                        img.style.height = h + 'px';
-                        img.style.objectPosition = pos;
-                        img.style.borderRadius = rad;
-                    }
-                    if (text) {
-                        text.textContent = w + 'px x ' + h + 'px';
-                    }
-                }
-            </script>
-
             <div class="overflow-x-auto">
                 <table class="w-full text-left border-collapse">
                     <thead>
                         <tr class="bg-slate-50 border-b border-slate-100 text-[#004a99] font-black text-[11px] uppercase tracking-widest">
                             <th class="py-4 px-5 text-center w-16">No</th>
-                            <th class="py-4 px-5 text-center" style="width: {{ $admH }}px;">Pas Foto</th>
-                            <th class="py-4 px-5">Nama & NIP</th>
+                            <th class="py-4 px-5 text-center w-36">Pas Foto</th>
+                            <th class="py-4 px-5">Nama Lengkap</th>
                             <th class="py-4 px-5">Jabatan Struktural</th>
                             <th class="py-4 px-5 hidden md:table-cell">Riwayat Singkat</th>
                             <th class="py-4 px-5">LHKPN</th>
@@ -234,16 +82,17 @@
                             </td>
                             <td class="py-4 px-5 text-center">
                                 @if($p->foto)
-                                    <img src="{{ asset($p->foto) }}" alt="{{ $p->nama }}" class="object-cover shadow-md border-2 border-white mx-auto transition-all" style="height: {{ $admH }}px; width: auto; max-width: 130px; object-position: {{ $pos }}; border-radius: {{ $rad }};">
+                                    <img src="{{ asset($p->foto) }}" alt="{{ $p->nama }}" class="object-cover shadow-md border-2 border-white mx-auto transition-all" style="height: 120px; width: auto; max-width: 110px; object-position: {{ $p->foto_position ?? 'top center' }}; border-radius: {{ $p->foto_radius ?? '14px' }};">
+                                    <span class="inline-block text-[9.5px] font-mono text-slate-400 mt-1 font-bold">{{ $p->foto_width ?? 160 }}x{{ $p->foto_height ?? 240 }} px</span>
                                 @else
-                                    <div class="bg-slate-100 flex items-center justify-center text-slate-400 mx-auto border border-slate-200" style="height: {{ $admH }}px; width: {{ intval($admH * 0.68) }}px; border-radius: {{ $rad }};">
+                                    <div class="bg-slate-100 flex items-center justify-center text-slate-400 mx-auto border border-slate-200" style="height: 120px; width: 80px; border-radius: {{ $p->foto_radius ?? '14px' }};">
                                         <i class="fas fa-user-tie fa-2x opacity-40"></i>
                                     </div>
                                 @endif
                             </td>
                             <td class="py-4 px-5">
                                 <h4 class="font-bold text-slate-900 text-sm">{{ $p->nama }}</h4>
-                                <span class="inline-block text-[11px] font-mono text-slate-500 mt-0.5">NIP: {{ $p->nip ?? '-' }}</span>
+                                <span class="inline-block text-[11px] text-slate-500 mt-0.5">{{ $p->tempat_tanggal_lahir ?? 'PKTJ Tegal' }}</span>
                             </td>
                             <td class="py-4 px-5">
                                 <span class="inline-block px-2.5 py-1 bg-blue-50 text-[#004a99] font-bold text-[11px] rounded-lg border border-blue-100">
@@ -259,19 +108,19 @@
                                         <i class="fas fa-file-invoice-dollar"></i> LHKPN ({{ $p->lhkpn_tahun ?? '2025/2026' }})
                                     </a>
                                 @else
-                                    <span class="text-[11px] text-slate-400 italic">Belum ada link</span>
+                                    <span class="inline-block px-2.5 py-1 bg-slate-100 text-slate-400 font-bold text-[10px] rounded-lg">Belum Ada</span>
                                 @endif
                             </td>
                             <td class="py-4 px-5 text-center">
-                                <div class="flex items-center justify-center gap-2">
-                                    <a href="{{ route('admin.pejabat.edit', $p->id) }}" class="w-8 h-8 rounded-lg bg-amber-50 text-amber-600 hover:bg-amber-100 flex items-center justify-center text-xs transition-all shadow-sm" title="Edit Pejabat & LHKPN">
-                                        <i class="fas fa-pencil-alt"></i>
+                                <div class="flex items-center justify-center gap-1.5">
+                                    <a href="{{ route('admin.pejabat.edit', $p->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm" title="Edit Data & Ukuran Foto">
+                                        <i class="fas fa-edit"></i>
                                     </a>
-                                    <form action="{{ route('admin.pejabat.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pejabat ini?')">
+                                    <form action="{{ route('admin.pejabat.destroy', $p->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus data pejabat ini?')" class="inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="w-8 h-8 rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 flex items-center justify-center text-xs transition-all shadow-sm border-none cursor-pointer" title="Hapus Pejabat">
-                                            <i class="fas fa-trash-alt"></i>
+                                        <button type="submit" class="p-2 bg-rose-50 text-rose-600 rounded-lg hover:bg-rose-600 hover:text-white transition-all shadow-sm" title="Hapus Pejabat">
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
                                 </div>
@@ -279,7 +128,9 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="7" class="text-center py-6 text-slate-400 text-xs">Belum ada data profil pejabat.</td>
+                            <td colspan="7" class="py-8 text-center text-slate-400 font-medium text-xs">
+                                Belum ada data pejabat publik.
+                            </td>
                         </tr>
                         @endforelse
                     </tbody>

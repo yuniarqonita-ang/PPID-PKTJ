@@ -174,37 +174,45 @@
                 $rad  = \App\Models\Dashboard::getValue('pejabat_foto_radius', '14px');
             @endphp
 
-            <!-- 1. MODE TABEL RESMI (FOTO BESAR) -->
+            <!-- 1. MODE TABEL RESMI (FOTO BESAR & RAPI) -->
             <div id="pagePejabatTable" class="table-responsive mb-5 view-animate">
                 <table class="table table-bordered table-hover align-middle mb-0" style="border-color: #e2e8f0;">
                     <thead style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;">
                         <tr class="text-center align-middle" style="font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase;">
                             <th style="width: 45px; padding: 16px 8px;">No</th>
-                            <th style="width: {{ intval($tblW) + 30 }}px; padding: 16px 10px;">Pas Foto Resmi</th>
-                            <th style="width: 230px; padding: 16px 15px;" class="text-start">Nama & NIP</th>
-                            <th style="width: 210px; padding: 16px 15px;" class="text-start">Jabatan</th>
+                            <th style="width: 200px; padding: 16px 10px;">Pas Foto Resmi</th>
+                            <th style="width: 240px; padding: 16px 15px;" class="text-start">Nama Pejabat</th>
+                            <th style="width: 220px; padding: 16px 15px;" class="text-start">Jabatan</th>
                             <th style="min-width: 320px; padding: 16px 15px;" class="text-start">Biografi & Riwayat Karir</th>
                             <th style="width: 130px; padding: 16px 10px;">LHKPN</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y">
                         @foreach($pejabats as $pejabat)
+                        @php
+                            $pW   = $pejabat->foto_width ?: 160;
+                            $pH   = $pejabat->foto_height ?: 240;
+                            $pPos = $pejabat->foto_position ?: 'top center';
+                            $pRad = $pejabat->foto_radius ?: '14px';
+                        @endphp
                         <tr style="background: {{ $loop->even ? '#f8fafc' : '#ffffff' }}; font-size: 13.5px;">
                             <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
                             <td class="text-center p-3">
                                 @if($pejabat->foto)
-                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="mx-auto shadow-sm border" style="width: {{ $tblW }}px; height: {{ $tblH }}px; object-fit: cover; object-position: {{ $pos }}; border-radius: {{ $rad }}; border: 2.5px solid #ffffff !important; outline: 1.5px solid #cbd5e1; cursor: pointer; transition: transform 0.3s ease;" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
+                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="mx-auto shadow-sm border" style="width: {{ $pW }}px; height: {{ $pH }}px; object-fit: cover; object-position: {{ $pPos }}; border-radius: {{ $pRad }}; border: 2.5px solid #ffffff !important; outline: 1.5px solid #cbd5e1; cursor: pointer; transition: transform 0.35s ease, box-shadow 0.35s ease;" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
                                 @else
-                                    <div class="bg-light d-flex align-items-center justify-content-center border mx-auto" style="width: {{ $tblW }}px; height: {{ $tblH }}px; border-radius: {{ $rad }};">
+                                    <div class="bg-light d-flex align-items-center justify-content-center border mx-auto" style="width: {{ $pW }}px; height: {{ $pH }}px; border-radius: {{ $pRad }};">
                                         <i class="fas fa-user-tie fa-4x text-muted opacity-40"></i>
                                     </div>
                                 @endif
                             </td>
                             <td class="p-3">
-                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px; line-height: 1.4;">{{ $pejabat->nama }}</h6>
-                                <span class="badge bg-light text-secondary border font-mono px-2 py-1" style="font-size: 11.5px;">
-                                    NIP: {{ $pejabat->nip ?? '-' }}
-                                </span>
+                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14.5px; line-height: 1.4; color: #002b5c !important;">{{ $pejabat->nama }}</h6>
+                                @if($pejabat->tempat_tanggal_lahir)
+                                    <div class="text-muted small" style="font-size: 11.5px;">
+                                        <i class="fas fa-map-marker-alt text-amber-500 me-1"></i> {{ $pejabat->tempat_tanggal_lahir }}
+                                    </div>
+                                @endif
                             </td>
                             <td class="p-3">
                                 <span class="badge bg-primary text-wrap text-start lh-base px-2.5 py-1.5 rounded-2" style="background-color: #004a99 !important; font-size: 12px;">
@@ -219,7 +227,7 @@
                                 @if(!empty($pejabat->pendidikan) && is_array($pejabat->pendidikan))
                                     <div class="mb-1.5">
                                         <strong class="text-primary d-block" style="font-size: 11.5px; text-transform: uppercase;">
-                                            <i class="fas fa-graduation-cap me-1"></i> Pendidikan:
+                                            <i class="fas fa-graduation-cap me-1"></i> Riwayat Pendidikan:
                                         </strong>
                                         <ul class="mb-0 ps-3 small text-muted" style="font-size: 12px;">
                                             @foreach($pejabat->pendidikan as $pend)
@@ -261,11 +269,15 @@
             <!-- 2. MODE GRID KARTU -->
             <div id="pagePejabatGrid" class="row g-4 d-none view-animate">
                 @forelse($pejabats as $pejabat)
+                @php
+                    $pCardH = $pejabat->foto_card_height ?: 390;
+                    $pPos   = $pejabat->foto_position ?: 'top center';
+                @endphp
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 50 }}">
                         <div class="pejabat-card">
-                            <div class="pejabat-img-wrapper" style="cursor: pointer; height: {{ $crdH }}px; padding-top: 0;" @if($pejabat->foto) onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto" @endif>
+                            <div class="pejabat-img-wrapper" style="cursor: pointer; height: {{ $pCardH }}px; padding-top: 0;" @if($pejabat->foto) onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto" @endif>
                                 @if($pejabat->foto)
-                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" style="object-position: {{ $pos }};">
+                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" style="object-position: {{ $pPos }} !important;">
                                 @else
                                     <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted" style="position: absolute; top:0; left:0;">
                                         <i class="fas fa-user-tie fa-4x opacity-25"></i>
@@ -276,8 +288,12 @@
                             <div class="p-4 d-flex flex-column flex-grow-1 justify-content-between">
                                 <div>
                                     <span class="pejabat-badge-jabatan mb-3">{{ $pejabat->jabatan }}</span>
-                                    <h4 class="fw-bold outfit text-dark mb-1" style="font-size: 1.15rem; line-height: 1.4;">{{ $pejabat->nama }}</h4>
-                                    <p class="text-muted small mb-3">NIP: {{ $pejabat->nip ?? '-' }}</p>
+                                    <h4 class="fw-bold outfit text-dark mb-1" style="font-size: 1.15rem; line-height: 1.4; color: #002b5c !important;">{{ $pejabat->nama }}</h4>
+                                    @if($pejabat->tempat_tanggal_lahir)
+                                        <p class="text-muted small mb-2" style="font-size: 11.5px;">
+                                            <i class="fas fa-map-marker-alt text-amber-500 me-1"></i> {{ $pejabat->tempat_tanggal_lahir }}
+                                        </p>
+                                    @endif
                                     
                                     @if($pejabat->biografi)
                                         <p class="text-secondary small mb-4" style="line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">

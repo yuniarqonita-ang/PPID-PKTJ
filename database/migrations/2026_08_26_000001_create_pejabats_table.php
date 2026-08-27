@@ -19,6 +19,11 @@ return new class extends Migration
                 $table->string('jabatan');
                 $table->string('tempat_tanggal_lahir')->nullable();
                 $table->string('foto')->nullable();
+                $table->integer('foto_width')->nullable()->default(160);
+                $table->integer('foto_height')->nullable()->default(240);
+                $table->integer('foto_card_height')->nullable()->default(390);
+                $table->string('foto_position')->nullable()->default('top center');
+                $table->string('foto_radius')->nullable()->default('14px');
                 $table->text('biografi')->nullable();
                 $table->json('pendidikan')->nullable();
                 $table->json('riwayat_jabatan')->nullable();
