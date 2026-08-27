@@ -55,9 +55,14 @@
                 <input type="number" name="urutan" value="{{ old('urutan', 1) }}" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-sm font-bold text-slate-800 transition-all">
             </div>
 
-            <div class="space-y-2">
-                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Pas Foto Pejabat</label>
-                <input type="file" name="foto" accept="image/*" class="w-full px-5 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] text-xs font-medium text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#004a99] file:text-white hover:file:bg-[#003875] transition-all">
+            <div class="space-y-2 md:col-span-2 bg-slate-50 p-6 rounded-3xl border-2 border-slate-200">
+                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider block mb-2">Pas Foto Resmi Pejabat (Format Portrait 4x6)</label>
+                <div class="space-y-3">
+                    <input type="file" name="foto" accept="image/*" class="w-full px-5 py-3.5 bg-white border-2 border-slate-200 rounded-2xl focus:border-[#004a99] text-xs font-medium text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#004a99] file:text-white hover:file:bg-[#003875] transition-all">
+                    <p class="text-[11px] text-slate-500 leading-relaxed font-medium">
+                        <i class="fas fa-info-circle text-blue-500 mr-1"></i> Disarankan menggunakan <strong>Pas Foto Resmi rasio 4:6 (Portrait)</strong>. Format: JPG, PNG, WEBP (Maksimal 5MB).
+                    </p>
+                </div>
             </div>
         </div>
 

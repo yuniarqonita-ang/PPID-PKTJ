@@ -167,22 +167,26 @@
             @if(isset($pejabats) && $pejabats->count() > 0)
             <style>
                 .pejabat-table-photo {
-                    width: 110px !important;
-                    height: 145px !important;
+                    width: 155px !important;
+                    height: 230px !important;
                     object-fit: cover !important;
                     object-position: top center !important;
-                    border-radius: 12px !important;
-                    box-shadow: 0 4px 12px rgba(0,0,0,0.08) !important;
-                    border: 2px solid #e2e8f0 !important;
-                    transition: transform 0.3s ease !important;
+                    border-radius: 14px !important;
+                    box-shadow: 0 6px 18px rgba(0, 43, 92, 0.12) !important;
+                    border: 2.5px solid #ffffff !important;
+                    outline: 1.5px solid #cbd5e1 !important;
+                    cursor: pointer !important;
+                    transition: transform 0.35s ease, box-shadow 0.35s ease !important;
                 }
                 .pejabat-table-photo:hover {
-                    transform: scale(1.05);
+                    transform: scale(1.04);
+                    box-shadow: 0 10px 25px rgba(0, 74, 153, 0.22) !important;
+                    outline-color: #004a99 !important;
                 }
                 .pejabat-card-pro {
                     background: #ffffff;
                     border: 1.5px solid #e2e8f0;
-                    border-radius: 20px;
+                    border-radius: 24px;
                     overflow: hidden;
                     transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
                     box-shadow: 0 4px 20px rgba(0,0,0,0.04);
@@ -192,11 +196,11 @@
                 }
                 .pejabat-card-pro:hover {
                     transform: translateY(-8px);
-                    box-shadow: 0 20px 35px rgba(0, 74, 153, 0.12);
+                    box-shadow: 0 22px 40px rgba(0, 74, 153, 0.14);
                     border-color: #004a99;
                 }
                 .pejabat-card-img-wrapper {
-                    height: 330px;
+                    height: 390px;
                     background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
                     position: relative;
                     overflow: hidden;
@@ -216,11 +220,11 @@
                     bottom: 0;
                     left: 0;
                     right: 0;
-                    height: 90px;
-                    background: linear-gradient(to top, rgba(0, 43, 92, 0.85) 0%, transparent 100%);
+                    height: 100px;
+                    background: linear-gradient(to top, rgba(0, 43, 92, 0.9) 0%, transparent 100%);
                     display: flex;
                     align-items: flex-end;
-                    padding: 15px;
+                    padding: 18px;
                 }
                 .view-animate {
                     animation: viewFadeIn 0.35s ease;
@@ -254,16 +258,16 @@
                     </div>
                 </div>
 
-                <!-- 1. TAMPILAN MODE TABEL RESMI (FOTO BESAR & JELAS) -->
+                <!-- 1. TAMPILAN MODE TABEL RESMI (FOTO BESAR 4x6) -->
                 <div id="pejabatTableView" class="table-responsive view-animate">
                     <table class="table table-bordered table-hover align-middle mb-0" style="border-color: #e2e8f0;">
                         <thead style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;">
                             <tr class="text-center align-middle" style="font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase;">
-                                <th style="width: 50px; padding: 16px 10px;">No</th>
-                                <th style="width: 140px; padding: 16px 10px;">Pas Foto Resmi</th>
-                                <th style="width: 240px; padding: 16px 15px;" class="text-start">Nama & NIP</th>
+                                <th style="width: 45px; padding: 16px 8px;">No</th>
+                                <th style="width: 185px; padding: 16px 10px;">Pas Foto Resmi (4x6)</th>
+                                <th style="width: 230px; padding: 16px 15px;" class="text-start">Nama & NIP</th>
                                 <th style="width: 210px; padding: 16px 15px;" class="text-start">Jabatan</th>
-                                <th style="min-width: 330px; padding: 16px 15px;" class="text-start">Biografi & Riwayat Karir</th>
+                                <th style="min-width: 320px; padding: 16px 15px;" class="text-start">Biografi & Riwayat Karir</th>
                                 <th style="width: 130px; padding: 16px 10px;">LHKPN</th>
                             </tr>
                         </thead>
@@ -273,10 +277,10 @@
                                 <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
                                 <td class="text-center p-3">
                                     @if($pejabat->foto)
-                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="pejabat-table-photo mx-auto">
+                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="pejabat-table-photo mx-auto" onclick="window.open('{{ asset($pejabat->foto) }}', '_blank')" title="Klik untuk memperbesar foto">
                                     @else
-                                        <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 110px; height: 145px;">
-                                            <i class="fas fa-user-tie fa-3x text-muted opacity-50"></i>
+                                        <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 155px; height: 230px;">
+                                            <i class="fas fa-user-tie fa-4x text-muted opacity-40"></i>
                                         </div>
                                     @endif
                                 </td>

@@ -56,15 +56,30 @@
                 <input type="number" name="urutan" value="{{ old('urutan', $pejabat->urutan) }}" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-sm font-bold text-slate-800 transition-all">
             </div>
 
-            <div class="space-y-2">
-                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Ganti Pas Foto Pejabat</label>
-                <div class="flex items-center gap-4">
+            <div class="space-y-2 md:col-span-2 bg-slate-50 p-6 rounded-3xl border-2 border-slate-200">
+                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider block mb-2">Pas Foto Resmi Pejabat (Format Portrait 4x6)</label>
+                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                     @if($pejabat->foto)
-                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="object-cover rounded-2xl shadow-md border-2 border-slate-200 flex-shrink-0" style="width: 80px; height: 105px; object-position: top center;">
+                        <div class="text-center flex-shrink-0">
+                            <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="object-cover rounded-2xl shadow-lg border-4 border-white" style="width: 140px; height: 210px; object-position: top center;">
+                            <span class="inline-block text-[10px] font-black uppercase text-slate-500 mt-2 bg-white px-2 py-0.5 rounded-full border">Foto Saat Ini (4x6)</span>
+                        </div>
+                    @else
+                        <div class="text-center flex-shrink-0">
+                            <div class="bg-white rounded-2xl flex items-center justify-center text-slate-400 border-2 border-dashed border-slate-300" style="width: 140px; height: 210px;">
+                                <i class="fas fa-user-tie fa-3x opacity-30"></i>
+                            </div>
+                            <span class="inline-block text-[10px] font-black uppercase text-slate-400 mt-2">Belum Ada Foto</span>
+                        </div>
                     @endif
-                    <div class="flex-grow space-y-1">
-                        <input type="file" name="foto" accept="image/*" class="w-full px-5 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] text-xs font-medium text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#004a99] file:text-white hover:file:bg-[#003875] transition-all">
-                        <p class="text-[11px] text-slate-400 font-medium">Format: JPG, PNG, WEBP (Maks. 5MB). Biarkan kosong jika tidak ingin mengganti foto.</p>
+                    <div class="flex-grow space-y-3">
+                        <div>
+                            <label class="text-xs font-bold text-slate-700 block mb-1">Unggah Pas Foto Baru:</label>
+                            <input type="file" name="foto" accept="image/*" class="w-full px-5 py-3.5 bg-white border-2 border-slate-200 rounded-2xl focus:border-[#004a99] text-xs font-medium text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-black file:bg-[#004a99] file:text-white hover:file:bg-[#003875] transition-all">
+                        </div>
+                        <p class="text-[11px] text-slate-500 leading-relaxed font-medium">
+                            <i class="fas fa-info-circle text-blue-500 mr-1"></i> Disarankan menggunakan <strong>Pas Foto Resmi rasio 4:6 (Portrait)</strong> berlatar belakang polos (merah/biru/abu-abu). Format: JPG, PNG, WEBP (Maksimal 5MB). Foto akan otomatis ditampilkan besar dan jernih di tabel dan kartu profil publik.
+                        </p>
                     </div>
                 </div>
             </div>

@@ -166,16 +166,16 @@
                 </div>
             </div>
 
-            <!-- 1. MODE TABEL RESMI -->
+            <!-- 1. MODE TABEL RESMI (FOTO BESAR 4x6) -->
             <div id="pagePejabatTable" class="table-responsive mb-5 view-animate">
                 <table class="table table-bordered table-hover align-middle mb-0" style="border-color: #e2e8f0;">
                     <thead style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;">
                         <tr class="text-center align-middle" style="font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase;">
-                            <th style="width: 50px; padding: 16px 10px;">No</th>
-                            <th style="width: 140px; padding: 16px 10px;">Pas Foto Resmi</th>
-                            <th style="width: 240px; padding: 16px 15px;" class="text-start">Nama & NIP</th>
+                            <th style="width: 45px; padding: 16px 8px;">No</th>
+                            <th style="width: 185px; padding: 16px 10px;">Pas Foto Resmi (4x6)</th>
+                            <th style="width: 230px; padding: 16px 15px;" class="text-start">Nama & NIP</th>
                             <th style="width: 210px; padding: 16px 15px;" class="text-start">Jabatan</th>
-                            <th style="min-width: 330px; padding: 16px 15px;" class="text-start">Biografi & Riwayat Karir</th>
+                            <th style="min-width: 320px; padding: 16px 15px;" class="text-start">Biografi & Riwayat Karir</th>
                             <th style="width: 130px; padding: 16px 10px;">LHKPN</th>
                         </tr>
                     </thead>
@@ -185,10 +185,10 @@
                             <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
                             <td class="text-center p-3">
                                 @if($pejabat->foto)
-                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="rounded-3 shadow-sm border" style="width: 110px; height: 145px; object-fit: cover; object-position: top center;">
+                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="mx-auto rounded-3 shadow-sm border" style="width: 155px; height: 230px; object-fit: cover; object-position: top center; border: 2.5px solid #ffffff !important; outline: 1.5px solid #cbd5e1; cursor: pointer; transition: transform 0.3s ease;" onclick="window.open('{{ asset($pejabat->foto) }}', '_blank')" title="Klik untuk memperbesar foto">
                                 @else
-                                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 110px; height: 145px;">
-                                        <i class="fas fa-user-tie fa-3x text-muted opacity-50"></i>
+                                    <div class="bg-light rounded-3 d-flex align-items-center justify-content-center border mx-auto" style="width: 155px; height: 230px;">
+                                        <i class="fas fa-user-tie fa-4x text-muted opacity-40"></i>
                                     </div>
                                 @endif
                             </td>

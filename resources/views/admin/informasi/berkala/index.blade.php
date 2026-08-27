@@ -64,7 +64,7 @@
                     <thead>
                         <tr class="bg-slate-50 border-b border-slate-100 text-[#004a99] font-black text-[11px] uppercase tracking-widest">
                             <th class="py-4 px-5 text-center w-16">No</th>
-                            <th class="py-4 px-5 w-24 text-center">Pas Foto</th>
+                            <th class="py-4 px-5 w-32 text-center">Pas Foto (4x6)</th>
                             <th class="py-4 px-5">Nama & NIP</th>
                             <th class="py-4 px-5">Jabatan Struktural</th>
                             <th class="py-4 px-5 hidden md:table-cell">Riwayat Singkat</th>
@@ -82,10 +82,10 @@
                             </td>
                             <td class="py-4 px-5 text-center">
                                 @if($p->foto)
-                                    <img src="{{ asset($p->foto) }}" alt="{{ $p->nama }}" class="object-cover rounded-xl shadow-sm border border-slate-200 mx-auto" style="width: 60px; height: 75px; object-position: top center;">
+                                    <img src="{{ asset($p->foto) }}" alt="{{ $p->nama }}" class="object-cover rounded-xl shadow-md border-2 border-white mx-auto" style="width: 85px; height: 125px; object-position: top center;">
                                 @else
-                                    <div class="bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 mx-auto border border-slate-200" style="width: 60px; height: 75px;">
-                                        <i class="fas fa-user-tie fa-lg opacity-40"></i>
+                                    <div class="bg-slate-100 rounded-xl flex items-center justify-center text-slate-400 mx-auto border border-slate-200" style="width: 85px; height: 125px;">
+                                        <i class="fas fa-user-tie fa-2x opacity-40"></i>
                                     </div>
                                 @endif
                             </td>
