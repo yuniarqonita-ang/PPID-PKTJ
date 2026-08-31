@@ -118,12 +118,17 @@ try {
 // Profil Publik
 Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');
 
-// Permohonan Informasi Routes (Public - Redirect directly to BPSDM PPID Portal like JDIH)
-Route::redirect('/permohonan-informasi', 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login')->name('permohonan.form');
-Route::redirect('/permohonan', 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login');
-Route::redirect('/permohonan-informasi.html', 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login');
+// Permohonan Informasi Routes (ATM BPSDMP with SSO & Streamlined Form)
+Route::get('/permohonan-informasi', [\App\Http\Controllers\PermohonanController::class, 'gateway'])->name('permohonan.gateway');
+Route::get('/permohonan', [\App\Http\Controllers\PermohonanController::class, 'gateway'])->name('permohonan.form');
+Route::get('/permohonan-informasi.html', [\App\Http\Controllers\PermohonanController::class, 'gateway']);
+Route::post('/permohonan/auth-session', [\App\Http\Controllers\PermohonanController::class, 'storeSessionIdentity'])->name('permohonan.auth-session');
+Route::get('/permohonan/isi', [\App\Http\Controllers\PermohonanController::class, 'form'])->name('permohonan.create');
+Route::post('/permohonan/kirim', [\App\Http\Controllers\PermohonanController::class, 'store'])->name('permohonan.store');
 
-
+// Pencarian Global (Search)
+Route::get('/pencarian', [\App\Http\Controllers\GlobalSearchController::class, 'searchPage'])->name('pencarian.public');
+Route::get('/api/global-search', [\App\Http\Controllers\GlobalSearchController::class, 'searchApi'])->name('api.global.search');
 
 // Dokumentasi (Public)
 Route::get('/dokumen', [DokumenController::class, 'publicList'])->name('dokumen.public');

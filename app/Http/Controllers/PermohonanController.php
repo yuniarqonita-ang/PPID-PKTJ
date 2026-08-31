@@ -37,19 +37,82 @@ class PermohonanController extends Controller
         ];
     }
 
-    public function form()
+    /**
+     * Halaman Masuk / Gateway Permohonan (ATM BPSDMP with SSO & Direct Form)
+     */
+    public function gateway()
     {
-        if (!\Illuminate\Support\Facades\Auth::check()) {
-            return redirect()->route('login')->with('info', 'Silakan masuk atau daftar akun pemohon terlebih dahulu untuk mengajukan permohonan informasi publik.');
+        if (\Illuminate\Support\Facades\Auth::check() || session()->has('pemohon_identity')) {
+            return redirect()->route('permohonan.create');
         }
 
+        $settings = Dashboard::pluck('value', 'key')->toArray();
+        return view('permohonan.gateway', compact('settings'));
+    }
+
+    /**
+     * Menyimpan data identitas cepat dari Gateway ke Session
+     */
+    public function storeSessionIdentity(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_pemohon'    => 'required|string|max:255',
+            'nomor_identitas' => 'required|string|max:50',
+            'email'           => 'required|email|max:255',
+            'no_telp'         => 'required|string|max:30',
+            'pekerjaan'       => 'nullable|string|max:100',
+            'alamat'          => 'required|string|max:500',
+        ], [
+            'nama_pemohon.required'    => 'Nama lengkap wajib diisi.',
+            'nomor_identitas.required' => 'Nomor identitas (NIK/KTP/SIM) wajib diisi.',
+            'email.required'           => 'Alamat email aktif wajib diisi.',
+            'no_telp.required'         => 'Nomor HP/WhatsApp wajib diisi.',
+            'alamat.required'          => 'Alamat domisili lengkap wajib diisi.',
+        ]);
+
+        // Simpan data identitas pemohon ke session
+        session(['pemohon_identity' => $validated]);
+
+        return redirect()->route('permohonan.create');
+    }
+
+    /**
+     * Formulir Utama Permohonan (Bagian Identitas diringkas, langsung ke Jenis Permohonan dll)
+     */
+    public function form()
+    {
         $user = \Illuminate\Support\Facades\Auth::user();
+        $sessionApplicant = session('pemohon_identity');
+
+        if (!$user && !$sessionApplicant) {
+            return redirect()->route('permohonan.gateway')->with('info', 'Silakan lengkapi identitas pemohon atau masuk akun terlebih dahulu.');
+        }
+
+        // Standardize applicant object
+        $applicant = $user ? (object)[
+            'name' => $user->name,
+            'email' => $user->email,
+            'no_telp' => $user->no_telp ?? '-',
+            'nomor_identitas' => $user->nomor_identitas ?? '-',
+            'pekerjaan' => $user->pekerjaan ?? '-',
+            'alamat' => $user->alamat ?? '-',
+            'is_auth' => true
+        ] : (object)[
+            'name' => $sessionApplicant['nama_pemohon'],
+            'email' => $sessionApplicant['email'],
+            'no_telp' => $sessionApplicant['no_telp'],
+            'nomor_identitas' => $sessionApplicant['nomor_identitas'],
+            'pekerjaan' => $sessionApplicant['pekerjaan'] ?? '-',
+            'alamat' => $sessionApplicant['alamat'],
+            'is_auth' => false
+        ];
+
         $schema = $this->getFormSchema();
         $sectionTitle = $schema['section_title'];
         $customFields = $schema['fields'];
         $settings = Dashboard::pluck('value', 'key')->toArray();
 
-        return view('permohonan.form', compact('user', 'customFields', 'sectionTitle', 'settings'));
+        return view('permohonan.form', compact('user', 'applicant', 'customFields', 'sectionTitle', 'settings'));
     }
 
     public function adminForm()
@@ -120,6 +183,18 @@ class PermohonanController extends Controller
     public function store(Request $request)
     {
         $user = \Illuminate\Support\Facades\Auth::user();
+        $sessionApplicant = session('pemohon_identity');
+
+        if (!$user && !$sessionApplicant) {
+            return redirect()->route('permohonan.gateway')->with('error', 'Sesi identitas Anda telah berakhir. Silakan isi kembali identitas Anda.');
+        }
+
+        $namaPemohon = $user ? $user->name : $sessionApplicant['nama_pemohon'];
+        $nomorIdentitas = $user ? ($user->nomor_identitas ?? '-') : $sessionApplicant['nomor_identitas'];
+        $emailPemohon = $user ? $user->email : $sessionApplicant['email'];
+        $teleponPemohon = $user ? ($user->no_telp ?? '-') : $sessionApplicant['no_telp'];
+        $pekerjaanPemohon = $user ? ($user->pekerjaan ?? '-') : ($sessionApplicant['pekerjaan'] ?? '-');
+        $alamatPemohon = $user ? ($user->alamat ?? '-') : $sessionApplicant['alamat'];
 
         $validated = $request->validate([
             'tanggal_permohonan'       => 'required|date',
@@ -156,12 +231,12 @@ class PermohonanController extends Controller
             'user_id'                                 => $user ? $user->id : null,
             'nomor_registrasi'                        => $nomorRegistrasi,
             'tanggal_permohonan'                      => $validated['tanggal_permohonan'],
-            'nama_pemohon'                            => $user ? $user->name : ($request->input('nama_pemohon') ?? 'Pemohon Informasi'),
-            'alamat'                                  => $user ? $user->alamat : ($request->input('alamat') ?? '-'),
-            'pekerjaan'                               => $user ? $user->pekerjaan : ($request->input('pekerjaan') ?? '-'),
-            'npwp'                                    => $user ? $user->nomor_identitas : ($request->input('npwp') ?? '-'),
-            'nomor_telepon'                           => $user ? $user->no_telp : ($request->input('nomor_telepon') ?? '-'),
-            'email'                                   => $user ? $user->email : ($request->input('email') ?? '-'),
+            'nama_pemohon'                            => $namaPemohon,
+            'alamat'                                  => $alamatPemohon,
+            'pekerjaan'                               => $pekerjaanPemohon,
+            'npwp'                                    => $nomorIdentitas,
+            'nomor_telepon'                           => $teleponPemohon,
+            'email'                                   => $emailPemohon,
             'deskripsi_permohonan'                    => $validated['rincian_informasi'],
             'jenis_informasi'                         => $validated['tujuan_penggunaan'],
             'foto_ktp'                                => $fotoKtp,

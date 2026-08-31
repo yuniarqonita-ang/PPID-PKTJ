@@ -298,9 +298,18 @@
                 @endforeach
             </ul>
 
-            <div class="d-flex gap-2">
-                <a class="btn btn-warning fw-bold px-4 py-2 text-dark rounded-1 shadow-sm" href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" style="font-size: 12px; letter-spacing: 0.5px;">
-                    PERMOHONAN INFORMASI
+            <div class="d-flex align-items-center gap-2">
+                <!-- GLOBAL SPOTLIGHT SEARCH TRIGGER -->
+                <button type="button" class="btn btn-outline-light d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold" onclick="openGlobalSearchModal()" title="Cari Dokumen & Informasi Publik (Ctrl + K)" style="border-color: rgba(255,255,255,0.3); background: rgba(0, 23, 56, 0.3);">
+                    <i class="fas fa-search text-warning"></i>
+                    <span class="d-none d-xl-inline text-white-50" style="font-size: 12.5px;">Cari Dokumen / Informasi...</span>
+                    <kbd class="bg-black bg-opacity-25 text-white-50 px-1.5 py-0.5 rounded border border-white border-opacity-25 d-none d-xl-inline" style="font-size: 10px;">Ctrl+K</kbd>
+                </button>
+
+                <!-- PERMOHONAN INFORMASI -->
+                <a class="btn btn-warning fw-bold px-3.5 py-2 text-dark rounded-pill shadow-sm d-flex align-items-center gap-1.5" href="{{ route('permohonan.gateway') }}" style="font-size: 12px; letter-spacing: 0.5px; white-space: nowrap;">
+                    <i class="fas fa-file-signature"></i>
+                    <span>PERMOHONAN INFORMASI</span>
                 </a>
             </div>
         </div>
@@ -455,6 +464,185 @@
                 previewIframe.src = '';
             });
         }
+    });
+</script>
+
+<!-- ==========================================
+     GLOBAL SPOTLIGHT SEARCH MODAL (HOTKEY: CTRL + K)
+     ========================================== -->
+<div class="modal fade" id="globalSearchModal" tabindex="-1" aria-hidden="true" style="z-index: 100010;">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content" style="border-radius: 24px; overflow: hidden; border: 2px solid rgba(0, 242, 254, 0.3); background: #001738; box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 35px rgba(0, 242, 254, 0.25);">
+            
+            <!-- SEARCH INPUT BAR -->
+            <div class="p-3 border-bottom d-flex align-items-center gap-3" style="background: rgba(0, 43, 92, 0.9); border-color: rgba(0, 242, 254, 0.2) !important;">
+                <i class="fas fa-search fs-5 text-warning"></i>
+                <input type="text" id="globalSpotlightInput" class="form-control border-0 shadow-none text-white fs-5" placeholder="Ketik kata kunci dokumen (contoh: DIPA, LHKPN, SOP, Braille, Pengadaan)..." style="background: transparent; font-family: 'Outfit', sans-serif;" autocomplete="off">
+                <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-2.5 py-1 text-white-50" data-bs-dismiss="modal" style="border-color: rgba(255,255,255,0.2); font-size: 11px;">ESC</button>
+            </div>
+
+            <!-- SEARCH RESULTS / SUGGESTIONS BODY -->
+            <div id="globalSearchBody" class="p-3" style="max-height: 480px; overflow-y: auto;">
+                
+                <!-- DEFAULT QUICK HINTS -->
+                <div id="searchQuickHints">
+                    <div class="text-white-50 small mb-2 text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">
+                        Pencarian Populer & Cepat:
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 mb-3">
+                        <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('DIPA')">📄 DIPA / RKA</button>
+                        <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('LHKPN')">💼 LHKPN / LHKASN</button>
+                        <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('SOP')">📜 SOP Permohonan Informasi</button>
+                        <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('Braille')">🦯 Layanan Braille Disabilitas</button>
+                        <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('Pengadaan')">🛒 Pengadaan Barang & Jasa</button>
+                        <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('Regulasi')">⚖️ Regulasi PM 46 / KM 117</button>
+                    </div>
+                    <div class="p-3 rounded-3" style="background: rgba(255,255,255,0.04); border: 1px dashed rgba(255,255,255,0.15);">
+                        <p class="text-white-50 small mb-0">
+                            💡 <strong>Tips:</strong> Ketik minimal 2 huruf untuk melihat dokumen secara instan, atau tekan <kbd class="bg-dark text-white px-1 py-0.5 rounded">Enter</kbd> untuk membuka halaman hasil lengkap.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- LIVE RESULTS CONTAINER -->
+                <div id="searchLiveResults" class="d-none"></div>
+
+                <!-- LOADING SPINNER -->
+                <div id="searchLoading" class="text-center py-4 d-none">
+                    <i class="fas fa-spinner fa-spin text-warning fs-3 mb-2"></i>
+                    <p class="text-white-50 small mb-0">Mencari dokumen di pangkalan data PPID...</p>
+                </div>
+
+            </div>
+
+            <!-- MODAL FOOTER -->
+            <div class="px-4 py-2.5 border-top d-flex align-items-center justify-content-between text-white-50 small" style="background: rgba(0, 23, 56, 0.95); border-color: rgba(0, 242, 254, 0.15) !important; font-size: 11.5px;">
+                <div>
+                    Tekan <span class="badge bg-secondary">↵ Enter</span> untuk halaman lengkap
+                </div>
+                <a href="javascript:void(0)" onclick="submitSpotlightSearch()" class="text-decoration-none text-warning fw-bold">
+                    Lihat Semua Hasil ➔
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    let spotlightSearchTimeout = null;
+
+    function openGlobalSearchModal() {
+        const modalEl = document.getElementById('globalSearchModal');
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.show();
+        setTimeout(() => {
+            document.getElementById('globalSpotlightInput').focus();
+        }, 300);
+    }
+
+    function fillSpotlightQuery(term) {
+        const input = document.getElementById('globalSpotlightInput');
+        input.value = term;
+        performSpotlightSearch(term);
+    }
+
+    function submitSpotlightSearch() {
+        const query = document.getElementById('globalSpotlightInput').value.trim();
+        if (query) {
+            window.location.href = `/pencarian?q=${encodeURIComponent(query)}`;
+        }
+    }
+
+    function performSpotlightSearch(q) {
+        const quickHints = document.getElementById('searchQuickHints');
+        const liveResults = document.getElementById('searchLiveResults');
+        const loading = document.getElementById('searchLoading');
+
+        if (!q || q.length < 2) {
+            quickHints.classList.remove('d-none');
+            liveResults.classList.add('d-none');
+            loading.classList.add('d-none');
+            return;
+        }
+
+        quickHints.classList.add('d-none');
+        loading.classList.remove('d-none');
+        liveResults.classList.add('d-none');
+
+        fetch(`/api/global-search?q=${encodeURIComponent(q)}`)
+            .then(res => res.json())
+            .then(data => {
+                loading.classList.add('d-none');
+                liveResults.classList.remove('d-none');
+
+                if (data.results && data.results.length > 0) {
+                    let html = `<div class="text-white-50 small mb-2 fw-bold text-uppercase" style="font-size: 11px;">Ditemukan ${data.total} Dokumen / Informasi:</div><div class="list-group list-group-flush gap-2">`;
+
+                    data.results.forEach(item => {
+                        html += `
+                            <a href="${item.url}" class="list-group-item list-group-item-action text-white p-3 rounded-3 border" style="background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12) !important; transition: all 0.2s ease;">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <span class="badge bg-${item.badge_color} text-xs font-monospace">
+                                        <i class="${item.icon} me-1"></i> ${item.category}
+                                    </span>
+                                    <span class="text-white-50 text-xs">Tahun ${item.year}</span>
+                                </div>
+                                <h6 class="outfit fw-bold text-warning mb-1" style="font-size: 14.5px;">${item.title}</h6>
+                                <p class="text-white-50 small mb-0" style="font-size: 11.5px; line-height: 1.4;">${item.desc}</p>
+                            </a>
+                        `;
+                    });
+
+                    html += `</div>`;
+                    liveResults.innerHTML = html;
+                } else {
+                    liveResults.innerHTML = `
+                        <div class="text-center py-4">
+                            <i class="fas fa-folder-open text-white-50 fs-3 mb-2"></i>
+                            <h6 class="text-white fw-bold mb-1">Tidak Ada Dokumen Ditemukan</h6>
+                            <p class="text-white-50 small mb-3">Tidak ada data yang cocok dengan "${q}".</p>
+                            <a href="/pencarian?q=${encodeURIComponent(q)}" class="btn btn-warning btn-sm rounded-pill px-3 fw-bold text-dark">
+                                Buka Pencarian Luas
+                            </a>
+                        </div>
+                    `;
+                }
+            })
+            .catch(err => {
+                loading.classList.add('d-none');
+                liveResults.classList.remove('d-none');
+                liveResults.innerHTML = `<div class="text-danger small text-center py-3">Gagal memuat hasil pencarian.</div>`;
+            });
+    }
+
+    // Event listener on input
+    document.addEventListener('DOMContentLoaded', function() {
+        const input = document.getElementById('globalSpotlightInput');
+        if (input) {
+            input.addEventListener('input', function(e) {
+                clearTimeout(spotlightSearchTimeout);
+                const val = e.target.value.trim();
+                spotlightSearchTimeout = setTimeout(() => {
+                    performSpotlightSearch(val);
+                }, 250);
+            });
+
+            input.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    submitSpotlightSearch();
+                }
+            });
+        }
+
+        // Global hotkey Ctrl + K or / to open search modal
+        document.addEventListener('keydown', function(e) {
+            if ((e.ctrlKey || e.metaKey) && (e.key === 'k' || e.key === 'K')) {
+                e.preventDefault();
+                openGlobalSearchModal();
+            }
+        });
     });
 </script>
 
