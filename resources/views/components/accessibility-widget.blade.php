@@ -1,9 +1,28 @@
 <!-- ULTRA-MODERN NEON ACCESSIBILITY & DISABILITY INCLUSION HUB (AKIP KEMENHUB STANDAR SLIDE 41, 44, 72 & UU NO. 8/2016) -->
 @php
     $accessSettings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
-    $braillePermohonanUrl = $accessSettings['aksesibilitas_disabilitas_link_form_permohonan_braille'] ?? asset('storage/dokumen/FORMULIR_PERMOHONAN_BRAILE.pdf');
-    $brailleKeberatanUrl = $accessSettings['aksesibilitas_disabilitas_link_form_keberatan_braille'] ?? asset('storage/dokumen/PERNYATAAN_KEBERATAN_BRAILE.pdf');
-    $inovasiDocUrl = $accessSettings['aksesibilitas_disabilitas_link_inovasi_disabilitas'] ?? asset('storage/dokumen/Inovasi_PPID.docx');
+
+    // 1. Formulir Permohonan Braille (Link GDrive atau File Upload)
+    $braillePermohonanUrl = !empty($accessSettings['aksesibilitas_disabilitas_link_form_permohonan_braille'])
+        ? $accessSettings['aksesibilitas_disabilitas_link_form_permohonan_braille']
+        : (!empty($accessSettings['aksesibilitas_disabilitas_file_form_permohonan_braille'])
+            ? asset('storage/halaman/' . $accessSettings['aksesibilitas_disabilitas_file_form_permohonan_braille'])
+            : asset('storage/dokumen/FORMULIR_PERMOHONAN_BRAILE.pdf'));
+
+    // 2. Formulir Pernyataan Keberatan Braille (Link GDrive atau File Upload)
+    $brailleKeberatanUrl = !empty($accessSettings['aksesibilitas_disabilitas_link_form_keberatan_braille'])
+        ? $accessSettings['aksesibilitas_disabilitas_link_form_keberatan_braille']
+        : (!empty($accessSettings['aksesibilitas_disabilitas_file_form_keberatan_braille'])
+            ? asset('storage/halaman/' . $accessSettings['aksesibilitas_disabilitas_file_form_keberatan_braille'])
+            : asset('storage/dokumen/PERNYATAAN_KEBERATAN_BRAILE.pdf'));
+
+    // 3. Dokumen Inovasi Disabilitas (Link GDrive atau File Upload)
+    $inovasiDocUrl = !empty($accessSettings['aksesibilitas_disabilitas_link_inovasi_disabilitas'])
+        ? $accessSettings['aksesibilitas_disabilitas_link_inovasi_disabilitas']
+        : (!empty($accessSettings['aksesibilitas_disabilitas_file_inovasi_disabilitas'])
+            ? asset('storage/halaman/' . $accessSettings['aksesibilitas_disabilitas_file_inovasi_disabilitas'])
+            : asset('storage/dokumen/Inovasi_PPID.docx'));
+
     $bisindoVideoUrl = $accessSettings['aksesibilitas_disabilitas_video_bisindo_url'] ?? 'https://www.youtube.com/embed/dQw4w9WgXcQ';
     $hotlinePendamping = $accessSettings['aksesibilitas_disabilitas_hotline_pendamping_wa'] ?? '081234567890';
 @endphp
