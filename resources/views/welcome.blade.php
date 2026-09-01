@@ -668,7 +668,10 @@
                     <a href="#informasi-publik" class="btn-premium btn-gold">
                         <i class="fas fa-search"></i> CARI INFORMASI
                     </a>
-                    <a href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" class="btn-premium px-8 btn-outline-white">
+                    @php
+                        $urlPermohonanBpsdm = \App\Models\Dashboard::getValue('link_permohonan_bpsdm') ?: 'https://bpsdm.kemenhub.go.id/ppid/pktj/login';
+                    @endphp
+                    <a href="{{ $urlPermohonanBpsdm }}" target="_blank" class="btn-premium px-8 btn-outline-white">
                         <i class="fas fa-paper-plane mr-2"></i> AJUKAN PERMOHONAN
                     </a>
                 </div>

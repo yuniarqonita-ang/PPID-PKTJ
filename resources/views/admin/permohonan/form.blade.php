@@ -61,6 +61,40 @@
             <!-- CANVAS (Right) -->
             <div class="lg:col-span-3 space-y-8">
                 
+                <!-- SECTION: LINK PERMOHONAN BPSDMP KEMENHUB -->
+                <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-[#004a99]">
+                    <div class="p-8 space-y-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center text-[#004a99]">
+                                    <i class="fas fa-link text-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-xs font-black text-[#004a99] uppercase tracking-widest leading-none">Tautan Portal Permohonan Informasi Terintegrasi BPSDMP</h4>
+                                    <p class="text-[10px] text-gray-400 font-bold uppercase mt-1">Atur link tujuan permohonan informasi publik (Sesuai Surat BPSDMP No: IP.105/2/6/Set.BPSDMP/2026)</p>
+                                </div>
+                            </div>
+                            <span class="px-3 py-1 bg-blue-50 text-[#004a99] rounded-lg text-[9px] font-black tracking-widest">INTEGRASI BPSDMP</span>
+                        </div>
+
+                        <div class="bg-blue-50/50 p-4 rounded-2xl border border-blue-100 space-y-3">
+                            <label class="text-[10px] font-black text-gray-600 uppercase tracking-widest block">URL Layanan Permohonan Informasi Resmi PKTJ Tegal:</label>
+                            <div class="flex flex-col sm:flex-row gap-3">
+                                <input type="url" id="link_permohonan_bpsdm" name="link_permohonan_bpsdm" 
+                                    value="{{ $settings['link_permohonan_bpsdm'] ?? 'https://bpsdm.kemenhub.go.id/ppid/pktj/login' }}" 
+                                    class="flex-1 px-4 py-3 bg-white border border-gray-200 rounded-xl text-xs font-bold text-gray-800 focus:ring-2 focus:ring-[#004a99] outline-none shadow-sm" 
+                                    placeholder="https://bpsdm.kemenhub.go.id/ppid/pktj/login">
+                                <a href="{{ $settings['link_permohonan_bpsdm'] ?? 'https://bpsdm.kemenhub.go.id/ppid/pktj/login' }}" target="_blank" id="btn-test-link" class="px-5 py-3 bg-[#ffc107] text-dark font-black text-xs uppercase tracking-wider rounded-xl shadow hover:bg-yellow-400 transition-all flex items-center justify-center whitespace-nowrap">
+                                    <i class="fas fa-external-link-alt mr-1.5"></i> Uji Tautan
+                                </a>
+                            </div>
+                            <p class="text-[10px] text-gray-500 font-medium">
+                                <i class="fas fa-info-circle text-[#004a99] mr-1"></i> Tautan ini otomatis digunakan pada tombol <strong>"PERMOHONAN INFORMASI"</strong> di Navbar, Tombol Beranda, Menu Footer, dan Rute Redirect Publik.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- SECTION: CORE FIELDS MANAGEMENT -->
                 <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-l-8 border-cyan-500">
                     <div class="p-8 space-y-8">
@@ -317,6 +351,10 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     $(document).ready(function() {
+        $('#link_permohonan_bpsdm').on('input change', function() {
+            $('#btn-test-link').attr('href', $(this).val().trim() || '#');
+        });
+
         // Add New Field
         $('#btn-add-field').click(function() {
             let id = new Date().getTime();
@@ -416,6 +454,7 @@
                 type: 'POST',
                 data: {
                     _token: "{{ csrf_token() }}",
+                    link_permohonan_bpsdm: $('#link_permohonan_bpsdm').val().trim(),
                     section_title: sectionTitle,
                     permohonan_title: permohonanTitle,
                     permohonan_subtitle: permohonanSubtitle,

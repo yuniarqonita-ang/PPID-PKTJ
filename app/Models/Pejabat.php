@@ -175,7 +175,7 @@ class Pejabat extends Model
                 'nip' => '19780415 200212 2 001',
                 'jabatan' => 'Kepala Bagian Administrasi Akademik dan Ketarunaan (BAAK)',
                 'tempat_tanggal_lahir' => null,
-                'foto' => 'images/pejabat/Prima Anna.png',
+                'foto' => 'images/pejabat/Prima Anna Maria.png',
                 'biografi' => 'Menjabat sebagai Kepala Bagian Administrasi Akademik dan Ketarunaan (BAAK) PKTJ Tegal. Bertanggung jawab atas pelayanan administrasi pendidikan vokasi, registrasi taruna/i, seleksi penerimaan (Sipencatar), dan ketatausahaan perkuliahan.',
                 'pendidikan' => [
                     'D4 / S1 Terapan - Sarjana Sains Terapan Transportasi (S.SiT), STTD Bekasi',

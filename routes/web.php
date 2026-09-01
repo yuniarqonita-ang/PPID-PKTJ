@@ -118,11 +118,26 @@ try {
 // Profil Publik
 Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');
 
-// Permohonan Informasi Routes (Dialihkan langsung ke portal permohonan BPSDMP Kemenhub)
-Route::redirect('/permohonan-informasi', 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login')->name('permohonan.gateway');
-Route::redirect('/permohonan', 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login')->name('permohonan.form');
-Route::redirect('/permohonan-informasi.html', 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login');
-Route::redirect('/permohonan/isi', 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login')->name('permohonan.create');
+// Permohonan Informasi Routes (Dialihkan langsung ke portal permohonan BPSDMP PKTJ Tegal atau link yang diatur di Admin)
+Route::get('/permohonan-informasi', function() {
+    $url = \App\Models\Dashboard::getValue('link_permohonan_bpsdm') ?: 'https://bpsdm.kemenhub.go.id/ppid/pktj/login';
+    return redirect()->away($url);
+})->name('permohonan.gateway');
+
+Route::get('/permohonan', function() {
+    $url = \App\Models\Dashboard::getValue('link_permohonan_bpsdm') ?: 'https://bpsdm.kemenhub.go.id/ppid/pktj/login';
+    return redirect()->away($url);
+})->name('permohonan.form');
+
+Route::get('/permohonan-informasi.html', function() {
+    $url = \App\Models\Dashboard::getValue('link_permohonan_bpsdm') ?: 'https://bpsdm.kemenhub.go.id/ppid/pktj/login';
+    return redirect()->away($url);
+});
+
+Route::get('/permohonan/isi', function() {
+    $url = \App\Models\Dashboard::getValue('link_permohonan_bpsdm') ?: 'https://bpsdm.kemenhub.go.id/ppid/pktj/login';
+    return redirect()->away($url);
+})->name('permohonan.create');
 Route::post('/permohonan/kirim', [\App\Http\Controllers\PermohonanController::class, 'store'])->name('permohonan.store');
 
 // Pencarian Global (Search)
@@ -221,7 +236,22 @@ Route::get('/refresh-deploy', function() {
             @opcache_reset();
         }
 
-        return '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Deploy Cache Refreshed</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light d-flex align-items-center justify-content-center min-vh-100"><div class="card shadow-lg p-5 rounded-4 text-center" style="max-width: 600px;"><div class="display-4 text-success mb-3">✅</div><h3 class="fw-bold text-dark mb-2">Cache Deployment Berhasil Dibersihkan!</h3><p class="text-muted small">Seluruh cache template blade, routes, config, dan session view di server telah diperbarui 100% ke versi kode terbaru.</p><hr class="my-4"><div class="d-grid gap-2"><a href="/permohonan-informasi" class="btn btn-primary fw-bold py-2.5 rounded-pill">👉 Lihat Halaman Permohonan Informasi Baru (ATM BPSDMP)</a><a href="/permohonan/isi" class="btn btn-outline-primary fw-bold py-2.5 rounded-pill">📝 Lihat Formulir Permohonan Lengkap</a><a href="/profil/pejabat" class="btn btn-outline-secondary fw-bold py-2 rounded-pill">👔 Lihat Profil Pejabat Format Kemenhub</a><a href="/" class="btn btn-link text-muted small">Kembali ke Beranda</a></div></div></body></html>';
+        try {
+            \App\Models\Pejabat::where('nama', 'LIKE', '%Prima%')
+                ->update(['foto' => 'images/pejabat/Prima Anna Maria.png']);
+            
+            \App\Models\Dashboard::updateOrCreate(
+                ['key' => 'link_permohonan_bpsdm'],
+                [
+                    'value' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login',
+                    'type' => 'text',
+                    'description' => 'Link Portal Permohonan Informasi Terintegrasi BPSDMP',
+                    'aktif' => true
+                ]
+            );
+        } catch (\Throwable $ex) {}
+
+        return '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Deploy Cache Refreshed</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light d-flex align-items-center justify-content-center min-vh-100"><div class="card shadow-lg p-5 rounded-4 text-center" style="max-width: 600px;"><div class="display-4 text-success mb-3">✅</div><h3 class="fw-bold text-dark mb-2">Cache Deployment Berhasil Dibersihkan!</h3><p class="text-muted small">Seluruh cache template blade, routes, config, session view, dan foto pejabat telah diperbarui 100% ke versi kode terbaru.</p><hr class="my-4"><div class="d-grid gap-2"><a href="/informasi-publik/berkala" class="btn btn-primary fw-bold py-2.5 rounded-pill">👔 Lihat Pejabat & Informasi Berkala</a><a href="/profil/pejabat" class="btn btn-outline-primary fw-bold py-2.5 rounded-pill">📸 Lihat Halaman Profil Pejabat</a><a href="/" class="btn btn-link text-muted small">Kembali ke Beranda</a></div></div></body></html>';
     } catch (\Throwable $e) {
         return 'Error clearing deploy cache: ' . $e->getMessage();
     }
@@ -238,6 +268,11 @@ Route::get('/setup-db-2025', function() {
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'UpdateProfilSeeder', '--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'PejabatSeeder', '--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'SyncDaftarInformasiSeeder', '--force' => true]);
+
+        try {
+            \App\Models\Pejabat::where('nama', 'LIKE', '%Prima%')
+                ->update(['foto' => 'images/pejabat/Prima Anna Maria.png']);
+        } catch (\Throwable $ex) {}
         try {
             \Illuminate\Support\Facades\Artisan::call('storage:link');
         } catch (\Exception $ex) {}
