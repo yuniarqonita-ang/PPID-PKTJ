@@ -195,7 +195,7 @@
                             <!-- Foto Resmi Pejabat -->
                             <div class="pejabat-photo-container" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
                                 @if($pejabat->foto)
-                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}">
+                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" onerror="if(this.src.indexOf('Prima')!==-1){this.src='{{ asset('images/pejabat/Prima Anna Maria.png') }}';}">
                                 @else
                                     <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
                                         <i class="fas fa-user-tie fa-4x opacity-25"></i>
