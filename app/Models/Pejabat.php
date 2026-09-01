@@ -42,6 +42,46 @@ class Pejabat extends Model
         'urutan' => 'integer'
     ];
 
+    public function getNamaAttribute($value)
+    {
+        if (str_contains($value ?? '', 'Bambang')) {
+            return 'Dr. Ir. Bambang Istiyanto, S.SiT., M.T., IPU';
+        }
+        return $value;
+    }
+
+    public function getBiografiAttribute($value)
+    {
+        if (str_contains($this->attributes['nama'] ?? '', 'Bambang')) {
+            return 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Meraih gelar Doktor Teknik Sipil di Universitas Islam Sultan Agung (UNISSULA) Semarang dengan disertasi Model Evaluasi Keberhasilan Program Keselamatan Jalan Perkotaan Berbasis Safety Performance Function (SPF) dan Crash Modification Factor (CMF) dengan Pendekatan System Dynamics. Memimpin penyelenggaraan pendidikan vokasi keselamatan transportasi darat, tata kelola BLU, dan penguatan keterbukaan informasi publik di lingkungan BPSDMP Kementerian Perhubungan.';
+        }
+        return $value;
+    }
+
+    public function getPendidikanAttribute($value)
+    {
+        $parsed = is_string($value) ? json_decode($value, true) : $value;
+        if (!is_array($parsed)) $parsed = [];
+        
+        if (str_contains($this->attributes['nama'] ?? '', 'Bambang')) {
+            $hasS3 = false;
+            foreach ($parsed as $p) {
+                if (str_contains($p, 'UNISSULA') || str_contains($p, 'Doktor')) {
+                    $hasS3 = true;
+                    break;
+                }
+            }
+            if (!$hasS3) {
+                array_unshift(
+                    $parsed,
+                    'S3 - Doktor (Dr.) Teknik Sipil, Universitas Islam Sultan Agung (UNISSULA) Semarang',
+                    'Profesi Insinyur - Insinyur Profesional Utama (IPU), Persatuan Insinyur Indonesia (PII)'
+                );
+            }
+        }
+        return $parsed;
+    }
+
     public static function getActivePejabats()
     {
         try {
