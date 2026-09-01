@@ -220,6 +220,7 @@ Route::get('/refresh-deploy', function() {
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
         \Illuminate\Support\Facades\Artisan::call('route:clear');
         \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Cache::forget('pktj_live_all_news_v3');
 
         // Manually purge all compiled blade view files in storage
         $viewsPath = storage_path('framework/views');

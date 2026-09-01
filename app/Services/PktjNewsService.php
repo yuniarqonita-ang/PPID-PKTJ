@@ -125,12 +125,18 @@ class PktjNewsService
 
                     if (strlen($title) < 5) continue;
 
-                    // Extract Image
+                    // Extract Image (Ignore ajax-loader spinner, grab real article photo)
                     $img = 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png';
-                    if (preg_match('/(data-lazy|data-src|src)=["\']([^"\']+\.(jpg|jpeg|png|webp|gif)[^"\']*)["\']/i', $block, $imgM)) {
-                        $img = $imgM[2];
-                        if (str_starts_with($img, '/')) {
-                            $img = 'https://pktj.ac.id' . $img;
+                    if (preg_match_all('/(src|data-src|data-original|data-lazy)=["\']([^"\']+\.(jpg|jpeg|png|webp|gif)[^"\']*)["\']/i', $block, $allImgs, PREG_SET_ORDER)) {
+                        foreach ($allImgs as $imgM) {
+                            $candidate = $imgM[2];
+                            if (!str_contains($candidate, 'ajax-loader') && !str_contains($candidate, 'icon')) {
+                                $img = $candidate;
+                                if (str_starts_with($img, '/')) {
+                                    $img = 'https://pktj.ac.id' . $img;
+                                }
+                                break;
+                            }
                         }
                     }
 
@@ -236,11 +242,13 @@ class PktjNewsService
 
                 if (empty($imgUrl) && !empty($description)) {
                     if (preg_match('/<img[^>]+src=["\']([^"\']+)["\']/i', $description, $m)) {
-                        $imgUrl = $m[1];
+                        if (!str_contains($m[1], 'ajax-loader')) {
+                            $imgUrl = $m[1];
+                        }
                     }
                 }
 
-                if (empty($imgUrl)) {
+                if (empty($imgUrl) || str_contains($imgUrl, 'ajax-loader')) {
                     $imgUrl = 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png';
                 }
 

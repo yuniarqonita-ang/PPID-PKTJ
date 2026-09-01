@@ -893,11 +893,14 @@
                     $link = $isArr ? ($item['link'] ?? url('/berita/' . ($item['slug'] ?? ''))) : ($item->url_berita ?? url('/berita/' . $item->slug));
                     $tanggal = $isArr ? ($item['tanggal_f'] ?? date('d M Y')) : ($item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') : $item->created_at->translatedFormat('d F Y'));
                     $isExternal = $isArr ? ($item['is_external'] ?? true) : ($item->is_external ?? false);
+                    if (empty($gambar) || str_contains($gambar, 'ajax-loader')) {
+                        $gambar = 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png';
+                    }
                 @endphp
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 100 }}">
                     <div class="article-card h-100 shadow-sm hover-lift d-flex flex-column" style="border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; background: white;">
                         <div class="article-image position-relative" style="height: 220px; overflow: hidden; background: #0f172a;">
-                            <img src="{{ $gambar }}" alt="{{ $judul }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://images.unsplash.com/photo-1585829365295-ab7cd400c167?q=80&w=800'">
+                            <img src="{{ $gambar }}" alt="{{ $judul }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png'">
                             <div class="article-badge position-absolute top-0 start-0 m-3 px-3 py-1 rounded-pill text-xs fw-bold text-white shadow-sm" style="background: linear-gradient(135deg, #004a99, #0066cc); font-size: 11px; letter-spacing: 0.5px;">
                                 <i class="fas fa-tag me-1 text-warning"></i> {{ $kategori }}
                             </div>
