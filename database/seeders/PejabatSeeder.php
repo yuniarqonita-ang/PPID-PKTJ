@@ -14,28 +14,26 @@ class PejabatSeeder extends Seeder
     {
         $pejabats = [
             [
-                'nama' => 'BAMBANG ISTIYANTO, S.Si.T., M.T.',
+                'nama' => 'Bambang Istiyanto, S.SiT., M.T.',
                 'nip' => '19730514 199803 1 002',
                 'jabatan' => 'Direktur Politeknik Keselamatan Transportasi Jalan',
-                'tempat_tanggal_lahir' => 'Tegal, 14 Mei 1973',
+                'tempat_tanggal_lahir' => null,
                 'foto' => 'images/pejabat/Bambang Istiyanto.png',
-                'biografi' => 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Berpengalaman luas dalam bidang manajemen transportasi darat, keselamatan jalan, dan kepemimpinan institusi pendidikan vokasi di lingkungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan.',
+                'biografi' => 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Memimpin penyelenggaraan pendidikan vokasi keselamatan transportasi darat, tata kelola BLU, dan penguatan keterbukaan informasi publik di lingkungan BPSDMP Kementerian Perhubungan.',
                 'pendidikan' => [
                     'S2 - Magister Teknik Sipil / Transportasi, Institut Teknologi Bandung (ITB)',
                     'D4 / S1 Terapan - Sarjana Sains Terapan Transportasi, Sekolah Tinggi Transportasi Darat (STTD)',
-                    'Pendidikan Penjenjangan PIM Tingkat III (Diklat Kepemimpinan Administrator)'
+                    'Pendidikan dan Pelatihan Penjenjangan Kepemimpinan Administrator (PIM Tingkat III)'
                 ],
                 'riwayat_jabatan' => [
                     'Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal (2024 - Sekarang)',
                     'Wakil Direktur I Politeknik Transportasi Darat Bali (POLTRADA Bali)',
-                    'Kepala Bagian Administrasi Akademik dan Ketarunaan PKTJ',
-                    'Kepala Subdirektorat Rekayasa dan Keselamatan Jalan Ditjen Hubdat',
-                    'Dosen / Lektor Kepala Bidang Transportasi Jalan'
+                    'Kepala Bagian Administrasi Akademik dan Ketarunaan PKTJ Tegal',
+                    'Kepala Subdirektorat Rekayasa dan Keselamatan Jalan Ditjen Hubdat'
                 ],
                 'penghargaan' => [
-                    'Satyalancana Karya Satya 20 Tahun dari Presiden Republik Indonesia',
-                    'Satyalancana Karya Satya 10 Tahun dari Presiden Republik Indonesia',
-                    'Penghargaan Pengelola PPID & Keterbukaan Informasi Publik Terbaik'
+                    'Satyalancana Karya Satya 20 Tahun Presiden RI',
+                    'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
                 'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
                 'lhkpn_tahun' => '2025/2026',
@@ -43,26 +41,25 @@ class PejabatSeeder extends Seeder
                 'aktif' => true,
             ],
             [
-                'nama' => 'AGUS HARIYANTO, S.Kom., M.Sc.',
-                'nip' => '19790812 200502 1 001',
+                'nama' => 'Edi Purwanto, A.TD, M.T.',
+                'nip' => '19700918 199803 1 001',
                 'jabatan' => 'Wakil Direktur I (Bidang Akademik)',
-                'tempat_tanggal_lahir' => 'Semarang, 12 Agustus 1979',
-                'foto' => 'images/pejabat/Agus Hariyanto.png',
-                'biografi' => 'Menjabat sebagai Wakil Direktur I Bidang Akademik PKTJ. Bertanggung jawab atas pengelolaan kurikulum, penjaminan mutu perkuliahan, inovasi pembelajaran vokasi, dan pengembangan teknologi rekayasa keselamatan transportasi.',
+                'tempat_tanggal_lahir' => null,
+                'foto' => 'images/pejabat/Edi Purwanto.png',
+                'biografi' => 'Menjabat sebagai Wakil Direktur I Bidang Akademik Politeknik Keselamatan Transportasi Jalan. Bertanggung jawab atas pengelolaan pendidikan vokasi, penyusunan kurikulum berbasis keselamatan jalan, penjaminan mutu akademik, serta pelaksanaan Tri Dharma Perguruan Tinggi.',
                 'pendidikan' => [
-                    'S2 - Master of Science (M.Sc) Transport & Information Technology',
-                    'S1 - Sarjana Komputer (S.Kom), Universitas Diponegoro',
-                    'Pelatihan Applied Approach (AA) & Pekerti Pendidik Perguruan Tinggi'
+                    'S2 - Magister Teknik Sipil / Sistem Rekayasa Transportasi, Universitas Diponegoro (UNDIP)',
+                    'D3 - Ahli Transportasi Darat (A.TD), Sekolah Tinggi Transportasi Darat (STTD)',
+                    'Pelatihan Pendidik Perguruan Tinggi & Auditor Mutu Internal'
                 ],
                 'riwayat_jabatan' => [
                     'Wakil Direktur I (Bidang Akademik) PKTJ Tegal (2024 - Sekarang)',
-                    'Ketua Program Studi Teknologi Rekayasa Otomotif (TRO) PKTJ',
-                    'Kepala Unit Teknologi Informasi & Komunikasi PKTJ',
-                    'Dosen Lektor Bidang Sistem Informasi & Otomotif PKTJ'
+                    'Ketua Program Studi Diploma IV Rekayasa Sistem Transportasi Jalan (RSTJ) PKTJ',
+                    'Dosen Lektor Bidang Manajemen & Rekayasa Keselamatan Transportasi Jalan'
                 ],
                 'penghargaan' => [
-                    'Satyalancana Karya Satya 10 Tahun dari Presiden Republik Indonesia',
-                    'Dosen Berprestasi Bidang Inovasi Teknologi Pembelajaran'
+                    'Satyalancana Karya Satya 20 Tahun Presiden RI',
+                    'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
                 'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
                 'lhkpn_tahun' => '2025/2026',
@@ -70,28 +67,26 @@ class PejabatSeeder extends Seeder
                 'aktif' => true,
             ],
             [
-                'nama' => 'SUGIANTO, ATD, MM',
+                'nama' => 'Sugianto, ATD, MM.',
                 'nip' => '19660601 199103 1 004',
-                'jabatan' => 'Wakil Direktur II (Bidang Umum dan Keuangan)',
-                'tempat_tanggal_lahir' => 'Banyumas, 01 Juni 1966',
+                'jabatan' => 'Wakil Direktur II (Bidang Keuangan, Umum dan Kerja Sama)',
+                'tempat_tanggal_lahir' => null,
                 'foto' => 'images/pejabat/Sugianto.png',
-                'biografi' => 'Menjabat sebagai Wakil Direktur II Bidang Umum dan Keuangan PKTJ. Memiliki pengalaman lebih dari 30 tahun dalam birokrasi Kementerian Perhubungan, pengelolaan aset negara (BMN), penganggaran DIPA, serta perencanaan strategis.',
+                'biografi' => 'Menjabat sebagai Wakil Direktur II Bidang Keuangan, Umum dan Kerja Sama PKTJ. Memiliki pengalaman lebih dari 30 tahun dalam tata kelola birokrasi, pengelolaan Barang Milik Negara (BMN), penganggaran DIPA BLU, sarana prasarana, serta kerja sama kelembagaan.',
                 'pendidikan' => [
                     'S2 - Magister Manajemen (MM), Universitas Jenderal Soedirman',
-                    'Ahli Transportasi Darat (ATD), Sekolah Tinggi Transportasi Darat (STTD)',
+                    'D3 - Ahli Transportasi Darat (ATD), Sekolah Tinggi Transportasi Darat (STTD)',
                     'Pelatihan Kepemimpinan Administrator (PIM Tingkat III)'
                 ],
                 'riwayat_jabatan' => [
-                    'Wakil Direktur II (Bidang Umum dan Keuangan) PKTJ (2024 - Sekarang)',
-                    'Wakil Direktur I PKTJ (2022 - 2024)',
+                    'Wakil Direktur II (Bidang Keuangan, Umum dan Kerja Sama) PKTJ (2024 - Sekarang)',
+                    'Wakil Direktur I Bidang Akademik PKTJ (2022 - 2024)',
                     'Kepala Balai Teknik Perkeretaapian Kelas II Sumatera Bagian Selatan',
-                    'Kepala Bagian Rencana Ditjen Perhubungan Darat',
-                    'Kepala Kantor BLLAJSDP Denpasar'
+                    'Kepala Bagian Rencana Ditjen Perhubungan Darat'
                 ],
                 'penghargaan' => [
-                    'Satyalancana Karya Satya 30 Tahun dari Presiden Republik Indonesia',
-                    'Satyalancana Karya Satya 20 Tahun dari Presiden Republik Indonesia',
-                    'Satyalancana Karya Satya 10 Tahun dari Presiden Republik Indonesia'
+                    'Satyalancana Karya Satya 30 Tahun Presiden RI',
+                    'Satyalancana Karya Satya 20 Tahun Presiden RI'
                 ],
                 'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
                 'lhkpn_tahun' => '2025/2026',
@@ -99,26 +94,25 @@ class PejabatSeeder extends Seeder
                 'aktif' => true,
             ],
             [
-                'nama' => 'EDI PURWANTO, A.TD., M.T.',
-                'nip' => '19760721 199803 1 001',
-                'jabatan' => 'Wakil Direktur III (Bidang Ketarunaan dan Alumni)',
-                'tempat_tanggal_lahir' => 'Klaten, 21 Juli 1976',
-                'foto' => 'images/pejabat/Edi Purwanto.png',
-                'biografi' => 'Menjabat sebagai Wakil Direktur III Bidang Ketarunaan dan Alumni PKTJ. Memimpin pembinaan karakter praja taruna/i, pengasuhan, kedisiplinan, hubungan alumni, dan kesiapan karir lulusan di sektor transportasi perhubungan.',
+                'nama' => 'Dr. Setya Wijayanta, S.Pd.T, M.T.',
+                'nip' => '19780824 200212 1 001',
+                'jabatan' => 'Wakil Direktur III (Bidang Ketarunaan, Alumni dan Kerja Sama)',
+                'tempat_tanggal_lahir' => null,
+                'foto' => 'images/pejabat/Setya Wijayanta.png',
+                'biografi' => 'Menjabat sebagai Wakil Direktur III Bidang Ketarunaan, Alumni dan Kerja Sama PKTJ. Bertanggung jawab atas pembinaan karakter, kedisiplinan dan pengasuhan taruna/i transportasi darat, hubungan alumni, serta kerja sama ketarunaan nasional dan internasional.',
                 'pendidikan' => [
-                    'S2 - Magister Teknik (M.T.) Transportasi, Universitas Gadjah Mada',
-                    'Ahli Transportasi Darat (A.TD.), Sekolah Tinggi Transportasi Darat (STTD)',
-                    'Diklat Pembina Karakter dan Kesamaptaan Perhubungan'
+                    'S3 - Doktor (Dr.) Ilmu Pendidikan / Manajemen Pendidikan',
+                    'S2 - Magister Teknik (M.T.) Sistem Transportasi',
+                    'S1 - Sarjana Pendidikan Teknik (S.Pd.T), Universitas Negeri Yogyakarta'
                 ],
                 'riwayat_jabatan' => [
-                    'Wakil Direktur III (Bidang Ketarunaan & Alumni) PKTJ (2024 - Sekarang)',
-                    'Kepala Pusat Pembangunan Karakter Taruna PKTJ',
-                    'Ketua Program Studi Rekayasa Sistem Transportasi Jalan (RSTJ)',
-                    'Dosen Lektor Bidang Manajemen Keselamatan Jalan'
+                    'Wakil Direktur III (Bidang Ketarunaan, Alumni dan Kerja Sama) PKTJ (2024 - Sekarang)',
+                    'Ketua Program Studi Teknologi Otomotif / TRO PKTJ',
+                    'Kepala Pusat Penelitian dan Pengabdian kepada Masyarakat (P3M) PKTJ'
                 ],
                 'penghargaan' => [
-                    'Satyalancana Karya Satya 20 Tahun dari Presiden Republik Indonesia',
-                    'Satyalancana Karya Satya 10 Tahun dari Presiden Republik Indonesia'
+                    'Satyalancana Karya Satya 20 Tahun Presiden RI',
+                    'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
                 'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
                 'lhkpn_tahun' => '2025/2026',
@@ -126,25 +120,25 @@ class PejabatSeeder extends Seeder
                 'aktif' => true,
             ],
             [
-                'nama' => 'Dr. SETYA WIJAYANTA, S.Pd.T., M.T.',
-                'nip' => '19780415 200212 1 002',
-                'jabatan' => 'Kepala Bagian Administrasi Akademik dan Ketarunaan',
-                'tempat_tanggal_lahir' => 'Yogyakarta, 15 April 1978',
-                'foto' => 'images/pejabat/Setya Wijayanta.png',
-                'biografi' => 'Menjabat sebagai Kepala Bagian Administrasi Akademik dan Ketarunaan PKTJ. Mengkoordinasikan seluruh administrasi akademik, pendaftaran taruna baru (Sipencatar), akreditasi, dan layanan ketarunaan.',
+                'nama' => 'Prima Anna Maria Gorety Cornelis, S.SiT.',
+                'nip' => '19780415 200212 2 001',
+                'jabatan' => 'Kepala Bagian Administrasi Akademik dan Ketarunaan (BAAK)',
+                'tempat_tanggal_lahir' => null,
+                'foto' => 'images/pejabat/Prima Anna.png',
+                'biografi' => 'Menjabat sebagai Kepala Bagian Administrasi Akademik dan Ketarunaan (BAAK) PKTJ Tegal. Bertanggung jawab atas pelayanan administrasi pendidikan vokasi, registrasi taruna/i, seleksi penerimaan (Sipencatar), dan ketatausahaan perkuliahan.',
                 'pendidikan' => [
-                    'S3 - Doktor (Dr.) Ilmu Pendidikan & Evaluasi Vokasi, Universitas Negeri Yogyakarta',
-                    'S2 - Magister Teknik (M.T.), Universitas Gadjah Mada',
-                    'S1 - Sarjana Pendidikan Teknik (S.Pd.T.)'
+                    'D4 / S1 Terapan - Sarjana Sains Terapan Transportasi (S.SiT), STTD Bekasi',
+                    'Diklat Kepemimpinan Pengawas (PIM Tingkat IV)',
+                    'Bimbingan Teknis Pelayanan Prima Keterbukaan Informasi Publik'
                 ],
                 'riwayat_jabatan' => [
-                    'Kepala Bagian Administrasi Akademik dan Ketarunaan PKTJ (2024 - Sekarang)',
-                    'Kepala Satuan Penjaminan Mutu (SPM) PKTJ',
-                    'Dosen Lektor Kepala PKTJ Tegal'
+                    'Kepala Bagian Administrasi Akademik dan Ketarunaan (BAAK) PKTJ (2024 - Sekarang)',
+                    'Kepala Subbagian Administrasi Akademik PKTJ',
+                    'Pengelola Administrasi Ketarunaan dan Pengasuhan BPSDMP'
                 ],
                 'penghargaan' => [
-                    'Satyalancana Karya Satya 20 Tahun dari Presiden Republik Indonesia',
-                    'Penghargaan Peneliti Terbaik Bidang Rekayasa Transportasi'
+                    'Satyalancana Karya Satya 20 Tahun Presiden RI',
+                    'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
                 'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
                 'lhkpn_tahun' => '2025/2026',
@@ -152,25 +146,25 @@ class PejabatSeeder extends Seeder
                 'aktif' => true,
             ],
             [
-                'nama' => 'PRIMA ANNA MARIA GORETY CORNELIS, S.Si.T., M.Sc.',
-                'nip' => '19840325 200812 2 001',
-                'jabatan' => 'Ketua Program Studi / Manajemen PKTJ',
-                'tempat_tanggal_lahir' => 'Kupang, 25 Maret 1984',
-                'foto' => 'images/pejabat/Prima Anna Maria.png',
-                'biografi' => 'Menjabat sebagai Ketua Program Studi / Manajemen di lingkungan PKTJ Tegal. Berperan aktif dalam pengembangan kurikulum berbasis industri (Teaching Factory), akreditasi internasional, dan pembinaan riset vokasi transportasi darat.',
+                'nama' => 'Agus Hariyanto, S.Kom, M.Sc.',
+                'nip' => '19790812 200502 1 001',
+                'jabatan' => 'Kepala Subbagian Keuangan dan Administrasi Umum',
+                'tempat_tanggal_lahir' => null,
+                'foto' => 'images/pejabat/Agus Hariyanto.png',
+                'biografi' => 'Menjabat sebagai Kepala Subbagian Keuangan dan Administrasi Umum PKTJ Tegal. Mengelola perbendaharaan, tata kelola keuangan BLU, pengadaan barang/jasa, ketatausahaan, kerumahtanggaan, serta infrastruktur teknologi informasi.',
                 'pendidikan' => [
-                    'S2 - Master of Science (M.Sc) Transport Management, World Maritime University / ITB',
-                    'D4 - Sarjana Sains Terapan Transportasi (S.Si.T.), STTD Bekasi',
-                    'Pelatihan Manajemen Mutu Pendidikan Vokasi'
+                    'S2 - Master of Science (M.Sc) Transport & Information Technology',
+                    'S1 - Sarjana Komputer (S.Kom), Universitas Diponegoro',
+                    'Diklat Pengelolaan Keuangan BLU dan Pejabat Perbendaharaan Negara'
                 ],
                 'riwayat_jabatan' => [
-                    'Ketua Program Studi PKTJ Tegal (2023 - Sekarang)',
-                    'Sekretaris Satuan Penjaminan Mutu (SPM) PKTJ',
-                    'Dosen Lektor Bidang Perencanaan Transportasi'
+                    'Kepala Subbagian Keuangan dan Administrasi Umum PKTJ (2024 - Sekarang)',
+                    'Kepala Unit Teknologi Informasi & Komunikasi (TIK) PKTJ',
+                    'Ketua Program Studi Teknologi Rekayasa Otomotif (TRO) PKTJ'
                 ],
                 'penghargaan' => [
-                    'Satyalancana Karya Satya 10 Tahun dari Presiden Republik Indonesia',
-                    'Penghargaan Dosen Berdedikasi Pengembangan Akreditasi Unggul'
+                    'Satyalancana Karya Satya 10 Tahun Presiden RI',
+                    'Penghargaan Inovasi Sistem Pelayanan Informasi Digital'
                 ],
                 'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
                 'lhkpn_tahun' => '2025/2026',
@@ -179,11 +173,11 @@ class PejabatSeeder extends Seeder
             ],
         ];
 
+        // Truncate & insert fresh
+        Pejabat::truncate();
+
         foreach ($pejabats as $data) {
-            Pejabat::updateOrCreate(
-                ['nama' => $data['nama']],
-                $data
-            );
+            Pejabat::create($data);
         }
     }
 }

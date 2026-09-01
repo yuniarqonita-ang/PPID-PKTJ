@@ -5,434 +5,456 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Login - PPID PKTJ</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Masuk Akun - PPID PKTJ Tegal</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
+        :root {
+            --primary-blue: #1d4ed8;
+            --primary-hover: #1e40af;
+            --deep-navy: #071e3d;
+            --accent-gold: #ffc107;
+            --bg-gradient: linear-gradient(135deg, #031b38 0%, #0a3871 50%, #1e40af 100%);
         }
         
-        .login-container {
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #031b38;
+            color: #1e293b;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 20px 15px;
         }
-        
-        .login-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            max-width: 400px;
+
+        .outfit { font-family: 'Outfit', sans-serif; }
+
+        /* MAIN CONTAINER */
+        .gateway-container {
             width: 100%;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            position: relative;
-            z-index: 10;
-        }
-        
-        .logo-section {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px 30px;
-            text-align: center;
-            position: relative;
+            max-width: 1080px;
+            min-height: 640px;
+            background: var(--bg-gradient);
+            border-radius: 28px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45), 0 0 40px rgba(29, 78, 216, 0.25);
+            display: flex;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
         }
-        
-        .logo-section::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            animation: float 20s infinite linear;
-        }
-        
-        @keyframes float {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-        
-        .logo-container {
+
+        /* LEFT BRANDING PANEL */
+        .left-panel {
+            flex: 1.1;
+            padding: 60px 45px;
             display: flex;
             flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(29, 78, 216, 0.35) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            border-radius: 50%;
+        }
+
+        .brand-logo-wrap {
+            width: 110px;
+            height: 110px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
+            display: flex;
             align-items: center;
             justify-content: center;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
         }
-        
-        .logo-section img {
+
+        .brand-logo-wrap img {
             width: 80px;
             height: 80px;
             object-fit: contain;
-            margin-bottom: 15px;
-            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
-            position: relative;
-            z-index: 1;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
         }
-        
-        .logo-title {
-            color: #fff;
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 5px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-            position: relative;
-            z-index: 1;
-            text-align: center;
-        }
-        
-        .logo-subtitle {
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 12px;
-            text-transform: uppercase;
+
+        .brand-title {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 900;
             letter-spacing: 2px;
-            font-weight: 500;
-            position: relative;
-            z-index: 1;
-            text-align: center;
+            margin-bottom: 4px;
         }
-        
-        .form-section {
-            padding: 40px 30px;
-        }
-        
-        .form-title {
-            color: #2c3e50;
-            font-size: 20px;
+
+        .brand-subtitle {
+            color: #93c5fd;
+            font-size: 14.5px;
             font-weight: 600;
-            margin-bottom: 10px;
-            text-align: center;
-        }
-        
-        .form-subtitle {
-            color: #7f8c8d;
-            font-size: 14px;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        .form-group {
+            letter-spacing: 0.5px;
             margin-bottom: 20px;
         }
-        
-        .form-label {
+
+        .brand-divider {
+            width: 50px;
+            height: 3px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+            margin-bottom: 22px;
+        }
+
+        .brand-instansi {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .brand-instansi strong {
+            color: #ffffff;
+            font-weight: 700;
             display: block;
-            color: #34495e;
             font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 8px;
         }
-        
-        .form-input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e1e8ed;
-            border-radius: 10px;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            background: #fff;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
-        }
-        
-        .form-input.error {
-            border-color: #e74c3c;
-        }
-        
-        .error-message {
-            color: #e74c3c;
-            font-size: 12px;
-            margin-top: 5px;
-            display: block;
-        }
-        
-        .password-wrapper {
+
+        /* RIGHT FORM PANEL */
+        .right-panel {
+            flex: 1;
+            background: #ffffff;
+            padding: 45px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             position: relative;
+            z-index: 2;
         }
-        
-        .password-toggle {
-            position: absolute;
-            right: 12px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            color: #7f8c8d;
-            cursor: pointer;
-            padding: 5px;
-            font-size: 14px;
-            transition: color 0.3s ease;
-        }
-        
-        .password-toggle:hover {
-            color: #667eea;
-        }
-        
-        .remember-me {
+
+        .form-icon-badge {
+            width: 48px;
+            height: 48px;
+            background: #1d4ed8;
+            border-radius: 12px;
             display: flex;
             align-items: center;
-            margin-bottom: 25px;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+            margin: 0 auto 14px;
+            box-shadow: 0 6px 16px rgba(29, 78, 216, 0.28);
         }
-        
-        .remember-me input[type="checkbox"] {
-            margin-right: 8px;
-            width: 16px;
-            height: 16px;
-            accent-color: #667eea;
+
+        .form-header-title {
+            font-size: 22px;
+            font-weight: 800;
+            color: #0f172a;
+            text-align: center;
+            margin-bottom: 2px;
         }
-        
-        .remember-me label {
-            color: #34495e;
-            font-size: 14px;
-            cursor: pointer;
+
+        .form-header-desc {
+            font-size: 12.5px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 22px;
         }
-        
-        .login-button {
+
+        .form-label-custom {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .form-control-custom {
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13.5px;
+            transition: all 0.2s ease;
             width: 100%;
-            padding: 14px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: #fff;
+            background: #ffffff;
+        }
+
+        .form-control-custom:focus {
+            border-color: #1d4ed8;
+            outline: none;
+            box-shadow: 0 0 0 3.5px rgba(29, 78, 216, 0.12);
+        }
+
+        .btn-submit-login {
+            background: #1d4ed8;
+            color: white;
             border: none;
             border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .login-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
+            padding: 11px 16px;
+            font-size: 14px;
+            font-weight: 700;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+            cursor: pointer;
         }
-        
-        .login-button:hover::before {
-            left: 100%;
+
+        .btn-submit-login:hover {
+            background: #1e40af;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(29, 78, 216, 0.35);
         }
-        
-        .login-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+
+        .or-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 18px 0;
+            color: #94a3b8;
+            font-size: 11.5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
         }
-        
-        .forgot-password {
+
+        .or-divider::before, .or-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .or-divider:not(:empty)::before { margin-right: .75em; }
+        .or-divider:not(:empty)::after { margin-left: .75em; }
+
+        .btn-auth-secondary {
+            background: #ffffff;
+            color: #334155;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 9.5px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none !important;
+            transition: all 0.2s ease;
+            margin-bottom: 10px;
+        }
+
+        .btn-auth-secondary:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+            color: #0f172a;
+        }
+
+        .btn-register-outline {
+            background: #f1f5f9;
+            color: #1e293b;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 9.5px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            width: 100%;
             display: block;
             text-align: center;
+            text-decoration: none !important;
+            transition: all 0.2s ease;
+        }
+
+        .btn-register-outline:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .btn-direct-form {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1.5px solid #a7f3d0;
+            border-radius: 10px;
+            padding: 9px 14px;
+            font-size: 12.5px;
+            font-weight: 700;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none !important;
+            transition: all 0.2s ease;
+            margin-top: 12px;
+        }
+
+        .btn-direct-form:hover {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .footer-copyright {
+            font-size: 11px;
+            color: #94a3b8;
+            text-align: center;
             margin-top: 20px;
-            color: #667eea;
-            text-decoration: none;
-            font-size: 14px;
-            transition: color 0.3s ease;
         }
-        
-        .forgot-password:hover {
-            color: #764ba2;
-            text-decoration: underline;
-        }
-        
-        .alert {
-            padding: 12px 16px;
-            border-radius: 8px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-        
-        .alert-error {
-            background: #fee;
-            color: #e74c3c;
-            border: 1px solid #fcc;
-        }
-        
-        @media (max-width: 480px) {
-            .login-card {
-                margin: 20px;
-            }
-            
-            .logo-section {
-                padding: 30px 20px;
-            }
-            
-            .form-section {
-                padding: 30px 20px;
-            }
+
+        @media (max-width: 860px) {
+            .gateway-container { flex-direction: column; border-radius: 20px; }
+            .left-panel { padding: 40px 20px; }
+            .right-panel { padding: 35px 20px; }
         }
     </style>
 </head>
 <body>
-    <div class="login-container">
-        <div class="login-card">
-            <!-- Logo Section -->
-            <div class="logo-section">
-                <div class="logo-container">
-                    <img src="{{ URL::asset('images/logo-pktj.png') }}" alt="Logo PKTJ" style="width: 80px; height: auto;">
-                    <div class="logo-title">PPID PKTJ</div>
-                    <div class="logo-subtitle">Sistem Informasi</div>
-                </div>
+
+    <div class="gateway-container">
+        
+        <!-- LEFT BRANDING -->
+        <div class="left-panel">
+            <div class="brand-logo-wrap">
+                <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ Tegal">
             </div>
             
-            <!-- Form Section -->
-            <div class="form-section">
-                <h2 class="form-title">Selamat Datang</h2>
-                <p class="form-subtitle">Silakan login untuk mengakses sistem</p>
-                
-                @if ($errors->any())
-                    <div class="alert alert-error">
-                        <i class="fas fa-exclamation-circle" style="margin-right: 8px;"></i>
-                        Email atau password salah. Silakan coba lagi.
-                    </div>
-                @endif
-                
-                <form method="POST" action="{{ route('login') }}">
-                    @csrf
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="login">
-                            <i class="fas fa-user" style="margin-right: 8px; color: #667eea;"></i>
-                            Username / Email
-                        </label>
-                        <input 
-                            type="text" 
-                            id="login" 
-                            class="form-input @error('login') error @enderror" 
-                            name="login" 
-                            value="{{ old('login') }}" 
-                            placeholder="Masukkan username atau email"
-                            required 
-                            autocomplete="username" 
-                            autofocus
-                        >
-                        @error('login')
-                            <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="password">
-                            <i class="fas fa-lock" style="margin-right: 8px; color: #667eea;"></i>
-                            Password
-                        </label>
-                        <div class="password-wrapper">
-                            <input 
-                                type="password" 
-                                id="password" 
-                                class="form-input @error('password') error @enderror" 
-                                name="password" 
-                                placeholder="Masukkan password Anda"
-                                required 
-                                autocomplete="current-password"
-                            >
-                            <button type="button" class="password-toggle" onclick="togglePassword('password')">
-                                <i class="fas fa-eye" id="password-toggle-icon"></i>
-                            </button>
-                        </div>
-                        @error('password')
-                            <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-                    
-                    <div class="remember-me">
-                        <input type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                        <label for="remember">Ingat saya</label>
-                    </div>
-                    
-                    <button type="submit" class="login-button">
-                        <i class="fas fa-sign-in-alt" style="margin-right: 8px;"></i>
-                        Login
-                    </button>
-                </form>
-                
-                @if (Route::has('password.request'))
-                    <a href="{{ route('password.request') }}" class="forgot-password">
-                        <i class="fas fa-question-circle" style="margin-right: 5px;"></i>
-                        Lupa Password?
-                    </a>
-                @endif
+            <h1 class="brand-title outfit">PPID</h1>
+            <div class="brand-subtitle">Pejabat Pengelola Informasi dan Dokumentasi</div>
+            
+            <div class="brand-divider"></div>
+            
+            <div class="brand-instansi">
+                Badan Pengembangan Sumber Daya Manusia Perhubungan<br>
+                <strong>Politeknik Keselamatan Transportasi Jalan Tegal</strong>
+                Kementerian Perhubungan Republik Indonesia
+            </div>
+
+            <div class="mt-4 pt-2">
+                <a href="{{ route('home') }}" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1.5 opacity-80" style="font-size: 12px;">
+                    <i class="fas fa-arrow-left me-1"></i> Kembali ke Beranda
+                </a>
             </div>
         </div>
-    </div>
-    
-    <script>
-        function togglePassword(inputId) {
-            const input = document.getElementById(inputId);
-            const icon = document.getElementById(inputId + '-toggle-icon');
+
+        <!-- RIGHT LOGIN FORM (EXACT ATM BPSDMP STYLE) -->
+        <div class="right-panel">
+            <div class="form-icon-badge">
+                <i class="fas fa-file-lines"></i>
+            </div>
             
-            if (input.type === 'password') {
-                input.type = 'text';
+            <h2 class="form-header-title outfit">Masuk ke Akun Anda</h2>
+            <p class="form-header-desc">Layanan Portal Informasi Publik PPID PKTJ</p>
+
+            @if(session('error'))
+                <div class="alert alert-danger py-2 px-3 small rounded-3 mb-3">
+                    <i class="fas fa-exclamation-circle me-1"></i> {{ session('error') }}
+                </div>
+            @endif
+
+            @if(session('info'))
+                <div class="alert alert-info py-2 px-3 small rounded-3 mb-3">
+                    <i class="fas fa-info-circle me-1"></i> {{ session('info') }}
+                </div>
+            @endif
+
+            @if(isset($errors) && $errors->any())
+                <div class="alert alert-danger py-2 px-3 small rounded-3 mb-3">
+                    <i class="fas fa-exclamation-circle me-1"></i> {{ $errors->first() }}
+                </div>
+            @endif
+
+            <form action="{{ route('login') }}" method="POST">
+                @csrf
+                
+                <div class="mb-3">
+                    <label class="form-label-custom">Username / Email</label>
+                    <input type="text" name="login" class="form-control-custom" placeholder="Username atau email" value="{{ old('login') }}" required autofocus>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="form-label-custom mb-0">Password</label>
+                        <a href="javascript:void(0)" onclick="alert('Silakan hubungi admin PPID PKTJ di nomor (0283) 351061 atau email humas@pktj.ac.id untuk reset kata sandi Anda.')" class="text-decoration-none small text-muted" style="font-size: 11.5px;">Lupa password?</a>
+                    </div>
+                    <div class="position-relative">
+                        <input type="password" name="password" id="inputPassword" class="form-control-custom pe-5" placeholder="Password" required>
+                        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 text-muted pe-3" onclick="togglePasswordVisibility()" style="background: transparent;">
+                            <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
+                    <label class="form-check-label text-muted small" for="rememberMe" style="font-size: 12px;">
+                        Ingat saya
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit-login">
+                    Masuk
+                </button>
+            </form>
+
+            <div class="or-divider">ATAU</div>
+
+            <a href="{{ route('auth.google') }}" class="btn-auth-secondary">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                Login dengan Google
+            </a>
+
+            <a href="https://hubnet.dephub.go.id/sso/" target="_blank" class="btn-auth-secondary">
+                <i class="fas fa-key text-primary"></i>
+                Masuk dengan SSO Kemenhub
+            </a>
+
+            <div class="or-divider">BELUM PUNYA AKUN?</div>
+
+            <a href="{{ route('register') }}" class="btn-register-outline">
+                Daftar Sekarang
+            </a>
+
+            <a href="{{ route('permohonan.create') }}" class="btn-direct-form">
+                <i class="fas fa-pen-to-square"></i> Langsung Isi Formulir Tanpa Login
+            </a>
+
+            <div class="footer-copyright">
+                &copy; {{ date('Y') }} PPID PKTJ Kemenhub. Hak Cipta Dilindungi.
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        function togglePasswordVisibility() {
+            const pwd = document.getElementById('inputPassword');
+            const icon = document.getElementById('togglePasswordIcon');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
                 icon.classList.remove('fa-eye');
                 icon.classList.add('fa-eye-slash');
             } else {
-                input.type = 'password';
+                pwd.type = 'password';
                 icon.classList.remove('fa-eye-slash');
                 icon.classList.add('fa-eye');
             }
         }
-        
-        // Add some interactive effects
-        document.addEventListener('DOMContentLoaded', function() {
-            // Add focus effects to inputs
-            const inputs = document.querySelectorAll('.form-input');
-            inputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.parentElement.style.transform = 'scale(1.02)';
-                });
-                
-                input.addEventListener('blur', function() {
-                    this.parentElement.style.transform = 'scale(1)';
-                });
-            });
-            
-            // Add ripple effect to button
-            const button = document.querySelector('.login-button');
-            button.addEventListener('click', function(e) {
-                const ripple = document.createElement('span');
-                ripple.style.position = 'absolute';
-                ripple.style.borderRadius = '50%';
-                ripple.style.background = 'rgba(255, 255, 255, 0.5)';
-                ripple.style.width = ripple.style.height = '40px';
-                ripple.style.top = (e.clientY - this.offsetTop - 20) + 'px';
-                ripple.style.left = (e.clientX - this.offsetLeft - 20) + 'px';
-                ripple.style.animation = 'ripple 0.6s linear';
-                ripple.style.pointerEvents = 'none';
-                
-                this.appendChild(ripple);
-                
-                setTimeout(() => {
-                    ripple.remove();
-                }, 600);
-            });
-        });
-        
-        // Add ripple animation
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes ripple {
-                to {
-                    transform: scale(4);
-                    opacity: 0;
-                }
-            }
-        `;
-        document.head.appendChild(style);
     </script>
 </body>
 </html>

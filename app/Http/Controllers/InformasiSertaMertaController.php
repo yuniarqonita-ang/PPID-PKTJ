@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DaftarInformasi;
+use App\Models\InformasiSertaMerta;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -15,16 +16,26 @@ class InformasiSertaMertaController extends Controller
      */
     public function index(): View
     {
-        $items = DaftarInformasi::whereIn('kategori', ['informasi-serta-merta', 'informasi-sertamerta'])
+        $itemsDaftar = DaftarInformasi::whereIn('kategori', ['informasi-serta-merta', 'informasi-sertamerta'])
             ->orderBy('created_at', 'desc')
             ->get();
             
-        foreach ($items as $item) {
+        foreach ($itemsDaftar as $item) {
             $item->judul = $item->judul_informasi;
             $item->deskripsi = $item->isi_informasi;
             $item->file_path = $item->file_informasi;
             $item->file_size = '-';
         }
+
+        $itemsSertaMerta = InformasiSertaMerta::all();
+        foreach ($itemsSertaMerta as $m) {
+            $m->judul = $m->judul;
+            $m->deskripsi = $m->deskripsi;
+            $m->file_path = $m->file_path;
+            $m->file_size = '-';
+        }
+
+        $items = $itemsSertaMerta->merge($itemsDaftar);
         
         return view('admin.informasi.sertamerta.index', compact('items'));
     }
@@ -46,42 +57,41 @@ class InformasiSertaMertaController extends Controller
             'judul'       => 'required|string|max:255',
             'deskripsi'   => 'nullable|string',
             'tanggal'     => 'required|date',
-            'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
+            'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:20480',
             'gdrive_link' => 'nullable|url',
-        ], [
-            'file.uploaded' => 'Gagal mengunggah file. Ukuran file mungkin melebihi batas maksimal server. Silakan coba kompres PDF Anda atau gunakan opsi Link Google Drive di bawah.',
-            'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
-            'file.mimes' => 'Format file harus berupa pdf, doc, docx, xls, xlsx, atau gambar.',
-            'gdrive_link.url' => 'Format link Google Drive tidak valid.',
         ]);
 
-        $data = [
-            'judul_informasi' => $request->judul,
-            'isi_informasi'   => $request->deskripsi ?? '',
-            'kategori'        => 'informasi-serta-merta',
-            'tipe_informasi'  => 'sertamerta',
-            'aktif'           => $request->has('aktif'),
-            'is_blurred'      => $request->has('is_blurred'),
-            'bisa_download'   => $request->has('bisa_download'),
-        ];
-
-        // Prioritas: Upload Lokal > GDrive Link
+        $filePath = null;
         if ($request->hasFile('file')) {
             $file = $request->file('file');
             $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
             $file->storeAs('public/daftar-informasi', $filename);
-
-            $data['file_informasi'] = 'storage/daftar-informasi/' . $filename;
+            $filePath = 'storage/daftar-informasi/' . $filename;
         } elseif ($request->filled('gdrive_link')) {
-            $data['file_informasi'] = $request->gdrive_link;
+            $filePath = $request->gdrive_link;
         }
 
-        $item = DaftarInformasi::create($data);
-        if ($request->filled('tanggal')) {
-            $item->created_at = $request->tanggal;
-            $item->waktu_pembuatan = date('Y', strtotime($request->tanggal));
-            $item->save();
-        }
+        InformasiSertaMerta::create([
+            'judul' => $request->judul,
+            'deskripsi' => $request->deskripsi ?? '',
+            'file_path' => $filePath,
+            'aktif' => $request->has('aktif'),
+            'is_blurred' => $request->has('is_blurred'),
+            'bisa_download' => $request->has('bisa_download'),
+            'tanggal' => $request->tanggal,
+        ]);
+
+        DaftarInformasi::create([
+            'judul_informasi' => $request->judul,
+            'isi_informasi'   => $request->deskripsi ?? '',
+            'kategori'        => 'informasi-serta-merta',
+            'tipe_informasi'  => 'sertamerta',
+            'file_informasi'  => $filePath,
+            'aktif'           => $request->has('aktif'),
+            'is_blurred'      => $request->has('is_blurred'),
+            'bisa_download'   => $request->has('bisa_download'),
+            'waktu_pembuatan' => date('Y', strtotime($request->tanggal)),
+        ]);
 
         return redirect()->route('admin.informasi.sertamerta.index')
             ->with('success', 'Informasi serta merta berhasil ditambahkan!');
@@ -92,12 +102,29 @@ class InformasiSertaMertaController extends Controller
      */
     public function edit(string $id): View
     {
-        $item = DaftarInformasi::findOrFail($id);
-        $item->judul = $item->judul_informasi;
-        $item->deskripsi = $item->isi_informasi;
-        $item->file_path = $item->file_informasi;
-        $item->tanggal = $item->created_at;
-        return view('admin.informasi.sertamerta.edit', compact('item'));
+        // 1. Cek di model InformasiSertaMerta
+        $sertamerta = InformasiSertaMerta::find($id);
+        if ($sertamerta) {
+            $item = $sertamerta;
+            $item->judul = $sertamerta->judul;
+            $item->deskripsi = $sertamerta->deskripsi;
+            $item->file_path = $sertamerta->file_path;
+            $item->tanggal = $sertamerta->created_at ?? $sertamerta->tanggal;
+            return view('admin.informasi.sertamerta.edit', compact('item'));
+        }
+
+        // 2. Cek di model DaftarInformasi
+        $daftar = DaftarInformasi::find($id);
+        if ($daftar) {
+            $item = $daftar;
+            $item->judul = $daftar->judul_informasi;
+            $item->deskripsi = $daftar->isi_informasi;
+            $item->file_path = $daftar->file_informasi;
+            $item->tanggal = $daftar->created_at;
+            return view('admin.informasi.sertamerta.edit', compact('item'));
+        }
+
+        abort(404, 'Informasi Serta Merta tidak ditemukan.');
     }
 
     /**
@@ -109,54 +136,53 @@ class InformasiSertaMertaController extends Controller
             'judul'       => 'required|string|max:255',
             'deskripsi'   => 'nullable|string',
             'tanggal'     => 'required|date',
-            'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:10240',
+            'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:20480',
             'gdrive_link' => 'nullable|url',
-        ], [
-            'file.uploaded' => 'Gagal mengunggah file. Ukuran file mungkin melebihi batas maksimal server. Silakan coba kompres PDF Anda atau gunakan opsi Link Google Drive di bawah.',
-            'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
-            'file.mimes' => 'Format file harus berupa pdf, doc, docx, xls, xlsx, atau gambar.',
-            'gdrive_link.url' => 'Format link Google Drive tidak valid.',
         ]);
 
-        $item = DaftarInformasi::findOrFail($id);
+        $sertamerta = InformasiSertaMerta::find($id);
+        $daftar     = DaftarInformasi::find($id);
 
-        $data = [
-            'judul_informasi' => $request->judul,
-            'isi_informasi'   => $request->deskripsi ?? '',
-            'aktif'           => $request->has('aktif'),
-            'is_blurred'      => $request->has('is_blurred'),
-            'bisa_download'   => $request->has('bisa_download'),
-        ];
+        $filePath = $sertamerta ? $sertamerta->file_path : ($daftar ? $daftar->file_informasi : null);
 
         if ($request->has('hapus_file')) {
-            if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
-                Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
-                Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
+            if ($filePath && !str_starts_with($filePath, 'http') && Storage::exists(str_replace('storage/', 'public/', $filePath))) {
+                Storage::delete(str_replace('storage/', 'public/', $filePath));
             }
-            $data['file_informasi'] = null;
+            $filePath = null;
         } elseif ($request->hasFile('file')) {
-            if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
-                Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
-                Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
+            if ($filePath && !str_starts_with($filePath, 'http') && Storage::exists(str_replace('storage/', 'public/', $filePath))) {
+                Storage::delete(str_replace('storage/', 'public/', $filePath));
             }
             $file = $request->file('file');
             $filename = time() . '_' . str_replace(' ', '_', $file->getClientOriginalName());
             $file->storeAs('public/daftar-informasi', $filename);
-
-            $data['file_informasi'] = 'storage/daftar-informasi/' . $filename;
+            $filePath = 'storage/daftar-informasi/' . $filename;
         } elseif ($request->filled('gdrive_link')) {
-            if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
-                Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
-                Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
-            }
-            $data['file_informasi'] = $request->gdrive_link;
+            $filePath = $request->gdrive_link;
         }
 
-        $item->update($data);
-        if ($request->filled('tanggal')) {
-            $item->created_at = $request->tanggal;
-            $item->waktu_pembuatan = date('Y', strtotime($request->tanggal));
-            $item->save();
+        if ($sertamerta) {
+            $sertamerta->update([
+                'judul' => $request->judul,
+                'deskripsi' => $request->deskripsi ?? '',
+                'file_path' => $filePath,
+                'aktif' => $request->has('aktif'),
+                'is_blurred' => $request->has('is_blurred'),
+                'bisa_download' => $request->has('bisa_download'),
+                'tanggal' => $request->tanggal,
+            ]);
+        }
+
+        if ($daftar) {
+            $daftar->update([
+                'judul_informasi' => $request->judul,
+                'isi_informasi'   => $request->deskripsi ?? '',
+                'file_informasi'  => $filePath,
+                'aktif'           => $request->has('aktif'),
+                'is_blurred'      => $request->has('is_blurred'),
+                'bisa_download'   => $request->has('bisa_download'),
+            ]);
         }
 
         return redirect()->route('admin.informasi.sertamerta.index')
@@ -168,14 +194,21 @@ class InformasiSertaMertaController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
-        $item = DaftarInformasi::findOrFail($id);
-
-        if ($item->file_informasi && !str_starts_with($item->file_informasi, 'http') &&
-            Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
-            Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
+        $sertamerta = InformasiSertaMerta::find($id);
+        if ($sertamerta) {
+            if ($sertamerta->file_path && !str_starts_with($sertamerta->file_path, 'http') && Storage::exists(str_replace('storage/', 'public/', $sertamerta->file_path))) {
+                Storage::delete(str_replace('storage/', 'public/', $sertamerta->file_path));
+            }
+            $sertamerta->delete();
         }
 
-        $item->delete();
+        $daftar = DaftarInformasi::find($id);
+        if ($daftar) {
+            if ($daftar->file_informasi && !str_starts_with($daftar->file_informasi, 'http') && Storage::exists(str_replace('storage/', 'public/', $daftar->file_informasi))) {
+                Storage::delete(str_replace('storage/', 'public/', $daftar->file_informasi));
+            }
+            $daftar->delete();
+        }
 
         return redirect()->route('admin.informasi.sertamerta.index')
             ->with('success', 'Informasi serta merta berhasil dihapus!');

@@ -35,6 +35,14 @@ class ProfilPpidController extends Controller
      */
     public function edit(string $type): View
     {
+        $aliasMap = [
+            'profil_singkat' => 'profil',
+            'tugas_fungsi' => 'tugas',
+            'visi_misi' => 'visi',
+            'struktur_organisasi' => 'struktur',
+        ];
+        $type = $aliasMap[$type] ?? $type;
+
         if (!in_array($type, $this->types)) {
             abort(404);
         }

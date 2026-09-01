@@ -1,5 +1,9 @@
 @extends('layouts.app')
 
+@php
+    $errors = $errors ?? new \Illuminate\Support\ViewErrorBag;
+@endphp
+
 @section('content')
 <div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 w-full text-gray-800">
     <div class="w-full space-y-6">

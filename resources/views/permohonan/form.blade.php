@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+    @php
+        $errors = $errors ?? new \Illuminate\Support\ViewErrorBag;
+    @endphp
     <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -195,6 +198,44 @@
 
             <form action="{{ route('permohonan.store') }}" method="POST" enctype="multipart/form-data" id="mainForm">
                 @csrf
+
+                @if(!isset($applicant))
+                {{-- BAGIAN IDENTITAS PEMOHON (JIKA BELUM LOGIN) --}}
+                <div class="section-card">
+                    <div class="sec-title"><i class="fas fa-id-card"></i> Data Identitas Pemohon</div>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nama_pemohon">Nama Lengkap Sesuai KTP <span class="req">*</span></label>
+                            <input type="text" class="form-control" name="nama_pemohon" id="nama_pemohon" value="{{ old('nama_pemohon') }}" required placeholder="Contoh: Budi Santoso">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="nomor_identitas">Nomor Identitas (NIK KTP / SIM / Paspor) <span class="req">*</span></label>
+                            <input type="text" class="form-control" name="nomor_identitas" id="nomor_identitas" value="{{ old('nomor_identitas') }}" required placeholder="Contoh: 3328xxxxxxxxxxxx">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="email">Alamat Email Aktif <span class="req">*</span></label>
+                            <input type="email" class="form-control" name="email" id="email" value="{{ old('email') }}" required placeholder="nama@email.com">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="no_telp">Nomor WhatsApp / HP <span class="req">*</span></label>
+                            <input type="tel" class="form-control" name="no_telp" id="no_telp" value="{{ old('no_telp') }}" required placeholder="08xxxxxxxxxx">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="pekerjaan">Pekerjaan / Profesi</label>
+                            <input type="text" class="form-control" name="pekerjaan" id="pekerjaan" value="{{ old('pekerjaan') }}" placeholder="Contoh: Wiraswasta / Mahasiswa / Karyawan">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="file_identitas">Upload Foto KTP / Identitas</label>
+                            <input type="file" class="form-control" name="file_identitas" accept=".jpg,.jpeg,.png,.pdf">
+                            <div class="text-muted small mt-1" style="font-size: 11px;">Maks 5 MB (JPG, PNG, PDF)</div>
+                        </div>
+                        <div class="col-12">
+                            <label for="alamat">Alamat Domisili Lengkap <span class="req">*</span></label>
+                            <textarea class="form-control" name="alamat" id="alamat" rows="2" required placeholder="Jalan, RT/RW, Kelurahan, Kecamatan, Kota/Kabupaten">{{ old('alamat') }}</textarea>
+                        </div>
+                    </div>
+                </div>
+                @endif
 
                 {{-- BAGIAN 1: JENIS PERMOHONAN --}}
                 <div class="section-card">

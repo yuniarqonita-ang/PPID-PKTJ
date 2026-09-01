@@ -4,7 +4,8 @@
     <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal Masuk Permohonan Informasi Publik - PPID PKTJ Tegal</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>Masuk Akun Permohonan Informasi - PPID PKTJ Tegal</title>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -13,358 +14,451 @@
     
     <style>
         :root {
-            --primary-blue: {{ !empty($settings['primary_color']) ? $settings['primary_color'] : '#004a99' }};
-            --deep-navy: #002b5c;
-            --maritime-blue: #004a99;
-            --secondary-gold: {{ !empty($settings['secondary_color']) ? $settings['secondary_color'] : '#ffc107' }};
-            --neon-cyan: #00f2fe;
+            --primary-blue: #1d4ed8;
+            --primary-hover: #1e40af;
+            --deep-navy: #071e3d;
+            --accent-gold: #ffc107;
+            --bg-gradient: linear-gradient(135deg, #031b38 0%, #0a3871 50%, #1e40af 100%);
         }
+        
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body { 
             font-family: 'Inter', sans-serif; 
-            background-color: #001738; 
+            background: #031b38;
             color: #1e293b;
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 15px;
         }
 
         .outfit { font-family: 'Outfit', sans-serif; }
 
-        /* HERO GATEWAY CONTAINER */
-        .gateway-wrapper {
-            background: radial-gradient(circle at 50% 20%, rgba(0, 74, 153, 0.4) 0%, transparent 60%),
-                        radial-gradient(circle at 85% 85%, rgba(0, 242, 254, 0.15) 0%, transparent 50%),
-                        #001738;
-            padding: 60px 15px 90px;
-            flex: 1;
+        /* MAIN CONTAINER */
+        .gateway-container {
+            width: 100%;
+            max-width: 1080px;
+            min-height: 640px;
+            background: var(--bg-gradient);
+            border-radius: 28px;
+            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.45), 0 0 40px rgba(29, 78, 216, 0.25);
             display: flex;
-            align-items: center;
-        }
-
-        .gateway-card {
-            background: rgba(255, 255, 255, 0.96);
-            border-radius: 32px;
-            padding: 45px 50px;
-            box-shadow: 0 25px 70px rgba(0, 0, 0, 0.4), 0 0 40px rgba(0, 242, 254, 0.2);
-            border: 1.5px solid rgba(0, 242, 254, 0.3);
-            max-width: 900px;
-            margin: 0 auto;
-            position: relative;
             overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
         }
 
-        @media (max-width: 768px) {
-            .gateway-card { padding: 30px 20px; border-radius: 24px; }
-            .gateway-wrapper { padding: 40px 10px 60px; }
+        /* LEFT BRANDING PANEL */
+        .left-panel {
+            flex: 1.1;
+            padding: 60px 45px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            z-index: 2;
         }
 
-        .gateway-card::before {
+        .left-panel::before {
             content: '';
             position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 6px;
-            background: linear-gradient(90deg, #002b5c 0%, #004a99 50%, #ffc107 100%);
+            width: 380px;
+            height: 380px;
+            background: radial-gradient(circle, rgba(29, 78, 216, 0.35) 0%, transparent 70%);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            border-radius: 50%;
         }
 
-        /* SSO BUTTON */
-        .btn-sso-kemenhub {
-            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
-            color: #ffffff !important;
-            border: 2px solid #00f2fe;
-            border-radius: 18px;
-            padding: 16px 24px;
-            font-size: 15px;
-            font-weight: 800;
-            letter-spacing: 0.3px;
+        .brand-logo-wrap {
+            width: 110px;
+            height: 110px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 14px;
-            text-decoration: none !important;
-            box-shadow: 0 10px 25px rgba(0, 74, 153, 0.35), 0 0 20px rgba(0, 242, 254, 0.25);
-            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
-            width: 100%;
+            margin-bottom: 24px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
         }
 
-        .btn-sso-kemenhub:hover {
-            transform: translateY(-3px) scale(1.02);
-            box-shadow: 0 15px 35px rgba(0, 74, 153, 0.5), 0 0 30px rgba(0, 242, 254, 0.5);
-            border-color: #ffd166;
-            background: linear-gradient(135deg, #001f42 0%, #005bb5 100%);
+        .brand-logo-wrap img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.3));
         }
 
-        /* TAB SELECTOR */
-        .gateway-tab-nav {
-            background: #f1f5f9;
-            padding: 6px;
-            border-radius: 16px;
-            display: flex;
-            gap: 6px;
-            margin-bottom: 28px;
+        .brand-title {
+            color: #ffffff;
+            font-size: 32px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            margin-bottom: 4px;
         }
 
-        .gateway-tab-btn {
-            flex: 1;
-            border: none;
-            background: transparent;
-            color: #64748b;
-            font-weight: 700;
-            font-size: 13.5px;
-            padding: 12px 18px;
-            border-radius: 12px;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-        }
-
-        .gateway-tab-btn.active {
-            background: white;
-            color: #002b5c;
-            box-shadow: 0 4px 15px rgba(0, 43, 92, 0.1);
-        }
-
-        /* FORM INPUTS */
-        .form-floating-custom {
-            margin-bottom: 18px;
-        }
-
-        .form-floating-custom label {
-            font-size: 12px;
-            font-weight: 700;
-            text-transform: uppercase;
+        .brand-subtitle {
+            color: #93c5fd;
+            font-size: 14.5px;
+            font-weight: 600;
             letter-spacing: 0.5px;
-            color: #475569;
-            margin-bottom: 6px;
+            margin-bottom: 20px;
+        }
+
+        .brand-divider {
+            width: 50px;
+            height: 3px;
+            background: var(--accent-gold);
+            border-radius: 2px;
+            margin-bottom: 22px;
+        }
+
+        .brand-instansi {
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .brand-instansi strong {
+            color: #ffffff;
+            font-weight: 700;
             display: block;
-        }
-
-        .form-control-gateway {
-            border: 2px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 13px 18px;
             font-size: 14px;
-            font-weight: 500;
-            width: 100%;
-            background: #f8fafc;
-            transition: all 0.25s ease;
         }
 
-        .form-control-gateway:focus {
-            outline: none;
-            border-color: var(--maritime-blue);
-            background: white;
-            box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
+        /* RIGHT FORM PANEL */
+        .right-panel {
+            flex: 1;
+            background: #ffffff;
+            padding: 45px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
         }
 
-        .btn-submit-gateway {
-            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
+        .form-icon-badge {
+            width: 48px;
+            height: 48px;
+            background: #1d4ed8;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: white;
-            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            margin: 0 auto 14px;
+            box-shadow: 0 6px 16px rgba(29, 78, 216, 0.28);
+        }
+
+        .form-header-title {
+            font-size: 22px;
             font-weight: 800;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-            padding: 16px 30px;
-            border-radius: 16px;
+            color: #0f172a;
+            text-align: center;
+            margin-bottom: 2px;
+        }
+
+        .form-header-desc {
+            font-size: 12.5px;
+            color: #64748b;
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .form-label-custom {
+            font-size: 12.5px;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 6px;
+        }
+
+        .form-control-custom {
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 10px 14px;
+            font-size: 13.5px;
+            transition: all 0.2s ease;
+            width: 100%;
+            background: #ffffff;
+        }
+
+        .form-control-custom:focus {
+            border-color: #1d4ed8;
+            outline: none;
+            box-shadow: 0 0 0 3.5px rgba(29, 78, 216, 0.12);
+        }
+
+        .btn-submit-login {
+            background: #1d4ed8;
+            color: white;
             border: none;
+            border-radius: 10px;
+            padding: 11px 16px;
+            font-size: 14px;
+            font-weight: 700;
+            width: 100%;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+            cursor: pointer;
+        }
+
+        .btn-submit-login:hover {
+            background: #1e40af;
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(29, 78, 216, 0.35);
+        }
+
+        .or-divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 18px 0;
+            color: #94a3b8;
+            font-size: 11.5px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .or-divider::before, .or-divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .or-divider:not(:empty)::before { margin-right: .75em; }
+        .or-divider:not(:empty)::after { margin-left: .75em; }
+
+        .btn-auth-secondary {
+            background: #ffffff;
+            color: #334155;
+            border: 1.5px solid #cbd5e1;
+            border-radius: 10px;
+            padding: 9.5px 14px;
+            font-size: 13px;
+            font-weight: 600;
             width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            box-shadow: 0 10px 25px rgba(0, 74, 153, 0.25);
-            transition: all 0.3s ease;
-            cursor: pointer;
+            text-decoration: none !important;
+            transition: all 0.2s ease;
+            margin-bottom: 10px;
         }
 
-        .btn-submit-gateway:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 14px 30px rgba(0, 74, 153, 0.35);
-            background: linear-gradient(135deg, #001f42 0%, #003a78 100%);
+        .btn-auth-secondary:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+            color: #0f172a;
         }
 
-        .divider-or {
+        .btn-register-outline {
+            background: #f1f5f9;
+            color: #1e293b;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 9.5px 14px;
+            font-size: 13px;
+            font-weight: 700;
+            width: 100%;
+            display: block;
+            text-align: center;
+            text-decoration: none !important;
+            transition: all 0.2s ease;
+        }
+
+        .btn-register-outline:hover {
+            background: #e2e8f0;
+            color: #0f172a;
+        }
+
+        .btn-direct-form {
+            background: #ecfdf5;
+            color: #047857;
+            border: 1.5px solid #a7f3d0;
+            border-radius: 10px;
+            padding: 9px 14px;
+            font-size: 12.5px;
+            font-weight: 700;
+            width: 100%;
             display: flex;
             align-items: center;
-            text-align: center;
-            margin: 28px 0;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none !important;
+            transition: all 0.2s ease;
+            margin-top: 12px;
+        }
+
+        .btn-direct-form:hover {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .footer-copyright {
+            font-size: 11px;
             color: #94a3b8;
-            font-size: 12px;
-            font-weight: 800;
-            letter-spacing: 1px;
-            text-transform: uppercase;
+            text-align: center;
+            margin-top: 20px;
         }
 
-        .divider-or::before, .divider-or::after {
-            content: '';
-            flex: 1;
-            border-bottom: 1.5px solid #e2e8f0;
+        @media (max-width: 860px) {
+            .gateway-container { flex-direction: column; border-radius: 20px; }
+            .left-panel { padding: 40px 20px; }
+            .right-panel { padding: 35px 20px; }
         }
-
-        .divider-or:not(:empty)::before { margin-right: 18px; }
-        .divider-or:not(:empty)::after { margin-left: 18px; }
     </style>
 </head>
 <body>
 
-    @include('navigation')
+    <div class="gateway-container">
+        
+        <!-- LEFT BRANDING -->
+        <div class="left-panel">
+            <div class="brand-logo-wrap">
+                <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ Tegal">
+            </div>
+            
+            <h1 class="brand-title outfit">PPID</h1>
+            <div class="brand-subtitle">Pejabat Pengelola Informasi dan Dokumentasi</div>
+            
+            <div class="brand-divider"></div>
+            
+            <div class="brand-instansi">
+                Badan Pengembangan Sumber Daya Manusia Perhubungan<br>
+                <strong>Politeknik Keselamatan Transportasi Jalan Tegal</strong>
+                Kementerian Perhubungan Republik Indonesia
+            </div>
 
-    <div class="gateway-wrapper">
-        <div class="container">
-            <div class="gateway-card">
-                
-                <!-- HEADER BRANDING -->
-                <div class="text-center mb-4">
-                    <div class="d-inline-flex align-items-center justify-content-center p-2 rounded-4 mb-3" style="background: rgba(0, 74, 153, 0.06);">
-                        <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ" style="height: 60px; margin-right: 12px;">
-                        <img src="https://hubnet.kemenhub.go.id/sso/assets/img/logo-kemenhub.png" alt="Logo Kemenhub" style="height: 50px;" onerror="this.style.display='none'">
-                    </div>
-                    <div class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill font-monospace mb-2 text-xs">
-                        PORTAL LAYANAN INFORMASI PUBLIK RESMI
-                    </div>
-                    <h2 class="outfit fw-bold text-dark mb-1" style="font-size: 26px; color: #002b5c !important;">
-                        Permohonan Informasi Publik PKTJ
-                    </h2>
-                    <p class="text-muted small mb-0" style="max-width: 600px; margin: 0 auto;">
-                        Silakan pilih metode masuk melalui akun resmi SSO Kemenhub atau lengkapi data identitas pemohon di bawah ini untuk melanjutkan pengisian permohonan informasi.
-                    </p>
-                </div>
-
-                <!-- OPTION 1: SSO KEMENHUB (HUBNET) BUTTON -->
-                <div class="mb-4">
-                    <a href="https://hubnet.kemenhub.go.id/sso/" target="_blank" class="btn-sso-kemenhub" id="btnSsoKemenhub">
-                        <i class="fas fa-key fs-4 text-warning"></i>
-                        <div class="text-start">
-                            <span class="d-block" style="font-size: 15px;">Masuk via SSO Kemenhub (Hubnet)</span>
-                            <span class="d-block text-white-50" style="font-size: 11px; font-weight: 500;">Single Sign-On Terintegrasi Kementerian Perhubungan</span>
-                        </div>
-                        <i class="fas fa-arrow-up-right-from-square ms-auto text-cyan"></i>
-                    </a>
-                </div>
-
-                <div class="divider-or">ATAU ISI DATA PEMOHON LANGSUNG</div>
-
-                <!-- TABS: FORM IDENTITAS PEMOHON LANGSUNG -->
-                <div class="gateway-tab-nav">
-                    <button type="button" class="gateway-tab-btn active" id="tabBtnGuest" onclick="switchGatewayTab('guest')">
-                        <i class="fas fa-id-card"></i> Isi Data Pemohon (Cepat)
-                    </button>
-                    <button type="button" class="gateway-tab-btn" id="tabBtnLogin" onclick="switchGatewayTab('login')">
-                        <i class="fas fa-user-lock"></i> Masuk Akun Terdaftar
-                    </button>
-                </div>
-
-                <!-- TAB 1: GUEST / IDENTITAS CEPAT FORM -->
-                <div id="paneGuest" class="tab-pane-content">
-                    <form action="{{ route('permohonan.auth-session') }}" method="POST">
-                        @csrf
-                        
-                        <div class="row g-3">
-                            <div class="col-md-6 form-floating-custom">
-                                <label><i class="fas fa-user text-primary me-1"></i> Nama Lengkap (Sesuai KTP/Identitas) <span class="text-danger">*</span></label>
-                                <input type="text" name="nama_pemohon" required class="form-control-gateway" placeholder="Contoh: Budi Santoso" value="{{ old('nama_pemohon') }}">
-                            </div>
-
-                            <div class="col-md-6 form-floating-custom">
-                                <label><i class="fas fa-id-card text-primary me-1"></i> Nomor Identitas (NIK KTP / SIM / Paspor) <span class="text-danger">*</span></label>
-                                <input type="text" name="nomor_identitas" required class="form-control-gateway" placeholder="Contoh: 3328xxxxxxxxxxxx" value="{{ old('nomor_identitas') }}">
-                            </div>
-
-                            <div class="col-md-6 form-floating-custom">
-                                <label><i class="fas fa-envelope text-primary me-1"></i> Alamat Email Aktif <span class="text-danger">*</span></label>
-                                <input type="email" name="email" required class="form-control-gateway" placeholder="nama@email.com" value="{{ old('email') }}">
-                            </div>
-
-                            <div class="col-md-6 form-floating-custom">
-                                <label><i class="fab fa-whatsapp text-success me-1"></i> Nomor HP / WhatsApp Aktif <span class="text-danger">*</span></label>
-                                <input type="tel" name="no_telp" required class="form-control-gateway" placeholder="Contoh: 081234567890" value="{{ old('no_telp') }}">
-                            </div>
-
-                            <div class="col-md-6 form-floating-custom">
-                                <label><i class="fas fa-briefcase text-primary me-1"></i> Pekerjaan / Profesi</label>
-                                <input type="text" name="pekerjaan" class="form-control-gateway" placeholder="Mahasiswa / Karyawan / Peneliti / Umum" value="{{ old('pekerjaan') }}">
-                            </div>
-
-                            <div class="col-md-6 form-floating-custom">
-                                <label><i class="fas fa-map-marker-alt text-primary me-1"></i> Alamat Domisili Lengkap <span class="text-danger">*</span></label>
-                                <input type="text" name="alamat" required class="form-control-gateway" placeholder="Jalan, RT/RW, Kelurahan, Kota/Kabupaten" value="{{ old('alamat') }}">
-                            </div>
-                        </div>
-
-                        <div class="alert alert-light border d-flex align-items-center gap-3 rounded-3 p-3 my-3">
-                            <i class="fas fa-shield-alt text-success fs-4"></i>
-                            <div class="small text-muted">
-                                Data identitas ini digunakan untuk verifikasi pencatatan resmi buku register permohonan informasi PPID PKTJ sesuai Undang-Undang No. 14 Tahun 2008.
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn-submit-gateway">
-                            <span>Lanjutkan ke Formulir Permohonan Informasi</span>
-                            <i class="fas fa-arrow-right"></i>
-                        </button>
-                    </form>
-                </div>
-
-                <!-- TAB 2: LOGIN AKUN TERDAFTAR -->
-                <div id="paneLogin" class="tab-pane-content d-none">
-                    <form action="{{ route('login') }}" method="POST">
-                        @csrf
-                        
-                        <div class="form-floating-custom">
-                            <label><i class="fas fa-envelope text-primary me-1"></i> Email Terdaftar <span class="text-danger">*</span></label>
-                            <input type="email" name="email" required class="form-control-gateway" placeholder="nama@email.com">
-                        </div>
-
-                        <div class="form-floating-custom">
-                            <label><i class="fas fa-lock text-primary me-1"></i> Kata Sandi <span class="text-danger">*</span></label>
-                            <input type="password" name="password" required class="form-control-gateway" placeholder="Masukkan kata sandi">
-                        </div>
-
-                        <div class="d-flex justify-content-between align-items-center mb-4">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
-                                <label class="form-check-label small text-muted" for="rememberMe">Ingat Saya</label>
-                            </div>
-                            <a href="{{ route('password.request') }}" class="small text-primary fw-bold text-decoration-none">Lupa Password?</a>
-                        </div>
-
-                        <button type="submit" class="btn-submit-gateway">
-                            <i class="fas fa-sign-in-alt"></i>
-                            <span>Masuk & Buka Formulir</span>
-                        </button>
-                    </form>
-                </div>
-
+            <div class="mt-4 pt-2">
+                <a href="{{ route('home') }}" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1.5 opacity-80" style="font-size: 12px;">
+                    <i class="fas fa-arrow-left me-1"></i> Kembali ke Beranda
+                </a>
             </div>
         </div>
+
+        <!-- RIGHT LOGIN FORM (EXACT ATM BPSDMP STYLE) -->
+        <div class="right-panel">
+            <div class="form-icon-badge">
+                <i class="fas fa-file-lines"></i>
+            </div>
+            
+            <h2 class="form-header-title outfit">Masuk ke Akun Anda</h2>
+            <p class="form-header-desc">Layanan Permohonan Informasi Publik PPID PKTJ</p>
+
+            @if(session('error'))
+                <div class="alert alert-danger py-2 px-3 small rounded-3 mb-3">
+                    <i class="fas fa-exclamation-circle me-1"></i> {{ session('error') }}
+                </div>
+            @endif
+
+            @if(session('info'))
+                <div class="alert alert-info py-2 px-3 small rounded-3 mb-3">
+                    <i class="fas fa-info-circle me-1"></i> {{ session('info') }}
+                </div>
+            @endif
+
+            @if(isset($user) && $user)
+                <div class="p-3 mb-4 rounded-3 text-center" style="background: #eff6ff; border: 1.5px solid #bfdbfe;">
+                    <div class="small text-muted mb-1" style="font-size: 11.5px;">Status Akun: Terhubung</div>
+                    <div class="fw-bold text-primary mb-2" style="font-size: 14px;">
+                        <i class="fas fa-circle-check text-success me-1"></i> Masuk sebagai: {{ $user->name }}
+                    </div>
+                    <a href="{{ route('permohonan.create') }}" class="btn btn-sm btn-primary w-100 fw-bold rounded-pill shadow-sm py-2">
+                        <i class="fas fa-file-pen me-1"></i> Lanjutkan Isi Formulir Permohonan ➔
+                    </a>
+                </div>
+            @endif
+
+            <form action="{{ route('login') }}" method="POST">
+                @csrf
+                
+                <div class="mb-3">
+                    <label class="form-label-custom">Username / Email</label>
+                    <input type="text" name="login" class="form-control-custom" placeholder="Username atau email" value="{{ old('login') }}" required autofocus>
+                </div>
+
+                <div class="mb-3">
+                    <div class="d-flex justify-content-between align-items-center mb-1">
+                        <label class="form-label-custom mb-0">Password</label>
+                        <a href="javascript:void(0)" onclick="alert('Silakan hubungi admin PPID PKTJ di nomor (0283) 351061 atau email humas@pktj.ac.id untuk reset kata sandi Anda.')" class="text-decoration-none small text-muted" style="font-size: 11.5px;">Lupa password?</a>
+                    </div>
+                    <div class="position-relative">
+                        <input type="password" name="password" id="inputPassword" class="form-control-custom pe-5" placeholder="Password" required>
+                        <button type="button" class="btn position-absolute top-50 end-0 translate-middle-y border-0 text-muted pe-3" onclick="togglePasswordVisibility()" style="background: transparent;">
+                            <i class="fas fa-eye" id="togglePasswordIcon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-check mb-3">
+                    <input class="form-check-input" type="checkbox" name="remember" id="rememberMe">
+                    <label class="form-check-label text-muted small" for="rememberMe" style="font-size: 12px;">
+                        Ingat saya
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-submit-login">
+                    Masuk
+                </button>
+            </form>
+
+            <div class="or-divider">ATAU</div>
+
+            <a href="{{ route('auth.google') }}" class="btn-auth-secondary">
+                <svg width="18" height="18" viewBox="0 0 24 24">
+                    <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                    <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                    <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                    <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                </svg>
+                Login dengan Google
+            </a>
+
+            <a href="https://hubnet.dephub.go.id/sso/" target="_blank" class="btn-auth-secondary">
+                <i class="fas fa-key text-primary"></i>
+                Masuk dengan SSO Kemenhub
+            </a>
+
+            <div class="or-divider">BELUM PUNYA AKUN?</div>
+
+            <a href="{{ route('register') }}" class="btn-register-outline">
+                Daftar Sekarang
+            </a>
+
+            <a href="{{ route('permohonan.create') }}" class="btn-direct-form">
+                <i class="fas fa-pen-to-square"></i> Langsung Isi Formulir Tanpa Login
+            </a>
+
+            <div class="footer-copyright">
+                &copy; {{ date('Y') }} PPID PKTJ Kemenhub. Hak Cipta Dilindungi.
+            </div>
+        </div>
+
     </div>
 
-    @include('footer')
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        function switchGatewayTab(tab) {
-            const btnGuest = document.getElementById('tabBtnGuest');
-            const btnLogin = document.getElementById('tabBtnLogin');
-            const paneGuest = document.getElementById('paneGuest');
-            const paneLogin = document.getElementById('paneLogin');
-
-            if (tab === 'guest') {
-                btnGuest.classList.add('active');
-                btnLogin.classList.remove('active');
-                paneGuest.classList.remove('d-none');
-                paneLogin.classList.add('d-none');
+        function togglePasswordVisibility() {
+            const pwd = document.getElementById('inputPassword');
+            const icon = document.getElementById('togglePasswordIcon');
+            if (pwd.type === 'password') {
+                pwd.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
             } else {
-                btnGuest.classList.remove('active');
-                btnLogin.classList.add('active');
-                paneGuest.classList.add('d-none');
-                paneLogin.classList.remove('d-none');
+                pwd.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
             }
         }
     </script>

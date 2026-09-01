@@ -269,232 +269,73 @@
                         <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.75rem;">
                             <i class="fas fa-user-tie me-2 text-primary"></i> Profil Pejabat Publik & LHKPN PKTJ
                         </h3>
-                        <p class="text-muted small mb-0">Informasi profil, riwayat jabatan, riwayat pendidikan, dan laporan harta kekayaan jajaran Pimpinan PKTJ Tegal.</p>
+                        <p class="text-muted small mb-0">Informasi profil pimpinan struktural, riwayat karir, dan kepatuhan LHKPN jajaran Pimpinan PKTJ Tegal.</p>
                     </div>
-
-                    <!-- VIEW SWITCHER (TABEL / KARTU) -->
-                    <div class="btn-group p-1 bg-light rounded-pill border" role="group">
-                        <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold" id="btnViewTable" onclick="switchPejabatView('table')">
-                            <i class="fas fa-table me-1"></i> Mode Tabel
-                        </button>
-                        <button type="button" class="btn btn-sm btn-light rounded-pill px-3 py-1.5 fw-bold text-muted" id="btnViewGrid" onclick="switchPejabatView('grid')">
-                            <i class="fas fa-th-large me-1"></i> Mode Kartu
-                        </button>
+                    <div>
+                        <a href="{{ route('profil.pejabat') }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold text-xs">
+                            <i class="fas fa-external-link-alt me-1"></i> Buka Halaman Khusus Pejabat
+                        </a>
                     </div>
                 </div>
 
-                <!-- 1. TAMPILAN MODE TABEL RESMI (FOTO BESAR & RAPI) -->
-                <div id="pejabatTableView" class="table-responsive view-animate">
-                    <table class="table table-bordered table-hover align-middle mb-0" style="border-color: #e2e8f0;">
-                        <thead style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;">
-                            <tr class="text-center align-middle" style="font-size: 12.5px; letter-spacing: 0.5px; text-transform: uppercase;">
-                                <th style="width: 45px; padding: 16px 8px;">No</th>
-                                <th style="width: 200px; padding: 16px 10px;">Pas Foto Resmi</th>
-                                <th style="width: 240px; padding: 16px 15px;" class="text-start">Nama Pejabat</th>
-                                <th style="width: 220px; padding: 16px 15px;" class="text-start">Jabatan</th>
-                                <th style="min-width: 320px; padding: 16px 15px;" class="text-start">Biografi & Riwayat Karir</th>
-                                <th style="width: 130px; padding: 16px 10px;">LHKPN</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y">
-                            @foreach($pejabats as $pejabat)
-                            @php
-                                $pW   = $pejabat->foto_width ?: 160;
-                                $pH   = $pejabat->foto_height ?: 240;
-                                $pPos = $pejabat->foto_position ?: 'top center';
-                                $pRad = $pejabat->foto_radius ?: '14px';
-                            @endphp
-                            <tr style="background: {{ $loop->even ? '#f8fafc' : '#ffffff' }}; font-size: 13.5px;">
-                                <td class="text-center fw-bold text-muted">{{ $loop->iteration }}</td>
-                                <td class="text-center p-3">
+                <!-- GRID DAFTAR PEJABAT SESUAI FORMAT RESMI KEMENHUB -->
+                <div class="row g-4">
+                    @forelse($pejabats as $pejabat)
+                    <div class="col-lg-6 col-12">
+                        <div class="p-3 border rounded-3 h-100 bg-white shadow-xs" style="border-color: #e2e8f0;">
+                            <!-- Header Jabatan & Nama -->
+                            <div style="font-size: 12.5px; font-weight: 600; color: #64748b; margin-bottom: 2px;">{{ $pejabat->jabatan }}</div>
+                            <div class="outfit" style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 14px;">{{ $pejabat->nama }}</div>
+                            
+                            <!-- Flex Body (Foto Kiri + Teks Kanan) -->
+                            <div class="d-flex gap-3 align-items-start flex-column flex-sm-row">
+                                <!-- Foto Resmi Pejabat -->
+                                <div style="width: 175px; min-width: 175px; height: 250px; border-radius: 8px; overflow: hidden; border: 1px solid #cbd5e1; box-shadow: 0 4px 10px rgba(0,0,0,0.05); background: #f8fafc; flex-shrink: 0; cursor: pointer;" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
                                     @if($pejabat->foto)
-                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="mx-auto shadow-sm border" style="width: {{ $pW }}px; height: {{ $pH }}px; object-fit: cover; object-position: {{ $pPos }}; border-radius: {{ $pRad }}; border: 2.5px solid #ffffff !important; outline: 1.5px solid #cbd5e1; cursor: pointer; transition: transform 0.35s ease, box-shadow 0.35s ease;" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
+                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" style="width: 100%; height: 100%; object-fit: cover; object-position: top center;">
                                     @else
-                                        <div class="bg-light d-flex align-items-center justify-content-center border mx-auto" style="width: {{ $pW }}px; height: {{ $pH }}px; border-radius: {{ $pRad }};">
-                                            <i class="fas fa-user-tie fa-4x text-muted opacity-40"></i>
+                                        <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                                            <i class="fas fa-user-tie fa-3x opacity-25"></i>
                                         </div>
                                     @endif
-                                </td>
-                                <td class="p-3">
-                                    <h6 class="fw-bold text-dark mb-1" style="font-size: 14.5px; line-height: 1.4; color: #002b5c !important;">{{ $pejabat->nama }}</h6>
-                                    @if($pejabat->tempat_tanggal_lahir)
-                                        <div class="text-muted small" style="font-size: 11.5px;">
-                                            <i class="fas fa-map-marker-alt text-amber-500 me-1"></i> {{ $pejabat->tempat_tanggal_lahir }}
-                                        </div>
-                                    @endif
-                                </td>
-                                <td class="p-3">
-                                    <span class="badge bg-primary text-wrap text-start lh-base px-2.5 py-1.5 rounded-2" style="background-color: #004a99 !important; font-size: 12px;">
-                                        {{ $pejabat->jabatan }}
-                                    </span>
-                                </td>
-                                <td class="p-3 text-secondary" style="line-height: 1.6;">
+                                </div>
+
+                                <!-- Informasi Detail Pejabat -->
+                                <div style="font-size: 12.5px; line-height: 1.6; color: #334155;" class="flex-grow-1">
                                     @if($pejabat->biografi)
-                                        <p class="mb-2 text-dark small" style="font-size: 13px;">{{ $pejabat->biografi }}</p>
+                                        <p class="mb-2">{{ $pejabat->biografi }}</p>
+                                    @else
+                                        <p class="mb-2">Alamat kantor Jl. Perintis Kemerdekaan No. 17 Kota Tegal, Jawa Tengah 52125. Telp: (0283) 351061.</p>
                                     @endif
 
                                     @if(!empty($pejabat->pendidikan) && is_array($pejabat->pendidikan))
-                                        <div class="mb-1.5">
-                                            <strong class="text-primary d-block" style="font-size: 11.5px; text-transform: uppercase;">
-                                                <i class="fas fa-graduation-cap me-1"></i> Riwayat Pendidikan:
-                                            </strong>
-                                            <ul class="mb-0 ps-3 small text-muted" style="font-size: 12px;">
-                                                @foreach($pejabat->pendidikan as $pend)
-                                                    <li>{{ $pend }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
+                                        <p class="mb-2">
+                                            <strong>Latar belakang pendidikan :</strong> 
+                                            {{ implode(', ', $pejabat->pendidikan) }}.
+                                        </p>
                                     @endif
 
                                     @if(!empty($pejabat->riwayat_jabatan) && is_array($pejabat->riwayat_jabatan))
-                                        <div class="mt-2">
-                                            <strong class="text-primary d-block" style="font-size: 11.5px; text-transform: uppercase;">
-                                                <i class="fas fa-briefcase me-1"></i> Riwayat Jabatan:
-                                            </strong>
-                                            <ul class="mb-0 ps-3 small text-muted" style="font-size: 12px;">
-                                                @foreach(array_slice($pejabat->riwayat_jabatan, 0, 3) as $jab)
-                                                    <li>{{ $jab }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
+                                        <p class="mb-2">
+                                            <strong>Perjalanan karir :</strong> 
+                                            pernah menduduki sejumlah posisi strategis diantaranya {{ implode(', ', $pejabat->riwayat_jabatan) }}.
+                                        </p>
                                     @endif
-                                </td>
-                                <td class="text-center p-3">
-                                    @if($pejabat->lhkpn_link || $pejabat->lhkpn_file)
-                                        <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold shadow-sm d-inline-flex align-items-center gap-1.5" style="font-size: 12px;">
-                                            <i class="fas fa-file-invoice-dollar"></i> LHKPN
+
+                                    <div class="mt-2">
+                                        <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file ?? '#') }}" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: none;">
+                                            LHKPN {{ $pejabat->nama }}
                                         </a>
-                                        <div class="text-muted mt-1" style="font-size: 10.5px;">{{ $pejabat->lhkpn_tahun ?? '2025/2026' }}</div>
-                                    @else
-                                        <span class="badge bg-light text-muted border">Tersedia</span>
-                                    @endif
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- 2. TAMPILAN MODE GRID KARTU (SMOOTH & ELEGANT) -->
-                <div id="pejabatGridView" class="row g-4 d-none view-animate">
-                    @foreach($pejabats as $pejabat)
-                    @php
-                        $pCardH = $pejabat->foto_card_height ?: 390;
-                        $pPos   = $pejabat->foto_position ?: 'top center';
-                    @endphp
-                        <div class="col-lg-4 col-md-6">
-                            <div class="pejabat-card-pro">
-                                <div class="pejabat-card-img-wrapper" style="cursor: pointer; height: {{ $pCardH }}px;" @if($pejabat->foto) onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto" @endif>
-                                    @if($pejabat->foto)
-                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" style="object-position: {{ $pPos }} !important;">
-                                    @else
-                                        <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
-                                            <i class="fas fa-user-tie fa-4x opacity-25"></i>
-                                        </div>
-                                    @endif
-                                    <div class="pejabat-card-overlay">
-                                        <span class="badge bg-warning text-dark font-black px-3 py-1 rounded-pill" style="font-size: 11px;">
-                                            {{ $pejabat->jabatan }}
-                                        </span>
-                                    </div>
-                                </div>
-                                <div class="p-4 d-flex flex-column justify-content-between flex-grow-1">
-                                    <div>
-                                        <h5 class="fw-bold outfit text-dark mb-1" style="font-size: 1.15rem; line-height: 1.35; color: #002b5c !important;">{{ $pejabat->nama }}</h5>
-                                        @if($pejabat->tempat_tanggal_lahir)
-                                            <p class="text-muted small mb-2" style="font-size: 11.5px;">
-                                                <i class="fas fa-map-marker-alt text-amber-500 me-1"></i> {{ $pejabat->tempat_tanggal_lahir }}
-                                            </p>
-                                        @endif
-                                        @if($pejabat->biografi)
-                                            <p class="text-secondary small mb-4" style="font-size: 12.5px; line-height: 1.6; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
-                                                {{ $pejabat->biografi }}
-                                            </p>
-                                        @endif
-                                    </div>
-                                    <div class="pt-3 border-top d-flex align-items-center justify-content-between flex-wrap gap-2">
-                                        <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1.5 fw-bold" data-bs-toggle="modal" data-bs-target="#modalPejabatBerkala{{ $pejabat->id }}">
-                                            <i class="fas fa-id-card me-1"></i> Detail & Riwayat
-                                        </button>
-                                        @if($pejabat->lhkpn_link || $pejabat->lhkpn_file)
-                                            <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold shadow-sm">
-                                                <i class="fas fa-file-invoice-dollar me-1"></i> LHKPN
-                                            </a>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- MODAL PEJABAT -->
-                        <div class="modal fade" id="modalPejabatBerkala{{ $pejabat->id }}" tabindex="-1" aria-hidden="true">
-                            <div class="modal-dialog modal-dialog-centered modal-lg">
-                                <div class="modal-content rounded-4 border-0 shadow-2xl overflow-hidden">
-                                    <div class="modal-header text-white p-4" style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);">
-                                        <div class="d-flex align-items-center gap-3">
-                                            @if($pejabat->foto)
-                                                <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" class="rounded-3 border border-white shadow-sm cursor-pointer" style="width: 65px; height: 80px; object-fit: cover; object-position: top center; cursor: pointer;" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
-                                            @endif
-                                            <div>
-                                                <h5 class="modal-title fw-bold outfit text-white mb-0">{{ $pejabat->nama }}</h5>
-                                                <span class="badge bg-warning text-dark font-black mt-1">{{ $pejabat->jabatan }}</span>
-                                            </div>
-                                        </div>
-                                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body p-4 p-md-5">
-                                        @if($pejabat->biografi)
-                                        <div class="mb-4">
-                                            <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-quote-left me-2"></i>Biografi</h6>
-                                            <p class="text-secondary" style="line-height: 1.7;">{{ $pejabat->biografi }}</p>
-                                        </div>
-                                        @endif
-
-                                        @if(!empty($pejabat->pendidikan) && is_array($pejabat->pendidikan))
-                                        <div class="mb-4">
-                                            <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-graduation-cap me-2"></i>Riwayat Pendidikan</h6>
-                                            <ul class="list-group list-group-flush border rounded-3 overflow-hidden">
-                                                @foreach($pejabat->pendidikan as $pend)
-                                                    <li class="list-group-item small py-2.5"><i class="fas fa-check-circle text-success me-2"></i>{{ $pend }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                        @endif
-
-                                        @if(!empty($pejabat->riwayat_jabatan) && is_array($pejabat->riwayat_jabatan))
-                                        <div class="mb-4">
-                                            <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-briefcase me-2"></i>Riwayat Jabatan</h6>
-                                            <ul class="list-group list-group-flush border rounded-3 overflow-hidden">
-                                                @foreach($pejabat->riwayat_jabatan as $jab)
-                                                    <li class="list-group-item small py-2.5"><i class="fas fa-chevron-right text-primary me-2"></i>{{ $jab }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                        @endif
-
-                                        @if(!empty($pejabat->penghargaan) && is_array($pejabat->penghargaan))
-                                        <div>
-                                            <h6 class="fw-bold text-primary text-uppercase tracking-wider small mb-2"><i class="fas fa-medal me-2"></i>Penghargaan</h6>
-                                            <ul class="list-group list-group-flush border rounded-3 overflow-hidden">
-                                                @foreach($pejabat->penghargaan as $peng)
-                                                    <li class="list-group-item small py-2.5"><i class="fas fa-star text-warning me-2"></i>{{ $peng }}</li>
-                                                @endforeach
-                                            </ul>
-                                        </div>
-                                        @endif
-                                    </div>
-                                    <div class="modal-footer bg-light p-3">
-                                        @if($pejabat->lhkpn_link || $pejabat->lhkpn_file)
-                                            <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-success fw-bold px-4 py-2 rounded-pill small">
-                                                <i class="fas fa-file-invoice-dollar me-2"></i> LHKPN ({{ $pejabat->lhkpn_tahun ?? '2025/2026' }})
-                                            </a>
-                                        @endif
-                                        <button type="button" class="btn btn-secondary fw-bold px-4 py-2 rounded-pill small" data-bs-dismiss="modal">Tutup</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @endforeach
+                    </div>
+                    @empty
+                    <div class="col-12 text-center py-4 text-muted">
+                        Data pejabat sedang dimutakhirkan.
+                    </div>
+                    @endforelse
                 </div>
             </div>
 

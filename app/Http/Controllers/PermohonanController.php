@@ -42,12 +42,10 @@ class PermohonanController extends Controller
      */
     public function gateway()
     {
-        if (\Illuminate\Support\Facades\Auth::check() || session()->has('pemohon_identity')) {
-            return redirect()->route('permohonan.create');
-        }
-
         $settings = Dashboard::pluck('value', 'key')->toArray();
-        return view('permohonan.gateway', compact('settings'));
+        $user = \Illuminate\Support\Facades\Auth::user();
+        $sessionApplicant = session('pemohon_identity');
+        return view('permohonan.gateway', compact('settings', 'user', 'sessionApplicant'));
     }
 
     /**
@@ -84,28 +82,29 @@ class PermohonanController extends Controller
         $user = \Illuminate\Support\Facades\Auth::user();
         $sessionApplicant = session('pemohon_identity');
 
-        if (!$user && !$sessionApplicant) {
-            return redirect()->route('permohonan.gateway')->with('info', 'Silakan lengkapi identitas pemohon atau masuk akun terlebih dahulu.');
+        // Standardize applicant object if available
+        $applicant = null;
+        if ($user) {
+            $applicant = (object)[
+                'name' => $user->name,
+                'email' => $user->email,
+                'no_telp' => $user->no_telp ?? '-',
+                'nomor_identitas' => $user->nomor_identitas ?? '-',
+                'pekerjaan' => $user->pekerjaan ?? '-',
+                'alamat' => $user->alamat ?? '-',
+                'is_auth' => true
+            ];
+        } elseif ($sessionApplicant) {
+            $applicant = (object)[
+                'name' => $sessionApplicant['nama_pemohon'],
+                'email' => $sessionApplicant['email'],
+                'no_telp' => $sessionApplicant['no_telp'],
+                'nomor_identitas' => $sessionApplicant['nomor_identitas'],
+                'pekerjaan' => $sessionApplicant['pekerjaan'] ?? '-',
+                'alamat' => $sessionApplicant['alamat'],
+                'is_auth' => false
+            ];
         }
-
-        // Standardize applicant object
-        $applicant = $user ? (object)[
-            'name' => $user->name,
-            'email' => $user->email,
-            'no_telp' => $user->no_telp ?? '-',
-            'nomor_identitas' => $user->nomor_identitas ?? '-',
-            'pekerjaan' => $user->pekerjaan ?? '-',
-            'alamat' => $user->alamat ?? '-',
-            'is_auth' => true
-        ] : (object)[
-            'name' => $sessionApplicant['nama_pemohon'],
-            'email' => $sessionApplicant['email'],
-            'no_telp' => $sessionApplicant['no_telp'],
-            'nomor_identitas' => $sessionApplicant['nomor_identitas'],
-            'pekerjaan' => $sessionApplicant['pekerjaan'] ?? '-',
-            'alamat' => $sessionApplicant['alamat'],
-            'is_auth' => false
-        ];
 
         $schema = $this->getFormSchema();
         $sectionTitle = $schema['section_title'];
@@ -185,16 +184,16 @@ class PermohonanController extends Controller
         $user = \Illuminate\Support\Facades\Auth::user();
         $sessionApplicant = session('pemohon_identity');
 
-        if (!$user && !$sessionApplicant) {
-            return redirect()->route('permohonan.gateway')->with('error', 'Sesi identitas Anda telah berakhir. Silakan isi kembali identitas Anda.');
-        }
+        $namaPemohon      = $request->nama_pemohon ?? ($user ? $user->name : ($sessionApplicant['nama_pemohon'] ?? null));
+        $nomorIdentitas   = $request->nomor_identitas ?? ($user ? ($user->nomor_identitas ?? '-') : ($sessionApplicant['nomor_identitas'] ?? '-'));
+        $emailPemohon     = $request->email ?? ($user ? $user->email : ($sessionApplicant['email'] ?? null));
+        $teleponPemohon   = $request->no_telp ?? ($user ? ($user->no_telp ?? '-') : ($sessionApplicant['no_telp'] ?? '-'));
+        $pekerjaanPemohon = $request->pekerjaan ?? ($user ? ($user->pekerjaan ?? '-') : ($sessionApplicant['pekerjaan'] ?? '-'));
+        $alamatPemohon    = $request->alamat ?? ($user ? ($user->alamat ?? '-') : ($sessionApplicant['alamat'] ?? null));
 
-        $namaPemohon = $user ? $user->name : $sessionApplicant['nama_pemohon'];
-        $nomorIdentitas = $user ? ($user->nomor_identitas ?? '-') : $sessionApplicant['nomor_identitas'];
-        $emailPemohon = $user ? $user->email : $sessionApplicant['email'];
-        $teleponPemohon = $user ? ($user->no_telp ?? '-') : $sessionApplicant['no_telp'];
-        $pekerjaanPemohon = $user ? ($user->pekerjaan ?? '-') : ($sessionApplicant['pekerjaan'] ?? '-');
-        $alamatPemohon = $user ? ($user->alamat ?? '-') : $sessionApplicant['alamat'];
+        if (!$namaPemohon || !$emailPemohon || !$alamatPemohon) {
+            return redirect()->route('permohonan.create')->withInput()->with('error', 'Silakan lengkapi nama, email, dan alamat pemohon informasi.');
+        }
 
         $validated = $request->validate([
             'tanggal_permohonan'       => 'required|date',
@@ -205,6 +204,7 @@ class PermohonanController extends Controller
             'cara_mendapatkan'         => 'required|string',
             'petugas_penerima'         => 'nullable|string|max:255',
             'berkas_pendukung'         => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
+            'file_identitas'           => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:10240',
         ]);
 
         // Upload berkas pendukung (Akta pendirian organisasi dll jika ada)
@@ -212,8 +212,10 @@ class PermohonanController extends Controller
             ? $request->file('berkas_pendukung')->store('permohonan/berkas', 'public')
             : null;
 
-        // Foto KTP diambil otomatis dari akun user, atau fallback
-        $fotoKtp = $user ? $user->file_identitas : null;
+        // Foto KTP diambil dari upload form, atau dari akun user
+        $fotoKtp = $request->hasFile('file_identitas')
+            ? $request->file('file_identitas')->store('permohonan/ktp', 'public')
+            : ($user ? $user->file_identitas : null);
 
         // Generate Nomor Registrasi
         $nomorRegistrasi = 'REG-PKTJ-' . date('Ymd') . '-' . rand(1000, 9999);

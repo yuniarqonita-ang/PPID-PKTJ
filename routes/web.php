@@ -197,11 +197,41 @@ Route::middleware(['auth'])->group(function () {
 // ==========================================
 Route::redirect('/dashboard', '/admin');
 
+Route::get('/refresh-deploy', function() {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
+
+        // Manually purge all compiled blade view files in storage
+        $viewsPath = storage_path('framework/views');
+        if (is_dir($viewsPath)) {
+            $files = glob($viewsPath . '/*.php');
+            foreach ($files as $file) {
+                if (is_file($file)) {
+                    @unlink($file);
+                }
+            }
+        }
+
+        if (function_exists('opcache_reset')) {
+            @opcache_reset();
+        }
+
+        return '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Deploy Cache Refreshed</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light d-flex align-items-center justify-content-center min-vh-100"><div class="card shadow-lg p-5 rounded-4 text-center" style="max-width: 600px;"><div class="display-4 text-success mb-3">✅</div><h3 class="fw-bold text-dark mb-2">Cache Deployment Berhasil Dibersihkan!</h3><p class="text-muted small">Seluruh cache template blade, routes, config, dan session view di server telah diperbarui 100% ke versi kode terbaru.</p><hr class="my-4"><div class="d-grid gap-2"><a href="/permohonan-informasi" class="btn btn-primary fw-bold py-2.5 rounded-pill">👉 Lihat Halaman Permohonan Informasi Baru (ATM BPSDMP)</a><a href="/permohonan/isi" class="btn btn-outline-primary fw-bold py-2.5 rounded-pill">📝 Lihat Formulir Permohonan Lengkap</a><a href="/profil/pejabat" class="btn btn-outline-secondary fw-bold py-2 rounded-pill">👔 Lihat Profil Pejabat Format Kemenhub</a><a href="/" class="btn btn-link text-muted small">Kembali ke Beranda</a></div></div></body></html>';
+    } catch (\Throwable $e) {
+        return 'Error clearing deploy cache: ' . $e->getMessage();
+    }
+});
+
 Route::get('/setup-db-2025', function() {
     try {
         \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('view:clear');
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DipSeeder', '--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'UpdateProfilSeeder', '--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'PejabatSeeder', '--force' => true]);
@@ -267,9 +297,13 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         // Dashboard menunjukkan semua profil sections (Redirect to Halaman hub)
         Route::get('/', function() { return redirect()->route('halaman.index'); })->name('index');
         
-        // CRUD untuk setiap tipe profil
+        // CRUD untuk setiap tipe profil (lengkap dengan alias edit)
         Route::get('/profil/{type}', [ProfilPpidController::class, 'edit'])->name('edit');
+        Route::get('/edit/{type}', [ProfilPpidController::class, 'edit']);
+        Route::get('/{type}', [ProfilPpidController::class, 'edit']);
         Route::put('/profil/{type}', [ProfilPpidController::class, 'update'])->name('update');
+        Route::put('/edit/{type}', [ProfilPpidController::class, 'update']);
+        Route::put('/{type}', [ProfilPpidController::class, 'update']);
 
         Route::delete('/{type}', [ProfilPpidController::class, 'destroy'])->name('destroy');
     });
@@ -313,6 +347,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/sop-permintaan', function() { return view('admin.prosedur.sop-permintaan'); })->name('sop-permintaan');
         Route::get('/sop-keberatan', function() { return view('admin.prosedur.sop-keberatan'); })->name('sop-keberatan');
         Route::get('/sop-sengketa', function() { return view('admin.prosedur.sop-sengketa'); })->name('sop-sengketa');
+        Route::get('/{slug}', function($slug) {
+            if (view()->exists('admin.prosedur.' . $slug)) {
+                return view('admin.prosedur.' . $slug);
+            }
+            return app(\App\Http\Controllers\ProfilPpidController::class)->edit($slug);
+        });
         Route::post('/save-sop-settings', [ProsedurController::class, 'updateSettings'])->name('save-sop-settings');
     });
 
@@ -407,6 +447,11 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
 
     Route::resource('/user-management', UserController::class)->names('admin.users')->parameters(['user-management' => 'user']);
     Route::get('/settings', [DashboardController::class, 'settings'])->name('admin.settings');
+
+    // Aliases for admin links in documentation
+    Route::redirect('/permohonan-informasi', '/admin/permohonan');
+    Route::redirect('/keberatan', '/admin/permohonan');
+    Route::redirect('/kontak', '/admin/pesan-kontak');
 
 });
 
