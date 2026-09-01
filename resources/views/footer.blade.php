@@ -63,7 +63,6 @@
                 <ul class="list-unstyled small">
                     <li class="mb-2"><a href="{{ route('layanan.maklumat-pelayanan') }}" class="text-decoration-none text-reset opacity-75">Maklumat Pelayanan</a></li>
                     <li class="mb-2"><a href="{{ route('layanan.laporan-layanan') }}" class="text-decoration-none text-reset opacity-75">Laporan Tahunan</a></li>
-                    <li class="mb-2"><a href="{{ route('faq.public') }}" class="text-decoration-none text-reset opacity-75">FAQ</a></li>
                     <li class="mb-2"><a href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" class="text-decoration-none text-reset opacity-75">Permohonan Informasi</a></li>
                 </ul>
             </div>

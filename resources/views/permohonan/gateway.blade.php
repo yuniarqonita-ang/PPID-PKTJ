@@ -430,6 +430,11 @@
                 Masuk dengan SSO Kemenhub
             </a>
 
+            <a href="https://bpsdm.kemenhub.go.id/ppid/pktj/login" target="_blank" class="btn-auth-secondary" style="border-color: #0284c7; background: #f0f9ff; color: #0369a1;">
+                <i class="fas fa-network-wired text-info"></i>
+                PPID Terpusat BPSDM Perhubungan
+            </a>
+
             <div class="or-divider">BELUM PUNYA AKUN?</div>
 
             <a href="{{ route('register') }}" class="btn-register-outline">

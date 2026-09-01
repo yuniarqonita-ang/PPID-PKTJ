@@ -306,8 +306,8 @@
                     <kbd class="bg-black bg-opacity-25 text-white-50 px-1.5 py-0.5 rounded border border-white border-opacity-25 d-none d-xl-inline" style="font-size: 10px;">Ctrl+K</kbd>
                 </button>
 
-                <!-- PERMOHONAN INFORMASI -->
-                <a class="btn btn-warning fw-bold px-3.5 py-2 text-dark rounded-pill shadow-sm d-flex align-items-center gap-1.5" href="{{ route('permohonan.gateway') }}" style="font-size: 12px; letter-spacing: 0.5px; white-space: nowrap;">
+                <!-- PERMOHONAN INFORMASI (BPSDMP) -->
+                <a class="btn btn-warning fw-bold px-3.5 py-2 text-dark rounded-pill shadow-sm d-flex align-items-center gap-1.5" href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" style="font-size: 12px; letter-spacing: 0.5px; white-space: nowrap;">
                     <i class="fas fa-file-signature"></i>
                     <span>PERMOHONAN INFORMASI</span>
                 </a>
