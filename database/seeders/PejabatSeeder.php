@@ -14,15 +14,17 @@ class PejabatSeeder extends Seeder
     {
         $pejabats = [
             [
-                'nama' => 'Bambang Istiyanto, S.SiT., M.T.',
+                'nama' => 'Dr. Ir. Bambang Istiyanto, S.SiT., M.T., IPU',
                 'nip' => '19730514 199803 1 002',
                 'jabatan' => 'Direktur Politeknik Keselamatan Transportasi Jalan',
                 'tempat_tanggal_lahir' => null,
                 'foto' => 'images/pejabat/Bambang Istiyanto.png',
-                'biografi' => 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Memimpin penyelenggaraan pendidikan vokasi keselamatan transportasi darat, tata kelola BLU, dan penguatan keterbukaan informasi publik di lingkungan BPSDMP Kementerian Perhubungan.',
+                'biografi' => 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Meraih gelar Doktor Teknik Sipil di Universitas Islam Sultan Agung (UNISSULA) Semarang dengan disertasi Model Evaluasi Keberhasilan Program Keselamatan Jalan Perkotaan Berbasis Safety Performance Function (SPF) dan Crash Modification Factor (CMF) dengan Pendekatan System Dynamics. Memimpin penyelenggaraan pendidikan vokasi keselamatan transportasi darat, tata kelola BLU, dan penguatan keterbukaan informasi publik di lingkungan BPSDMP Kementerian Perhubungan.',
                 'pendidikan' => [
-                    'S2 - Magister Teknik Sipil / Transportasi, Institut Teknologi Bandung (ITB)',
-                    'D4 / S1 Terapan - Sarjana Sains Terapan Transportasi, Sekolah Tinggi Transportasi Darat (STTD)',
+                    'S3 - Doktor (Dr.) Teknik Sipil, Universitas Islam Sultan Agung (UNISSULA) Semarang',
+                    'Profesi Insinyur - Insinyur Profesional Utama (IPU), Persatuan Insinyur Indonesia (PII)',
+                    'S2 - Magister Teknik (M.T.) Sipil / Transportasi, Institut Teknologi Bandung (ITB)',
+                    'D4 / S1 Terapan - Sarjana Sains Terapan Transportasi (S.SiT), Sekolah Tinggi Transportasi Darat (STTD)',
                     'Pendidikan dan Pelatihan Penjenjangan Kepemimpinan Administrator (PIM Tingkat III)'
                 ],
                 'riwayat_jabatan' => [

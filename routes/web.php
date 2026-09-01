@@ -240,6 +240,19 @@ Route::get('/refresh-deploy', function() {
         try {
             \App\Models\Pejabat::where('nama', 'LIKE', '%Prima%')
                 ->update(['foto' => 'images/pejabat/Prima Anna Maria.png']);
+
+            \App\Models\Pejabat::where('nama', 'LIKE', '%Bambang%')
+                ->update([
+                    'nama' => 'Dr. Ir. Bambang Istiyanto, S.SiT., M.T., IPU',
+                    'biografi' => 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Meraih gelar Doktor Teknik Sipil di Universitas Islam Sultan Agung (UNISSULA) Semarang dengan disertasi Model Evaluasi Keberhasilan Program Keselamatan Jalan Perkotaan Berbasis Safety Performance Function (SPF) dan Crash Modification Factor (CMF) dengan Pendekatan System Dynamics. Memimpin penyelenggaraan pendidikan vokasi keselamatan transportasi darat, tata kelola BLU, dan penguatan keterbukaan informasi publik di lingkungan BPSDMP Kementerian Perhubungan.',
+                    'pendidikan' => [
+                        'S3 - Doktor (Dr.) Teknik Sipil, Universitas Islam Sultan Agung (UNISSULA) Semarang',
+                        'Profesi Insinyur - Insinyur Profesional Utama (IPU), Persatuan Insinyur Indonesia (PII)',
+                        'S2 - Magister Teknik (M.T.) Sipil / Transportasi, Institut Teknologi Bandung (ITB)',
+                        'D4 / S1 Terapan - Sarjana Sains Terapan Transportasi (S.SiT), Sekolah Tinggi Transportasi Darat (STTD)',
+                        'Pendidikan dan Pelatihan Penjenjangan Kepemimpinan Administrator (PIM Tingkat III)'
+                    ]
+                ]);
             
             \App\Models\Dashboard::updateOrCreate(
                 ['key' => 'link_permohonan_bpsdm'],
