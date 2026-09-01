@@ -87,7 +87,7 @@ class LoginController extends Controller
     }
 
     /**
-     * Placeholder Login Google
+     * Google Login entry point
      */
     public function googleLogin()
     {
@@ -98,6 +98,53 @@ class LoginController extends Controller
             return redirect()->away($googleUrl);
         }
 
-        return back()->with('info', 'Layanan Login Google sedang dalam tahap konfigurasi OAuth.');
+        return redirect()->route('permohonan.gateway', ['action' => 'google-login']);
+    }
+
+    /**
+     * Proses Masuk Cepat Akun Google Pemohon
+     */
+    public function handleGoogleLogin(Request $request)
+    {
+        $request->validate([
+            'google_email' => 'required|email|max:255',
+            'google_name'  => 'required|string|max:255',
+        ], [
+            'google_email.required' => 'Email akun Google wajib diisi.',
+            'google_email.email'    => 'Format email Google tidak valid.',
+            'google_name.required'  => 'Nama pemilik akun Google wajib diisi.',
+        ]);
+
+        $email = strtolower(trim($request->google_email));
+        $name  = trim($request->google_name);
+
+        $user = \App\Models\User::where('email', $email)->first();
+
+        if (!$user) {
+            $baseUsername = explode('@', $email)[0];
+            $username = preg_replace('/[^a-zA-Z0-9_]/', '', $baseUsername);
+            if (empty($username) || \App\Models\User::where('username', $username)->exists()) {
+                $username = $username . rand(100, 999);
+            }
+
+            $user = \App\Models\User::create([
+                'name'              => $name,
+                'email'             => $email,
+                'username'          => $username,
+                'password'          => \Illuminate\Support\Facades\Hash::make(\Illuminate\Support\Str::random(24)),
+                'role'              => 'pemohon',
+                'status'            => 'active',
+                'email_verified_at' => now(),
+            ]);
+        }
+
+        Auth::login($user, true);
+        $request->session()->regenerate();
+
+        if ($user->role === 'admin') {
+            return redirect()->intended('/admin/dashboard');
+        }
+
+        return redirect()->route('permohonan.create')->with('success', 'Berhasil masuk dengan akun Google: ' . $user->email);
     }
 }

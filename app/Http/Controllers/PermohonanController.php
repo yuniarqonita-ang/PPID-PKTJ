@@ -79,32 +79,21 @@ class PermohonanController extends Controller
      */
     public function form()
     {
-        $user = \Illuminate\Support\Facades\Auth::user();
-        $sessionApplicant = session('pemohon_identity');
-
-        // Standardize applicant object if available
-        $applicant = null;
-        if ($user) {
-            $applicant = (object)[
-                'name' => $user->name,
-                'email' => $user->email,
-                'no_telp' => $user->no_telp ?? '-',
-                'nomor_identitas' => $user->nomor_identitas ?? '-',
-                'pekerjaan' => $user->pekerjaan ?? '-',
-                'alamat' => $user->alamat ?? '-',
-                'is_auth' => true
-            ];
-        } elseif ($sessionApplicant) {
-            $applicant = (object)[
-                'name' => $sessionApplicant['nama_pemohon'],
-                'email' => $sessionApplicant['email'],
-                'no_telp' => $sessionApplicant['no_telp'],
-                'nomor_identitas' => $sessionApplicant['nomor_identitas'],
-                'pekerjaan' => $sessionApplicant['pekerjaan'] ?? '-',
-                'alamat' => $sessionApplicant['alamat'],
-                'is_auth' => false
-            ];
+        if (!\Illuminate\Support\Facades\Auth::check()) {
+            return redirect()->route('permohonan.gateway')->with('info', 'Silakan masuk ke akun Anda terlebih dahulu untuk mengajukan permohonan informasi publik.');
         }
+
+        $user = \Illuminate\Support\Facades\Auth::user();
+
+        $applicant = (object)[
+            'name' => $user->name,
+            'email' => $user->email,
+            'no_telp' => $user->no_telp ?? '-',
+            'nomor_identitas' => $user->nomor_identitas ?? '-',
+            'pekerjaan' => $user->pekerjaan ?? '-',
+            'alamat' => $user->alamat ?? '-',
+            'is_auth' => true
+        ];
 
         $schema = $this->getFormSchema();
         $sectionTitle = $schema['section_title'];

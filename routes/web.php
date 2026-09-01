@@ -177,6 +177,9 @@ Route::get('/register', [\App\Http\Controllers\Auth\RegisteredUserController::cl
 Route::post('/register', [\App\Http\Controllers\Auth\RegisteredUserController::class, 'store']);
 
 Route::get('/auth/google', [LoginController::class, 'googleLogin'])->name('auth.google');
+Route::post('/auth/google', [LoginController::class, 'handleGoogleLogin'])->name('auth.google.post');
+Route::post('/auth/google/callback', [LoginController::class, 'handleGoogleLogin']);
+Route::get('/auth/google/callback', [LoginController::class, 'handleGoogleLogin']);
 Route::get('/auth/sso-kemenhub', [LoginController::class, 'ssoKemenhub'])->name('auth.sso-kemenhub');
 
 // Logout dibuat fleksibel agar tidak error di app.blade maupun dashboard.blade
