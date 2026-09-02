@@ -21,6 +21,15 @@ class HalamanCustomController extends Controller
             $inputs['bisa_download'] = $request->has('bisa_download') ? '1' : '0';
         }
         
+        try {
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dashboards` ADD COLUMN `aktif` tinyint(1) NOT NULL DEFAULT 1 AFTER `description`");
+        } catch (\Throwable $e) {}
+
+        $hasAktif = false;
+        try {
+            $hasAktif = \Illuminate\Support\Facades\Schema::hasColumn('dashboards', 'aktif');
+        } catch (\Throwable $e) {}
+
         foreach ($inputs as $key => $value) {
             // Skip keys that are actually files
             if ($request->hasFile($key)) continue;
@@ -28,10 +37,11 @@ class HalamanCustomController extends Controller
             $settingKey = $type . '_' . $key;
             
             if(!is_array($value)) {
-                Dashboard::updateOrCreate(
-                    ['key' => $settingKey],
-                    ['value' => $value ?? '', 'type' => 'text', 'aktif' => true, 'description' => "Teks dinamis untuk $type $key"]
-                );
+                $payload = ['value' => $value ?? '', 'type' => 'text', 'description' => "Teks dinamis untuk $type $key"];
+                if ($hasAktif) {
+                    $payload['aktif'] = true;
+                }
+                Dashboard::updateOrCreate(['key' => $settingKey], $payload);
             }
         }
 
@@ -57,10 +67,11 @@ class HalamanCustomController extends Controller
                         Storage::disk('public')->delete('halaman/' . $old->value);
                     }
                     
-                    Dashboard::updateOrCreate(
-                        ['key' => $settingKey],
-                        ['value' => $filename, 'type' => 'file', 'aktif' => true, 'description' => "File untuk $type $key"]
-                    );
+                    $payload = ['value' => $filename, 'type' => 'file', 'description' => "File untuk $type $key"];
+                    if ($hasAktif) {
+                        $payload['aktif'] = true;
+                    }
+                    Dashboard::updateOrCreate(['key' => $settingKey], $payload);
                 }
             }
         }

@@ -67,7 +67,7 @@ class RegulasiBpsdmPktjSeeder extends Seeder
             // =========================================================================
             [
                 'judul' => 'Peraturan Komisi Informasi Pusat Nomor 1 Tahun 2021',
-                'nomor' => 'Perki No. 1 Tahun 2021',
+                'nomor' => 'Peraturan KIP No. 1 Tahun 2021',
                 'tahun' => 2021,
                 'deskripsi' => 'tentang Standar Layanan Informasi Publik (SLIP)',
                 'kategori' => 'Komisi Informasi Pusat',
@@ -77,7 +77,7 @@ class RegulasiBpsdmPktjSeeder extends Seeder
             ],
             [
                 'judul' => 'Peraturan Komisi Informasi Pusat Nomor 1 Tahun 2013',
-                'nomor' => 'Perki No. 1 Tahun 2013',
+                'nomor' => 'Peraturan KIP No. 1 Tahun 2013',
                 'tahun' => 2013,
                 'deskripsi' => 'tentang Prosedur Penyelesaian Sengketa Informasi Publik',
                 'kategori' => 'Komisi Informasi Pusat',

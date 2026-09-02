@@ -289,7 +289,7 @@
                             </div>
                             <h5 class="outfit fw-bold text-dark mb-2">2. Meja Layanan Fisik (Luring / Offline)</h5>
                             <p class="text-muted small mb-3" style="line-height: 1.6;">
-                                Meja Layanan Terpadu PPID di <strong>Kampus I PKTJ Tegal</strong>, Jl. Perintis Kemerdekaan No. 17, Kota Tegal. Dilengkapi sarana komputer akses publik, ruang tunggu nyaman, dan formulir permohonan cetak & Braille.
+                                Meja Layanan Terpadu PPID di <strong>Kampus II PKTJ Tegal</strong>, Jl. Abdul Syukur No. 17, Margadana, Kota Tegal. Dilengkapi sarana komputer akses publik, ruang tunggu nyaman, dan formulir permohonan cetak & Braille.
                             </p>
                             <div class="badge bg-light text-dark border px-2.5 py-1.5 rounded-pill font-monospace" style="font-size: 11.5px;">
                                 <i class="far fa-clock me-1 text-primary"></i> Senin-Jumat: 08.00 - 15.30 WIB

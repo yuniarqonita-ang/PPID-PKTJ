@@ -347,13 +347,16 @@
                                         </p>
                                     @endif
 
-                                    @if(!empty($pejabat->lhkpn_file) && has_valid_document($pejabat->lhkpn_file))
-                                    <div class="mt-2">
-                                        <a href="{{ asset($pejabat->lhkpn_file) }}" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: none;">
-                                            <i class="fas fa-file-pdf me-1 text-danger"></i> LHKPN {{ $pejabat->nama }}
+                                    <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
+                                        <a href="{{ route('profil.pejabat') }}#pejabat-{{ $pejabat->id }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                            <i class="fas fa-id-card me-1"></i> Tautan Profil Pejabat
                                         </a>
+                                        @if(!empty($pejabat->lhkpn_file) && has_valid_document($pejabat->lhkpn_file))
+                                            <a href="{{ asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                                <i class="fas fa-file-pdf me-1"></i> Unduh LHKPN
+                                            </a>
+                                        @endif
                                     </div>
-                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -578,67 +581,215 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>            <!-- ATM POLTRADA BALI: TABEL DAFTAR INFORMASI PUBLIK (DIP) BERKALA -->
+            <div class="my-5 p-4 p-md-5 rounded-4 border shadow-sm bg-white" style="border-color: #cbd5e1;" data-aos="fade-up">
+                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
+                    <div>
+                        <div class="badge bg-primary text-white font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">
+                            <i class="fas fa-table me-1"></i> Standar DIP Berkala Kemenhub & Poltrada
+                        </div>
+                        <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.65rem;">
+                            Tabel Daftar Informasi Publik (DIP) Berkala
+                        </h3>
+                        <p class="text-muted small mb-0">Format master tabel informasi berkala yang dikuasai dan dipublikasikan resmi oleh PPID Pelaksana PKTJ Tegal.</p>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="button" id="btnModeTable" class="btn btn-primary btn-sm rounded-pill px-4 py-2 fw-bold" onclick="switchBerkalaDisplay('table')">
+                            <i class="fas fa-table-list me-1"></i> Tampilan Tabel DIP
+                        </button>
+                        <button type="button" id="btnModeCards" class="btn btn-outline-secondary btn-sm rounded-pill px-4 py-2 fw-bold" onclick="switchBerkalaDisplay('cards')">
+                            <i class="fas fa-th-large me-1"></i> Tampilan Kartu
+                        </button>
+                    </div>
+                </div>
 
-            <!-- DOKUMEN LAINNYA DI INFORMASI BERKALA -->
-            <h3 class="fw-bold outfit text-dark mb-4" style="color: #004a99; font-size: 1.5rem;">
-                <i class="fas fa-file-alt me-2 text-primary"></i> Dokumen & Laporan Informasi Berkala
-            </h3>
+                <!-- 1. TABEL VIEW (STANDAR RESMI POLTRADA & KEMENHUB - 9 KOLOM) -->
+                <div id="berkalaTableView" class="table-responsive rounded-3 border mb-4" style="border-color: #e2e8f0;">
+                    <table class="table table-hover align-middle mb-0" style="font-size: 13px;">
+                        <thead style="background: #002b5c; color: white;">
+                            <tr>
+                                <th class="text-center py-3 px-2" style="width: 50px;">No</th>
+                                <th class="py-3 px-3" style="min-width: 180px;">Informasi</th>
+                                <th class="py-3 px-3" style="min-width: 250px;">Ringkasan Informasi</th>
+                                <th class="py-3 px-3" style="min-width: 160px;">Pejabat yang Menguasai Informasi</th>
+                                <th class="py-3 px-3" style="min-width: 150px;">Penerbit Informasi</th>
+                                <th class="py-3 px-2 text-center" style="min-width: 130px;">Bentuk Informasi</th>
+                                <th class="py-3 px-3 text-center" style="min-width: 140px;">Waktu & Tempat Pembuatan</th>
+                                <th class="py-3 px-2 text-center" style="min-width: 110px;">Retensi Arsip</th>
+                                <th class="py-3 px-3 text-center" style="min-width: 130px;">Tautan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- KELOMPOK: PROFIL KELEMBAGAAN & PEJABAT (ATM POLTRADA BALI) -->
+                            <tr class="table-light fw-bold">
+                                <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
+                                    <i class="fas fa-university me-2"></i> PROFIL & KELEMBAGAAN
+                                </td>
+                            </tr>
+                            <tr class="searchable-berkala-row" data-keywords="profil pktj tegal gambaran umum tugas fungsi kedudukan alamat kontak">
+                                <td class="text-center fw-bold">1</td>
+                                <td><strong class="text-dark">Profil PKTJ Tegal</strong></td>
+                                <td class="text-muted">Informasi mengenai kedudukan, alamat kampus I & II, kontak resmi, gambaran umum, tugas dan fungsi, serta visi-misi PKTJ Tegal.</td>
+                                <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                                <td>Bagian Keuangan dan Umum</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">Hardcopy & Softcopy</span></td>
+                                <td class="text-center">Tegal, 2025</td>
+                                <td class="text-center">1 Tahun</td>
+                                <td class="text-center">
+                                    <a href="{{ url('/profil/profil-ppid') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                        Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="searchable-berkala-row" data-keywords="struktur organisasi ppid pktj bagian unit pelaksana struktural">
+                                <td class="text-center fw-bold">2</td>
+                                <td><strong class="text-dark">Struktur Organisasi PKTJ Tegal</strong></td>
+                                <td class="text-muted">Bagan struktur pejabat pimpinan, unit kerja struktural/fungsional, dan susunan PPID Pelaksana PKTJ.</td>
+                                <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                                <td>Bagian Keuangan dan Umum</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">Hardcopy & Softcopy</span></td>
+                                <td class="text-center">Tegal, 2025</td>
+                                <td class="text-center">1 Tahun</td>
+                                <td class="text-center">
+                                    <a href="{{ url('/profil/struktur-organisasi') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                        Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="searchable-berkala-row" data-keywords="profil singkat pejabat pktj pimpinan direktur wakil biografi riwayat jabatan">
+                                <td class="text-center fw-bold">3</td>
+                                <td><strong class="text-dark">Profil Singkat Pejabat PKTJ Tegal</strong></td>
+                                <td class="text-muted">Data diri pimpinan pejabat struktural, riwayat pendidikan, rekam jejak karir, serta tugas dan wewenang jajaran pimpinan.</td>
+                                <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                                <td>Bagian Keuangan dan Umum</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">Softcopy</span></td>
+                                <td class="text-center">Tegal, 2025</td>
+                                <td class="text-center">1 Tahun</td>
+                                <td class="text-center">
+                                    <a href="{{ route('profil.pejabat') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                        Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="searchable-berkala-row" data-keywords="lhkpn laporan harta kekayaan pejabat negara kpk kepatuhan pejabat pimpinan">
+                                <td class="text-center fw-bold">4</td>
+                                <td><strong class="text-dark">Laporan Harta Kekayaan Pejabat Negara (LHKPN)</strong></td>
+                                <td class="text-muted">Laporan LHKPN pimpinan yang telah diverifikasi dan diumumkan oleh Komisi Pemberantasan Korupsi (KPK RI).</td>
+                                <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                                <td>Bagian Keuangan dan Umum</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">Hardcopy & Softcopy</span></td>
+                                <td class="text-center">Tegal, 2025</td>
+                                <td class="text-center">1 Tahun</td>
+                                <td class="text-center">
+                                    <a href="{{ route('profil.pejabat') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                        Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </td>
+                            </tr>
 
-            <div class="row mt-2" id="berkalaItemsContainer">
-                @forelse($items as $item)
-                    <div class="col-12 searchable-berkala-item" data-keywords="{{ strtolower($item->judul . ' ' . strip_tags($item->deskripsi)) }}">
-                        <div class="info-item hover-lift" data-aos="fade-up">
-                            <div class="d-flex align-items-start flex-column flex-md-row gap-4">
-                                <div class="info-icon">
-                                    <i class="fas fa-calendar-check"></i>
-                                </div>
-                                <div class="flex-grow-1 w-100" style="min-width: 0;">
-                                    <h4 class="fw-bold outfit text-dark mb-3" style="font-size: 1.35rem; line-height: 1.4;">{{ $item->judul }}</h4>
-                                    <div class="rich-content mb-4">
-                                        {!! $item->deskripsi ?? 'Tidak ada deskripsi' !!}
-                                    </div>
-                                    <div class="d-flex align-items-center justify-content-between pt-3 border-top flex-wrap gap-3">
-                                        <div class="d-flex gap-2 flex-wrap">
-                                            <span class="badge bg-light text-primary border px-3 py-2 rounded-pill" style="font-size: 12px;">
-                                                <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->translatedFormat('d F Y') }}
-                                            </span>
-                                            @if(has_valid_document($item->file_path) && isset($item->file_size) && $item->file_size !== '-' && $item->file_size !== '')
-                                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill" style="font-size: 12px;">
-                                                <i class="fas fa-file-pdf me-1 text-danger"></i> {{ $item->file_size }}
-                                            </span>
-                                            @endif
+                            <!-- KELOMPOK: PROGRAM, KINERJA & DOKUMEN BERKALA -->
+                            @if(isset($items) && $items->count() > 0)
+                            <tr class="table-light fw-bold">
+                                <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
+                                    <i class="fas fa-folder-open me-2"></i> PROGRAM, KINERJA & ARSIP BERKALA
+                                </td>
+                            </tr>
+                            @foreach($items as $idx => $it)
+                            @php
+                                $rowNo = $idx + 5;
+                                $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 130);
+                                if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
+                                    $cleanDesc = 'Dokumen berkala keterbukaan informasi publik resmi Politeknik Keselamatan Transportasi Jalan Tegal.';
+                                }
+                                $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
+                            @endphp
+                            <tr class="searchable-berkala-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc) }}">
+                                <td class="text-center fw-bold">{{ $rowNo }}</td>
+                                <td><strong class="text-dark">{{ $it->judul }}</strong></td>
+                                <td class="text-muted small">{{ $cleanDesc }}</td>
+                                <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                                <td>Bagian Keuangan dan Umum</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
+                                <td class="text-center">Tegal, {{ $tahun }}</td>
+                                <td class="text-center">1 Tahun</td>
+                                <td class="text-center">
+                                    @if(has_valid_document($it->file_path))
+                                        <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" 
+                                                style="font-size: 11.5px;"
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#previewModal" 
+                                                data-url="{{ route('preview.dokumen', ['file' => $it->file_path, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
+                                            Disini <i class="fas fa-file-pdf ms-1"></i>
+                                        </button>
+                                    @else
+                                        <span class="badge bg-light text-muted border">Tersedia Fisik</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 2. CARDS VIEW (ALTERNATIF TAMPILAN RINCI) -->
+                <div id="berkalaCardsView" style="display: none;">
+                    <div class="row mt-2" id="berkalaItemsContainer">
+                        @forelse($items as $item)
+                            <div class="col-12 searchable-berkala-item" data-keywords="{{ strtolower($item->judul . ' ' . strip_tags($item->deskripsi)) }}">
+                                <div class="info-item hover-lift mb-3" data-aos="fade-up">
+                                    <div class="d-flex align-items-start flex-column flex-md-row gap-4">
+                                        <div class="info-icon">
+                                            <i class="fas fa-calendar-check"></i>
                                         </div>
-                                        @if(has_valid_document($item->file_path))
-                                        <div class="d-flex gap-2 flex-wrap">
-                                            @if(is_previewable($item->file_path))
-                                             <button type="button" 
-                                                    class="btn-download-premium" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#previewModal" 
-                                                    data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
-                                                <i class="fas fa-eye"></i> Lihat Dokumen
-                                            </button>
-                                            @endif
-                                            @if($item->bisa_download)
-                                            <a href="{{ route('download.file', ['model' => 'berkala', 'id' => $item->id]) }}" class="btn-download-premium" style="background: #198754; color: white;">
-                                                <i class="fas fa-download"></i> Unduh
-                                            </a>
-                                            @endif
+                                        <div class="flex-grow-1 w-100" style="min-width: 0;">
+                                            <h4 class="fw-bold outfit text-dark mb-3" style="font-size: 1.35rem; line-height: 1.4;">{{ $item->judul }}</h4>
+                                            <div class="rich-content mb-4">
+                                                {!! $item->deskripsi ?? 'Tidak ada deskripsi' !!}
+                                            </div>
+                                            <div class="d-flex align-items-center justify-content-between pt-3 border-top flex-wrap gap-3">
+                                                <div class="d-flex gap-2 flex-wrap">
+                                                    <span class="badge bg-light text-primary border px-3 py-2 rounded-pill" style="font-size: 12px;">
+                                                        <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->translatedFormat('d F Y') }}
+                                                    </span>
+                                                    @if(has_valid_document($item->file_path) && isset($item->file_size) && $item->file_size !== '-' && $item->file_size !== '')
+                                                    <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill" style="font-size: 12px;">
+                                                        <i class="fas fa-file-pdf me-1 text-danger"></i> {{ $item->file_size }}
+                                                    </span>
+                                                    @endif
+                                                </div>
+                                                @if(has_valid_document($item->file_path))
+                                                <div class="d-flex gap-2 flex-wrap">
+                                                    @if(is_previewable($item->file_path))
+                                                     <button type="button" 
+                                                            class="btn-download-premium" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#previewModal" 
+                                                            data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
+                                                        <i class="fas fa-eye"></i> Lihat Dokumen
+                                                    </button>
+                                                    @endif
+                                                    @if($item->bisa_download)
+                                                    <a href="{{ route('download.file', ['model' => 'berkala', 'id' => $item->id]) }}" class="btn-download-premium" style="background: #198754; color: white;">
+                                                        <i class="fas fa-download"></i> Unduh
+                                                    </a>
+                                                    @endif
+                                                </div>
+                                                @endif
+                                            </div>
                                         </div>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        @empty
+                            <div class="col-12 text-center py-5">
+                                <i class="fas fa-folder-open fa-4x text-muted mb-4 opacity-25"></i>
+                                <h3 class="text-muted outfit fw-bold">Data Belum Tersedia</h3>
+                                <p class="text-muted">Belum ada data informasi berkala tersedia saat ini.</p>
+                            </div>
+                        @endforelse
                     </div>
-                @empty
-                    <div class="col-12 text-center py-5">
-                        <i class="fas fa-folder-open fa-4x text-muted mb-4 opacity-25"></i>
-                        <h3 class="text-muted outfit fw-bold">Data Belum Tersedia</h3>
-                        <p class="text-muted">Belum ada data informasi berkala tersedia saat ini.</p>
-                    </div>
-                @endforelse
+                </div>
             </div>
         </div>
     </div>
@@ -650,16 +801,58 @@
     <script>
         AOS.init({duration: 800, once: true});
 
+        function switchBerkalaDisplay(mode) {
+            const tbl = document.getElementById('berkalaTableView');
+            const crd = document.getElementById('berkalaCardsView');
+            const btnTbl = document.getElementById('btnModeTable');
+            const btnCrd = document.getElementById('btnModeCards');
+            if (!tbl || !crd) return;
+
+            if (mode === 'table') {
+                tbl.style.display = 'block';
+                crd.style.display = 'none';
+                if (btnTbl) {
+                    btnTbl.classList.add('btn-primary');
+                    btnTbl.classList.remove('btn-outline-secondary');
+                }
+                if (btnCrd) {
+                    btnCrd.classList.add('btn-outline-secondary');
+                    btnCrd.classList.remove('btn-primary');
+                }
+            } else {
+                tbl.style.display = 'none';
+                crd.style.display = 'block';
+                if (btnCrd) {
+                    btnCrd.classList.add('btn-primary');
+                    btnCrd.classList.remove('btn-outline-secondary');
+                }
+                if (btnTbl) {
+                    btnTbl.classList.add('btn-outline-secondary');
+                    btnTbl.classList.remove('btn-primary');
+                }
+            }
+        }
+
         function filterBerkalaContent() {
             const query = document.getElementById('topSearchInputBerkala').value.toLowerCase().trim();
             
-            // Filter berkala items
+            // Filter berkala items (cards)
             document.querySelectorAll('.searchable-berkala-item').forEach(el => {
                 const kw = el.getAttribute('data-keywords') || '';
                 if (!query || kw.includes(query)) {
                     el.classList.remove('d-none');
                 } else {
                     el.classList.add('d-none');
+                }
+            });
+
+            // Filter berkala table rows
+            document.querySelectorAll('.searchable-berkala-row').forEach(row => {
+                const kw = row.getAttribute('data-keywords') || '';
+                if (!query || kw.includes(query) || row.innerText.toLowerCase().includes(query)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
                 }
             });
 

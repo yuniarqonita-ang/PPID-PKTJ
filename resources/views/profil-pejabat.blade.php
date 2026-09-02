@@ -182,7 +182,7 @@
             <!-- GRID DAFTAR PEJABAT SESUAI FORMAT RESMI KEMENHUB -->
             <div class="row g-4">
                 @forelse($pejabats as $pejabat)
-                <div class="col-lg-6 col-12" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 50 }}">
+                <div class="col-lg-6 col-12" id="pejabat-{{ $pejabat->id }}" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 50 }}">
                     <div class="kemenhub-pejabat-box">
                         
                         <!-- Header Jabatan & Nama -->

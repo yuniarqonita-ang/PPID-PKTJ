@@ -32,10 +32,7 @@
 
         /* HERO LUXURY SECTION */
         .hero-regulasi {
-            background: linear-gradient(135deg, rgba(0, 43, 92, 0.95) 0%, rgba(0, 74, 153, 0.90) 100%), 
-                        url('https://images.unsplash.com/photo-1450133064473-71024230f91b?q=80&w=2070');
-            background-size: cover;
-            background-position: center;
+            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
             padding: 90px 0 110px;
             color: white;
             position: relative;
@@ -629,7 +626,7 @@
                             <i class="fas fa-landmark"></i>
                         </div>
                         <div>
-                            <div class="outfit fw-bold fs-4 text-dark mb-0">{{ $cntUU }} UU & {{ $cntKIP }} PerKI</div>
+                            <div class="outfit fw-bold fs-4 text-dark mb-0">{{ $cntUU }} UU & {{ $cntKIP }} Peraturan KIP</div>
                             <div class="text-muted small fw-medium">Regulasi Nasional</div>
                         </div>
                     </div>
@@ -637,7 +634,7 @@
                 <div class="col-6 col-lg-3">
                     <div class="stat-mini-card">
                         <div class="stat-icon-wrap" style="background: #fef3c7; color: #b45309;">
-                            <i class="fas fa-ship"></i>
+                            <i class="fas fa-building-columns"></i>
                         </div>
                         <div>
                             <div class="outfit fw-bold fs-4 text-dark mb-0">{{ $cntKemenhub }} PM/KM</div>
@@ -652,7 +649,7 @@
                         </div>
                         <div>
                             <div class="outfit fw-bold fs-4 text-dark mb-0">{{ $cntPKTJ }} SK/SOP</div>
-                            <div class="text-muted small fw-medium">Internal PKTJ Tegal</div>
+                            <div class="text-muted small fw-medium">PKTJ</div>
                         </div>
                     </div>
                 </div>
@@ -670,8 +667,8 @@
                     <p class="text-light opacity-75 small mb-0">Empat regulasi fundamental yang menjadi dasar operasional PPID Pelaksana PKTJ.</p>
                 </div>
                 <div class="d-none d-md-block">
-                    <a href="https://jdih.dephub.go.id/" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-3 py-2 fw-semibold">
-                        <i class="fas fa-external-link-alt me-1"></i> Portal JDIH Kemenhub
+                    <a href="https://bpsdm.kemenhub.go.id/jdih/" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-3 py-2 fw-semibold">
+                        <i class="fas fa-external-link-alt me-1"></i> Portal JDIH BPSDM Perhubungan
                     </a>
                 </div>
             </div>
@@ -719,17 +716,17 @@
                     </button>
 
                     <button class="category-nav-item" onclick="filterByCategory('Komisi Informasi Pusat', this)">
-                        <span><i class="fas fa-shield-alt me-2 text-pink"></i> Komisi Informasi (PerKI)</span>
+                        <span><i class="fas fa-shield-alt me-2 text-pink"></i> Peraturan KIP</span>
                         <span class="cat-counter">{{ $cntKIP }}</span>
                     </button>
 
                     <button class="category-nav-item" onclick="filterByCategory('Kementerian Perhubungan', this)">
-                        <span><i class="fas fa-ship me-2 text-info"></i> Kementerian Perhubungan</span>
+                        <span><i class="fas fa-building-columns me-2 text-info"></i> Kementerian Perhubungan</span>
                         <span class="cat-counter">{{ $cntKemenhub }}</span>
                     </button>
 
                     <button class="category-nav-item" onclick="filterByCategory('PKTJ Tegal', this)">
-                        <span><i class="fas fa-university me-2 text-warning"></i> Internal PKTJ Tegal</span>
+                        <span><i class="fas fa-university me-2 text-warning"></i> PKTJ</span>
                         <span class="cat-counter">{{ $cntPKTJ }}</span>
                     </button>
 
@@ -752,9 +749,9 @@
                     <!-- HELP BOX -->
                     <div class="p-3 rounded-4 bg-light border text-center">
                         <i class="fas fa-book-bookmark text-primary fs-4 mb-2"></i>
-                        <h6 class="fw-bold outfit text-dark mb-1" style="font-size: 13px;">JDIH Kemenhub</h6>
+                        <h6 class="fw-bold outfit text-dark mb-1" style="font-size: 13px;">JDIH BPSDM Perhubungan</h6>
                         <p class="text-muted small mb-2" style="font-size: 11.5px;">Cari peraturan transportasi terlengkap di Jaringan Dokumentasi dan Informasi Hukum.</p>
-                        <a href="https://jdih.dephub.go.id/" target="_blank" class="btn btn-primary btn-sm rounded-pill w-100 fw-bold" style="font-size: 11px;">
+                        <a href="https://bpsdm.kemenhub.go.id/jdih/" target="_blank" class="btn btn-primary btn-sm rounded-pill w-100 fw-bold" style="font-size: 11px;">
                             Buka JDIH <i class="fas fa-arrow-up-right-from-square ms-1"></i>
                         </a>
                     </div>

@@ -32,7 +32,7 @@
                 </div>
 
                 <div class="flex items-center gap-4">
-                    <a href="{{ route('layanan.laporan-layanan') }}" target="_blank" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                    <a href="{{ \Illuminate\Support\Facades\Route::has('layanan.laporan-layanan') ? route('layanan.laporan-layanan') : url('/layanan-informasi/laporan') }}" target="_blank" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
                         <i class="fas fa-eye mr-3"></i> Lihat Publik
                     </a>
                     <a href="{{ route('admin.dokumen.create', ['kategori' => 'Laporan Layanan']) }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">

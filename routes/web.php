@@ -315,6 +315,18 @@ Route::get('/refresh-deploy', function() {
                 'tagline_hero' => 'Tugas, Wewenang, dan Fungsi PPID PKTJ'
             ]);
 
+            // Pastikan kolom baru di dokumens dan dashboards tersedia di cPanel / live DB
+            try {
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `tanggal` date NULL AFTER `kategori`");
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `deskripsi` longtext NULL AFTER `tanggal`");
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_name` varchar(255) NULL AFTER `file_path`");
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_size` varchar(50) NULL AFTER `file_name`");
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_type` varchar(100) NULL AFTER `file_size`");
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `bisa_download` tinyint(1) NOT NULL DEFAULT 0 AFTER `aktif`");
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `is_blurred` tinyint(1) NOT NULL DEFAULT 0 AFTER `bisa_download`");
+                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dashboards` ADD COLUMN IF NOT EXISTS `aktif` tinyint(1) NOT NULL DEFAULT 1 AFTER `description`");
+            } catch (\Throwable $ex) {}
+
             // Auto-sync Campus Names & SP4N-LAPOR defaults
             $autoSettings = [
                 'kontak_kampus_1_nama' => 'Kampus Perintis',

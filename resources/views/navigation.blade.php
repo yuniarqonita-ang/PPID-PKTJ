@@ -264,7 +264,7 @@
                                         $childNama = $child->nama;
                                         $childUrl = $child->url;
                                         if ($child->slug === 'jdih-sub' || str_contains(strtolower($child->slug), 'jdih') || str_contains(strtolower($childUrl ?? ''), 'jdih') || str_contains(strtolower($childNama), 'jdih')) {
-                                            $childNama = 'JDIH BPSDM Kemenhub';
+                                            $childNama = 'JDIH BPSDM Perhubungan';
                                             $childUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
                                         }
                                         if (str_contains(strtolower($childNama), 'tanggung jawab') || str_contains(strtolower($childNama), 'tugas') || str_contains(strtolower($childUrl ?? ''), 'tugas') || str_contains(strtolower($child->slug ?? ''), 'tugas')) {
@@ -288,7 +288,7 @@
                                 $menuNama = $menu->nama;
                                 $menuUrl = $menu->url;
                                 if ($menu->slug === 'jdih-sub' || str_contains(strtolower($menu->slug), 'jdih') || str_contains(strtolower($menuUrl ?? ''), 'jdih') || str_contains(strtolower($menuNama), 'jdih')) {
-                                    $menuNama = 'JDIH BPSDM Kemenhub';
+                                    $menuNama = 'JDIH BPSDM Perhubungan';
                                     $menuUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
                                 }
                                 if (str_contains(strtolower($menuNama), 'tanggung jawab') || str_contains(strtolower($menuNama), 'tugas') || str_contains(strtolower($menuUrl ?? ''), 'tugas') || str_contains(strtolower($menu->slug ?? ''), 'tugas')) {

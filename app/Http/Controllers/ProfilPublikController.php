@@ -287,12 +287,12 @@ class ProfilPublikController extends Controller
                 : $query->orderBy('created_at', 'desc')->get();
         }
 
-        if ($type === 'laporan-layanan') {
+        if ($type === 'laporan-layanan' || $type === 'laporan_layanan') {
             $query = \App\Models\Dokumen::where('kategori', 'Laporan Layanan')->where('aktif', true);
             $extraData['laporan'] = $useTanggal 
                 ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
                 : $query->orderBy('created_at', 'desc')->get();
-        } elseif ($type === 'laporan-akses') {
+        } elseif ($type === 'laporan-akses' || $type === 'laporan_akses') {
             $query = \App\Models\Dokumen::where('kategori', 'Laporan Akses')->where('aktif', true);
             $extraData['laporan'] = $useTanggal 
                 ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
