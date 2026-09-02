@@ -442,10 +442,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/dikecualikan/{id}', [InformasiDikecualikanController::class, 'destroy'])->name('dikecualikan.destroy');
     });
 
-    // Dedicated AKIP indicator direct edit routes
-    Route::get('/akip/{code}/edit', [\App\Http\Controllers\AkipController::class, 'edit'])->name('admin.akip.edit');
-    Route::get('/akip/{code}', [\App\Http\Controllers\AkipController::class, 'edit']);
-
     // PKTJ News Sync & Clean
     Route::post('berita/sync-pktj', [BeritaController::class, 'syncPktjNews'])->name('admin.berita.sync-pktj');
     Route::post('berita/clean-dummy', [BeritaController::class, 'cleanDummy'])->name('admin.berita.clean-dummy');
