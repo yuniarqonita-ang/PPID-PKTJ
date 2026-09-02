@@ -1,14 +1,25 @@
 <!-- ULTRA-MODERN ACCESSIBILITY HUB (AUDIO SCREEN READER & VISUAL SETTINGS) -->
 <div id="neonAccessibilityWrapper">
 
-    <!-- FLOATING NEON PILL TRIGGER (DOCKABLE LEFT EDGE) -->
-    <button type="button" id="btnNeonAccessTrigger" class="neon-access-pill-trigger" onclick="toggleNeonAccessDrawer()" title="Aksesibilitas & Pembaca Suara (Alt + A)" aria-label="Buka Menu Aksesibilitas">
-        <div class="neon-pulse-ring"></div>
-        <div class="neon-icon-glow">
-            <i class="fas fa-universal-access"></i>
-        </div>
-        <span class="neon-pill-label">Aksesibilitas</span>
-    </button>
+    <!-- FLOATING NEON DOCK STACK (DOCKABLE LEFT EDGE) -->
+    <div class="neon-dock-stack">
+        <!-- Tombol Cepat: Langsung Bersuara (Ramah Tunanetra - Sekali Tekan Langsung Bicara) -->
+        <button type="button" id="btnNeonDirectSpeech" class="neon-access-pill-trigger neon-speech-trigger" onclick="toggleTextToSpeech()" title="Dengarkan Halaman Ini (Langsung Bersuara / Alt + S)" aria-label="Langsung Dengarkan Halaman">
+            <div class="neon-icon-glow">
+                <i class="fas fa-volume-high"></i>
+            </div>
+            <span class="neon-pill-label">Dengar Suara</span>
+        </button>
+
+        <!-- Tombol Buka Menu Pengaturan Visual & Huruf -->
+        <button type="button" id="btnNeonAccessTrigger" class="neon-access-pill-trigger" onclick="toggleNeonAccessDrawer()" title="Pusat Aksesibilitas & Tampilan (Alt + A)" aria-label="Buka Menu Aksesibilitas">
+            <div class="neon-pulse-ring"></div>
+            <div class="neon-icon-glow">
+                <i class="fas fa-universal-access"></i>
+            </div>
+            <span class="neon-pill-label">Aksesibilitas</span>
+        </button>
+    </div>
 
     <!-- BACKDROP BLUR OVERLAY -->
     <div id="neonAccessBackdrop" class="neon-access-backdrop" onclick="toggleNeonAccessDrawer()"></div>
@@ -37,22 +48,22 @@
         <!-- DRAWER SCROLLABLE BODY -->
         <div class="neon-drawer-body">
 
-            <!-- 1. PEMBACA SUARA OTOMATIS (CLICK-TO-SPEAK) -->
+            <!-- 1. PEMBACA SUARA OTOMATIS (LANGSUNG BERSUARA TANPA PERLU KLIK LAGI) -->
             <div class="neon-section-card mb-3">
                 <div class="neon-sec-title">
-                    <i class="fas fa-volume-high text-warning me-2"></i> Pembaca Suara (Screen Reader)
+                    <i class="fas fa-volume-high text-warning me-2"></i> Pembaca Suara Otomatis (Screen Reader)
                 </div>
                 <p class="neon-sec-desc">
-                    Mendengarkan isi konten situs secara otomatis menggunakan suara Bahasa Indonesia jernih.
+                    Sekali tekan tombol di bawah, sistem <strong>langsung bersuara membacakan judul dan seluruh isi halaman secara berurutan</strong> tanpa perlu melihat atau mengklik teks di layar.
                 </p>
 
                 <button type="button" id="btnTtsInteractive" class="neon-tts-btn w-100" onclick="toggleTextToSpeech()">
-                    <i class="fas fa-volume-high me-2 text-info fs-5"></i>
+                    <i class="fas fa-volume-high me-2 text-warning fs-5"></i>
                     <div class="text-start flex-grow-1">
-                        <span id="ttsBtnText" class="fw-bold">Mode Pembaca Suara (Klik Langsung Dibaca)</span>
-                        <span class="d-block text-white-50" style="font-size: 11px;">Klik teks mana saja di layar untuk langsung didengar tanpa perlu diblok</span>
+                        <span id="ttsBtnText" class="fw-bold">Bacakan Seluruh Halaman (Langsung Bersuara)</span>
+                        <span class="d-block text-white-50" style="font-size: 11px;">Membaca otomatis dari judul hingga akhir halaman (Ramah Tunanetra)</span>
                     </div>
-                    <span id="ttsStatusPill" class="badge bg-info text-dark">Aktifkan</span>
+                    <span id="ttsStatusPill" class="badge bg-warning text-dark">Mulai Bicara</span>
                 </button>
             </div>
 
@@ -144,10 +155,10 @@
 <!-- READING RULER GUIDE -->
 <div id="neonReadingGuideRuler" class="neon-reading-guide-ruler d-none"></div>
 
-<!-- FLOATING TTS ACTIVE PLAYER BANNER -->
-<div id="neonTtsFloatingBar" class="neon-tts-floating-bar d-none">
+<!-- FLOATING TTS ACTIVE PLAYER BANNER (SCREEN READER RAMAH TUNANETRA) -->
+<div id="neonTtsFloatingBar" class="neon-tts-floating-bar d-none" role="region" aria-label="Kontrol Pembaca Suara Halaman">
     <div class="neon-tts-floating-inner">
-        <div class="neon-tts-live-wave">
+        <div class="neon-tts-live-wave" id="ttsWaveAnimation">
             <span class="bar bar-1"></span>
             <span class="bar bar-2"></span>
             <span class="bar bar-3"></span>
@@ -155,18 +166,25 @@
         </div>
         <div class="neon-tts-floating-info">
             <div class="neon-tts-floating-label">
-                <i class="fas fa-volume-high text-warning me-1"></i> <span id="neonTtsModeTitle">Mode Pembaca Suara Aktif</span>
+                <i class="fas fa-volume-high text-warning me-1"></i> <span id="neonTtsModeTitle">Membacakan Halaman Otomatis</span>
+                <span class="badge bg-warning text-dark ms-2 font-mono" id="ttsProgressBadge">0 / 0</span>
             </div>
             <div id="neonTtsReadingSnippet" class="neon-tts-floating-snippet">
-                Klik bagian teks/paragraf mana saja untuk langsung didengar suaranya...
+                Memulai pembacaan halaman...
             </div>
         </div>
         <div class="neon-tts-floating-actions">
-            <button type="button" class="btn-tts-action btn-tts-stop" onclick="stopTextToSpeech()" title="Hentikan Suara">
-                <i class="fas fa-stop me-1"></i> Berhenti
+            <button type="button" class="btn-tts-action btn-tts-nav" onclick="prevTtsElement()" title="Paragraf Sebelumnya (Panah Kiri / Atas)">
+                <i class="fas fa-step-backward"></i>
             </button>
-            <button type="button" class="btn-tts-action btn-tts-close" onclick="disableTextToSpeechMode()" title="Tutup Mode Suara">
-                <i class="fas fa-times"></i>
+            <button type="button" class="btn-tts-action btn-tts-play" id="btnTtsPlayPause" onclick="toggleTtsPauseResume()" title="Jeda / Lanjutkan (Spasi)">
+                <i class="fas fa-pause" id="ttsPlayPauseIcon"></i> <span id="ttsPlayPauseText">Jeda</span>
+            </button>
+            <button type="button" class="btn-tts-action btn-tts-nav" onclick="nextTtsElement()" title="Paragraf Selanjutnya (Panah Kanan / Bawah)">
+                <i class="fas fa-step-forward"></i>
+            </button>
+            <button type="button" class="btn-tts-action btn-tts-stop" onclick="disableTextToSpeechMode()" title="Hentikan Suara (Escape)">
+                <i class="fas fa-stop me-1"></i> Berhenti
             </button>
         </div>
     </div>
@@ -176,18 +194,28 @@
     /* ==============================================
        NEON FLOATING ACCESS PILL (ULTRA-MODERN DOCK)
        ============================================== */
-    .neon-access-pill-trigger {
+    .neon-dock-stack {
         position: fixed;
         left: 0;
         top: 50%;
         transform: translateY(-50%);
         z-index: 99990;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .neon-access-pill-trigger {
+        position: relative;
+        left: 0;
+        top: auto;
+        transform: none;
         background: linear-gradient(135deg, #001738 0%, #002b5c 50%, #004a99 100%);
         color: #ffffff;
         border: 2px solid #00f2fe;
         border-left: none;
         border-radius: 0 9999px 9999px 0;
-        padding: 12px 18px 12px 14px;
+        padding: 11px 16px 11px 13px;
         display: flex;
         align-items: center;
         gap: 10px;
@@ -196,16 +224,26 @@
         transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
+    .neon-speech-trigger {
+        background: linear-gradient(135deg, #78350f 0%, #d97706 50%, #f59e0b 100%) !important;
+        border-color: #ffd166 !important;
+        box-shadow: 0 0 20px rgba(255, 209, 102, 0.4), 0 10px 30px rgba(120, 53, 15, 0.6) !important;
+    }
+    .neon-speech-trigger .neon-icon-glow {
+        color: #ffffff !important;
+        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)) !important;
+    }
+
     .neon-access-pill-trigger:hover {
-        padding-left: 20px;
-        padding-right: 24px;
+        padding-left: 18px;
+        padding-right: 22px;
         box-shadow: 0 0 30px rgba(0, 242, 254, 0.6), 0 0 50px rgba(255, 193, 7, 0.4);
         border-color: #ffd166;
-        transform: translateY(-50%) scale(1.05);
+        transform: scale(1.04);
     }
 
     .neon-icon-glow {
-        font-size: 20px;
+        font-size: 18px;
         color: #00f2fe;
         filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.8));
         display: flex;
@@ -215,7 +253,7 @@
 
     .neon-pill-label {
         font-family: 'Outfit', sans-serif;
-        font-size: 12.5px;
+        font-size: 12px;
         font-weight: 800;
         text-transform: uppercase;
         letter-spacing: 0.8px;
@@ -225,13 +263,21 @@
     }
 
     @media (max-width: 768px) {
-        .neon-access-pill-trigger {
+        .neon-dock-stack {
             top: auto;
-            bottom: 80px;
+            bottom: 75px;
             transform: none;
+            left: 10px;
+            flex-direction: row;
+            gap: 8px;
+        }
+        .neon-access-pill-trigger {
             border-radius: 9999px;
-            left: 15px;
-            padding: 10px 14px;
+            border-left: 2px solid #00f2fe;
+            padding: 9px 12px;
+        }
+        .neon-speech-trigger {
+            border-left: 2px solid #ffd166 !important;
         }
         .neon-pill-label { display: none; }
     }
@@ -686,6 +732,27 @@
         align-items: center;
     }
 
+    .btn-tts-nav {
+        background: rgba(255, 255, 255, 0.15);
+        color: #ffffff;
+        padding: 6px 12px;
+    }
+    .btn-tts-nav:hover {
+        background: rgba(255, 255, 255, 0.3);
+        transform: scale(1.08);
+    }
+
+    .btn-tts-play {
+        background: #ffc107;
+        color: #002b5c;
+        padding: 6px 16px;
+        gap: 6px;
+    }
+    .btn-tts-play:hover {
+        background: #f59e0b;
+        transform: scale(1.05);
+    }
+
     .btn-tts-stop {
         background: #ef4444;
         color: white;
@@ -710,9 +777,12 @@
     let isNeonDrawerOpen = false;
     let isSpeaking = false;
     let isTtsModeActive = false;
-    let speechSynth = window.speechSynthesis;
+    let isTtsPaused = false;
+    const speechSynth = window.speechSynthesis;
     let currentHighlightedEl = null;
     let globalFontStep = 0;
+    let readableElements = [];
+    let currentReadingIndex = -1;
 
     function toggleNeonAccessDrawer() {
         isNeonDrawerOpen = !isNeonDrawerOpen;
@@ -730,18 +800,73 @@
         }
     }
 
-    // Keyboard shortcut Alt + A
+    // Keyboard shortcut Alt + A (Aksesibilitas) & Alt + S (Dengar Suara Langsung)
     document.addEventListener('keydown', function(e) {
         if (e.altKey && (e.key === 'a' || e.key === 'A')) {
             e.preventDefault();
             toggleNeonAccessDrawer();
+        } else if (e.altKey && (e.key === 's' || e.key === 'S')) {
+            e.preventDefault();
+            toggleTextToSpeech();
         }
     });
 
-    // 1. Text to Speech (Langsung Dibacakan Saat Di-Klik Tanpa Perlu Blok Teks)
+    // ========================================================
+    // 1. AUTOMATIC SCREEN READER RAMAH TUNANETRA (LANGSUNG BERSUARA)
+    // ========================================================
+    function collectReadableElements() {
+        const elements = [];
+        
+        // 1. Ambil heading h1 pertama jika ada
+        const mainHeading = document.querySelector('h1');
+        if (mainHeading && isElementVisible(mainHeading)) {
+            elements.push(mainHeading);
+        }
+
+        // 2. Kumpulkan elemen teks dari konten utama
+        const selector = 'h1, h2, h3, h4, h5, p, li, blockquote, dt, dd, .accordion-button';
+        const candidateElements = document.querySelectorAll(selector);
+
+        candidateElements.forEach(el => {
+            // Abaikan elemen menu, footer, drawer, floating bar, modal, dan script
+            if (el.closest('#neonAccessibilityWrapper') || 
+                el.closest('#neonTtsFloatingBar') || 
+                el.closest('.navbar') || 
+                el.closest('footer') || 
+                el.closest('.modal') || 
+                el.closest('nav') ||
+                el.closest('.dropdown-menu')) {
+                return;
+            }
+
+            if (!isElementVisible(el)) return;
+
+            const text = (el.innerText || el.textContent || '').trim();
+            // Abaikan teks terlalu pendek atau kosong
+            if (text.length < 3) return;
+
+            // Hindari duplikasi
+            if (elements.includes(el)) return;
+
+            // Hindari memasukkan kontainer induk jika teksnya sama persis
+            const hasChildInArray = elements.some(existing => el.contains(existing));
+            if (!hasChildInArray) {
+                elements.push(el);
+            }
+        });
+
+        return elements;
+    }
+
+    function isElementVisible(el) {
+        if (!el) return false;
+        const style = window.getComputedStyle(el);
+        return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+    }
+
     function toggleTextToSpeech() {
         if (!('speechSynthesis' in window)) {
-            alert('Browser Anda tidak mendukung Text-to-Speech.');
+            alert('Browser Anda tidak mendukung fitur suara (Speech Synthesis). Gunakan Google Chrome, Edge, atau Safari.');
             return;
         }
 
@@ -754,104 +879,191 @@
 
     function enableTextToSpeechMode() {
         isTtsModeActive = true;
+        isTtsPaused = false;
         document.body.classList.add('tts-click-mode-active');
 
+        // Update tombol drawer
         const ttsBtnText = document.getElementById('ttsBtnText');
         const ttsStatusPill = document.getElementById('ttsStatusPill');
-        if (ttsBtnText) ttsBtnText.textContent = 'Mode Suara Aktif (Klik Teks Mana Saja)';
+        if (ttsBtnText) ttsBtnText.textContent = 'Membacakan Halaman Otomatis (Aktif)';
         if (ttsStatusPill) {
             ttsStatusPill.textContent = 'Aktif';
             ttsStatusPill.className = 'badge bg-success text-white';
         }
 
+        // Tutup drawer agar layar tidak terhalang
+        if (isNeonDrawerOpen) toggleNeonAccessDrawer();
+
+        // Tampilkan floating control bar
         const floatingBar = document.getElementById('neonTtsFloatingBar');
         if (floatingBar) floatingBar.classList.remove('d-none');
 
-        // Tutup drawer agar pengguna langsung bisa mengklik halaman
-        if (isNeonDrawerOpen) toggleNeonAccessDrawer();
+        // Kumpulkan semua paragraf/heading halaman
+        readableElements = collectReadableElements();
+        currentReadingIndex = -1;
+        updateFloatingBarProgress();
 
-        // Panduan suara awal otomatis
-        speakCustomText('Mode pembaca suara aktif. Silakan klik bagian teks atau paragraf mana saja di layar untuk langsung mendengarkan bacaan.');
+        // LANGSUNG BERBICARA SECARA OTOMATIS: Pengumuman awal lalu otomatis membaca isi halaman!
+        const pageTitle = document.title ? document.title.split('|')[0].trim() : 'PPID PKTJ Tegal';
+        const welcomeText = `Mode pembaca suara aktif. Membacakan halaman: ${pageTitle}.`;
+
+        speakText(welcomeText, null, function() {
+            // Callback: selesai pengantar, LANGSUNG BACA PARAGRAF PERTAMA SECARA OTOMATIS!
+            if (isTtsModeActive && readableElements.length > 0) {
+                readElementAtIndex(0);
+            } else if (readableElements.length === 0) {
+                speakText('Tidak ditemukan paragraf artikel di halaman ini.');
+            }
+        });
     }
 
     function disableTextToSpeechMode() {
         isTtsModeActive = false;
+        isTtsPaused = false;
         document.body.classList.remove('tts-click-mode-active');
-        stopTextToSpeech();
+        
+        if (speechSynth) speechSynth.cancel();
+        clearTtsHighlight();
 
         const ttsBtnText = document.getElementById('ttsBtnText');
         const ttsStatusPill = document.getElementById('ttsStatusPill');
-        if (ttsBtnText) ttsBtnText.textContent = 'Mode Pembaca Suara (Klik Langsung Dibaca)';
+        if (ttsBtnText) ttsBtnText.textContent = 'Bacakan Seluruh Halaman (Langsung Bersuara)';
         if (ttsStatusPill) {
-            ttsStatusPill.textContent = 'Aktifkan';
-            ttsStatusPill.className = 'badge bg-info text-dark';
+            ttsStatusPill.textContent = 'Mulai Bicara';
+            ttsStatusPill.className = 'badge bg-warning text-dark';
         }
 
         const floatingBar = document.getElementById('neonTtsFloatingBar');
         if (floatingBar) floatingBar.classList.add('d-none');
     }
 
-    function speakElementText(el) {
-        if (!el) return;
-        let text = el.innerText || el.textContent;
-        text = text ? text.trim() : '';
-        if (!text || text.length < 2) return;
+    function readElementAtIndex(index) {
+        if (!isTtsModeActive) return;
 
-        speakCustomText(text, el);
+        if (index < 0) index = 0;
+        if (index >= readableElements.length) {
+            // Selesai seluruh halaman
+            clearTtsHighlight();
+            const snippetEl = document.getElementById('neonTtsReadingSnippet');
+            if (snippetEl) snippetEl.textContent = 'Pembacaan seluruh halaman telah selesai.';
+            const wave = document.getElementById('ttsWaveAnimation');
+            if (wave) wave.style.opacity = '0.3';
+
+            speakText('Pembacaan seluruh halaman telah selesai.');
+            return;
+        }
+
+        currentReadingIndex = index;
+        const el = readableElements[index];
+
+        // Sorot elemen dengan warna emas & scroll otomatis ke tengah layar
+        clearTtsHighlight();
+        currentHighlightedEl = el;
+        el.classList.add('tts-reading-highlight');
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        updateFloatingBarProgress();
+
+        let text = (el.innerText || el.textContent || '').trim();
+        const tagName = el.tagName.toLowerCase();
+        if (tagName === 'h1') text = 'Judul utama: ' + text;
+        else if (tagName === 'h2' || tagName === 'h3') text = 'Bagian: ' + text;
+
+        speakText(text, el, function() {
+            // Begitu satu paragraf selesai dibaca, OTOMATIS LANJUT KE PARAGRAF BERIKUTNYA!
+            if (isTtsModeActive && !isTtsPaused) {
+                readElementAtIndex(currentReadingIndex + 1);
+            }
+        });
     }
 
-    function speakCustomText(text, highlightEl = null) {
+    function speakText(text, highlightEl = null, onEndCallback = null) {
         if (!('speechSynthesis' in window)) return;
 
-        // Bersihkan pembacaan sebelumnya
         speechSynth.cancel();
-        clearTtsHighlight();
-
-        if (highlightEl) {
-            currentHighlightedEl = highlightEl;
-            currentHighlightedEl.classList.add('tts-reading-highlight');
-        }
 
         const utter = new SpeechSynthesisUtterance(text);
         utter.lang = 'id-ID';
         utter.rate = 0.95;
         utter.pitch = 1.0;
 
-        // Pilih suara Bahasa Indonesia jika ada
+        // Pilih suara Bahasa Indonesia
         const voices = speechSynth.getVoices();
         const idVoice = voices.find(v => v.lang.includes('id') || v.lang.includes('ID') || v.name.toLowerCase().includes('indonesia'));
         if (idVoice) utter.voice = idVoice;
 
         const snippetEl = document.getElementById('neonTtsReadingSnippet');
         if (snippetEl) {
-            const preview = text.length > 70 ? text.substring(0, 70) + '...' : text;
-            snippetEl.textContent = `"${preview}"`;
+            const preview = text.length > 80 ? text.substring(0, 80) + '...' : text;
+            snippetEl.textContent = preview;
         }
 
-        const floatingBar = document.getElementById('neonTtsFloatingBar');
-        if (floatingBar) floatingBar.classList.remove('d-none');
+        const wave = document.getElementById('ttsWaveAnimation');
+        if (wave) wave.style.opacity = '1';
 
         utter.onend = function() {
             isSpeaking = false;
-            clearTtsHighlight();
-            if (snippetEl) snippetEl.textContent = 'Selesai membaca. Klik teks lain untuk mendengarkan kembali.';
+            if (onEndCallback) onEndCallback();
         };
 
-        utter.onerror = function() {
+        utter.onerror = function(err) {
             isSpeaking = false;
-            clearTtsHighlight();
+            if (onEndCallback) onEndCallback();
         };
 
         speechSynth.speak(utter);
         isSpeaking = true;
     }
 
-    function stopTextToSpeech() {
-        if (speechSynth) speechSynth.cancel();
-        isSpeaking = false;
-        clearTtsHighlight();
-        const snippetEl = document.getElementById('neonTtsReadingSnippet');
-        if (snippetEl) snippetEl.textContent = 'Suara dihentikan. Klik teks mana saja untuk membaca.';
+    function toggleTtsPauseResume() {
+        if (!isTtsModeActive) return;
+
+        const icon = document.getElementById('ttsPlayPauseIcon');
+        const text = document.getElementById('ttsPlayPauseText');
+        const wave = document.getElementById('ttsWaveAnimation');
+
+        if (speechSynth.speaking && !speechSynth.paused) {
+            speechSynth.pause();
+            isTtsPaused = true;
+            if (icon) icon.className = 'fas fa-play';
+            if (text) text.textContent = 'Lanjut';
+            if (wave) wave.style.opacity = '0.3';
+        } else if (speechSynth.paused) {
+            speechSynth.resume();
+            isTtsPaused = false;
+            if (icon) icon.className = 'fas fa-pause';
+            if (text) text.textContent = 'Jeda';
+            if (wave) wave.style.opacity = '1';
+        } else {
+            isTtsPaused = false;
+            if (icon) icon.className = 'fas fa-pause';
+            if (text) text.textContent = 'Jeda';
+            if (wave) wave.style.opacity = '1';
+            readElementAtIndex(currentReadingIndex >= 0 ? currentReadingIndex : 0);
+        }
+    }
+
+    function nextTtsElement() {
+        if (!isTtsModeActive) return;
+        speechSynth.cancel();
+        isTtsPaused = false;
+        readElementAtIndex(currentReadingIndex + 1);
+    }
+
+    function prevTtsElement() {
+        if (!isTtsModeActive) return;
+        speechSynth.cancel();
+        isTtsPaused = false;
+        readElementAtIndex(currentReadingIndex - 1);
+    }
+
+    function updateFloatingBarProgress() {
+        const badge = document.getElementById('ttsProgressBadge');
+        if (badge) {
+            const current = currentReadingIndex >= 0 ? currentReadingIndex + 1 : 0;
+            const total = readableElements.length;
+            badge.textContent = `${current} / ${total}`;
+        }
     }
 
     function clearTtsHighlight() {
@@ -862,24 +1074,43 @@
         document.querySelectorAll('.tts-reading-highlight').forEach(el => el.classList.remove('tts-reading-highlight'));
     }
 
-    // Global Click-to-Speak Listener (Cukup di-klik langsung dibaca tanpa perlu di-blok)
+    // Klik Teks Mana Saja untuk Langsung Lompat Membaca Bagian Tersebut
     document.addEventListener('click', function(e) {
         if (!isTtsModeActive) return;
 
-        // Jangan proses klik jika berada di dalam kontrol tombol aksesibilitas
-        if (e.target.closest('#neonAccessDrawer') || e.target.closest('#neonTtsFloatingBar') || e.target.closest('#btnNeonAccessTrigger') || e.target.closest('.modal')) {
+        if (e.target.closest('#neonAccessibilityWrapper') || e.target.closest('#neonTtsFloatingBar') || e.target.closest('.modal')) {
             return;
         }
 
-        // Cari elemen teks terdekat yang diklik
-        const target = e.target.closest('p, h1, h2, h3, h4, h5, h6, li, td, th, dt, dd, blockquote, label, .card, .pillar-card, .btn, a, span');
+        const target = e.target.closest('p, h1, h2, h3, h4, h5, li, blockquote');
         if (target) {
-            const text = (target.innerText || target.textContent || '').trim();
-            if (text && text.length > 1) {
-                speakElementText(target);
+            const foundIndex = readableElements.indexOf(target);
+            if (foundIndex !== -1) {
+                speechSynth.cancel();
+                isTtsPaused = false;
+                readElementAtIndex(foundIndex);
             }
         }
     }, true);
+
+    // Kontrol Keyboard Ramah Tunanetra (Spasi, Panah Kiri/Kanan, Escape)
+    document.addEventListener('keydown', function(e) {
+        if (!isTtsModeActive) return;
+
+        if (e.code === 'Space' && !e.target.closest('input, textarea, select')) {
+            e.preventDefault();
+            toggleTtsPauseResume();
+        } else if ((e.code === 'ArrowRight' || e.code === 'ArrowDown') && !e.target.closest('input, textarea, select')) {
+            e.preventDefault();
+            nextTtsElement();
+        } else if ((e.code === 'ArrowLeft' || e.code === 'ArrowUp') && !e.target.closest('input, textarea, select')) {
+            e.preventDefault();
+            prevTtsElement();
+        } else if (e.code === 'Escape') {
+            e.preventDefault();
+            disableTextToSpeechMode();
+        }
+    });
 
     // 2. Visual Controls
     function adjustGlobalFontSize(step) {

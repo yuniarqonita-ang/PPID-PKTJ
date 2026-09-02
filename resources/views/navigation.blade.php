@@ -267,8 +267,9 @@
                                             $childNama = 'JDIH BPSDM Kemenhub';
                                             $childUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
                                         }
-                                        if (str_contains(strtolower($childNama), 'tanggung jawab') || str_contains(strtolower($childNama), 'tugas dan tanggung')) {
+                                        if (str_contains(strtolower($childNama), 'tanggung jawab') || str_contains(strtolower($childNama), 'tugas') || str_contains(strtolower($childUrl ?? ''), 'tugas') || str_contains(strtolower($child->slug ?? ''), 'tugas')) {
                                             $childNama = 'Tugas & Fungsi PPID';
+                                            $childUrl = '/profil/tugas-dan-fungsi-ppid';
                                         }
                                     @endphp
                                     <li>
@@ -290,8 +291,9 @@
                                     $menuNama = 'JDIH BPSDM Kemenhub';
                                     $menuUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
                                 }
-                                if (str_contains(strtolower($menuNama), 'tanggung jawab') || str_contains(strtolower($menuNama), 'tugas dan tanggung')) {
+                                if (str_contains(strtolower($menuNama), 'tanggung jawab') || str_contains(strtolower($menuNama), 'tugas') || str_contains(strtolower($menuUrl ?? ''), 'tugas') || str_contains(strtolower($menu->slug ?? ''), 'tugas')) {
                                     $menuNama = 'Tugas & Fungsi PPID';
+                                    $menuUrl = '/profil/tugas-dan-fungsi-ppid';
                                 }
                             @endphp
                             @if(str_starts_with($menuUrl, 'http://') || str_starts_with($menuUrl, 'https://'))
