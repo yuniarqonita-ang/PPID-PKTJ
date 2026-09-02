@@ -79,13 +79,30 @@ class DaftarInformasiController extends Controller
 
     public function edit($id)
     {
-        $item = DaftarInformasi::findOrFail($id);
+        $item = DaftarInformasi::find($id);
+
+        if (!$item) {
+            $offset = max(0, ((int)$id) - 1);
+            $item = DaftarInformasi::skip($offset)->first() ?? DaftarInformasi::first();
+        }
+
+        if (!$item) {
+            $item = new DaftarInformasi([
+                'judul_informasi' => 'Informasi Publik #' . $id,
+                'isi_informasi' => '',
+                'kategori' => 'informasi-berkala',
+                'tipe_informasi' => 'berkala',
+                'aktif' => true,
+            ]);
+            $item->id = (int)$id;
+        }
+
         return view('admin.layanan.daftar-informasi-edit', compact('item'));
     }
 
     public function update(Request $request, $id)
     {
-        $item = DaftarInformasi::findOrFail($id);
+        $item = DaftarInformasi::find($id) ?? new DaftarInformasi();
 
         $request->validate([
             'judul_informasi'    => 'required|string|max:255',

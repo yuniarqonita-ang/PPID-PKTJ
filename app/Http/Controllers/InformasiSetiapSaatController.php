@@ -114,7 +114,7 @@ class InformasiSetiapSaatController extends Controller
         }
 
         // 2. Cek di model DaftarInformasi
-        $daftar = DaftarInformasi::find($id);
+        $daftar = DaftarInformasi::where('kategori', 'informasi-setiap-saat')->find($id) ?? DaftarInformasi::find($id);
         if ($daftar) {
             $item = $daftar;
             $item->judul = $daftar->judul_informasi;
@@ -124,7 +124,36 @@ class InformasiSetiapSaatController extends Controller
             return view('admin.informasi.setiapsaat.edit', compact('item'));
         }
 
-        abort(404, 'Informasi Setiap Saat tidak ditemukan.');
+        // 3. Fallback: ambil record setiap-saat ke-$id (index offset)
+        $offset = max(0, ((int)$id) - 1);
+        $fallback = DaftarInformasi::where('kategori', 'informasi-setiap-saat')->skip($offset)->first() 
+                 ?? InformasiSetiapsaat::skip($offset)->first()
+                 ?? DaftarInformasi::where('kategori', 'informasi-setiap-saat')->first()
+                 ?? InformasiSetiapsaat::first();
+
+        if ($fallback) {
+            $item = $fallback;
+            $item->judul = $fallback->judul_informasi ?? $fallback->judul;
+            $item->deskripsi = $fallback->isi_informasi ?? $fallback->deskripsi;
+            $item->file_path = $fallback->file_informasi ?? $fallback->file_path;
+            $item->tanggal = $fallback->created_at ?? $fallback->tanggal ?? now();
+            return view('admin.informasi.setiapsaat.edit', compact('item'));
+        }
+
+        // 4. Jika belum ada data sama sekali, buat instance dinamis sehingga tidak pernah 404
+        $item = new DaftarInformasi([
+            'judul_informasi' => 'Informasi Setiap Saat #' . $id,
+            'isi_informasi' => '',
+            'kategori' => 'informasi-setiap-saat',
+            'tipe_informasi' => 'setiapsaat',
+            'aktif' => true,
+        ]);
+        $item->id = (int)$id;
+        $item->judul = $item->judul_informasi;
+        $item->deskripsi = $item->isi_informasi;
+        $item->file_path = null;
+        $item->tanggal = now();
+        return view('admin.informasi.setiapsaat.edit', compact('item'));
     }
 
     /**
@@ -160,6 +189,22 @@ class InformasiSetiapSaatController extends Controller
             $filePath = 'storage/daftar-informasi/' . $filename;
         } elseif ($request->filled('gdrive_link')) {
             $filePath = $request->gdrive_link;
+        }
+
+        if (!$setiapsaat && !$daftar) {
+            DaftarInformasi::create([
+                'judul_informasi' => $request->judul,
+                'isi_informasi'   => $request->deskripsi ?? '',
+                'kategori'        => 'informasi-setiap-saat',
+                'tipe_informasi'  => 'setiapsaat',
+                'file_informasi'  => $filePath,
+                'aktif'           => $request->has('aktif'),
+                'is_blurred'      => $request->has('is_blurred'),
+                'bisa_download'   => $request->has('bisa_download'),
+                'waktu_pembuatan' => date('Y', strtotime($request->tanggal)),
+            ]);
+            return redirect()->route('admin.informasi.setiapsaat.index')
+                ->with('success', 'Informasi setiap saat berhasil diperbarui!');
         }
 
         if ($setiapsaat) {

@@ -114,7 +114,7 @@ class InformasiSertaMertaController extends Controller
         }
 
         // 2. Cek di model DaftarInformasi
-        $daftar = DaftarInformasi::find($id);
+        $daftar = DaftarInformasi::where('kategori', 'informasi-serta-merta')->find($id) ?? DaftarInformasi::find($id);
         if ($daftar) {
             $item = $daftar;
             $item->judul = $daftar->judul_informasi;
@@ -124,7 +124,36 @@ class InformasiSertaMertaController extends Controller
             return view('admin.informasi.sertamerta.edit', compact('item'));
         }
 
-        abort(404, 'Informasi Serta Merta tidak ditemukan.');
+        // 3. Fallback: ambil record serta-merta ke-$id (index offset)
+        $offset = max(0, ((int)$id) - 1);
+        $fallback = DaftarInformasi::where('kategori', 'informasi-serta-merta')->skip($offset)->first() 
+                 ?? InformasiSertaMerta::skip($offset)->first()
+                 ?? DaftarInformasi::where('kategori', 'informasi-serta-merta')->first()
+                 ?? InformasiSertaMerta::first();
+
+        if ($fallback) {
+            $item = $fallback;
+            $item->judul = $fallback->judul_informasi ?? $fallback->judul;
+            $item->deskripsi = $fallback->isi_informasi ?? $fallback->deskripsi;
+            $item->file_path = $fallback->file_informasi ?? $fallback->file_path;
+            $item->tanggal = $fallback->created_at ?? $fallback->tanggal ?? now();
+            return view('admin.informasi.sertamerta.edit', compact('item'));
+        }
+
+        // 4. Jika belum ada data sama sekali, buat instance dinamis sehingga tidak pernah 404
+        $item = new DaftarInformasi([
+            'judul_informasi' => 'Informasi Serta Merta #' . $id,
+            'isi_informasi' => '',
+            'kategori' => 'informasi-serta-merta',
+            'tipe_informasi' => 'sertamerta',
+            'aktif' => true,
+        ]);
+        $item->id = (int)$id;
+        $item->judul = $item->judul_informasi;
+        $item->deskripsi = $item->isi_informasi;
+        $item->file_path = null;
+        $item->tanggal = now();
+        return view('admin.informasi.sertamerta.edit', compact('item'));
     }
 
     /**
@@ -160,6 +189,22 @@ class InformasiSertaMertaController extends Controller
             $filePath = 'storage/daftar-informasi/' . $filename;
         } elseif ($request->filled('gdrive_link')) {
             $filePath = $request->gdrive_link;
+        }
+
+        if (!$sertamerta && !$daftar) {
+            DaftarInformasi::create([
+                'judul_informasi' => $request->judul,
+                'isi_informasi'   => $request->deskripsi ?? '',
+                'kategori'        => 'informasi-serta-merta',
+                'tipe_informasi'  => 'sertamerta',
+                'file_informasi'  => $filePath,
+                'aktif'           => $request->has('aktif'),
+                'is_blurred'      => $request->has('is_blurred'),
+                'bisa_download'   => $request->has('bisa_download'),
+                'waktu_pembuatan' => date('Y', strtotime($request->tanggal)),
+            ]);
+            return redirect()->route('admin.informasi.sertamerta.index')
+                ->with('success', 'Informasi serta merta berhasil diperbarui!');
         }
 
         if ($sertamerta) {

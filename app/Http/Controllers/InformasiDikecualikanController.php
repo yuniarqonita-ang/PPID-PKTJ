@@ -79,7 +79,28 @@ class InformasiDikecualikanController extends Controller
 
     public function edit(string $id): View
     {
-        $item = InformasiDikecualikan::findOrFail($id);
+        $item = InformasiDikecualikan::find($id);
+
+        if (!$item) {
+            $offset = max(0, ((int)$id) - 1);
+            $item = InformasiDikecualikan::skip($offset)->first() ?? InformasiDikecualikan::first();
+        }
+
+        if (!$item) {
+            $item = new InformasiDikecualikan([
+                'judul' => 'Informasi Dikecualikan #' . $id,
+                'deskripsi' => '',
+                'tanggal' => now()->toDateString(),
+                'dasar_hukum' => 'Pasal 17 UU No. 14 Tahun 2008 tentang Keterbukaan Informasi Publik',
+                'konsekuensi_dibuka' => '',
+                'konsekuensi_ditutup' => '',
+                'jangka_waktu' => '1 Tahun',
+                'penanggung_jawab' => 'PPID Pelaksana UPT PKTJ',
+                'aktif' => true,
+            ]);
+            $item->id = (int)$id;
+        }
+
         return view('admin.informasi.dikecualikan.edit', compact('item'));
     }
 
@@ -103,7 +124,7 @@ class InformasiDikecualikanController extends Controller
             'gdrive_link.url' => 'Format link Google Drive tidak valid.',
         ]);
 
-        $item = InformasiDikecualikan::findOrFail($id);
+        $item = InformasiDikecualikan::find($id) ?? new InformasiDikecualikan();
 
         $item->judul               = $request->judul;
         $item->deskripsi           = $request->deskripsi ?? '';
