@@ -272,7 +272,7 @@
                         <p class="text-muted small mb-0">Informasi profil pimpinan struktural, riwayat karir, dan kepatuhan LHKPN jajaran Pimpinan PKTJ Tegal.</p>
                     </div>
                     <div>
-                        <a href="{{ route('profil.pejabat') }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold text-xs">
+                        <a href="{{ \Illuminate\Support\Facades\Route::has('profil.pejabat') ? route('profil.pejabat') : url('/profil/pejabat') }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold text-xs">
                             <i class="fas fa-external-link-alt me-1"></i> Buka Halaman Khusus Pejabat
                         </a>
                     </div>

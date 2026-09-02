@@ -152,6 +152,7 @@ Route::get('/dokumen/{id}/download', [DokumenController::class, 'download'])->na
 // Profil PPID (Public - Dynamic from Database matching the original HTML links)
 Route::get('/profil-ppid.html', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil'])->name('profil.ppid.html');
 Route::get('/profil-pejabat.html', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('profil.pejabat.html');
+Route::get('/profil/pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('profil.pejabat');
 // Tugas & Fungsi PPID Routes (URL Baru Bersih & Redirect Otomatis)
 Route::get('/profil-tugas-dan-fungsi-ppid.html', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas'])->name('profil.tugas-fungsi.html');
 Route::get('/profil/tugas-dan-fungsi-ppid', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas'])->name('profil.tugas-dan-fungsi-ppid');
@@ -1112,6 +1113,7 @@ Route::get('/debug-visitors', function() {
 Route::name('profil.')->prefix('profil')->group(function () {
     Route::get('/', [ProfilPublikController::class, 'showProfil'])->name('index');
     Route::get('/ppid', [ProfilPublikController::class, 'showProfil'])->name('ppid');
+    Route::get('/pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('pejabat');
     Route::get('/tugas-dan-fungsi-ppid', [ProfilPublikController::class, 'showTugas'])->name('tugas-dan-fungsi-ppid');
     Route::get('/tugas-fungsi-ppid', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); });
     Route::get('/tugas', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); })->name('tugas');
