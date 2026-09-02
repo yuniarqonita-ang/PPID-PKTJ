@@ -179,9 +179,10 @@
                                 
                                 <div class="d-flex justify-content-center flex-wrap">
                                     @php
-                                        $isGDrive = str_starts_with($doc->file_path, 'http://') || str_starts_with($doc->file_path, 'https://');
+                                        $isGDrive = str_starts_with($doc->file_path ?? '', 'http://') || str_starts_with($doc->file_path ?? '', 'https://');
+                                        $hasDoc = has_valid_document($doc->file_path);
                                     @endphp
-                                    @if(is_previewable($isGDrive ? $doc->file_path : 'storage/' . $doc->file_path))
+                                    @if($hasDoc && is_previewable($isGDrive ? $doc->file_path : 'storage/' . $doc->file_path))
                                     <button type="button" 
                                             class="btn-action btn-view" 
                                             data-bs-toggle="modal" 
@@ -190,7 +191,7 @@
                                         <i class="fas fa-eye"></i> Lihat
                                     </button>
                                     @endif
-                                    @if($doc->bisa_download)
+                                    @if($hasDoc && $doc->bisa_download)
                                     <a href="{{ route('dokumen.download', $doc->id) }}" class="btn-action btn-download">
                                         <i class="fas fa-download"></i> Download
                                     </a>

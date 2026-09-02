@@ -163,7 +163,7 @@
                             </div>
                             
                             <div class="d-flex gap-2">
-                                @if($previewUrl && is_previewable($previewUrl))
+                                @if($previewUrl && has_valid_document($previewUrl) && is_previewable($previewUrl))
                                 <a href="#" class="btn-download-premium py-2 px-3 text-xs" style="font-size: 12px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; text-decoration: none;" 
                                     data-bs-toggle="modal" data-bs-target="#previewModal" 
                                     data-url="{{ route('preview.dokumen', ['file' => $previewUrl, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
@@ -171,7 +171,7 @@
                                 </a>
                                 @endif
                                 
-                                @if($item->file_path && $item->bisa_download)
+                                @if(has_valid_document($item->file_path) && $item->bisa_download)
                                 <a href="{{ route('dokumen.download', $item->id) }}" class="btn-download-premium py-2 px-3 text-xs" style="background: #10b981; color: white; font-size: 12px; border-radius: 10px; display: inline-flex; align-items: center; gap: 6px; font-weight: 700; text-decoration: none;">
                                     <i class="fas fa-download"></i> Unduh
                                 </a>

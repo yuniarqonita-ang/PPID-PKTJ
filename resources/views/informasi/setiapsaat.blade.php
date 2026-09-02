@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Informasi Setiap Saat - PPID PKTJ')
 
@@ -27,17 +27,19 @@
                                         <p class="card-text text-muted small">{{ Str::limit($item->deskripsi, 100) }}</p>
                                     @endif
                                     
+                                    @if(has_valid_document($item->file_path))
                                     <div class="d-flex justify-content-between align-items-center mt-3">
-                                        <small class="text-muted">
-                                            <i class="fas fa-file me-1"></i>{{ $item->file_name }}
-                                            <span class="ms-2">({{ $item->file_size }})</span>
-                                        </small>
-                                        <a href="{{ route('download.file', ['model' => 'setiapsaat', 'id' => $item->id]) }}" 
-                                           class="btn btn-info btn-sm" 
-                                           title="Download {{ $item->file_name }}">
-                                            <i class="fas fa-download"></i>
-                                        </a>
+                                         <small class="text-muted">
+                                             <i class="fas fa-file me-1"></i>{{ $item->file_name }}
+                                             <span class="ms-2">({{ $item->file_size }})</span>
+                                         </small>
+                                         <a href="{{ route('download.file', ['model' => 'setiapsaat', 'id' => $item->id]) }}" 
+                                            class="btn btn-info btn-sm" 
+                                            title="Download {{ $item->file_name }}">
+                                             <i class="fas fa-download"></i>
+                                         </a>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

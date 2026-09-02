@@ -68,7 +68,7 @@
                                         </div>
                                         
                                         <div class="d-flex gap-2">
-                                            @if($previewUrl && is_previewable($previewUrl))
+                                            @if($previewUrl && has_valid_document($previewUrl) && is_previewable($previewUrl))
                                             <a href="#" class="btn-download-premium" 
                                                 data-bs-toggle="modal" data-bs-target="#previewModal" 
                                                 data-url="{{ route('preview.dokumen', ['file' => $previewUrl, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
@@ -76,7 +76,7 @@
                                             </a>
                                             @endif
                                             
-                                            @if($item->file_path && $item->bisa_download)
+                                            @if(has_valid_document($item->file_path) && $item->bisa_download)
                                             <a href="{{ route('dokumen.download', $item->id) }}" class="btn-download-premium" style="background: #10b981; color: white;">
                                                 <i class="fas fa-download"></i> Unduh
                                             </a>

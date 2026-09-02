@@ -576,13 +576,13 @@
                                             <span class="badge bg-light text-primary border px-3 py-2 rounded-pill" style="font-size: 12px;">
                                                 <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->translatedFormat('d F Y') }}
                                             </span>
-                                            @if($item->file_path && $item->file_path !== '#' && $item->file_path !== '' && isset($item->file_size) && $item->file_size !== '-' && $item->file_size !== '')
+                                            @if(has_valid_document($item->file_path) && isset($item->file_size) && $item->file_size !== '-' && $item->file_size !== '')
                                             <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill" style="font-size: 12px;">
                                                 <i class="fas fa-file-pdf me-1 text-danger"></i> {{ $item->file_size }}
                                             </span>
                                             @endif
                                         </div>
-                                        @if($item->file_path && $item->file_path !== '#' && $item->file_path !== '')
+                                        @if(has_valid_document($item->file_path))
                                         <div class="d-flex gap-2 flex-wrap">
                                             @if(is_previewable($item->file_path))
                                              <button type="button" 

@@ -41,9 +41,19 @@ class InformasiPublikController extends Controller
     {
         $item->judul = $item->judul_informasi;
         $item->deskripsi = $this->processContent($item->isi_informasi, $item->is_blurred ?? false);
-        $item->file_path = $item->file_informasi;
+        
+        $rawFile = $item->file_informasi;
+        if (function_exists('has_valid_document') && has_valid_document($rawFile)) {
+            $item->file_path = $rawFile;
+            $item->bisa_download = (bool) ($item->bisa_download ?? true);
+            $item->file_size = $item->file_size ?? '-';
+        } else {
+            $item->file_path = null;
+            $item->bisa_download = false;
+            $item->file_size = null;
+        }
+
         $item->tanggal = $item->created_at;
-        $item->file_size = '-';
         return $item;
     }
 
@@ -212,8 +222,8 @@ class InformasiPublikController extends Controller
                     abort(404);
             }
 
-            if (!$data->file_path) {
-                abort(404, 'File tidak ditemukan.');
+            if (!$data->file_path || !has_valid_document($data->file_path)) {
+                abort(404, 'File dokumen tidak tersedia untuk diunduh.');
             }
 
             if (strpos($data->file_path, 'http') === 0) {

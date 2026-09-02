@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Informasi Serta Merta - PPID PKTJ')
 
@@ -27,6 +27,7 @@
                                         <p class="card-text text-muted small">{{ Str::limit($item->deskripsi, 100) }}</p>
                                     @endif
                                     
+                                    @if(has_valid_document($item->file_path))
                                     <div class="d-flex justify-content-between align-items-center mt-3">
                                         <small class="text-muted">
                                             <i class="fas fa-file me-1"></i>{{ $item->file_name }}
@@ -38,6 +39,7 @@
                                             <i class="fas fa-download"></i>
                                         </a>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

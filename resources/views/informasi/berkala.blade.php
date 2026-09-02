@@ -27,25 +27,27 @@
                                         <p class="card-text text-muted small">{{ Str::limit($item->deskripsi, 100) }}</p>
                                     @endif
                                     
-                                    <div class="d-flex justify-content-between align-items-center mt-3 gap-2">
-                                        <small class="text-muted flex-grow-1">
-                                            <i class="fas fa-file me-1"></i>{{ Str::limit($item->file_name, 15) }}
-                                        </small>
-                                        <div class="btn-group shadow-sm">
-                                            @if(is_previewable($item->file_path))
-                                                <button type="button" class="btn btn-outline-primary btn-sm" 
-                                                    data-bs-toggle="modal" data-bs-target="#previewModal" 
-                                                    data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
-                                            @endif
-                                            <a href="{{ route('download.file', ['model' => 'berkala', 'id' => $item->id]) }}" 
-                                               class="btn btn-primary btn-sm" 
-                                               title="Download {{ $item->file_name }}">
-                                                <i class="fas fa-download"></i>
-                                            </a>
-                                        </div>
-                                    </div>
+                                    @if(has_valid_document($item->file_path))
+                                     <div class="d-flex justify-content-between align-items-center mt-3 gap-2">
+                                         <small class="text-muted flex-grow-1">
+                                             <i class="fas fa-file me-1"></i>{{ Str::limit($item->file_name, 15) }}
+                                         </small>
+                                         <div class="btn-group shadow-sm">
+                                             @if(is_previewable($item->file_path))
+                                                 <button type="button" class="btn btn-outline-primary btn-sm" 
+                                                     data-bs-toggle="modal" data-bs-target="#previewModal" 
+                                                     data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? '1' : '0']) }}">
+                                                     <i class="fas fa-eye"></i>
+                                                 </button>
+                                             @endif
+                                             <a href="{{ route('download.file', ['model' => 'berkala', 'id' => $item->id]) }}" 
+                                                class="btn btn-primary btn-sm" 
+                                                title="Download {{ $item->file_name }}">
+                                                 <i class="fas fa-download"></i>
+                                             </a>
+                                         </div>
+                                     </div>
+                                     @endif
                                 </div>
                             </div>
                         </div>
