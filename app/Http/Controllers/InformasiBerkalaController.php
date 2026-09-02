@@ -114,6 +114,9 @@ class InformasiBerkalaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    /**
+     * Show the form for editing the specified resource.
+     */
     public function edit(string $id): View
     {
         // 1. Cek di model InformasiBerkala
@@ -138,23 +141,7 @@ class InformasiBerkalaController extends Controller
             return view('admin.informasi.berkala.edit', compact('item'));
         }
 
-        // 3. Fallback: ambil record berkala ke-$id (index offset)
-        $offset = max(0, ((int)$id) - 1);
-        $fallback = DaftarInformasi::where('kategori', 'informasi-berkala')->skip($offset)->first() 
-                 ?? InformasiBerkala::skip($offset)->first()
-                 ?? DaftarInformasi::where('kategori', 'informasi-berkala')->first()
-                 ?? InformasiBerkala::first();
-
-        if ($fallback) {
-            $item = $fallback;
-            $item->judul = $fallback->judul_informasi ?? $fallback->judul;
-            $item->deskripsi = $fallback->isi_informasi ?? $fallback->deskripsi;
-            $item->file_path = $fallback->file_informasi ?? $fallback->file_path;
-            $item->tanggal = $fallback->created_at ?? $fallback->tanggal ?? now();
-            return view('admin.informasi.berkala.edit', compact('item'));
-        }
-
-        // 4. Jika belum ada data sama sekali, buat instance dinamis sehingga tidak pernah 404
+        // 3. Fallback jika belum ada
         $item = new DaftarInformasi([
             'judul_informasi' => 'Informasi Berkala #' . $id,
             'isi_informasi' => '',
