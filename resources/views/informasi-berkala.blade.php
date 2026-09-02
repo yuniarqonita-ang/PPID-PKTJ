@@ -553,45 +553,6 @@
                 </div>
             </div>
 
-            <!-- SECTION TATA CARA PENGADUAN SP4N-LAPOR & WBS (STANDAR AKIP KEMENHUB SLIDE 49 & 30) -->
-            <div class="my-5 p-4 p-md-5 rounded-4 border shadow-sm text-white" style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); border-color: #002b5c;">
-                <div class="row g-4 align-items-center">
-                    <div class="col-lg-7">
-                        <div class="badge bg-warning text-dark font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">
-                            <i class="fas fa-shield-alt me-1"></i> Standar AKIP Kemenhub: Slide 49 & 30
-                        </div>
-                        <h3 class="fw-bold outfit text-white mb-2" style="font-size: 1.75rem;">
-                            Kanal Pengaduan Resmi: SP4N-LAPOR! & Whistleblowing System (WBS)
-                        </h3>
-                        <p class="text-white-50 small mb-4" style="line-height: 1.6;">
-                            Laporkan penyalahgunaan wewenang, pelanggaran kode etik, gratifikasi, atau keluhan pelayanan publik melalui kanal aduan nasional terintegrasi secara aman, rahasia, dan terverifikasi.
-                        </p>
-                        
-                        <div class="d-flex flex-wrap gap-3">
-                            <a href="https://www.lapor.go.id" target="_blank" class="btn btn-warning fw-bold px-4 py-2.5 rounded-pill shadow text-dark" style="font-size: 13px;">
-                                <i class="fas fa-bullhorn me-1.5"></i> Buat Laporan di SP4N-LAPOR!
-                            </a>
-                            <a href="https://wbs.dephub.go.id" target="_blank" class="btn btn-outline-light fw-bold px-4 py-2.5 rounded-pill" style="font-size: 13px;">
-                                <i class="fas fa-user-secret me-1.5"></i> Portal WBS Kemenhub
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="col-lg-5 text-center">
-                        <div class="p-4 bg-white text-dark rounded-4 shadow-lg">
-                            <img src="https://www.lapor.go.id/themes/lapor/assets/images/logo.png" alt="Logo SP4N LAPOR" class="img-fluid mb-3" style="max-height: 48px;" onerror="this.style.display='none'">
-                            <h6 class="fw-bold text-danger mb-1" style="font-size: 14px;">Layanan Aspirasi & Pengaduan Online Rakyat</h6>
-                            <p class="text-muted small mb-3" style="font-size: 11.5px;">Sampaikan aspirasi dan pengaduan Anda langsung kepada instansi berwenang.</p>
-                            <div class="p-2.5 bg-light rounded-3 border text-start small font-mono" style="font-size: 11px;">
-                                <div><i class="fas fa-sms text-primary me-1"></i> SMS: <strong>1708</strong> (Ketik pesan)</div>
-                                <div><i class="fas fa-globe text-success me-1"></i> Web: <strong>www.lapor.go.id</strong></div>
-                                <div><i class="fas fa-envelope-shield text-danger me-1"></i> SPI PKTJ: <strong>spi@pktj.ac.id</strong></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <!-- DOKUMEN LAINNYA DI INFORMASI BERKALA -->
             <h3 class="fw-bold outfit text-dark mb-4" style="color: #004a99; font-size: 1.5rem;">
                 <i class="fas fa-file-alt me-2 text-primary"></i> Dokumen & Laporan Informasi Berkala
