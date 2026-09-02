@@ -456,14 +456,12 @@
                     </div>
                 @endif
 
-                <!-- BAGAN 1: HUBUNGAN STRUKTUR PPID KEMENTERIAN PERHUBUNGAN -->
+                <!-- STRUKTUR ORGANISASI PPID KEMENTERIAN PERHUBUNGAN -->
                 <div class="mb-5 p-4 p-md-5 rounded-4 border shadow-sm bg-white" data-aos="fade-up">
                     <div class="text-center mb-5">
-                        <span class="badge bg-danger px-3 py-1.5 rounded-pill text-xs fw-bold uppercase tracking-wider mb-2">Bagan 1</span>
                         <h3 class="outfit fw-black text-[#002b5c] uppercase" style="font-size: 1.5rem; letter-spacing: 0.5px;">
-                            Struktur Hubungan Layanan PPID Kementerian Perhubungan
+                            Struktur Organisasi PPID Kementerian Perhubungan
                         </h3>
-                        <p class="text-muted small">Tata hubungan kerja struktural PPID Kementerian Perhubungan hingga ke Unit Pelaksana Teknis (UPT)</p>
                     </div>
 
                     <div class="chart-kem-wrapper">
@@ -550,10 +548,9 @@
                     </div>
                 </div>
 
-                <!-- BAGAN 2: STRUKTUR ORGANISASI PPID PKTJ TEGAL -->
+                <!-- STRUKTUR ORGANISASI PPID PKTJ TEGAL -->
                 <div class="mb-5 p-4 p-md-5 rounded-4 border shadow-sm bg-white" data-aos="fade-up">
                     <div class="text-center mb-5">
-                        <span class="badge bg-success px-3 py-1.5 rounded-pill text-xs fw-bold uppercase tracking-wider mb-2">Bagan 2</span>
                         <h2 class="display-6 fw-black text-[#002b5c] outfit uppercase mb-1" style="font-size: 1.8rem; letter-spacing: 0.5px;">
                             STRUKTUR ORGANISASI PPID
                         </h2>

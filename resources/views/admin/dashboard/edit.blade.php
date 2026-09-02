@@ -380,13 +380,13 @@
                         </div>
                         <div>
                             <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Pejabat Struktur Organisasi PPID</h3>
-                            <p class="text-[11px] text-slate-500 font-medium">Ubah nama pejabat atau jabatan di Bagan 1 (Kemenhub) dan Bagan 2 (PKTJ Tegal) secara dinamis.</p>
+                            <p class="text-[11px] text-slate-500 font-medium">Ubah nama pejabat atau jabatan di Struktur Kemenhub dan Struktur PKTJ Tegal secara dinamis.</p>
                         </div>
                     </div>
-                    <span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-black rounded-full uppercase border border-amber-100">Bagan 1 & 2</span>
+                    <span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-black rounded-full uppercase border border-amber-100">Kemenhub & PKTJ</span>
                 </div>
                 <div class="p-8 space-y-6">
-                    <h5 class="text-xs font-black text-[#004a99] uppercase tracking-wider border-b pb-2">Bagan 1: Hubungan Layanan PPID Kemenhub</h5>
+                    <h5 class="text-xs font-black text-[#004a99] uppercase tracking-wider border-b pb-2">Struktur Organisasi PPID Kementerian Perhubungan</h5>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="space-y-1">
                             <label class="text-[11px] font-bold text-slate-500 uppercase">Atasan PPID</label>
@@ -422,7 +422,7 @@
                         </div>
                     </div>
 
-                    <h5 class="text-xs font-black text-[#004a99] uppercase tracking-wider border-b pb-2 pt-4">Bagan 2: Struktur Organisasi PPID PKTJ Tegal</h5>
+                    <h5 class="text-xs font-black text-[#004a99] uppercase tracking-wider border-b pb-2 pt-4">Struktur Organisasi PPID PKTJ Tegal</h5>
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                         <div class="space-y-1">
                             <label class="text-[11px] font-bold text-slate-500 uppercase">Manajer Informasi & Dokumentasi</label>
