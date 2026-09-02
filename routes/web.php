@@ -263,6 +263,168 @@ Route::get('/refresh-deploy', function() {
                     'aktif' => true
                 ]
             );
+
+            // Clean up dummy documentation items from website
+            $dummyTitles = [
+                'Dokumentasi Foto dan Notulensi Rapat Koordinasi Internal Layanan PPID PKTJ',
+                'Dokumentasi Keikutsertaan Bimbingan Teknis & Evaluasi Monev KIP Kementerian Perhubungan',
+                'Petunjuk Operasional Kegiatan (POK) Alokasi Anggaran Khusus PPID PKTJ Tahun 2025/2026',
+                'Surat Rekapitulasi dan Berita Acara Konsolidasi Usulan DIP & DIK PKTJ Tahun 2026',
+                'Bukti Kehadiran dan Komitmen Pimpinan PKTJ pada Penganugerahan & Monev KIP',
+            ];
+            \App\Models\DaftarInformasi::whereIn('judul_informasi', $dummyTitles)->delete();
+            \App\Models\InformasiBerkala::whereIn('judul', $dummyTitles)->delete();
+
+            // Seed/Upsert Official DIP Public Items
+            $officialDips = [
+                [
+                    'kategori' => 'informasi-berkala', 'tipe' => 'berkala',
+                    'judul' => 'Profil Kelembagaan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal',
+                    'deskripsi' => 'Informasi kedudukan, domisili kampus, kontak resmi, sejarah, visi misi lembaga, struktur organisasi, dan profil komprehensif PKTJ Tegal.',
+                    'waktu' => '2025/2026', 'file' => 'storage/dokumen/F1.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-berkala', 'tipe' => 'berkala',
+                    'judul' => 'Rencana Strategis (Renstra) Politeknik Keselamatan Transportasi Jalan 2020-2024 / 2025-2029',
+                    'deskripsi' => 'Dokumen perencanaan jangka menengah arah kebijakan, sasaran program strategis, dan target kinerja institusi PKTJ.',
+                    'waktu' => '2025', 'file' => 'storage/dokumen/F4.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-berkala', 'tipe' => 'berkala',
+                    'judul' => 'Rencana Kerja Tahunan (RKT) PKTJ Tegal Tahun 2025/2026',
+                    'deskripsi' => 'Rencana operasional kerja tahunan, indikator kinerja program, dan target capaian seluruh unit kerja di lingkungan PKTJ Tegal.',
+                    'waktu' => '2025/2026', 'file' => 'storage/dokumen/RKT_PKTJ.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-berkala', 'tipe' => 'berkala',
+                    'judul' => 'Laporan Akuntabilitas Kinerja Instansi Pemerintah (LAKIP) PKTJ Tegal',
+                    'deskripsi' => 'Laporan pertanggungjawaban tahunan capaian indikator kinerja utama (IKU) dan realisasi target strategis institusi PKTJ.',
+                    'waktu' => '2024/2025', 'file' => 'storage/dokumen/F6.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-berkala', 'tipe' => 'berkala',
+                    'judul' => 'Laporan Keuangan Audited dan Laporan Auditor Independen (LAI) PKTJ Tegal',
+                    'deskripsi' => 'Laporan keuangan terverifikasi (Neraca, Laporan Operasional, LPE, LRA, dan CaLK) beserta opini hasil audit auditor independen/BPK RI.',
+                    'waktu' => '2024/2025', 'file' => 'storage/dokumen/F7.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-berkala', 'tipe' => 'berkala',
+                    'judul' => 'DIPA Petikan dan Laporan Realisasi Anggaran (LRA) PKTJ Tegal',
+                    'deskripsi' => 'Dokumen otorisasi pelaksanaan anggaran (DIPA) dan laporan realisasi penyerapan anggaran belanja pegawai, barang, dan modal PKTJ Tegal.',
+                    'waktu' => '2025/2026', 'file' => 'storage/dokumen/F8.xlsx'
+                ],
+                [
+                    'kategori' => 'informasi-berkala', 'tipe' => 'berkala',
+                    'judul' => 'Rencana Umum Pengadaan (SiRUP) Barang dan Jasa PKTJ Tegal',
+                    'deskripsi' => 'Daftar paket pengadaan barang dan jasa penyedia dan swakelola tahun berjalan yang diumumkan pada portal SiRUP LKPP.',
+                    'waktu' => '2025/2026', 'file' => 'storage/dokumen/F9.xlsx'
+                ],
+                [
+                    'kategori' => 'informasi-berkala', 'tipe' => 'berkala',
+                    'judul' => 'Pengumuman Lelang LPSE dan Ringkasan Dokumen Kontrak Pengadaan PKTJ',
+                    'deskripsi' => 'Informasi pengadaan barang dan jasa yang sedang berjalan, pengumuman pemenang lelang pada portal LPSE Kemenhub, dan ringkasan kontrak penyedia.',
+                    'waktu' => '2025/2026', 'file' => 'storage/dokumen/F12.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-setiap-saat', 'tipe' => 'setiapsaat',
+                    'judul' => 'Keputusan Penetapan Daftar Informasi Publik (DIP) dan Daftar Informasi Dikecualikan (DIK) PKTJ Tegal Tahun 2026',
+                    'deskripsi' => 'Surat Keputusan Direktur PKTJ mengenai penetapan klasifikasi seluruh dokumen publik berkala, setiap saat, serta merta, dan informasi yang dikecualikan.',
+                    'waktu' => '2026', 'file' => 'storage/dokumen/G1.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-setiap-saat', 'tipe' => 'setiapsaat',
+                    'judul' => 'Laporan Posisi dan Inventaris Barang Milik Negara (BMN) PKTJ Tegal',
+                    'deskripsi' => 'Rekapitulasi inventarisasi aset tanah, bangunan kampus, laboratorium, armada kendaraan pengujian, dan peralatan teknologi pembelajaran PKTJ Tegal.',
+                    'waktu' => '2025/2026', 'file' => 'storage/dokumen/G2.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-setiap-saat', 'tipe' => 'setiapsaat',
+                    'judul' => 'Buku Register Surat Masuk dan Surat Keluar Kedinasan PKTJ Tegal (Tahun 2023 - 2026)',
+                    'deskripsi' => 'Buku pencatatan register korespondensi surat masuk dan surat keluar kedinasan melalui aplikasi persuratan Srikandi Kementerian Perhubungan.',
+                    'waktu' => '2023-2026', 'file' => 'storage/dokumen/G3.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-serta-merta', 'tipe' => 'sertamerta',
+                    'judul' => 'Pemberitahuan Peringatan Dini Cuaca Ekstrem dan Jalur Evakuasi Kampus PKTJ Tegal',
+                    'deskripsi' => 'Informasi kesiapsiagaan darurat bencana alam, rilis cuaca ekstrem BMKG, panduan tanggap darurat, dan peta jalur evakuasi kampus PKTJ Tegal.',
+                    'waktu' => '2025/2026', 'file' => 'storage/dokumen/H1.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-serta-merta', 'tipe' => 'sertamerta',
+                    'judul' => 'Protokol Kesiapsiagaan Kesehatan dan Laporan Kegiatan P4GN PKTJ Tegal',
+                    'deskripsi' => 'Informasi pencegahan dan penanggulangan narkoba (P4GN), SOP layanan klinik kesehatan, dan protokol kesiapsiagaan darurat kesehatan taruna/pegawai.',
+                    'waktu' => '2025/2026', 'file' => 'storage/dokumen/H2.pdf'
+                ],
+                [
+                    'kategori' => 'informasi-serta-merta', 'tipe' => 'sertamerta',
+                    'judul' => 'Pengumuman Darurat Penyesuaian Jadwal & Gangguan Server Sipencatar Kemenhub',
+                    'deskripsi' => 'Pemberitahuan resmi mendesak penyesuaian jadwal atau kendala teknis sistem seleksi penerimaan calon taruna transportasi darat Kemenhub.',
+                    'waktu' => '2025/2026', 'file' => 'storage/dokumen/H3.pdf'
+                ],
+            ];
+
+            foreach ($officialDips as $d) {
+                \App\Models\DaftarInformasi::updateOrCreate(
+                    ['judul_informasi' => $d['judul']],
+                    [
+                        'kategori'           => $d['kategori'],
+                        'tipe_informasi'     => $d['tipe'],
+                        'isi_informasi'      => '<p>' . $d['deskripsi'] . '</p>',
+                        'pejabat_penguasa'   => 'Direktur & Manajemen PKTJ',
+                        'penerbit_informasi' => 'Politeknik Keselamatan Transportasi Jalan',
+                        'tempat_pembuatan'   => 'Tegal',
+                        'penanggung_jawab'   => 'PPID PKTJ',
+                        'waktu_pembuatan'    => $d['waktu'],
+                        'bentuk_informasi'   => 'Softcopy / PDF',
+                        'jangka_waktu'       => '5 Tahun / Selama Berlaku',
+                        'file_informasi'     => $d['file'],
+                        'aktif'              => true,
+                        'is_blurred'         => false,
+                        'bisa_download'      => true,
+                    ]
+                );
+
+                if ($d['kategori'] === 'informasi-berkala') {
+                    \App\Models\InformasiBerkala::updateOrCreate(
+                        ['judul' => $d['judul']],
+                        [
+                            'deskripsi'     => '<p>' . $d['deskripsi'] . '</p>',
+                            'kategori'      => 'Laporan & Rencana',
+                            'tahun'         => $d['waktu'],
+                            'file_path'     => $d['file'],
+                            'file_size'     => '1.5 MB',
+                            'bisa_download' => true,
+                            'aktif'         => true,
+                        ]
+                    );
+                } elseif ($d['kategori'] === 'informasi-setiap-saat') {
+                    \App\Models\InformasiSetiapSaat::updateOrCreate(
+                        ['judul' => $d['judul']],
+                        [
+                            'deskripsi'     => '<p>' . $d['deskripsi'] . '</p>',
+                            'kategori'      => 'Dokumen Publik',
+                            'tahun'         => $d['waktu'],
+                            'file_path'     => $d['file'],
+                            'file_size'     => '1.5 MB',
+                            'bisa_download' => true,
+                            'aktif'         => true,
+                        ]
+                    );
+                } elseif ($d['kategori'] === 'informasi-serta-merta') {
+                    \App\Models\InformasiSertaMerta::updateOrCreate(
+                        ['judul' => $d['judul']],
+                        [
+                            'deskripsi'     => '<p>' . $d['deskripsi'] . '</p>',
+                            'kategori'      => 'Informasi Darurat',
+                            'tahun'         => $d['waktu'],
+                            'file_path'     => $d['file'],
+                            'file_size'     => '1.5 MB',
+                            'bisa_download' => true,
+                            'aktif'         => true,
+                        ]
+                    );
+                }
+            }
         } catch (\Throwable $ex) {}
 
         return '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Deploy Cache Refreshed</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light d-flex align-items-center justify-content-center min-vh-100"><div class="card shadow-lg p-5 rounded-4 text-center" style="max-width: 600px;"><div class="display-4 text-success mb-3">✅</div><h3 class="fw-bold text-dark mb-2">Cache Deployment Berhasil Dibersihkan!</h3><p class="text-muted small">Seluruh cache template blade, routes, config, session view, dan foto pejabat telah diperbarui 100% ke versi kode terbaru.</p><hr class="my-4"><div class="d-grid gap-2"><a href="/informasi-publik/berkala" class="btn btn-primary fw-bold py-2.5 rounded-pill">👔 Lihat Pejabat & Informasi Berkala</a><a href="/profil/pejabat" class="btn btn-outline-primary fw-bold py-2.5 rounded-pill">📸 Lihat Halaman Profil Pejabat</a><a href="/" class="btn btn-link text-muted small">Kembali ke Beranda</a></div></div></body></html>';
