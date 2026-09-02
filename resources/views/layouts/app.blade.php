@@ -408,7 +408,7 @@
                         </button>
                         <div class="submenu {{ request()->is('admin/profil*') ? 'open' : '' }}">
                             <a href="{{ route('admin.profil.edit', 'profil') }}" class="submenu-link {{ request()->is('admin/profil/profil*') ? 'active' : '' }}">Profil PPID</a>
-                            <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link {{ request()->is('admin/profil/tugas*') ? 'active' : '' }}">Tugas & Tanggung Jawab</a>
+                            <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link {{ request()->is('admin/profil/tugas*') ? 'active' : '' }}">Tugas & Fungsi PPID</a>
                             <a href="{{ route('admin.profil.edit', 'visi') }}" class="submenu-link {{ request()->is('admin/profil/visi*') ? 'active' : '' }}">Visi & Misi</a>
                             <a href="{{ route('admin.profil.edit', 'struktur') }}" class="submenu-link {{ request()->is('admin/profil/struktur*') ? 'active' : '' }}">Struktur Organisasi</a>
                             <a href="{{ route('admin.regulasi.index') }}" class="submenu-link {{ request()->is('admin/regulasi*') || request()->is('admin/profil/regulasi*') ? 'active' : '' }}">Regulasi & Dasar Hukum</a>

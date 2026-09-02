@@ -79,8 +79,8 @@
                     <hr class="mb-3">
                     <div class="flex flex-wrap gap-x-3 gap-y-2 text-sm text-gray-600">
                         <a href="{{ route('admin.profil.edit') }}" class="hover:text-blue-600">● Profil PPID</a>
-                        <a href="{{ route('admin.profil.edit') }}" class="hover:text-blue-600">● Tugas & Tanggung Jawab</a>
-                        <a href="{{ route('admin.profil.edit') }}" class="hover:text-blue-600">● Visi & Misi</a>
+                        <a href="{{ route('admin.profil.edit', 'tugas') }}" class="hover:text-blue-600">● Tugas & Fungsi PPID</a>
+                        <a href="{{ route('admin.profil.edit', 'visi') }}" class="hover:text-blue-600">● Visi & Misi</a>
                         <a href="{{ route('admin.profil.edit') }}" class="hover:text-blue-600">● Struktur Organisasi</a>
                         <a href="{{ route('admin.profil.edit') }}" class="hover:text-blue-600">● Regulasi</a>
                         <a href="{{ route('admin.profil.edit') }}" class="hover:text-blue-600">● Kontak</a>

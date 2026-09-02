@@ -540,9 +540,9 @@
                     <div class="row g-0 h-100">
                         <div class="col-md-6 p-4 d-flex flex-column justify-content-between">
                             <div>
-                                <span class="campus-badge">Kampus I</span>
+                                <span class="campus-badge">{{ $settings['kontak_kampus_1_nama'] ?? 'Kampus Perintis' }}</span>
                                 <h4 class="outfit fw-black text-slate-800 mb-3" style="font-size: 18px; line-height: 1.3;">
-                                    {{ $settings['kontak_kampus_1_nama'] ?? 'Politeknik Keselamatan Transportasi Jalan Kampus I' }}
+                                    {{ $settings['kontak_kampus_1_nama'] ?? 'Politeknik Keselamatan Transportasi Jalan (Kampus Perintis)' }}
                                 </h4>
                                 <ul class="campus-info-list">
                                     <li>
@@ -579,9 +579,9 @@
                     <div class="row g-0 h-100">
                         <div class="col-md-6 p-4 d-flex flex-column justify-content-between">
                             <div>
-                                <span class="campus-badge" style="background-color: var(--secondary-gold); color: var(--primary-dark);">Kampus II</span>
+                                <span class="campus-badge" style="background-color: var(--secondary-gold); color: var(--primary-dark);">{{ $settings['kontak_kampus_2_nama'] ?? 'Kampus Margadana' }}</span>
                                 <h4 class="outfit fw-black text-slate-800 mb-3" style="font-size: 18px; line-height: 1.3;">
-                                    {{ $settings['kontak_kampus_2_nama'] ?? 'Politeknik Keselamatan Transportasi Jalan Kampus II' }}
+                                    {{ $settings['kontak_kampus_2_nama'] ?? 'Politeknik Keselamatan Transportasi Jalan (Kampus Margadana)' }}
                                 </h4>
                                 <ul class="campus-info-list">
                                     <li>

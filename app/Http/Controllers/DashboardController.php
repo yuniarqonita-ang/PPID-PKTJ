@@ -152,6 +152,35 @@ class DashboardController extends Controller
             'youtube_link' => $request->youtube_link,
             'list_penanggung_jawab' => $request->list_penanggung_jawab,
             'hero_video_link' => $request->hero_video_link,
+
+            // Kampus 1 & 2 Dinamis (Peta & Kontak)
+            'kontak_kampus_1_nama' => $request->kontak_kampus_1_nama,
+            'kontak_kampus_1_alamat' => $request->kontak_kampus_1_alamat,
+            'kontak_kampus_1_maps' => $request->kontak_kampus_1_maps,
+            'kontak_kampus_1_telepon' => $request->kontak_kampus_1_telepon,
+            'kontak_kampus_1_email' => $request->kontak_kampus_1_email,
+
+            'kontak_kampus_2_nama' => $request->kontak_kampus_2_nama,
+            'kontak_kampus_2_alamat' => $request->kontak_kampus_2_alamat,
+            'kontak_kampus_2_maps' => $request->kontak_kampus_2_maps,
+            'kontak_kampus_2_telepon' => $request->kontak_kampus_2_telepon,
+            'kontak_kampus_2_email' => $request->kontak_kampus_2_email,
+
+            // SP4N-LAPOR! Dinamis
+            'span_lapor_judul' => $request->span_lapor_judul,
+            'span_lapor_deskripsi' => $request->span_lapor_deskripsi,
+            'span_lapor_link' => $request->span_lapor_link,
+
+            // Struktur Organisasi Dinamis
+            'struktur_atasan_nama' => $request->struktur_atasan_nama,
+            'struktur_utama_nama' => $request->struktur_utama_nama,
+            'struktur_pelaksana_itjen' => $request->struktur_pelaksana_itjen,
+            'struktur_pelaksana_ditjen' => $request->struktur_pelaksana_ditjen,
+            'struktur_pelaksana_kaban' => $request->struktur_pelaksana_kaban,
+            'struktur_upt_direktur' => $request->struktur_upt_direktur,
+            'struktur_manajer_nama' => $request->struktur_manajer_nama,
+            'struktur_pengelola_nama' => $request->struktur_pengelola_nama,
+            'struktur_petugas_nama' => $request->struktur_petugas_nama,
         ];
 
         // Handle Hero Background Video Upload
@@ -162,19 +191,91 @@ class DashboardController extends Controller
             $settings['hero_video_file'] = str_replace('public/', '', $path);
         }
 
+        // Handle Banner SP4N-LAPOR Upload
+        if ($request->hasFile('span_lapor_banner')) {
+            $file = $request->file('span_lapor_banner');
+            $filename = 'span_banner_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('public/dashboard', $filename);
+            $settings['span_lapor_banner'] = str_replace('public/', '', $path);
+        }
+
         foreach ($settings as $key => $value) {
             Dashboard::updateOrCreate(
                 ['key' => $key],
                 [
                     'value' => $value ?? '',
-                    'type' => (in_array($key, ['video_thumbnail', 'hero_video_file']) ? 'file' : 'text'),
+                    'type' => (in_array($key, ['video_thumbnail', 'hero_video_file', 'span_lapor_banner']) ? 'file' : 'text'),
                     'description' => $this->getDescription($key),
                     'aktif' => true
                 ]
             );
         }
 
-        return redirect()->route('dashboard.edit')->with('success', 'Dashboard berhasil diperbarui!');
+        return redirect()->route('dashboard.edit')->with('success', 'Pengaturan dashboard berhasil diperbarui!');
+    }
+
+    public function uploadHeroVideoAjax(Request $request)
+    {
+        @ini_set('max_execution_time', 600);
+        @ini_set('upload_max_filesize', '256M');
+        @ini_set('post_max_size', '256M');
+        @ini_set('memory_limit', '512M');
+
+        $request->validate([
+            'video_file' => 'required|file|mimes:mp4,webm,ogg,mov|max:262144', // max 256MB
+        ]);
+
+        if ($request->hasFile('video_file')) {
+            $file = $request->file('video_file');
+            
+            // Delete old hero video if exists
+            $oldVideo = Dashboard::getValue('hero_video_file');
+            if ($oldVideo && file_exists(storage_path('app/public/' . $oldVideo))) {
+                @unlink(storage_path('app/public/' . $oldVideo));
+            }
+
+            $filename = 'hero_video_' . time() . '.' . $file->getClientOriginalExtension();
+            $path = $file->storeAs('public/dashboard', $filename);
+            $relative = 'dashboard/' . $filename;
+
+            Dashboard::updateOrCreate(
+                ['key' => 'hero_video_file'],
+                [
+                    'value' => $relative,
+                    'type' => 'file',
+                    'description' => 'File video background hero (.mp4)',
+                    'aktif' => true
+                ]
+            );
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Video hero berhasil diunggah secara real-time dan langsung aktif di beranda!',
+                'filename' => $filename,
+                'url' => asset('storage/' . $relative),
+                'size_mb' => round($file->getSize() / (1024 * 1024), 2)
+            ]);
+        }
+
+        return response()->json(['success' => false, 'message' => 'Tidak ada file video yang diterima.'], 400);
+    }
+
+    public function deleteHeroVideoAjax()
+    {
+        $oldVideo = Dashboard::getValue('hero_video_file');
+        if ($oldVideo && file_exists(storage_path('app/public/' . $oldVideo))) {
+            @unlink(storage_path('app/public/' . $oldVideo));
+        }
+
+        Dashboard::updateOrCreate(
+            ['key' => 'hero_video_file'],
+            ['value' => '']
+        );
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Video background hero berhasil dihapus.'
+        ]);
     }
 
     private function getDescription($key)

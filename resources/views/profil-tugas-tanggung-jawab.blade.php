@@ -4,7 +4,7 @@
     <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $profil->judul ?? 'Tugas & Tanggung Jawab' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
+    <title>{{ $profil->judul ?? 'Tugas & Fungsi PPID' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -93,8 +93,8 @@
 
     <div class="hero-section">
         <div class="container hero-content">
-            <h1 class="display-4 fw-bold outfit uppercase mb-3">{{ $profil->judul ?? 'Tugas & Tanggung Jawab' }}</h1>
-            <p class="lead opacity-75">{{ $profil->tagline_hero ?? 'Tugas, Wewenang, dan Tanggung Jawab PPID PKTJ' }}</p>
+            <h1 class="display-4 fw-bold outfit uppercase mb-3">{{ $profil->judul ?? 'Tugas & Fungsi PPID' }}</h1>
+            <p class="lead opacity-75">{{ $profil->tagline_hero ?? 'Tugas, Wewenang, dan Fungsi PPID PKTJ' }}</p>
         </div>
     </div>
 

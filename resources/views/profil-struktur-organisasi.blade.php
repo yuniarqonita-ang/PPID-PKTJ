@@ -64,6 +64,194 @@
             font-size: 2.2rem;
         }
 
+        /* CHART 1 & 2 STYLING (VERBATIM POLTRADA BALI -> PKTJ) */
+        .chart-kem-wrapper, .chart-pktj-wrapper {
+            position: relative;
+            max-width: 950px;
+            margin: 0 auto;
+            padding: 20px 0;
+        }
+
+        /* Kemenhub Card Styles */
+        .kemenhub-card {
+            width: 250px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            margin: 0 auto;
+            transition: transform 0.25s ease;
+        }
+        .kemenhub-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+        }
+        .kem-badge-top {
+            background: #e60000;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 13px;
+            padding: 8px 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .kem-badge-sub {
+            background: #00b0ff;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 12.5px;
+            padding: 8px 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        /* Connecting Lines Chart 1 */
+        .kem-line-v-center {
+            width: 4px;
+            background: #111827;
+            margin: 0 auto;
+        }
+        .kem-branch-container {
+            position: relative;
+            width: 100%;
+            height: 65px;
+        }
+        .kem-branch-left {
+            position: absolute;
+            right: 50%;
+            top: 0;
+            display: flex;
+            align-items: center;
+            transform: translateY(-50%);
+        }
+        .kem-line-h-left {
+            width: 60px;
+            height: 4px;
+            background: #111827;
+        }
+        .kem-branch-main-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #111827;
+            transform: translateX(-50%);
+        }
+
+        .kem-pelaksana-grid {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 20px;
+            position: relative;
+            padding-top: 25px;
+            border-top: 4px solid #111827;
+        }
+        .kem-pelaksana-col {
+            position: relative;
+            flex: 1;
+            max-width: 280px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .kem-pelaksana-drop-line {
+            position: absolute;
+            top: -25px;
+            height: 25px;
+            width: 4px;
+            background: #111827;
+        }
+
+        /* PKTJ Bagan 2 Styles */
+        .pktj-node-card {
+            width: 320px;
+            max-width: 90vw;
+            border-radius: 50px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            text-align: center;
+            margin: 0 auto;
+            transition: transform 0.25s ease;
+        }
+        .pktj-node-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+        }
+        .pktj-badge-top {
+            background: #00a651;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 13.5px;
+            padding: 9px 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .pktj-badge-sub {
+            background: #1055cc;
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 13px;
+            padding: 9px 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .pktj-line-v {
+            width: 5px;
+            background: #111827;
+            margin: 0 auto;
+        }
+        .pktj-fork-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .pktj-fork-left {
+            position: absolute;
+            right: 50%;
+            display: flex;
+            align-items: center;
+        }
+        .pktj-line-h-to-center {
+            width: 70px;
+            height: 5px;
+            background: #111827;
+        }
+        .pktj-spine-line {
+            width: 5px;
+            height: 70px;
+            background: #111827;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 768px) {
+            .kem-pelaksana-grid {
+                flex-direction: column;
+                align-items: center;
+                border-top: none;
+                gap: 30px;
+            }
+            .kem-branch-left {
+                position: static;
+                transform: none;
+                margin-bottom: 20px;
+            }
+            .kem-line-h-left {
+                display: none;
+            }
+            .pktj-fork-left {
+                position: static;
+                margin-bottom: 20px;
+            }
+            .pktj-line-h-to-center {
+                display: none;
+            }
+        }
+
         /* Organizational Chart Styling */
         .org-container {
             display: flex;
@@ -200,101 +388,154 @@
                     </div>
                 @endif
 
+                <!-- BAGAN 1: HUBUNGAN STRUKTUR PPID KEMENTERIAN PERHUBUNGAN -->
+                <div class="mb-5 p-4 p-md-5 rounded-4 border shadow-sm bg-white" data-aos="fade-up">
+                    <div class="text-center mb-5">
+                        <span class="badge bg-danger px-3 py-1.5 rounded-pill text-xs fw-bold uppercase tracking-wider mb-2">Bagan 1</span>
+                        <h3 class="outfit fw-black text-[#002b5c] uppercase" style="font-size: 1.5rem; letter-spacing: 0.5px;">
+                            Struktur Hubungan Layanan PPID Kementerian Perhubungan
+                        </h3>
+                        <p class="text-muted small">Tata hubungan kerja struktural PPID Kementerian Perhubungan hingga ke Unit Pelaksana Teknis (UPT)</p>
+                    </div>
+
+                    <div class="chart-kem-wrapper">
+                        <!-- Level 1: Atasan PPID -->
+                        <div class="d-flex justify-content-center">
+                            <div class="kemenhub-card">
+                                <div class="kem-badge-top">ATASAN PPID</div>
+                                <div class="kem-badge-sub">{{ $settings['struktur_atasan_nama'] ?? 'MENTERI PERHUBUNGAN' }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Vertical connector line from Atasan -->
+                        <div class="kem-line-v-center" style="height: 35px;"></div>
+
+                        <!-- Fork: Left to PPID UTAMA, Down to PELAKSANA -->
+                        <div class="kem-branch-container">
+                            <div class="kem-branch-left">
+                                <div class="kemenhub-card">
+                                    <div class="kem-badge-top">PPID UTAMA</div>
+                                    <div class="kem-badge-sub">{{ $settings['struktur_utama_nama'] ?? 'SEKRETARIS JENDERAL' }}</div>
+                                </div>
+                                <div class="kem-line-h-left"></div>
+                            </div>
+                            <div class="kem-branch-main-line"></div>
+                        </div>
+
+                        <div class="kem-line-v-center" style="height: 35px;"></div>
+
+                        <!-- 3 Pelaksana Columns -->
+                        <div class="kem-pelaksana-grid">
+                            <!-- Col 1: Itjen -->
+                            <div class="kem-pelaksana-col">
+                                <div class="kem-pelaksana-drop-line"></div>
+                                <div class="kemenhub-card">
+                                    <div class="kem-badge-top">PPID PELAKSANA</div>
+                                    <div class="kem-badge-sub">{{ $settings['struktur_pelaksana_itjen'] ?? 'INSPEKTUR JENDERAL' }}</div>
+                                </div>
+                            </div>
+
+                            <!-- Col 2: Ditjen -->
+                            <div class="kem-pelaksana-col">
+                                <div class="kem-pelaksana-drop-line"></div>
+                                <div class="kemenhub-card">
+                                    <div class="kem-badge-top">PPID PELAKSANA</div>
+                                    <div class="kem-badge-sub">{{ $settings['struktur_pelaksana_ditjen'] ?? 'DIREKTUR JENDERAL' }}</div>
+                                </div>
+                            </div>
+
+                            <!-- Col 3: Kepala Badan & UPT PKTJ -->
+                            <div class="kem-pelaksana-col">
+                                <div class="kem-pelaksana-drop-line"></div>
+                                <div class="kemenhub-card">
+                                    <div class="kem-badge-top">PPID PELAKSANA</div>
+                                    <div class="kem-badge-sub">{{ $settings['struktur_pelaksana_kaban'] ?? 'KEPALA BADAN' }}</div>
+                                </div>
+
+                                <!-- Vertical line down to UPT PKTJ -->
+                                <div class="kem-line-v-center" style="height: 40px;"></div>
+
+                                <div class="kemenhub-card">
+                                    <div class="kem-badge-top">PPID PELAKSANA UPT</div>
+                                    <div class="kem-badge-sub">{{ $settings['struktur_upt_direktur'] ?? 'DIREKTUR PKTJ TEGAL' }}</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BAGAN 2: STRUKTUR ORGANISASI PPID PKTJ TEGAL -->
+                <div class="mb-5 p-4 p-md-5 rounded-4 border shadow-sm bg-white" data-aos="fade-up">
+                    <div class="text-center mb-5">
+                        <span class="badge bg-success px-3 py-1.5 rounded-pill text-xs fw-bold uppercase tracking-wider mb-2">Bagan 2</span>
+                        <h2 class="display-6 fw-black text-[#002b5c] outfit uppercase mb-1" style="font-size: 1.8rem; letter-spacing: 0.5px;">
+                            STRUKTUR ORGANISASI PPID
+                        </h2>
+                        <h3 class="h5 fw-bold text-primary outfit uppercase" style="letter-spacing: 1px;">
+                            POLITEKNIK KESELAMATAN TRANSPORTASI JALAN TEGAL
+                        </h3>
+                        <div class="mx-auto mt-2" style="width: 80px; height: 4px; background: #ffc107; border-radius: 50px;"></div>
+                    </div>
+
+                    <div class="chart-pktj-wrapper">
+                        <!-- Top: PPID PELAKSANA UPT -->
+                        <div class="d-flex justify-content-center">
+                            <div class="pktj-node-card">
+                                <div class="pktj-badge-top">PPID PELAKSANA UPT</div>
+                                <div class="pktj-badge-sub">{{ $settings['struktur_upt_direktur'] ?? 'DIREKTUR PKTJ TEGAL' }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Vertical stem -->
+                        <div class="pktj-line-v" style="height: 40px;"></div>
+
+                        <!-- Branch to Left: MANAJER INFORMASI DAN DOKUMENTASI -->
+                        <div class="pktj-fork-wrapper">
+                            <div class="pktj-fork-left">
+                                <div class="pktj-node-card">
+                                    <div class="pktj-badge-top">MANAJER INFORMASI DAN DOKUMENTASI</div>
+                                    <div class="pktj-badge-sub">{{ $settings['struktur_manajer_nama'] ?? 'PEJABAT STRUKTURAL' }}</div>
+                                </div>
+                                <div class="pktj-line-h-to-center"></div>
+                            </div>
+
+                            <div class="pktj-spine-line"></div>
+                        </div>
+
+                        <!-- Vertical stem -->
+                        <div class="pktj-line-v" style="height: 35px;"></div>
+
+                        <!-- Center Down: PENGELOLA DOKUMENTASI -->
+                        <div class="d-flex justify-content-center">
+                            <div class="pktj-node-card">
+                                <div class="pktj-badge-top">PENGELOLA DOKUMENTASI</div>
+                                <div class="pktj-badge-sub">{{ $settings['struktur_pengelola_nama'] ?? 'PEJABAT STRUKTURAL/STAFF' }}</div>
+                            </div>
+                        </div>
+
+                        <!-- Vertical stem -->
+                        <div class="pktj-line-v" style="height: 40px;"></div>
+
+                        <!-- Center Down: PETUGAS INFORMASI -->
+                        <div class="d-flex justify-content-center">
+                            <div class="pktj-node-card">
+                                <div class="pktj-badge-top">PETUGAS INFORMASI</div>
+                                <div class="pktj-badge-sub">{{ $settings['struktur_petugas_nama'] ?? 'STAFF' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 @if($profil->additional_sections)
                     @foreach($profil->additional_sections as $section)
-                        <div class="mb-5">
-                            <h2 class="section-title">{{ $section['title'] }}</h2>
-                            
-                            @if(($section['layout'] ?? 'default') === 'diagram')
-                                <div class="org-container">
-                                    <!-- Level 1 -->
-                                    <div class="org-group-title" data-aos="fade-down">Tingkat 1: Pelaksana UPT</div>
-                                    <div class="org-level-row">
-                                        <div class="org-card level-1 hover-lift" data-aos="zoom-in">
-                                            <div class="role-name">{{ $settings['struktur_l1_role'] ?? 'PPID Pelaksana UPT' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l1_name'] ?? 'Direktur PKTJ' }}</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="org-connector"></div>
-
-                                    <!-- Level 2 -->
-                                    <div class="org-group-title" data-aos="fade-down">Tingkat 2: Manager Informasi & Dokumentasi</div>
-                                    <div class="org-level-row">
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="100">
-                                            <div class="role-name">{{ $settings['struktur_l2_c1_role'] ?? 'Manager Bidang 1' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l2_c1_name'] ?? 'Wakil Direktur 1' }}</div>
-                                        </div>
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="200">
-                                            <div class="role-name">{{ $settings['struktur_l2_c2_role'] ?? 'Manager Bidang 2' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l2_c2_name'] ?? 'Wakil Direktur 2' }}</div>
-                                        </div>
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="300">
-                                            <div class="role-name">{{ $settings['struktur_l2_c3_role'] ?? 'Manager Bidang 3' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l2_c3_name'] ?? 'Wakil Direktur 3' }}</div>
-                                        </div>
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="400">
-                                            <div class="role-name">{{ $settings['struktur_l2_c4_role'] ?? 'Manager Administrasi' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l2_c4_name'] ?? 'Kepala Bagian Administrasi Akademik dan Ketarunaan' }}</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="org-connector"></div>
-
-                                    <!-- Level 3 -->
-                                    <div class="org-group-title" data-aos="fade-down">Tingkat 3: Pengelola Dokumentasi</div>
-                                    <div class="org-level-row">
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="100">
-                                            <div class="role-name">{{ $settings['struktur_l3_c1_role'] ?? 'Pengelola Dokumentasi' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l3_c1_name'] ?? 'Kepala Bagian Keuangan, Umum dan Kerjasama' }}</div>
-                                        </div>
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="200">
-                                            <div class="role-name">{{ $settings['struktur_l3_c2_role'] ?? 'Humas' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l3_c2_name'] ?? 'Pranata Hubungan Masyarakat Ahli Muda' }}</div>
-                                        </div>
-                                    </div>
-
-                                    <div class="org-connector"></div>
-
-                                    <!-- Level 4 -->
-                                    <div class="org-group-title" data-aos="fade-down">Tingkat 4: Petugas Informasi</div>
-                                    <div class="org-level-row">
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="50">
-                                            <div class="role-name">{{ $settings['struktur_l4_c1_role'] ?? 'Petugas Keuangan' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l4_c1_name'] ?? 'Analis Pengelolaan Keuangan APBN Ahli Muda' }}</div>
-                                        </div>
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="100">
-                                            <div class="role-name">{{ $settings['struktur_l4_c2_role'] ?? 'Petugas SDM' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l4_c2_name'] ?? 'Analis Sumber Daya Manusia Aparatur Ahli Muda' }}</div>
-                                        </div>
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="150">
-                                            <div class="role-name">{{ $settings['struktur_l4_c3_role'] ?? 'Teknologi Pembelajaran' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l4_c3_name'] ?? 'Para Pengembangan Teknologi Pembelajaran Ahli Muda' }}</div>
-                                        </div>
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="200">
-                                            <div class="role-name">{{ $settings['struktur_l4_c4_role'] ?? 'Kepala Pusat' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l4_c4_name'] ?? 'Para Kepala Pusat' }}</div>
-                                        </div>
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="250">
-                                            <div class="role-name">{{ $settings['struktur_l4_c5_role'] ?? 'Ketua Program Studi' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l4_c5_name'] ?? 'Para Ketua Program Studi' }}</div>
-                                        </div>
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="300">
-                                            <div class="role-name">{{ $settings['struktur_l4_c6_role'] ?? 'Kepala Unit' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l4_c6_name'] ?? 'Para Kepala Unit' }}</div>
-                                        </div>
-                                        <div class="org-card hover-lift" data-aos="fade-up" data-aos-delay="350">
-                                            <div class="role-name">{{ $settings['struktur_l4_c7_role'] ?? 'Kehumasan' }}</div>
-                                            <div class="person-name">{{ $settings['struktur_l4_c7_name'] ?? 'Pranata Kehumasan' }}</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @else
+                        @if(($section['layout'] ?? 'default') !== 'diagram')
+                            <div class="mb-5">
+                                <h2 class="section-title">{{ $section['title'] }}</h2>
                                 <div class="rich-content">
                                     {!! $section['content'] !!}
                                 </div>
-                            @endif
-                        </div>
+                            </div>
+                        @endif
                     @endforeach
                 @endif
 

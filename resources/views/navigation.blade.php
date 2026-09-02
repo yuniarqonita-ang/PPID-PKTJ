@@ -267,6 +267,9 @@
                                             $childNama = 'JDIH BPSDM Kemenhub';
                                             $childUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
                                         }
+                                        if (str_contains(strtolower($childNama), 'tanggung jawab') || str_contains(strtolower($childNama), 'tugas dan tanggung')) {
+                                            $childNama = 'Tugas & Fungsi PPID';
+                                        }
                                     @endphp
                                     <li>
                                         @if(str_starts_with($childUrl, 'http://') || str_starts_with($childUrl, 'https://'))
@@ -287,6 +290,9 @@
                                     $menuNama = 'JDIH BPSDM Kemenhub';
                                     $menuUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
                                 }
+                                if (str_contains(strtolower($menuNama), 'tanggung jawab') || str_contains(strtolower($menuNama), 'tugas dan tanggung')) {
+                                    $menuNama = 'Tugas & Fungsi PPID';
+                                }
                             @endphp
                             @if(str_starts_with($menuUrl, 'http://') || str_starts_with($menuUrl, 'https://'))
                                 <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ $menuUrl }}" target="_blank">{{ $menuNama }}</a>
@@ -300,10 +306,9 @@
 
             <div class="d-flex align-items-center gap-2">
                 <!-- GLOBAL SPOTLIGHT SEARCH TRIGGER -->
-                <button type="button" class="btn btn-outline-light d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold" onclick="openGlobalSearchModal()" title="Cari Dokumen & Informasi Publik (Ctrl + K)" style="border-color: rgba(255,255,255,0.3); background: rgba(0, 23, 56, 0.3);">
+                <button type="button" class="btn btn-outline-light d-flex align-items-center gap-2 rounded-pill px-3 py-2 fw-semibold" onclick="openGlobalSearchModal()" title="Cari Dokumen & Informasi Publik" style="border-color: rgba(255,255,255,0.3); background: rgba(0, 23, 56, 0.3);">
                     <i class="fas fa-search text-warning"></i>
                     <span class="d-none d-xl-inline text-white-50" style="font-size: 12.5px;">Cari Dokumen / Informasi...</span>
-                    <kbd class="bg-black bg-opacity-25 text-white-50 px-1.5 py-0.5 rounded border border-white border-opacity-25 d-none d-xl-inline" style="font-size: 10px;">Ctrl+K</kbd>
                 </button>
 
                 <!-- PERMOHONAN INFORMASI (BPSDMP PKTJ) -->

@@ -264,6 +264,48 @@ Route::get('/refresh-deploy', function() {
                 ]
             );
 
+            // Auto-update CustomMenu & Profil to 'Tugas & Fungsi PPID'
+            \App\Models\CustomMenu::where('nama', 'like', '%Tanggung%')
+                ->orWhere('nama', 'like', '%Tugas%')
+                ->update(['nama' => 'Tugas & Fungsi PPID']);
+
+            \App\Models\Profil::where('tipe', 'tugas')->update([
+                'judul' => 'Tugas & Fungsi PPID',
+                'tagline_hero' => 'Tugas, Wewenang, dan Fungsi PPID PKTJ'
+            ]);
+
+            // Auto-sync Campus Names & SP4N-LAPOR defaults
+            $autoSettings = [
+                'kontak_kampus_1_nama' => 'Kampus Perintis',
+                'kontak_kampus_2_nama' => 'Kampus Margadana',
+                'kontak_kampus_1_alamat' => 'Jl. Perintis Kemerdekaan No. 17, Kota Tegal',
+                'kontak_kampus_2_alamat' => 'Jl. Abdul Syukur No. 17, Margadana, Kota Tegal',
+                'kontak_kampus_1_maps' => 'https://maps.google.com/maps?q=Politeknik%20Keselamatan%20Transportasi%20Jalan%20(PKTJ)%20Kampus%20I%20Tegal&t=&z=15&ie=UTF8&iwloc=&output=embed',
+                'kontak_kampus_2_maps' => 'https://maps.google.com/maps?q=Politeknik%20Keselamatan%20Transportasi%20Jalan%20(PKTJ)%20Kampus%20II%20Tegal&t=&z=15&ie=UTF8&iwloc=&output=embed',
+                'span_lapor_judul' => 'UNTUK PELAYANAN PUBLIK YANG LEBIH BAIK, BERANI LAPOR MELALUI SP4N-LAPOR!',
+                'span_lapor_deskripsi' => 'Sistem Pengelolaan Pengaduan Pelayanan Publik Nasional - Layanan Aspirasi dan Pengaduan Online Rakyat. Sampaikan aspirasi, saran, dan laporan pelayanan secara transparan, aman, dan terpercaya.',
+                'span_lapor_link' => 'https://www.lapor.go.id/instansi/politeknik-keselamatan-transportasi-jalan-tegal',
+                'struktur_atasan_nama' => 'MENTERI PERHUBUNGAN',
+                'struktur_utama_nama' => 'SEKRETARIS JENDERAL',
+                'struktur_pelaksana_itjen' => 'INSPEKTUR JENDERAL',
+                'struktur_pelaksana_ditjen' => 'DIREKTUR JENDERAL',
+                'struktur_pelaksana_kaban' => 'KEPALA BADAN',
+                'struktur_upt_direktur' => 'DIREKTUR PKTJ TEGAL',
+                'struktur_manajer_nama' => 'PEJABAT STRUKTURAL',
+                'struktur_pengelola_nama' => 'PEJABAT STRUKTURAL/STAFF',
+                'struktur_petugas_nama' => 'STAFF',
+            ];
+            foreach ($autoSettings as $sK => $sV) {
+                if (!\App\Models\Dashboard::where('key', $sK)->exists()) {
+                    \App\Models\Dashboard::create([
+                        'key' => $sK,
+                        'value' => $sV,
+                        'type' => 'text',
+                        'aktif' => true
+                    ]);
+                }
+            }
+
             // Clean up dummy documentation items from website
             $dummyTitles = [
                 'Dokumentasi Foto dan Notulensi Rapat Koordinasi Internal Layanan PPID PKTJ',
@@ -495,6 +537,8 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     Route::get('/dashboard/edit', [DashboardController::class, 'edit'])->name('dashboard.edit');
     Route::put('/dashboard', [DashboardController::class, 'update'])->name('dashboard.update');
+    Route::post('/dashboard/upload-hero-video', [DashboardController::class, 'uploadHeroVideoAjax'])->name('admin.dashboard.upload-hero-video');
+    Route::delete('/dashboard/delete-hero-video', [DashboardController::class, 'deleteHeroVideoAjax'])->name('admin.dashboard.delete-hero-video');
     
     // Custom Menu CRUD routes
     Route::resource('/menu', \App\Http\Controllers\CustomMenuController::class)->names('admin.menu');

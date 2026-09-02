@@ -107,7 +107,7 @@
         <!-- Peta Kampus I & II -->
         <div class="row mt-4 g-4">
             <div class="col-md-6">
-                <h6 class="fw-bold text-white mb-2" style="font-size: 14px;"><i class="fas fa-map-marked-alt me-2 text-warning"></i>Peta Lokasi Kampus I (Slerok)</h6>
+                <h6 class="fw-bold text-white mb-2" style="font-size: 14px;"><i class="fas fa-map-marked-alt me-2 text-warning"></i>Peta Lokasi {{ $settings['kontak_kampus_1_nama'] ?? 'Kampus Perintis' }}</h6>
                 <div class="rounded-3 overflow-hidden map-container-footer" style="height: 180px; border: 1px solid rgba(255,255,255,0.1);">
                     @if(isset($settings['kontak_kampus_1_map']) && !empty($settings['kontak_kampus_1_map']))
                         {!! $settings['kontak_kampus_1_map'] !!}
@@ -117,7 +117,7 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <h6 class="fw-bold text-white mb-2" style="font-size: 14px;"><i class="fas fa-map-marked-alt me-2 text-warning"></i>Peta Lokasi Kampus II (Margadana)</h6>
+                <h6 class="fw-bold text-white mb-2" style="font-size: 14px;"><i class="fas fa-map-marked-alt me-2 text-warning"></i>Peta Lokasi {{ $settings['kontak_kampus_2_nama'] ?? 'Kampus Margadana' }}</h6>
                 <div class="rounded-3 overflow-hidden map-container-footer" style="height: 180px; border: 1px solid rgba(255,255,255,0.1);">
                     @if(isset($settings['kontak_kampus_2_map']) && !empty($settings['kontak_kampus_2_map']))
                         {!! $settings['kontak_kampus_2_map'] !!}

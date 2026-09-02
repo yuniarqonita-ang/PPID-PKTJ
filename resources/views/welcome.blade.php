@@ -942,6 +942,85 @@
         </div>
     </section>
 
+    <!-- SEKSI SP4N-LAPOR! (INTEGRASI LAYANAN PENGADUAN NASIONAL) -->
+    <section class="sp4n-lapor-section py-5" style="background: linear-gradient(135deg, #0b1d3a 0%, #002b5c 50%, #004a99 100%); position: relative; overflow: hidden;">
+        <div class="position-absolute top-0 end-0 w-50 h-100 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #ffc107 10%, transparent 70%);"></div>
+        <div class="container position-relative" style="z-index: 2;">
+            <div class="card border-0 shadow-2xl rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15) !important;">
+                <div class="card-body p-4 p-md-5">
+                    <div class="row align-items-center g-4">
+                        <div class="col-lg-8" data-aos="fade-right">
+                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-danger text-white fw-bold text-xs uppercase tracking-wider mb-3 shadow-sm">
+                                <i class="fas fa-bullhorn animate-pulse"></i> SP4N-LAPOR! Kemenhub
+                            </div>
+                            <h2 class="display-6 fw-black text-white outfit mb-3" style="line-height: 1.25;">
+                                {{ $settings['span_lapor_judul'] ?? 'UNTUK PELAYANAN PUBLIK YANG LEBIH BAIK, BERANI LAPOR MELALUI SP4N-LAPOR!' }}
+                            </h2>
+                            <p class="text-white-50 mb-4" style="font-size: 15px; line-height: 1.7; max-width: 650px;">
+                                {{ $settings['span_lapor_deskripsi'] ?? 'Sistem Pengelolaan Pengaduan Pelayanan Publik Nasional - Layanan Aspirasi dan Pengaduan Online Rakyat. Sampaikan aspirasi, saran, dan laporan pelayanan secara transparan, aman, dan terpercaya.' }}
+                            </p>
+                            
+                            <!-- 3 Pilar Jaminan SP4N -->
+                            <div class="row g-3 mb-4">
+                                <div class="col-sm-4">
+                                    <div class="d-flex align-items-center gap-2.5 text-white">
+                                        <div class="w-8 h-8 rounded-circle bg-warning text-dark d-flex align-items-center justify-center flex-shrink-0 fw-bold" style="font-size: 13px;">
+                                            <i class="fas fa-user-shield"></i>
+                                        </div>
+                                        <span class="small fw-semibold">Identitas Pelapor Dirahasiakan</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="d-flex align-items-center gap-2.5 text-white">
+                                        <div class="w-8 h-8 rounded-circle bg-warning text-dark d-flex align-items-center justify-center flex-shrink-0 fw-bold" style="font-size: 13px;">
+                                            <i class="fas fa-barcode"></i>
+                                        </div>
+                                        <span class="small fw-semibold">Nomor Unik Pelacakan</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <div class="d-flex align-items-center gap-2.5 text-white">
+                                        <div class="w-8 h-8 rounded-circle bg-warning text-dark d-flex align-items-center justify-center flex-shrink-0 fw-bold" style="font-size: 13px;">
+                                            <i class="fas fa-lock"></i>
+                                        </div>
+                                        <span class="small fw-semibold">Privasi Terjamin Aman</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-3">
+                                <a href="{{ $settings['span_lapor_link'] ?? 'https://www.lapor.go.id/instansi/politeknik-keselamatan-transportasi-jalan-tegal' }}" target="_blank" rel="noopener" class="btn btn-warning btn-lg px-4 py-3 rounded-pill fw-bold text-dark shadow-lg d-inline-flex align-items-center gap-2" style="font-size: 14px; letter-spacing: 0.5px;">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <span>BUAT LAPORAN SEKARANG</span>
+                                </a>
+                                <a href="https://www.lapor.go.id" target="_blank" rel="noopener" class="btn btn-outline-light btn-lg px-4 py-3 rounded-pill fw-bold d-inline-flex align-items-center gap-2" style="font-size: 14px; border-color: rgba(255,255,255,0.3);">
+                                    <i class="fas fa-globe"></i>
+                                    <span>Portal www.lapor.go.id</span>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 text-center" data-aos="fade-left">
+                            <div class="position-relative p-3 rounded-4" style="background: rgba(255, 255, 255, 0.08); border: 1.5px solid rgba(255, 255, 255, 0.2);">
+                                @if(!empty($settings['span_lapor_banner']))
+                                    <img src="{{ asset('storage/' . $settings['span_lapor_banner']) }}" alt="Banner SP4N-LAPOR!" class="img-fluid rounded-3 shadow-md" style="max-height: 220px; object-fit: contain;">
+                                @else
+                                    <div class="p-4 text-center">
+                                        <div class="w-20 h-20 mx-auto rounded-circle bg-white text-danger d-flex align-items-center justify-content-center mb-3 shadow-lg" style="width: 75px; height: 75px; font-size: 32px;">
+                                            <i class="fas fa-comments"></i>
+                                        </div>
+                                        <h5 class="text-white outfit fw-bold mb-1">SP4N - LAPOR!</h5>
+                                        <p class="text-white-50 text-xs mb-3">Layanan Aspirasi dan Pengaduan Online Rakyat Resmi PKTJ Tegal</p>
+                                        <span class="badge bg-warning text-dark px-3 py-1.5 rounded-pill fw-bold text-xs">Instansi Terhubung: PKTJ Tegal</span>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- KONTAK TERPUSAT -->
     <section class="bg-white" style="padding-top: 80px; padding-bottom: 120px; position: relative; z-index: 10;">
         <div class="container">
@@ -990,8 +1069,8 @@
                                     <div>
                                         <div style="font-size: 11px; font-weight: 700; color: rgba(255,255,255,0.6); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px;">Alamat Kantor</div>
                                         <div style="font-weight: 700; font-size: 12px; line-height: 1.6; color: rgba(255,255,255,0.9);" class="text-wrap">
-                                            Kampus I: {{ $settings['kontak_alamat'] ?? 'Jl. Perintis Kemerdekaan No. 17, Kota Tegal' }}<br>
-                                            Kampus II: Jl. Abdul Syukur No. 17, Kota Tegal
+                                            <strong>{{ $settings['kontak_kampus_1_nama'] ?? 'Kampus Perintis' }}:</strong> {{ $settings['kontak_kampus_1_alamat'] ?? ($settings['kontak_alamat'] ?? 'Jl. Perintis Kemerdekaan No. 17, Kota Tegal') }}<br>
+                                            <strong>{{ $settings['kontak_kampus_2_nama'] ?? 'Kampus Margadana' }}:</strong> {{ $settings['kontak_kampus_2_alamat'] ?? 'Jl. Abdul Syukur No. 17, Margadana, Kota Tegal' }}
                                         </div>
                                     </div>
                                 </a>
@@ -1012,10 +1091,10 @@
                         </h4>
                         
                         <div class="row g-3 flex-grow-1">
-                            <!-- Kampus I Map -->
+                            <!-- Kampus 1 Map -->
                             <div class="col-sm-6 d-flex flex-column">
                                 <div class="mb-2">
-                                    <span class="badge bg-warning text-xs px-3 py-2 rounded-pill font-bold text-dark">Kampus I (Perintis)</span>
+                                    <span class="badge bg-warning text-xs px-3 py-2 rounded-pill font-bold text-dark">{{ $settings['kontak_kampus_1_nama'] ?? 'Kampus Perintis' }}</span>
                                 </div>
                                 <div class="flex-grow-1 rounded-3xl overflow-hidden border border-slate-200 shadow-sm" style="min-height: 320px; height: 100%;">
                                     <iframe 
@@ -1023,16 +1102,16 @@
                                         height="100%" 
                                         frameborder="0" 
                                         style="border:0; min-height: 320px; width: 100%; height: 100%;" 
-                                        src="https://maps.google.com/maps?q=Politeknik%20Keselamatan%20Transportasi%20Jalan%20(PKTJ)%20Kampus%20I%20Tegal&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                        src="{{ $settings['kontak_kampus_1_maps'] ?? 'https://maps.google.com/maps?q=Politeknik%20Keselamatan%20Transportasi%20Jalan%20(PKTJ)%20Kampus%20I%20Tegal&t=&z=15&ie=UTF8&iwloc=&output=embed' }}" 
                                         allowfullscreen>
                                     </iframe>
                                 </div>
                             </div>
                             
-                            <!-- Kampus II Map -->
+                            <!-- Kampus 2 Map -->
                             <div class="col-sm-6 d-flex flex-column">
                                 <div class="mb-2">
-                                    <span class="badge bg-warning text-xs px-3 py-2 rounded-pill font-bold text-dark">Kampus II (Margadana)</span>
+                                    <span class="badge bg-warning text-xs px-3 py-2 rounded-pill font-bold text-dark">{{ $settings['kontak_kampus_2_nama'] ?? 'Kampus Margadana' }}</span>
                                 </div>
                                 <div class="flex-grow-1 rounded-3xl overflow-hidden border border-slate-200 shadow-sm" style="min-height: 320px; height: 100%;">
                                     <iframe 
@@ -1040,7 +1119,7 @@
                                         height="100%" 
                                         frameborder="0" 
                                         style="border:0; min-height: 320px; width: 100%; height: 100%;" 
-                                        src="https://maps.google.com/maps?q=Politeknik%20Keselamatan%20Transportasi%20Jalan%20(PKTJ)%20Kampus%20II%20Tegal&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                                        src="{{ $settings['kontak_kampus_2_maps'] ?? 'https://maps.google.com/maps?q=Politeknik%20Keselamatan%20Transportasi%20Jalan%20(PKTJ)%20Kampus%20II%20Tegal&t=&z=15&ie=UTF8&iwloc=&output=embed' }}" 
                                         allowfullscreen>
                                     </iframe>
                                 </div>

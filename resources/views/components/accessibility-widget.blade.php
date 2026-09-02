@@ -1,41 +1,13 @@
-<!-- ULTRA-MODERN NEON ACCESSIBILITY & DISABILITY INCLUSION HUB (AKIP KEMENHUB STANDAR SLIDE 41, 44, 72 & UU NO. 8/2016) -->
-@php
-    $accessSettings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
-
-    // 1. Formulir Permohonan Braille (Link GDrive atau File Upload)
-    $braillePermohonanUrl = !empty($accessSettings['aksesibilitas_disabilitas_link_form_permohonan_braille'])
-        ? $accessSettings['aksesibilitas_disabilitas_link_form_permohonan_braille']
-        : (!empty($accessSettings['aksesibilitas_disabilitas_file_form_permohonan_braille'])
-            ? asset('storage/halaman/' . $accessSettings['aksesibilitas_disabilitas_file_form_permohonan_braille'])
-            : asset('storage/dokumen/FORMULIR_PERMOHONAN_BRAILE.pdf'));
-
-    // 2. Formulir Pernyataan Keberatan Braille (Link GDrive atau File Upload)
-    $brailleKeberatanUrl = !empty($accessSettings['aksesibilitas_disabilitas_link_form_keberatan_braille'])
-        ? $accessSettings['aksesibilitas_disabilitas_link_form_keberatan_braille']
-        : (!empty($accessSettings['aksesibilitas_disabilitas_file_form_keberatan_braille'])
-            ? asset('storage/halaman/' . $accessSettings['aksesibilitas_disabilitas_file_form_keberatan_braille'])
-            : asset('storage/dokumen/PERNYATAAN_KEBERATAN_BRAILE.pdf'));
-
-    // 3. Dokumen Inovasi Disabilitas (Link GDrive atau File Upload)
-    $inovasiDocUrl = !empty($accessSettings['aksesibilitas_disabilitas_link_inovasi_disabilitas'])
-        ? $accessSettings['aksesibilitas_disabilitas_link_inovasi_disabilitas']
-        : (!empty($accessSettings['aksesibilitas_disabilitas_file_inovasi_disabilitas'])
-            ? asset('storage/halaman/' . $accessSettings['aksesibilitas_disabilitas_file_inovasi_disabilitas'])
-            : asset('storage/dokumen/Inovasi_PPID.docx'));
-
-    $bisindoVideoUrl = $accessSettings['aksesibilitas_disabilitas_video_bisindo_url'] ?? 'https://www.youtube.com/embed/dQw4w9WgXcQ';
-    $hotlinePendamping = $accessSettings['aksesibilitas_disabilitas_hotline_pendamping_wa'] ?? '081234567890';
-@endphp
-
+<!-- ULTRA-MODERN ACCESSIBILITY HUB (AUDIO SCREEN READER & VISUAL SETTINGS) -->
 <div id="neonAccessibilityWrapper">
 
-    <!-- FLOATING NEON PILL TRIGGER (DOCKABLE LEFT EDGE, NON-OVERLAPPING) -->
-    <button type="button" id="btnNeonAccessTrigger" class="neon-access-pill-trigger" onclick="toggleNeonAccessDrawer()" title="Pusat Aksesibilitas & Ramah Disabilitas (Alt + A)" aria-label="Buka Menu Aksesibilitas Disabilitas">
+    <!-- FLOATING NEON PILL TRIGGER (DOCKABLE LEFT EDGE) -->
+    <button type="button" id="btnNeonAccessTrigger" class="neon-access-pill-trigger" onclick="toggleNeonAccessDrawer()" title="Aksesibilitas & Pembaca Suara (Alt + A)" aria-label="Buka Menu Aksesibilitas">
         <div class="neon-pulse-ring"></div>
         <div class="neon-icon-glow">
             <i class="fas fa-universal-access"></i>
         </div>
-        <span class="neon-pill-label">Akses Disabilitas</span>
+        <span class="neon-pill-label">Aksesibilitas</span>
     </button>
 
     <!-- BACKDROP BLUR OVERLAY -->
@@ -52,9 +24,9 @@
                 </div>
                 <div>
                     <h5 class="outfit fw-bold text-white mb-0" style="font-size: 15px; letter-spacing: 0.3px;">
-                        Layanan Inklusif & Difabel
+                        Pusat Aksesibilitas
                     </h5>
-                    <span class="neon-tag-mini">Standar AKIP Kemenhub & UU 8/2016</span>
+                    <span class="neon-tag-mini">Audio Suara & Tampilan Ramah Akses</span>
                 </div>
             </div>
             <button type="button" class="neon-drawer-close-btn" onclick="toggleNeonAccessDrawer()" title="Tutup Menu">
@@ -65,74 +37,31 @@
         <!-- DRAWER SCROLLABLE BODY -->
         <div class="neon-drawer-body">
 
-            <!-- 1. PANDUAN & DOKUMEN BRAILLE (TUNA NETRA) -->
+            <!-- 1. PEMBACA SUARA OTOMATIS (CLICK-TO-SPEAK) -->
             <div class="neon-section-card mb-3">
                 <div class="neon-sec-title">
-                    <i class="fas fa-braille text-warning me-2"></i> Layanan Khusus Tuna Netra (Braille & Suara)
+                    <i class="fas fa-volume-high text-warning me-2"></i> Pembaca Suara (Screen Reader)
                 </div>
                 <p class="neon-sec-desc">
-                    Format khusus dokumen huruf Braille & pembaca suara bagi penyandang disabilitas sensorik netra.
+                    Mendengarkan isi konten situs secara otomatis menggunakan suara Bahasa Indonesia jernih.
                 </p>
 
-                <div class="row g-2">
-                    <div class="col-12">
-                        <a href="{{ $braillePermohonanUrl }}" target="_blank" class="neon-action-doc-btn">
-                            <div class="neon-doc-icon bg-warning-subtle text-warning">
-                                <i class="fas fa-file-lines"></i>
-                            </div>
-                            <div class="text-start flex-grow-1">
-                                <div class="neon-doc-title">Formulir Permohonan Huruf Braille</div>
-                                <div class="neon-doc-sub">Format cetak & unduh khusus Braille (PDF)</div>
-                            </div>
-                            <i class="fas fa-download neon-arrow-icon"></i>
-                        </a>
+                <button type="button" id="btnTtsInteractive" class="neon-tts-btn w-100" onclick="toggleTextToSpeech()">
+                    <i class="fas fa-volume-high me-2 text-info fs-5"></i>
+                    <div class="text-start flex-grow-1">
+                        <span id="ttsBtnText" class="fw-bold">Mode Pembaca Suara (Klik Langsung Dibaca)</span>
+                        <span class="d-block text-white-50" style="font-size: 11px;">Klik teks mana saja di layar untuk langsung didengar tanpa perlu diblok</span>
                     </div>
-                    <div class="col-12">
-                        <a href="{{ $brailleKeberatanUrl }}" target="_blank" class="neon-action-doc-btn">
-                            <div class="neon-doc-icon bg-danger-subtle text-danger">
-                                <i class="fas fa-triangle-exclamation"></i>
-                            </div>
-                            <div class="text-start flex-grow-1">
-                                <div class="neon-doc-title">Pernyataan Keberatan Huruf Braille</div>
-                                <div class="neon-doc-sub">Formulir pengajuan keberatan Braille (PDF)</div>
-                            </div>
-                            <i class="fas fa-download neon-arrow-icon"></i>
-                        </a>
-                    </div>
-                    <div class="col-12">
-                        <button type="button" id="btnTtsInteractive" class="neon-tts-btn w-100" onclick="toggleTextToSpeech()">
-                            <i class="fas fa-volume-high me-2 text-info fs-5"></i>
-                            <div class="text-start flex-grow-1">
-                                <span id="ttsBtnText" class="fw-bold">Mode Pembaca Suara (Klik Langsung Dibaca)</span>
-                                <span class="d-block text-white-50" style="font-size: 11px;">Klik teks mana saja di layar untuk langsung didengar tanpa perlu diblok</span>
-                            </div>
-                            <span id="ttsStatusPill" class="badge bg-info text-dark">Aktifkan</span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 2. PANDUAN BAHASA ISYARAT (TUNA RUNGU / WICARA) -->
-            <div class="neon-section-card mb-3">
-                <div class="neon-sec-title">
-                    <i class="fas fa-hands-asl-interpreting text-cyan me-2" style="color: #00f2fe;"></i> Bahasa Isyarat (Tuna Rungu / Wicara)
-                </div>
-                <p class="neon-sec-desc">
-                    Video panduan alur permohonan informasi publik dalam Bahasa Isyarat Indonesia (Bisindo).
-                </p>
-
-                <button type="button" class="neon-bisindo-video-btn w-100" onclick="openBisindoModal()">
-                    <i class="fas fa-play-circle fs-4 me-2"></i>
-                    <span>Tonton Video Panduan Bahasa Isyarat (Bisindo)</span>
+                    <span id="ttsStatusPill" class="badge bg-info text-dark">Aktifkan</span>
                 </button>
             </div>
 
-            <!-- 3. PENGUBAH TAMPILAN VISUAL (FITUR RAMAH AKSES) -->
+            <!-- 2. PENGUBAH TAMPILAN VISUAL & HURUF -->
             <div class="neon-section-card mb-3">
                 <div class="neon-sec-title">
-                    <i class="fas fa-sliders text-success me-2"></i> Fitur Pengubah Tampilan & Visual
+                    <i class="fas fa-sliders text-success me-2"></i> Pengaturan Huruf & Tampilan Visual
                 </div>
-                <p class="neon-sec-desc">Sesuaikan kenyamanan tampilan teks, warna, dan font sesuai kebutuhan Anda.</p>
+                <p class="neon-sec-desc">Sesuaikan ukuran font, kontras warna, dan kenyamanan tampilan sesuai kebutuhan Anda.</p>
 
                 <div class="row g-2">
                     <!-- Text Size -->
@@ -199,20 +128,10 @@
                 </div>
             </div>
 
-            <!-- 4. HOTLINE PENDAMPING MEJA LAYANAN PKTJ -->
-            <div class="neon-section-card mb-3 p-3 text-center" style="background: linear-gradient(135deg, rgba(0, 43, 92, 0.95), rgba(0, 102, 204, 0.9)); border-color: rgba(0, 242, 254, 0.4);">
-                <i class="fab fa-whatsapp text-success fs-3 mb-1"></i>
-                <h6 class="text-white fw-bold outfit mb-1" style="font-size: 13.5px;">Butuh Bantuan Pendamping Langsung?</h6>
-                <p class="text-white-50 small mb-2" style="font-size: 11px;">Petugas meja layanan PPID PKTJ siap mendampingi pemohon difabel.</p>
-                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $hotlinePendamping) }}?text=Halo%20PPID%20PKTJ,%20saya%20membutuhkan%20bantuan%20layanan%20informasi%20khusus%20disabilitas" target="_blank" class="btn btn-success btn-sm rounded-pill px-3 fw-bold w-100" style="font-size: 12px;">
-                    <i class="fab fa-whatsapp me-1"></i> Hubungi WhatsApp Petugas
-                </a>
-            </div>
-
             <!-- RESET BUTTON -->
             <div class="text-center pt-2">
                 <button type="button" class="btn btn-sm btn-outline-light w-100 rounded-pill py-2 text-white-50 fw-bold" onclick="resetNeonAccessSettings()" style="font-size: 11px; border-color: rgba(255,255,255,0.2);">
-                    <i class="fas fa-rotate-left me-1"></i> Reset Semua Pengaturan Akses
+                    <i class="fas fa-rotate-left me-1"></i> Reset Semua Pengaturan
                 </button>
             </div>
 
@@ -220,30 +139,6 @@
 
     </div>
 
-</div>
-
-<!-- MODAL VIDEO PANDUAN BAHASA ISYARAT -->
-<div class="modal fade" id="modalBisindo" tabindex="-1" aria-hidden="true" style="z-index: 100005;">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content" style="border-radius: 24px; overflow: hidden; background: #001738; border: 2px solid #00f2fe; box-shadow: 0 0 40px rgba(0, 242, 254, 0.3);">
-            <div class="modal-header text-white border-0 px-4 py-3" style="background: rgba(0, 43, 92, 0.8);">
-                <div class="d-flex align-items-center gap-2">
-                    <span class="badge bg-warning text-dark fw-bold px-2.5 py-1 rounded-pill">BISINDO</span>
-                    <h6 class="modal-title outfit fw-bold text-white mb-0">Panduan Permohonan Informasi - Bahasa Isyarat</h6>
-                </div>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-0">
-                <div class="ratio ratio-16x9">
-                    <iframe id="iframeBisindo" src="{{ $bisindoVideoUrl }}" title="Panduan Bahasa Isyarat PPID PKTJ" allowfullscreen></iframe>
-                </div>
-            </div>
-            <div class="modal-footer border-0 py-2 px-4 d-flex justify-content-between" style="background: rgba(0, 43, 92, 0.95);">
-                <span class="text-white-50 small">Standar Aksesibilitas Inklusif PPID PKTJ Tegal</span>
-                <button type="button" class="btn btn-warning btn-sm rounded-pill px-4 fw-bold text-dark" data-bs-dismiss="modal">Tutup</button>
-            </div>
-        </div>
-    </div>
 </div>
 
 <!-- READING RULER GUIDE -->
@@ -986,14 +881,7 @@
         }
     }, true);
 
-    // 2. Video Bisindo Modal
-    function openBisindoModal() {
-        const modalEl = document.getElementById('modalBisindo');
-        const modal = new bootstrap.Modal(modalEl);
-        modal.show();
-    }
-
-    // 3. Visual Controls
+    // 2. Visual Controls
     function adjustGlobalFontSize(step) {
         globalFontStep += step;
         if (globalFontStep > 3) globalFontStep = 3;
