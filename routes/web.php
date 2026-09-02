@@ -347,18 +347,7 @@ Route::get('/refresh-deploy', function() {
                 }
             }
 
-            // Clean up dummy documentation items from website
-            $dummyTitles = [
-                'Dokumentasi Foto dan Notulensi Rapat Koordinasi Internal Layanan PPID PKTJ',
-                'Dokumentasi Keikutsertaan Bimbingan Teknis & Evaluasi Monev KIP Kementerian Perhubungan',
-                'Petunjuk Operasional Kegiatan (POK) Alokasi Anggaran Khusus PPID PKTJ Tahun 2025/2026',
-                'Surat Rekapitulasi dan Berita Acara Konsolidasi Usulan DIP & DIK PKTJ Tahun 2026',
-                'Bukti Kehadiran dan Komitmen Pimpinan PKTJ pada Penganugerahan & Monev KIP',
-            ];
-            \App\Models\DaftarInformasi::whereIn('judul_informasi', $dummyTitles)->delete();
-            \App\Models\InformasiBerkala::whereIn('judul', $dummyTitles)->delete();
-
-            // Seed/Upsert Official DIP Public Items
+            // Pastikan data resmi ada tanpa menimpa data yang sudah diedit pengguna
             $officialDips = [
                 [
                     'kategori' => 'informasi-berkala', 'tipe' => 'berkala',
@@ -447,9 +436,10 @@ Route::get('/refresh-deploy', function() {
             ];
 
             foreach ($officialDips as $d) {
-                \App\Models\DaftarInformasi::updateOrCreate(
-                    ['judul_informasi' => $d['judul']],
-                    [
+                $existDaftar = \App\Models\DaftarInformasi::where('judul_informasi', $d['judul'])->first();
+                if (!$existDaftar) {
+                    \App\Models\DaftarInformasi::create([
+                        'judul_informasi'    => $d['judul'],
                         'kategori'           => $d['kategori'],
                         'tipe_informasi'     => $d['tipe'],
                         'isi_informasi'      => '<p>' . $d['deskripsi'] . '</p>',
@@ -464,13 +454,14 @@ Route::get('/refresh-deploy', function() {
                         'aktif'              => true,
                         'is_blurred'         => false,
                         'bisa_download'      => true,
-                    ]
-                );
+                    ]);
+                }
 
                 if ($d['kategori'] === 'informasi-berkala') {
-                    \App\Models\InformasiBerkala::updateOrCreate(
-                        ['judul' => $d['judul']],
-                        [
+                    $existBerkala = \App\Models\InformasiBerkala::where('judul', $d['judul'])->first();
+                    if (!$existBerkala) {
+                        \App\Models\InformasiBerkala::create([
+                            'judul'         => $d['judul'],
                             'deskripsi'     => '<p>' . $d['deskripsi'] . '</p>',
                             'kategori'      => 'Laporan & Rencana',
                             'tahun'         => $d['waktu'],
@@ -478,12 +469,13 @@ Route::get('/refresh-deploy', function() {
                             'file_size'     => '1.5 MB',
                             'bisa_download' => true,
                             'aktif'         => true,
-                        ]
-                    );
+                        ]);
+                    }
                 } elseif ($d['kategori'] === 'informasi-setiap-saat') {
-                    \App\Models\InformasiSetiapSaat::updateOrCreate(
-                        ['judul' => $d['judul']],
-                        [
+                    $existSetiap = \App\Models\InformasiSetiapSaat::where('judul', $d['judul'])->first();
+                    if (!$existSetiap) {
+                        \App\Models\InformasiSetiapSaat::create([
+                            'judul'         => $d['judul'],
                             'deskripsi'     => '<p>' . $d['deskripsi'] . '</p>',
                             'kategori'      => 'Dokumen Publik',
                             'tahun'         => $d['waktu'],
@@ -491,12 +483,13 @@ Route::get('/refresh-deploy', function() {
                             'file_size'     => '1.5 MB',
                             'bisa_download' => true,
                             'aktif'         => true,
-                        ]
-                    );
+                        ]);
+                    }
                 } elseif ($d['kategori'] === 'informasi-serta-merta') {
-                    \App\Models\InformasiSertaMerta::updateOrCreate(
-                        ['judul' => $d['judul']],
-                        [
+                    $existSerta = \App\Models\InformasiSertaMerta::where('judul', $d['judul'])->first();
+                    if (!$existSerta) {
+                        \App\Models\InformasiSertaMerta::create([
+                            'judul'         => $d['judul'],
                             'deskripsi'     => '<p>' . $d['deskripsi'] . '</p>',
                             'kategori'      => 'Informasi Darurat',
                             'tahun'         => $d['waktu'],
@@ -504,53 +497,142 @@ Route::get('/refresh-deploy', function() {
                             'file_size'     => '1.5 MB',
                             'bisa_download' => true,
                             'aktif'         => true,
-                        ]
-                    );
+                        ]);
+                    }
                 }
             }
 
-            // Saring dan bersihkan record yang tidak memiliki dokumen fisik valid (matikan tombol download & kosongkan file)
-            foreach (\App\Models\DaftarInformasi::all() as $item) {
-                if (!has_valid_document($item->file_informasi)) {
-                    $item->update([
-                        'bisa_download' => false,
-                        'file_informasi' => null
+            // Pulihkan & lengkapi tabel Perjanjian dan Kontrak berlink jika belum memiliki tabel HTML
+            $tabelKontrakHtml = '<p class="mb-3">Daftar kesepakatan, nota kesepahaman (MoU), perjanjian kerja sama (PKS), dan dokumen kontrak pengadaan barang/jasa di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal:</p>
+<div class="table-responsive my-3">
+    <table class="table table-bordered table-striped table-hover align-middle mb-0" style="font-size: 13.5px; border-color: #cbd5e1;">
+        <thead style="background: #004a99; color: white;">
+            <tr class="text-center">
+                <th style="width: 50px;">No</th>
+                <th style="min-width: 220px;">Nama Perjanjian / Dokumen Kontrak</th>
+                <th style="min-width: 180px;">Pihak yang Terlibat</th>
+                <th style="min-width: 130px;">Nomor & Tanggal</th>
+                <th style="min-width: 110px;">Jangka Waktu</th>
+                <th style="min-width: 130px;">Tautan / Akses</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td class="text-center fw-bold">1</td>
+                <td><strong>Perjanjian Kerja Sama (PKS) Penyelenggaraan Diklat Vokasi</strong><br><small class="text-muted">Kerjasama pelaksanaan pelatihan teknis keselamatan transportasi jalan.</small></td>
+                <td>PKTJ Tegal & Dishub Kab/Kota</td>
+                <td>PKS.01/PKTJ/2025</td>
+                <td>3 Tahun</td>
+                <td class="text-center"><a href="/dokumen" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1"><i class="fas fa-file-alt me-1"></i> Buka Dokumen</a></td>
+            </tr>
+            <tr>
+                <td class="text-center fw-bold">2</td>
+                <td><strong>Perjanjian Kerjasama Penyediaan Volunteer Asing Bahasa Inggris</strong><br><small class="text-muted">Program volunteer asing native speaker pengajar bahasa asing.</small></td>
+                <td>PKTJ Tegal & Dejavato Foundation</td>
+                <td>PKS.08/PKTJ-BAHASA/2018</td>
+                <td>10 Tahun</td>
+                <td class="text-center"><a href="/dokumen" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1"><i class="fas fa-file-alt me-1"></i> Buka Dokumen</a></td>
+            </tr>
+            <tr>
+                <td class="text-center fw-bold">3</td>
+                <td><strong>Perjanjian Kerjasama Pelaksana Tes TOEFL ITP Berlisensi ETS</strong><br><small class="text-muted">Penyelenggaraan uji kemahiran bahasa Inggris internasional.</small></td>
+                <td>PKTJ Tegal & IIEF Indonesia</td>
+                <td>PKS.14/IIEF-PKTJ/2023</td>
+                <td>5 Tahun</td>
+                <td class="text-center"><a href="/dokumen" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1"><i class="fas fa-file-alt me-1"></i> Buka Dokumen</a></td>
+            </tr>
+            <tr>
+                <td class="text-center fw-bold">4</td>
+                <td><strong>MoU Konsorsium Perpustakaan Digital & E-Journal Gale</strong><br><small class="text-muted">Akses database jurnal internasional Gale Cengage dan jejaring FPPTI.</small></td>
+                <td>Perpustakaan PKTJ & FPPTI Pusat</td>
+                <td>MOU.05/PERPUS-FPPTI/2024</td>
+                <td>5 Tahun</td>
+                <td class="text-center"><a href="/dokumen" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1"><i class="fas fa-file-alt me-1"></i> Buka Dokumen</a></td>
+            </tr>
+            <tr>
+                <td class="text-center fw-bold">5</td>
+                <td><strong>Surat Perjanjian Kerja (SPK) Pengadaan Sarpras Lab Uji Jalan</strong><br><small class="text-muted">Pengadaan peralatan uji laboratorium dan sarana praktikum jalan.</small></td>
+                <td>PPK PKTJ & Rekanan Penyedia</td>
+                <td>SPK.102/PPK-SARPRAS/2025</td>
+                <td>1 Tahun Anggaran</td>
+                <td class="text-center"><a href="https://lpse.dephub.go.id/" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1"><i class="fas fa-file-contract me-1"></i> LPSE Kemenhub</a></td>
+            </tr>
+            <tr>
+                <td class="text-center fw-bold">6</td>
+                <td><strong>Surat Perintah Mulai Kerja (SPMK) Perawatan Kendaraan Praktik</strong><br><small class="text-muted">Perawatan berkala armada bus uji praktik dan kendaraan dinas operasional.</small></td>
+                <td>PPK PKTJ & Bengkel Resmi Terpilih</td>
+                <td>SPMK.44/PKTJ-BMN/2025</td>
+                <td>1 Tahun Anggaran</td>
+                <td class="text-center"><a href="https://lpse.dephub.go.id/" target="_blank" class="btn btn-sm btn-outline-success rounded-pill px-3 py-1"><i class="fas fa-file-contract me-1"></i> LPSE Kemenhub</a></td>
+            </tr>
+            <tr>
+                <td class="text-center fw-bold">7</td>
+                <td><strong>Kontrak Kerjasama Penyediaan Layanan Bandwidth Internet Dedicated</strong><br><small class="text-muted">Penyediaan jaringan internet serat optik Kampus Perintis & Margadana.</small></td>
+                <td>PKTJ Tegal & PT Telkom Indonesia Tbk</td>
+                <td>KTR.03/TIK-PKTJ/2025</td>
+                <td>1 Tahun</td>
+                <td class="text-center"><a href="/dokumen" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1"><i class="fas fa-file-alt me-1"></i> Buka Dokumen</a></td>
+            </tr>
+            <tr>
+                <td class="text-center fw-bold">8</td>
+                <td><strong>Pengumuman Pengadaan & Dokumen Pemilihan Penyedia PKTJ</strong><br><small class="text-muted">Seluruh paket pengadaan barang/jasa pemerintah terpublikasi pada portal LPSE Kemenhub.</small></td>
+                <td>Pokja Pemilihan UKPBJ & PKTJ</td>
+                <td>SiRUP & LPSE 2025/2026</td>
+                <td>Tahun Berjalan</td>
+                <td class="text-center"><a href="https://sirup.lkpp.go.id/" target="_blank" class="btn btn-sm btn-outline-warning text-dark rounded-pill px-3 py-1"><i class="fas fa-search me-1"></i> SiRUP LKPP</a></td>
+            </tr>
+        </tbody>
+    </table>
+</div>';
+
+            $targetContractTitles = [
+                'Pengumuman Lelang LPSE dan Ringkasan Dokumen Kontrak Pengadaan PKTJ',
+                'Kontrak',
+                'Perjanjian Kerja Sama',
+                'SPK/SPMK (Surat Perjanjian Kerja)/(Surat Perintah Mulai Kerja)',
+                'Daftar MoU / Kerjasama'
+            ];
+
+            foreach ($targetContractTitles as $tTitle) {
+                // Pulihkan di DaftarInformasi jika belum ada tabel
+                $dItem = \App\Models\DaftarInformasi::where('judul_informasi', $tTitle)->first();
+                if ($dItem) {
+                    if (!str_contains($dItem->isi_informasi ?? '', '<table')) {
+                        $dItem->update([
+                            'isi_informasi' => ($dItem->isi_informasi ? '<p>' . strip_tags($dItem->isi_informasi) . '</p>' : '') . $tabelKontrakHtml,
+                            'aktif' => true
+                        ]);
+                    }
+                } else {
+                    \App\Models\DaftarInformasi::create([
+                        'judul_informasi'    => $tTitle,
+                        'kategori'           => 'informasi-setiap-saat',
+                        'tipe_informasi'     => 'setiapsaat',
+                        'isi_informasi'      => $tabelKontrakHtml,
+                        'pejabat_penguasa'   => 'Tim Kerjasama & Pejabat Pengadaan',
+                        'penerbit_informasi' => 'Unit Kerjasama / PPID PKTJ',
+                        'tempat_pembuatan'   => 'Tegal',
+                        'penanggung_jawab'   => 'Tim Kerjasama',
+                        'waktu_pembuatan'    => '2025/2026',
+                        'bentuk_informasi'   => 'Softcopy & Hardcopy',
+                        'jangka_waktu'       => '5 Tahun / Selama Berlaku',
+                        'aktif'              => true,
+                        'is_blurred'         => false,
+                        'bisa_download'      => true,
                     ]);
                 }
-            }
 
-            foreach (\App\Models\InformasiBerkala::all() as $item) {
-                if (!has_valid_document($item->file_path)) {
-                    $item->update([
-                        'bisa_download' => false,
-                        'file_path' => null
-                    ]);
-                }
-            }
-
-            foreach (\App\Models\InformasiSetiapSaat::all() as $item) {
-                if (!has_valid_document($item->file_path)) {
-                    $item->update([
-                        'bisa_download' => false,
-                        'file_path' => null
-                    ]);
-                }
-            }
-
-            foreach (\App\Models\InformasiSertaMerta::all() as $item) {
-                if (!has_valid_document($item->file_path)) {
-                    $item->update([
-                        'bisa_download' => false,
-                        'file_path' => null
-                    ]);
-                }
-            }
-
-            foreach (\App\Models\Dokumen::all() as $item) {
-                if (!has_valid_document($item->file_path)) {
-                    $item->update([
-                        'bisa_download' => false
-                    ]);
+                // Pulihkan di InformasiSetiapSaat jika belum ada tabel
+                if (class_exists(\App\Models\InformasiSetiapSaat::class)) {
+                    $sItem = \App\Models\InformasiSetiapSaat::where('judul', $tTitle)->first();
+                    if ($sItem) {
+                        if (!str_contains($sItem->deskripsi ?? '', '<table')) {
+                            $sItem->update([
+                                'deskripsi' => ($sItem->deskripsi ? '<p>' . strip_tags($sItem->deskripsi) . '</p>' : '') . $tabelKontrakHtml,
+                                'aktif' => true
+                            ]);
+                        }
+                    }
                 }
             }
 

@@ -142,6 +142,31 @@
             display: block;
             margin-bottom: 14px;
         }
+
+        .rich-content table {
+            width: 100% !important;
+            border-collapse: collapse !important;
+            margin: 16px 0 !important;
+            background: #ffffff !important;
+        }
+        .rich-content th, .rich-content td {
+            border: 1px solid #cbd5e1 !important;
+            padding: 10px 14px !important;
+            vertical-align: middle !important;
+        }
+        .rich-content th {
+            background-color: #004a99 !important;
+            color: #ffffff !important;
+            font-weight: 700 !important;
+        }
+        .rich-content a {
+            color: #004a99 !important;
+            text-decoration: underline !important;
+            font-weight: 600 !important;
+        }
+        .rich-content a.btn {
+            text-decoration: none !important;
+        }
     </style>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>

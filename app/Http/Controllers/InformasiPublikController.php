@@ -57,19 +57,64 @@ class InformasiPublikController extends Controller
         return $item;
     }
 
+    private function mapModelItem($s)
+    {
+        $item = new \stdClass();
+        $item->id = $s->id;
+        $item->judul = $s->judul;
+        $item->deskripsi = $this->processContent($s->deskripsi, $s->is_blurred ?? false);
+        
+        $rawFile = $s->file_path;
+        if (function_exists('has_valid_document') && has_valid_document($rawFile)) {
+            $item->file_path = $rawFile;
+            $item->bisa_download = (bool) ($s->bisa_download ?? true);
+            $item->file_size = $s->file_size ?? '-';
+        } else {
+            $item->file_path = null;
+            $item->bisa_download = false;
+            $item->file_size = null;
+        }
+
+        $item->tanggal = $s->tanggal ?? $s->created_at;
+        $item->created_at = $s->created_at ?? now();
+        $item->is_blurred = (bool) ($s->is_blurred ?? false);
+        return $item;
+    }
+
     // Informasi Berkala
     public function informasiBerkala()
     {
         try {
-            $rawItems = DaftarInformasi::where('aktif', true)
+            $daftarItems = DaftarInformasi::where('aktif', true)
                 ->where('kategori', 'informasi-berkala')
-                ->orderBy('created_at', 'desc')
-                ->orderBy('id', 'asc')
-                ->get();
-                
-            $items = $rawItems->map(function($item) {
-                return $this->mapDaftarInformasi($item);
+                ->get()
+                ->map(fn($item) => $this->mapDaftarInformasi($item));
+
+            $modelItems = collect();
+            if (class_exists(InformasiBerkala::class)) {
+                $modelItems = InformasiBerkala::where('aktif', true)
+                    ->get()
+                    ->map(fn($item) => $this->mapModelItem($item));
+            }
+
+            $merged = collect();
+            $grouped = $daftarItems->concat($modelItems)->groupBy(function($it) {
+                return strtolower(trim($it->judul));
             });
+
+            foreach ($grouped as $group) {
+                if ($group->count() === 1) {
+                    $merged->push($group->first());
+                } else {
+                    // Prioritaskan versi yang memiliki tabel / konten deskripsi lebih panjang & lengkap
+                    $best = $group->sortByDesc(function($it) {
+                        return strlen(strip_tags($it->deskripsi ?? ''));
+                    })->first();
+                    $merged->push($best);
+                }
+            }
+
+            $items = $merged->sortByDesc('created_at')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }
@@ -101,15 +146,35 @@ class InformasiPublikController extends Controller
     public function informasiSertamerta()
     {
         try {
-            $rawItems = DaftarInformasi::where('aktif', true)
+            $daftarItems = DaftarInformasi::where('aktif', true)
                 ->whereIn('kategori', ['informasi-serta-merta', 'informasi-sertamerta'])
-                ->orderBy('created_at', 'desc')
-                ->orderBy('id', 'asc')
-                ->get();
+                ->get()
+                ->map(fn($item) => $this->mapDaftarInformasi($item));
 
-            $items = $rawItems->map(function($item) {
-                return $this->mapDaftarInformasi($item);
+            $modelItems = collect();
+            if (class_exists(InformasiSertaMerta::class)) {
+                $modelItems = InformasiSertaMerta::where('aktif', true)
+                    ->get()
+                    ->map(fn($item) => $this->mapModelItem($item));
+            }
+
+            $merged = collect();
+            $grouped = $daftarItems->concat($modelItems)->groupBy(function($it) {
+                return strtolower(trim($it->judul));
             });
+
+            foreach ($grouped as $group) {
+                if ($group->count() === 1) {
+                    $merged->push($group->first());
+                } else {
+                    $best = $group->sortByDesc(function($it) {
+                        return strlen(strip_tags($it->deskripsi ?? ''));
+                    })->first();
+                    $merged->push($best);
+                }
+            }
+
+            $items = $merged->sortByDesc('created_at')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }
@@ -122,15 +187,35 @@ class InformasiPublikController extends Controller
     public function informasiSetiapsaat()
     {
         try {
-            $rawItems = DaftarInformasi::where('aktif', true)
+            $daftarItems = DaftarInformasi::where('aktif', true)
                 ->whereIn('kategori', ['informasi-setiap-saat', 'informasi-setiapsaat'])
-                ->orderBy('created_at', 'desc')
-                ->orderBy('id', 'asc')
-                ->get();
+                ->get()
+                ->map(fn($item) => $this->mapDaftarInformasi($item));
 
-            $items = $rawItems->map(function($item) {
-                return $this->mapDaftarInformasi($item);
+            $modelItems = collect();
+            if (class_exists(InformasiSetiapSaat::class)) {
+                $modelItems = InformasiSetiapSaat::where('aktif', true)
+                    ->get()
+                    ->map(fn($item) => $this->mapModelItem($item));
+            }
+
+            $merged = collect();
+            $grouped = $daftarItems->concat($modelItems)->groupBy(function($it) {
+                return strtolower(trim($it->judul));
             });
+
+            foreach ($grouped as $group) {
+                if ($group->count() === 1) {
+                    $merged->push($group->first());
+                } else {
+                    $best = $group->sortByDesc(function($it) {
+                        return strlen(strip_tags($it->deskripsi ?? ''));
+                    })->first();
+                    $merged->push($best);
+                }
+            }
+
+            $items = $merged->sortByDesc('created_at')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }
