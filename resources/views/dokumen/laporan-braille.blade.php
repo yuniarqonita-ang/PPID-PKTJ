@@ -209,7 +209,62 @@
         </div>
     </div>
 
+    <style>
+        .tts-reading-highlight {
+            background-color: rgba(255, 209, 102, 0.45) !important;
+            outline: 2px solid #ff9900 !important;
+            border-radius: 6px !important;
+            transition: all 0.2s ease !important;
+        }
+        tr:hover, p:hover, .section-header:hover {
+            cursor: pointer;
+        }
+    </style>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({duration: 800, once: true});</script>
+    <script>
+        AOS.init({duration: 800, once: true});
+
+        let synthLap = window.speechSynthesis;
+        let curHighLap = null;
+
+        function speakTextLaporan(text, el = null) {
+            if (!synthLap) return;
+            synthLap.cancel();
+            if (curHighLap) curHighLap.classList.remove('tts-reading-highlight');
+
+            if (el) {
+                curHighLap = el;
+                curHighLap.classList.add('tts-reading-highlight');
+            }
+
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'id-ID';
+            utter.rate = 0.95;
+
+            const voices = synthLap.getVoices();
+            const idVoice = voices.find(v => v.lang.includes('id') || v.lang.includes('ID') || v.name.toLowerCase().includes('indonesia'));
+            if (idVoice) utter.voice = idVoice;
+
+            utter.onend = function() {
+                if (curHighLap) curHighLap.classList.remove('tts-reading-highlight');
+            };
+
+            synthLap.speak(utter);
+        }
+
+        // Click-to-Speak on any text element directly
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.no-print')) return;
+
+            const target = e.target.closest('tr, p, .section-header, .report-title, h1, h2, h3, h4, h5');
+            if (target) {
+                const txt = (target.innerText || target.textContent || '').trim();
+                if (txt.length > 2) {
+                    speakTextLaporan(txt, target);
+                }
+            }
+        });
+    </script>
 </body>
 </html>

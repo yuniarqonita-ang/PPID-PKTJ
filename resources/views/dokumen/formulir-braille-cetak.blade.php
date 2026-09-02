@@ -111,6 +111,9 @@
 <body>
 
     <div class="no-print" style="position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; gap: 12px;">
+        <button id="btnVoiceBraille" onclick="toggleFormBrailleVoice()" class="btn btn-warning" style="padding: 14px 24px; border-radius: 50px; font-weight: 800; box-shadow: 0 10px 25px rgba(255, 193, 7, 0.4); text-transform: uppercase; font-size: 13px; display: inline-flex; align-items: center; gap: 8px; color: #002b5c;">
+            <i class="fas fa-volume-high fa-lg"></i> <span id="btnVoiceBrailleText">Dengarkan Suara</span>
+        </button>
         <a href="{{ route('dokumen.formulir-braille-word') }}" class="btn btn-success" style="padding: 14px 28px; border-radius: 50px; font-weight: 800; box-shadow: 0 10px 25px rgba(25, 135, 84, 0.4); text-transform: uppercase; font-size: 13px; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; background-color: #198754; border-color: #198754; color: white;">
             <i class="fas fa-file-word fa-lg"></i> Download Word (Edit)
         </a>
@@ -226,7 +229,87 @@
         </div>
     </div>
 
+    <style>
+        .tts-reading-highlight {
+            background-color: rgba(255, 209, 102, 0.45) !important;
+            outline: 2px solid #ff9900 !important;
+            border-radius: 6px !important;
+            transition: all 0.2s ease !important;
+        }
+        tr:hover {
+            background-color: rgba(0, 123, 255, 0.05);
+            cursor: pointer;
+        }
+    </style>
+
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({duration: 800, once: true});</script>
+    <script>
+        AOS.init({duration: 800, once: true});
+
+        let isSpeakingForm = false;
+        let synth = window.speechSynthesis;
+        let curHighlight = null;
+
+        function toggleFormBrailleVoice() {
+            if (!('speechSynthesis' in window)) {
+                alert('Browser Anda tidak mendukung fitur suara.');
+                return;
+            }
+
+            const btnText = document.getElementById('btnVoiceBrailleText');
+            if (isSpeakingForm) {
+                synth.cancel();
+                isSpeakingForm = false;
+                if (curHighlight) curHighlight.classList.remove('tts-reading-highlight');
+                if (btnText) btnText.textContent = 'Dengarkan Suara';
+            } else {
+                const textToRead = "Formulir Permohonan Informasi Publik Format Huruf Braille Politeknik Keselamatan Transportasi Jalan Tegal. Anda dapat mengklik baris atau teks mana saja di formulir ini untuk langsung mendengarkan bacaan butir isian secara otomatis.";
+                speakFormText(textToRead);
+                if (btnText) btnText.textContent = 'Berhenti Suara';
+            }
+        }
+
+        function speakFormText(text, el = null) {
+            if (!synth) return;
+            synth.cancel();
+            if (curHighlight) curHighlight.classList.remove('tts-reading-highlight');
+
+            if (el) {
+                curHighlight = el;
+                curHighlight.classList.add('tts-reading-highlight');
+            }
+
+            const utter = new SpeechSynthesisUtterance(text);
+            utter.lang = 'id-ID';
+            utter.rate = 0.95;
+
+            const voices = synth.getVoices();
+            const idVoice = voices.find(v => v.lang.includes('id') || v.lang.includes('ID') || v.name.toLowerCase().includes('indonesia'));
+            if (idVoice) utter.voice = idVoice;
+
+            utter.onend = function() {
+                isSpeakingForm = false;
+                if (curHighlight) curHighlight.classList.remove('tts-reading-highlight');
+                const btnText = document.getElementById('btnVoiceBrailleText');
+                if (btnText) btnText.textContent = 'Dengarkan Suara';
+            };
+
+            synth.speak(utter);
+            isSpeakingForm = true;
+        }
+
+        // Direct Click-to-Speak on any row or text element
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.no-print')) return;
+
+            const rowOrEl = e.target.closest('tr, p, div.disability-badge, .form-title');
+            if (rowOrEl) {
+                const txt = (rowOrEl.innerText || rowOrEl.textContent || '').trim();
+                if (txt.length > 2) {
+                    speakFormText(txt, rowOrEl);
+                }
+            }
+        });
+    </script>
 </body>
 </html>
