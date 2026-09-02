@@ -64,93 +64,158 @@
             font-size: 2.2rem;
         }
 
-        /* CHART 1 & 2 STYLING (VERBATIM POLTRADA BALI -> PKTJ) */
+        /* ULTRA-MODERN ORG CHART STYLING (ATM: AMATI, TIRU, MODIFIKASI SESUAI TEMA PKTJ) */
         .chart-kem-wrapper, .chart-pktj-wrapper {
             position: relative;
-            max-width: 950px;
+            max-width: 960px;
             margin: 0 auto;
-            padding: 20px 0;
+            padding: 30px 15px;
         }
 
-        /* Kemenhub Card Styles */
-        .kemenhub-card {
-            width: 250px;
-            border-radius: 12px;
+        /* Modern Executive Node Card */
+        .modern-org-node {
+            width: 270px;
+            max-width: 92vw;
+            border-radius: 18px;
             overflow: hidden;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.12);
+            background: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.1);
+            border: 1.5px solid rgba(0, 74, 153, 0.15);
             text-align: center;
             margin: 0 auto;
-            transition: transform 0.25s ease;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 2;
         }
-        .kemenhub-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
-        }
-        .kem-badge-top {
-            background: #e60000;
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 13px;
-            padding: 8px 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            text-decoration: underline;
-            text-underline-offset: 3px;
-        }
-        .kem-badge-sub {
-            background: #00b0ff;
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 12.5px;
-            padding: 8px 10px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
+        .modern-org-node:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 74, 153, 0.2);
+            border-color: var(--secondary-gold);
         }
 
-        /* Connecting Lines Chart 1 */
-        .kem-line-v-center {
-            width: 4px;
-            background: #111827;
-            margin: 0 auto;
+        /* Pill Header Badges */
+        .node-badge-role {
+            color: #ffffff;
+            font-weight: 800;
+            font-size: 11.5px;
+            padding: 9px 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-family: 'Outfit', sans-serif;
         }
-        .kem-branch-container {
+        .role-crimson { background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%); }
+        .role-indigo  { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
+        .role-navy    { background: linear-gradient(135deg, #004a99 0%, #002b5c 100%); }
+        .role-emerald { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
+        .role-cyan    { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); }
+        .role-amber   { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
+        .role-purple  { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); }
+
+        /* Person / Sub-Badge */
+        .node-badge-person {
+            background: linear-gradient(180deg, #f8fafc 0%, #edf2f7 100%);
+            color: #0f172a;
+            font-weight: 800;
+            font-size: 12.5px;
+            padding: 12px 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            line-height: 1.35;
+            border-top: 1px solid rgba(0, 0, 0, 0.06);
+            font-family: 'Outfit', sans-serif;
+        }
+        .node-badge-person.person-upt {
+            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
+            color: #ffffff;
+            border-top: 2px solid #ffc107;
+        }
+
+        /* Modern Connector Lines with PKTJ Color Scheme */
+        .modern-line-v {
+            width: 3px;
+            background: linear-gradient(to bottom, #004a99, #002b5c);
+            margin: 0 auto;
+            position: relative;
+        }
+        .modern-line-v::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 8px;
+            height: 8px;
+            background: #ffc107;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255, 193, 7, 0.8);
+        }
+
+        .modern-branch-wrapper {
             position: relative;
             width: 100%;
-            height: 65px;
+            height: 75px;
         }
-        .kem-branch-left {
+        .modern-branch-left {
             position: absolute;
             right: 50%;
             top: 0;
             display: flex;
             align-items: center;
             transform: translateY(-50%);
+            z-index: 5;
         }
-        .kem-line-h-left {
-            width: 60px;
-            height: 4px;
-            background: #111827;
+        .modern-line-h-left {
+            width: 80px;
+            height: 3px;
+            background: #004a99;
+            position: relative;
         }
-        .kem-branch-main-line {
+        .modern-line-h-left::before {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: -3px;
+            width: 8px;
+            height: 8px;
+            background: #ffc107;
+            border-radius: 50%;
+        }
+        .modern-branch-main-spine {
             position: absolute;
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 4px;
-            background: #111827;
+            width: 3px;
+            background: #004a99;
             transform: translateX(-50%);
         }
 
-        .kem-pelaksana-grid {
+        .modern-grid-3 {
             display: flex;
             justify-content: center;
             align-items: flex-start;
-            gap: 20px;
+            gap: 25px;
             position: relative;
-            padding-top: 25px;
-            border-top: 4px solid #111827;
+            padding-top: 30px;
+            border-top: 3px solid #004a99;
         }
-        .kem-pelaksana-col {
+        .modern-grid-3::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 12px;
+            height: 12px;
+            background: #ffc107;
+            border-radius: 50%;
+            box-shadow: 0 0 8px rgba(255, 193, 7, 0.9);
+        }
+        .modern-col-drop {
             position: relative;
             flex: 1;
             max-width: 280px;
@@ -158,94 +223,97 @@
             flex-direction: column;
             align-items: center;
         }
-        .kem-pelaksana-drop-line {
+        .modern-drop-line {
             position: absolute;
-            top: -25px;
-            height: 25px;
-            width: 4px;
-            background: #111827;
+            top: -30px;
+            height: 30px;
+            width: 3px;
+            background: #004a99;
         }
 
-        /* PKTJ Bagan 2 Styles */
-        .pktj-node-card {
-            width: 320px;
-            max-width: 90vw;
-            border-radius: 50px;
+        /* Bagan 2 PKTJ Specific Modern Connectors */
+        .pktj-chart-card {
+            width: 340px;
+            max-width: 92vw;
+            border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            background: #ffffff;
+            box-shadow: 0 12px 32px rgba(0, 43, 92, 0.1);
+            border: 1.5px solid rgba(0, 74, 153, 0.15);
             text-align: center;
             margin: 0 auto;
-            transition: transform 0.25s ease;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            z-index: 2;
         }
-        .pktj-node-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+        .pktj-chart-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 22px 45px rgba(0, 74, 153, 0.22);
+            border-color: #ffc107;
         }
-        .pktj-badge-top {
-            background: #00a651;
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 13.5px;
-            padding: 9px 15px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
+        .pktj-chart-card.pktj-card-upt {
+            border: 2px solid #ffc107;
+            box-shadow: 0 15px 35px rgba(255, 193, 7, 0.15);
         }
-        .pktj-badge-sub {
-            background: #1055cc;
-            color: #ffffff;
-            font-weight: 800;
-            font-size: 13px;
-            padding: 9px 12px;
-            text-transform: uppercase;
-            letter-spacing: 0.3px;
-        }
-        .pktj-line-v {
-            width: 5px;
-            background: #111827;
-            margin: 0 auto;
-        }
+
         .pktj-fork-wrapper {
             position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
+            min-height: 85px;
         }
         .pktj-fork-left {
             position: absolute;
             right: 50%;
             display: flex;
             align-items: center;
+            z-index: 5;
         }
         .pktj-line-h-to-center {
-            width: 70px;
-            height: 5px;
-            background: #111827;
+            width: 80px;
+            height: 3px;
+            background: #004a99;
+            position: relative;
+        }
+        .pktj-line-h-to-center::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: -3px;
+            width: 8px;
+            height: 8px;
+            background: #ffc107;
+            border-radius: 50%;
         }
         .pktj-spine-line {
-            width: 5px;
-            height: 70px;
-            background: #111827;
+            width: 3px;
+            height: 85px;
+            background: #004a99;
             margin: 0 auto;
         }
 
         @media (max-width: 768px) {
-            .kem-pelaksana-grid {
+            .modern-grid-3 {
                 flex-direction: column;
                 align-items: center;
                 border-top: none;
-                gap: 30px;
+                gap: 35px;
             }
-            .kem-branch-left {
+            .modern-grid-3::before, .modern-drop-line {
+                display: none;
+            }
+            .modern-branch-left {
                 position: static;
                 transform: none;
-                margin-bottom: 20px;
+                margin-bottom: 25px;
             }
-            .kem-line-h-left {
+            .modern-line-h-left {
                 display: none;
             }
             .pktj-fork-left {
                 position: static;
-                margin-bottom: 20px;
+                margin-bottom: 25px;
             }
             .pktj-line-h-to-center {
                 display: none;
@@ -401,63 +469,81 @@
                     <div class="chart-kem-wrapper">
                         <!-- Level 1: Atasan PPID -->
                         <div class="d-flex justify-content-center">
-                            <div class="kemenhub-card">
-                                <div class="kem-badge-top">ATASAN PPID</div>
-                                <div class="kem-badge-sub">{{ $settings['struktur_atasan_nama'] ?? 'MENTERI PERHUBUNGAN' }}</div>
+                            <div class="modern-org-node">
+                                <div class="node-badge-role role-crimson">
+                                    <i class="fas fa-crown text-warning"></i>
+                                    <span>ATASAN PPID</span>
+                                </div>
+                                <div class="node-badge-person">{{ $settings['struktur_atasan_nama'] ?? 'MENTERI PERHUBUNGAN' }}</div>
                             </div>
                         </div>
 
                         <!-- Vertical connector line from Atasan -->
-                        <div class="kem-line-v-center" style="height: 35px;"></div>
+                        <div class="modern-line-v" style="height: 40px;"></div>
 
                         <!-- Fork: Left to PPID UTAMA, Down to PELAKSANA -->
-                        <div class="kem-branch-container">
-                            <div class="kem-branch-left">
-                                <div class="kemenhub-card">
-                                    <div class="kem-badge-top">PPID UTAMA</div>
-                                    <div class="kem-badge-sub">{{ $settings['struktur_utama_nama'] ?? 'SEKRETARIS JENDERAL' }}</div>
+                        <div class="modern-branch-wrapper">
+                            <div class="modern-branch-left">
+                                <div class="modern-org-node">
+                                    <div class="node-badge-role role-indigo">
+                                        <i class="fas fa-building-columns text-info"></i>
+                                        <span>PPID UTAMA</span>
+                                    </div>
+                                    <div class="node-badge-person">{{ $settings['struktur_utama_nama'] ?? 'SEKRETARIS JENDERAL' }}</div>
                                 </div>
-                                <div class="kem-line-h-left"></div>
+                                <div class="modern-line-h-left"></div>
                             </div>
-                            <div class="kem-branch-main-line"></div>
+                            <div class="modern-branch-main-spine"></div>
                         </div>
 
-                        <div class="kem-line-v-center" style="height: 35px;"></div>
+                        <div class="modern-line-v" style="height: 40px;"></div>
 
                         <!-- 3 Pelaksana Columns -->
-                        <div class="kem-pelaksana-grid">
+                        <div class="modern-grid-3">
                             <!-- Col 1: Itjen -->
-                            <div class="kem-pelaksana-col">
-                                <div class="kem-pelaksana-drop-line"></div>
-                                <div class="kemenhub-card">
-                                    <div class="kem-badge-top">PPID PELAKSANA</div>
-                                    <div class="kem-badge-sub">{{ $settings['struktur_pelaksana_itjen'] ?? 'INSPEKTUR JENDERAL' }}</div>
+                            <div class="modern-col-drop">
+                                <div class="modern-drop-line"></div>
+                                <div class="modern-org-node">
+                                    <div class="node-badge-role role-navy">
+                                        <i class="fas fa-shield-halved text-cyan"></i>
+                                        <span>PPID PELAKSANA</span>
+                                    </div>
+                                    <div class="node-badge-person">{{ $settings['struktur_pelaksana_itjen'] ?? 'INSPEKTUR JENDERAL' }}</div>
                                 </div>
                             </div>
 
                             <!-- Col 2: Ditjen -->
-                            <div class="kem-pelaksana-col">
-                                <div class="kem-pelaksana-drop-line"></div>
-                                <div class="kemenhub-card">
-                                    <div class="kem-badge-top">PPID PELAKSANA</div>
-                                    <div class="kem-badge-sub">{{ $settings['struktur_pelaksana_ditjen'] ?? 'DIREKTUR JENDERAL' }}</div>
+                            <div class="modern-col-drop">
+                                <div class="modern-drop-line"></div>
+                                <div class="modern-org-node">
+                                    <div class="node-badge-role role-navy">
+                                        <i class="fas fa-landmark text-cyan"></i>
+                                        <span>PPID PELAKSANA</span>
+                                    </div>
+                                    <div class="node-badge-person">{{ $settings['struktur_pelaksana_ditjen'] ?? 'DIREKTUR JENDERAL' }}</div>
                                 </div>
                             </div>
 
                             <!-- Col 3: Kepala Badan & UPT PKTJ -->
-                            <div class="kem-pelaksana-col">
-                                <div class="kem-pelaksana-drop-line"></div>
-                                <div class="kemenhub-card">
-                                    <div class="kem-badge-top">PPID PELAKSANA</div>
-                                    <div class="kem-badge-sub">{{ $settings['struktur_pelaksana_kaban'] ?? 'KEPALA BADAN' }}</div>
+                            <div class="modern-col-drop">
+                                <div class="modern-drop-line"></div>
+                                <div class="modern-org-node">
+                                    <div class="node-badge-role role-navy">
+                                        <i class="fas fa-network-wired text-cyan"></i>
+                                        <span>PPID PELAKSANA</span>
+                                    </div>
+                                    <div class="node-badge-person">{{ $settings['struktur_pelaksana_kaban'] ?? 'KEPALA BADAN' }}</div>
                                 </div>
 
                                 <!-- Vertical line down to UPT PKTJ -->
-                                <div class="kem-line-v-center" style="height: 40px;"></div>
+                                <div class="modern-line-v" style="height: 45px;"></div>
 
-                                <div class="kemenhub-card">
-                                    <div class="kem-badge-top">PPID PELAKSANA UPT</div>
-                                    <div class="kem-badge-sub">{{ $settings['struktur_upt_direktur'] ?? 'DIREKTUR PKTJ TEGAL' }}</div>
+                                <div class="modern-org-node" style="border: 2px solid #ffc107; box-shadow: 0 12px 30px rgba(255, 193, 7, 0.2);">
+                                    <div class="node-badge-role role-amber">
+                                        <i class="fas fa-graduation-cap text-warning"></i>
+                                        <span>PPID PELAKSANA UPT</span>
+                                    </div>
+                                    <div class="node-badge-person person-upt">{{ $settings['struktur_upt_direktur'] ?? 'DIREKTUR PKTJ TEGAL' }}</div>
                                 </div>
                             </div>
                         </div>
@@ -480,21 +566,33 @@
                     <div class="chart-pktj-wrapper">
                         <!-- Top: PPID PELAKSANA UPT -->
                         <div class="d-flex justify-content-center">
-                            <div class="pktj-node-card">
-                                <div class="pktj-badge-top">PPID PELAKSANA UPT</div>
-                                <div class="pktj-badge-sub">{{ $settings['struktur_upt_direktur'] ?? 'DIREKTUR PKTJ TEGAL' }}</div>
+                            <div class="pktj-chart-card pktj-card-upt">
+                                <div class="node-badge-role role-emerald">
+                                    <i class="fas fa-graduation-cap text-warning"></i>
+                                    <span>PPID PELAKSANA UPT</span>
+                                </div>
+                                <div class="node-badge-person person-upt">
+                                    <span class="d-block text-xs text-warning opacity-90 fw-bold mb-0.5" style="letter-spacing: 0.5px;">PIMPINAN UPT LEMBAGA</span>
+                                    {{ $settings['struktur_upt_direktur'] ?? 'DIREKTUR PKTJ TEGAL' }}
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Vertical stem -->
-                        <div class="pktj-line-v" style="height: 40px;"></div>
+                        <!-- Vertical line -->
+                        <div class="modern-line-v" style="height: 45px;"></div>
 
                         <!-- Branch to Left: MANAJER INFORMASI DAN DOKUMENTASI -->
                         <div class="pktj-fork-wrapper">
                             <div class="pktj-fork-left">
-                                <div class="pktj-node-card">
-                                    <div class="pktj-badge-top">MANAJER INFORMASI DAN DOKUMENTASI</div>
-                                    <div class="pktj-badge-sub">{{ $settings['struktur_manajer_nama'] ?? 'PEJABAT STRUKTURAL' }}</div>
+                                <div class="pktj-chart-card">
+                                    <div class="node-badge-role role-cyan">
+                                        <i class="fas fa-folder-tree"></i>
+                                        <span>MANAJER INFORMASI & DOKUMENTASI</span>
+                                    </div>
+                                    <div class="node-badge-person">
+                                        <span class="d-block text-xs text-muted mb-0.5" style="letter-spacing: 0.5px;">PENANGGUNG JAWAB TEKNIS</span>
+                                        {{ $settings['struktur_manajer_nama'] ?? 'PEJABAT STRUKTURAL' }}
+                                    </div>
                                 </div>
                                 <div class="pktj-line-h-to-center"></div>
                             </div>
@@ -502,25 +600,37 @@
                             <div class="pktj-spine-line"></div>
                         </div>
 
-                        <!-- Vertical stem -->
-                        <div class="pktj-line-v" style="height: 35px;"></div>
+                        <!-- Vertical line -->
+                        <div class="modern-line-v" style="height: 40px;"></div>
 
                         <!-- Center Down: PENGELOLA DOKUMENTASI -->
                         <div class="d-flex justify-content-center">
-                            <div class="pktj-node-card">
-                                <div class="pktj-badge-top">PENGELOLA DOKUMENTASI</div>
-                                <div class="pktj-badge-sub">{{ $settings['struktur_pengelola_nama'] ?? 'PEJABAT STRUKTURAL/STAFF' }}</div>
+                            <div class="pktj-chart-card">
+                                <div class="node-badge-role role-navy">
+                                    <i class="fas fa-file-shield text-info"></i>
+                                    <span>PENGELOLA DOKUMENTASI</span>
+                                </div>
+                                <div class="node-badge-person">
+                                    <span class="d-block text-xs text-muted mb-0.5" style="letter-spacing: 0.5px;">PENGOLAHAN DATA & KLASIFIKASI</span>
+                                    {{ $settings['struktur_pengelola_nama'] ?? 'PEJABAT STRUKTURAL/STAFF' }}
+                                </div>
                             </div>
                         </div>
 
-                        <!-- Vertical stem -->
-                        <div class="pktj-line-v" style="height: 40px;"></div>
+                        <!-- Vertical line -->
+                        <div class="modern-line-v" style="height: 45px;"></div>
 
                         <!-- Center Down: PETUGAS INFORMASI -->
                         <div class="d-flex justify-content-center">
-                            <div class="pktj-node-card">
-                                <div class="pktj-badge-top">PETUGAS INFORMASI</div>
-                                <div class="pktj-badge-sub">{{ $settings['struktur_petugas_nama'] ?? 'STAFF' }}</div>
+                            <div class="pktj-chart-card">
+                                <div class="node-badge-role role-purple">
+                                    <i class="fas fa-headset text-warning"></i>
+                                    <span>PETUGAS INFORMASI</span>
+                                </div>
+                                <div class="node-badge-person">
+                                    <span class="d-block text-xs text-muted mb-0.5" style="letter-spacing: 0.5px;">PELAYANAN & MEJA LAYANAN</span>
+                                    {{ $settings['struktur_petugas_nama'] ?? 'STAFF' }}
+                                </div>
                             </div>
                         </div>
                     </div>
