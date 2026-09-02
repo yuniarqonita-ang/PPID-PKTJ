@@ -267,9 +267,9 @@
                             <i class="fas fa-certificate me-1"></i> Standar PPID Kemenhub: Slide 25
                         </div>
                         <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.75rem;">
-                            <i class="fas fa-user-tie me-2 text-primary"></i> Profil Pejabat Publik & LHKPN PKTJ
+                            <i class="fas fa-user-tie me-2 text-primary"></i> Profil Pejabat Publik PKTJ
                         </h3>
-                        <p class="text-muted small mb-0">Informasi profil pimpinan struktural, riwayat karir, dan kepatuhan LHKPN jajaran Pimpinan PKTJ Tegal.</p>
+                        <p class="text-muted small mb-0">Informasi profil pimpinan struktural dan riwayat karir jajaran Pimpinan PKTJ Tegal.</p>
                     </div>
                     <div>
                         <a href="{{ \Illuminate\Support\Facades\Route::has('profil.pejabat') ? route('profil.pejabat') : url('/profil/pejabat') }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold text-xs">
@@ -322,11 +322,13 @@
                                         </p>
                                     @endif
 
+                                    @if(!empty($pejabat->lhkpn_file) && has_valid_document($pejabat->lhkpn_file))
                                     <div class="mt-2">
-                                        <a href="{{ $pejabat->lhkpn_link ?? asset($pejabat->lhkpn_file ?? '#') }}" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: none;">
-                                            LHKPN {{ $pejabat->nama }}
+                                        <a href="{{ asset($pejabat->lhkpn_file) }}" target="_blank" style="color: #0284c7; font-weight: 700; text-decoration: none;">
+                                            <i class="fas fa-file-pdf me-1 text-danger"></i> LHKPN {{ $pejabat->nama }}
                                         </a>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>

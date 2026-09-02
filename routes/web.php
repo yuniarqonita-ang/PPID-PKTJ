@@ -553,6 +553,13 @@ Route::get('/refresh-deploy', function() {
                     ]);
                 }
             }
+
+            // Bersihkan lhkpn_link generik KPK dari pejabat agar tidak tampil tautan default
+            foreach (\App\Models\Pejabat::all() as $pj) {
+                if ($pj->lhkpn_link && (str_contains($pj->lhkpn_link, 'elhkpn.kpk.go.id') || $pj->lhkpn_link === '#')) {
+                    $pj->update(['lhkpn_link' => null]);
+                }
+            }
         } catch (\Throwable $ex) {}
 
         return '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Deploy Cache Refreshed</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light d-flex align-items-center justify-content-center min-vh-100"><div class="card shadow-lg p-5 rounded-4 text-center" style="max-width: 600px;"><div class="display-4 text-success mb-3">✅</div><h3 class="fw-bold text-dark mb-2">Cache Deployment Berhasil Dibersihkan!</h3><p class="text-muted small">Seluruh cache template blade, routes, config, session view, dan foto pejabat telah diperbarui 100% ke versi kode terbaru.</p><hr class="my-4"><div class="d-grid gap-2"><a href="/informasi-publik/berkala" class="btn btn-primary fw-bold py-2.5 rounded-pill">👔 Lihat Pejabat & Informasi Berkala</a><a href="/profil/pejabat" class="btn btn-outline-primary fw-bold py-2.5 rounded-pill">📸 Lihat Halaman Profil Pejabat</a><a href="/" class="btn btn-link text-muted small">Kembali ke Beranda</a></div></div></body></html>';

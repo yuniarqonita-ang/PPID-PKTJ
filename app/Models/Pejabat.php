@@ -128,7 +128,8 @@ class Pejabat extends Model
                     'Satyalancana Karya Satya 20 Tahun Presiden RI',
                     'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
+                'lhkpn_file' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 1,
                 'aktif' => true,
@@ -154,7 +155,8 @@ class Pejabat extends Model
                     'Satyalancana Karya Satya 20 Tahun Presiden RI',
                     'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
+                'lhkpn_file' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 2,
                 'aktif' => true,
@@ -181,7 +183,8 @@ class Pejabat extends Model
                     'Satyalancana Karya Satya 30 Tahun Presiden RI',
                     'Satyalancana Karya Satya 20 Tahun Presiden RI'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
+                'lhkpn_file' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 3,
                 'aktif' => true,
@@ -207,7 +210,8 @@ class Pejabat extends Model
                     'Satyalancana Karya Satya 20 Tahun Presiden RI',
                     'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
+                'lhkpn_file' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 4,
                 'aktif' => true,
@@ -233,7 +237,8 @@ class Pejabat extends Model
                     'Satyalancana Karya Satya 20 Tahun Presiden RI',
                     'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
+                'lhkpn_file' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 5,
                 'aktif' => true,
@@ -259,7 +264,8 @@ class Pejabat extends Model
                     'Satyalancana Karya Satya 10 Tahun Presiden RI',
                     'Penghargaan Inovasi Sistem Pelayanan Informasi Digital'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
+                'lhkpn_file' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 6,
                 'aktif' => true,
