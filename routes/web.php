@@ -266,6 +266,10 @@ Route::redirect('/dashboard', '/admin');
 
 Route::get('/refresh-deploy', function() {
     try {
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+        } catch (\Throwable $mEx) {}
+
         \Illuminate\Support\Facades\Artisan::call('view:clear');
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
         \Illuminate\Support\Facades\Artisan::call('route:clear');
