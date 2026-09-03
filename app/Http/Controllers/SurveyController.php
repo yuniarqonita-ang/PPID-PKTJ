@@ -33,14 +33,22 @@ class SurveyController extends Controller
         $stats = SurveyResponse::getLiveStatistics();
         $settings = Dashboard::pluck('value', 'key')->toArray();
 
-        // Dokumen laporan resmi survey SKM PKTJ (PDF)
+        // Dokumen laporan resmi survey SKM PKTJ (PDF) - Eksklusif hanya dokumen Survey/SKM/IKM
         $laporan = Dokumen::where(function($q) {
             $q->where('kategori', 'like', '%survey%')
-              ->orWhere('kategori', 'like', '%laporan%')
+              ->orWhere('kategori', 'like', '%skm%')
+              ->orWhere('kategori', 'like', '%ikm%')
               ->orWhere('judul', 'like', '%survey%')
-              ->orWhere('judul', 'like', '%kepuasan%')
-              ->orWhere('judul', 'like', '%ikm%');
-        })->where('aktif', true)->orderBy('tanggal', 'desc')->get();
+              ->orWhere('judul', 'like', '%kepuasan masyarakat%')
+              ->orWhere('judul', 'like', '%ikm%')
+              ->orWhere('judul', 'like', '%skm%');
+        })
+        ->where('kategori', 'not like', '%layanan%')
+        ->where('kategori', 'not like', '%akses%')
+        ->where('judul', 'not like', '%permohonan informasi%')
+        ->where('aktif', true)
+        ->orderBy('tanggal', 'desc')
+        ->get();
 
         return view('laporan-survey-kepuasan', compact('stats', 'settings', 'laporan'));
     }

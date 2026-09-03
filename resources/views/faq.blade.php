@@ -217,13 +217,10 @@
                         <div class="row align-items-center">
                             <div class="col-md-7">
                                 <h3 class="h4 fw-black text-primary mb-3">Tidak Menemukan Jawaban?</h3>
-                                <p class="text-secondary mb-4 font-medium">Jika pertanyaan Anda tidak terdaftar di sini, silakan hubungi layanan bantuan kami atau ajukan permohonan informasi secara resmi.</p>
+                                <p class="text-secondary mb-4 font-medium">Jika pertanyaan Anda tidak terdaftar di sini, silakan hubungi layanan bantuan kami.</p>
                                 <div class="d-flex flex-wrap gap-3">
-                                    <a href="/permohonan-informasi" class="btn btn-primary px-4 py-3 rounded-xl fw-bold border-0 shadow-lg" style="background-color: var(--primary-blue)">
-                                        Ajukan Pertanyaan
-                                    </a>
-                                    <a href="/profil/kontak" class="btn btn-outline-primary px-4 py-3 rounded-xl fw-bold border-2">
-                                        Hubungi Kami
+                                    <a href="/profil/kontak" class="btn btn-primary px-4 py-3 rounded-xl fw-bold border-0 shadow-lg" style="background-color: var(--primary-blue)">
+                                        <i class="fas fa-envelope me-2"></i> Hubungi Kami
                                     </a>
                                 </div>
                             </div>

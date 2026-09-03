@@ -23,20 +23,20 @@
     $allDefaults = [
         'sop_perm' => [
             'judul'    => 'Prosedur Permohonan Informasi Publik',
-            'subtitle' => 'Langkah-langkah mengajukan permohonan informasi kepada PPID BPSDMP',
+            'subtitle' => 'Langkah-langkah mengajukan permohonan informasi kepada PPID PKTJ',
             'steps' => [
-                1 => ['nomor'=>'01','judul'=>'Permohonan Informasi','deskripsi'=>'Pemohon informasi mengajukan permohonan informasi melalui PPID BPSDMP','waktu'=>'10 Menit','aktor'=>'Masyarakat','icon'=>'fas fa-user','warna'=>'#004a99'],
+                1 => ['nomor'=>'01','judul'=>'Permohonan Informasi','deskripsi'=>'Pemohon informasi mengajukan permohonan informasi melalui PPID PKTJ','waktu'=>'10 Menit','aktor'=>'Masyarakat','icon'=>'fas fa-user','warna'=>'#004a99'],
                 2 => ['nomor'=>'02','judul'=>'Registrasi dengan Mengisi Formulir Identitas','deskripsi'=>'Pemohon informasi melakukan registrasi dengan mengisi formulir identitas','waktu'=>'10 Menit','aktor'=>'Petugas Informasi','icon'=>'fas fa-id-card','warna'=>'#0284c7'],
                 3 => ['nomor'=>'03','judul'=>'Mengajukan Permohonan Informasi Publik','deskripsi'=>'Setelah memenuhi persyaratan identitas, pemohon informasi mengajukan permohonan informasi publik dengan mengisi rincian informasi dan tujuan penggunaannya','waktu'=>'10 Menit','aktor'=>'Petugas Informasi','icon'=>'fas fa-file-pen','warna'=>'#0284c7'],
                 4 => ['nomor'=>'04','judul'=>'Bukti Permohonan Informasi','deskripsi'=>'Petugas PPID memberikan bukti permohonan informasi (nomor pendaftaran) kepada pemohon informasi','waktu'=>'10 Menit','aktor'=>'Petugas Informasi','icon'=>'fas fa-receipt','warna'=>'#0284c7'],
-                5 => ['nomor'=>'05','judul'=>'Penyampaian Jawaban','deskripsi'=>'Jawaban atas permohonan informasi akan disampaikan melalui email yang telah didaftarkan paling lambat 10 hari kerja. Jika diperlukan, waktu ini dapat diperpanjang hingga tambahan 7 hari kerja','waktu'=>'10 (+7) Hari Kerja','aktor'=>'PPID','icon'=>'fas fa-building-columns','warna'=>'#059669'],
+                5 => ['nomor'=>'05','judul'=>'Penyampaian Jawaban','deskripsi'=>'Jawaban atas permohonan informasi akan disampaikan melalui email yang telah didaftarkan paling lambat 10 hari kerja. Jika diperlukan, waktu ini dapat diperpanjang hingga tambahan 7 hari kerja','waktu'=>'10 (+7) Hari Kerja','aktor'=>'PPID PKTJ','icon'=>'fas fa-building-columns','warna'=>'#059669'],
                 6 => ['nomor'=>'','judul'=>'','deskripsi'=>'','waktu'=>'','aktor'=>'','icon'=>'fas fa-circle-check','warna'=>'#64748b'],
                 7 => ['nomor'=>'','judul'=>'','deskripsi'=>'','waktu'=>'','aktor'=>'','icon'=>'fas fa-circle-check','warna'=>'#64748b'],
             ],
             'legend' => [
                 1 => 'Masyarakat',
                 2 => 'Petugas Informasi',
-                3 => 'PPID',
+                3 => 'PPID PKTJ',
             ]
         ],
         'sop_keb' => [
