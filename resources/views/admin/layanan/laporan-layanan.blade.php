@@ -173,6 +173,43 @@
             </div>
         </div>
 
+        <!-- BANNER SETTINGS CARD (PENGATURAN JUDUL & TAGLINE) -->
+        <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-4 border-[#ffc107]">
+            <div class="p-6 border-b border-gray-100 flex items-center justify-between">
+                <div>
+                    <h3 class="text-xs font-black text-[#004a99] uppercase tracking-[0.2em]">
+                        <i class="fas fa-heading mr-2 text-[#ffc107]"></i> Pengaturan Judul & Tagline Banner Halaman Publik
+                    </h3>
+                    <p class="text-gray-400 text-xs mt-1">Ubah atau hapus teks banner biru yang tampil di bagian atas halaman publik laporan</p>
+                </div>
+            </div>
+            <form action="{{ route('admin.layanan.laporan-layanan.update-banner') }}" method="POST" class="p-6 md:p-8 space-y-6">
+                @csrf
+                <div class="space-y-2">
+                    <label class="text-xs font-black text-[#004a99] uppercase tracking-wider block">Judul Banner Halaman Publik</label>
+                    <input type="text" name="laporan_layanan_judul_hero" value="{{ $settings['laporan_layanan_judul_hero'] ?? 'Laporan Layanan Informasi Publik' }}"
+                        class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 font-bold text-[#002b5c]">
+                </div>
+
+                <div class="space-y-2">
+                    <label class="text-xs font-black text-[#004a99] uppercase tracking-wider block">Tagline / Subjudul Banner</label>
+                    <textarea name="laporan_layanan_tagline_hero" rows="2"
+                        class="w-full px-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 font-medium text-[#002b5c]"
+                        placeholder="Kosongkan jika tidak ingin menampilkan teks subjudul di bawah judul...">{{ (str_contains(strtolower($settings['laporan_layanan_tagline_hero'] ?? ''), 'jks')) ? '' : ($settings['laporan_layanan_tagline_hero'] ?? 'Wujud komitmen keterbukaan dan transparansi akuntabilitas pelayanan informasi publik Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.') }}</textarea>
+                    <p class="text-[11px] text-gray-400 font-medium">Tip: Hapus seluruh teks di kolom ini jika ingin menghilangkan tulisan di bawah judul laporan (seperti teks 'jks' yang tidak diinginkan).</p>
+                </div>
+
+                <div class="flex items-center justify-between gap-4 pt-4 border-t border-slate-100 flex-wrap">
+                    <button type="submit" name="reset_banner" value="1" class="px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-600 font-bold text-xs uppercase tracking-wider rounded-xl transition-all">
+                        <i class="fas fa-undo mr-2"></i> Reset ke Teks Resmi
+                    </button>
+                    <button type="submit" class="px-8 py-3.5 bg-[#004a99] hover:bg-black text-white font-black text-xs uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-blue-900/20">
+                        <i class="fas fa-save mr-2 text-[#ffc107]"></i> Simpan Perubahan Banner
+                    </button>
+                </div>
+            </form>
+        </div>
+
     </div>
 </div>
 

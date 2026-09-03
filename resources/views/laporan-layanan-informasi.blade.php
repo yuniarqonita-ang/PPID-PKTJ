@@ -281,8 +281,14 @@
             <div class="hero-badge">
                 <i class="fas fa-file-invoice me-1"></i> Layanan Informasi Publik
             </div>
+            @php
+                $heroTagline = $settings['laporan_layanan_tagline_hero'] ?? '';
+                if (str_contains(strtolower($heroTagline), 'jks') || strlen(trim($heroTagline)) < 6) {
+                    $heroTagline = 'Wujud komitmen keterbukaan dan transparansi akuntabilitas pelayanan informasi publik Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
+                }
+            @endphp
             <h1 class="hero-title">{{ $settings['laporan_layanan_judul_hero'] ?? 'Laporan Layanan Informasi Publik' }}</h1>
-            <p class="hero-tagline">{{ $settings['laporan_layanan_tagline_hero'] ?? 'Wujud komitmen keterbukaan dan transparansi akuntabilitas pelayanan informasi publik Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.' }}</p>
+            <p class="hero-tagline">{{ $heroTagline }}</p>
         </div>
     </div>
 

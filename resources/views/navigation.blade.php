@@ -216,10 +216,36 @@
         overflow-x: hidden !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
+    /* ============================================================ */
+    /* NAVBAR PERMANEN (FIXED LOCK AT THE VERY TOP OF SCREEN)       */
+    /* Tetap tampil dan tidak hilang saat halaman digulir ke bawah  */
+    /* ============================================================ */
+    .navbar-fixed-top-pktj {
+        position: fixed !important;
+        top: 0 !important;
+        left: 0 !important;
+        right: 0 !important;
+        width: 100% !important;
+        z-index: 99999 !important;
+        background-color: #004a99 !important;
+        border-bottom: 3px solid #ffc107 !important;
+        padding: 10px 0 !important;
+        box-shadow: 0 6px 25px rgba(0, 43, 92, 0.3) !important;
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+    }
+
+    body {
+        padding-top: 76px !important;
+    }
+    @media (max-width: 991px) {
+        body {
+            padding-top: 70px !important;
+        }
     }
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0; position: sticky; top: 0; z-index: 99999; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-fixed-top-pktj">
     <div class="container">
         <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="{{ route('home') }}">
             <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}" style="height: 50px; margin-right: 12px;">

@@ -272,12 +272,14 @@ Route::get('/refresh-deploy', function() {
 
         try {
             \Illuminate\Support\Facades\DB::table('dokumens')
-                ->whereIn('kategori', ['Laporan Layanan', 'Laporan Akses', 'Laporan Tahunan'])
+                ->where('judul', 'like', '%Laporan Permohonan Informasi PPID Pelaksana%')
                 ->delete();
-            \Illuminate\Support\Facades\DB::table('dokumens')
-                ->where('judul', 'like', '%Laporan Permohonan Informasi%')
-                ->orWhere('judul', 'like', '%Laporan Tahunan%')
-                ->delete();
+            \Illuminate\Support\Facades\DB::table('dashboards')
+                ->where('key', 'laporan_layanan_tagline_hero')
+                ->update(['value' => 'Wujud komitmen keterbukaan dan transparansi akuntabilitas pelayanan informasi publik Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.']);
+            \Illuminate\Support\Facades\DB::table('dashboards')
+                ->where('key', 'laporan_layanan_judul_hero')
+                ->update(['value' => 'Laporan Layanan Informasi Publik']);
         } catch (\Throwable $dEx) {}
 
         try {
@@ -813,9 +815,35 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/daftar-informasi/{id}/edit', [App\Http\Controllers\DaftarInformasiController::class, 'edit'])->name('daftar-informasi.edit');
         Route::put('/daftar-informasi/{id}', [App\Http\Controllers\DaftarInformasiController::class, 'update'])->name('daftar-informasi.update');
         Route::delete('/daftar-informasi/{id}', [App\Http\Controllers\DaftarInformasiController::class, 'destroy'])->name('daftar-informasi.destroy');
-
         Route::get('/maklumat-pelayanan', function() { return view('admin.layanan.maklumat-pelayanan'); })->name('maklumat-pelayanan');
         Route::get('/laporan-layanan', function() { return view('admin.layanan.laporan-layanan'); })->name('laporan-layanan');
+        Route::post('/laporan-layanan/update-banner', function(\Illuminate\Http\Request $request) {
+            $judul = $request->input('laporan_layanan_judul_hero');
+            $tagline = $request->input('laporan_layanan_tagline_hero');
+            
+            if ($request->has('reset_banner')) {
+                \App\Models\Dashboard::updateOrCreate(
+                    ['key' => 'laporan_layanan_judul_hero'],
+                    ['value' => 'Laporan Layanan Informasi Publik', 'type' => 'text']
+                );
+                \App\Models\Dashboard::updateOrCreate(
+                    ['key' => 'laporan_layanan_tagline_hero'],
+                    ['value' => 'Wujud komitmen keterbukaan dan transparansi akuntabilitas pelayanan informasi publik Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.', 'type' => 'text']
+                );
+                return back()->with('success', 'Pengaturan banner berhasil di-reset ke teks standar resmi!');
+            }
+
+            \App\Models\Dashboard::updateOrCreate(
+                ['key' => 'laporan_layanan_judul_hero'],
+                ['value' => $judul ?: 'Laporan Layanan Informasi Publik', 'type' => 'text']
+            );
+            \App\Models\Dashboard::updateOrCreate(
+                ['key' => 'laporan_layanan_tagline_hero'],
+                ['value' => $tagline ?? '', 'type' => 'text']
+            );
+
+            return back()->with('success', 'Judul dan tagline banner publik berhasil diperbarui!');
+        })->name('laporan-layanan.update-banner');
         Route::get('/laporan-akses', function() { return view('admin.layanan.laporan-akses'); })->name('laporan-akses');
         Route::get('/laporan-survey', [\App\Http\Controllers\SurveyController::class, 'adminIndex'])->name('laporan-survey');
         Route::get('/aksesibilitas', function() { return view('admin.layanan.aksesibilitas'); })->name('aksesibilitas');
