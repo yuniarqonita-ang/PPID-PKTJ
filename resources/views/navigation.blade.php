@@ -220,7 +220,7 @@
 
     /* ============================================================ */
     /* NAVBAR PERMANEN (FIXED LOCK AT THE VERY TOP OF SCREEN)       */
-    /* Tetap tampil dan tidak hilang saat halaman digulir ke bawah  */
+    /* Tetap tampil di paling depan dan tidak tertutup konten       */
     /* ============================================================ */
     .navbar-fixed-top-pktj {
         position: fixed !important;
@@ -228,17 +228,38 @@
         left: 0 !important;
         right: 0 !important;
         width: 100% !important;
-        z-index: 99999 !important;
+        z-index: 2147483647 !important;
         background-color: #004a99 !important;
         border-bottom: 3px solid #ffc107 !important;
         padding: 10px 0 !important;
-        box-shadow: 0 6px 25px rgba(0, 43, 92, 0.3) !important;
-        backdrop-filter: blur(12px) !important;
-        -webkit-backdrop-filter: blur(12px) !important;
+        box-shadow: 0 6px 25px rgba(0, 43, 92, 0.35) !important;
     }
 
     .navbar-fixed-top-pktj .nav-link {
         color: #ffffff !important;
+    }
+
+    .navbar-fixed-top-pktj .navbar-collapse,
+    .navbar-fixed-top-pktj .container,
+    .navbar-fixed-top-pktj .navbar-nav,
+    .navbar-fixed-top-pktj .nav-item {
+        overflow: visible !important;
+    }
+
+    .nav-item.dropdown {
+        position: relative !important;
+        z-index: 2147483647 !important;
+    }
+
+    .dropdown-menu {
+        position: absolute !important;
+        z-index: 2147483647 !important;
+        border: none !important;
+        box-shadow: 0 20px 50px rgba(0, 43, 92, 0.25) !important;
+        border-radius: 16px !important;
+        padding: 12px !important;
+        background-color: #ffffff !important;
+        border: 1px solid rgba(0, 74, 153, 0.1) !important;
     }
 
     body {
@@ -251,7 +272,7 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-dark navbar-fixed-top-pktj" style="position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; z-index: 99999 !important; background-color: #004a99 !important; border-bottom: 3px solid #ffc107 !important; padding: 10px 0 !important; box-shadow: 0 6px 25px rgba(0, 43, 92, 0.35) !important;">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-fixed-top-pktj" style="position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; z-index: 2147483647 !important; background-color: #004a99 !important; border-bottom: 3px solid #ffc107 !important; padding: 10px 0 !important; box-shadow: 0 6px 25px rgba(0, 43, 92, 0.35) !important;">
     <div class="container">
         <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="{{ route('home') }}">
             <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}" style="height: 50px; margin-right: 12px;">

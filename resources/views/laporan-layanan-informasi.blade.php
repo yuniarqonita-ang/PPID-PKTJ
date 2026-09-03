@@ -294,46 +294,6 @@
 
     <!-- MAIN CONTAINER -->
     <div class="container my-5">
-        
-        <!-- UNIQUE STATS / INFO HIGHLIGHTS -->
-        <div class="row g-4 mb-5" data-aos="fade-up" data-aos-delay="100">
-            <div class="col-md-4">
-                <div class="stat-card-unique">
-                    <div class="stat-icon-wrap bg-blue-50 text-[#004a99]">
-                        <i class="fas fa-file-contract"></i>
-                    </div>
-                    <div>
-                        <div class="text-muted small fw-bold text-uppercase">Arsip Dokumen</div>
-                        <h4 class="fw-bold mb-0 text-dark" id="count-laporan">Memuat...</h4>
-                        <div class="small text-muted">Laporan Resmi Terpublikasi</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card-unique">
-                    <div class="stat-icon-wrap bg-emerald-50 text-emerald-600">
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
-                    <div>
-                        <div class="text-muted small fw-bold text-uppercase">Dasar Hukum</div>
-                        <h4 class="fw-bold mb-0 text-dark">UU No. 14 / 2008</h4>
-                        <div class="small text-muted">Keterbukaan Informasi Publik</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="stat-card-unique">
-                    <div class="stat-icon-wrap bg-amber-50 text-amber-600">
-                        <i class="fas fa-check-double"></i>
-                    </div>
-                    <div>
-                        <div class="text-muted small fw-bold text-uppercase">Akses Publik</div>
-                        <h4 class="fw-bold mb-0 text-dark">Terbuka & Bebas</h4>
-                        <div class="small text-muted">Pratinjau & Unduh Langsung</div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         @php
             // Filter dokumen laporan yang valid (memiliki berkas fisik / link aktif)
@@ -398,34 +358,14 @@
                                     <div class="no-badge">{{ $index + 1 }}</div>
                                 </td>
                                 <td>
-                                    <div class="d-flex align-items-start gap-3">
-                                        <div class="text-[#004a99] mt-1" style="font-size: 1.3rem;">
-                                            <i class="fas fa-file-pdf"></i>
+                                    <h5 class="fw-bold text-dark mb-0 laporan-title" style="font-size: 1.05rem; line-height: 1.5;">
+                                        {{ $item->judul }}
+                                    </h5>
+                                    @if($item->deskripsi)
+                                        <div class="text-muted small mt-1 line-clamp-2" style="font-size: 0.85rem;">
+                                            {!! strip_tags($item->deskripsi) !!}
                                         </div>
-                                        <div>
-                                            <h5 class="fw-bold text-dark mb-1 laporan-title" style="font-size: 1rem; line-height: 1.4;">
-                                                {{ $item->judul }}
-                                            </h5>
-                                            @if($item->deskripsi)
-                                                <div class="text-muted small mt-1 mb-2 line-clamp-2" style="font-size: 0.85rem;">
-                                                    {!! strip_tags($item->deskripsi) !!}
-                                                </div>
-                                            @endif
-                                            <div class="d-flex align-items-center gap-2 flex-wrap mt-1">
-                                                <span class="badge bg-light text-secondary border px-2.5 py-1 rounded-pill" style="font-size: 0.75rem;">
-                                                    <i class="fas fa-calendar-alt me-1 text-primary"></i> {{ $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') : ($item->created_at ? $item->created_at->translatedFormat('d F Y') : '-') }}
-                                                </span>
-                                                @if($item->file_size && $item->file_size !== '-')
-                                                <span class="badge bg-light text-secondary border px-2.5 py-1 rounded-pill" style="font-size: 0.75rem;">
-                                                    <i class="fas fa-hdd me-1 text-primary"></i> {{ $item->file_size }}
-                                                </span>
-                                                @endif
-                                                <span class="badge bg-blue-50 text-[#004a99] border border-blue-100 px-2.5 py-1 rounded-pill" style="font-size: 0.75rem;">
-                                                    <i class="fas fa-shield-alt me-1"></i> PPID PKTJ Resmi
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @endif
                                 </td>
                                 <td class="text-center">
                                     <span class="badge bg-warning-subtle text-dark border border-warning px-3 py-1.5 rounded-pill fw-bold" style="font-size: 0.85rem;">
