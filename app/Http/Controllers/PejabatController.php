@@ -144,6 +144,11 @@ class PejabatController extends Controller
             ->with('success', 'Data Profil Pejabat berhasil ditambahkan!');
     }
 
+    public function show($id)
+    {
+        return redirect()->route('admin.pejabat.edit', $id);
+    }
+
     public function edit($id)
     {
         try {
