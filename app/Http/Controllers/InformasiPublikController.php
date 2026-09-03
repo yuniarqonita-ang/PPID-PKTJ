@@ -81,6 +81,18 @@ class InformasiPublikController extends Controller
         return $item;
     }
 
+    private function itemHasValidContent($item): bool
+    {
+        // Hanya tayangkan jika dokumen fisik benar-benar ada ATAU memiliki tautan web/Google Drive aktif
+        if (!empty($item->file_path) && function_exists('has_valid_document') && has_valid_document($item->file_path)) {
+            return true;
+        }
+        if (!empty($item->deskripsi) && preg_match('/https?:\/\/[^\s"\'<>]+/i', $item->deskripsi)) {
+            return true;
+        }
+        return false;
+    }
+
     // Informasi Berkala
     public function informasiBerkala()
     {
@@ -114,7 +126,8 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            $items = $merged->sortByDesc('created_at')->values();
+            // FILTER KETAT: Jangan tayangkan jika tidak ada file dan tidak ada link
+            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortByDesc('created_at')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }
@@ -174,7 +187,8 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            $items = $merged->sortByDesc('created_at')->values();
+            // FILTER KETAT: Jangan tayangkan jika tidak ada file dan tidak ada link
+            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortByDesc('created_at')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }
@@ -215,7 +229,8 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            $items = $merged->sortByDesc('created_at')->values();
+            // FILTER KETAT: Jangan tayangkan jika tidak ada file dan tidak ada link
+            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortByDesc('created_at')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }

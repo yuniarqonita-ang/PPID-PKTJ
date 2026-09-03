@@ -396,7 +396,7 @@ CREATE TABLE `informasi_sertamertas` (
 
 LOCK TABLES `informasi_sertamertas` WRITE;
 /*!40000 ALTER TABLE `informasi_sertamertas` DISABLE KEYS */;
-INSERT INTO `informasi_sertamertas` VALUES (1,'pengumuman min yoon gi','','2026-05-20','storage/informasi/sertamerta/1779320052_Doc3.pdf','Doc3.pdf','61.51 KB','pdf',1,0,'2026-04-22 23:51:45','2026-05-20 16:34:12'),(2,'Running bersama min yonn gi','<p>hjmvgfhbfvgbfv <img src=\"http://ppid.pktj.ac.id/storage/editor_uploads/1779330873_6a0e6f39b82c9_972285007053143024.jpg\" alt=\"\" width=\"200\" height=\"200\"></p>','2026-05-21','storage/informasi/sertamerta/1779330910_Rangkuman_IT_(1).pdf','Rangkuman IT (1).pdf','138.46 KB','pdf',1,0,'2026-05-20 19:35:10','2026-05-20 19:35:10');
+INSERT INTO `informasi_sertamertas` VALUES (1,'Pemberitahuan Peringatan Dini Cuaca Ekstrem dan Jalur Evakuasi Kampus PKTJ Tegal','','2026-05-20','storage/informasi/sertamerta/1779320052_Doc3.pdf','Doc3.pdf','61.51 KB','pdf',1,0,'2026-04-22 23:51:45','2026-05-20 16:34:12'),(2,'Running bersama min yonn gi','<p>hjmvgfhbfvgbfv <img src=\"http://ppid.pktj.ac.id/storage/editor_uploads/1779330873_6a0e6f39b82c9_972285007053143024.jpg\" alt=\"\" width=\"200\" height=\"200\"></p>','2026-05-21','storage/informasi/sertamerta/1779330910_Rangkuman_IT_(1).pdf','Rangkuman IT (1).pdf','138.46 KB','pdf',1,0,'2026-05-20 19:35:10','2026-05-20 19:35:10');
 /*!40000 ALTER TABLE `informasi_sertamertas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -654,7 +654,7 @@ CREATE TABLE `permohonan` (
 
 LOCK TABLES `permohonan` WRITE;
 /*!40000 ALTER TABLE `permohonan` DISABLE KEYS */;
-INSERT INTO `permohonan` VALUES (4,NULL,'Yuniar','ktp','yuniarqonita@gmail.com',NULL,NULL,'permohonan/ktp/sx1ki18ghVFVUoSjG0oyaxOPS9LTwMsV2SqMOUJB.png','Margadana',NULL,'yuniarqonita@gmail.com','Magang','4674674737646644667','hcvdhiscgsyysdsdyisgvdkvsjksdlsd\r\nsgsydfsydvjhs','cbsjcbjsgusvvxsahasfdsyidfsujdvsgisdya\r\niigisfxisfxvhsvxfxuas',1,0,'Softcopy','Mendapatkan salinan','digital',NULL,'pending',NULL,NULL,NULL,NULL,NULL,NULL,'2026-05-03 17:00:00',NULL,NULL,'2026-05-03 19:21:35','2026-05-03 19:21:35','{\"jenis_pemohon\": \"Perorangan\", \"email_or_phone\": \"yuniarqonita@gmail.com\", \"cara_mendapatkan\": \"Email\", \"petugas_penerima\": \"vshvxhsfyfdasfuyas\"}'),(5,NULL,'gdrfvdvdf','ktp','4336436543',NULL,NULL,'permohonan/ktp/1E65b0tNYmXNALtEaQrsMmYFyYQFZFbJTuv9gvH8.jpg','fbfbfb',NULL,'4336436543','Magang','436266546767637','dghgfhtdhyghtrd','rtgggtryyrygfgfgdf',1,0,'Softcopy','Mendapatkan salinan','digital',NULL,'pending',NULL,NULL,NULL,NULL,NULL,NULL,'2026-05-19 17:00:00',NULL,NULL,'2026-05-19 23:37:52','2026-05-19 23:37:52','{\"jenis_pemohon\": \"Perorangan\", \"email_or_phone\": \"4336436543\", \"cara_mendapatkan\": \"Email\", \"petugas_penerima\": \"rtgrtgdrfrt\"}'),(6,NULL,'nita','ktp','089675674365',NULL,NULL,'permohonan/ktp/I7qEL1mRkvNICXJFLzTGKou2iOfOvjtyI9L55Zqe.jpg','tegal',NULL,'089675674365','guru','55667558576757','gctgfcjytryuyfykhfhjfyr6ujt','vcghcthtdtyhcjfjfur6jy',1,0,'Softcopy','Mendapatkan salinan','digital',NULL,'pending',NULL,NULL,NULL,NULL,NULL,NULL,'2026-05-20 17:00:00',NULL,NULL,'2026-05-20 17:54:36','2026-05-20 17:54:36','{\"jenis_pemohon\": \"Perorangan\", \"email_or_phone\": \"089675674365\", \"cara_mendapatkan\": \"Mengambil Langsung\", \"petugas_penerima\": \"yoon gi\"}');
+-- dummy test permohonan removed
 /*!40000 ALTER TABLE `permohonan` ENABLE KEYS */;
 UNLOCK TABLES;
 

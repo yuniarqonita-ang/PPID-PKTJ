@@ -49,7 +49,18 @@ if (!function_exists('has_valid_document')) {
             'jpg', 'jpeg', 'png', 'webp', 'gif', 'zip', 'rar', 'csv'
         ];
 
-        return in_array($extension, $validExtensions);
+        if (!in_array($extension, $validExtensions)) {
+            return false;
+        }
+
+        // For local files, ensure the file physically exists on the server
+        $normalized = ltrim(str_replace(['\\', '/'], DIRECTORY_SEPARATOR, $cleanPath), DIRECTORY_SEPARATOR);
+        $relPath = ltrim(str_replace(['public' . DIRECTORY_SEPARATOR, 'storage' . DIRECTORY_SEPARATOR], '', $normalized), DIRECTORY_SEPARATOR);
+
+        return file_exists(public_path($cleanPath))
+            || file_exists(public_path($normalized))
+            || file_exists(public_path('storage/' . $relPath))
+            || file_exists(storage_path('app/public/' . $relPath));
     }
 }
 

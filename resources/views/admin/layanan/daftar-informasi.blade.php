@@ -136,9 +136,13 @@
                         <td class="px-6 py-4 text-xs">{{ $item->jangka_waktu ?? '-' }}</td>
                         <td class="px-6 py-4 text-center">
                             @if($item->aktif)
-                                <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-700 rounded-full text-[10px] font-black uppercase">Aktif</span>
+                                <span class="inline-flex items-center px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-black uppercase tracking-wider">
+                                    <i class="fas fa-check-circle mr-1 text-emerald-600"></i> Tayang di Publik
+                                </span>
                             @else
-                                <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-[10px] font-black uppercase">Draft</span>
+                                <span class="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-900 rounded-full text-[10px] font-black uppercase tracking-wider" title="Tersimpan di Admin Panel, belum tayang di publik karena belum ada dokumen/link resmi">
+                                    <i class="fas fa-clock mr-1 text-amber-600"></i> Draft (Menunggu Berkas)
+                                </span>
                             @endif
                         </td>
                         <td class="px-6 py-4">
