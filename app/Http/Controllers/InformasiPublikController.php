@@ -40,12 +40,21 @@ class InformasiPublikController extends Controller
     private function ensureDataSeeded(): void
     {
         try {
-            $smCount = \App\Models\DaftarInformasi::where('kategori', 'informasi-serta-merta')->where('aktif', 1)->count();
-            $bkCount = \App\Models\DaftarInformasi::where('kategori', 'informasi-berkala')->where('aktif', 1)->count();
-            if ($smCount < 15 || $bkCount < 15) {
-                \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Dip2026SyncSeeder', '--force' => true]);
+            $smCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-serta-merta')->where('aktif', 1)->count();
+            $bkCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-berkala')->where('aktif', 1)->count();
+            $ssCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-setiap-saat')->where('aktif', 1)->count();
+
+            if ($smCount < 18 || $bkCount < 20 || $ssCount < 25) {
+                $seederFile = database_path('seeders/Dip2026SyncSeeder.php');
+                if (file_exists($seederFile)) {
+                    require_once $seederFile;
+                    $seeder = new \Database\Seeders\Dip2026SyncSeeder();
+                    $seeder->run();
+                }
             }
-        } catch (\Throwable $e) {}
+        } catch (\Throwable $e) {
+            \Illuminate\Support\Facades\Log::error('Auto seed error: ' . $e->getMessage());
+        }
     }
 
     private function mapDaftarInformasi($item)
