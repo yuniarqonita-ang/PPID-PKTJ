@@ -244,11 +244,84 @@
                                 <th class="py-3 px-3 text-center" style="min-width: 130px;">Tautan</th>
                             </tr>
                         </thead>
-                                                <tbody>
+                                                                        <tbody>
+                            <!-- KELOMPOK: PROFIL KELEMBAGAAN & PEJABAT -->
+                            <tr class="table-light fw-bold">
+                                <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
+                                    <i class="fas fa-university me-2"></i> PROFIL & KELEMBAGAAN
+                                </td>
+                            </tr>
+                            <tr class="searchable-berkala-row" data-keywords="profil pktj tegal gambaran umum tugas fungsi kedudukan alamat kontak">
+                                <td class="text-center fw-bold">1</td>
+                                <td><strong class="text-dark">Profil PKTJ Tegal</strong></td>
+                                <td class="text-muted">Informasi mengenai kedudukan, alamat kampus I & II, kontak resmi, gambaran umum, tugas dan fungsi, serta visi-misi PKTJ Tegal.</td>
+                                <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                                <td>Bagian Keuangan dan Umum</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">Hardcopy & Softcopy</span></td>
+                                <td class="text-center">Tegal, 2025</td>
+                                <td class="text-center">1 Tahun</td>
+                                <td class="text-center">
+                                    <a href="{{ route('profil.ppid') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                        Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="searchable-berkala-row" data-keywords="struktur organisasi ppid pktj bagian unit pelaksana struktural">
+                                <td class="text-center fw-bold">2</td>
+                                <td><strong class="text-dark">Struktur Organisasi PKTJ Tegal</strong></td>
+                                <td class="text-muted">Bagan struktur pejabat pimpinan, unit kerja struktural/fungsional, dan susunan PPID Pelaksana PKTJ.</td>
+                                <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                                <td>Bagian Keuangan dan Umum</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">Hardcopy & Softcopy</span></td>
+                                <td class="text-center">Tegal, 2025</td>
+                                <td class="text-center">1 Tahun</td>
+                                <td class="text-center">
+                                    <a href="{{ route('profil.struktur-organisasi') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                        Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="searchable-berkala-row" data-keywords="profil singkat pejabat pktj pimpinan direktur wakil biografi riwayat jabatan">
+                                <td class="text-center fw-bold">3</td>
+                                <td><strong class="text-dark">Profil Singkat Pejabat PKTJ Tegal</strong></td>
+                                <td class="text-muted">Data diri pimpinan pejabat struktural, riwayat pendidikan, rekam jejak karir, serta tugas dan wewenang jajaran pimpinan.</td>
+                                <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                                <td>Bagian Keuangan dan Umum</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">Softcopy</span></td>
+                                <td class="text-center">Tegal, 2025</td>
+                                <td class="text-center">1 Tahun</td>
+                                <td class="text-center">
+                                    <a href="{{ route('profil.pejabat') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                        Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr class="searchable-berkala-row" data-keywords="lhkpn laporan harta kekayaan pejabat negara kpk kepatuhan pejabat pimpinan">
+                                <td class="text-center fw-bold">4</td>
+                                <td><strong class="text-dark">Laporan Harta Kekayaan Pejabat Negara (LHKPN)</strong></td>
+                                <td class="text-muted">Laporan LHKPN pimpinan yang telah diverifikasi dan diumumkan oleh Komisi Pemberantasan Korupsi (KPK RI).</td>
+                                <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                                <td>Bagian Keuangan dan Umum</td>
+                                <td class="text-center"><span class="badge bg-light text-dark border">Hardcopy & Softcopy</span></td>
+                                <td class="text-center">Tegal, 2025</td>
+                                <td class="text-center">1 Tahun</td>
+                                <td class="text-center">
+                                    <a href="{{ route('profil.pejabat') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                        Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                    </a>
+                                </td>
+                            </tr>
+
+                            <!-- KELOMPOK: PROGRAM, KINERJA & DOKUMEN BERKALA -->
                             @if(isset($items) && $items->count() > 0)
+                            <tr class="table-light fw-bold">
+                                <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
+                                    <i class="fas fa-folder-open me-2"></i> PROGRAM, KINERJA & ARSIP BERKALA
+                                </td>
+                            </tr>
                             @foreach($items as $idx => $it)
                             @php
-                                $rowNo = $idx + 1;
+                                $rowNo = $idx + 5;
                                 $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 130);
                                 if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
                                     $cleanDesc = 'Dokumen berkala keterbukaan informasi publik resmi Politeknik Keselamatan Transportasi Jalan Tegal.';
@@ -279,10 +352,6 @@
                                 </td>
                             </tr>
                             @endforeach
-                            @else
-                            <tr>
-                                <td colspan="9" class="text-center py-4 text-muted">Belum ada dokumen informasi berkala yang tersedia.</td>
-                            </tr>
                             @endif
                         </tbody>
                     </table>
@@ -297,8 +366,8 @@
                             <span class="text-muted small">Tampilkan:</span>
                             <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changeBerkalaPageSize(this.value)">
                                 <option value="10">10 data</option>
-                                <option value="25" selected>25 data</option>
-                                <option value="50">50 data</option>
+                                <option value="25">25 data</option>
+                                <option value="50" selected>50 data</option>
                                 <option value="all">Semua data</option>
                             </select>
                         </div>
@@ -510,7 +579,7 @@
         }
 
         let currentBerkalaPage = 1;
-        let berkalaRowsPerPage = 25;
+        let berkalaRowsPerPage = 50;
         let filteredBerkalaRows = [];
 
         function initBerkalaPagination() {

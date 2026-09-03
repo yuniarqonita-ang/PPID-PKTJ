@@ -133,11 +133,88 @@
                             <th class="text-center" style="min-width: 120px;">Tautan</th>
                         </tr>
                     </thead>
-                                        <tbody id="setiapTableBody">
+                                                            <tbody id="setiapTableBody">
+                        <!-- KELOMPOK: INFORMASI OPERASIONAL & PEDOMAN POKOK -->
+                        <tr class="table-light fw-bold">
+                            <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
+                                <i class="fas fa-book me-2"></i> PEDOMAN, KEBIJAKAN & INFORMASI POKOK
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="dokumentasi kegiatan pimpinan direktur manajemen rapat koordinasi dinas">
+                            <td class="text-center fw-bold">1</td>
+                            <td><strong class="text-dark">Dokumentasi Kegiatan Pimpinan PKTJ</strong></td>
+                            <td class="text-muted">Informasi dan dokumentasi agenda pimpinan, rapat koordinasi kedinasan, kunjungan kerja, serta kegiatan institusi PKTJ Tegal.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Subbagian Tata Usaha & Rumah Tangga</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="{{ route('profil.pejabat') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="peraturan keputusan kebijakan institusi surat edaran direktur ppid">
+                            <td class="text-center fw-bold">2</td>
+                            <td><strong class="text-dark">Peraturan, Keputusan, dan Kebijakan PKTJ</strong></td>
+                            <td class="text-muted">Himpunan surat keputusan, peraturan dinas internal, dan kebijakan strategis direktur di lingkungan Politeknik Keselamatan Transportasi Jalan.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Keuangan dan Umum</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Hardcopy & Softcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="{{ route('profil.regulasi') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="informasi kurikulum silabus pendidikan pelatihan vokasi transportasi darat sk direktur">
+                            <td class="text-center fw-bold">3</td>
+                            <td><strong class="text-dark">Informasi Kurikulum dan Silabus Diklat PKTJ</strong></td>
+                            <td class="text-muted">Keputusan Direktur PKTJ tentang penetapan kurikulum vokasi dan silabus pendidikan pelatihan bidang keselamatan jalan.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Akademik & Ketarunaan</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="https://pktj.ac.id" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="daftar nama fungsional dosen instruktur tenaga pendidik lektor asisten ahli">
+                            <td class="text-center fw-bold">4</td>
+                            <td><strong class="text-dark">Daftar Nama Fungsional Dosen & Instruktur PKTJ</strong></td>
+                            <td class="text-muted">Informasi daftar nama, jenjang fungsional, dan bidang keahlian dosen serta instruktur pengajar di lingkungan PKTJ Tegal.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Akademik & Ketarunaan</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="https://pktj.ac.id" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <!-- DOKUMEN DINAMIS DARI DATABASE -->
                         @if(isset($items) && $items->count() > 0)
+                        <tr class="table-light fw-bold">
+                            <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
+                                <i class="fas fa-database me-2"></i> ARSIP DOKUMEN & PEDOMAN PUBLIK LAINNYA
+                            </td>
+                        </tr>
                         @foreach($items as $idx => $it)
                         @php
-                            $rowNo = $idx + 1;
+                            $rowNo = $idx + 5;
                             $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 130);
                             if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
                                 $cleanDesc = 'Dokumen arsip informasi setiap saat resmi PPID Politeknik Keselamatan Transportasi Jalan.';
@@ -168,10 +245,6 @@
                             </td>
                         </tr>
                         @endforeach
-                        @else
-                        <tr>
-                            <td colspan="9" class="text-center py-4 text-muted">Belum ada dokumen informasi setiap saat yang tersedia.</td>
-                        </tr>
                         @endif
                     </tbody>
                 </table>
@@ -187,8 +260,8 @@
                         <span class="text-muted small">Tampilkan:</span>
                         <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changeSetiapPageSize(this.value)">
                             <option value="10">10 data</option>
-                            <option value="25" selected>25 data</option>
-                            <option value="50">50 data</option>
+                            <option value="25">25 data</option>
+                            <option value="50" selected>50 data</option>
                             <option value="all">Semua data</option>
                         </select>
                     </div>
@@ -282,7 +355,7 @@
         }
 
         let currentSetiapPage = 1;
-        let setiapRowsPerPage = 25;
+        let setiapRowsPerPage = 50;
         let filteredSetiapRows = [];
 
         function initSetiapPagination() {
