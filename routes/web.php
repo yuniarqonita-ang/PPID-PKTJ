@@ -198,9 +198,13 @@ Route::get('/profil-kontak.html', [\App\Http\Controllers\ProfilPublikController:
 // Informasi Publik (Public - Dynamic from Controller)
 Route::name('informasi.')->prefix('informasi-publik')->group(function () {
     Route::get('/berkala', [InformasiPublikController::class, 'informasiBerkala'])->name('berkala');
+    Route::get('/informasi-berkala', [InformasiPublikController::class, 'informasiBerkala']);
     Route::get('/serta-merta', [InformasiPublikController::class, 'informasiSertamerta'])->name('serta-merta');
+    Route::get('/informasi-serta-merta', [InformasiPublikController::class, 'informasiSertamerta']);
     Route::get('/setiap-saat', [InformasiPublikController::class, 'informasiSetiapsaat'])->name('setiap-saat');
+    Route::get('/informasi-setiap-saat', [InformasiPublikController::class, 'informasiSetiapsaat']);
     Route::get('/dikecualikan', [InformasiPublikController::class, 'informasiDikecualikan'])->name('dikecualikan');
+    Route::get('/informasi-dikecualikan', [InformasiPublikController::class, 'informasiDikecualikan']);
 });
 
 // Top-level aliases for high reliability

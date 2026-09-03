@@ -434,7 +434,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({duration: 800, once: true});
+        if (typeof AOS !== 'undefined') {
+            AOS.init({duration: 800, once: true});
+        }
 
         function switchBerkalaDisplay(mode) {
             const tbl = document.getElementById('berkalaTableView');
@@ -485,40 +487,10 @@
             // Update table pagination and view
             currentBerkalaPage = 1;
             initBerkalaPagination();
-        });
-
-            // Filter berkala table rows
-            document.querySelectorAll('.searchable-berkala-row').forEach(row => {
-                const kw = row.getAttribute('data-keywords') || '';
-                if (!query || kw.includes(query) || row.innerText.toLowerCase().includes(query)) {
-                    row.style.display = '';
-                } else {
-                    row.style.display = 'none';
-                }
-            });
-
-            // Filter pejabat rows in table view
-            document.querySelectorAll('#pejabatTableBody tr').forEach(tr => {
-                const text = tr.innerText.toLowerCase();
-                if (!query || text.includes(query)) {
-                    tr.style.display = '';
-                } else {
-                    tr.style.display = 'none';
-                }
-            });
-
-            // Filter pejabat cards in grid view
-            document.querySelectorAll('#pejabatGridView .col-md-6').forEach(card => {
-                const text = card.innerText.toLowerCase();
-                if (!query || text.includes(query)) {
-                    card.style.display = '';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            if (typeof Chart === 'undefined') return;
             // Chart 1: Pendidikan
             const ctxPend = document.getElementById('chartPendidikan');
             if (ctxPend) {
@@ -685,10 +657,12 @@
             container.innerHTML = html;
         }
 
-        // Initialize pagination on DOM ready
-        document.addEventListener('DOMContentLoaded', function() {
+        // Initialize pagination reliably
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initBerkalaPagination);
+        } else {
             initBerkalaPagination();
-        });
+        }
 
     </script>
 </body>
