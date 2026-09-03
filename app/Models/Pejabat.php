@@ -25,6 +25,7 @@ class Pejabat extends Model
         'riwayat_jabatan',
         'penghargaan',
         'lhkpn_link',
+        'lhkpn_links',
         'lhkpn_file',
         'lhkpn_tahun',
         'urutan',
@@ -38,6 +39,7 @@ class Pejabat extends Model
         'pendidikan' => 'array',
         'riwayat_jabatan' => 'array',
         'penghargaan' => 'array',
+        'lhkpn_links' => 'array',
         'aktif' => 'boolean',
         'urutan' => 'integer'
     ];

@@ -233,36 +233,131 @@
 
             @if($isDirekturEdit)
                 <p class="text-xs text-slate-600 font-medium leading-relaxed">
-                    Sesuai ketentuan, dokumen LHKPN di portal PPID dikhususkan untuk <strong>Direktur PKTJ</strong>. Tempelkan tautan Google Drive dokumen LHKPN resmi di bawah ini. <br><em class="text-amber-800">Catatan: Jika link dikosongkan dan tidak ada file diunggah, tombol LHKPN di halaman publik otomatis tidak akan dimunculkan.</em>
+                    Sesuai ketentuan, dokumen LHKPN di portal PPID dikhususkan untuk <strong>Direktur PKTJ</strong>. Anda dapat menambahkan <strong>lebih dari 1 link Google Drive</strong> jika memiliki beberapa dokumen LHKPN (misalnya: Tanda Terima LHKPN 2024, Pengumuman LHKPN 2023, dll). <br><em class="text-amber-800 font-bold">Catatan: Jika seluruh kolom link dikosongkan dan tidak ada file diunggah, tombol LHKPN di halaman publik otomatis TIDAK akan dimunculkan.</em>
                 </p>
 
+                @php
+                    $existingLinks = old('lhkpn_links_url') ? [] : ($pejabat->lhkpn_links ?? []);
+                    if (empty($existingLinks) && !empty($pejabat->lhkpn_link)) {
+                        $existingLinks[] = [
+                            'judul' => 'Dokumen LHKPN Resmi ' . ($pejabat->lhkpn_tahun ? '(' . $pejabat->lhkpn_tahun . ')' : ''),
+                            'url'   => $pejabat->lhkpn_link
+                        ];
+                    }
+                @endphp
+
+                <!-- REPEATABLE MULTI-LINK GOOGLE DRIVE LHKPN -->
                 <div class="space-y-4">
-                    <div class="space-y-2">
-                        <label class="text-xs font-black text-amber-900 uppercase flex items-center gap-2">
-                            <i class="fab fa-google-drive text-emerald-600"></i> Link Google Drive LHKPN Resmi Direktur
-                        </label>
-                        <div class="relative">
-                            <input type="url" name="lhkpn_link" value="{{ old('lhkpn_link', $pejabat->lhkpn_link) }}" 
-                                   class="w-full px-5 py-4 bg-white border-2 border-amber-300 rounded-2xl text-sm font-bold text-slate-800 placeholder-slate-400 focus:border-[#004a99] focus:outline-none transition-all" 
-                                   placeholder="https://drive.google.com/file/d/xxxxxx/view?usp=sharing">
-                        </div>
-                        <p class="text-[11px] text-slate-500"><i class="fas fa-info-circle mr-1"></i> Pastikan akses tautan Google Drive diatur ke <strong>"Siapa saja yang memiliki link"</strong> (Anyone with the link can view).</p>
+                    <label class="text-xs font-black text-amber-900 uppercase flex items-center justify-between">
+                        <span class="flex items-center gap-2"><i class="fab fa-google-drive text-emerald-600"></i> Daftar Link Google Drive Dokumen LHKPN Direktur</span>
+                        <span class="text-[11px] font-normal text-slate-500">Bisa isi lebih dari 1 dokumen</span>
+                    </label>
+
+                    <div id="lhkpnLinksContainer" class="space-y-3">
+                        @if(!empty($existingLinks) && count($existingLinks) > 0)
+                            @foreach($existingLinks as $idx => $linkItem)
+                                <div class="lhkpn-link-row p-4 bg-white rounded-2xl border-2 border-amber-200 shadow-sm flex flex-col md:flex-row gap-3 items-start md:items-center">
+                                    <div class="w-full md:w-1/3">
+                                        <label class="text-[10px] font-bold text-slate-500 uppercase mb-1 block">Nama / Keterangan Dokumen</label>
+                                        <input type="text" name="lhkpn_links_judul[]" value="{{ $linkItem['judul'] ?? '' }}" 
+                                               placeholder="Contoh: LHKPN Tahun 2024" 
+                                               class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#004a99]">
+                                    </div>
+                                    <div class="w-full md:flex-1">
+                                        <label class="text-[10px] font-bold text-slate-500 uppercase mb-1 block">Tautan / URL Google Drive</label>
+                                        <input type="url" name="lhkpn_links_url[]" value="{{ $linkItem['url'] ?? '' }}" 
+                                               placeholder="https://drive.google.com/file/d/xxxxxx/view?usp=sharing" 
+                                               class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:bg-white focus:border-[#004a99]">
+                                    </div>
+                                    <div class="pt-2 md:pt-5">
+                                        <button type="button" onclick="removeLhkpnRow(this)" class="px-3 py-2.5 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-xl text-xs font-bold transition-all" title="Hapus baris ini">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            @endforeach
+                        @else
+                            <div class="lhkpn-link-row p-4 bg-white rounded-2xl border-2 border-amber-200 shadow-sm flex flex-col md:flex-row gap-3 items-start md:items-center">
+                                <div class="w-full md:w-1/3">
+                                    <label class="text-[10px] font-bold text-slate-500 uppercase mb-1 block">Nama / Keterangan Dokumen</label>
+                                    <input type="text" name="lhkpn_links_judul[]" value="LHKPN Tahun {{ date('Y') }}" 
+                                           placeholder="Contoh: LHKPN Tahun 2024" 
+                                           class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#004a99]">
+                                </div>
+                                <div class="w-full md:flex-1">
+                                    <label class="text-[10px] font-bold text-slate-500 uppercase mb-1 block">Tautan / URL Google Drive</label>
+                                    <input type="url" name="lhkpn_links_url[]" value="" 
+                                           placeholder="https://drive.google.com/file/d/xxxxxx/view?usp=sharing" 
+                                           class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:bg-white focus:border-[#004a99]">
+                                </div>
+                                <div class="pt-2 md:pt-5">
+                                    <button type="button" onclick="removeLhkpnRow(this)" class="px-3 py-2.5 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-xl text-xs font-bold transition-all" title="Hapus baris ini">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                        <div class="space-y-2">
+                    <button type="button" onclick="addLhkpnRow()" class="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded-xl text-xs font-bold transition-all inline-flex items-center gap-2 shadow-sm">
+                        <i class="fas fa-plus-circle"></i> Tambah Tautan Link Google Drive LHKPN Lainnya
+                    </button>
+                    <p class="text-[11px] text-slate-500"><i class="fas fa-info-circle text-amber-500 mr-1"></i> Pastikan akses tautan Google Drive diatur ke <strong>"Siapa saja yang memiliki link"</strong> (Anyone with the link can view).</p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-3 border-t border-amber-200/60">
+                        <div class="space-y-1">
                             <label class="text-xs font-black text-amber-900 uppercase">Tahun Lapor LHKPN</label>
                             <input type="text" name="lhkpn_tahun" value="{{ old('lhkpn_tahun', $pejabat->lhkpn_tahun ?? '2025/2026') }}" 
                                    class="w-full px-4 py-3 bg-white border-2 border-amber-200 rounded-xl text-xs font-bold text-slate-800" 
                                    placeholder="Contoh: 2025/2026">
                         </div>
-                        <div class="space-y-2">
+                        <div class="space-y-1">
                             <label class="text-xs font-black text-amber-900 uppercase">Atau Unggah Berkas PDF LHKPN (Opsional)</label>
                             <input type="file" name="lhkpn_file" accept=".pdf" 
                                    class="w-full px-4 py-2.5 bg-white border-2 border-amber-200 rounded-xl text-xs font-bold text-slate-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-black file:bg-amber-600 file:text-white">
                         </div>
                     </div>
                 </div>
+
+                <script>
+                    function addLhkpnRow() {
+                        const container = document.getElementById('lhkpnLinksContainer');
+                        const rowCount = container.querySelectorAll('.lhkpn-link-row').length + 1;
+                        const row = document.createElement('div');
+                        row.className = 'lhkpn-link-row p-4 bg-white rounded-2xl border-2 border-amber-200 shadow-sm flex flex-col md:flex-row gap-3 items-start md:items-center animate-fade-in';
+                        row.innerHTML = `
+                            <div class="w-full md:w-1/3">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase mb-1 block">Nama / Keterangan Dokumen</label>
+                                <input type="text" name="lhkpn_links_judul[]" value="Dokumen LHKPN ${rowCount}" 
+                                       placeholder="Contoh: LHKPN Tahun 2023" 
+                                       class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#004a99]">
+                            </div>
+                            <div class="w-full md:flex-1">
+                                <label class="text-[10px] font-bold text-slate-500 uppercase mb-1 block">Tautan / URL Google Drive</label>
+                                <input type="url" name="lhkpn_links_url[]" value="" 
+                                       placeholder="https://drive.google.com/file/d/xxxxxx/view?usp=sharing" 
+                                       class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium text-slate-800 focus:bg-white focus:border-[#004a99]">
+                            </div>
+                            <div class="pt-2 md:pt-5">
+                                <button type="button" onclick="removeLhkpnRow(this)" class="px-3 py-2.5 bg-rose-50 text-rose-600 hover:bg-rose-100 rounded-xl text-xs font-bold transition-all" title="Hapus baris ini">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </div>
+                        `;
+                        container.appendChild(row);
+                    }
+
+                    function removeLhkpnRow(btn) {
+                        const container = document.getElementById('lhkpnLinksContainer');
+                        if (container.querySelectorAll('.lhkpn-link-row').length > 1) {
+                            btn.closest('.lhkpn-link-row').remove();
+                        } else {
+                            // If only 1 row left, just clear inputs
+                            const row = btn.closest('.lhkpn-link-row');
+                            row.querySelectorAll('input').forEach(i => i.value = '');
+                        }
+                    }
+                </script>
             @else
                 <div class="p-4 bg-white/80 rounded-2xl border border-amber-200 text-slate-600 text-xs flex items-center gap-3">
                     <i class="fas fa-info-circle text-amber-500 text-base flex-shrink-0"></i>

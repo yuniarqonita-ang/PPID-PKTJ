@@ -218,24 +218,46 @@
                                 @php
                                     // LHKPN hanya untuk Direktur dan hanya muncul jika file/link Google Drive telah diisi
                                     $isDirektur = ($pejabat->urutan == 1) || (stripos($pejabat->jabatan, 'direktur') !== false && stripos($pejabat->jabatan, 'wakil') === false);
-                                    $lhkpnLink = null;
+                                    $lhkpnItems = [];
                                     if ($isDirektur) {
-                                        if (!empty($pejabat->lhkpn_file) && has_valid_document($pejabat->lhkpn_file)) {
-                                            $lhkpnLink = asset($pejabat->lhkpn_file);
-                                        } elseif (!empty($pejabat->lhkpn_link) && filter_var($pejabat->lhkpn_link, FILTER_VALIDATE_URL) && stripos($pejabat->lhkpn_link, 'elhkpn.kpk.go.id') === false) {
-                                            $lhkpnLink = $pejabat->lhkpn_link;
+                                        if (!empty($pejabat->lhkpn_links) && is_array($pejabat->lhkpn_links)) {
+                                            foreach ($pejabat->lhkpn_links as $item) {
+                                                if (!empty($item['url']) && filter_var($item['url'], FILTER_VALIDATE_URL) && stripos($item['url'], 'elhkpn.kpk.go.id') === false) {
+                                                    $lhkpnItems[] = [
+                                                        'judul' => $item['judul'] ?? 'Dokumen LHKPN Resmi',
+                                                        'url'   => $item['url']
+                                                    ];
+                                                }
+                                            }
+                                        }
+                                        if (empty($lhkpnItems)) {
+                                            if (!empty($pejabat->lhkpn_file) && has_valid_document($pejabat->lhkpn_file)) {
+                                                $lhkpnItems[] = [
+                                                    'judul' => 'Dokumen LHKPN Resmi',
+                                                    'url'   => asset($pejabat->lhkpn_file)
+                                                ];
+                                            } elseif (!empty($pejabat->lhkpn_link) && filter_var($pejabat->lhkpn_link, FILTER_VALIDATE_URL) && stripos($pejabat->lhkpn_link, 'elhkpn.kpk.go.id') === false) {
+                                                $lhkpnItems[] = [
+                                                    'judul' => 'Dokumen LHKPN Resmi ' . ($pejabat->lhkpn_tahun ? '(' . $pejabat->lhkpn_tahun . ')' : ''),
+                                                    'url'   => $pejabat->lhkpn_link
+                                                ];
+                                            }
                                         }
                                     }
                                 @endphp
 
-                                @if($isDirektur && $lhkpnLink)
+                                @if($isDirektur && !empty($lhkpnItems))
                                     <div class="mt-3 pt-3 border-top">
                                         <div class="text-muted fw-bold text-uppercase mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
                                             <i class="fas fa-file-invoice-dollar me-1 text-primary"></i> Laporan Harta Kekayaan Penyelenggara Negara (LHKPN)
                                         </div>
-                                        <a href="{{ $lhkpnLink }}" target="_blank" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1.5 fw-bold d-inline-flex align-items-center gap-1.5" style="font-size: 11.5px;">
-                                            <i class="fas fa-file-pdf text-danger"></i> LIHAT DOKUMEN LHKPN RESMI
-                                        </a>
+                                        <div class="d-flex flex-wrap gap-2">
+                                            @foreach($lhkpnItems as $doc)
+                                                <a href="{{ $doc['url'] }}" target="_blank" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1.5 fw-bold d-inline-flex align-items-center gap-1.5" style="font-size: 11.5px;">
+                                                    <i class="fas fa-file-pdf text-danger"></i> {{ strtoupper($doc['judul']) }}
+                                                </a>
+                                            @endforeach
+                                        </div>
                                     </div>
                                 @endif
 

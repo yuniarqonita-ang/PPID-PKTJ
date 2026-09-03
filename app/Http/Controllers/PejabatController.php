@@ -61,13 +61,47 @@ class PejabatController extends Controller
             'urutan'               => 'nullable|integer',
         ]);
 
-        $data = $request->except(['_token', 'foto', 'lhkpn_file']);
+        $data = $request->except(['_token', 'foto', 'lhkpn_file', 'lhkpn_links_judul', 'lhkpn_links_url']);
         $data['aktif'] = $request->has('aktif');
         $data['foto_width'] = $request->input('foto_width', 160) ?: 160;
         $data['foto_height'] = $request->input('foto_height', 240) ?: 240;
         $data['foto_card_height'] = $request->input('foto_card_height', 390) ?: 390;
         $data['foto_position'] = $request->input('foto_position', 'top center') ?: 'top center';
         $data['foto_radius'] = $request->input('foto_radius', '14px') ?: '14px';
+
+        // Process Multiple LHKPN Google Drive Links
+        $lhkpnLinks = [];
+        if ($request->has('lhkpn_links_url')) {
+            $juduls = (array) $request->input('lhkpn_links_judul', []);
+            $urls = (array) $request->input('lhkpn_links_url', []);
+            foreach ($urls as $idx => $url) {
+                $url = trim($url);
+                if (!empty($url) && filter_var($url, FILTER_VALIDATE_URL)) {
+                    $judul = !empty($juduls[$idx]) ? trim($juduls[$idx]) : ('Dokumen LHKPN ' . (count($lhkpnLinks) + 1));
+                    $lhkpnLinks[] = [
+                        'judul' => $judul,
+                        'url'   => $url,
+                    ];
+                }
+            }
+        }
+        if ($request->filled('lhkpn_link')) {
+            $singleUrl = trim($request->input('lhkpn_link'));
+            if (!empty($singleUrl) && filter_var($singleUrl, FILTER_VALIDATE_URL)) {
+                $found = false;
+                foreach ($lhkpnLinks as $item) {
+                    if ($item['url'] === $singleUrl) { $found = true; break; }
+                }
+                if (!$found) {
+                    array_unshift($lhkpnLinks, [
+                        'judul' => 'Dokumen LHKPN Utama ' . ($request->input('lhkpn_tahun') ? '(' . $request->input('lhkpn_tahun') . ')' : ''),
+                        'url'   => $singleUrl,
+                    ]);
+                }
+            }
+        }
+        $data['lhkpn_links'] = !empty($lhkpnLinks) ? $lhkpnLinks : null;
+        $data['lhkpn_link']  = !empty($lhkpnLinks) ? $lhkpnLinks[0]['url'] : null;
 
         // Handle arrays from textarea lines
         if ($request->filled('pendidikan')) {
@@ -194,13 +228,47 @@ class PejabatController extends Controller
             'urutan'               => 'nullable|integer',
         ]);
 
-        $data = $request->except(['_token', '_method', 'foto', 'lhkpn_file']);
+        $data = $request->except(['_token', '_method', 'foto', 'lhkpn_file', 'lhkpn_links_judul', 'lhkpn_links_url']);
         $data['aktif'] = $request->has('aktif');
         $data['foto_width'] = $request->input('foto_width', 160) ?: 160;
         $data['foto_height'] = $request->input('foto_height', 240) ?: 240;
         $data['foto_card_height'] = $request->input('foto_card_height', 390) ?: 390;
         $data['foto_position'] = $request->input('foto_position', 'top center') ?: 'top center';
         $data['foto_radius'] = $request->input('foto_radius', '14px') ?: '14px';
+
+        // Process Multiple LHKPN Google Drive Links
+        $lhkpnLinks = [];
+        if ($request->has('lhkpn_links_url')) {
+            $juduls = (array) $request->input('lhkpn_links_judul', []);
+            $urls = (array) $request->input('lhkpn_links_url', []);
+            foreach ($urls as $idx => $url) {
+                $url = trim($url);
+                if (!empty($url) && filter_var($url, FILTER_VALIDATE_URL)) {
+                    $judul = !empty($juduls[$idx]) ? trim($juduls[$idx]) : ('Dokumen LHKPN ' . (count($lhkpnLinks) + 1));
+                    $lhkpnLinks[] = [
+                        'judul' => $judul,
+                        'url'   => $url,
+                    ];
+                }
+            }
+        }
+        if ($request->filled('lhkpn_link')) {
+            $singleUrl = trim($request->input('lhkpn_link'));
+            if (!empty($singleUrl) && filter_var($singleUrl, FILTER_VALIDATE_URL)) {
+                $found = false;
+                foreach ($lhkpnLinks as $item) {
+                    if ($item['url'] === $singleUrl) { $found = true; break; }
+                }
+                if (!$found) {
+                    array_unshift($lhkpnLinks, [
+                        'judul' => 'Dokumen LHKPN Utama ' . ($request->input('lhkpn_tahun') ? '(' . $request->input('lhkpn_tahun') . ')' : ''),
+                        'url'   => $singleUrl,
+                    ]);
+                }
+            }
+        }
+        $data['lhkpn_links'] = !empty($lhkpnLinks) ? $lhkpnLinks : null;
+        $data['lhkpn_link']  = !empty($lhkpnLinks) ? $lhkpnLinks[0]['url'] : null;
 
         if ($request->filled('pendidikan')) {
             $data['pendidikan'] = array_values(array_filter(array_map('trim', explode("\n", $request->pendidikan))));
