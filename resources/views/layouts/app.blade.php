@@ -402,16 +402,12 @@
                             <i class="fas fa-chart-line nav-icon"></i> DASHBOARD
                         </a>
 
-                        <a href="{{ route('admin.pejabat.index') }}" class="nav-link {{ request()->is('admin/pejabat*') ? 'active' : '' }}" style="background: rgba(255, 193, 7, 0.12); border: 1px solid rgba(255, 193, 7, 0.35); font-weight: 700;">
-                            <i class="fas fa-user-tie nav-icon text-[#ffc107]"></i> PROFIL PEJABAT PKTJ
-                        </a>
-
-                        <button class="accordion-toggle {{ request()->is('admin/profil*') ? 'active' : '' }}" onclick="toggleAccordion(this)">
+                        <button class="accordion-toggle {{ request()->is('admin/profil*') || request()->is('admin/pejabat*') ? 'active' : '' }}" onclick="toggleAccordion(this)">
                             <i class="fas fa-university nav-icon"></i> PROFIL PPID
                             <i class="fas fa-chevron-down ml-auto opacity-50"></i>
                         </button>
-                        <div class="submenu {{ request()->is('admin/profil*') ? 'open' : '' }}">
-                            <a href="{{ route('admin.pejabat.index') }}" class="submenu-link {{ request()->is('admin/pejabat*') ? 'active' : '' }}"><i class="fas fa-user-tie mr-1 text-[#ffc107]"></i> Profil Pejabat PKTJ</a>
+                        <div class="submenu {{ request()->is('admin/profil*') || request()->is('admin/pejabat*') ? 'open' : '' }}">
+                            <a href="{{ route('admin.pejabat.index') }}" class="submenu-link {{ request()->is('admin/pejabat*') ? 'active' : '' }}"><i class="fas fa-user-tie mr-1 text-[#004a99]"></i> Profil Pejabat PKTJ</a>
                             <a href="{{ route('admin.profil.edit', 'profil') }}" class="submenu-link {{ request()->is('admin/profil/profil*') ? 'active' : '' }}">Profil PPID</a>
                             <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link {{ request()->is('admin/profil/tugas*') ? 'active' : '' }}">Tugas & Fungsi PPID</a>
                             <a href="{{ route('admin.profil.edit', 'visi') }}" class="submenu-link {{ request()->is('admin/profil/visi*') ? 'active' : '' }}">Visi & Misi</a>
@@ -420,13 +416,12 @@
                             <a href="{{ route('admin.profil.edit', 'kontak') }}" class="submenu-link {{ request()->is('admin/profil/kontak*') ? 'active' : '' }}">Kontak Kami</a>
                         </div>
 
-                        <button class="accordion-toggle {{ request()->is('admin/informasi*') || request()->is('admin/pejabat*') ? 'active' : '' }}" onclick="toggleAccordion(this)">
+                        <button class="accordion-toggle {{ request()->is('admin/informasi*') ? 'active' : '' }}" onclick="toggleAccordion(this)">
                             <i class="fas fa-database nav-icon"></i> INFORMASI PUBLIK
                             <i class="fas fa-chevron-down ml-auto opacity-50"></i>
                         </button>
-                        <div class="submenu {{ request()->is('admin/informasi*') || request()->is('admin/pejabat*') ? 'open' : '' }}">
+                        <div class="submenu {{ request()->is('admin/informasi*') ? 'open' : '' }}">
                             <a href="{{ route('admin.informasi.berkala.index') }}" class="submenu-link {{ request()->is('admin/informasi/berkala*') ? 'active' : '' }}">Informasi Berkala</a>
-                            <a href="{{ route('admin.pejabat.index') }}" class="submenu-link {{ request()->is('admin/pejabat*') ? 'active' : '' }}"><i class="fas fa-user-tie mr-1 text-[#ffc107]"></i> Profil Pejabat & LHKPN</a>
                             <a href="{{ route('admin.informasi.sertamerta.index') }}" class="submenu-link {{ request()->is('admin/informasi/serta-merta*') ? 'active' : '' }}">Informasi Serta Merta</a>
                             <a href="{{ route('admin.informasi.setiapsaat.index') }}" class="submenu-link {{ request()->is('admin/informasi/setiap-saat*') ? 'active' : '' }}">Informasi Setiap Saat</a>
                             <a href="{{ route('admin.informasi.dikecualikan.index') }}" class="submenu-link {{ request()->is('admin/informasi/dikecualikan*') ? 'active' : '' }}">Informasi Dikecualikan</a>
