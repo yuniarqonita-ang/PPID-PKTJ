@@ -1,3 +1,40 @@
+<style>
+.pagination-box-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.page-box-btn {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    user-select: none;
+    line-height: 1;
+}
+.page-box-btn:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+    color: #0f172a;
+}
+.page-box-btn.active {
+    background-color: #142238 !important;
+    border-color: #142238 !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+    cursor: default;
+}
+</style>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -348,7 +385,7 @@
         }
 
         // PAGINATION & FILTER LOGIC (10 BARIS PER HALAMAN)
-                function changeSetiapPageSize(val) {
+                        function changeSetiapPageSize(val) {
             setiapRowsPerPage = val === 'all' ? 9999 : parseInt(val);
             currentSetiapPage = 1;
             initSetiapPagination();
@@ -360,7 +397,7 @@
 
         function initSetiapPagination() {
             const allRows = Array.from(document.querySelectorAll('#setiapTableBody tr.searchable-setiapsaat-row'));
-            const searchInput = document.getElementById('topSearchInputSetiapSaat');
+            const searchInput = document.getElementById('topSearchInputSetiap');
             const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
 
             filteredSetiapRows = allRows.filter(row => {
@@ -417,7 +454,7 @@
             renderSetiapTablePage();
             renderSetiapPaginationControls();
 
-            const tbl = document.getElementById('setiapTableView');
+            const tbl = document.getElementById('setiapTableBody');
             if (tbl) tbl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
@@ -426,53 +463,36 @@
             if (!container) return;
 
             const totalPages = Math.ceil(filteredSetiapRows.length / setiapRowsPerPage) || 1;
-            if (totalPages <= 1 && filteredSetiapRows.length <= setiapRowsPerPage) {
-                container.innerHTML = '<span class="badge bg-white text-muted border px-2.5 py-1.5 rounded-pill">Halaman 1 dari 1</span>';
-                return;
-            }
 
-            let html = '<ul class="pagination pagination-sm mb-0 gap-1 d-flex flex-wrap">';
-            
+            let html = '<div class="pagination-box-group d-flex align-items-center gap-1">';
+
+            // Tombol Panah Kiri (Prev)
             if (currentSetiapPage > 1) {
-                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToSetiapPage(1)" title="Halaman Pertama"><i class="fas fa-angles-left"></i></button></li>`;
-                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToSetiapPage(${currentSetiapPage - 1})"><i class="fas fa-chevron-left me-1"></i> Prev</button></li>`;
+                html += `<button type="button" class="page-box-btn" onclick="goToSetiapPage(${currentSetiapPage - 1})" title="Halaman Sebelumnya">←</button>`;
             }
 
+            // Tombol Kotak Nomor (1, 2, 3, 4, ...) persis Gambar 2
             for (let p = 1; p <= totalPages; p++) {
-                const active = p === currentSetiapPage ? 'btn-primary text-white active font-black' : 'btn-outline-secondary text-dark';
-                html += `<li class="page-item"><button type="button" class="btn btn-sm ${active} rounded-pill px-3 fw-bold" onclick="goToSetiapPage(${p})">${p}</button></li>`;
+                const isCur = p === currentSetiapPage;
+                const activeClass = isCur ? 'page-box-btn active' : 'page-box-btn';
+                html += `<button type="button" class="${activeClass}" onclick="goToSetiapPage(${p})">${p}</button>`;
             }
 
+            // Tombol Panah Kanan (Next)
             if (currentSetiapPage < totalPages) {
-                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToSetiapPage(${currentSetiapPage + 1})">Next <i class="fas fa-chevron-right ms-1"></i></button></li>`;
-                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToSetiapPage(${totalPages})" title="Halaman Terakhir"><i class="fas fa-angles-right"></i></button></li>`;
+                html += `<button type="button" class="page-box-btn" onclick="goToSetiapPage(${currentSetiapPage + 1})" title="Halaman Selanjutnya">→</button>`;
             }
 
-            html += '</ul>';
+            html += '</div>';
             container.innerHTML = html;
         }
 
-        function filterSetiapSaatContent() {
-            const searchInput = document.getElementById('topSearchInputSetiapSaat');
-            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-
-            // Filter cards
-            document.querySelectorAll('.searchable-setiapsaat-card-item').forEach(el => {
-                const kw = el.getAttribute('data-keywords') || '';
-                if (!query || kw.includes(query) || el.innerText.toLowerCase().includes(query)) {
-                    el.classList.remove('d-none');
-                } else {
-                    el.classList.add('d-none');
-                }
-            });
-
-            currentSetiapPage = 1;
+        // Initialize pagination reliably
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initSetiapPagination);
+        } else {
             initSetiapPagination();
         }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            initSetiapPagination();
-        });
     </script>
 </body>
 </html>

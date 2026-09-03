@@ -1,3 +1,40 @@
+<style>
+.pagination-box-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+.page-box-btn {
+    min-width: 38px;
+    height: 38px;
+    padding: 0 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #ffffff;
+    color: #1e293b;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.15s ease-in-out;
+    user-select: none;
+    line-height: 1;
+}
+.page-box-btn:hover {
+    background-color: #f1f5f9;
+    border-color: #94a3b8;
+    color: #0f172a;
+}
+.page-box-btn.active {
+    background-color: #142238 !important;
+    border-color: #142238 !important;
+    color: #ffffff !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.12);
+    cursor: default;
+}
+</style>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -572,7 +609,7 @@
         });
     
         // PAGINATION & LIVE FILTER LOGIC (10 BARIS PER HALAMAN)
-                function changeBerkalaPageSize(val) {
+                        function changeBerkalaPageSize(val) {
             berkalaRowsPerPage = val === 'all' ? 9999 : parseInt(val);
             currentBerkalaPage = 1;
             initBerkalaPagination();
@@ -593,7 +630,6 @@
                 return !query || kw.includes(query) || text.includes(query);
             });
 
-            // If page is beyond total pages, reset to page 1
             const totalPages = Math.ceil(filteredBerkalaRows.length / berkalaRowsPerPage) || 1;
             if (currentBerkalaPage > totalPages) currentBerkalaPage = 1;
 
@@ -619,7 +655,6 @@
                 }
             }
 
-            // Also hide or show section header tr based on filtered results
             const sectionHeaders = document.querySelectorAll('#berkalaTableView tbody tr.table-light');
             sectionHeaders.forEach(sh => {
                 sh.style.display = total === 0 ? 'none' : '';
@@ -652,29 +687,27 @@
             if (!container) return;
 
             const totalPages = Math.ceil(filteredBerkalaRows.length / berkalaRowsPerPage) || 1;
-            if (totalPages <= 1 && filteredBerkalaRows.length <= berkalaRowsPerPage) {
-                container.innerHTML = '<span class="badge bg-white text-muted border px-2.5 py-1.5 rounded-pill">Halaman 1 dari 1</span>';
-                return;
-            }
 
-            let html = '<ul class="pagination pagination-sm mb-0 gap-1 d-flex flex-wrap">';
-            
+            let html = '<div class="pagination-box-group d-flex align-items-center gap-1">';
+
+            // Tombol Panah Kiri (Prev)
             if (currentBerkalaPage > 1) {
-                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToBerkalaPage(1)" title="Halaman Pertama"><i class="fas fa-angles-left"></i></button></li>`;
-                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToBerkalaPage(${currentBerkalaPage - 1})"><i class="fas fa-chevron-left me-1"></i> Prev</button></li>`;
+                html += `<button type="button" class="page-box-btn" onclick="goToBerkalaPage(${currentBerkalaPage - 1})" title="Halaman Sebelumnya">←</button>`;
             }
 
+            // Tombol Kotak Nomor (1, 2, 3, ...) persis Gambar 2
             for (let p = 1; p <= totalPages; p++) {
-                const active = p === currentBerkalaPage ? 'btn-primary text-white active font-black' : 'btn-outline-secondary text-dark';
-                html += `<li class="page-item"><button type="button" class="btn btn-sm ${active} rounded-pill px-3 fw-bold" onclick="goToBerkalaPage(${p})">${p}</button></li>`;
+                const isCur = p === currentBerkalaPage;
+                const activeClass = isCur ? 'page-box-btn active' : 'page-box-btn';
+                html += `<button type="button" class="${activeClass}" onclick="goToBerkalaPage(${p})">${p}</button>`;
             }
 
+            // Tombol Panah Kanan (Next)
             if (currentBerkalaPage < totalPages) {
-                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToBerkalaPage(${currentBerkalaPage + 1})">Next <i class="fas fa-chevron-right ms-1"></i></button></li>`;
-                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToBerkalaPage(${totalPages})" title="Halaman Terakhir"><i class="fas fa-angles-right"></i></button></li>`;
+                html += `<button type="button" class="page-box-btn" onclick="goToBerkalaPage(${currentBerkalaPage + 1})" title="Halaman Selanjutnya">→</button>`;
             }
 
-            html += '</ul>';
+            html += '</div>';
             container.innerHTML = html;
         }
 
@@ -684,7 +717,6 @@
         } else {
             initBerkalaPagination();
         }
-
     </script>
 </body>
 </html>
