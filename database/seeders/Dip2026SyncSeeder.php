@@ -30,9 +30,15 @@ class Dip2026SyncSeeder extends Seeder
                 ->update(['jabatan' => 'Kepala Bagian Keuangan dan Administrasi Umum']);
         }
 
-        // 2. Clean dummy Laporan Layanan in dokumens
+        // 2. Clean dummy Laporan Layanan and any unverified dokumens in dokumens
         if (Schema::hasTable('dokumens')) {
-            DB::table('dokumens')->where('kategori', 'Laporan Layanan')->delete();
+            DB::table('dokumens')
+                ->whereIn('kategori', ['Laporan Layanan', 'Laporan Akses', 'Laporan Tahunan'])
+                ->delete();
+            DB::table('dokumens')
+                ->where('judul', 'like', '%Laporan Permohonan Informasi%')
+                ->orWhere('judul', 'like', '%Laporan Tahunan%')
+                ->delete();
         }
 
         // 3. Clean unverified rows from informasi_berkalas (keep only DIPA)

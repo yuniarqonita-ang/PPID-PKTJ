@@ -32,12 +32,17 @@
     <div class="container page-container">
         <div class="content-card" data-aos="fade-up" data-aos-delay="100">
             @php
-                $hasLaporanList = isset($laporan) && $laporan->count() > 0;
+                $validLaporan = collect($laporan ?? [])->filter(function($item) {
+                    $raw = $item->file_path ?? null;
+                    if (empty($raw)) return false;
+                    if (function_exists('has_valid_document') && !has_valid_document($raw)) return false;
+                    return true;
+                });
             @endphp
 
-            @if($hasLaporanList)
+            @if($validLaporan->count() > 0)
                 <div class="row">
-                    @foreach($laporan as $item)
+                    @foreach($validLaporan as $item)
                     @php
                         $isGDrive = $item->file_path && (\Illuminate\Support\Str::startsWith($item->file_path, ['http://', 'https://']));
                         $previewUrl = $item->file_path ? ($isGDrive ? $item->file_path : 'storage/' . $item->file_path) : null;

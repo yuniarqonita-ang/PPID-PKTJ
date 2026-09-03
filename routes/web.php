@@ -271,6 +271,16 @@ Route::get('/refresh-deploy', function() {
         } catch (\Throwable $mEx) {}
 
         try {
+            \Illuminate\Support\Facades\DB::table('dokumens')
+                ->whereIn('kategori', ['Laporan Layanan', 'Laporan Akses', 'Laporan Tahunan'])
+                ->delete();
+            \Illuminate\Support\Facades\DB::table('dokumens')
+                ->where('judul', 'like', '%Laporan Permohonan Informasi%')
+                ->orWhere('judul', 'like', '%Laporan Tahunan%')
+                ->delete();
+        } catch (\Throwable $dEx) {}
+
+        try {
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Dip2026SyncSeeder', '--force' => true]);
         } catch (\Throwable $sEx) {}
 
