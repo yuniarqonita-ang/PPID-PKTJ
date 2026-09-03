@@ -651,10 +651,6 @@
         
         <div class="container hero-content-wrapper">
             <div class="glass-hero-card">
-                <div class="hero-badge">
-                    <span class="w-2 h-2 bg-yellow-400 rounded-full animate-ping"></span>
-                    Portal Informasi Publik Tertinggi
-                </div>
                 <h1 class="hero-title">{{ $settings['hero_title'] ?? 'SELAMAT DATANG DI PORTAL PPID PKTJ' }}</h1>
                 <p class="hero-subtitle">{{ $settings['hero_subtitle'] ?? 'Wujudkan transparansi informasi publik melalui layanan prima berbasis teknologi informasi yang cepat, mudah, dan transparan.' }}</p>
                 
