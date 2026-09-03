@@ -140,7 +140,7 @@ class PejabatController extends Controller
 
         Pejabat::create($data);
 
-        return redirect()->route('admin.informasi.berkala.index')
+        return redirect()->route('admin.pejabat.index')
             ->with('success', 'Data Profil Pejabat berhasil ditambahkan!');
     }
 
@@ -185,15 +185,21 @@ class PejabatController extends Controller
         try {
             if (!Schema::hasTable('pejabats')) {
                 Artisan::call('migrate', ['--force' => true]);
-            } else if (!Schema::hasColumn('pejabats', 'foto_width')) {
-                \Illuminate\Database\Schema\Blueprint;
-                Schema::table('pejabats', function ($table) {
-                    $table->integer('foto_width')->nullable()->default(160);
-                    $table->integer('foto_height')->nullable()->default(240);
-                    $table->integer('foto_card_height')->nullable()->default(390);
-                    $table->string('foto_position')->nullable()->default('top center');
-                    $table->string('foto_radius')->nullable()->default('14px');
-                });
+            } else {
+                if (!Schema::hasColumn('pejabats', 'foto_width')) {
+                    Schema::table('pejabats', function ($table) {
+                        $table->integer('foto_width')->nullable()->default(160);
+                        $table->integer('foto_height')->nullable()->default(240);
+                        $table->integer('foto_card_height')->nullable()->default(390);
+                        $table->string('foto_position')->nullable()->default('top center');
+                        $table->string('foto_radius')->nullable()->default('14px');
+                    });
+                }
+                if (!Schema::hasColumn('pejabats', 'lhkpn_links')) {
+                    Schema::table('pejabats', function ($table) {
+                        $table->json('lhkpn_links')->nullable();
+                    });
+                }
             }
         } catch (\Throwable $e) {}
 
@@ -217,7 +223,7 @@ class PejabatController extends Controller
             'nama'                 => 'required|string|max:255',
             'jabatan'              => 'required|string|max:255',
             'tempat_tanggal_lahir' => 'nullable|string|max:255',
-            'foto'                 => 'nullable|image|mimes:jpeg,png,jpg,webp|max:5120',
+            'foto'                 => 'nullable|image|mimes:jpeg,png,jpg,webp|max:10240',
             'foto_width'           => 'nullable|integer',
             'foto_height'          => 'nullable|integer',
             'foto_card_height'     => 'nullable|integer',
@@ -227,8 +233,8 @@ class PejabatController extends Controller
             'pendidikan'           => 'nullable|string',
             'riwayat_jabatan'      => 'nullable|string',
             'penghargaan'          => 'nullable|string',
-            'lhkpn_link'           => 'nullable|url',
-            'lhkpn_file'           => 'nullable|file|mimes:pdf|max:10240',
+            'lhkpn_link'           => 'nullable|string',
+            'lhkpn_file'           => 'nullable|file|mimes:pdf|max:20480',
             'lhkpn_tahun'          => 'nullable|string|max:50',
             'urutan'               => 'nullable|integer',
         ]);
@@ -317,9 +323,14 @@ class PejabatController extends Controller
             $data['lhkpn_file'] = 'storage/' . $path;
         }
 
+        try {
+            $existingCols = Schema::getColumnListing('pejabats');
+            $data = array_intersect_key($data, array_flip($existingCols));
+        } catch (\Throwable $e) {}
+
         $pejabat->update($data);
 
-        return redirect()->route('admin.informasi.berkala.index')
+        return redirect()->route('admin.pejabat.index')
             ->with('success', 'Data Pejabat ' . $pejabat->nama . ' berhasil diperbarui!');
     }
 
@@ -334,7 +345,7 @@ class PejabatController extends Controller
             $pejabat->delete();
         }
 
-        return redirect()->route('admin.informasi.berkala.index')
+        return redirect()->route('admin.pejabat.index')
             ->with('success', 'Data Profil Pejabat berhasil dihapus!');
     }
 

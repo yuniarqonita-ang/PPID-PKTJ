@@ -9,8 +9,8 @@
             <h1 class="text-3xl font-black text-[#004a99] tracking-tight">Tambah Pejabat Baru</h1>
             <p class="text-slate-500 font-medium text-sm mt-1">Input data profil, foto, biografi, riwayat pendidikan & LHKPN.</p>
         </div>
-        <a href="{{ route('admin.informasi.berkala.index') }}" class="px-6 py-3 bg-slate-100 text-slate-700 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-slate-200 transition-all flex items-center">
-            <i class="fas fa-arrow-left mr-2"></i> Kembali ke Informasi Berkala
+        <a href="{{ route('admin.pejabat.index') }}" class="px-6 py-3 bg-slate-100 text-slate-700 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-slate-200 transition-all flex items-center">
+            <i class="fas fa-arrow-left mr-2"></i> Kembali ke Daftar Pejabat
         </a>
     </div>
 
@@ -324,7 +324,7 @@
         </div>
 
         <div class="pt-6 border-t-2 border-slate-100 flex items-center justify-end gap-4">
-            <a href="{{ route('admin.informasi.berkala.index') }}" class="px-8 py-4 bg-slate-100 text-slate-700 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-slate-200 transition-all">Batal</a>
+            <a href="{{ route('admin.pejabat.index') }}" class="px-8 py-4 bg-slate-100 text-slate-700 font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-slate-200 transition-all">Batal</a>
             <button type="submit" class="px-10 py-4 bg-[#004a99] text-white font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-blue-900/20 hover:bg-[#003875] transition-all">Simpan Pejabat</button>
         </div>
     </form>
