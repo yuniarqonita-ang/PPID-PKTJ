@@ -37,6 +37,17 @@ class InformasiPublikController extends Controller
         }, $content);
     }
 
+    private function ensureDataSeeded(): void
+    {
+        try {
+            $smCount = \App\Models\DaftarInformasi::where('kategori', 'informasi-serta-merta')->where('aktif', 1)->count();
+            $bkCount = \App\Models\DaftarInformasi::where('kategori', 'informasi-berkala')->where('aktif', 1)->count();
+            if ($smCount < 15 || $bkCount < 15) {
+                \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Dip2026SyncSeeder', '--force' => true]);
+            }
+        } catch (\Throwable $e) {}
+    }
+
     private function mapDaftarInformasi($item)
     {
         $item->judul = $item->judul_informasi;
@@ -96,6 +107,7 @@ class InformasiPublikController extends Controller
     // Informasi Berkala
     public function informasiBerkala()
     {
+        $this->ensureDataSeeded();
         try {
             $daftarItems = DaftarInformasi::where('aktif', true)
                 ->where('kategori', 'informasi-berkala')
@@ -158,6 +170,7 @@ class InformasiPublikController extends Controller
     // Informasi Serta Merta
     public function informasiSertamerta()
     {
+        $this->ensureDataSeeded();
         try {
             $daftarItems = DaftarInformasi::where('aktif', true)
                 ->whereIn('kategori', ['informasi-serta-merta', 'informasi-sertamerta'])
@@ -200,6 +213,7 @@ class InformasiPublikController extends Controller
     // Informasi Setiap Saat
     public function informasiSetiapsaat()
     {
+        $this->ensureDataSeeded();
         try {
             $daftarItems = DaftarInformasi::where('aktif', true)
                 ->whereIn('kategori', ['informasi-setiap-saat', 'informasi-setiapsaat'])
