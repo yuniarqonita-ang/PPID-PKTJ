@@ -185,11 +185,15 @@
                 <div class="col-lg-6 col-12" id="pejabat-{{ $pejabat->id }}" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 50 }}">
                     <div class="kemenhub-pejabat-box">
                         
-                        <!-- Header Jabatan & Nama -->
-                        <div class="pejabat-role-label">{{ $pejabat->jabatan }}</div>
-                        <div class="pejabat-name-title">{{ $pejabat->nama }}</div>
+                        <!-- Header Jabatan & Nama Sesuai Poltrada Bali -->
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <span class="badge px-3 py-1.5 rounded-pill text-uppercase fw-bold" style="background: rgba(0, 74, 153, 0.1); color: #004a99; font-size: 11.5px; letter-spacing: 0.8px;">
+                                {{ $pejabat->jabatan }}
+                            </span>
+                        </div>
+                        <h3 class="pejabat-name-title mb-3" style="font-size: 17.5px; font-weight: 800; color: #0f172a; line-height: 1.35;">{{ $pejabat->nama }}</h3>
                         
-                        <!-- Flex Body (Foto Kiri + Teks Kanan) -->
+                        <!-- Flex Body (Foto Kiri + Teks Biografi Kanan) -->
                         <div class="pejabat-body-flex">
                             
                             <!-- Foto Resmi Pejabat -->
@@ -203,67 +207,37 @@
                                 @endif
                             </div>
 
-                            <!-- Informasi Detail Pejabat (Alamat, Pendidikan, Karir, LHKPN) -->
+                            <!-- Biografi Pejabat (Format Satu Paragraf Sesuai Poltrada Bali) -->
                             <div class="pejabat-info-content">
-                                <div class="pejabat-info-text text-justify" style="text-align: justify;">
-                                    
-                                    <p class="mb-2">
-                                        <i class="fas fa-map-marker-alt text-danger me-1"></i>
-                                        <strong>Alamat kantor:</strong> Kampus I Jl. Perintis Kemerdekaan No. 17 / Kampus II Jl. Abdul Syukur No. 17, Kota Tegal. Telp: (0283) 351061.
-                                        @if(!empty($pejabat->tempat_tanggal_lahir))
-                                            Lahir di {{ $pejabat->tempat_tanggal_lahir }}.
-                                        @endif
+                                <div class="pejabat-info-text" style="text-align: justify; font-size: 13px; line-height: 1.65; color: #334155;">
+                                    <p class="mb-0">
+                                        {{ $pejabat->biografi }}
                                     </p>
-
-                                    @if($pejabat->biografi)
-                                        <p class="mb-2">{{ $pejabat->biografi }}</p>
-                                    @endif
-
-                                    @if(!empty($pejabat->pendidikan))
-                                        <p class="mb-2">
-                                            <strong>Riwayat Pendidikan:</strong> 
-                                            {{ is_array($pejabat->pendidikan) ? implode(', ', $pejabat->pendidikan) : $pejabat->pendidikan }}.
-                                        </p>
-                                    @endif
-
-                                    @if(!empty($pejabat->riwayat_jabatan))
-                                        <p class="mb-2">
-                                            <strong>Riwayat Jabatan & Karir:</strong> 
-                                            pernah menduduki sejumlah posisi diantaranya {{ is_array($pejabat->riwayat_jabatan) ? implode(', ', $pejabat->riwayat_jabatan) : $pejabat->riwayat_jabatan }}.
-                                        </p>
-                                    @endif
-
-                                    @if(!empty($pejabat->penghargaan))
-                                        <p class="mb-2">
-                                            <strong>Tanda Jasa / Penghargaan:</strong> 
-                                            {{ is_array($pejabat->penghargaan) ? implode(', ', $pejabat->penghargaan) : $pejabat->penghargaan }}.
-                                        </p>
-                                    @endif
                                 </div>
 
-                                <!-- Bagian LHKPN Resmi (Tanpa Link Zonk) -->
-                                <div class="mt-3 pt-3 border-top">
-                                    <div class="text-muted fw-bold text-uppercase mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
-                                        <i class="fas fa-file-invoice-dollar me-1 text-primary"></i> Laporan Harta Kekayaan Penyelenggara Negara (LHKPN)
-                                    </div>
-                                    @php
-                                        $lhkpnLink = null;
+                                @php
+                                    // LHKPN hanya untuk Direktur dan hanya muncul jika file/link Google Drive telah diisi
+                                    $isDirektur = ($pejabat->urutan == 1) || (stripos($pejabat->jabatan, 'direktur') !== false && stripos($pejabat->jabatan, 'wakil') === false);
+                                    $lhkpnLink = null;
+                                    if ($isDirektur) {
                                         if (!empty($pejabat->lhkpn_file) && has_valid_document($pejabat->lhkpn_file)) {
                                             $lhkpnLink = asset($pejabat->lhkpn_file);
-                                        } elseif (!empty($pejabat->lhkpn_link) && filter_var($pejabat->lhkpn_link, FILTER_VALIDATE_URL) && $pejabat->lhkpn_link !== 'https://elhkpn.kpk.go.id/') {
+                                        } elseif (!empty($pejabat->lhkpn_link) && filter_var($pejabat->lhkpn_link, FILTER_VALIDATE_URL) && stripos($pejabat->lhkpn_link, 'elhkpn.kpk.go.id') === false) {
                                             $lhkpnLink = $pejabat->lhkpn_link;
                                         }
-                                    @endphp
-                                    @if($lhkpnLink)
-                                        <a href="{{ $lhkpnLink }}" target="_blank" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1.5 fw-bold" style="font-size: 11.5px;">
-                                            <i class="fas fa-file-pdf me-1"></i> LIHAT DOKUMEN LHKPN RESMI
+                                    }
+                                @endphp
+
+                                @if($isDirektur && $lhkpnLink)
+                                    <div class="mt-3 pt-3 border-top">
+                                        <div class="text-muted fw-bold text-uppercase mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                            <i class="fas fa-file-invoice-dollar me-1 text-primary"></i> Laporan Harta Kekayaan Penyelenggara Negara (LHKPN)
+                                        </div>
+                                        <a href="{{ $lhkpnLink }}" target="_blank" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1.5 fw-bold d-inline-flex align-items-center gap-1.5" style="font-size: 11.5px;">
+                                            <i class="fas fa-file-pdf text-danger"></i> LIHAT DOKUMEN LHKPN RESMI
                                         </a>
-                                    @else
-                                        <span class="badge bg-light text-muted border px-2.5 py-1.5 rounded-pill" style="font-size: 11px;">
-                                            <i class="fas fa-clock me-1 text-warning"></i> Dokumen LHKPN dalam proses verifikasi KPK / Pemutakhiran
-                                        </span>
-                                    @endif
-                                </div>
+                                    </div>
+                                @endif
 
                             </div>
 

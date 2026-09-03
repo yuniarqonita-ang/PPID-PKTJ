@@ -191,38 +191,69 @@
             }
         </script>
 
-        <!-- BIOGRAFI -->
+        <!-- BIOGRAFI (FORMAT 1 PARAGRAF GAYA POLTRADA BALI) -->
         <div class="space-y-2">
-            <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Biografi & Profil Singkat</label>
-            <textarea name="biografi" rows="3" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-sm font-medium text-slate-800 transition-all" placeholder="Tuliskan biografi atau profil singkat pimpinan...">{{ old('biografi') }}</textarea>
+            <div class="flex items-center justify-between">
+                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Biografi & Profil Pejabat (1 Paragraf Ringkas Gaya Poltrada Bali)</label>
+                <span class="text-[11px] text-slate-400 font-bold"><i class="fas fa-align-left mr-1"></i> Format 1 Paragraf Padat</span>
+            </div>
+            <textarea name="biografi" rows="5" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-sm font-medium text-slate-800 transition-all leading-relaxed" placeholder="Alamat kantor... Lahir di... Menempuh pendidikan... Pernah menjabat sebagai... dan saat ini menjabat sebagai...">{{ old('biografi') }}</textarea>
+            <p class="text-[11px] text-slate-400 font-medium">Tuliskan narasi dalam 1 paragraf mengalir yang mencakup alamat kantor, pendidikan, riwayat jabatan, dan tanda kehormatan/penghargaan.</p>
         </div>
 
-        <!-- RIWAYAT PENDIDIKAN & JABATAN -->
+        <!-- RIWAYAT PENDIDIKAN & JABATAN (ARSIP / DATA DUKUNG) -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div class="space-y-2">
-                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Riwayat Pendidikan (1 Baris = 1 Jenjang)</label>
-                <textarea name="pendidikan" rows="5" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-xs font-medium text-slate-800 transition-all font-mono" placeholder="S2 - Magister Teknik Sipil / Transportasi, ITB&#10;D4 / S1 Terapan - STTD">{{ old('pendidikan') }}</textarea>
+                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Riwayat Pendidikan (Data Dukung / Arsip)</label>
+                <textarea name="pendidikan" rows="4" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-xs font-medium text-slate-800 transition-all font-mono" placeholder="S2 - Magister Teknik Sipil / Transportasi, ITB&#10;D4 / S1 Terapan - STTD">{{ old('pendidikan') }}</textarea>
             </div>
 
             <div class="space-y-2">
-                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Riwayat Jabatan / Karir (1 Baris = 1 Jabatan)</label>
-                <textarea name="riwayat_jabatan" rows="5" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-xs font-medium text-slate-800 transition-all font-mono" placeholder="Direktur PKTJ Tegal (2024 - Sekarang)&#10;Wakil Direktur I POLTRADA Bali">{{ old('riwayat_jabatan') }}</textarea>
+                <label class="text-xs font-black text-[#004a99] uppercase tracking-wider">Riwayat Jabatan / Karir (Data Dukung / Arsip)</label>
+                <textarea name="riwayat_jabatan" rows="4" class="w-full px-5 py-4 bg-slate-50 border-2 border-slate-200 rounded-2xl focus:border-[#004a99] focus:bg-white text-xs font-medium text-slate-800 transition-all font-mono" placeholder="Direktur PKTJ Tegal (2024 - Sekarang)&#10;Wakil Direktur I POLTRADA Bali">{{ old('riwayat_jabatan') }}</textarea>
             </div>
         </div>
 
-        <!-- LHKPN SECTION -->
+        <!-- LHKPN SECTION (KHUSUS DIREKTUR & INPUT LINK GOOGLE DRIVE) -->
         <div class="bg-amber-50/60 p-8 rounded-3xl border-2 border-amber-100 space-y-6">
-            <h4 class="text-base font-black text-amber-900 flex items-center gap-2">
-                <i class="fas fa-file-invoice-dollar text-amber-600"></i> Informasi LHKPN Pejabat
-            </h4>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="flex items-center justify-between flex-wrap gap-2 pb-3 border-b border-amber-200">
+                <h4 class="text-base font-black text-amber-900 flex items-center gap-2">
+                    <i class="fab fa-google-drive text-amber-600 text-lg"></i> Kolom Pengisian Link Google Drive LHKPN (Khusus Direktur)
+                </h4>
+                <span class="px-3 py-1 bg-amber-200 text-amber-900 rounded-full text-[10px] font-black uppercase tracking-wider">
+                    Khusus Direktur
+                </span>
+            </div>
+
+            <p class="text-xs text-slate-600 font-medium leading-relaxed">
+                Sesuai ketentuan, dokumen LHKPN di portal PPID dikhususkan untuk <strong>Direktur PKTJ</strong>. Tempelkan tautan Google Drive dokumen LHKPN resmi di bawah ini. <br><em class="text-amber-800">Catatan: Jika link dikosongkan dan tidak ada file diunggah, tombol LHKPN di halaman publik otomatis tidak akan dimunculkan.</em>
+            </p>
+
+            <div class="space-y-4">
                 <div class="space-y-2">
-                    <label class="text-xs font-black text-amber-900 uppercase">Tahun LHKPN</label>
-                    <input type="text" name="lhkpn_tahun" value="{{ old('lhkpn_tahun', '2025/2026') }}" class="w-full px-4 py-3 bg-white border-2 border-amber-200 rounded-xl text-xs font-bold text-slate-800">
+                    <label class="text-xs font-black text-amber-900 uppercase flex items-center gap-2">
+                        <i class="fab fa-google-drive text-emerald-600"></i> Link Google Drive LHKPN Resmi Direktur
+                    </label>
+                    <div class="relative">
+                        <input type="url" name="lhkpn_link" value="{{ old('lhkpn_link') }}" 
+                               class="w-full px-5 py-4 bg-white border-2 border-amber-300 rounded-2xl text-sm font-bold text-slate-800 placeholder-slate-400 focus:border-[#004a99] focus:outline-none transition-all" 
+                               placeholder="https://drive.google.com/file/d/xxxxxx/view?usp=sharing">
+                    </div>
+                    <p class="text-[11px] text-slate-500"><i class="fas fa-info-circle mr-1"></i> Pastikan akses tautan Google Drive diatur ke <strong>"Siapa saja yang memiliki link"</strong> (Anyone with the link can view).</p>
                 </div>
-                <div class="space-y-2 md:col-span-2">
-                    <label class="text-xs font-black text-amber-900 uppercase">Link LHKPN (KPK / Google Drive)</label>
-                    <input type="url" name="lhkpn_link" value="{{ old('lhkpn_link', 'https://elhkpn.kpk.go.id/') }}" class="w-full px-4 py-3 bg-white border-2 border-amber-200 rounded-xl text-xs font-bold text-slate-800" placeholder="https://elhkpn.kpk.go.id/ atau link Google Drive">
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <div class="space-y-2">
+                        <label class="text-xs font-black text-amber-900 uppercase">Tahun Lapor LHKPN</label>
+                        <input type="text" name="lhkpn_tahun" value="{{ old('lhkpn_tahun', '2025/2026') }}" 
+                               class="w-full px-4 py-3 bg-white border-2 border-amber-200 rounded-xl text-xs font-bold text-slate-800" 
+                               placeholder="Contoh: 2025/2026">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-xs font-black text-amber-900 uppercase">Atau Unggah Berkas PDF LHKPN (Opsional)</label>
+                        <input type="file" name="lhkpn_file" accept=".pdf" 
+                               class="w-full px-4 py-2.5 bg-white border-2 border-amber-200 rounded-xl text-xs font-bold text-slate-800 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-black file:bg-amber-600 file:text-white">
+                    </div>
                 </div>
             </div>
         </div>
