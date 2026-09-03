@@ -133,56 +133,11 @@
                             <th class="text-center" style="min-width: 120px;">Tautan</th>
                         </tr>
                     </thead>
-                    <tbody id="sertaTableBody">
-                        <!-- STANDAR DIP POLTRADA BALI & BPSDM -->
-                        <tr class="table-light fw-bold">
-                            <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
-                                <i class="fas fa-bullhorn me-2"></i> INFORMASI PENUTUPAN LAYANAN & KEADAAN DARURAT
-                            </td>
-                        </tr>
-
-                        <tr class="searchable-sertamerta-row" data-keywords="penutupan layanan publik sarana prasarana unit kerja force majeure keadaan darurat kampus pktj">
-                            <td class="text-center fw-bold">1</td>
-                            <td><strong class="text-dark">Penutupan Layanan Publik & Sarana Prasarana PKTJ</strong></td>
-                            <td class="text-muted">Informasi mengenai penutupan atau penyesuaian layanan serta sarana dan prasarana pada unit kerja dikarenakan keadaan darurat / force majeure.</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Seluruh Unit Kerja di lingkungan PKTJ Tegal</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Hardcopy & Softcopy</span></td>
-                            <td class="text-center">Tegal, 2025</td>
-                            <td class="text-center">1 Tahun</td>
-                            <td class="text-center">
-                                <a href="{{ route('profil.kontak') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr class="searchable-sertamerta-row" data-keywords="peringatan dini keselamatan jalan gangguan cuaca ekstrem banjir bencana lingkungan kampus tegal">
-                            <td class="text-center fw-bold">2</td>
-                            <td><strong class="text-dark">Peringatan Dini & Kesiapsiagaan Darurat Keselamatan Jalan</strong></td>
-                            <td class="text-muted">Pemberitahuan dini kepada masyarakat dan civitas akademika terkait cuaca ekstrem, gangguan lintasan uji keselamatan, atau kedaruratan operasional.</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Bagian Keuangan dan Umum</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
-                            <td class="text-center">Tegal, 2025</td>
-                            <td class="text-center">1 Tahun</td>
-                            <td class="text-center">
-                                <a href="{{ route('home') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <!-- DOKUMEN DINAMIS DARI DATABASE -->
+                                        <tbody id="sertaTableBody">
                         @if(isset($items) && $items->count() > 0)
-                        <tr class="table-light fw-bold">
-                            <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
-                                <i class="fas fa-database me-2"></i> PENGUMUMAN SERTA MERTA LAINNYA
-                            </td>
-                        </tr>
                         @foreach($items as $idx => $it)
                         @php
-                            $rowNo = $idx + 3;
+                            $rowNo = $idx + 1;
                             $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 130);
                             if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
                                 $cleanDesc = 'Pengumuman informasi serta merta resmi PPID Politeknik Keselamatan Transportasi Jalan.';
@@ -193,11 +148,11 @@
                             <td class="text-center fw-bold">{{ $rowNo }}</td>
                             <td><strong class="text-dark">{{ $it->judul }}</strong></td>
                             <td class="text-muted small">{{ $cleanDesc }}</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Bagian Keuangan dan Umum</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
-                            <td class="text-center">Tegal, {{ $tahun }}</td>
-                            <td class="text-center">1 Tahun</td>
+                            <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
+                            <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">{{ $it->bentuk_informasi ?? 'Softcopy' }}</span></td>
+                            <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
+                            <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
                             <td class="text-center">
                                 @if(has_valid_document($it->file_path))
                                     <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" 
@@ -213,15 +168,30 @@
                             </td>
                         </tr>
                         @endforeach
+                        @else
+                        <tr>
+                            <td colspan="9" class="text-center py-4 text-muted">Belum ada dokumen informasi serta merta yang tersedia.</td>
+                        </tr>
                         @endif
                     </tbody>
                 </table>
             </div>
 
-            <!-- PAGINATION CONTROLS (10 DATA PER HALAMAN) -->
+            <!-- PAGINATION CONTROLS -->
             <div class="p-3 bg-light border rounded-3 mt-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
-                <div id="sertaPaginationInfo" class="text-muted small fw-medium">
-                    Menampilkan data...
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <div id="sertaPaginationInfo" class="text-muted small fw-medium">
+                        Menampilkan data...
+                    </div>
+                    <div class="d-flex align-items-center gap-1.5 ms-md-2">
+                        <span class="text-muted small">Tampilkan:</span>
+                        <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changeSertaPageSize(this.value)">
+                            <option value="10">10 data</option>
+                            <option value="25" selected>25 data</option>
+                            <option value="50">50 data</option>
+                            <option value="all">Semua data</option>
+                        </select>
+                    </div>
                 </div>
                 <div id="sertaPaginationControls">
                     <!-- Filled by JS -->
@@ -305,8 +275,14 @@
         }
 
         // PAGINATION & FILTER LOGIC (10 BARIS PER HALAMAN)
+                function changeSertaPageSize(val) {
+            sertaRowsPerPage = val === 'all' ? 9999 : parseInt(val);
+            currentSertaPage = 1;
+            initSertaPagination();
+        }
+
         let currentSertaPage = 1;
-        const sertaRowsPerPage = 10;
+        let sertaRowsPerPage = 25;
         let filteredSertaRows = [];
 
         function initSertaPagination() {

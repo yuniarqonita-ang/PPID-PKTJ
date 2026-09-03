@@ -133,136 +133,11 @@
                             <th class="text-center" style="min-width: 120px;">Tautan</th>
                         </tr>
                     </thead>
-                    <tbody id="setiapTableBody">
-                        <!-- STANDAR DIP POLTRADA BALI & BPSDM -->
-                        <tr class="table-light fw-bold">
-                            <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
-                                <i class="fas fa-folder-tree me-2"></i> INFORMASI OPERASIONAL, PERATURAN & AKADEMIK
-                            </td>
-                        </tr>
-
-                        <tr class="searchable-setiapsaat-row" data-keywords="dokumentasi kegiatan pimpinan pktj tegal foto pimpinan direktur wakil">
-                            <td class="text-center fw-bold">1</td>
-                            <td><strong class="text-dark">Dokumentasi Kegiatan Pimpinan PKTJ Tegal</strong></td>
-                            <td class="text-muted">Dokumentasi foto dan rekam kegiatan pimpinan unit kerja di lingkungan Politeknik Keselamatan Transportasi Jalan Tegal.</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Bagian Keuangan dan Umum</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
-                            <td class="text-center">Tegal, 2025</td>
-                            <td class="text-center">1 Tahun</td>
-                            <td class="text-center">
-                                <a href="{{ route('home') }}#galeri" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr class="searchable-setiapsaat-row" data-keywords="peraturan keputusan kebijakan direktur surat edaran sk operasional">
-                            <td class="text-center fw-bold">2</td>
-                            <td><strong class="text-dark">Peraturan, Keputusan, dan Kebijakan Direktur PKTJ</strong></td>
-                            <td class="text-muted">Informasi mengenai peraturan internal, keputusan pimpinan, instruksi, dan surat edaran Direktur PKTJ Tegal.</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Bagian Keuangan dan Umum</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
-                            <td class="text-center">Tegal, 2025</td>
-                            <td class="text-center">1 Tahun</td>
-                            <td class="text-center">
-                                <a href="{{ route('regulasi') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr class="searchable-setiapsaat-row" data-keywords="informasi pengelolaan arsip unit kerja penataan dokumen arsiparis">
-                            <td class="text-center fw-bold">3</td>
-                            <td><strong class="text-dark">Informasi Pengelolaan Arsip Unit Kerja PKTJ</strong></td>
-                            <td class="text-muted">Informasi mengenai penataan dokumen dan klasifikasi arsip yang tersimpan menurut bagian di dalam unit kerja PKTJ Tegal.</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Bagian Keuangan dan Umum</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
-                            <td class="text-center">Tegal, 2025</td>
-                            <td class="text-center">1 Tahun</td>
-                            <td class="text-center">
-                                <a href="{{ route('profil.kontak') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr class="searchable-setiapsaat-row" data-keywords="data operasional perkantoran pemeliharaan gedung kampus daya jasa bmn">
-                            <td class="text-center fw-bold">4</td>
-                            <td><strong class="text-dark">Data Operasional Perkantoran PKTJ Tegal</strong></td>
-                            <td class="text-muted">Informasi penyelenggaraan operasional perkantoran, langganan daya dan jasa, pemeliharaan gedung Kampus I & Kampus II Margadana.</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Bagian Keuangan dan Umum</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
-                            <td class="text-center">Tegal, 2025</td>
-                            <td class="text-center">1 Tahun</td>
-                            <td class="text-center">
-                                <a href="{{ route('profil.kontak') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr class="searchable-setiapsaat-row" data-keywords="data inventaris kendaraan bermotor operasional dinas roda 4 roda 2 bpkb stnk">
-                            <td class="text-center fw-bold">5</td>
-                            <td><strong class="text-dark">Data Inventaris Kendaraan Bermotor Dinas PKTJ</strong></td>
-                            <td class="text-muted">Informasi mengenai tahun, jenis, pemegang kendaraan serta administrasi kendaraan operasional dinas roda 4 dan roda 2.</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Bagian Keuangan dan Umum</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
-                            <td class="text-center">Tegal, 2025</td>
-                            <td class="text-center">1 Tahun</td>
-                            <td class="text-center">
-                                <a href="{{ route('profil.kontak') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr class="searchable-setiapsaat-row" data-keywords="informasi kurikulum silabus pendidikan pelatihan vokasi transportasi darat sk direktur">
-                            <td class="text-center fw-bold">6</td>
-                            <td><strong class="text-dark">Informasi Kurikulum dan Silabus Diklat PKTJ</strong></td>
-                            <td class="text-muted">Keputusan Direktur PKTJ tentang penetapan kurikulum vokasi dan silabus pendidikan pelatihan bidang keselamatan jalan.</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Bagian Akademik & Ketarunaan</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy</span></td>
-                            <td class="text-center">Tegal, 2025</td>
-                            <td class="text-center">1 Tahun</td>
-                            <td class="text-center">
-                                <a href="https://pktj.ac.id" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <tr class="searchable-setiapsaat-row" data-keywords="daftar nama fungsional dosen instruktur tenaga pendidik lektor asisten ahli">
-                            <td class="text-center fw-bold">7</td>
-                            <td><strong class="text-dark">Daftar Nama Fungsional Dosen & Instruktur PKTJ</strong></td>
-                            <td class="text-muted">Informasi daftar nama, jenjang fungsional, dan bidang keahlian dosen serta instruktur pengajar di lingkungan PKTJ Tegal.</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Bagian Akademik & Ketarunaan</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy</span></td>
-                            <td class="text-center">Tegal, 2025</td>
-                            <td class="text-center">1 Tahun</td>
-                            <td class="text-center">
-                                <a href="https://pktj.ac.id" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                </a>
-                            </td>
-                        </tr>
-
-                        <!-- DOKUMEN DINAMIS DARI DATABASE -->
+                                        <tbody id="setiapTableBody">
                         @if(isset($items) && $items->count() > 0)
-                        <tr class="table-light fw-bold">
-                            <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
-                                <i class="fas fa-database me-2"></i> ARSIP DOKUMEN & PEDOMAN PUBLIK LAINNYA
-                            </td>
-                        </tr>
                         @foreach($items as $idx => $it)
                         @php
-                            $rowNo = $idx + 8;
+                            $rowNo = $idx + 1;
                             $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 130);
                             if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
                                 $cleanDesc = 'Dokumen arsip informasi setiap saat resmi PPID Politeknik Keselamatan Transportasi Jalan.';
@@ -273,11 +148,11 @@
                             <td class="text-center fw-bold">{{ $rowNo }}</td>
                             <td><strong class="text-dark">{{ $it->judul }}</strong></td>
                             <td class="text-muted small">{{ $cleanDesc }}</td>
-                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
-                            <td>Bagian Keuangan dan Umum</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
-                            <td class="text-center">Tegal, {{ $tahun }}</td>
-                            <td class="text-center">1 Tahun</td>
+                            <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
+                            <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">{{ $it->bentuk_informasi ?? 'Softcopy' }}</span></td>
+                            <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
+                            <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
                             <td class="text-center">
                                 @if(has_valid_document($it->file_path))
                                     <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" 
@@ -293,15 +168,30 @@
                             </td>
                         </tr>
                         @endforeach
+                        @else
+                        <tr>
+                            <td colspan="9" class="text-center py-4 text-muted">Belum ada dokumen informasi setiap saat yang tersedia.</td>
+                        </tr>
                         @endif
                     </tbody>
                 </table>
             </div>
 
-            <!-- PAGINATION CONTROLS (10 DATA PER HALAMAN) -->
+            <!-- PAGINATION CONTROLS -->
             <div class="p-3 bg-light border rounded-3 mt-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
-                <div id="setiapPaginationInfo" class="text-muted small fw-medium">
-                    Menampilkan data...
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <div id="setiapPaginationInfo" class="text-muted small fw-medium">
+                        Menampilkan data...
+                    </div>
+                    <div class="d-flex align-items-center gap-1.5 ms-md-2">
+                        <span class="text-muted small">Tampilkan:</span>
+                        <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changeSetiapPageSize(this.value)">
+                            <option value="10">10 data</option>
+                            <option value="25" selected>25 data</option>
+                            <option value="50">50 data</option>
+                            <option value="all">Semua data</option>
+                        </select>
+                    </div>
                 </div>
                 <div id="setiapPaginationControls">
                     <!-- Filled by JS -->
@@ -385,8 +275,14 @@
         }
 
         // PAGINATION & FILTER LOGIC (10 BARIS PER HALAMAN)
+                function changeSetiapPageSize(val) {
+            setiapRowsPerPage = val === 'all' ? 9999 : parseInt(val);
+            currentSetiapPage = 1;
+            initSetiapPagination();
+        }
+
         let currentSetiapPage = 1;
-        const setiapRowsPerPage = 10;
+        let setiapRowsPerPage = 25;
         let filteredSetiapRows = [];
 
         function initSetiapPagination() {
