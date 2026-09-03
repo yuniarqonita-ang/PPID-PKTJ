@@ -93,9 +93,10 @@ class DokumenController extends Controller
             $data['file_type'] = $file->getClientMimeType();
         } elseif ($request->filled('gdrive_link')) {
             $data['file_path'] = $request->gdrive_link;
-            $data['file_name'] = 'Link Google Drive';
-            $data['file_size'] = '-';
+            $data['file_name'] = 'Dokumen Google Drive';
+            $data['file_size'] = 'Google Drive';
             $data['file_type'] = 'gdrive';
+            $data['bisa_download'] = 1;
         } else {
             $data['file_path'] = '-';
         }
@@ -214,9 +215,10 @@ class DokumenController extends Controller
                 Storage::disk('public')->delete($dokumen->file_path);
             }
             $data['file_path'] = $request->gdrive_link;
-            $data['file_name'] = 'Link Google Drive';
-            $data['file_size'] = '-';
+            $data['file_name'] = 'Dokumen Google Drive';
+            $data['file_size'] = 'Google Drive';
             $data['file_type'] = 'gdrive';
+            $data['bisa_download'] = 1;
         }
 
         $existingCols = [];

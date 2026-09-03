@@ -1,30 +1,28 @@
 @extends('layouts.app')
 
 @php
-    // Sesuai permintaan user: Bersihkan semua dummy laporan lama
+    // Hanya kosongkan jika user mengklik tombol "Kosongkan Semua"
     try {
         if (request('purge_all') == '1') {
             \App\Models\Dokumen::where('kategori', 'Laporan Layanan')->delete();
         }
-        \App\Models\Dokumen::where('kategori', 'Laporan Layanan')
+        // Bersihkan HANYA dummy persis bawaan lama (tidak menyentuh data baru yang diinput user)
+        \App\Models\Dokumen::where('judul', 'Laporan Permohonan Informasi PPID Pelaksana UPT PKTJ Tahun 2025')
             ->where(function($q) {
-                $q->whereNull('file_path')
-                  ->orWhere('file_path', '')
-                  ->orWhere('file_path', '-')
-                  ->orWhere('file_size', '-')
-                  ->orWhere('judul', 'like', '%Laporan Permohonan Informasi%')
-                  ->orWhere('judul', 'like', '%Laporan Tahunan%');
+                $q->whereNull('file_path')->orWhere('file_path', '-')->orWhere('file_path', '');
             })->delete();
-        \App\Models\Dokumen::where('judul', 'like', '%Laporan Permohonan Informasi PPID Pelaksana%')->delete();
     } catch (\Throwable $e) {}
 
     $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
     $hasTanggal = \Illuminate\Support\Facades\Schema::hasColumn('dokumens', 'tanggal');
+    
+    // Ambil SEMUA dokumen Laporan Layanan resmi
     $items = \App\Models\Dokumen::where('kategori', 'Laporan Layanan')
-        ->whereNotNull('file_path')
-        ->where('file_path', '!=', '')
-        ->where('file_path', '!=', '-')
-        ->where('file_size', '!=', '-')
+        ->where(function($q) {
+            $q->whereNotNull('file_path')
+              ->where('file_path', '!=', '')
+              ->where('file_path', '!=', '-');
+        })
         ->when($hasTanggal, fn($q) => $q->orderByRaw('COALESCE(tanggal, created_at) DESC'), fn($q) => $q->latest())
         ->get();
 @endphp

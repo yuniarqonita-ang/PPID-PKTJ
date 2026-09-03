@@ -293,7 +293,8 @@ class ProfilPublikController extends Controller
                 ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
                 : $query->orderBy('created_at', 'desc')->get();
             $extraData['laporan'] = $rawLaporan->filter(function($doc) {
-                return !empty($doc->file_path) && function_exists('has_valid_document') && has_valid_document($doc->file_path);
+                $p = trim($doc->file_path ?? '');
+                return $p !== '' && $p !== '-' && $p !== '#';
             })->values();
         } elseif ($type === 'laporan-akses' || $type === 'laporan_akses') {
             $query = \App\Models\Dokumen::where('kategori', 'Laporan Akses')->where('aktif', true);
@@ -301,7 +302,8 @@ class ProfilPublikController extends Controller
                 ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
                 : $query->orderBy('created_at', 'desc')->get();
             $extraData['laporan'] = $rawAkses->filter(function($doc) {
-                return !empty($doc->file_path) && function_exists('has_valid_document') && has_valid_document($doc->file_path);
+                $p = trim($doc->file_path ?? '');
+                return $p !== '' && $p !== '-' && $p !== '#';
             })->values();
 
             // Aggregations for Laporan Akses Visualizations
