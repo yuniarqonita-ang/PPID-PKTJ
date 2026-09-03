@@ -216,6 +216,8 @@
         overflow-x: hidden !important;
         word-wrap: break-word !important;
         overflow-wrap: break-word !important;
+    }
+
     /* ============================================================ */
     /* NAVBAR PERMANEN (FIXED LOCK AT THE VERY TOP OF SCREEN)       */
     /* Tetap tampil dan tidak hilang saat halaman digulir ke bawah  */
@@ -235,6 +237,10 @@
         -webkit-backdrop-filter: blur(12px) !important;
     }
 
+    .navbar-fixed-top-pktj .nav-link {
+        color: #ffffff !important;
+    }
+
     body {
         padding-top: 76px !important;
     }
@@ -245,7 +251,7 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-dark navbar-fixed-top-pktj">
+<nav class="navbar navbar-expand-lg navbar-dark navbar-fixed-top-pktj" style="position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; z-index: 99999 !important; background-color: #004a99 !important; border-bottom: 3px solid #ffc107 !important; padding: 10px 0 !important; box-shadow: 0 6px 25px rgba(0, 43, 92, 0.35) !important;">
     <div class="container">
         <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="{{ route('home') }}">
             <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}" style="height: 50px; margin-right: 12px;">
