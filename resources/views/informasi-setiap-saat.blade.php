@@ -259,9 +259,9 @@
                     <div class="d-flex align-items-center gap-1.5 ms-md-2">
                         <span class="text-muted small">Tampilkan:</span>
                         <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changeSetiapPageSize(this.value)">
-                            <option value="10">10 data</option>
-                            <option value="25">25 data</option>
-                            <option value="50" selected>50 data</option>
+                            <option value="10" selected>10 data per halaman</option>
+                            <option value="25">25 data per halaman</option>
+                            <option value="50">50 data per halaman</option>
                             <option value="all">Semua data</option>
                         </select>
                     </div>
@@ -355,7 +355,7 @@
         }
 
         let currentSetiapPage = 1;
-        let setiapRowsPerPage = 50;
+        let setiapRowsPerPage = 10;
         let filteredSetiapRows = [];
 
         function initSetiapPagination() {
@@ -387,6 +387,10 @@
             for (let i = startIdx; i < endIdx; i++) {
                 if (filteredSetiapRows[i]) {
                     filteredSetiapRows[i].style.display = '';
+                    const noCell = filteredSetiapRows[i].querySelector('td:first-child');
+                    if (noCell) {
+                        noCell.innerText = (i + 1);
+                    }
                 }
             }
 
