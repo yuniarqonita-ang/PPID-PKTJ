@@ -242,17 +242,17 @@ class Pejabat extends Model
             [
                 'nama' => 'Agus Hariyanto, S.Kom, M.Sc.',
                 'nip' => '19790812 200502 1 001',
-                'jabatan' => 'Kepala Subbagian Keuangan dan Administrasi Umum',
+                'jabatan' => 'Kepala Bagian Keuangan dan Administrasi Umum',
                 'tempat_tanggal_lahir' => null,
                 'foto' => 'images/pejabat/Agus Hariyanto.png',
-                'biografi' => 'Menjabat sebagai Kepala Subbagian Keuangan dan Administrasi Umum PKTJ Tegal. Mengelola perbendaharaan, tata kelola keuangan BLU, pengadaan barang/jasa, ketatausahaan, kerumahtanggaan, serta infrastruktur teknologi informasi.',
+                'biografi' => 'Menjabat sebagai Kepala Bagian Keuangan dan Administrasi Umum PKTJ Tegal. Mengelola perbendaharaan, tata kelola keuangan BLU, pengadaan barang/jasa, ketatausahaan, kerumahtanggaan, serta infrastruktur teknologi informasi.',
                 'pendidikan' => [
                     'S2 - Master of Science (M.Sc) Transport & Information Technology',
                     'S1 - Sarjana Komputer (S.Kom), Universitas Diponegoro',
                     'Diklat Pengelolaan Keuangan BLU dan Pejabat Perbendaharaan Negara'
                 ],
                 'riwayat_jabatan' => [
-                    'Kepala Subbagian Keuangan dan Administrasi Umum PKTJ (2024 - Sekarang)',
+                    'Kepala Bagian Keuangan dan Administrasi Umum PKTJ (2024 - Sekarang)',
                     'Kepala Unit Teknologi Informasi & Komunikasi (TIK) PKTJ',
                     'Ketua Program Studi Teknologi Rekayasa Otomotif (TRO) PKTJ'
                 ],
