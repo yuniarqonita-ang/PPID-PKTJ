@@ -203,6 +203,17 @@ Route::name('informasi.')->prefix('informasi-publik')->group(function () {
     Route::get('/dikecualikan', [InformasiPublikController::class, 'informasiDikecualikan'])->name('dikecualikan');
 });
 
+// Top-level aliases for high reliability
+Route::get('/informasi-berkala', [InformasiPublikController::class, 'informasiBerkala']);
+Route::get('/informasi-berkala.html', [InformasiPublikController::class, 'informasiBerkala']);
+Route::get('/informasi-setiap-saat', [InformasiPublikController::class, 'informasiSetiapsaat']);
+Route::get('/informasi-setiap-saat.html', [InformasiPublikController::class, 'informasiSetiapsaat']);
+Route::get('/informasi-serta-merta', [InformasiPublikController::class, 'informasiSertamerta']);
+Route::get('/informasi-serta-merta.html', [InformasiPublikController::class, 'informasiSertamerta']);
+Route::get('/profil-ppid', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil']);
+Route::get('/profil-pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat']);
+Route::get('/profil-struktur-organisasi', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
+
 Route::get('/layanan-informasi/daftar', [ProfilPublikController::class, 'showPage'])->defaults('type', 'layanan-daftar')->defaults('view', 'daftar-informasi-publik')->name('layanan.daftar-informasi');
 Route::get('/layanan-informasi/maklumat', [ProfilPublikController::class, 'showPage'])->defaults('type', 'maklumat-pelayanan')->defaults('view', 'maklumat-pelayanan')->name('layanan.maklumat-pelayanan');
 Route::get('/layanan-informasi/laporan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-layanan')->defaults('view', 'laporan-layanan-informasi')->name('layanan.laporan-layanan');
@@ -325,6 +336,13 @@ Route::get('/refresh-deploy', function() {
                 \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `bisa_download` tinyint(1) NOT NULL DEFAULT 0 AFTER `aktif`");
                 \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `is_blurred` tinyint(1) NOT NULL DEFAULT 0 AFTER `bisa_download`");
                 \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dashboards` ADD COLUMN IF NOT EXISTS `aktif` tinyint(1) NOT NULL DEFAULT 1 AFTER `description`");
+            } catch (\Throwable $ex) {}
+
+            // Sub-menu Daftar Informasi Publik dinonaktifkan dari menu publik (sesuai standar BPSDM & Poltrada Bali)
+            try {
+                \App\Models\CustomMenu::where('url', 'like', '%layanan-informasi/daftar%')
+                    ->orWhere('nama', 'like', '%Daftar Informasi Publik%')
+                    ->update(['aktif' => false]);
             } catch (\Throwable $ex) {}
 
             // Auto-sync Campus Names & SP4N-LAPOR defaults
@@ -1289,17 +1307,23 @@ Route::get('/debug-visitors', function() {
 Route::name('profil.')->prefix('profil')->group(function () {
     Route::get('/', [ProfilPublikController::class, 'showProfil'])->name('index');
     Route::get('/ppid', [ProfilPublikController::class, 'showProfil'])->name('ppid');
+    Route::get('/profil-ppid', [ProfilPublikController::class, 'showProfil'])->name('profil-ppid');
     Route::get('/pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('pejabat');
+    Route::get('/profil-pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('profil-pejabat');
     Route::get('/tugas-dan-fungsi-ppid', [ProfilPublikController::class, 'showTugas'])->name('tugas-dan-fungsi-ppid');
     Route::get('/tugas-fungsi-ppid', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); });
     Route::get('/tugas', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); })->name('tugas');
     Route::get('/tugas-tanggung-jawab', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); })->name('tugas-tanggung-jawab');
     Route::get('/visi', [ProfilPublikController::class, 'showVisi'])->name('visi');
     Route::get('/visi-misi', [ProfilPublikController::class, 'showVisi'])->name('visi-misi');
+    Route::get('/profil-visi-misi', [ProfilPublikController::class, 'showVisi'])->name('profil-visi-misi');
     Route::get('/struktur', [ProfilPublikController::class, 'showStruktur'])->name('struktur');
     Route::get('/struktur-organisasi', [ProfilPublikController::class, 'showStruktur'])->name('struktur-organisasi');
-    Route::get('/regulasi', [ProfilPublikController::class, 'showRegulasi'])->name('regulasi');
+    Route::get('/profil-struktur-organisasi', [ProfilPublikController::class, 'showStruktur'])->name('profil-struktur-organisasi');
+    Route::get('/regulasi', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('regulasi');
+    Route::get('/profil-regulasi', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('profil-regulasi');
     Route::get('/kontak', [ProfilPublikController::class, 'showKontak'])->name('kontak');
+    Route::get('/profil-kontak', [ProfilPublikController::class, 'showKontak'])->name('profil-kontak');
     Route::post('/kontak', [ProfilPublikController::class, 'submitKontak'])->name('kontak.submit');
 });
 

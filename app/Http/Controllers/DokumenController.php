@@ -58,25 +58,13 @@ class DokumenController extends Controller
 
         // Silently ensure all columns exist in database via Schema and raw SQL
         try {
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN `tanggal` date NULL AFTER `kategori`");
-        } catch (\Throwable $e) {}
-        try {
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN `deskripsi` longtext NULL AFTER `tanggal`");
-        } catch (\Throwable $e) {}
-        try {
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN `file_name` varchar(255) NULL AFTER `file_path`");
-        } catch (\Throwable $e) {}
-        try {
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN `file_size` varchar(50) NULL AFTER `file_name`");
-        } catch (\Throwable $e) {}
-        try {
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN `file_type` varchar(100) NULL AFTER `file_size`");
-        } catch (\Throwable $e) {}
-        try {
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN `bisa_download` tinyint(1) NOT NULL DEFAULT 0 AFTER `aktif`");
-        } catch (\Throwable $e) {}
-        try {
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN `is_blurred` tinyint(1) NOT NULL DEFAULT 0 AFTER `bisa_download`");
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `tanggal` date NULL AFTER `kategori`");
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `deskripsi` longtext NULL AFTER `tanggal`");
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_name` varchar(255) NULL AFTER `file_path`");
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_size` varchar(50) NULL AFTER `file_name`");
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_type` varchar(100) NULL AFTER `file_size`");
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `bisa_download` tinyint(1) NOT NULL DEFAULT 0 AFTER `aktif`");
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `is_blurred` tinyint(1) NOT NULL DEFAULT 0 AFTER `bisa_download`");
         } catch (\Throwable $e) {}
 
         $data = [

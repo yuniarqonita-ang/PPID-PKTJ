@@ -205,37 +205,65 @@
 
                             <!-- Informasi Detail Pejabat (Alamat, Pendidikan, Karir, LHKPN) -->
                             <div class="pejabat-info-content">
-                                <div class="pejabat-info-text">
+                                <div class="pejabat-info-text text-justify" style="text-align: justify;">
                                     
+                                    <p class="mb-2">
+                                        <i class="fas fa-map-marker-alt text-danger me-1"></i>
+                                        <strong>Alamat kantor:</strong> Kampus I Jl. Perintis Kemerdekaan No. 17 / Kampus II Jl. Abdul Syukur No. 17, Kota Tegal. Telp: (0283) 351061.
+                                        @if(!empty($pejabat->tempat_tanggal_lahir))
+                                            Lahir di {{ $pejabat->tempat_tanggal_lahir }}.
+                                        @endif
+                                    </p>
+
                                     @if($pejabat->biografi)
-                                        <p>{{ $pejabat->biografi }}</p>
+                                        <p class="mb-2">{{ $pejabat->biografi }}</p>
+                                    @endif
+
+                                    @if(!empty($pejabat->pendidikan))
+                                        <p class="mb-2">
+                                            <strong>Riwayat Pendidikan:</strong> 
+                                            {{ is_array($pejabat->pendidikan) ? implode(', ', $pejabat->pendidikan) : $pejabat->pendidikan }}.
+                                        </p>
+                                    @endif
+
+                                    @if(!empty($pejabat->riwayat_jabatan))
+                                        <p class="mb-2">
+                                            <strong>Riwayat Jabatan & Karir:</strong> 
+                                            pernah menduduki sejumlah posisi diantaranya {{ is_array($pejabat->riwayat_jabatan) ? implode(', ', $pejabat->riwayat_jabatan) : $pejabat->riwayat_jabatan }}.
+                                        </p>
+                                    @endif
+
+                                    @if(!empty($pejabat->penghargaan))
+                                        <p class="mb-2">
+                                            <strong>Tanda Jasa / Penghargaan:</strong> 
+                                            {{ is_array($pejabat->penghargaan) ? implode(', ', $pejabat->penghargaan) : $pejabat->penghargaan }}.
+                                        </p>
+                                    @endif
+                                </div>
+
+                                <!-- Bagian LHKPN Resmi (Tanpa Link Zonk) -->
+                                <div class="mt-3 pt-3 border-top">
+                                    <div class="text-muted fw-bold text-uppercase mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                                        <i class="fas fa-file-invoice-dollar me-1 text-primary"></i> Laporan Harta Kekayaan Penyelenggara Negara (LHKPN)
+                                    </div>
+                                    @php
+                                        $lhkpnLink = null;
+                                        if (!empty($pejabat->lhkpn_file) && has_valid_document($pejabat->lhkpn_file)) {
+                                            $lhkpnLink = asset($pejabat->lhkpn_file);
+                                        } elseif (!empty($pejabat->lhkpn_link) && filter_var($pejabat->lhkpn_link, FILTER_VALIDATE_URL) && $pejabat->lhkpn_link !== 'https://elhkpn.kpk.go.id/') {
+                                            $lhkpnLink = $pejabat->lhkpn_link;
+                                        }
+                                    @endphp
+                                    @if($lhkpnLink)
+                                        <a href="{{ $lhkpnLink }}" target="_blank" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1.5 fw-bold" style="font-size: 11.5px;">
+                                            <i class="fas fa-file-pdf me-1"></i> LIHAT DOKUMEN LHKPN RESMI
+                                        </a>
                                     @else
-                                        <p>Alamat kantor Jl. Perintis Kemerdekaan No. 17 Kota Tegal, Jawa Tengah 52125. Telp: (0283) 351061.</p>
-                                    @endif
-
-                                    @if(!empty($pejabat->pendidikan) && is_array($pejabat->pendidikan))
-                                        <p>
-                                            <strong>Latar belakang pendidikan :</strong> 
-                                            {{ implode(', ', $pejabat->pendidikan) }}.
-                                        </p>
-                                    @endif
-
-                                    @if(!empty($pejabat->riwayat_jabatan) && is_array($pejabat->riwayat_jabatan))
-                                        <p>
-                                            <strong>Perjalanan karir :</strong> 
-                                            pernah menduduki sejumlah posisi strategis diantaranya {{ implode(', ', $pejabat->riwayat_jabatan) }}.
-                                        </p>
+                                        <span class="badge bg-light text-muted border px-2.5 py-1.5 rounded-pill" style="font-size: 11px;">
+                                            <i class="fas fa-clock me-1 text-warning"></i> Dokumen LHKPN dalam proses verifikasi KPK / Pemutakhiran
+                                        </span>
                                     @endif
                                 </div>
-
-                                <!-- Link LHKPN (Hanya Tampil Jika File Sudah Diunggah) -->
-                                @if(!empty($pejabat->lhkpn_file) && has_valid_document($pejabat->lhkpn_file))
-                                <div>
-                                    <a href="{{ asset($pejabat->lhkpn_file) }}" target="_blank" class="pejabat-lhkpn-link">
-                                        <i class="fas fa-file-pdf me-1 text-danger"></i> LHKPN {{ $pejabat->nama }}
-                                    </a>
-                                </div>
-                                @endif
 
                             </div>
 

@@ -22,7 +22,7 @@ class HalamanCustomController extends Controller
         }
         
         try {
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dashboards` ADD COLUMN `aktif` tinyint(1) NOT NULL DEFAULT 1 AFTER `description`");
+            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dashboards` ADD COLUMN IF NOT EXISTS `aktif` tinyint(1) NOT NULL DEFAULT 1 AFTER `description`");
         } catch (\Throwable $e) {}
 
         $hasAktif = false;

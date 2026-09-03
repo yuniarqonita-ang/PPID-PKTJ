@@ -7,171 +7,73 @@
     <title>Informasi Setiap Saat - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     @include('components.public-page-style')
     <style>
         .outfit { font-family: 'Outfit', sans-serif; }
 
-        /* Modern Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, rgba(0, 30, 64, 0.95) 0%, rgba(0, 74, 153, 0.88) 100%), 
-                        url('https://images.unsplash.com/photo-1497366216548-37526070297c?q=80&w=2069');
-            background-size: cover;
-            background-position: center;
-            padding: 130px 0 140px;
+            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
+            padding: 85px 0 100px;
             color: white;
             position: relative;
-            overflow: hidden;
         }
-
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: linear-gradient(to top, rgba(248, 250, 252, 1), transparent);
-            pointer-events: none;
-        }
-
-        .hero-content { position: relative; z-index: 10; }
 
         .content-card {
             background: white;
-            padding: 50px 55px;
-            border-radius: 36px;
-            box-shadow: 0 25px 60px rgba(0, 43, 92, 0.09), 0 4px 16px rgba(0,0,0,0.02);
-            margin-top: -70px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 50px rgba(0, 43, 92, 0.08);
+            margin-top: -50px;
+            border: 1px solid rgba(226, 232, 240, 0.9);
             position: relative;
             z-index: 20;
-            margin-bottom: 80px;
+            margin-bottom: 60px;
         }
 
-        .section-title {
-            color: var(--primary-blue);
-            font-weight: 900;
-            margin-bottom: 40px;
-            border-left: 8px solid var(--secondary-gold);
-            padding-left: 25px;
+        .smart-table thead th {
+            background: #002b5c;
+            color: white;
+            font-weight: 700;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: -0.5px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
+            letter-spacing: 0.5px;
+            padding: 14px 16px;
+            border: none;
+        }
+
+        .smart-table td {
+            padding: 14px 16px;
+            vertical-align: middle;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 13px;
+        }
+
+        .smart-table tbody tr:hover {
+            background-color: #f8fafc;
         }
 
         .info-item {
             background: #ffffff;
-            border-radius: 26px;
-            padding: 32px 36px;
-            margin-bottom: 28px;
+            border-radius: 20px;
+            padding: 24px;
+            margin-bottom: 20px;
             border: 1.5px solid #e2e8f0;
-            border-left: 6px solid #004a99;
-            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.04);
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 5px solid #004a99;
+            box-shadow: 0 8px 25px rgba(0, 43, 92, 0.04);
+            transition: all 0.3s ease;
         }
 
         .info-item:hover {
-            transform: translateY(-6px);
-            background: #ffffff;
+            transform: translateY(-4px);
             border-color: #004a99;
-            border-left: 6px solid var(--secondary-gold);
-            box-shadow: 0 20px 45px rgba(0, 74, 153, 0.12);
+            box-shadow: 0 16px 35px rgba(0, 74, 153, 0.1);
         }
 
-        .info-icon {
-            width: 58px;
-            height: 58px;
-            background: linear-gradient(135deg, rgba(0, 74, 153, 0.1) 0%, rgba(0, 74, 153, 0.04) 100%);
-            color: var(--primary-blue);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-right: 20px;
-            flex-shrink: 0;
-            border: 1px solid rgba(0, 74, 153, 0.15);
-        }
-
-        .btn-download-premium {
-            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
-            color: white;
-            padding: 11px 22px;
-            border-radius: 14px;
-            font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.92rem;
-            box-shadow: 0 4px 14px rgba(0, 74, 153, 0.2);
-            border: none;
-        }
-
-        .btn-download-premium:hover {
-            background: var(--secondary-gold);
-            color: var(--primary-blue);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
-        }
-
-        .rich-content {
-            color: #334155;
-            font-size: 1.02rem;
-            line-height: 1.8;
-        }
-
-        .rich-content p {
-            margin-bottom: 14px;
-            line-height: 1.8;
-            color: #334155;
-        }
-
-        .rich-content p:last-child {
-            margin-bottom: 0;
-        }
-
-        .rich-content p:empty,
-        .rich-content p > br:only-child {
-            min-height: 1.5em;
-            display: block;
-            margin-bottom: 14px;
-        }
-
-        .rich-content table {
-            width: 100% !important;
-            border-collapse: collapse !important;
-            margin: 16px 0 !important;
-            background: #ffffff !important;
-        }
-        .rich-content th, .rich-content td {
-            border: 1px solid #cbd5e1 !important;
-            padding: 10px 14px !important;
-            vertical-align: middle !important;
-        }
-        .rich-content th {
-            background-color: #004a99 !important;
-            color: #ffffff !important;
-            font-weight: 700 !important;
-        }
-        .rich-content a {
-            color: #004a99 !important;
-            text-decoration: underline !important;
-            font-weight: 600 !important;
-        }
-        .rich-content a.btn {
-            text-decoration: none !important;
-        }
+        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 16px 35px rgba(0,0,0,0.08); }
     </style>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <style>
-        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
-    </style>
 </head>
 <body>
 
@@ -179,87 +81,276 @@
 
     <div class="hero-section">
         <div class="container text-center hero-content">
-            <h1 class="display-3 fw-black outfit uppercase">Informasi Setiap Saat</h1>
-            <p class="lead opacity-75 mb-0">Daftar informasi publik yang dapat diakses sewaktu-waktu oleh masyarakat.</p>
+            <div class="badge bg-warning text-dark font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase" style="font-size: 12px; letter-spacing: 0.5px;">
+                <i class="fas fa-clock me-1"></i> Daftar Informasi Publik (DIP)
+            </div>
+            <h1 class="display-5 fw-bold outfit text-uppercase mb-2">Informasi Setiap Saat</h1>
+            <p class="lead opacity-90 mx-auto mb-0" style="max-width: 800px; font-size: 15px;">
+                Daftar informasi publik yang disediakan dan dapat diakses sewaktu-waktu oleh masyarakat di lingkungan PKTJ Tegal.
+            </p>
         </div>
     </div>
 
-    <div class="container">
-        <div class="content-card" data-aos="fade-up" data-aos-delay="100">
-            <!-- TOP HERO QUICK SEARCH BAR -->
-            <div class="p-4 mb-4 rounded-4 border shadow-sm" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-color: #cbd5e1;">
+    <div class="container-fluid px-3 px-md-5">
+        <div class="content-card" data-aos="fade-up">
+            
+            <!-- TOOLBAR PENCARIAN & TOGGLE VIEW -->
+            <div class="p-3 mb-4 rounded-4 border shadow-sm bg-white" style="border-color: #cbd5e1;">
                 <div class="row g-3 align-items-center">
-                    <div class="col-lg-8">
+                    <div class="col-lg-7">
                         <div class="position-relative">
-                            <i class="fas fa-search position-absolute top-50 translate-middle-y text-muted ms-3" style="font-size: 16px;"></i>
-                            <input type="text" id="topSearchInputSetiapSaat" placeholder="Cari dokumen, pedoman, standar, atau informasi setiap saat..." onkeyup="filterSetiapSaat()" class="form-control form-control-lg ps-5 rounded-pill border-2 bg-white" style="font-size: 14.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
+                            <i class="fas fa-search position-absolute top-50 translate-middle-y text-muted ms-3" style="font-size: 15px;"></i>
+                            <input type="text" id="topSearchInputSetiapSaat" placeholder="Cari dokumen, pedoman, SK, atau informasi setiap saat..." onkeyup="filterSetiapSaatContent()" class="form-control ps-5 rounded-pill border-2 bg-light" style="font-size: 13.5px;">
                         </div>
                     </div>
-                    <div class="col-lg-4 text-lg-end text-muted small">
-                        <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs">
-                            <i class="fas fa-clock text-primary me-1"></i> Akses Informasi Setiap Saat
-                        </span>
+                    <div class="col-lg-5 d-flex justify-content-lg-end align-items-center gap-2">
+                        <span class="text-muted small me-1">Mode Tampilan:</span>
+                        <button type="button" id="btnModeTableSetiap" class="btn btn-primary btn-sm rounded-pill px-3 py-1.5 fw-bold" onclick="switchSetiapDisplay('table')">
+                            <i class="fas fa-table-list me-1"></i> Tampilan Tabel DIP
+                        </button>
+                        <button type="button" id="btnModeCardsSetiap" class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1.5 fw-bold" onclick="switchSetiapDisplay('cards')">
+                            <i class="fas fa-th-large me-1"></i> Tampilan Kartu
+                        </button>
                     </div>
                 </div>
             </div>
 
             @include('components.konten-dinamis', ['prefix' => 'informasi_setiapsaat'])
 
-            <div class="row mt-4" id="setiapSaatItemsContainer">
-                @forelse($items as $item)
-                    <div class="col-12 searchable-setiapsaat-item" data-keywords="{{ strtolower($item->judul . ' ' . strip_tags($item->deskripsi)) }}">
-                        <div class="info-item hover-lift" data-aos="fade-up">
-                            <div class="d-flex align-items-start flex-column flex-md-row gap-4">
-                                <div class="info-icon">
-                                    <i class="fas fa-clock"></i>
-                                </div>
-                                <div class="flex-grow-1 w-100" style="min-width: 0;">
-                                    <h4 class="fw-bold outfit text-dark mb-3" style="font-size: 1.35rem; line-height: 1.4;">{{ $item->judul }}</h4>
-                                    <div class="rich-content mb-4">
-                                        {!! $item->deskripsi ?? 'Tidak ada deskripsi terperinci.' !!}
+            <!-- 1. TABEL VIEW (STANDAR RESMI POLTRADA & KEMENHUB - 9 KOLOM) -->
+            <div id="setiapTableView" class="table-responsive rounded-3 border mb-3" style="border-color: #e2e8f0;">
+                <table class="table table-hover align-middle mb-0 smart-table">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 50px;">No</th>
+                            <th style="min-width: 190px;">Informasi</th>
+                            <th style="min-width: 260px;">Ringkasan Informasi</th>
+                            <th style="min-width: 160px;">Pejabat yang Menguasai</th>
+                            <th style="min-width: 150px;">Penerbit Informasi</th>
+                            <th class="text-center" style="min-width: 120px;">Bentuk Informasi</th>
+                            <th class="text-center" style="min-width: 130px;">Waktu & Tempat</th>
+                            <th class="text-center" style="min-width: 100px;">Retensi</th>
+                            <th class="text-center" style="min-width: 120px;">Tautan</th>
+                        </tr>
+                    </thead>
+                    <tbody id="setiapTableBody">
+                        <!-- STANDAR DIP POLTRADA BALI & BPSDM -->
+                        <tr class="table-light fw-bold">
+                            <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
+                                <i class="fas fa-folder-tree me-2"></i> INFORMASI OPERASIONAL, PERATURAN & AKADEMIK
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="dokumentasi kegiatan pimpinan pktj tegal foto pimpinan direktur wakil">
+                            <td class="text-center fw-bold">1</td>
+                            <td><strong class="text-dark">Dokumentasi Kegiatan Pimpinan PKTJ Tegal</strong></td>
+                            <td class="text-muted">Dokumentasi foto dan rekam kegiatan pimpinan unit kerja di lingkungan Politeknik Keselamatan Transportasi Jalan Tegal.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Keuangan dan Umum</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="{{ route('home') }}#galeri" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="peraturan keputusan kebijakan direktur surat edaran sk operasional">
+                            <td class="text-center fw-bold">2</td>
+                            <td><strong class="text-dark">Peraturan, Keputusan, dan Kebijakan Direktur PKTJ</strong></td>
+                            <td class="text-muted">Informasi mengenai peraturan internal, keputusan pimpinan, instruksi, dan surat edaran Direktur PKTJ Tegal.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Keuangan dan Umum</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="{{ route('regulasi') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="informasi pengelolaan arsip unit kerja penataan dokumen arsiparis">
+                            <td class="text-center fw-bold">3</td>
+                            <td><strong class="text-dark">Informasi Pengelolaan Arsip Unit Kerja PKTJ</strong></td>
+                            <td class="text-muted">Informasi mengenai penataan dokumen dan klasifikasi arsip yang tersimpan menurut bagian di dalam unit kerja PKTJ Tegal.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Keuangan dan Umum</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="{{ route('profil.kontak') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="data operasional perkantoran pemeliharaan gedung kampus daya jasa bmn">
+                            <td class="text-center fw-bold">4</td>
+                            <td><strong class="text-dark">Data Operasional Perkantoran PKTJ Tegal</strong></td>
+                            <td class="text-muted">Informasi penyelenggaraan operasional perkantoran, langganan daya dan jasa, pemeliharaan gedung Kampus I & Kampus II Margadana.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Keuangan dan Umum</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="{{ route('profil.kontak') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="data inventaris kendaraan bermotor operasional dinas roda 4 roda 2 bpkb stnk">
+                            <td class="text-center fw-bold">5</td>
+                            <td><strong class="text-dark">Data Inventaris Kendaraan Bermotor Dinas PKTJ</strong></td>
+                            <td class="text-muted">Informasi mengenai tahun, jenis, pemegang kendaraan serta administrasi kendaraan operasional dinas roda 4 dan roda 2.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Keuangan dan Umum</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="{{ route('profil.kontak') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="informasi kurikulum silabus pendidikan pelatihan vokasi transportasi darat sk direktur">
+                            <td class="text-center fw-bold">6</td>
+                            <td><strong class="text-dark">Informasi Kurikulum dan Silabus Diklat PKTJ</strong></td>
+                            <td class="text-muted">Keputusan Direktur PKTJ tentang penetapan kurikulum vokasi dan silabus pendidikan pelatihan bidang keselamatan jalan.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Akademik & Ketarunaan</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="https://pktj.ac.id" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <tr class="searchable-setiapsaat-row" data-keywords="daftar nama fungsional dosen instruktur tenaga pendidik lektor asisten ahli">
+                            <td class="text-center fw-bold">7</td>
+                            <td><strong class="text-dark">Daftar Nama Fungsional Dosen & Instruktur PKTJ</strong></td>
+                            <td class="text-muted">Informasi daftar nama, jenjang fungsional, dan bidang keahlian dosen serta instruktur pengajar di lingkungan PKTJ Tegal.</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Akademik & Ketarunaan</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy</span></td>
+                            <td class="text-center">Tegal, 2025</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                <a href="https://pktj.ac.id" target="_blank" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                </a>
+                            </td>
+                        </tr>
+
+                        <!-- DOKUMEN DINAMIS DARI DATABASE -->
+                        @if(isset($items) && $items->count() > 0)
+                        <tr class="table-light fw-bold">
+                            <td colspan="9" class="py-2 px-3 text-uppercase" style="background: #e0f2fe; color: #004a99; font-size: 12px; letter-spacing: 0.5px;">
+                                <i class="fas fa-database me-2"></i> ARSIP DOKUMEN & PEDOMAN PUBLIK LAINNYA
+                            </td>
+                        </tr>
+                        @foreach($items as $idx => $it)
+                        @php
+                            $rowNo = $idx + 8;
+                            $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 130);
+                            if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
+                                $cleanDesc = 'Dokumen arsip informasi setiap saat resmi PPID Politeknik Keselamatan Transportasi Jalan.';
+                            }
+                            $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
+                        @endphp
+                        <tr class="searchable-setiapsaat-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc) }}">
+                            <td class="text-center fw-bold">{{ $rowNo }}</td>
+                            <td><strong class="text-dark">{{ $it->judul }}</strong></td>
+                            <td class="text-muted small">{{ $cleanDesc }}</td>
+                            <td>PPID Pelaksana UPT PKTJ Tegal</td>
+                            <td>Bagian Keuangan dan Umum</td>
+                            <td class="text-center"><span class="badge bg-light text-dark border">Softcopy & Hardcopy</span></td>
+                            <td class="text-center">Tegal, {{ $tahun }}</td>
+                            <td class="text-center">1 Tahun</td>
+                            <td class="text-center">
+                                @if(has_valid_document($it->file_path))
+                                    <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" 
+                                            style="font-size: 11.5px;"
+                                            data-bs-toggle="modal" 
+                                            data-bs-target="#previewModal" 
+                                            data-url="{{ route('preview.dokumen', ['file' => $it->file_path, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
+                                        Disini <i class="fas fa-file-pdf ms-1"></i>
+                                    </button>
+                                @else
+                                    <span class="badge bg-light text-muted border">Tersedia di Meja PPID</span>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PAGINATION CONTROLS (10 DATA PER HALAMAN) -->
+            <div class="p-3 bg-light border rounded-3 mt-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div id="setiapPaginationInfo" class="text-muted small fw-medium">
+                    Menampilkan data...
+                </div>
+                <div id="setiapPaginationControls">
+                    <!-- Filled by JS -->
+                </div>
+            </div>
+
+            <!-- 2. CARDS VIEW (ALTERNATIF TAMPILAN KARTU) -->
+            <div id="setiapCardsView" style="display: none;" class="mt-4">
+                <div class="row" id="setiapItemsContainer">
+                    @forelse($items as $item)
+                        <div class="col-12 searchable-setiapsaat-card-item" data-keywords="{{ strtolower($item->judul . ' ' . strip_tags($item->deskripsi)) }}">
+                            <div class="info-item hover-lift">
+                                <div class="d-flex align-items-start flex-column flex-md-row gap-4">
+                                    <div class="info-icon" style="width: 50px; height: 50px; border-radius: 14px; background: #e0f2fe; color: #004a99; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
+                                        <i class="fas fa-clock"></i>
                                     </div>
-                                    <div class="d-flex align-items-center justify-content-between pt-3 border-top flex-wrap gap-3">
-                                        <div class="d-flex gap-2 flex-wrap">
-                                            <span class="badge bg-light text-primary border px-3 py-2 rounded-pill" style="font-size: 12px;">
-                                                <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->translatedFormat('d F Y') }}
-                                            </span>
-                                            @if(has_valid_document($item->file_path) && isset($item->file_size) && $item->file_size !== '-' && $item->file_size !== '')
-                                            <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill" style="font-size: 12px;">
-                                                <i class="fas fa-file-pdf me-1 text-danger"></i> {{ $item->file_size }}
-                                            </span>
-                                            @endif
+                                    <div class="flex-grow-1 w-100" style="min-width: 0;">
+                                        <h4 class="fw-bold outfit text-dark mb-2" style="font-size: 1.25rem;">{{ $item->judul }}</h4>
+                                        <div class="text-muted small mb-3">
+                                            {!! $item->deskripsi ?? 'Tidak ada deskripsi terperinci.' !!}
                                         </div>
-                                        @if(has_valid_document($item->file_path))
-                                        <div class="d-flex gap-2 flex-wrap">
-                                            @if(is_previewable($item->file_path))
+                                        <div class="d-flex align-items-center justify-content-between pt-3 border-top flex-wrap gap-2">
+                                            <span class="badge bg-light text-secondary border px-3 py-1.5 rounded-pill font-monospace" style="font-size: 11.5px;">
+                                                <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->format('d M Y') }}
+                                            </span>
+                                            @if(has_valid_document($item->file_path))
                                             <button type="button" 
-                                                    class="btn-download-premium" 
+                                                    class="btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold" 
                                                     data-bs-toggle="modal" 
                                                     data-bs-target="#previewModal" 
                                                     data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
-                                                <i class="fas fa-eye"></i> Lihat Dokumen
+                                                <i class="fas fa-eye me-1"></i> Lihat Dokumen
                                             </button>
                                             @endif
-                                            @if($item->bisa_download)
-                                            <a href="{{ route('download.file', ['model' => 'setiapsaat', 'id' => $item->id]) }}" class="btn-download-premium" style="background: #198754; color: white;">
-                                                <i class="fas fa-download"></i> Unduh
-                                            </a>
-                                            @endif
                                         </div>
-                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                @empty
-                    <div class="col-12 text-center py-5">
-                        <i class="fas fa-folder-open fa-4x text-muted mb-4 opacity-25"></i>
-                        <h3 class="text-muted outfit fw-bold">Data Belum Tersedia</h3>
-                        <p class="text-muted">Belum ada data informasi setiap saat tersedia saat ini.</p>
-                    </div>
-                @endforelse
+                    @empty
+                        <div class="col-12 text-center py-5">
+                            <i class="fas fa-folder-open fa-4x text-muted mb-4 opacity-25"></i>
+                            <h4 class="text-muted outfit fw-bold">Belum Ada Arsip Tambahan</h4>
+                            <p class="text-muted">Arsip informasi setiap saat di atas merupakan daftar resmi yang dikuasai PKTJ Tegal.</p>
+                        </div>
+                    @endforelse
+                </div>
             </div>
+
         </div>
     </div>
 
@@ -268,20 +359,147 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({duration: 800, once: true});
+        AOS.init({ duration: 800, once: true });
 
-        function filterSetiapSaat() {
-            const query = document.getElementById('topSearchInputSetiapSaat').value.toLowerCase().trim();
-            document.querySelectorAll('.searchable-setiapsaat-item').forEach(el => {
+        function switchSetiapDisplay(mode) {
+            const tbl = document.getElementById('setiapTableView');
+            const crd = document.getElementById('setiapCardsView');
+            const btnTbl = document.getElementById('btnModeTableSetiap');
+            const btnCrd = document.getElementById('btnModeCardsSetiap');
+
+            if (mode === 'table') {
+                tbl.style.display = 'block';
+                crd.style.display = 'none';
+                btnTbl.classList.add('btn-primary');
+                btnTbl.classList.remove('btn-outline-secondary');
+                btnCrd.classList.add('btn-outline-secondary');
+                btnCrd.classList.remove('btn-primary');
+            } else {
+                tbl.style.display = 'none';
+                crd.style.display = 'block';
+                btnCrd.classList.add('btn-primary');
+                btnCrd.classList.remove('btn-outline-secondary');
+                btnTbl.classList.add('btn-outline-secondary');
+                btnTbl.classList.remove('btn-primary');
+            }
+        }
+
+        // PAGINATION & FILTER LOGIC (10 BARIS PER HALAMAN)
+        let currentSetiapPage = 1;
+        const setiapRowsPerPage = 10;
+        let filteredSetiapRows = [];
+
+        function initSetiapPagination() {
+            const allRows = Array.from(document.querySelectorAll('#setiapTableBody tr.searchable-setiapsaat-row'));
+            const searchInput = document.getElementById('topSearchInputSetiapSaat');
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+            filteredSetiapRows = allRows.filter(row => {
+                const kw = row.getAttribute('data-keywords') || '';
+                const text = row.innerText.toLowerCase();
+                return !query || kw.includes(query) || text.includes(query);
+            });
+
+            const totalPages = Math.ceil(filteredSetiapRows.length / setiapRowsPerPage) || 1;
+            if (currentSetiapPage > totalPages) currentSetiapPage = 1;
+
+            renderSetiapTablePage();
+            renderSetiapPaginationControls();
+        }
+
+        function renderSetiapTablePage() {
+            const allRows = document.querySelectorAll('#setiapTableBody tr.searchable-setiapsaat-row');
+            allRows.forEach(r => r.style.display = 'none');
+
+            const total = filteredSetiapRows.length;
+            const startIdx = (currentSetiapPage - 1) * setiapRowsPerPage;
+            const endIdx = Math.min(startIdx + setiapRowsPerPage, total);
+
+            for (let i = startIdx; i < endIdx; i++) {
+                if (filteredSetiapRows[i]) {
+                    filteredSetiapRows[i].style.display = '';
+                }
+            }
+
+            const sectionHeaders = document.querySelectorAll('#setiapTableBody tr.table-light');
+            sectionHeaders.forEach(sh => {
+                sh.style.display = total === 0 ? 'none' : '';
+            });
+
+            const infoEl = document.getElementById('setiapPaginationInfo');
+            if (infoEl) {
+                if (total === 0) {
+                    infoEl.innerHTML = '<span class="text-danger"><i class="fas fa-search me-1"></i> Tidak ada informasi setiap saat yang cocok dengan pencarian.</span>';
+                } else {
+                    infoEl.innerHTML = `Menampilkan baris <strong>${startIdx + 1}</strong> - <strong>${endIdx}</strong> dari total <strong>${total}</strong> data informasi publik`;
+                }
+            }
+        }
+
+        function goToSetiapPage(page) {
+            const totalPages = Math.ceil(filteredSetiapRows.length / setiapRowsPerPage) || 1;
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            currentSetiapPage = page;
+            renderSetiapTablePage();
+            renderSetiapPaginationControls();
+
+            const tbl = document.getElementById('setiapTableView');
+            if (tbl) tbl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function renderSetiapPaginationControls() {
+            const container = document.getElementById('setiapPaginationControls');
+            if (!container) return;
+
+            const totalPages = Math.ceil(filteredSetiapRows.length / setiapRowsPerPage) || 1;
+            if (totalPages <= 1 && filteredSetiapRows.length <= setiapRowsPerPage) {
+                container.innerHTML = '<span class="badge bg-white text-muted border px-2.5 py-1.5 rounded-pill">Halaman 1 dari 1</span>';
+                return;
+            }
+
+            let html = '<ul class="pagination pagination-sm mb-0 gap-1 d-flex flex-wrap">';
+            
+            if (currentSetiapPage > 1) {
+                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToSetiapPage(1)" title="Halaman Pertama"><i class="fas fa-angles-left"></i></button></li>`;
+                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToSetiapPage(${currentSetiapPage - 1})"><i class="fas fa-chevron-left me-1"></i> Prev</button></li>`;
+            }
+
+            for (let p = 1; p <= totalPages; p++) {
+                const active = p === currentSetiapPage ? 'btn-primary text-white active font-black' : 'btn-outline-secondary text-dark';
+                html += `<li class="page-item"><button type="button" class="btn btn-sm ${active} rounded-pill px-3 fw-bold" onclick="goToSetiapPage(${p})">${p}</button></li>`;
+            }
+
+            if (currentSetiapPage < totalPages) {
+                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToSetiapPage(${currentSetiapPage + 1})">Next <i class="fas fa-chevron-right ms-1"></i></button></li>`;
+                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToSetiapPage(${totalPages})" title="Halaman Terakhir"><i class="fas fa-angles-right"></i></button></li>`;
+            }
+
+            html += '</ul>';
+            container.innerHTML = html;
+        }
+
+        function filterSetiapSaatContent() {
+            const searchInput = document.getElementById('topSearchInputSetiapSaat');
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+            // Filter cards
+            document.querySelectorAll('.searchable-setiapsaat-card-item').forEach(el => {
                 const kw = el.getAttribute('data-keywords') || '';
-                if (!query || kw.includes(query)) {
+                if (!query || kw.includes(query) || el.innerText.toLowerCase().includes(query)) {
                     el.classList.remove('d-none');
                 } else {
                     el.classList.add('d-none');
                 }
             });
+
+            currentSetiapPage = 1;
+            initSetiapPagination();
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initSetiapPagination();
+        });
     </script>
 </body>
 </html>
-

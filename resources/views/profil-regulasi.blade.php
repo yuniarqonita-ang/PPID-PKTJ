@@ -1,224 +1,76 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $profil->judul ?? 'Regulasi & Dasar Hukum PPID' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
-    <meta name="description" content="Pusat data regulasi resmi keterbukaan informasi publik, undang-undang, keputusan menteri perhubungan, dan keputusan direktur PKTJ Tegal.">
-    
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <title>Regulasi Keterbukaan Informasi Publik - PPID PKTJ Tegal</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary-blue: {{ !empty($settings['primary_color']) ? $settings['primary_color'] : '#004a99' }};
-            --deep-navy: #002b5c;
-            --maritime-blue: #004a99;
-            --secondary-gold: {{ !empty($settings['secondary_color']) ? $settings['secondary_color'] : '#ffc107' }};
-            --accent-gold: #f59e0b;
+            --primary-navy: #002b5c;
+            --secondary-blue: #004a99;
+            --accent-gold: #ffc107;
+            --bg-canvas: #f8fafc;
+            --text-dark: #1e293b;
+            --text-muted: #64748b;
         }
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            background-color: #f1f5f9; 
-            color: #1e293b;
-            line-height: 1.6;
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-canvas);
+            color: var(--text-dark);
+            overflow-x: hidden;
         }
 
         .outfit { font-family: 'Outfit', sans-serif; }
 
-        /* HERO LUXURY SECTION */
+        /* HERO CLEAN GRADIENT */
         .hero-regulasi {
             background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
-            padding: 90px 0 110px;
+            padding: 70px 0 80px;
             color: white;
             position: relative;
-        }
-
-        .hero-regulasi::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: linear-gradient(to top, #f1f5f9, transparent);
         }
 
         .hero-badge-pill {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            padding: 8px 22px;
+            padding: 7px 20px;
             background: rgba(255, 255, 255, 0.12);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.22);
             backdrop-filter: blur(12px);
             border-radius: 9999px;
             font-size: 13px;
             font-weight: 700;
             letter-spacing: 0.5px;
             color: #ffd166;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 16px;
         }
 
-        /* STATS BAR FLOATING */
-        .stats-floating-grid {
-            margin-top: -50px;
+        .page-container {
+            margin-top: -30px;
             position: relative;
-            z-index: 25;
-            margin-bottom: 35px;
+            z-index: 10;
         }
 
-        .stat-mini-card {
-            background: white;
-            border-radius: 20px;
-            padding: 22px 24px;
-            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.07);
-            border: 1px solid rgba(226, 232, 240, 0.8);
-            display: flex;
-            align-items: center;
-            gap: 18px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .stat-mini-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 16px 35px rgba(0, 43, 92, 0.12);
-        }
-
-        .stat-icon-wrap {
-            width: 54px;
-            height: 54px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            flex-shrink: 0;
-        }
-
-        /* SPOTLIGHT SECTION */
-        .spotlight-card {
-            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
-            border-radius: 24px;
-            padding: 30px;
-            color: white;
-            position: relative;
-            overflow: hidden;
-            border: 2px solid rgba(255, 193, 7, 0.3);
-            box-shadow: 0 15px 40px rgba(0, 43, 92, 0.15);
-            margin-bottom: 40px;
-        }
-
-        .spotlight-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255,193,7,0.15) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .spotlight-item {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border-radius: 16px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .spotlight-item:hover {
-            background: rgba(255, 255, 255, 0.16);
-            border-color: #ffc107;
-            transform: translateY(-3px);
-        }
-
-        /* SIDEBAR CATEGORY MATRIX */
-        .sidebar-matrix-card {
-            background: white;
-            border-radius: 24px;
-            padding: 26px;
-            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.05);
-            border: 1px solid rgba(226, 232, 240, 0.9);
-            position: sticky;
-            top: 20px;
-        }
-
-        .category-nav-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 13px 18px;
-            border-radius: 14px;
-            color: #334155;
-            font-weight: 600;
-            font-size: 13.5px;
-            text-decoration: none;
-            margin-bottom: 8px;
-            border: 1px solid transparent;
-            background: #f8fafc;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            width: 100%;
-            text-align: left;
-        }
-
-        .category-nav-item:hover {
-            background: #eef2ff;
-            color: var(--deep-navy);
-            border-color: #cbd5e1;
-        }
-
-        .category-nav-item.active {
-            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
-            color: white;
-            font-weight: 700;
-            box-shadow: 0 6px 18px rgba(0, 43, 92, 0.25);
-            border-color: transparent;
-        }
-
-        .category-nav-item.active .cat-counter {
-            background: rgba(255, 255, 255, 0.25);
-            color: white;
-        }
-
-        .cat-counter {
-            background: #e2e8f0;
-            color: #475569;
-            font-size: 11px;
-            font-weight: 800;
-            padding: 3px 9px;
-            border-radius: 9999px;
-            transition: all 0.25s ease;
-        }
-
-        /* MAIN CONTENT SHOWCASE */
+        /* TOOLBAR & CONTROLS */
         .showcase-toolbar {
             background: white;
             border-radius: 20px;
-            padding: 18px 24px;
-            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.05);
+            padding: 20px 24px;
+            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.08);
             border: 1px solid rgba(226, 232, 240, 0.9);
             margin-bottom: 25px;
         }
 
         .search-regulasi-input {
-            border: 2px solid #e2e8f0;
-            border-radius: 14px;
-            padding: 12px 18px 12px 46px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px 18px 12px 44px;
             font-size: 14px;
-            font-weight: 500;
             width: 100%;
             transition: all 0.25s ease;
             background: #f8fafc;
@@ -226,151 +78,97 @@
 
         .search-regulasi-input:focus {
             outline: none;
-            border-color: var(--maritime-blue);
+            border-color: #004a99;
             background: white;
             box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
         }
 
         .search-icon-pos {
             position: absolute;
-            left: 18px;
+            left: 16px;
             top: 50%;
             transform: translateY(-50%);
             color: #94a3b8;
-            font-size: 16px;
+            font-size: 15px;
         }
 
-        .view-mode-btn {
-            border: 2px solid #e2e8f0;
-            background: #f8fafc;
-            color: #64748b;
-            padding: 10px 16px;
-            border-radius: 12px;
-            font-size: 13px;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .view-mode-btn.active, .view-mode-btn:hover {
-            background: var(--deep-navy);
-            color: white;
-            border-color: var(--deep-navy);
-        }
-
-        /* REGULASI BENTO CARD */
-        .regulasi-bento-card {
-            background: white;
-            border-radius: 20px;
-            border: 1px solid rgba(226, 232, 240, 0.9);
-            box-shadow: 0 6px 20px rgba(0, 43, 92, 0.04);
-            padding: 24px;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            position: relative;
-        }
-
-        .regulasi-bento-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 16px 35px rgba(0, 43, 92, 0.1);
-            border-color: #cbd5e1;
-        }
-
-        .cat-tag {
-            font-size: 11px;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 5px 12px;
-            border-radius: 8px;
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .cat-tag-uu { background: #e0e7ff; color: #3730a3; }
-        .cat-tag-kip { background: #fce7f3; color: #9d174d; }
-        .cat-tag-kemenhub { background: #e0f2fe; color: #0369a1; }
-        .cat-tag-pktj { background: #fef3c7; color: #b45309; }
-
-        .nomor-badge {
-            background: #f1f5f9;
-            color: #0f172a;
-            font-family: monospace;
-            font-weight: 700;
-            font-size: 12px;
-            padding: 4px 10px;
-            border-radius: 6px;
+        /* CATEGORY FILTER TABS */
+        .cat-tab-btn {
             border: 1px solid #e2e8f0;
+            background: #ffffff;
+            color: #475569;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            transition: all 0.25s ease;
+            cursor: pointer;
+            white-space: nowrap;
         }
 
-        .btn-action-preview {
+        .cat-tab-btn:hover {
+            border-color: #cbd5e1;
             background: #f1f5f9;
             color: #002b5c;
-            border: 1px solid #cbd5e1;
-            padding: 9px 16px;
-            border-radius: 12px;
-            font-size: 12.5px;
-            font-weight: 700;
+        }
+
+        .cat-tab-btn.active {
+            background: #002b5c;
+            color: white;
+            border-color: #002b5c;
+            box-shadow: 0 4px 12px rgba(0, 43, 92, 0.2);
+        }
+
+        .cat-tab-btn .badge-count {
+            font-size: 11px;
+            padding: 2px 7px;
+            border-radius: 9999px;
+            background: rgba(0, 0, 0, 0.08);
+            color: inherit;
+        }
+
+        .cat-tab-btn.active .badge-count {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+
+        /* VIEW MODE TOGGLE */
+        .view-mode-btn {
+            padding: 8px 16px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 10px;
+            border: 1.5px solid #e2e8f0;
+            background: white;
+            color: #64748b;
             cursor: pointer;
             transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
         }
 
-        .btn-action-preview:hover {
-            background: #e2e8f0;
-            color: #001e42;
-        }
-
-        .btn-action-download {
-            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
-            color: white !important;
-            border: none;
-            padding: 9px 18px;
-            border-radius: 12px;
-            font-size: 12.5px;
-            font-weight: 700;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            box-shadow: 0 4px 12px rgba(0, 74, 153, 0.2);
-        }
-
-        .btn-action-download:hover {
-            background: linear-gradient(135deg, #001e42 0%, #003670 100%);
-            transform: scale(1.02);
-            box-shadow: 0 6px 16px rgba(0, 74, 153, 0.3);
+        .view-mode-btn.active {
+            background: #004a99;
+            color: white;
+            border-color: #004a99;
         }
 
         /* SMART TABLE VIEW */
         .smart-regulasi-table {
             background: white;
             border-radius: 20px;
-            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.06);
             border: 1px solid rgba(226, 232, 240, 0.9);
-            box-shadow: 0 6px 20px rgba(0, 43, 92, 0.04);
+            overflow: hidden;
+            margin-bottom: 40px;
         }
 
-        .smart-regulasi-table table {
-            margin-bottom: 0;
-        }
-
-        .smart-regulasi-table th {
+        .smart-regulasi-table thead th {
             background: #002b5c;
             color: white;
-            font-size: 12.5px;
             font-weight: 700;
+            font-size: 13px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             padding: 16px 20px;
@@ -388,11 +186,93 @@
             background-color: #f8fafc;
         }
 
-        /* MODAL PREVIEW PDF */
-        .modal-regulasi-preview .modal-dialog {
-            max-width: 900px;
+        /* BENTO CARDS VIEW */
+        .regulasi-bento-card {
+            background: white;
+            border-radius: 18px;
+            padding: 24px;
+            box-shadow: 0 8px 25px rgba(0, 43, 92, 0.05);
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
 
+        .regulasi-bento-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 35px rgba(0, 43, 92, 0.1);
+            border-color: #cbd5e1;
+        }
+
+        .nomor-badge {
+            font-size: 11.5px;
+            font-weight: 700;
+            padding: 5px 12px;
+            border-radius: 8px;
+            letter-spacing: 0.3px;
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .cat-tag {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .cat-tag-uu { background: #e0e7ff; color: #3730a3; }
+        .cat-tag-kip { background: #fce7f3; color: #9d174d; }
+        .cat-tag-kemenhub { background: #e0f2fe; color: #075985; }
+        .cat-tag-pktj { background: #fef3c7; color: #92400e; }
+
+        .btn-action-preview {
+            background: #f1f5f9;
+            color: #1e293b;
+            border: 1px solid #cbd5e1;
+            padding: 7px 14px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-action-preview:hover {
+            background: #e2e8f0;
+            color: #002b5c;
+        }
+
+        .btn-action-download {
+            background: #002b5c;
+            color: white;
+            border: none;
+            padding: 7px 15px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-action-download:hover {
+            background: #004a99;
+            color: white;
+        }
+
+        /* MODAL PREVIEW */
+        .modal-regulasi-preview .modal-dialog { max-width: 900px; }
         .modal-regulasi-preview .modal-content {
             border-radius: 24px;
             overflow: hidden;
@@ -411,20 +291,24 @@
     <div class="hero-regulasi">
         <div class="container text-center position-relative" style="z-index: 10;">
             <div class="hero-badge-pill" data-aos="fade-down">
-                <i class="fas fa-balance-scale text-warning"></i> Landasan Hukum & Regulasi Resmi PPID
+                <i class="fas fa-balance-scale text-warning"></i> Landasan Hukum PPID PKTJ
             </div>
-            <h1 class="display-5 fw-bold outfit text-uppercase mb-3 tracking-tight" data-aos="fade-up">
+            <h1 class="display-6 fw-bold outfit text-uppercase mb-3 tracking-tight" data-aos="fade-up">
                 {{ $profil->judul ?? 'Regulasi Keterbukaan Informasi Publik' }}
             </h1>
-            <p class="lead opacity-90 mx-auto" style="max-width: 800px; font-size: 16px;" data-aos="fade-up" data-aos-delay="100">
-                Pusat data komprehensif seluruh peraturan perundang-undangan, standar layanan informasi publik Komisi Informasi Pusat, regulasi Kementerian Perhubungan, dan Keputusan Direktur PKTJ Tegal.
+            <p class="lead opacity-90 mx-auto mb-4" style="max-width: 820px; font-size: 15px;" data-aos="fade-up" data-aos-delay="100">
+                Pusat data seluruh peraturan perundang-undangan nasional, standar Komisi Informasi Pusat, regulasi Kementerian Perhubungan, dan Keputusan Direktur PKTJ.
             </p>
+            <div data-aos="fade-up" data-aos-delay="150">
+                <a href="https://bpsdm.kemenhub.go.id/jdih/" target="_blank" class="btn btn-warning fw-bold px-4 py-2.5 rounded-pill text-dark shadow-sm d-inline-flex align-items-center gap-2" style="font-size: 13.5px;">
+                    <i class="fas fa-external-link-alt"></i> Portal JDIH BPSDM Perhubungan
+                </a>
+            </div>
         </div>
     </div>
 
     <!-- PREPARE DATA FAILSAFE -->
     @php
-        // Hardcoded Master Fallback Data jika database kosong
         $fallbackRegulasi = [
             [
                 'id' => 1,
@@ -434,7 +318,6 @@
                 'kategori' => 'Undang-Undang',
                 'deskripsi' => 'Undang-Undang induk yang menjamin hak warga negara untuk memperoleh informasi publik dan kewajiban badan publik menyediakan informasi secara terbuka, transparan, dan akuntabel.',
                 'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => true,
             ],
             [
                 'id' => 2,
@@ -442,39 +325,35 @@
                 'nomor' => 'UU No. 25 Tahun 2009',
                 'tahun' => 2009,
                 'kategori' => 'Undang-Undang',
-                'deskripsi' => 'Pengaturan mengenai asas-asas kepatutan dan kepastian hukum dalam penyelenggaraan pelayanan publik di instansi pemerintah.',
+                'deskripsi' => 'Mengatur prinsip kepastian hukum, keterbukaan, akuntabilitas, fasilitas khusus bagi kelompok rentan, serta ketepatan waktu dalam penyelenggaraan pelayanan publik di Indonesia.',
                 'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => false,
             ],
             [
                 'id' => 3,
-                'judul' => 'Undang-Undang Nomor 22 Tahun 2009 tentang Lalu Lintas dan Angkutan Jalan',
-                'nomor' => 'UU No. 22 Tahun 2009',
-                'tahun' => 2009,
+                'judul' => 'Peraturan Pemerintah Nomor 61 Tahun 2010 tentang Pelaksanaan UU Keterbukaan Informasi Publik',
+                'nomor' => 'PP No. 61 Tahun 2010',
+                'tahun' => 2010,
                 'kategori' => 'Undang-Undang',
-                'deskripsi' => 'Regulasi utama penyelenggaraan pembinaan, keselamatan, dan rekayasa transportasi jalan di Indonesia.',
+                'deskripsi' => 'Ketentuan teknis mengenai hak dan kewajiban pemohon informasi, pejabat pengelola informasi dan dokumentasi, pengujian konsekuensi, serta tata cara ganti rugi.',
                 'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => false,
             ],
             [
                 'id' => 4,
-                'judul' => 'Peraturan Komisi Informasi Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik (SLIP)',
-                'nomor' => 'PerKI No. 1 Tahun 2021',
+                'judul' => 'Peraturan Komisi Informasi Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik',
+                'nomor' => 'Peraturan KIP No. 1 Tahun 2021',
                 'tahun' => 2021,
                 'kategori' => 'Komisi Informasi Pusat',
-                'deskripsi' => 'Pedoman operasional standar pelayanan informasi publik, klasifikasi informasi berkala, serta merta, setiap saat, dan dikecualikan.',
+                'deskripsi' => 'Pedoman komprehensif tata kelola klasifikasi informasi publik, penyusunan DIP dan DIK, akomodasi disabilitas, serta standar waktu pelayanan informasi publik.',
                 'file_path' => 'https://komisiinformasi.go.id/',
-                'is_spotlight' => false,
             ],
             [
                 'id' => 5,
                 'judul' => 'Peraturan Komisi Informasi Nomor 1 Tahun 2013 tentang Prosedur Penyelesaian Sengketa Informasi Publik',
-                'nomor' => 'PerKI No. 1 Tahun 2013',
+                'nomor' => 'Peraturan KIP No. 1 Tahun 2013',
                 'tahun' => 2013,
                 'kategori' => 'Komisi Informasi Pusat',
                 'deskripsi' => 'Tata cara dan mekanisme penyelesaian sengketa informasi publik melalui mediasi dan ajudikasi non-litigasi.',
                 'file_path' => 'https://komisiinformasi.go.id/',
-                'is_spotlight' => false,
             ],
             [
                 'id' => 6,
@@ -484,7 +363,6 @@
                 'kategori' => 'Kementerian Perhubungan',
                 'deskripsi' => 'Regulasi pokok struktur, tugas wewenang, dan tata kerja PPID Utama, PPID Pelaksana, dan PPID Pelaksana UPT di lingkungan Kementerian Perhubungan.',
                 'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => true,
             ],
             [
                 'id' => 7,
@@ -494,7 +372,6 @@
                 'kategori' => 'Kementerian Perhubungan',
                 'deskripsi' => 'Daftar resmi informasi yang dikecualikan di lingkungan Kementerian Perhubungan beserta alasan dan uji konsekuensinya.',
                 'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => true,
             ],
             [
                 'id' => 8,
@@ -504,7 +381,6 @@
                 'kategori' => 'Kementerian Perhubungan',
                 'deskripsi' => 'Mekanisme pencegahan tindak pidana korupsi dan pengendalian penerimaan atau penolakan gratifikasi.',
                 'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => false,
             ],
             [
                 'id' => 9,
@@ -514,388 +390,264 @@
                 'kategori' => 'Kementerian Perhubungan',
                 'deskripsi' => 'Pedoman sistem pengendalian intern pemerintah dalam menciptakan tata kelola keuangan dan operasional yang transparan.',
                 'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => false,
             ],
             [
                 'id' => 10,
-                'judul' => 'Peraturan Menteri Perhubungan Nomor PM 36 Tahun 2019 tentang Tata Naskah Dinas di Lingkungan Kementerian Perhubungan',
-                'nomor' => 'Permenhub PM 36/2019',
-                'tahun' => 2019,
-                'kategori' => 'Kementerian Perhubungan',
-                'deskripsi' => 'Standarisasi format, tata persuratan, dan penomoran dokumen kedinasan kementerian.',
-                'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => false,
+                'judul' => 'Keputusan Direktur PKTJ tentang Penunjukan Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana UPT PKTJ Tegal',
+                'nomor' => 'SK PPID PKTJ 2024',
+                'tahun' => 2024,
+                'kategori' => 'PKTJ',
+                'deskripsi' => 'Penetapan struktur, tim pembantu, dan penanggung jawab layanan keterbukaan informasi publik di lingkungan kampus PKTJ Tegal.',
+                'file_path' => 'storage/dokumen/B1.pdf',
             ],
             [
                 'id' => 11,
-                'judul' => 'Peraturan Menteri Perhubungan Nomor PM 41 Tahun 2022 tentang Organisasi dan Tata Kerja Balai Pengujian Laik Jalan',
-                'nomor' => 'Permenhub PM 41/2022',
-                'tahun' => 2022,
-                'kategori' => 'Kementerian Perhubungan',
-                'deskripsi' => 'Regulasi struktur organisasi dan tata kerja unit pengujian laik jalan dan sertifikasi kendaraan bermotor.',
-                'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => false,
-            ],
-            [
-                'id' => 12,
-                'judul' => 'Keputusan Menteri Perhubungan Nomor KM 211 Tahun 2020 tentang Petunjuk Teknis Pelaksanaan Survei Kepuasan Masyarakat (SKM)',
-                'nomor' => 'Kepmenhub KM 211/2020',
-                'tahun' => 2020,
-                'kategori' => 'Kementerian Perhubungan',
-                'deskripsi' => 'Pedoman survei indeks kepuasan masyarakat atas pelayanan publik unit kerja perhubungan.',
-                'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => false,
-            ],
-            [
-                'id' => 13,
-                'judul' => 'Peraturan Menteri Perhubungan Nomor PM 22 Tahun 2023 tentang Pedoman Penanganan Benturan Kepentingan',
-                'nomor' => 'Permenhub PM 22/2023',
-                'tahun' => 2023,
-                'kategori' => 'Kementerian Perhubungan',
-                'deskripsi' => 'Pedoman penanganan situasi benturan kepentingan dalam pengambilan keputusan dinas.',
-                'file_path' => 'https://jdih.dephub.go.id/',
-                'is_spotlight' => false,
-            ],
-            [
-                'id' => 14,
-                'judul' => 'Keputusan Direktur PKTJ Nomor KP-PKTJ 32 Tahun 2024 tentang Penetapan PPID Pelaksana PKTJ Tegal',
-                'nomor' => 'KP-PKTJ 32/2024',
-                'tahun' => 2024,
-                'kategori' => 'PKTJ Tegal',
-                'deskripsi' => 'Surat Keputusan Direktur PKTJ mengenai penetapan susunan Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana UPT PKTJ.',
-                'file_path' => 'storage/dokumen/A1.pdf',
-                'is_spotlight' => true,
-            ],
-            [
-                'id' => 15,
                 'judul' => 'Surat Keputusan Direktur PKTJ tentang Standar Operasional Prosedur (SOP) Pelayanan Informasi Publik PKTJ Tegal',
                 'nomor' => 'SOP PKTJ 2024',
                 'tahun' => 2024,
-                'kategori' => 'PKTJ Tegal',
+                'kategori' => 'PKTJ',
                 'deskripsi' => 'Buku pedoman SOP permohonan informasi, penanganan keberatan, penetapan daftar informasi, dan pengujian konsekuensi di lingkungan PKTJ.',
                 'file_path' => 'storage/dokumen/G2.pdf',
-                'is_spotlight' => false,
             ],
         ];
 
-        // Jika database ada isi, gabungkan / utamakan dari database
         $itemsList = collect();
         if (isset($allRegulasi) && $allRegulasi->count() > 0) {
             foreach ($allRegulasi as $r) {
+                $kat = $r->kategori ?? 'Umum';
+                if ($kat === 'PKTJ Tegal') $kat = 'PKTJ';
+                if ($kat === 'Komisi Informasi Pusat') $kat = 'Peraturan KIP';
+
                 $itemsList->push([
                     'id' => $r->id,
                     'judul' => $r->judul,
                     'nomor' => $r->nomor ?? 'Regulasi Resmi',
                     'tahun' => $r->tahun ?? 2024,
-                    'kategori' => $r->kategori ?? 'Umum',
+                    'kategori' => $kat,
                     'deskripsi' => $r->deskripsi ?? 'Dokumen landasan hukum keterbukaan informasi publik resmi.',
-                    'file_path' => $r->file_path ? asset($r->file_path) : ($r->link_download ?? 'https://jdih.dephub.go.id/'),
-                    'is_spotlight' => str_contains($r->judul, 'PM 46') || str_contains($r->judul, 'KP-PKTJ') || str_contains($r->judul, 'UU Nomor 14') || str_contains($r->judul, 'KM 117'),
+                    'file_path' => $r->file_path ? asset($r->file_path) : ($r->link_download ?? 'https://bpsdm.kemenhub.go.id/jdih/'),
                 ]);
             }
         } else {
             $itemsList = collect($fallbackRegulasi);
         }
 
-        $cntUU = $itemsList->where('kategori', 'Undang-Undang')->count();
-        $cntKIP = $itemsList->where('kategori', 'Komisi Informasi Pusat')->count();
-        $cntKemenhub = $itemsList->where('kategori', 'Kementerian Perhubungan')->count();
-        $cntPKTJ = $itemsList->where('kategori', 'PKTJ Tegal')->count();
         $cntTotal = $itemsList->count();
+        $cntUU = $itemsList->where('kategori', 'Undang-Undang')->count();
+        $cntKIP = $itemsList->where('kategori', 'Komisi Informasi Pusat')->count() ?: $itemsList->where('kategori', 'Peraturan KIP')->count();
+        $cntKemenhub = $itemsList->where('kategori', 'Kementerian Perhubungan')->count();
+        $cntPKTJ = $itemsList->where('kategori', 'PKTJ')->count() ?: $itemsList->where('kategori', 'PKTJ Tegal')->count();
     @endphp
 
     <div class="container page-container">
 
-        <!-- 1. STATS BAR FLOATING -->
-        <div class="stats-floating-grid" data-aos="fade-up">
-            <div class="row g-3">
-                <div class="col-6 col-lg-3">
-                    <div class="stat-mini-card">
-                        <div class="stat-icon-wrap" style="background: #e0f2fe; color: #004a99;">
-                            <i class="fas fa-file-contract"></i>
-                        </div>
-                        <div>
-                            <div class="outfit fw-bold fs-4 text-dark mb-0">{{ $cntTotal }}</div>
-                            <div class="text-muted small fw-medium">Total Regulasi Aktif</div>
-                        </div>
+        <!-- CONTROLS & SEARCH TOOLBAR -->
+        <div class="showcase-toolbar" data-aos="fade-up">
+            <div class="row g-3 align-items-center mb-3">
+                <div class="col-lg-7">
+                    <div class="position-relative">
+                        <i class="fas fa-search search-icon-pos"></i>
+                        <input type="text" id="liveSearchRegulasi" class="search-regulasi-input" placeholder="Cari judul peraturan, nomor SK/UU, atau kata kunci topik hukum..." oninput="handleSearch()">
                     </div>
                 </div>
-                <div class="col-6 col-lg-3">
-                    <div class="stat-mini-card">
-                        <div class="stat-icon-wrap" style="background: #e0e7ff; color: #4338ca;">
-                            <i class="fas fa-landmark"></i>
-                        </div>
-                        <div>
-                            <div class="outfit fw-bold fs-4 text-dark mb-0">{{ $cntUU }} UU & {{ $cntKIP }} Peraturan KIP</div>
-                            <div class="text-muted small fw-medium">Regulasi Nasional</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="stat-mini-card">
-                        <div class="stat-icon-wrap" style="background: #fef3c7; color: #b45309;">
-                            <i class="fas fa-building-columns"></i>
-                        </div>
-                        <div>
-                            <div class="outfit fw-bold fs-4 text-dark mb-0">{{ $cntKemenhub }} PM/KM</div>
-                            <div class="text-muted small fw-medium">Kemenhub RI</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 col-lg-3">
-                    <div class="stat-mini-card">
-                        <div class="stat-icon-wrap" style="background: #dcfce7; color: #15803d;">
-                            <i class="fas fa-university"></i>
-                        </div>
-                        <div>
-                            <div class="outfit fw-bold fs-4 text-dark mb-0">{{ $cntPKTJ }} SK/SOP</div>
-                            <div class="text-muted small fw-medium">PKTJ</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 2. SPOTLIGHT REGULASI UTAMA (PINNED CORNERSTONE) -->
-        <div class="spotlight-card" data-aos="fade-up">
-            <div class="d-flex flex-wrap align-items-center justify-content-between mb-4">
-                <div>
-                    <span class="badge bg-warning text-dark fw-bold px-3 py-1.5 rounded-pill mb-2">
-                        <i class="fas fa-star me-1"></i> REGULASI UTAMA (PINNED)
-                    </span>
-                    <h3 class="outfit fw-bold text-white mb-1">Pilar Pokok Keterbukaan Informasi PKTJ Tegal</h3>
-                    <p class="text-light opacity-75 small mb-0">Empat regulasi fundamental yang menjadi dasar operasional PPID Pelaksana PKTJ.</p>
-                </div>
-                <div class="d-none d-md-block">
-                    <a href="https://bpsdm.kemenhub.go.id/jdih/" target="_blank" class="btn btn-outline-light btn-sm rounded-pill px-3 py-2 fw-semibold">
-                        <i class="fas fa-external-link-alt me-1"></i> Portal JDIH BPSDM Perhubungan
+                <div class="col-lg-5 d-flex align-items-center justify-content-lg-end gap-2">
+                    <span class="text-muted small me-1">Tampilan:</span>
+                    <button type="button" id="btnViewTable" class="view-mode-btn active" onclick="switchViewMode('table')">
+                        <i class="fas fa-table me-1"></i> Tabel
+                    </button>
+                    <button type="button" id="btnViewGrid" class="view-mode-btn" onclick="switchViewMode('grid')">
+                        <i class="fas fa-th-large me-1"></i> Kartu
+                    </button>
+                    <a href="https://bpsdm.kemenhub.go.id/jdih/" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1.5 fw-bold ms-2" style="font-size: 12px;">
+                        <i class="fas fa-arrow-up-right-from-square me-1"></i> JDIH BPSDM
                     </a>
                 </div>
             </div>
 
-            <div class="row g-3">
-                @foreach($itemsList->where('is_spotlight', true)->take(4) as $spot)
-                <div class="col-md-6 col-lg-3">
-                    <div class="spotlight-item">
-                        <div>
-                            <span class="nomor-badge mb-2 d-inline-block bg-white text-dark">{{ $spot['nomor'] }}</span>
-                            <h6 class="fw-bold text-white mb-2" style="font-size: 14px; line-height: 1.4;">{{ $spot['judul'] }}</h6>
-                            <p class="text-light opacity-75 small mb-3" style="font-size: 12px; line-height: 1.5;">
-                                {{ Str::limit($spot['deskripsi'], 95) }}
-                            </p>
-                        </div>
-                        <div>
-                            <a href="{{ $spot['file_path'] }}" target="_blank" class="btn btn-warning btn-sm w-100 fw-bold rounded-pill" style="font-size: 12px; color: #002b5c;">
-                                <i class="fas fa-file-pdf me-1"></i> Buka Dokumen
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
+            <!-- HORIZONTAL CATEGORY TABS -->
+            <div class="d-flex flex-wrap gap-2 pt-2 border-top">
+                <button type="button" class="cat-tab-btn active" onclick="filterByCategory('all', this)">
+                    <i class="fas fa-layer-group text-primary"></i> Semua Regulasi
+                    <span class="badge-count">{{ $cntTotal }}</span>
+                </button>
+                <button type="button" class="cat-tab-btn" onclick="filterByCategory('Undang-Undang', this)">
+                    <i class="fas fa-landmark text-indigo"></i> Undang-Undang RI
+                    <span class="badge-count">{{ $cntUU }}</span>
+                </button>
+                <button type="button" class="cat-tab-btn" onclick="filterByCategory('Peraturan KIP', this)">
+                    <i class="fas fa-scale-balanced text-danger"></i> Peraturan KIP
+                    <span class="badge-count">{{ $cntKIP }}</span>
+                </button>
+                <button type="button" class="cat-tab-btn" onclick="filterByCategory('Kementerian Perhubungan', this)">
+                    <i class="fas fa-building-columns text-info"></i> Kementerian Perhubungan
+                    <span class="badge-count">{{ $cntKemenhub }}</span>
+                </button>
+                <button type="button" class="cat-tab-btn" onclick="filterByCategory('PKTJ', this)">
+                    <i class="fas fa-university text-warning"></i> PKTJ
+                    <span class="badge-count">{{ $cntPKTJ }}</span>
+                </button>
             </div>
         </div>
 
-        <!-- 3. MAIN INTERACTIVE SECTION (SIDEBAR FILTER MATRIX + SHOWCASE) -->
-        <div class="row g-4 mb-5">
-            
-            <!-- LEFT COLUMN: CATEGORY SELECTOR & QUICK LINKS -->
-            <div class="col-lg-3">
-                <div class="sidebar-matrix-card" data-aos="fade-right">
-                    <h6 class="outfit fw-bold text-dark text-uppercase tracking-wider mb-3" style="font-size: 13px;">
-                        <i class="fas fa-filter text-primary me-2"></i> Kategori Regulasi
-                    </h6>
-                    
-                    <button class="category-nav-item active" onclick="filterByCategory('all', this)">
-                        <span><i class="fas fa-layer-group me-2 text-primary"></i> Semua Regulasi</span>
-                        <span class="cat-counter" id="badgeAll">{{ $cntTotal }}</span>
-                    </button>
-
-                    <button class="category-nav-item" onclick="filterByCategory('Undang-Undang', this)">
-                        <span><i class="fas fa-landmark me-2 text-indigo"></i> Undang-Undang RI</span>
-                        <span class="cat-counter">{{ $cntUU }}</span>
-                    </button>
-
-                    <button class="category-nav-item" onclick="filterByCategory('Komisi Informasi Pusat', this)">
-                        <span><i class="fas fa-shield-alt me-2 text-pink"></i> Peraturan KIP</span>
-                        <span class="cat-counter">{{ $cntKIP }}</span>
-                    </button>
-
-                    <button class="category-nav-item" onclick="filterByCategory('Kementerian Perhubungan', this)">
-                        <span><i class="fas fa-building-columns me-2 text-info"></i> Kementerian Perhubungan</span>
-                        <span class="cat-counter">{{ $cntKemenhub }}</span>
-                    </button>
-
-                    <button class="category-nav-item" onclick="filterByCategory('PKTJ Tegal', this)">
-                        <span><i class="fas fa-university me-2 text-warning"></i> PKTJ</span>
-                        <span class="cat-counter">{{ $cntPKTJ }}</span>
-                    </button>
-
-                    <hr class="my-4 text-muted opacity-25">
-
-                    <h6 class="outfit fw-bold text-dark text-uppercase tracking-wider mb-3" style="font-size: 13px;">
-                        <i class="fas fa-calendar-alt text-primary me-2"></i> Filter Tahun
-                    </h6>
-                    <div class="d-flex flex-wrap gap-1.5 mb-4">
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 font-monospace" style="font-size: 11.5px;" onclick="filterByYear('all')">Semua</button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 font-monospace" style="font-size: 11.5px;" onclick="filterByYear('2024')">2024</button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 font-monospace" style="font-size: 11.5px;" onclick="filterByYear('2023')">2023</button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 font-monospace" style="font-size: 11.5px;" onclick="filterByYear('2022')">2022</button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 font-monospace" style="font-size: 11.5px;" onclick="filterByYear('2021')">2021</button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 font-monospace" style="font-size: 11.5px;" onclick="filterByYear('2020')">2020</button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 font-monospace" style="font-size: 11.5px;" onclick="filterByYear('2009')">2009</button>
-                        <button class="btn btn-sm btn-outline-secondary rounded-pill px-3 py-1 font-monospace" style="font-size: 11.5px;" onclick="filterByYear('2008')">2008</button>
-                    </div>
-
-                    <!-- HELP BOX -->
-                    <div class="p-3 rounded-4 bg-light border text-center">
-                        <i class="fas fa-book-bookmark text-primary fs-4 mb-2"></i>
-                        <h6 class="fw-bold outfit text-dark mb-1" style="font-size: 13px;">JDIH BPSDM Perhubungan</h6>
-                        <p class="text-muted small mb-2" style="font-size: 11.5px;">Cari peraturan transportasi terlengkap di Jaringan Dokumentasi dan Informasi Hukum.</p>
-                        <a href="https://bpsdm.kemenhub.go.id/jdih/" target="_blank" class="btn btn-primary btn-sm rounded-pill w-100 fw-bold" style="font-size: 11px;">
-                            Buka JDIH <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <!-- RIGHT COLUMN: TOOLBAR & SHOWCASE MATRIX -->
-            <div class="col-lg-9">
-                
-                <!-- TOOLBAR -->
-                <div class="showcase-toolbar" data-aos="fade-left">
-                    <div class="row g-3 align-items-center">
-                        <div class="col-md-7">
-                            <div class="position-relative">
-                                <i class="fas fa-search search-icon-pos"></i>
-                                <input type="text" id="liveSearchRegulasi" class="search-regulasi-input" placeholder="Cari judul peraturan, nomor SK/UU, atau topik hukum..." oninput="handleSearch()">
-                            </div>
-                        </div>
-                        <div class="col-md-5 d-flex align-items-center justify-content-md-end gap-2">
-                            <span class="text-muted small me-1">Tampilan:</span>
-                            <button type="button" id="btnViewGrid" class="view-mode-btn active" onclick="switchViewMode('grid')">
-                                <i class="fas fa-th-large"></i> Kartu
-                            </button>
-                            <button type="button" id="btnViewTable" class="view-mode-btn" onclick="switchViewMode('table')">
-                                <i class="fas fa-table-list"></i> Tabel
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- 1. BENTO CARDS VIEW -->
-                <div id="regulasiGridView" class="row g-3">
-                    @foreach($itemsList as $item)
-                    @php
-                        $tagClass = 'cat-tag-uu';
-                        if ($item['kategori'] === 'Komisi Informasi Pusat') $tagClass = 'cat-tag-kip';
-                        elseif ($item['kategori'] === 'Kementerian Perhubungan') $tagClass = 'cat-tag-kemenhub';
-                        elseif ($item['kategori'] === 'PKTJ Tegal') $tagClass = 'cat-tag-pktj';
-                    @endphp
-                    <div class="col-md-6 regulasi-card-item" 
-                         data-category="{{ $item['kategori'] }}" 
-                         data-year="{{ $item['tahun'] }}"
-                         data-search="{{ strtolower($item['judul'] . ' ' . $item['nomor'] . ' ' . $item['deskripsi'] . ' ' . $item['kategori'] . ' ' . $item['tahun']) }}">
-                        <div class="regulasi-bento-card">
-                            <div>
-                                <div class="d-flex align-items-center justify-content-between mb-3">
-                                    <span class="cat-tag {{ $tagClass }}">{{ $item['kategori'] }}</span>
-                                    <span class="nomor-badge">{{ $item['nomor'] }}</span>
-                                </div>
-                                <h5 class="outfit fw-bold text-dark mb-2" style="font-size: 15px; line-height: 1.45; color: #002b5c !important;">
-                                    {{ $item['judul'] }}
-                                </h5>
-                                <p class="text-muted small mb-4" style="font-size: 12.5px; line-height: 1.6;">
-                                    {{ $item['deskripsi'] }}
-                                </p>
-                            </div>
-                            <div class="pt-3 border-top d-flex align-items-center justify-content-between gap-2">
-                                <span class="badge bg-light text-secondary border font-monospace" style="font-size: 11px;">
+        <!-- 1. SMART TABLE VIEW (DEFAULT) -->
+        <div id="regulasiTableView" class="smart-regulasi-table" data-aos="fade-up">
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th style="width: 5%;" class="text-center">No</th>
+                            <th style="width: 24%;">Nomor / Tahun</th>
+                            <th style="width: 44%;">Judul Regulasi & Intisari</th>
+                            <th style="width: 15%;">Kategori</th>
+                            <th style="width: 12%;" class="text-end">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="smartTableBody">
+                        @foreach($itemsList as $idx => $item)
+                        @php
+                            $catBadge = 'cat-tag-uu';
+                            $cleanCat = $item['kategori'];
+                            if (str_contains($cleanCat, 'KIP') || str_contains($cleanCat, 'Komisi')) {
+                                $catBadge = 'cat-tag-kip';
+                                $cleanCat = 'Peraturan KIP';
+                            } elseif (str_contains($cleanCat, 'Kemenhub') || str_contains($cleanCat, 'Perhubungan')) {
+                                $catBadge = 'cat-tag-kemenhub';
+                                $cleanCat = 'Kementerian Perhubungan';
+                            } elseif (str_contains($cleanCat, 'PKTJ')) {
+                                $catBadge = 'cat-tag-pktj';
+                                $cleanCat = 'PKTJ';
+                            }
+                        @endphp
+                        <tr class="regulasi-table-row"
+                            data-category="{{ $cleanCat }}" 
+                            data-year="{{ $item['tahun'] }}"
+                            data-search="{{ strtolower($item['judul'] . ' ' . $item['nomor'] . ' ' . $item['deskripsi'] . ' ' . $cleanCat . ' ' . $item['tahun']) }}">
+                            <td class="text-muted fw-bold text-center">{{ $idx + 1 }}</td>
+                            <td>
+                                <div class="nomor-badge d-inline-block mb-1">{{ $item['nomor'] }}</div>
+                                <div class="text-muted font-monospace small" style="font-size: 11.5px;">
                                     <i class="far fa-calendar me-1"></i> Tahun {{ $item['tahun'] }}
+                                </div>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark mb-1" style="font-size: 14.5px; color: #002b5c !important;">
+                                    {{ $item['judul'] }}
+                                </div>
+                                <div class="text-muted small" style="font-size: 12.5px; line-height: 1.5;">
+                                    {{ $item['deskripsi'] }}
+                                </div>
+                            </td>
+                            <td>
+                                <span class="cat-tag {{ $catBadge }} d-inline-flex align-items-center gap-1">
+                                    @if($cleanCat === 'Kementerian Perhubungan')
+                                        <i class="fas fa-building-columns"></i>
+                                    @elseif($cleanCat === 'PKTJ')
+                                        <i class="fas fa-university"></i>
+                                    @elseif($cleanCat === 'Peraturan KIP')
+                                        <i class="fas fa-scale-balanced"></i>
+                                    @else
+                                        <i class="fas fa-landmark"></i>
+                                    @endif
+                                    {{ $cleanCat }}
                                 </span>
-                                <div class="d-flex gap-1.5">
-                                    <button type="button" class="btn-action-preview" onclick="openPreviewModal('{{ addslashes($item['judul']) }}', '{{ $item['nomor'] }}', '{{ $item['file_path'] }}', '{{ $item['kategori'] }}')">
-                                        <i class="far fa-eye"></i> Pratinjau
+                            </td>
+                            <td class="text-end">
+                                <div class="d-flex justify-content-end gap-1.5">
+                                    <button type="button" class="btn-action-preview" onclick="openPreviewModal('{{ addslashes($item['judul']) }}', '{{ $item['nomor'] }}', '{{ $item['file_path'] }}', '{{ $cleanCat }}')">
+                                        <i class="far fa-eye"></i> Lihat
                                     </button>
                                     <a href="{{ $item['file_path'] }}" target="_blank" class="btn-action-download">
                                         <i class="fas fa-download"></i> Unduh
                                     </a>
                                 </div>
-                            </div>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- 2. BENTO CARDS VIEW (HIDDEN BY DEFAULT) -->
+        <div id="regulasiGridView" class="row g-3 d-none mb-5" data-aos="fade-up">
+            @foreach($itemsList as $item)
+            @php
+                $catBadge = 'cat-tag-uu';
+                $cleanCat = $item['kategori'];
+                if (str_contains($cleanCat, 'KIP') || str_contains($cleanCat, 'Komisi')) {
+                    $catBadge = 'cat-tag-kip';
+                    $cleanCat = 'Peraturan KIP';
+                } elseif (str_contains($cleanCat, 'Kemenhub') || str_contains($cleanCat, 'Perhubungan')) {
+                    $catBadge = 'cat-tag-kemenhub';
+                    $cleanCat = 'Kementerian Perhubungan';
+                } elseif (str_contains($cleanCat, 'PKTJ')) {
+                    $catBadge = 'cat-tag-pktj';
+                    $cleanCat = 'PKTJ';
+                }
+            @endphp
+            <div class="col-md-6 regulasi-card-item" 
+                 data-category="{{ $cleanCat }}" 
+                 data-year="{{ $item['tahun'] }}"
+                 data-search="{{ strtolower($item['judul'] . ' ' . $item['nomor'] . ' ' . $item['deskripsi'] . ' ' . $cleanCat . ' ' . $item['tahun']) }}">
+                <div class="regulasi-bento-card">
+                    <div>
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <span class="cat-tag {{ $catBadge }} d-inline-flex align-items-center gap-1">
+                                @if($cleanCat === 'Kementerian Perhubungan')
+                                    <i class="fas fa-building-columns"></i>
+                                @elseif($cleanCat === 'PKTJ')
+                                    <i class="fas fa-university"></i>
+                                @elseif($cleanCat === 'Peraturan KIP')
+                                    <i class="fas fa-scale-balanced"></i>
+                                @else
+                                    <i class="fas fa-landmark"></i>
+                                @endif
+                                {{ $cleanCat }}
+                            </span>
+                            <span class="nomor-badge">{{ $item['nomor'] }}</span>
+                        </div>
+                        <h5 class="outfit fw-bold text-dark mb-2" style="font-size: 15px; line-height: 1.45; color: #002b5c !important;">
+                            {{ $item['judul'] }}
+                        </h5>
+                        <p class="text-muted small mb-4" style="font-size: 12.5px; line-height: 1.6;">
+                            {{ $item['deskripsi'] }}
+                        </p>
+                    </div>
+                    <div class="pt-3 border-top d-flex align-items-center justify-content-between gap-2">
+                        <span class="badge bg-light text-secondary border font-monospace" style="font-size: 11px;">
+                            <i class="far fa-calendar me-1"></i> Tahun {{ $item['tahun'] }}
+                        </span>
+                        <div class="d-flex gap-1.5">
+                            <button type="button" class="btn-action-preview" onclick="openPreviewModal('{{ addslashes($item['judul']) }}', '{{ $item['nomor'] }}', '{{ $item['file_path'] }}', '{{ $cleanCat }}')">
+                                <i class="far fa-eye"></i> Lihat
+                            </button>
+                            <a href="{{ $item['file_path'] }}" target="_blank" class="btn-action-download">
+                                <i class="fas fa-download"></i> Unduh
+                            </a>
                         </div>
                     </div>
-                    @endforeach
                 </div>
-
-                <!-- 2. SMART TABLE VIEW (HIDDEN BY DEFAULT) -->
-                <div id="regulasiTableView" class="smart-regulasi-table d-none">
-                    <div class="table-responsive">
-                        <table class="table align-middle">
-                            <thead>
-                                <tr>
-                                    <th style="width: 5%;">No</th>
-                                    <th style="width: 25%;">Nomor / Tahun</th>
-                                    <th style="width: 45%;">Judul Regulasi & Intisari</th>
-                                    <th style="width: 15%;">Kategori</th>
-                                    <th style="width: 10%;" class="text-end">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody id="smartTableBody">
-                                @foreach($itemsList as $idx => $item)
-                                <tr class="regulasi-table-row"
-                                    data-category="{{ $item['kategori'] }}" 
-                                    data-year="{{ $item['tahun'] }}"
-                                    data-search="{{ strtolower($item['judul'] . ' ' . $item['nomor'] . ' ' . $item['deskripsi'] . ' ' . $item['kategori'] . ' ' . $item['tahun']) }}">
-                                    <td class="text-muted fw-bold text-center">{{ $idx + 1 }}</td>
-                                    <td>
-                                        <div class="nomor-badge d-inline-block mb-1">{{ $item['nomor'] }}</div>
-                                        <div class="small text-muted font-monospace"><i class="far fa-calendar me-1"></i>{{ $item['tahun'] }}</div>
-                                    </td>
-                                    <td>
-                                        <div class="fw-bold text-dark mb-1" style="font-size: 13.5px; color: #002b5c;">{{ $item['judul'] }}</div>
-                                        <div class="text-muted small" style="font-size: 12px;">{{ Str::limit($item['deskripsi'], 120) }}</div>
-                                    </td>
-                                    <td>
-                                        <span class="badge bg-light text-dark border px-2.5 py-1.5 rounded-pill" style="font-size: 11px;">
-                                            {{ $item['kategori'] }}
-                                        </span>
-                                    </td>
-                                    <td class="text-end">
-                                        <div class="btn-group btn-group-sm">
-                                            <button type="button" class="btn btn-outline-primary" title="Pratinjau Dokumen" onclick="openPreviewModal('{{ addslashes($item['judul']) }}', '{{ $item['nomor'] }}', '{{ $item['file_path'] }}', '{{ $item['kategori'] }}')">
-                                                <i class="far fa-eye"></i>
-                                            </button>
-                                            <a href="{{ $item['file_path'] }}" target="_blank" class="btn btn-primary" title="Unduh Dokumen">
-                                                <i class="fas fa-download"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- EMPTY STATE SEARCH -->
-                <div id="noResultsBox" class="text-center py-5 bg-white rounded-4 border d-none">
-                    <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
-                    <h5 class="outfit fw-bold text-dark mb-1">Regulasi Tidak Ditemukan</h5>
-                    <p class="text-muted small mb-3">Tidak ada peraturan yang cocok dengan kata kunci pencarian atau filter yang dipilih.</p>
-                    <button class="btn btn-outline-primary btn-sm rounded-pill px-3" onclick="resetFilters()">
-                        <i class="fas fa-rotate-left me-1"></i> Reset Semua Filter
-                    </button>
-                </div>
-
             </div>
+            @endforeach
+        </div>
+
+        <!-- NO RESULTS FALLBACK -->
+        <div id="noResultsBox" class="p-5 text-center bg-white rounded-4 border my-4 d-none">
+            <i class="fas fa-file-circle-question fa-3x text-muted mb-3 opacity-50"></i>
+            <h5 class="fw-bold outfit text-dark">Regulasi Tidak Ditemukan</h5>
+            <p class="text-muted small mb-3">Tidak ada peraturan yang cocok dengan kata kunci atau filter pencarian Anda.</p>
+            <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-4" onclick="resetFilters()">
+                <i class="fas fa-rotate-left me-1"></i> Reset Pencarian
+            </button>
         </div>
 
     </div>
 
-    <!-- MODAL PRATINJAU DOKUMEN -->
+    <!-- MODAL PREVIEW DOKUMEN REGULASI -->
     <div class="modal fade modal-regulasi-preview" id="modalPreviewRegulasi" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header text-white" style="background: #002b5c; border: none; padding: 20px 24px;">
+            <div class="modal-content shadow-lg">
+                <div class="modal-header text-white border-0 py-3 px-4" style="background: #002b5c;">
                     <div>
                         <span class="badge bg-warning text-dark fw-bold px-2.5 py-1 rounded-pill mb-1" id="modalRegulasiBadge">Kategori</span>
                         <h6 class="modal-title outfit fw-bold text-white mb-0" id="modalRegulasiTitle">Judul Regulasi</h6>
@@ -907,11 +659,11 @@
                         <i class="fas fa-info-circle me-2 fs-5"></i>
                         <div>Dokumen peraturan resmi ini dapat dibaca langsung atau diunduh dari repositori JDIH Kemenhub / PPID PKTJ.</div>
                     </div>
-                    <div class="p-3 bg-white rounded-3 border text-center my-3">
+                    <div class="p-4 bg-white rounded-3 border text-center my-2">
                         <i class="fas fa-file-pdf fa-4x text-danger mb-3"></i>
                         <h6 class="fw-bold text-dark mb-1" id="modalRegulasiNomor">Nomor Regulasi</h6>
-                        <p class="text-muted small mb-3">Salinan format softcopy PDF resmi.</p>
-                        <a id="modalDownloadBtn" href="#" target="_blank" class="btn btn-primary rounded-pill px-4 fw-bold">
+                        <p class="text-muted small mb-3">Salinan format dokumen PDF resmi.</p>
+                        <a id="modalDownloadBtn" href="#" target="_blank" class="btn btn-primary rounded-pill px-4 py-2 fw-bold">
                             <i class="fas fa-arrow-up-right-from-square me-1"></i> Buka / Unduh Dokumen Lengkap
                         </a>
                     </div>
@@ -932,18 +684,12 @@
         AOS.init({ duration: 800, once: true });
 
         let currentCategory = 'all';
-        let currentYear = 'all';
         let currentSearchQuery = '';
 
         function filterByCategory(cat, btnElement) {
             currentCategory = cat;
-            document.querySelectorAll('.category-nav-item').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.cat-tab-btn').forEach(el => el.classList.remove('active'));
             if (btnElement) btnElement.classList.add('active');
-            applyAllFilters();
-        }
-
-        function filterByYear(year) {
-            currentYear = year;
             applyAllFilters();
         }
 
@@ -959,14 +705,12 @@
 
             cardItems.forEach(card => {
                 const itemCat = card.getAttribute('data-category');
-                const itemYr = card.getAttribute('data-year');
                 const searchTerms = card.getAttribute('data-search');
 
                 const matchCat = (currentCategory === 'all' || itemCat === currentCategory);
-                const matchYr = (currentYear === 'all' || itemYr === currentYear);
                 const matchSearch = (!currentSearchQuery || searchTerms.includes(currentSearchQuery));
 
-                if (matchCat && matchYr && matchSearch) {
+                if (matchCat && matchSearch) {
                     card.classList.remove('d-none');
                     visibleCount++;
                 } else {
@@ -976,14 +720,12 @@
 
             tableRows.forEach(row => {
                 const itemCat = row.getAttribute('data-category');
-                const itemYr = row.getAttribute('data-year');
                 const searchTerms = row.getAttribute('data-search');
 
                 const matchCat = (currentCategory === 'all' || itemCat === currentCategory);
-                const matchYr = (currentYear === 'all' || itemYr === currentYear);
                 const matchSearch = (!currentSearchQuery || searchTerms.includes(currentSearchQuery));
 
-                if (matchCat && matchYr && matchSearch) {
+                if (matchCat && matchSearch) {
                     row.classList.remove('d-none');
                 } else {
                     row.classList.add('d-none');
@@ -991,7 +733,7 @@
             });
 
             const noResults = document.getElementById('noResultsBox');
-            if (visibleCount === 0) {
+            if (visibleCount === 0 && (currentSearchQuery || currentCategory !== 'all')) {
                 noResults.classList.remove('d-none');
             } else {
                 noResults.classList.add('d-none');
@@ -1000,10 +742,9 @@
 
         function resetFilters() {
             currentCategory = 'all';
-            currentYear = 'all';
             currentSearchQuery = '';
             document.getElementById('liveSearchRegulasi').value = '';
-            const allBtn = document.querySelector('.category-nav-item');
+            const allBtn = document.querySelector('.cat-tab-btn');
             if (allBtn) filterByCategory('all', allBtn);
             else applyAllFilters();
         }

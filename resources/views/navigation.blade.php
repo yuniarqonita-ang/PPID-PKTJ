@@ -219,7 +219,7 @@
     }
 </style>
 
-<nav class="navbar navbar-expand-lg navbar-dark shadow-sm" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0; position: relative; z-index: 1050;">
+<nav class="navbar navbar-expand-lg navbar-dark shadow-sm sticky-top" style="background-color: #004a99; border-bottom: 3px solid #ffc107; padding: 12px 0; position: sticky; top: 0; z-index: 99999; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
     <div class="container">
         <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="{{ route('home') }}">
             <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}" style="height: 50px; margin-right: 12px;">
@@ -252,12 +252,15 @@
                 @endphp
 
                 @foreach($headerMenus as $menu)
+                    @if(str_contains(strtolower($menu->nama), 'daftar informasi publik') || str_contains($menu->url ?? '', 'layanan-informasi/daftar'))
+                        @continue
+                    @endif
                     @if($menu->children->count() > 0)
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{ $menu->nama }}</a>
                             <ul class="dropdown-menu" style="min-width: 250px;">
                                 @foreach($menu->children as $child)
-                                    @if(in_array($child->slug, ['sop-penetapan-sub', 'sop-pengujian-sub', 'sop-pendokumentasian-sub']) || str_contains($child->url, 'sop-penetapan') || str_contains($child->url, 'sop-pengujian') || str_contains($child->url, 'sop-pendokumentasian'))
+                                    @if(in_array($child->slug, ['sop-penetapan-sub', 'sop-pengujian-sub', 'sop-pendokumentasian-sub', 'layanan-daftar-sub', 'daftar-informasi-sub']) || str_contains(strtolower($child->nama), 'daftar informasi publik') || str_contains($child->url, 'sop-penetapan') || str_contains($child->url, 'sop-pengujian') || str_contains($child->url, 'sop-pendokumentasian') || str_contains($child->url, 'layanan-informasi/daftar'))
                                         @continue
                                     @endif
                                     @php

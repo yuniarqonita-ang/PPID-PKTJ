@@ -185,7 +185,7 @@
         </div>
     </div>
 
-    <div class="container">
+    <div class="container-fluid px-3 px-md-5">
         <div class="content-card" data-aos="fade-up" data-aos-delay="100">
             <!-- TOP HERO QUICK SEARCH BAR -->
             <div class="p-4 mb-4 rounded-4 border shadow-sm" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-color: #cbd5e1;">
@@ -206,382 +206,7 @@
 
             @include('components.konten-dinamis', ['prefix' => 'informasi_berkala'])
 
-            <!-- SECTION PROFIL PEJABAT PUBLIK & LHKPN (STANDAR PPID KEMENHUB SLIDE 25) -->
-            @if(isset($pejabats) && $pejabats->count() > 0)
-            @php
-                $tblW = \App\Models\Dashboard::getValue('pejabat_foto_table_width', 155);
-                $tblH = \App\Models\Dashboard::getValue('pejabat_foto_table_height', 230);
-                $crdH = \App\Models\Dashboard::getValue('pejabat_foto_card_height', 390);
-                $pos  = \App\Models\Dashboard::getValue('pejabat_foto_position', 'top center');
-                $rad  = \App\Models\Dashboard::getValue('pejabat_foto_radius', '14px');
-            @endphp
-            <style>
-                .pejabat-table-photo {
-                    width: {{ $tblW }}px !important;
-                    height: {{ $tblH }}px !important;
-                    object-fit: cover !important;
-                    object-position: {{ $pos }} !important;
-                    border-radius: {{ $rad }} !important;
-                    box-shadow: 0 6px 18px rgba(0, 43, 92, 0.12) !important;
-                    border: 2.5px solid #ffffff !important;
-                    outline: 1.5px solid #cbd5e1 !important;
-                    cursor: pointer !important;
-                    transition: transform 0.35s ease, box-shadow 0.35s ease !important;
-                }
-                .pejabat-table-photo:hover {
-                    transform: scale(1.04);
-                    box-shadow: 0 10px 25px rgba(0, 74, 153, 0.22) !important;
-                    outline-color: #004a99 !important;
-                }
-                .pejabat-card-pro {
-                    background: #ffffff;
-                    border: 1.5px solid #e2e8f0;
-                    border-radius: 24px;
-                    overflow: hidden;
-                    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-                    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
-                    display: flex;
-                    flex-direction: column;
-                    height: 100%;
-                }
-                .pejabat-card-pro:hover {
-                    transform: translateY(-8px);
-                    box-shadow: 0 22px 40px rgba(0, 74, 153, 0.14);
-                    border-color: #004a99;
-                }
-                .pejabat-card-img-wrapper {
-                    height: {{ $crdH }}px !important;
-                    background: linear-gradient(180deg, #f1f5f9 0%, #e2e8f0 100%);
-                    position: relative;
-                    overflow: hidden;
-                }
-                .pejabat-card-img-wrapper img {
-                    width: 100%;
-                    height: 100%;
-                    object-fit: cover;
-                    object-position: {{ $pos }} !important;
-                    transition: transform 0.5s ease;
-                }
-                .pejabat-card-pro:hover .pejabat-card-img-wrapper img {
-                    transform: scale(1.04);
-                }
-                .pejabat-card-overlay {
-                    position: absolute;
-                    bottom: 0;
-                    left: 0;
-                    right: 0;
-                    height: 100px;
-                    background: linear-gradient(to top, rgba(0, 43, 92, 0.9) 0%, transparent 100%);
-                    display: flex;
-                    align-items: flex-end;
-                    padding: 18px;
-                }
-                .view-animate {
-                    animation: viewFadeIn 0.35s ease;
-                }
-                @keyframes viewFadeIn {
-                    from { opacity: 0; transform: translateY(8px); }
-                    to { opacity: 1; transform: translateY(0); }
-                }
-            </style>
-
-            <div class="my-5 p-4 p-md-5 rounded-4 border shadow-sm" style="background: #ffffff; border-color: #cbd5e1;">
-                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
-                    <div>
-                        <div class="badge bg-warning text-dark font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">
-                            <i class="fas fa-certificate me-1"></i> Standar PPID Kemenhub: Slide 25
-                        </div>
-                        <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.75rem;">
-                            <i class="fas fa-user-tie me-2 text-primary"></i> Profil Pejabat Publik PKTJ
-                        </h3>
-                        <p class="text-muted small mb-0">Informasi profil pimpinan struktural dan riwayat karir jajaran Pimpinan PKTJ Tegal.</p>
-                    </div>
-                    <div>
-                        <a href="{{ \Illuminate\Support\Facades\Route::has('profil.pejabat') ? route('profil.pejabat') : url('/profil/pejabat') }}" class="btn btn-outline-primary rounded-pill px-4 py-2 fw-bold text-xs">
-                            <i class="fas fa-external-link-alt me-1"></i> Buka Halaman Khusus Pejabat
-                        </a>
-                    </div>
-                </div>
-
-                <!-- GRID DAFTAR PEJABAT SESUAI FORMAT RESMI KEMENHUB -->
-                <div class="row g-4">
-                    @forelse($pejabats as $pejabat)
-                    <div class="col-lg-6 col-12">
-                        <div class="p-3 border rounded-3 h-100 bg-white shadow-xs" style="border-color: #e2e8f0;">
-                            <!-- Header Jabatan & Nama -->
-                            <div style="font-size: 12.5px; font-weight: 600; color: #64748b; margin-bottom: 2px;">{{ $pejabat->jabatan }}</div>
-                            <div class="outfit" style="font-size: 18px; font-weight: 800; color: #0f172a; margin-bottom: 14px;">{{ $pejabat->nama }}</div>
-                            
-                            <!-- Flex Body (Foto Kiri + Teks Kanan) -->
-                            <div class="d-flex gap-3 align-items-start flex-column flex-sm-row">
-                                <!-- Foto Resmi Pejabat -->
-                                <div style="width: 175px; min-width: 175px; height: 250px; border-radius: 8px; overflow: hidden; border: 1px solid #cbd5e1; box-shadow: 0 4px 10px rgba(0,0,0,0.05); background: #f8fafc; flex-shrink: 0; cursor: pointer;" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
-                                    @if($pejabat->foto)
-                                        <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" onerror="if(this.src.indexOf('Prima')!==-1){this.src='{{ asset('images/pejabat/Prima Anna Maria.png') }}';}" style="width: 100%; height: 100%; object-fit: cover; object-position: top center;">
-                                    @else
-                                        <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
-                                            <i class="fas fa-user-tie fa-3x opacity-25"></i>
-                                        </div>
-                                    @endif
-                                </div>
-
-                                <!-- Informasi Detail Pejabat -->
-                                <div style="font-size: 12.5px; line-height: 1.6; color: #334155;" class="flex-grow-1">
-                                    @if($pejabat->biografi)
-                                        <p class="mb-2">{{ $pejabat->biografi }}</p>
-                                    @else
-                                        <p class="mb-2">Alamat kantor Jl. Perintis Kemerdekaan No. 17 Kota Tegal, Jawa Tengah 52125. Telp: (0283) 351061.</p>
-                                    @endif
-
-                                    @if(!empty($pejabat->pendidikan) && is_array($pejabat->pendidikan))
-                                        <p class="mb-2">
-                                            <strong>Latar belakang pendidikan :</strong> 
-                                            {{ implode(', ', $pejabat->pendidikan) }}.
-                                        </p>
-                                    @endif
-
-                                    @if(!empty($pejabat->riwayat_jabatan) && is_array($pejabat->riwayat_jabatan))
-                                        <p class="mb-2">
-                                            <strong>Perjalanan karir :</strong> 
-                                            pernah menduduki sejumlah posisi strategis diantaranya {{ implode(', ', $pejabat->riwayat_jabatan) }}.
-                                        </p>
-                                    @endif
-
-                                    <div class="mt-3 pt-2 border-top d-flex justify-content-between align-items-center flex-wrap gap-2">
-                                        <a href="{{ route('profil.pejabat') }}#pejabat-{{ $pejabat->id }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                            <i class="fas fa-id-card me-1"></i> Tautan Profil Pejabat
-                                        </a>
-                                        @if(!empty($pejabat->lhkpn_file) && has_valid_document($pejabat->lhkpn_file))
-                                            <a href="{{ asset($pejabat->lhkpn_file) }}" target="_blank" class="btn btn-sm btn-outline-danger rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                                <i class="fas fa-file-pdf me-1"></i> Unduh LHKPN
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    @empty
-                    <div class="col-12 text-center py-4 text-muted">
-                        Data pejabat sedang dimutakhirkan.
-                    </div>
-                    @endforelse
-                </div>
-            </div>
-
-            <!-- LIGHTBOX MODAL UNTUK PAS FOTO BESAR (BISA DITUTUP DENGAN ESC ATAU KLIK LUAR) -->
-            <div id="pejabatPhotoLightbox" class="lightbox-overlay" style="display: none;" onclick="if(event.target === this) closePejabatLightbox();">
-                <div class="lightbox-container">
-                    <button type="button" class="lightbox-close-btn" onclick="closePejabatLightbox()" title="Tutup Foto (Tekan ESC)">
-                        <i class="fas fa-times"></i>
-                    </button>
-                    <div class="lightbox-content text-center">
-                        <img id="lightboxImg" src="" alt="Pas Foto Pejabat" class="lightbox-image">
-                        <div class="lightbox-caption">
-                            <h4 id="lightboxName" class="fw-bold text-white mb-1" style="font-family: 'Outfit', sans-serif;"></h4>
-                            <p id="lightboxJabatan" class="text-warning mb-0 small fw-bold"></p>
-                            <div class="text-white-50 mt-2" style="font-size: 11.5px;">
-                                <i class="fas fa-info-circle me-1"></i> Klik di luar foto atau tekan tombol <kbd style="background: rgba(255,255,255,0.25); padding: 2px 7px; border-radius: 5px; color: #fff;">ESC</kbd> untuk menutup
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <style>
-            .lightbox-overlay {
-                position: fixed;
-                top: 0;
-                left: 0;
-                width: 100vw;
-                height: 100vh;
-                background: rgba(0, 15, 35, 0.93);
-                backdrop-filter: blur(10px);
-                -webkit-backdrop-filter: blur(10px);
-                z-index: 999999 !important;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                padding: 20px;
-                opacity: 0;
-                transition: opacity 0.25s ease;
-            }
-            .lightbox-overlay.active {
-                opacity: 1;
-            }
-            .lightbox-container {
-                position: relative;
-                max-width: 90vw;
-                max-height: 92vh;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-            }
-            .lightbox-close-btn {
-                position: absolute;
-                top: -48px;
-                right: 0;
-                background: #ffc107;
-                color: #002b5c;
-                border: 2px solid #ffffff;
-                width: 44px;
-                height: 44px;
-                border-radius: 50%;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 20px;
-                font-weight: 900;
-                cursor: pointer;
-                box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-                transition: all 0.2s ease;
-                z-index: 1000000;
-            }
-            .lightbox-close-btn:hover {
-                background: #ffffff;
-                color: #dc2626;
-                transform: scale(1.12);
-            }
-            .lightbox-image {
-                max-width: 85vw;
-                max-height: 72vh;
-                border-radius: 18px;
-                box-shadow: 0 25px 65px rgba(0,0,0,0.7);
-                border: 4px solid #ffffff;
-                object-fit: contain;
-                background: #001f3f;
-                animation: lightboxZoomIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-            }
-            @keyframes lightboxZoomIn {
-                from { transform: scale(0.88); opacity: 0; }
-                to { transform: scale(1); opacity: 1; }
-            }
-            .lightbox-caption {
-                margin-top: 15px;
-                text-align: center;
-            }
-            </style>
-
-            <script>
-                function openPejabatLightbox(src, name, jabatan) {
-                    if (!src) return;
-                    const overlay = document.getElementById('pejabatPhotoLightbox');
-                    const img = document.getElementById('lightboxImg');
-                    const nameEl = document.getElementById('lightboxName');
-                    const jabEl = document.getElementById('lightboxJabatan');
-
-                    img.src = src;
-                    nameEl.textContent = name || '';
-                    jabEl.textContent = jabatan || '';
-
-                    overlay.style.display = 'flex';
-                    setTimeout(() => {
-                        overlay.classList.add('active');
-                    }, 10);
-                    document.body.style.overflow = 'hidden';
-                }
-
-                function closePejabatLightbox() {
-                    const overlay = document.getElementById('pejabatPhotoLightbox');
-                    if (!overlay) return;
-                    overlay.classList.remove('active');
-                    setTimeout(() => {
-                        overlay.style.display = 'none';
-                        document.body.style.overflow = '';
-                    }, 250);
-                }
-
-                // Global keydown listener for ESC key
-                document.addEventListener('keydown', function(e) {
-                    if (e.key === 'Escape' || e.keyCode === 27) {
-                        closePejabatLightbox();
-                    }
-                });
-
-                function switchPejabatView(mode) {
-                    const tableV = document.getElementById('pejabatTableView');
-                    const gridV = document.getElementById('pejabatGridView');
-                    const btnT = document.getElementById('btnViewTable');
-                    const btnG = document.getElementById('btnViewGrid');
-
-                    if (mode === 'table') {
-                        tableV.classList.remove('d-none');
-                        gridV.classList.add('d-none');
-                        btnT.className = 'btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold';
-                        btnG.className = 'btn btn-sm btn-light rounded-pill px-3 py-1.5 fw-bold text-muted';
-                    } else {
-                        tableV.classList.add('d-none');
-                        gridV.classList.remove('d-none');
-                        btnT.className = 'btn btn-sm btn-light rounded-pill px-3 py-1.5 fw-bold text-muted';
-                        btnG.className = 'btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold';
-                    }
-                }
-            </script>
-            @endif
-
-            <!-- SECTION DATA KEPEGAWAIAN (STANDAR AKIP KEMENHUB SLIDE 29) -->
-            <div class="my-5 p-4 p-md-5 rounded-4 border shadow-sm" style="background: #ffffff; border-color: #cbd5e1;">
-                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
-                    <div>
-                        <div class="badge bg-primary text-white font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">
-                            <i class="fas fa-users me-1"></i> Standar AKIP Kemenhub: Slide 29
-                        </div>
-                        <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.65rem;">
-                            <i class="fas fa-chart-pie me-2 text-primary"></i> Statistik Data Kepegawaian PKTJ Tegal
-                        </h3>
-                        <p class="text-muted small mb-0">Informasi berkala profil sumber daya manusia, tingkat pendidikan, jenjang kepangkatan, dan sebaran gender pegawai PKTJ.</p>
-                    </div>
-                    <span class="badge bg-light text-dark border px-3 py-2 rounded-pill font-mono small">
-                        <i class="fas fa-user-check text-success me-1"></i> Total: <strong>142</strong> Pegawai Aktif
-                    </span>
-                </div>
-
-                <div class="row g-4">
-                    <!-- Chart 1: Jenjang Pendidikan -->
-                    <div class="col-md-6 col-lg-3">
-                        <div class="p-3 bg-light rounded-4 border text-center h-100">
-                            <h6 class="fw-bold text-dark small mb-3">Jenjang Pendidikan</h6>
-                            <div style="height: 180px;">
-                                <canvas id="chartPendidikan"></canvas>
-                            </div>
-                            <span class="text-muted text-[10px] mt-2 d-block">S3: 8, S2: 45, S1/D4: 64, D3: 15, SLTA: 10</span>
-                        </div>
-                    </div>
-
-                    <!-- Chart 2: Golongan / Pangkat -->
-                    <div class="col-md-6 col-lg-3">
-                        <div class="p-3 bg-light rounded-4 border text-center h-100">
-                            <h6 class="fw-bold text-dark small mb-3">Golongan / Pangkat</h6>
-                            <div style="height: 180px;">
-                                <canvas id="chartGolongan"></canvas>
-                            </div>
-                            <span class="text-muted text-[10px] mt-2 d-block">Gol IV: 12, Gol III: 78, Gol II: 28, PPPK/Non: 24</span>
-                        </div>
-                    </div>
-
-                    <!-- Chart 3: Komposisi Gender -->
-                    <div class="col-md-6 col-lg-3">
-                        <div class="p-3 bg-light rounded-4 border text-center h-100">
-                            <h6 class="fw-bold text-dark small mb-3">Komposisi Gender</h6>
-                            <div style="height: 180px;">
-                                <canvas id="chartGender"></canvas>
-                            </div>
-                            <span class="text-muted text-[10px] mt-2 d-block">Pria: 88 Pegawai • Wanita: 54 Pegawai</span>
-                        </div>
-                    </div>
-
-                    <!-- Chart 4: Jenis Jabatan -->
-                    <div class="col-md-6 col-lg-3">
-                        <div class="p-3 bg-light rounded-4 border text-center h-100">
-                            <h6 class="fw-bold text-dark small mb-3">Jenis Formasi Jabatan</h6>
-                            <div style="height: 180px;">
-                                <canvas id="chartJabatan"></canvas>
-                            </div>
-                            <span class="text-muted text-[10px] mt-2 d-block">Dosen: 48, Fungsional: 42, Umum: 32, Pengasuh: 20</span>
-                        </div>
-                    </div>
-                </div>
-            </div>            <!-- ATM POLTRADA BALI: TABEL DAFTAR INFORMASI PUBLIK (DIP) BERKALA -->
+            <!-- ATM POLTRADA BALI: TABEL DAFTAR INFORMASI PUBLIK (DIP) BERKALA -->
             <div class="my-5 p-4 p-md-5 rounded-4 border shadow-sm bg-white" style="border-color: #cbd5e1;" data-aos="fade-up">
                 <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
                     <div>
@@ -636,7 +261,7 @@
                                 <td class="text-center">Tegal, 2025</td>
                                 <td class="text-center">1 Tahun</td>
                                 <td class="text-center">
-                                    <a href="{{ url('/profil/profil-ppid') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    <a href="{{ route('profil.ppid') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
                                         Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
                                     </a>
                                 </td>
@@ -651,7 +276,7 @@
                                 <td class="text-center">Tegal, 2025</td>
                                 <td class="text-center">1 Tahun</td>
                                 <td class="text-center">
-                                    <a href="{{ url('/profil/struktur-organisasi') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                    <a href="{{ route('profil.struktur-organisasi') }}" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
                                         Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
                                     </a>
                                 </td>
@@ -731,6 +356,16 @@
                         </tbody>
                     </table>
                 </div>
+                <!-- PAGINATION CONTROLS (STANDAR POLTRADA & KEMENHUB) -->
+                <div class="p-3 bg-light border rounded-3 mt-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                    <div id="berkalaPaginationInfo" class="text-muted small fw-medium">
+                        Menampilkan data...
+                    </div>
+                    <div id="berkalaPaginationControls">
+                        <!-- Filled by JS -->
+                    </div>
+                </div>
+
 
                 <!-- 2. CARDS VIEW (ALTERNATIF TAMPILAN RINCI) -->
                 <div id="berkalaCardsView" style="display: none;">
@@ -834,17 +469,23 @@
         }
 
         function filterBerkalaContent() {
-            const query = document.getElementById('topSearchInputBerkala').value.toLowerCase().trim();
+            const searchInput = document.getElementById('topSearchInputBerkala');
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
             
-            // Filter berkala items (cards)
+            // Filter cards view
             document.querySelectorAll('.searchable-berkala-item').forEach(el => {
                 const kw = el.getAttribute('data-keywords') || '';
-                if (!query || kw.includes(query)) {
+                if (!query || kw.includes(query) || el.innerText.toLowerCase().includes(query)) {
                     el.classList.remove('d-none');
                 } else {
                     el.classList.add('d-none');
                 }
             });
+
+            // Update table pagination and view
+            currentBerkalaPage = 1;
+            initBerkalaPagination();
+        });
 
             // Filter berkala table rows
             document.querySelectorAll('.searchable-berkala-row').forEach(row => {
@@ -946,6 +587,109 @@
                 });
             }
         });
+    
+        // PAGINATION & LIVE FILTER LOGIC (10 BARIS PER HALAMAN)
+        let currentBerkalaPage = 1;
+        const berkalaRowsPerPage = 10;
+        let filteredBerkalaRows = [];
+
+        function initBerkalaPagination() {
+            const allRows = Array.from(document.querySelectorAll('#berkalaTableView tbody tr.searchable-berkala-row'));
+            const searchInput = document.getElementById('topSearchInputBerkala');
+            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+
+            filteredBerkalaRows = allRows.filter(row => {
+                const kw = row.getAttribute('data-keywords') || '';
+                const text = row.innerText.toLowerCase();
+                return !query || kw.includes(query) || text.includes(query);
+            });
+
+            // If page is beyond total pages, reset to page 1
+            const totalPages = Math.ceil(filteredBerkalaRows.length / berkalaRowsPerPage) || 1;
+            if (currentBerkalaPage > totalPages) currentBerkalaPage = 1;
+
+            renderBerkalaTablePage();
+            renderBerkalaPaginationControls();
+        }
+
+        function renderBerkalaTablePage() {
+            const allRows = document.querySelectorAll('#berkalaTableView tbody tr.searchable-berkala-row');
+            allRows.forEach(r => r.style.display = 'none');
+
+            const total = filteredBerkalaRows.length;
+            const startIdx = (currentBerkalaPage - 1) * berkalaRowsPerPage;
+            const endIdx = Math.min(startIdx + berkalaRowsPerPage, total);
+
+            for (let i = startIdx; i < endIdx; i++) {
+                if (filteredBerkalaRows[i]) {
+                    filteredBerkalaRows[i].style.display = '';
+                }
+            }
+
+            // Also hide or show section header tr based on filtered results
+            const sectionHeaders = document.querySelectorAll('#berkalaTableView tbody tr.table-light');
+            sectionHeaders.forEach(sh => {
+                sh.style.display = total === 0 ? 'none' : '';
+            });
+
+            const infoEl = document.getElementById('berkalaPaginationInfo');
+            if (infoEl) {
+                if (total === 0) {
+                    infoEl.innerHTML = '<span class="text-danger"><i class="fas fa-search me-1"></i> Tidak ada informasi berkala yang cocok dengan pencarian.</span>';
+                } else {
+                    infoEl.innerHTML = `Menampilkan baris <strong>${startIdx + 1}</strong> - <strong>${endIdx}</strong> dari total <strong>${total}</strong> data informasi publik`;
+                }
+            }
+        }
+
+        function goToBerkalaPage(page) {
+            const totalPages = Math.ceil(filteredBerkalaRows.length / berkalaRowsPerPage) || 1;
+            if (page < 1) page = 1;
+            if (page > totalPages) page = totalPages;
+            currentBerkalaPage = page;
+            renderBerkalaTablePage();
+            renderBerkalaPaginationControls();
+
+            const tbl = document.getElementById('berkalaTableView');
+            if (tbl) tbl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function renderBerkalaPaginationControls() {
+            const container = document.getElementById('berkalaPaginationControls');
+            if (!container) return;
+
+            const totalPages = Math.ceil(filteredBerkalaRows.length / berkalaRowsPerPage) || 1;
+            if (totalPages <= 1 && filteredBerkalaRows.length <= berkalaRowsPerPage) {
+                container.innerHTML = '<span class="badge bg-white text-muted border px-2.5 py-1.5 rounded-pill">Halaman 1 dari 1</span>';
+                return;
+            }
+
+            let html = '<ul class="pagination pagination-sm mb-0 gap-1 d-flex flex-wrap">';
+            
+            if (currentBerkalaPage > 1) {
+                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToBerkalaPage(1)" title="Halaman Pertama"><i class="fas fa-angles-left"></i></button></li>`;
+                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToBerkalaPage(${currentBerkalaPage - 1})"><i class="fas fa-chevron-left me-1"></i> Prev</button></li>`;
+            }
+
+            for (let p = 1; p <= totalPages; p++) {
+                const active = p === currentBerkalaPage ? 'btn-primary text-white active font-black' : 'btn-outline-secondary text-dark';
+                html += `<li class="page-item"><button type="button" class="btn btn-sm ${active} rounded-pill px-3 fw-bold" onclick="goToBerkalaPage(${p})">${p}</button></li>`;
+            }
+
+            if (currentBerkalaPage < totalPages) {
+                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToBerkalaPage(${currentBerkalaPage + 1})">Next <i class="fas fa-chevron-right ms-1"></i></button></li>`;
+                html += `<li class="page-item"><button type="button" class="page-link rounded-pill px-3 fw-bold" onclick="goToBerkalaPage(${totalPages})" title="Halaman Terakhir"><i class="fas fa-angles-right"></i></button></li>`;
+            }
+
+            html += '</ul>';
+            container.innerHTML = html;
+        }
+
+        // Initialize pagination on DOM ready
+        document.addEventListener('DOMContentLoaded', function() {
+            initBerkalaPagination();
+        });
+
     </script>
 </body>
 </html>
