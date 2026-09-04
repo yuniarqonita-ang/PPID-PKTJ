@@ -1103,10 +1103,82 @@ JSON
                 'link' => 'https://drive.google.com/file/d/1QFKjtEXMzJWorHYDkw9zevxW8lKosqx9/view?usp=drive_link',
                 'deskripsi' => 'Kerjasama pertukaran publikasi ilmiah dan repositori digital terbuka antar-perguruan tinggi.',
                 'pejabat' => 'Kepala Unit Perpustakaan'
+            ],
+            // DOKUMEN KEDARURATAN & K3 TAMBAHAN SERTA MERTA (6)
+            [
+                'judul' => 'Surat Edaran Direktur Kesiapsiagaan Cuaca Ekstrem dan Bencana Hidrometeorologi',
+                'kategori' => 'informasi-serta-merta',
+                'link' => 'https://drive.google.com/file/d/15SHHrTblDsjl27FibdhzkteotNzsDNOU/view?usp=drive_link',
+                'deskripsi' => 'Peringatan dini dan instruksi kesiapsiagaan seluruh unit kampus PKTJ menghadapi potensi cuaca ekstrem, angin kencang, dan genangan air.',
+                'pejabat' => 'Subbagian Rumah Tangga & K3 PKTJ'
+            ],
+            [
+                'judul' => 'Prosedur Evakuasi Tanggap Darurat Kebakaran dan Gempa Bumi Kampus I & II Margadana',
+                'kategori' => 'informasi-serta-merta',
+                'link' => 'https://drive.google.com/file/d/1XCiGZba6RnIdCUegfDuJ8J4YpQ8cgCe2/view?usp=drive_link',
+                'deskripsi' => 'Peta jalur evakuasi, titik kumpul aman (assembly point), dan nomor kontak darurat pemadam kebakaran serta SAR untuk area kampus.',
+                'pejabat' => 'Tim Tanggap Darurat K3 PKTJ'
+            ],
+            [
+                'judul' => 'Pengumuman Kedaruratan Rekayasa Lalu Lintas Jalur Masuk Kampus PKTJ Tegal',
+                'kategori' => 'informasi-serta-merta',
+                'link' => 'https://drive.google.com/file/d/1aRbozmigMYPH-3LQwjApjdCT4iI1OuAG/view?usp=drive_link',
+                'deskripsi' => 'Pemberitahuan rekayasa dan pengalihan sirkulasi arus lalu lintas kendaraan dinas dan umum selama pekerjaan perbaikan sarana jalan utama kampus.',
+                'pejabat' => 'Unit Pelaksana Teknis Keselamatan Jalan'
+            ],
+            [
+                'judul' => 'Pemberitahuan Penyesuaian Operasional Praktik Lapangan Taruna Masa Pemeliharaan Jalur Uji',
+                'kategori' => 'informasi-serta-merta',
+                'link' => 'https://drive.google.com/file/d/1MrlZOCs9EUBiEsq9BfGV3HD_f2bsfrrr/view?usp=drive_link',
+                'deskripsi' => 'Pemberitahuan penghentian sementara dan penyesuaian jadwal penggunaan sirkuit uji keselamatan jalan untuk pemeliharaan teknis.',
+                'pejabat' => 'Bagian Akademik & Ketarunaan'
+            ],
+            [
+                'judul' => 'Surat Keputusan Tim Penanganan Kedaruratan dan Keselamatan Sivitas Akademika PKTJ',
+                'kategori' => 'informasi-serta-merta',
+                'link' => 'https://drive.google.com/file/d/1tMVLB1ZKFhMzp7Hxno60YOpO6lwAb90u/view?usp=drive_link',
+                'deskripsi' => 'SK Direktur tentang susunan tim reaksi cepat penanggulangan keadaan darurat, medis, dan evakuasi di lingkungan kampus.',
+                'pejabat' => 'Bagian Keuangan dan Administrasi Umum'
+            ],
+            [
+                'judul' => 'Standar Prosedur Operasional Penanganan Pertama Kecelakaan Praktik Kerja Lapangan (K3)',
+                'kategori' => 'informasi-serta-merta',
+                'link' => 'https://drive.google.com/file/d/1o4-bFvEmkVq5_Nfj6XgoAWmneiRflwU4/view?usp=drive_link',
+                'deskripsi' => 'Pedoman pertolongan pertama pada kecelakaan (P3K) dan rujukan medis darurat taruna saat pelaksanaan praktik bengkel dan laboratorium.',
+                'pejabat' => 'Unit Klinik Pratama PKTJ'
+            ],
+            // DOKUMEN KINERJA & AKIP TAMBAHAN BERKALA (4)
+            [
+                'judul' => 'Rencana Strategis (Renstra) PKTJ Tahun 2020-2024 / 2025-2029',
+                'kategori' => 'informasi-berkala',
+                'link' => 'https://drive.google.com/file/d/1hLQ-26Oko2u1uve8jD9NMbNknRnyLD_W/view?usp=drive_link',
+                'deskripsi' => 'Dokumen perencanaan strategis jangka menengah yang memuat visi, misi, sasaran program, dan target kinerja lima tahunan PKTJ Tegal.',
+                'pejabat' => 'Subbagian Tata Usaha & Perencanaan'
+            ],
+            [
+                'judul' => 'Laporan Kinerja Instansi Pemerintah (LKjIP / LAKIP) PKTJ Tahun Anggaran 2024/2025',
+                'kategori' => 'informasi-berkala',
+                'link' => 'https://drive.google.com/file/d/16_4Pmme_pWLgafTXlmBU0uuS82qs5RhP/view?usp=sharing',
+                'deskripsi' => 'Laporan pertanggungjawaban akuntabilitas kinerja instansi pemerintah atas capaian target indikator kinerja utama (IKU) tahunan.',
+                'pejabat' => 'Subbagian Tata Usaha & Tim AKIP'
+            ],
+            [
+                'judul' => 'Rencana Kerja dan Anggaran Kementerian/Lembaga (RKA-KL) PKTJ Tahun Anggaran 2025',
+                'kategori' => 'informasi-berkala',
+                'link' => 'https://drive.google.com/file/d/1NhA8-ImFldPpGCTGJm0YzEnmSK4zgJnn/view?usp=sharing',
+                'deskripsi' => 'Dokumen perencanaan penganggaran berbasis kinerja yang memuat rincian alokasi program dan pagu anggaran tahun 2025.',
+                'pejabat' => 'Bagian Keuangan dan Administrasi Umum'
+            ],
+            [
+                'judul' => 'Laporan Realisasi Anggaran (LRA) dan Capaian Output Kegiatan PKTJ',
+                'kategori' => 'informasi-berkala',
+                'link' => 'https://drive.google.com/file/d/1rvltyYA70k88Icn1dUpuyD9jpSlhhdDY/view?usp=drive_link',
+                'deskripsi' => 'Laporan realisasi penyerapan anggaran belanja operasional dan belanja modal serta capaian fisik keluaran kegiatan.',
+                'pejabat' => 'Bagian Keuangan dan Administrasi Umum'
             ]
         ];
 
-        foreach ($userVerified as $item) {
+                    foreach ($userVerified as $item) {
             $richContent = '<p>' . htmlspecialchars($item['deskripsi']) . '</p>' .
                 '<div style="margin-top: 14px; padding: 14px 18px; background-color: #f0f7ff; border-left: 4px solid #004a99; border-radius: 8px;">' .
                 '<p style="margin: 0; font-size: 14px; color: #1e293b;">' .

@@ -44,7 +44,7 @@ class InformasiPublikController extends Controller
             $bkCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-berkala')->where('aktif', 1)->count();
             $ssCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-setiap-saat')->where('aktif', 1)->count();
 
-            if ($smCount < 18 || $bkCount < 20 || $ssCount < 25) {
+            if ($smCount < 23 || $bkCount < 25 || $ssCount < 25) {
                 $seederFile = database_path('seeders/Dip2026SyncSeeder.php');
                 if (file_exists($seederFile)) {
                     require_once $seederFile;

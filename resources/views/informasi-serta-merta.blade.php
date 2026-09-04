@@ -223,8 +223,8 @@
                     <div class="d-flex align-items-center gap-1.5 ms-md-2">
                         <span class="text-muted small">Tampilkan:</span>
                         <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changeSertaPageSize(this.value)">
-                <option value="8" selected>8 data per halaman</option>
-                <option value="15">15 data per halaman</option>
+                <option value="5" selected>5 data per halaman</option>
+                <option value="10">10 data per halaman</option>
                 <option value="25">25 data per halaman</option>
                 <option value="all">Semua data</option>
             </select>
@@ -319,7 +319,7 @@
         }
 
         let currentSertaPage = 1;
-        let sertaRowsPerPage = 8;
+        let sertaRowsPerPage = 5;
         let filteredSertaRows = [];
 
         function initSertaPagination() {
