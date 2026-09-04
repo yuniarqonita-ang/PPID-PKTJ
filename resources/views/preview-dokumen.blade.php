@@ -599,19 +599,25 @@
     </div>{{-- /#page-wrapper --}}
 
     <script>
-        // Safe Close Handler: Never jump back to unrelated pages in browser history!
+        // Universal Safe Close Handler for ALL pages: Never jump back in browser history!
         function closePreviewDocument() {
             // 1. If embedded in modal iframe (parent window)
             if (window.parent && window.parent !== window) {
                 window.parent.postMessage('closePreview', '*');
                 try {
-                    const parentModal = window.parent.document.getElementById('previewModal');
-                    if (parentModal && window.parent.bootstrap) {
-                        const modal = window.parent.bootstrap.Modal.getInstance(parentModal);
-                        if (modal) {
-                            modal.hide();
-                            return;
-                        }
+                    if (window.parent.document && window.parent.bootstrap) {
+                        const targets = ['previewModal', 'previewLaporanModal', 'modalPreviewRegulasi'];
+                        targets.forEach(function(mId) {
+                            const el = window.parent.document.getElementById(mId);
+                            if (el) {
+                                const inst = window.parent.bootstrap.Modal.getInstance(el);
+                                if (inst) inst.hide();
+                            }
+                        });
+                        window.parent.document.querySelectorAll('.modal.show').forEach(function(m) {
+                            const inst = window.parent.bootstrap.Modal.getInstance(m);
+                            if (inst) inst.hide();
+                        });
                     }
                 } catch (e) {}
                 return;

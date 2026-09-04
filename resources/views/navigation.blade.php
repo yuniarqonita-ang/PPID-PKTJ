@@ -530,13 +530,26 @@
                 previewIframe.src = 'about:blank';
             });
 
-            // Listen for closePreview message from inside preview iframe (NO history.back())
+            // Universal Document Modal Close Listener across ALL public pages
             window.addEventListener('message', function (event) {
                 if (event.data === 'closePreview' || (event.data && event.data.action === 'closePreview')) {
-                    const modalInstance = bootstrap.Modal.getInstance(previewModal) || bootstrap.Modal.getOrCreateInstance(previewModal);
-                    if (modalInstance) {
-                        modalInstance.hide();
-                    }
+                    // Close any active document modal on this page
+                    const targetModals = ['previewModal', 'previewLaporanModal', 'modalPreviewRegulasi'];
+                    targetModals.forEach(function(modalId) {
+                        const el = document.getElementById(modalId);
+                        if (el && window.bootstrap) {
+                            const inst = bootstrap.Modal.getInstance(el);
+                            if (inst) inst.hide();
+                        }
+                    });
+
+                    // Catch-all: Close any active visible modal on screen
+                    document.querySelectorAll('.modal.show').forEach(function(openModal) {
+                        if (window.bootstrap) {
+                            const inst = bootstrap.Modal.getInstance(openModal);
+                            if (inst) inst.hide();
+                        }
+                    });
                 }
             });
         }
