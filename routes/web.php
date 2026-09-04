@@ -98,6 +98,15 @@ Route::redirect('/sop-permintaan-informasi.html', '/prosedur/sop-permintaan');
 Route::redirect('/faq.html', '/faq');
 Route::redirect('/permohonan-informasi.html', '/permohonan-informasi');
 
+// Route Aliases untuk menghindari 404
+Route::redirect('/layanan/laporan-akses', '/layanan-informasi/laporan-akses');
+Route::redirect('/layanan/laporan', '/layanan-informasi/laporan');
+Route::redirect('/layanan/laporan-layanan', '/layanan-informasi/laporan');
+Route::redirect('/layanan/laporan-survey', '/layanan-informasi/laporan-survey');
+Route::redirect('/layanan/maklumat-pelayanan', '/layanan-informasi/maklumat');
+Route::redirect('/layanan/permohonan-informasi', '/layanan-informasi/permohonan');
+Route::redirect('/layanan/daftar-informasi', '/layanan-informasi/daftar');
+
 // ==========================================
 // 1. FRONT OFFICE
 // ==========================================
