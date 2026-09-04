@@ -131,19 +131,7 @@ Route::get('/', function () {
     }
 })->name('home');
 
-// Track visitor (fail-safe)
-try {
-    if (\Illuminate\Support\Facades\Schema::hasTable('visitors')) {
-        \App\Models\Visitor::firstOrCreate([
-            'ip' => request()->ip(),
-            'tanggal' => date('Y-m-d')
-        ], [
-            'user_agent' => request()->userAgent()
-        ]);
-    }
-} catch (\Throwable $e) {
-    // Fail silently to prevent site crash if DB issue
-}
+// Visitor tracked via controller
 
 // Profil Publik
 Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');

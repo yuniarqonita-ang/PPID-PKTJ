@@ -5,40 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @php
-        $settings = [];
-        try {
-            if (\Illuminate\Support\Facades\Schema::hasTable('dashboards')) {
-                $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
-            }
-        } catch (\Exception $e) {}
-
-        $total_permohonan = 0;
-        try {
-            if (\Illuminate\Support\Facades\Schema::hasTable('permohonan')) {
-                $total_permohonan = \App\Models\Permohonan::count();
-            }
-        } catch (\Exception $e) {}
-
-        $total_berita = 0;
-        try {
-            if (\Illuminate\Support\Facades\Schema::hasTable('beritas')) {
-                $total_berita = \App\Models\Berita::count();
-            }
-        } catch (\Exception $e) {}
-
-        $total_informasi = 0;
-        try {
-            if (\Illuminate\Support\Facades\Schema::hasTable('daftar_informasis')) {
-                $total_informasi = \App\Models\DaftarInformasi::count();
-            }
-        } catch (\Exception $e) {}
-
-        $total_dokumen = 0;
-        try {
-            if (\Illuminate\Support\Facades\Schema::hasTable('dokumens')) {
-                $total_dokumen = \App\Models\Dokumen::count();
-            }
-        } catch (\Exception $e) {}
+        $stats = \Illuminate\Support\Facades\Cache::remember('welcome_page_stats_v2', 3600, function() {
+            $st = [];
+            try { $st['settings'] = \App\Models\Dashboard::pluck('value', 'key')->toArray(); } catch (\Throwable $e) { $st['settings'] = []; }
+            try { $st['total_permohonan'] = \App\Models\Permohonan::count(); } catch (\Throwable $e) { $st['total_permohonan'] = 0; }
+            try { $st['total_berita'] = \App\Models\Berita::count(); } catch (\Throwable $e) { $st['total_berita'] = 0; }
+            try { $st['total_informasi'] = \App\Models\DaftarInformasi::count(); } catch (\Throwable $e) { $st['total_informasi'] = 0; }
+            try { $st['total_dokumen'] = \App\Models\Dokumen::count(); } catch (\Throwable $e) { $st['total_dokumen'] = 0; }
+            return $st;
+        });
+        $settings = $stats['settings'];
+        $total_permohonan = $stats['total_permohonan'];
+        $total_berita = $stats['total_berita'];
+        $total_informasi = $stats['total_informasi'];
+        $total_dokumen = $stats['total_dokumen'];
     @endphp
     <title>{{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     
@@ -627,13 +607,13 @@
         @if($hasHeroVideo)
             <div class="hero-video-wrapper">
                 @if($heroVidFile)
-                    <video autoplay loop muted playsinline preload="auto">
+                    <video autoplay loop muted playsinline preload="none">
                         <source src="{{ asset('storage/' . $heroVidFile) }}" type="video/mp4">
                     </video>
                 @elseif($heroEmbedUrl)
                     <iframe src="{{ $heroEmbedUrl }}" title="Hero Video" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
                 @else
-                    <video autoplay loop muted playsinline preload="auto">
+                    <video autoplay loop muted playsinline preload="none">
                         <source src="{{ $heroVidLink }}" type="video/mp4">
                     </video>
                 @endif

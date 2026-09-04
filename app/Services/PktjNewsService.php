@@ -27,29 +27,90 @@ class PktjNewsService
         'https://pktj.ac.id/kategori/alumni'         => 'Alumni',
     ];
     
-    protected int $cacheTtlSeconds = 300; // 5 menit cache agar selalu realtime
+    protected int $cacheTtlSeconds = 86400; // 24 Jam cache untuk performa kilat // 5 menit cache agar selalu realtime
 
     /**
      * Mengambil seluruh daftar berita realtime lengkap dari website pktj.ac.id
      */
     public function getLiveNews(int $limit = 100, bool $forceRefresh = false): array
     {
-        $cacheKey = 'pktj_live_all_news_v3';
+        $cacheKey = 'pktj_live_all_news_v4';
 
         if ($forceRefresh) {
             Cache::forget($cacheKey);
         }
 
         return Cache::remember($cacheKey, $this->cacheTtlSeconds, function () use ($limit) {
-            $items = $this->fetchAllFromPktj();
+            // 1. Prioritas Utama: Ambil langsung dari database lokal (0.002 detik)
+            $local = $this->fetchFromLocalDatabase($limit);
+            if (!empty($local) && count($local) >= 6) {
+                return array_slice($local, 0, $limit);
+            }
 
-            // Jika kosong (karena timeout/offline), fallback ambil dari database lokal
+            // 2. Jika database lokal kosong, ambil cepat dari remote (timeout 2s)
+            $items = $this->fetchFastFromPktj();
             if (empty($items)) {
                 $items = $this->fetchFromLocalDatabase($limit);
             }
 
             return array_slice($items, 0, $limit);
         });
+    }
+
+    /**
+     * Fetch cepat hanya dari halaman berita utama dengan timeout ketat 2 detik
+     */
+    protected function fetchFastFromPktj(): array
+    {
+        try {
+            $ch = curl_init('https://pktj.ac.id/berita');
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_USERAGENT      => 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+                CURLOPT_TIMEOUT        => 2,
+                CURLOPT_CONNECTTIMEOUT => 2,
+                CURLOPT_SSL_VERIFYPEER => false,
+            ]);
+            $html = curl_exec($ch);
+            curl_close($ch);
+
+            if (empty($html)) return [];
+
+            preg_match_all('/<article[^>]*class=["'][^"']*post[^"']*["'][^>]*>(.*?)<\/article>/is', $html, $matches);
+            $items = [];
+            foreach ($matches[1] as $block) {
+                if (!preg_match('/<a[^>]+href=["'](https:\/\/pktj\.ac\.id\/berita\/[0-9]{8}-[0-9]+-[^"']+)["'][^>]*>(.*?)<\/a>/is', $block, $linkM)) {
+                    continue;
+                }
+                $link = $linkM[1];
+                $title = trim(strip_tags($linkM[2]));
+                if (strtolower($title) === 'baca selengkapnya' || strlen($title) < 5) {
+                    if (preg_match('/<h3[^>]*>(.*?)<\/h3>/is', $block, $h3M)) {
+                        $title = trim(strip_tags($h3M[1]));
+                    }
+                }
+                if (strlen($title) < 5) continue;
+
+                $img = 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png';
+                if (preg_match('/(src|data-src)=["']([^"']+\.(jpg|jpeg|png|webp|gif)[^"']*)["']/i', $block, $imgM)) {
+                    $img = $imgM[2];
+                    if (str_starts_with($img, '/')) $img = 'https://pktj.ac.id' . $img;
+                }
+
+                $items[] = [
+                    'judul'     => $title,
+                    'link'      => $link,
+                    'gambar'    => $img,
+                    'kategori'  => 'Berita',
+                    'tanggal'   => date('Y-m-d'),
+                    'ringkasan' => $title
+                ];
+            }
+            return $items;
+        } catch (\Throwable $e) {
+            return [];
+        }
     }
 
     /**
