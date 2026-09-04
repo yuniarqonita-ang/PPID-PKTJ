@@ -1293,6 +1293,16 @@
                     previewModal.addEventListener('hidden.bs.modal', function () {
                         previewIframe.src = '';
                     });
+
+                    // Safe Document Modal Close Listener
+                    window.addEventListener('message', function (event) {
+                        if (event.data === 'closePreview' || (event.data && event.data.action === 'closePreview')) {
+                            if (typeof bootstrap !== 'undefined') {
+                                const inst = bootstrap.Modal.getInstance(previewModal);
+                                if (inst) inst.hide();
+                            }
+                        }
+                    });
                 }
             });
         </script>

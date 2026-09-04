@@ -512,7 +512,7 @@ class ProfilPublikController extends Controller
     }
 
     /**
-     * Proxy to fetch GDrive file and serve it with proper CORS/PDF headers
+     * Fast redirect for GDrive files (download or preview) with zero server latency
      */
     public function proxyGdrive($id)
     {
@@ -523,47 +523,7 @@ class ProfilPublikController extends Controller
             return redirect("https://drive.google.com/uc?export=download&confirm=no_antivirus&id={$id}");
         }
 
-        $disposition = 'inline; filename="Dokumen_PPID_PKTJ.pdf"';
-
-        $urls = [
-            "https://drive.google.com/uc?export=download&confirm=no_antivirus&id={$id}",
-            "https://drive.google.com/uc?id={$id}&export=download",
-            "https://docs.google.com/document/d/{$id}/export?format=pdf",
-            "https://docs.google.com/spreadsheets/d/{$id}/export?format=pdf",
-            "https://docs.google.com/presentation/d/{$id}/export?format=pdf"
-        ];
-
-        foreach ($urls as $url) {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
-            curl_setopt($ch, CURLOPT_TIMEOUT, 4); // Fast 4-second timeout per attempt
-            curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36');
-            
-            $body = curl_exec($ch);
-            $info = curl_getinfo($ch);
-            curl_close($ch);
-
-            if ($body !== false && $info['http_code'] === 200) {
-                $contentType = strtolower($info['content_type'] ?? '');
-                $isPdfHeader = strpos($body, '%PDF-') === 0;
-
-                if (strpos($contentType, 'application/pdf') !== false || 
-                    (strpos($contentType, 'application/octet-stream') !== false && $isPdfHeader) ||
-                    $isPdfHeader) {
-                    
-                    return response($body, 200, [
-                        'Content-Type' => 'application/pdf',
-                        'Content-Disposition' => $disposition,
-                        'Cache-Control' => 'public, max-age=86400'
-                    ]);
-                }
-            }
-        }
-
-        // Fast fallback to Google Drive viewer
+        // Instant Preview Redirect: Fast, zero-server-delay preview!
         return redirect("https://drive.google.com/file/d/{$id}/preview");
     }
 

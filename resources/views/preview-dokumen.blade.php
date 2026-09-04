@@ -1,3 +1,39 @@
+@php
+    $extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
+    $isImg     = in_array($extension, ['jpg','jpeg','png','webp','gif']);
+    $isOffice  = in_array($extension, ['doc','docx','xls','xlsx','ppt','pptx']);
+
+    // Google Drive / Docs Detection
+    $isGDrive  = str_contains($file_path, 'drive.google.com')
+              || str_contains($file_path, 'docs.google.com');
+    $isPdf     = ($extension === 'pdf') && !$isGDrive;
+    $gdriveId  = '';
+    $embedUrl  = '';
+
+    if ($isGDrive) {
+        if (preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $file_path, $m)) {
+            $gdriveId = $m[1];
+        } elseif (preg_match('/[?&]id=([a-zA-Z0-9_-]+)/', $file_path, $m)) {
+            $gdriveId = $m[1];
+        }
+        if ($gdriveId) {
+            if (str_contains($file_path, 'docs.google.com/document/')) {
+                $embedUrl = "https://docs.google.com/document/d/{$gdriveId}/preview";
+            } elseif (str_contains($file_path, 'docs.google.com/spreadsheets/')) {
+                $embedUrl = "https://docs.google.com/spreadsheets/d/{$gdriveId}/preview";
+            } elseif (str_contains($file_path, 'docs.google.com/presentation/')) {
+                $embedUrl = "https://docs.google.com/presentation/d/{$gdriveId}/preview";
+            } else {
+                $embedUrl = "https://drive.google.com/file/d/{$gdriveId}/preview";
+            }
+        }
+    }
+
+    $premiumEnabled = ($settings['premium_view_enabled'] ?? '0') === '1' && ($isBlurred ?? false);
+    $blurText = $settings['premium_view_blur_text'] ?? 'Dokumen ini Terlindungi. Ajukan Permohonan untuk Akses Penuh.';
+    $btnText  = $settings['premium_view_button_text'] ?? 'AJUKAN PERMOHONAN';
+    $btnLink  = 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login';
+@endphp
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -5,9 +41,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $title ?? 'Pratinjau Dokumen' }}</title>
+    @if($isPdf)
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    @endif
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -421,10 +460,6 @@
             #top-bar .doc-title { font-size: 12px; max-width: 40%; }
         }
     </style>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <style>
-        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
@@ -434,35 +469,6 @@
         <div class="loader"></div>
         <p style="font-size:13px; color:#475569; letter-spacing:1px; margin-top:8px;">Memuat Dokumen...</p>
     </div>
-
-    @php
-        $extension = strtolower(pathinfo($file_path, PATHINFO_EXTENSION));
-        $isImg     = in_array($extension, ['jpg','jpeg','png','webp','gif']);
-        $isPdf     = $extension === 'pdf';
-        $isOffice  = in_array($extension, ['doc','docx','xls','xlsx','ppt','pptx']);
-
-        // Google Drive / Docs Detection
-        $isGDrive  = str_contains($file_path, 'drive.google.com')
-                  || str_contains($file_path, 'docs.google.com');
-        $gdriveId  = '';
-        $embedUrl  = '';
-
-        if ($isGDrive) {
-            if (preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $file_path, $m)) {
-                $gdriveId = $m[1];
-            } elseif (preg_match('/[?&]id=([a-zA-Z0-9_-]+)/', $file_path, $m)) {
-                $gdriveId = $m[1];
-            }
-            if ($gdriveId) {
-                $embedUrl = "https://drive.google.com/file/d/{$gdriveId}/preview";
-            }
-        }
-
-        $premiumEnabled = ($settings['premium_view_enabled'] ?? '0') === '1' && ($isBlurred ?? false);
-        $blurText = $settings['premium_view_blur_text'] ?? 'Dokumen ini Terlindungi. Ajukan Permohonan untuk Akses Penuh.';
-        $btnText  = $settings['premium_view_button_text'] ?? 'AJUKAN PERMOHONAN';
-        $btnLink  = 'https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login';
-    @endphp
 
     {{-- PAGE WRAPPER --}}
     <div id="page-wrapper">
@@ -477,7 +483,7 @@
             <div style="display:flex; align-items:center; gap:10px;">
                 @if($isPdf || $isGDrive)
                     @if($isGDrive && $gdriveId)
-                        <a href="{{ route('proxy.gdrive', ['id' => $gdriveId]) }}" class="btn-gold-action" target="_blank" download>
+                        <a href="{{ route('proxy.gdrive', ['id' => $gdriveId, 'download' => 1]) }}" class="btn-gold-action" target="_blank" download>
                             <i class="fas fa-download"></i> Unduh PDF
                         </a>
                     @elseif($isPdf)
@@ -497,31 +503,31 @@
         <div id="scroll-area" @if($isGDrive && $gdriveId && !$premiumEnabled) class="gdrive-mode" @endif>
 
             @if($isGDrive && $gdriveId)
-                {{-- Google Drive: Try PDF.js first for clean borderless look. Fallback to GDrive iframe if load fails --}}
-                <div id="viewer-content">
-                    <div id="pdf-viewer"></div>
-                </div>
-                <div id="gdrive-frame-wrapper" style="display: none;">
+                {{-- Google Drive: Direct Embed Viewer (Fastest loading via Google edge CDN) --}}
+                <div id="gdrive-frame-wrapper" style="width: 100%; height: calc(100vh - var(--toolbar-height)); min-height: 400px; position: relative; display: flex; flex-direction: column;">
                     <iframe
                         src="{{ $embedUrl }}"
                         allow="autoplay"
                         allowfullscreen
                         id="gdrive-iframe"
-                        style="width:100%; height:100%; border:none; display:block;"></iframe>
+                        loading="eager"
+                        style="flex: 1; width: 100%; height: 100%; border: none; display: block; @if($premiumEnabled) filter: blur(14px); pointer-events: none; @endif"></iframe>
+
+                    @if($premiumEnabled)
+                    <div class="gdrive-premium-overlay">
+                        <div class="blur-icon"><i class="fas fa-lock"></i></div>
+                        <p class="blur-message">{{ $blurText }}</p>
+                        <a href="{{ $btnLink }}" target="_blank" class="btn-premium-action">
+                            <i class="fas fa-paper-plane"></i> {{ $btnText }}
+                        </a>
+                    </div>
+                    @endif
                 </div>
 
             @elseif($isPdf)
                 {{-- PDF lokal via pdf.js --}}
                 <div id="viewer-content">
                     <div id="pdf-viewer"></div>
-                </div>
-                <div id="gdrive-frame-wrapper" style="display: none;">
-                    <iframe
-                        src=""
-                        allow="autoplay"
-                        allowfullscreen
-                        id="gdrive-iframe"
-                        style="width:100%; height:100%; border:none; display:block;"></iframe>
                 </div>
 
             @elseif($isImg)
@@ -684,15 +690,32 @@
             @endif
         }
 
-        @if($isPdf || $isGDrive)
-        (function() {
-            // ===== PDF.js VIEWER dengan Kontrol Halaman & Zoom =====
-            @if($isGDrive)
-                const url = '{{ route("proxy.gdrive", $gdriveId) }}';
-            @else
-                const url = '{{ asset($file_path) }}';
-            @endif
+        @if($isGDrive && $gdriveId)
+            // ===== Google Drive Instant Embed Viewer =====
+            const gdriveIframe = document.getElementById('gdrive-iframe');
+            let isLoaded = false;
+            function dismissLoading() {
+                if (isLoaded) return;
+                isLoaded = true;
+                if (loading) {
+                    loading.style.opacity = '0';
+                    setTimeout(() => { loading.style.display = 'none'; }, 200);
+                }
+                sendHeightToParent();
+            }
 
+            if (gdriveIframe) {
+                gdriveIframe.addEventListener('load', dismissLoading);
+                // Ultra fast fallback: never let user wait more than 600ms
+                setTimeout(dismissLoading, 600);
+            } else {
+                dismissLoading();
+            }
+
+        @elseif($isPdf)
+        (function() {
+            // ===== PDF.js VIEWER untuk Dokumen PDF Lokal (Lazy Rendering) =====
+            const url = '{{ asset($file_path) }}';
             const pdfjsLib = window['pdfjs-dist/build/pdf'];
             pdfjsLib.GlobalWorkerOptions.workerSrc =
                 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -701,62 +724,49 @@
             const blurText = '{{ addslashes($blurText) }}';
             const btnText  = '{{ addslashes($btnText) }}';
             const btnLink  = '{{ $btnLink }}';
-            const blurredPagesStr = '{{ $blurredPages ?? "" }}'; // Custom page blur list
+            const blurredPagesStr = '{{ $blurredPages ?? "" }}';
             const container = document.getElementById('pdf-viewer');
             const scrollArea = document.getElementById('scroll-area');
 
-            let pdfDoc    = null;
+            let pdfDoc = null;
             let totalPages = 0;
-            let currentZoom = 1.0;       // scale multiplier
-            let fitWidth   = 1.0;        // calculated fit-width scale
-            const PAGE_DIVS = [];        // referensi setiap pageDiv
+            let currentZoom = 1.0;
+            const PAGE_DIVS = [];
+            const renderedPages = new Set();
 
-            // Hitung fit-width scale berdasarkan lebar container
             function getContainerWidth() {
                 return Math.min(scrollArea.clientWidth - 32, 900);
             }
 
-            // Tampilkan bottom bar jika ada
             if (bottomBar) {
                 bottomBar.classList.add('visible');
             }
 
-            // ---------- Render ulang semua halaman ----------
-            function rerenderAll() {
-                if (!pdfDoc) return;
-                PAGE_DIVS.forEach((pageDiv, idx) => {
-                    const num = idx + 1;
-                    rerenderPage(pdfDoc, num, pageDiv);
-                });
-                // Send height update after rendering
-                setTimeout(sendHeightToParent, 300);
-            }
+            function renderPage(pdf, num) {
+                const pageDiv = document.getElementById('pdf-page-' + num);
+                if (!pageDiv) return;
 
-            function rerenderPage(pdf, num, pageDiv) {
                 pdf.getPage(num).then(function(page) {
                     const unscaledVp = page.getViewport({ scale: 1 });
                     const scale = (getContainerWidth() / unscaledVp.width) * currentZoom;
                     const viewport = page.getViewport({ scale: scale });
 
-                    // Update pageDiv size
                     pageDiv.style.width = viewport.width + 'px';
                     pageDiv.style.height = viewport.height + 'px';
 
-                    // Buat canvas baru
                     const oldCanvas = pageDiv.querySelector('canvas');
-                    const canvas  = document.createElement('canvas');
-                    const ctx     = canvas.getContext('2d');
-                    const dpr     = window.devicePixelRatio || 1;
-                    canvas.width  = viewport.width  * dpr;
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const dpr = window.devicePixelRatio || 1;
+                    canvas.width = viewport.width * dpr;
                     canvas.height = viewport.height * dpr;
-                    canvas.style.width  = viewport.width  + 'px';
+                    canvas.style.width = viewport.width + 'px';
                     canvas.style.height = viewport.height + 'px';
                     ctx.scale(dpr, dpr);
 
                     if (oldCanvas) pageDiv.replaceChild(canvas, oldCanvas);
                     else pageDiv.insertBefore(canvas, pageDiv.firstChild);
 
-                    // Re-render premium overlay if blurred
                     const oldOverlay = pageDiv.querySelector('.premium-blur-overlay');
                     if (oldOverlay) oldOverlay.remove();
 
@@ -788,121 +798,86 @@
                 });
             }
 
-            // ---------- Render awal ----------
-            function renderPageInitial(pdf, num) {
-                pdf.getPage(num).then(function (page) {
-                    const unscaledVp = page.getViewport({ scale: 1 });
-                    if (num === 1) fitWidth = unscaledVp.width; // simpan lebar referensi
-
-                    const scale = (getContainerWidth() / unscaledVp.width) * currentZoom;
-                    const viewport = page.getViewport({ scale: scale });
-
-                    const pageDiv = document.createElement('div');
-                    pageDiv.className = 'pdf-page-container';
-                    pageDiv.id = 'pdf-page-' + num;
-                    pageDiv.style.width = viewport.width + 'px';
-                    pageDiv.style.height = viewport.height + 'px';
-                    PAGE_DIVS.push(pageDiv);
-
-                    const canvas = document.createElement('canvas');
-                    const ctx    = canvas.getContext('2d');
-                    const dpr    = window.devicePixelRatio || 1;
-                    canvas.width  = viewport.width  * dpr;
-                    canvas.height = viewport.height * dpr;
-                    canvas.style.width  = viewport.width  + 'px';
-                    canvas.style.height = viewport.height + 'px';
-                    ctx.scale(dpr, dpr);
-
-                    pageDiv.appendChild(canvas);
-                    container.appendChild(pageDiv);
-
-                    page.render({ canvasContext: ctx, viewport: viewport }).promise.then(function () {
-                        // Determine if this specific page should be blurred based on checked list
-                        let shouldBlur = false;
-                        if (premiumEnabled) {
-                            if (blurredPagesStr) {
-                                const blurredPagesArr = blurredPagesStr.split(',').map(p => p.trim());
-                                shouldBlur = blurredPagesArr.includes(String(num));
-                            } else {
-                                // Default fallback: blur page 2+
-                                shouldBlur = num > 1;
-                            }
-                        }
-
-                        if (shouldBlur) {
-                            canvas.style.filter = 'blur(8px)';
-                            const overlay = document.createElement('div');
-                            overlay.className = 'premium-blur-overlay';
-                            overlay.innerHTML = `
-                                <div class="blur-icon"><i class="fas fa-lock"></i></div>
-                                <p class="blur-message">${blurText}</p>
-                                <button onclick="window.top.location.href='${btnLink}'" class="btn-premium-action">
-                                    <i class="fas fa-paper-plane"></i> ${btnText}
-                                </button>`;
-                            pageDiv.appendChild(overlay);
-                        }
-                        sendHeightToParent();
-                    });
+            function rerenderAll() {
+                if (!pdfDoc) return;
+                renderedPages.clear();
+                PAGE_DIVS.forEach((pageDiv, idx) => {
+                    const num = idx + 1;
+                    renderedPages.add(num);
+                    renderPage(pdfDoc, num);
                 });
+                setTimeout(sendHeightToParent, 300);
             }
 
-            // ---------- Load PDF ----------
-            pdfjsLib.getDocument(url).promise.then(function (pdf) {
+            function setupLazyLoading(pdf) {
+                if ('IntersectionObserver' in window) {
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                const pageNum = parseInt(entry.target.getAttribute('data-page-num'), 10);
+                                if (pageNum && !renderedPages.has(pageNum)) {
+                                    renderedPages.add(pageNum);
+                                    renderPage(pdf, pageNum);
+                                }
+                            }
+                        });
+                    }, { root: scrollArea, rootMargin: '400px 0px' });
+
+                    PAGE_DIVS.forEach(div => observer.observe(div));
+                } else {
+                    let next = 3;
+                    function renderNextBatch() {
+                        if (next <= totalPages) {
+                            renderPage(pdf, next);
+                            renderedPages.add(next);
+                            next++;
+                            setTimeout(renderNextBatch, 80);
+                        }
+                    }
+                    setTimeout(renderNextBatch, 150);
+                }
+            }
+
+            // Load Local PDF
+            pdfjsLib.getDocument(url).promise.then(function(pdf) {
                 pdfDoc = pdf;
                 totalPages = pdf.numPages;
+
+                // Dismiss loading overlay immediately!
                 loading.style.opacity = '0';
-                setTimeout(() => loading.style.display = 'none', 300);
+                setTimeout(() => { loading.style.display = 'none'; }, 200);
 
                 if (pageInfo) {
                     pageInfo.textContent = '1 / ' + totalPages;
                 }
+
+                // First pass: create all page containers with placeholder size
                 for (let num = 1; num <= totalPages; num++) {
-                    renderPageInitial(pdf, num);
-                }
-                updateNavButtons();
-                // Send height update after document is initialized
-                setTimeout(sendHeightToParent, 500);
-            }).catch(function (err) {
-                console.error('PDF.js Error:', err);
-                
-                const gdriveWrapper = document.getElementById('gdrive-frame-wrapper');
-                const viewerContent = document.getElementById('viewer-content');
-                if (gdriveWrapper) {
-                    loading.style.opacity = '0';
-                    setTimeout(() => loading.style.display = 'none', 300);
-                    
-                    if (viewerContent) viewerContent.style.display = 'none';
-                    gdriveWrapper.style.display = 'block';
-                    
-                    const iframe = gdriveWrapper.querySelector('iframe');
-                    if (iframe) {
-                        @if($isGDrive)
-                            // Already has src set in Blade
-                        @else
-                            const publicUrl = '{{ url($file_path) }}';
-                            iframe.src = "https://docs.google.com/gview?url=" + encodeURIComponent(publicUrl) + "&embedded=true";
-                        @endif
-                    }
-                    
-                    if (premiumEnabled) {
-                        const overlay = document.createElement('div');
-                        overlay.className = 'gdrive-premium-overlay';
-                        overlay.innerHTML = `
-                            <div class="blur-icon"><i class="fas fa-lock"></i></div>
-                            <p class="blur-message">${blurText}</p>
-                            <button onclick="window.top.location.href='${btnLink}'" class="btn-premium-action">
-                                <i class="fas fa-paper-plane"></i> ${btnText}
-                            </button>`;
-                        gdriveWrapper.appendChild(overlay);
-                        
-                        if (iframe) {
-                            iframe.style.filter = 'blur(12px)';
-                            iframe.style.pointerEvents = 'none';
-                        }
-                    }
-                    return;
+                    const pageDiv = document.createElement('div');
+                    pageDiv.className = 'pdf-page-container';
+                    pageDiv.id = 'pdf-page-' + num;
+                    pageDiv.setAttribute('data-page-num', num);
+                    pageDiv.style.width = '100%';
+                    pageDiv.style.maxWidth = '900px';
+                    pageDiv.style.minHeight = '650px';
+                    PAGE_DIVS.push(pageDiv);
+                    container.appendChild(pageDiv);
                 }
 
+                // Render page 1 and 2 immediately for instant preview
+                renderedPages.add(1);
+                renderPage(pdf, 1);
+                if (totalPages >= 2) {
+                    renderedPages.add(2);
+                    renderPage(pdf, 2);
+                }
+
+                // Setup lazy loading for pages 3+
+                setupLazyLoading(pdf);
+                updateNavButtons();
+                setTimeout(sendHeightToParent, 400);
+            }).catch(function(err) {
+                console.error('PDF.js Error:', err);
                 loading.style.opacity = '0';
                 setTimeout(() => {
                     loading.style.display = 'none';
@@ -911,10 +886,10 @@
                             <div style="text-align:center; padding:50px 20px; color:#334155;">
                                 <i class="fas fa-exclamation-triangle" style="font-size:3rem; color:#dc3545; margin-bottom:20px;"></i>
                                 <p style="font-weight:bold; font-size:16px;">Gagal Memuat Dokumen</p>
-                                <p style="font-size:14px; opacity:0.7; margin-top:10px;">Pastikan link sudah dapat diakses publik.</p>
+                                <p style="font-size:14px; opacity:0.7; margin-top:10px;">Pastikan file dokumen tersedia dan dapat diakses.</p>
                             </div>`;
                     }
-                }, 300);
+                }, 200);
             });
 
             // ---------- Deteksi halaman aktif saat scroll ----------
@@ -1114,32 +1089,41 @@
 
             // Wait for image to load before showing
             if (previewImg) {
-                previewImg.addEventListener('load', function() {
+                if (previewImg.complete) {
                     loading.style.opacity = '0';
                     setTimeout(() => {
                         loading.style.display = 'none';
                         applyImgZoom();
                         sendHeightToParent();
-                    }, 300);
-                });
-                // Fallback
+                    }, 100);
+                } else {
+                    previewImg.addEventListener('load', function() {
+                        loading.style.opacity = '0';
+                        setTimeout(() => {
+                            loading.style.display = 'none';
+                            applyImgZoom();
+                            sendHeightToParent();
+                        }, 150);
+                    });
+                }
+                // Fast fallback
                 setTimeout(() => {
                     if (loading.style.display !== 'none') {
                         loading.style.opacity = '0';
                         setTimeout(() => {
                             loading.style.display = 'none';
                             sendHeightToParent();
-                        }, 400);
+                        }, 200);
                     }
-                }, 3000);
+                }, 800);
             } else {
                 setTimeout(() => {
                     loading.style.opacity = '0';
                     setTimeout(() => {
                         loading.style.display = 'none';
                         sendHeightToParent();
-                    }, 400);
-                }, 600);
+                    }, 200);
+                }, 300);
             }
 
         @elseif($isOffice)
@@ -1151,26 +1135,26 @@
                     setTimeout(() => {
                         loading.style.display = 'none';
                         sendHeightToParent();
-                    }, 400);
+                    }, 200);
                 });
             }
-            // Fallback timeout jika load event tidak fire
+            // Fast fallback timeout jika load event terblokir
             setTimeout(() => {
                 if (loading.style.display !== 'none') {
                     loading.style.opacity = '0';
                     setTimeout(() => {
                         loading.style.display = 'none';
                         sendHeightToParent();
-                    }, 400);
+                    }, 200);
                 }
-            }, 6000);
+            }, 1500);
 
         @else
             loading.style.opacity = '0';
             setTimeout(() => {
                 loading.style.display = 'none';
                 sendHeightToParent();
-            }, 400);
+            }, 200);
         @endif
 
         // Trigger heights updates on load and window resizing
@@ -1185,7 +1169,5 @@
         }, 1000);
     });
     </script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({duration: 800, once: true});</script>
 </body>
 </html>
