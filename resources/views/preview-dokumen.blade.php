@@ -486,7 +486,7 @@
                         </a>
                     @endif
                 @endif
-                <button onclick="window.parent.postMessage('closePreview','*'); if(window.history.length>1){window.history.back();}" class="btn-back">
+                <button type="button" onclick="closePreviewDocument()" class="btn-back" title="Tutup Pratinjau">
                     <i class="fas fa-times"></i> Tutup
                 </button>
             </div>
@@ -599,6 +599,44 @@
     </div>{{-- /#page-wrapper --}}
 
     <script>
+        // Safe Close Handler: Never jump back to unrelated pages in browser history!
+        function closePreviewDocument() {
+            // 1. If embedded in modal iframe (parent window)
+            if (window.parent && window.parent !== window) {
+                window.parent.postMessage('closePreview', '*');
+                try {
+                    const parentModal = window.parent.document.getElementById('previewModal');
+                    if (parentModal && window.parent.bootstrap) {
+                        const modal = window.parent.bootstrap.Modal.getInstance(parentModal);
+                        if (modal) {
+                            modal.hide();
+                            return;
+                        }
+                    }
+                } catch (e) {}
+                return;
+            }
+
+            // 2. If opened in a popup window
+            if (window.opener) {
+                window.close();
+                return;
+            }
+
+            // 3. If navigated directly, return safely to referrer if on same site
+            if (document.referrer && document.referrer.includes(window.location.hostname)) {
+                window.location.href = document.referrer;
+                return;
+            }
+
+            // 4. Safe fallback
+            if (window.history.length > 1) {
+                window.history.back();
+            } else {
+                window.location.href = '/';
+            }
+        }
+
     // Force embed styling if loaded inside an iframe (even if embed=1 parameter is missing)
     const urlParams = new URLSearchParams(window.location.search);
     const isEmbedMode = (window.self !== window.top) && (urlParams.get('controls') !== '1');

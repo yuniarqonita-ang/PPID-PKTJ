@@ -527,7 +527,17 @@
 
             // Clear iframe when modal is hidden to stop any background processing
             previewModal.addEventListener('hidden.bs.modal', function () {
-                previewIframe.src = '';
+                previewIframe.src = 'about:blank';
+            });
+
+            // Listen for closePreview message from inside preview iframe (NO history.back())
+            window.addEventListener('message', function (event) {
+                if (event.data === 'closePreview' || (event.data && event.data.action === 'closePreview')) {
+                    const modalInstance = bootstrap.Modal.getInstance(previewModal) || bootstrap.Modal.getOrCreateInstance(previewModal);
+                    if (modalInstance) {
+                        modalInstance.hide();
+                    }
+                }
             });
         }
     });
