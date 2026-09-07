@@ -297,6 +297,21 @@ Route::get('/refresh-deploy', function() {
                 ->update(['value' => 'Laporan Layanan Informasi Publik']);
         } catch (\Throwable $dEx) {}
 
+        // 1. Bersihkan dummy regulasi & pastikan 12 regulasi resmi nasional
+        try {
+            \Illuminate\Support\Facades\DB::table('peraturans')
+                ->where('kategori', 'like', '%PKTJ%')
+                ->orWhere('judul', 'like', '%Maklumat%')
+                ->delete();
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'RegulasiBpsdmPktjSeeder', '--force' => true]);
+        } catch (\Throwable $rEx) {}
+
+        // 2. Sinkronkan navigasi menu resmi (termasuk Statistik Kepegawaian & Regulasi)
+        try {
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DefaultMenuSeeder', '--force' => true]);
+        } catch (\Throwable $mEx) {}
+
+        // 3. Sinkronkan dokumen DIP
         try {
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Dip2026SyncSeeder', '--force' => true]);
         } catch (\Throwable $sEx) {}
@@ -308,7 +323,7 @@ Route::get('/refresh-deploy', function() {
         \Illuminate\Support\Facades\Cache::forget('pktj_live_all_news_v4');
         \Illuminate\Support\Facades\Cache::forget('pktj_live_all_news_v3');
         try {
-            app(\App\Services\PktjNewsService::class)->getLiveNews(20, true);
+            app(\App\Services\PktjNewsService::class)->syncToDatabase();
         } catch (\Throwable $nEx) {}
 
         // Manually purge all compiled blade view files in storage

@@ -48,7 +48,7 @@ class DefaultMenuSeeder extends Seeder
         $profilId = $insertParent('PROFIL', 'profil-menu', null, 1);
         $insertChild($profilId, 'Profil PPID', 'profil-ppid-sub', '/profil/profil-ppid', 1);
         $insertChild($profilId, 'Profil Pejabat', 'profil-pejabat-sub', '/profil/pejabat', 2);
-        $insertChild($profilId, 'Data & Statistik Kepegawaian', 'statistik-pegawai-sub', '/profil/pejabat#statistik-pegawai', 3);
+        $insertChild($profilId, 'Data & Statistik Kepegawaian', 'statistik-pegawai-sub', '/profil/statistik-pegawai', 3);
         $insertChild($profilId, 'Visi & Misi', 'visi-misi-sub', '/profil/visi-misi', 4);
         $insertChild($profilId, 'Struktur Organisasi', 'struktur-organisasi-sub', '/profil/struktur-organisasi', 5);
         $insertChild($profilId, 'Tugas & Fungsi PPID', 'tugas-fungsi-sub', '/profil/tugas-dan-fungsi-ppid', 6);
