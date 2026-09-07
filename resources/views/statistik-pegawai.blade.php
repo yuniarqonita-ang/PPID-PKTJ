@@ -4,7 +4,38 @@
     <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Data & Statistik Kepegawaian - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ Tegal' }}</title>
+    @php
+        $data = $data ?? \App\Http\Controllers\StatistikPegawaiController::getMergedSettings();
+        $totalSdm = (int) ($data['total_sdm'] ?? 174);
+        $pnsCount = (int) ($data['pns_count'] ?? 115);
+        $pppkCount = (int) ($data['pppk_count'] ?? 41);
+        $nonAsnCount = (int) ($data['nonasn_count'] ?? 18);
+
+        $statusPns = (int) ($data['status_pns'] ?? 115);
+        $statusPppk = (int) ($data['status_pppk'] ?? 41);
+        $statusNonAsn = (int) ($data['status_nonasn'] ?? 17);
+        $statusCpns = (int) ($data['status_cpns'] ?? 1);
+        $totalStatus = max(1, $statusPns + $statusPppk + $statusNonAsn + $statusCpns);
+
+        $pctPns = number_format(($statusPns / $totalStatus) * 100, 1);
+        $pctPppk = number_format(($statusPppk / $totalStatus) * 100, 1);
+        $pctNonAsn = number_format(($statusNonAsn / $totalStatus) * 100, 1);
+        $pctCpns = number_format(($statusCpns / $totalStatus) * 100, 1);
+
+        $pendList = json_decode($data['pendidikan_list'] ?? '[]', true) ?: [];
+        $golList = json_decode($data['golongan_list'] ?? '[]', true) ?: [];
+
+        $pendLabels = array_column($pendList, 'jenjang');
+        $pendCounts = array_column($pendList, 'jumlah');
+
+        $golLabels = array_column($golList, 'golongan');
+        $golCounts = array_column($golList, 'jumlah');
+
+        $img1 = $data['bukti_1_gambar'] ?? 'images/kepegawaian/E6a.jpg';
+        $img2 = $data['bukti_2_gambar'] ?? 'images/kepegawaian/E6b.jpg';
+        $img3 = $data['bukti_3_gambar'] ?? 'images/kepegawaian/E6c.jpg';
+    @endphp
+    <title>{{ $data['hero_judul'] ?? 'Data & Statistik Kepegawaian' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ Tegal' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
@@ -129,13 +160,13 @@
     <div class="hero-statistik">
         <div class="container text-center position-relative" style="z-index: 10;">
             <div class="hero-badge-pill" data-aos="fade-down">
-                <i class="fas fa-users-cog text-warning"></i> Pemenuhan Standar AKIP 2026 • Indikator E.8
+                <i class="fas fa-users-cog text-warning"></i> {{ $data['hero_badge'] ?? 'Pemenuhan Standar AKIP 2026 • Indikator E.8' }}
             </div>
             <h1 class="display-6 fw-bold outfit text-uppercase mb-3 tracking-tight" data-aos="fade-up">
-                Data & Statistik Kepegawaian PKTJ
+                {{ $data['hero_judul'] ?? 'Data & Statistik Kepegawaian PKTJ' }}
             </h1>
             <p class="lead opacity-90 mx-auto mb-4" style="max-width: 840px; font-size: 15px;" data-aos="fade-up" data-aos-delay="100">
-                Informasi publik berkala mengenai profil ketenagaan, klasifikasi status ASN/PPPK, tingkat pendidikan akhir, dan kepangkatan/golongan pegawai Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.
+                {{ $data['hero_subjudul'] ?? 'Informasi publik berkala mengenai profil ketenagaan, klasifikasi status ASN/PPPK, tingkat pendidikan akhir, dan kepangkatan/golongan pegawai Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.' }}
             </p>
             <div class="d-flex justify-content-center gap-2 flex-wrap" data-aos="fade-up" data-aos-delay="150">
                 <a href="#grafik-kepegawaian" class="btn btn-warning fw-bold px-4 py-2 rounded-pill text-dark shadow-sm" style="font-size: 13.5px;">
@@ -144,6 +175,11 @@
                 <a href="#bukti-otentik" class="btn btn-outline-light fw-bold px-4 py-2 rounded-pill shadow-sm" style="font-size: 13.5px;">
                     <i class="fas fa-file-shield me-1"></i> Tangkapan Layar SIMPEG
                 </a>
+                @auth
+                <a href="{{ route('admin.statistik-pegawai.index') }}" class="btn btn-warning text-dark fw-bold px-4 py-2 rounded-pill shadow-sm" style="font-size: 13.5px; background: #ffc107; border: none;">
+                    <i class="fas fa-edit me-1"></i> Edit di Admin Panel
+                </a>
+                @endauth
             </div>
         </div>
     </div>
@@ -159,9 +195,9 @@
                             <i class="fas fa-users"></i>
                         </div>
                         <div>
-                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">Total SDM Pegawai</div>
-                            <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">174 <span class="fs-6 fw-normal text-muted">Orang</span></div>
-                            <div class="text-success fw-semibold" style="font-size: 11px;"><i class="fas fa-check-circle"></i> SIMPEG Kemenhub</div>
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['total_sdm_label'] ?? 'Total SDM Pegawai' }}</div>
+                            <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $totalSdm }} <span class="fs-6 fw-normal text-muted">Orang</span></div>
+                            <div class="text-success fw-semibold" style="font-size: 11px;"><i class="fas fa-check-circle"></i> {{ $data['total_sdm_sub'] ?? 'SIMPEG Kemenhub' }}</div>
                         </div>
                     </div>
                 </div>
@@ -172,9 +208,9 @@
                             <i class="fas fa-id-badge"></i>
                         </div>
                         <div>
-                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">Pegawai Negeri Sipil</div>
-                            <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">115 <span class="fs-6 fw-normal text-muted">Org</span></div>
-                            <div class="text-muted fw-semibold" style="font-size: 11px;">66.1% Dari Total SDM</div>
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['pns_label'] ?? 'Pegawai Negeri Sipil' }}</div>
+                            <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $pnsCount }} <span class="fs-6 fw-normal text-muted">Org</span></div>
+                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['pns_sub'] ?? '66.1% Dari Total SDM' }}</div>
                         </div>
                     </div>
                 </div>
@@ -185,9 +221,9 @@
                             <i class="fas fa-user-check"></i>
                         </div>
                         <div>
-                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">Pegawai PPPK</div>
-                            <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">41 <span class="fs-6 fw-normal text-muted">Org</span></div>
-                            <div class="text-muted fw-semibold" style="font-size: 11px;">23.6% Dari Total SDM</div>
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['pppk_label'] ?? 'Pegawai PPPK' }}</div>
+                            <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $pppkCount }} <span class="fs-6 fw-normal text-muted">Org</span></div>
+                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['pppk_sub'] ?? '23.6% Dari Total SDM' }}</div>
                         </div>
                     </div>
                 </div>
@@ -198,9 +234,9 @@
                             <i class="fas fa-user-clock"></i>
                         </div>
                         <div>
-                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">Non-ASN & CPNS</div>
-                            <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">18 <span class="fs-6 fw-normal text-muted">Org</span></div>
-                            <div class="text-muted fw-semibold" style="font-size: 11px;">17 Non-ASN, 1 CPNS</div>
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['nonasn_label'] ?? 'Non-ASN & CPNS' }}</div>
+                            <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $nonAsnCount }} <span class="fs-6 fw-normal text-muted">Org</span></div>
+                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['nonasn_sub'] ?? '17 Non-ASN, 1 CPNS' }}</div>
                         </div>
                     </div>
                 </div>
@@ -208,14 +244,14 @@
 
             <!-- 2. CHARTS SECTION -->
             <div id="grafik-kepegawaian" class="mb-5 pt-3">
-                <div class="d-flex align-items-center justify-content-between mb-4 border-bottom pb-3">
+                <div class="d-flex align-items-center justify-content-between mb-4 border-bottom pb-3 flex-wrap gap-2">
                     <div>
                         <h3 class="fw-bold outfit text-[#002b5c] mb-1">
                             <i class="fas fa-chart-line text-primary me-2"></i>Visualisasi Statistik Pegawai PKTJ
                         </h3>
-                        <p class="text-muted small mb-0">Sumber Data: Sistem Informasi Kepegawaian (SIMPEG) Kementerian Perhubungan Republik Indonesia</p>
+                        <p class="text-muted small mb-0">Sumber Data: {{ $data['sumber_data'] ?? 'Sistem Informasi Kepegawaian (SIMPEG) Kementerian Perhubungan Republik Indonesia' }}</p>
                     </div>
-                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold">TA 2025 / 2026</span>
+                    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-1.5 rounded-pill fw-bold">{{ $data['tahun_anggaran'] ?? 'TA 2025 / 2026' }}</span>
                 </div>
 
                 <div class="row g-4 mb-4">
@@ -232,10 +268,10 @@
                                 <canvas id="chartJenisPegawai"></canvas>
                             </div>
                             <div class="d-flex flex-wrap gap-2 justify-content-center mt-3 pt-2 border-top">
-                                <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#0284c7;"></span> PNS: <strong>115 (66.1%)</strong></span>
-                                <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#10b981;"></span> PPPK: <strong>41 (23.6%)</strong></span>
-                                <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#ef4444;"></span> Non-ASN: <strong>17 (9.8%)</strong></span>
-                                <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#a855f7;"></span> CPNS: <strong>1 (0.6%)</strong></span>
+                                <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#0284c7;"></span> PNS: <strong>{{ $statusPns }} ({{ $pctPns }}%)</strong></span>
+                                <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#10b981;"></span> PPPK: <strong>{{ $statusPppk }} ({{ $pctPppk }}%)</strong></span>
+                                <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#ef4444;"></span> Non-ASN: <strong>{{ $statusNonAsn }} ({{ $pctNonAsn }}%)</strong></span>
+                                <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#a855f7;"></span> CPNS: <strong>{{ $statusCpns }} ({{ $pctCpns }}%)</strong></span>
                             </div>
                         </div>
                     </div>
@@ -253,13 +289,9 @@
                                 <canvas id="chartPendidikanPegawai"></canvas>
                             </div>
                             <div class="d-flex flex-wrap gap-2 justify-content-center mt-3 pt-2 border-top">
-                                <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">S-2: <strong>68 (39.1%)</strong></span>
-                                <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">D-III: <strong>31 (17.8%)</strong></span>
-                                <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">D-IV: <strong>24 (13.8%)</strong></span>
-                                <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">S-1: <strong>23 (13.2%)</strong></span>
-                                <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">SLTA: <strong>23 (13.2%)</strong></span>
-                                <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">Profesi: <strong>6</strong></span>
-                                <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">S-3: <strong>2</strong></span>
+                                @foreach($pendList as $p)
+                                <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">{{ $p['jenjang'] }}: <strong>{{ $p['jumlah'] }}</strong></span>
+                                @endforeach
                             </div>
                         </div>
                     </div>
@@ -281,11 +313,11 @@
 
             <!-- 3. DETAILED DATA TABLES SECTION -->
             <div class="mb-5">
-                <div class="d-flex align-items-center justify-content-between mb-3">
+                <div class="d-flex align-items-center justify-content-between mb-3 flex-wrap gap-2">
                     <h4 class="fw-bold outfit text-[#002b5c] mb-0">
                         <i class="fas fa-table-list text-primary me-2"></i>Rincian Tabel Data Kepegawaian
                     </h4>
-                    <span class="text-muted small">Update Berkala TA 2025/2026</span>
+                    <span class="text-muted small">Update Berkala {{ $data['tahun_anggaran'] ?? 'TA 2025/2026' }}</span>
                 </div>
 
                 <div class="row g-4">
@@ -304,30 +336,30 @@
                                     <tr>
                                         <td class="text-center fw-bold">1</td>
                                         <td class="fw-bold text-[#004a99]">Pegawai Negeri Sipil (PNS)</td>
-                                        <td class="text-center fw-bold">115</td>
-                                        <td class="text-center">66.1%</td>
+                                        <td class="text-center fw-bold">{{ $statusPns }}</td>
+                                        <td class="text-center">{{ $pctPns }}%</td>
                                     </tr>
                                     <tr>
                                         <td class="text-center fw-bold">2</td>
                                         <td class="fw-bold text-success">Pegawai Pemerintah Perjanjian Kerja (PPPK)</td>
-                                        <td class="text-center fw-bold">41</td>
-                                        <td class="text-center">23.6%</td>
+                                        <td class="text-center fw-bold">{{ $statusPppk }}</td>
+                                        <td class="text-center">{{ $pctPppk }}%</td>
                                     </tr>
                                     <tr>
                                         <td class="text-center fw-bold">3</td>
                                         <td class="fw-bold text-danger">Pegawai Non-ASN / PPNPN</td>
-                                        <td class="text-center fw-bold">17</td>
-                                        <td class="text-center">9.8%</td>
+                                        <td class="text-center fw-bold">{{ $statusNonAsn }}</td>
+                                        <td class="text-center">{{ $pctNonAsn }}%</td>
                                     </tr>
                                     <tr>
                                         <td class="text-center fw-bold">4</td>
                                         <td class="fw-bold text-purple" style="color: #a855f7;">Calon Pegawai Negeri Sipil (CPNS)</td>
-                                        <td class="text-center fw-bold">1</td>
-                                        <td class="text-center">0.6%</td>
+                                        <td class="text-center fw-bold">{{ $statusCpns }}</td>
+                                        <td class="text-center">{{ $pctCpns }}%</td>
                                     </tr>
                                     <tr class="table-primary fw-bold">
                                         <td colspan="2" class="text-uppercase text-center">Total Seluruh Pegawai PKTJ</td>
-                                        <td class="text-center">174</td>
+                                        <td class="text-center">{{ $totalStatus }}</td>
                                         <td class="text-center">100.0%</td>
                                     </tr>
                                 </tbody>
@@ -347,42 +379,18 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @forelse($pendList as $idx => $p)
                                     <tr>
-                                        <td class="text-center fw-bold">1</td>
-                                        <td class="fw-bold">Magister / S-2</td>
-                                        <td class="text-center fw-bold text-success">68</td>
-                                        <td class="text-center text-muted small">Dosen & Fungsional</td>
+                                        <td class="text-center fw-bold">{{ $idx + 1 }}</td>
+                                        <td class="fw-bold">{{ $p['jenjang'] }}</td>
+                                        <td class="text-center fw-bold text-success">{{ $p['jumlah'] }}</td>
+                                        <td class="text-center text-muted small">{{ $p['keterangan'] ?? '-' }}</td>
                                     </tr>
+                                    @empty
                                     <tr>
-                                        <td class="text-center fw-bold">2</td>
-                                        <td class="fw-bold">Diploma III (D-III)</td>
-                                        <td class="text-center fw-bold">31</td>
-                                        <td class="text-center text-muted small">Teknis & Instruktur</td>
+                                        <td colspan="4" class="text-center text-muted py-3">Belum ada data jenjang pendidikan.</td>
                                     </tr>
-                                    <tr>
-                                        <td class="text-center fw-bold">3</td>
-                                        <td class="fw-bold">Diploma IV / Sarjana Terapan (D-IV)</td>
-                                        <td class="text-center fw-bold">24</td>
-                                        <td class="text-center text-muted small">Fungsional Teknis</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center fw-bold">4</td>
-                                        <td class="fw-bold">Sarjana (S-1)</td>
-                                        <td class="text-center fw-bold">23</td>
-                                        <td class="text-center text-muted small">Administrasi & Dosen</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center fw-bold">5</td>
-                                        <td class="fw-bold">SLTA / SMK Sederajat</td>
-                                        <td class="text-center fw-bold">23</td>
-                                        <td class="text-center text-muted small">Pelaksana & Teknis</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center fw-bold">6</td>
-                                        <td class="fw-bold">Profesi / S-3 / D-II</td>
-                                        <td class="text-center fw-bold">10</td>
-                                        <td class="text-center text-muted small">Doktor & Profesi</td>
-                                    </tr>
+                                    @endforelse
                                 </tbody>
                             </table>
                         </div>
@@ -392,7 +400,7 @@
 
             <!-- 4. TANGKAPAN LAYAR RESMI SIMPEG (BUKTI OTENTIK AKIP) -->
             <div id="bukti-otentik" class="mb-5 pt-3">
-                <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3">
+                <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3 flex-wrap gap-2">
                     <div>
                         <h4 class="fw-bold outfit text-[#002b5c] mb-1">
                             <i class="fas fa-file-shield text-primary me-2"></i>Tangkapan Layar Resmi SIMPEG Kemenhub
@@ -407,33 +415,33 @@
                 <div class="row g-4">
                     <div class="col-md-4" data-aos="fade-up">
                         <div class="proof-img-card">
-                            <img src="{{ asset('images/kepegawaian/E6a.jpg') }}" alt="Pegawai Per Jenis - SIMPEG PKTJ" onclick="openProofLightbox('{{ asset('images/kepegawaian/E6a.jpg') }}', '1. Pegawai Per Jenis - SIMPEG PKTJ')">
+                            <img src="{{ asset($img1) }}" alt="{{ $data['bukti_1_judul'] ?? 'Pegawai Per Jenis - SIMPEG PKTJ' }}" onclick="openProofLightbox('{{ asset($img1) }}', '{{ addslashes($data['bukti_1_judul'] ?? 'Data Pegawai Berdasarkan Jenis') }}')">
                             <div class="p-3 bg-white">
-                                <span class="badge bg-primary-subtle text-primary fw-bold mb-1" style="font-size: 11px;">Indikator E.8a</span>
-                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Data Pegawai Berdasarkan Jenis</h6>
-                                <p class="text-muted small mb-0">Tangkapan layar otentik data PNS, PPPK, dan Non-ASN SIMPEG.</p>
+                                <span class="badge bg-primary-subtle text-primary fw-bold mb-1" style="font-size: 11px;">{{ $data['bukti_1_indikator'] ?? 'Indikator E.8a' }}</span>
+                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $data['bukti_1_judul'] ?? 'Data Pegawai Berdasarkan Jenis' }}</h6>
+                                <p class="text-muted small mb-0">{{ $data['bukti_1_deskripsi'] ?? 'Tangkapan layar otentik data PNS, PPPK, dan Non-ASN SIMPEG.' }}</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
                         <div class="proof-img-card">
-                            <img src="{{ asset('images/kepegawaian/E6b.jpg') }}" alt="Tingkat Pendidikan Pegawai - SIMPEG PKTJ" onclick="openProofLightbox('{{ asset('images/kepegawaian/E6b.jpg') }}', '2. Tingkat Pendidikan Pegawai - SIMPEG PKTJ')">
+                            <img src="{{ asset($img2) }}" alt="{{ $data['bukti_2_judul'] ?? 'Tingkat Pendidikan Pegawai - SIMPEG PKTJ' }}" onclick="openProofLightbox('{{ asset($img2) }}', '{{ addslashes($data['bukti_2_judul'] ?? 'Data Tingkat Pendidikan Pegawai') }}')">
                             <div class="p-3 bg-white">
-                                <span class="badge bg-success-subtle text-success fw-bold mb-1" style="font-size: 11px;">Indikator E.8b</span>
-                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Data Tingkat Pendidikan Pegawai</h6>
-                                <p class="text-muted small mb-0">Komposisi jenjang pendidikan S-2, D-III, D-IV, dan S-1.</p>
+                                <span class="badge bg-success-subtle text-success fw-bold mb-1" style="font-size: 11px;">{{ $data['bukti_2_indikator'] ?? 'Indikator E.8b' }}</span>
+                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $data['bukti_2_judul'] ?? 'Data Tingkat Pendidikan Pegawai' }}</h6>
+                                <p class="text-muted small mb-0">{{ $data['bukti_2_deskripsi'] ?? 'Komposisi jenjang pendidikan S-2, D-III, D-IV, dan S-1.' }}</p>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
                         <div class="proof-img-card">
-                            <img src="{{ asset('images/kepegawaian/E6c.jpg') }}" alt="Golongan Pegawai - SIMPEG PKTJ" onclick="openProofLightbox('{{ asset('images/kepegawaian/E6c.jpg') }}', '3. Golongan Pegawai - SIMPEG PKTJ')">
+                            <img src="{{ asset($img3) }}" alt="{{ $data['bukti_3_judul'] ?? 'Golongan Pegawai - SIMPEG PKTJ' }}" onclick="openProofLightbox('{{ asset($img3) }}', '{{ addslashes($data['bukti_3_judul'] ?? 'Data Golongan / Ruang Pegawai') }}')">
                             <div class="p-3 bg-white">
-                                <span class="badge bg-warning-subtle text-dark fw-bold mb-1" style="font-size: 11px;">Indikator E.8c</span>
-                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">Data Golongan / Ruang Pegawai</h6>
-                                <p class="text-muted small mb-0">Komposisi pegawai dari Golongan II/c hingga IV/b dan PPPK.</p>
+                                <span class="badge bg-warning-subtle text-dark fw-bold mb-1" style="font-size: 11px;">{{ $data['bukti_3_indikator'] ?? 'Indikator E.8c' }}</span>
+                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $data['bukti_3_judul'] ?? 'Data Golongan / Ruang Pegawai' }}</h6>
+                                <p class="text-muted small mb-0">{{ $data['bukti_3_deskripsi'] ?? 'Komposisi pegawai dari Golongan II/c hingga IV/b dan PPPK.' }}</p>
                             </div>
                         </div>
                     </div>
@@ -447,13 +455,13 @@
                         <i class="fas fa-user-shield text-warning"></i>
                     </div>
                     <div>
-                        <div class="fw-bold text-dark fs-6">Data Kepegawaian & Profil Pimpinan PPID PKTJ</div>
-                        <div class="text-muted small">Informasi resmi komposisi ketenagaan serta kepatuhan Laporan Harta Kekayaan Penyelenggara Negara (LHKPN) pimpinan PKTJ Tegal.</div>
+                        <div class="fw-bold text-dark fs-6">{{ $data['callout_judul'] ?? 'Data Kepegawaian & Profil Pimpinan PPID PKTJ' }}</div>
+                        <div class="text-muted small">{{ $data['callout_deskripsi'] ?? 'Informasi resmi komposisi ketenagaan serta kepatuhan Laporan Harta Kekayaan Penyelenggara Negara (LHKPN) pimpinan PKTJ Tegal.' }}</div>
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <a href="{{ url('/profil/pejabat') }}" class="btn btn-primary rounded-pill px-4 py-2 fw-bold btn-sm shadow-sm">
-                        <i class="fas fa-user-tie me-1"></i> Profil Pejabat & LHKPN
+                    <a href="{{ url($data['callout_btn_url'] ?? '/profil/pejabat') }}" class="btn btn-primary rounded-pill px-4 py-2 fw-bold btn-sm shadow-sm">
+                        <i class="fas fa-user-tie me-1"></i> {{ $data['callout_btn_text'] ?? 'Profil Pejabat & LHKPN' }}
                     </a>
                 </div>
             </div>
@@ -468,7 +476,7 @@
                 <div class="modal-header bg-[#002b5c] text-white p-3.5" style="background: #002b5c;">
                     <div class="d-flex align-items-center gap-2">
                         <i class="fas fa-chart-bar text-warning fs-5"></i>
-                        <h5 class="modal-title fw-bold outfit text-white mb-0">Tangkapan Layar Resmi SIMPEG PKTJ (TA 2025/2026)</h5>
+                        <h5 class="modal-title fw-bold outfit text-white mb-0">Tangkapan Layar Resmi SIMPEG PKTJ ({{ $data['tahun_anggaran'] ?? 'TA 2025/2026' }})</h5>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -486,15 +494,15 @@
                     </ul>
                     <div class="tab-content bg-white p-3 rounded-3 border shadow-sm" id="simpegTabsContent">
                         <div class="tab-pane fade show active text-center" id="tab-jenis" role="tabpanel">
-                            <img src="{{ asset('images/kepegawaian/E6a.jpg') }}" alt="Pegawai Per Jenis" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
+                            <img src="{{ asset($img1) }}" alt="Pegawai Per Jenis" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
                             <div class="text-muted small mt-2">Sumber: SIMPEG Kementerian Perhubungan - Politeknik Keselamatan Transportasi Jalan</div>
                         </div>
                         <div class="tab-pane fade text-center" id="tab-pendidikan" role="tabpanel">
-                            <img src="{{ asset('images/kepegawaian/E6b.jpg') }}" alt="Tingkat Pendidikan Pegawai" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
+                            <img src="{{ asset($img2) }}" alt="Tingkat Pendidikan Pegawai" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
                             <div class="text-muted small mt-2">Komposisi Pegawai Berdasarkan Tingkat Pendidikan Akhir</div>
                         </div>
                         <div class="tab-pane fade text-center" id="tab-golongan" role="tabpanel">
-                            <img src="{{ asset('images/kepegawaian/E6c.jpg') }}" alt="Golongan Pegawai" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
+                            <img src="{{ asset($img3) }}" alt="Golongan Pegawai" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
                             <div class="text-muted small mt-2">Komposisi Pegawai Berdasarkan Golongan / Ruang</div>
                         </div>
                     </div>
@@ -545,12 +553,14 @@
             // Chart 1: Jenis Pegawai (Doughnut)
             const ctxJenis = document.getElementById('chartJenisPegawai');
             if (ctxJenis) {
+                const jenisData = [{{ $statusPns }}, {{ $statusPppk }}, {{ $statusNonAsn }}, {{ $statusCpns }}];
+                const totalJenis = {{ $totalStatus }};
                 new Chart(ctxJenis.getContext('2d'), {
                     type: 'doughnut',
                     data: {
                         labels: ['PNS', 'PPPK', 'Non-ASN', 'CPNS'],
                         datasets: [{
-                            data: [115, 41, 17, 1],
+                            data: jenisData,
                             backgroundColor: ['#0284c7', '#10b981', '#ef4444', '#a855f7'],
                             borderWidth: 2,
                             borderColor: '#ffffff'
@@ -564,9 +574,8 @@
                             tooltip: {
                                 callbacks: {
                                     label: function(c) {
-                                        let total = 174;
                                         let val = c.parsed;
-                                        let pct = ((val / total) * 100).toFixed(1);
+                                        let pct = ((val / totalJenis) * 100).toFixed(1);
                                         return `${c.label}: ${val} orang (${pct}%)`;
                                     }
                                 }
@@ -579,15 +588,19 @@
             // Chart 2: Pendidikan Pegawai (Bar)
             const ctxPendidikan = document.getElementById('chartPendidikanPegawai');
             if (ctxPendidikan) {
+                const pendLabels = {!! json_encode($pendLabels) !!};
+                const pendCounts = {!! json_encode($pendCounts) !!};
+                const totalPend = pendCounts.reduce((a, b) => a + b, 0) || 1;
+
                 new Chart(ctxPendidikan.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: ['S-2', 'D-III', 'D-IV', 'S-1', 'SLTA', 'Profesi', 'S-3', 'D-II', 'SMK'],
+                        labels: pendLabels,
                         datasets: [{
                             label: 'Jumlah Pegawai',
-                            data: [68, 31, 24, 23, 23, 6, 2, 1, 1],
+                            data: pendCounts,
                             backgroundColor: [
-                                '#10b981', '#84cc16', '#a3e635', '#22c55e', '#f97316', '#06b6d4', '#3b82f6', '#eab308', '#ef4444'
+                                '#10b981', '#84cc16', '#a3e635', '#22c55e', '#f97316', '#06b6d4', '#3b82f6', '#eab308', '#ef4444', '#6366f1', '#ec4899'
                             ],
                             borderRadius: 6
                         }]
@@ -600,9 +613,8 @@
                             tooltip: {
                                 callbacks: {
                                     label: function(c) {
-                                        let total = 179;
                                         let val = c.parsed.y;
-                                        let pct = ((val / total) * 100).toFixed(1);
+                                        let pct = ((val / totalPend) * 100).toFixed(1);
                                         return `${val} orang (${pct}%)`;
                                     }
                                 }
@@ -619,13 +631,17 @@
             // Chart 3: Golongan Pegawai (Bar)
             const ctxGolongan = document.getElementById('chartGolonganPegawai');
             if (ctxGolongan) {
+                const golLabels = {!! json_encode($golLabels) !!};
+                const golCounts = {!! json_encode($golCounts) !!};
+                const totalGol = golCounts.reduce((a, b) => a + b, 0) || {{ $totalSdm }};
+
                 new Chart(ctxGolongan.getContext('2d'), {
                     type: 'bar',
                     data: {
-                        labels: ['Penata (III/c)', 'Penata Muda Tk I (III/b)', 'Penata Tk I (III/d)', 'Gol. VII (PPPK)', 'Gol. IX (PPPK)', 'Pembina (IV/a)', 'Penata Muda (III/a)', 'Pengatur (II/c)', 'Gol. X (PPPK)', 'Gol. V (PPPK)', 'Pengatur Tk I (II/d)', 'Pembina Tk I (IV/b)'],
+                        labels: golLabels,
                         datasets: [{
                             label: 'Jumlah Pegawai',
-                            data: [30, 21, 20, 17, 14, 14, 13, 9, 5, 5, 5, 4],
+                            data: golCounts,
                             backgroundColor: '#004a99',
                             hoverBackgroundColor: '#ffc107',
                             borderRadius: 6
@@ -639,7 +655,9 @@
                             tooltip: {
                                 callbacks: {
                                     label: function(c) {
-                                        return `${c.parsed.y} orang (${((c.parsed.y / 174) * 100).toFixed(1)}%)`;
+                                        let val = c.parsed.y;
+                                        let pct = ((val / totalGol) * 100).toFixed(1);
+                                        return `${val} orang (${pct}%)`;
                                     }
                                 }
                             }

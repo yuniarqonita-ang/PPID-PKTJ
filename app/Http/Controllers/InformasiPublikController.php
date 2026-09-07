@@ -180,7 +180,8 @@ class InformasiPublikController extends Controller
     public function statistikPegawai()
     {
         $settings = $this->getSettings();
-        return view('statistik-pegawai', compact('settings'));
+        $data = \App\Http\Controllers\StatistikPegawaiController::getMergedSettings();
+        return view('statistik-pegawai', compact('settings', 'data'));
     }
 
     // Informasi Serta Merta

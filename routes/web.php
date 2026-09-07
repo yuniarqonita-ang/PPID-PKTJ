@@ -860,6 +860,12 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/{type}', [ProfilPpidController::class, 'destroy'])->name('destroy');
     });
 
+    // Kelola Data & Statistik Kepegawaian (CMS Real-Time AKIP 2026)
+    Route::get('/statistik-pegawai', [\App\Http\Controllers\StatistikPegawaiController::class, 'index'])->name('admin.statistik-pegawai.index');
+    Route::post('/statistik-pegawai', [\App\Http\Controllers\StatistikPegawaiController::class, 'update'])->name('admin.statistik-pegawai.update');
+    Route::put('/statistik-pegawai', [\App\Http\Controllers\StatistikPegawaiController::class, 'update']);
+    Route::get('/profil/statistik-pegawai', function() { return redirect()->route('admin.statistik-pegawai.index'); });
+
     // Pesan Kontak
     Route::get('/pesan-kontak', [\App\Http\Controllers\PesanKontakController::class, 'index'])->name('admin.pesan-kontak.index');
     Route::get('/pesan-kontak/{id}', [\App\Http\Controllers\PesanKontakController::class, 'show'])->name('admin.pesan-kontak.show');

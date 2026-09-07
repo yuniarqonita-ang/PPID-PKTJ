@@ -411,6 +411,7 @@
                             <a href="{{ route('admin.profil.edit', 'tugas') }}" class="submenu-link {{ request()->is('admin/profil/tugas*') ? 'active' : '' }}">Tugas & Fungsi PPID</a>
                             <a href="{{ route('admin.profil.edit', 'visi') }}" class="submenu-link {{ request()->is('admin/profil/visi*') ? 'active' : '' }}">Visi & Misi</a>
                             <a href="{{ route('admin.profil.edit', 'struktur') }}" class="submenu-link {{ request()->is('admin/profil/struktur*') ? 'active' : '' }}">Struktur Organisasi</a>
+                            <a href="{{ route('admin.statistik-pegawai.index') }}" class="submenu-link {{ request()->is('admin/statistik-pegawai*') ? 'active' : '' }}"><i class="fas fa-chart-pie mr-1 text-[#ffc107]"></i> Statistik Kepegawaian</a>
                             <a href="{{ route('admin.regulasi.index') }}" class="submenu-link {{ request()->is('admin/regulasi*') || request()->is('admin/profil/regulasi*') ? 'active' : '' }}">Regulasi & Dasar Hukum</a>
                             <a href="{{ route('admin.profil.edit', 'kontak') }}" class="submenu-link {{ request()->is('admin/profil/kontak*') ? 'active' : '' }}">Kontak Kami</a>
                         </div>
@@ -489,9 +490,9 @@
                 
                 <div class="sidebar-footer">
                     <div class="flex items-center gap-3">
-                        <div class="user-avatar text-sm">{{ substr(Auth::user()->name, 0, 1) }}</div>
+                        <div class="user-avatar text-sm">{{ substr(Auth::user()?->name ?? 'Admin', 0, 1) }}</div>
                         <div class="flex-1 min-w-0">
-                            <div class="text-white text-xs font-bold truncate">{{ Auth::user()->name }}</div>
+                            <div class="text-white text-xs font-bold truncate">{{ Auth::user()?->name ?? 'Admin PPID' }}</div>
                             <form action="{{ route('logout') }}" method="POST" class="m-0">
                                 @csrf
                                 <button type="submit" class="text-[#ffc107] text-[10px] font-bold uppercase tracking-wider hover:underline border-none bg-transparent p-0 cursor-pointer">Log Out</button>
@@ -514,8 +515,8 @@
                     </div>
                     <div class="flex items-center gap-4">
                         <div class="hidden md:flex flex-col text-right">
-                            <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">{{ Auth::user()->name }}</span>
-                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{{ Auth::user()->role ?? 'Administrator' }}</span>
+                            <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">{{ Auth::user()?->name ?? 'Administrator' }}</span>
+                            <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{{ Auth::user()?->role ?? 'Administrator' }}</span>
                         </div>
                         <div class="w-10 h-10 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-center text-slate-400">
                             <i class="fas fa-user-shield"></i>

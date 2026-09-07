@@ -120,6 +120,17 @@
                         </a>
                     </div>
                 @endforeach
+                    <div class="flex items-center justify-between p-2 bg-amber-50/60 border border-amber-200/80 rounded-lg hover:bg-amber-100/80 transition">
+                        <div class="flex-1">
+                            <p class="text-sm font-bold text-[#004a99] flex items-center gap-1.5">
+                                <i class="fas fa-chart-pie text-amber-500"></i> Statistik Kepegawaian
+                            </p>
+                            <p class="text-xs text-amber-700 font-semibold">CMS Real-Time AKIP 2026</p>
+                        </div>
+                        <a href="{{ route('admin.statistik-pegawai.index') }}" class="text-[#004a99] hover:text-blue-700">
+                            <i class="fas fa-edit text-sm"></i>
+                        </a>
+                    </div>
             </div>
             <div class="mt-4 pt-4 border-t border-slate-600/30">
                 <p class="text-xs text-slate-500 mb-2 italic"><i class="fas fa-info-circle mr-1"></i> Klik ikon edit di atas untuk mengelola setiap bagian.</p>
