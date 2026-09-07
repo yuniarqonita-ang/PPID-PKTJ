@@ -396,12 +396,29 @@
         $itemsList = collect();
         if (isset($allRegulasi) && $allRegulasi->count() > 0) {
             foreach ($allRegulasi as $r) {
+                // Skip SK Direktur & SOP internal PKTJ per instruksi user (tidak ada dokumen resmi di drive)
+                $jLower = strtolower($r->judul ?? '');
+                $nLower = strtolower($r->nomor ?? '');
+                if (str_contains($nLower, 'kp-pktj 32') || str_contains($jLower, 'penetapan pengelola ppid') || (str_contains($jLower, 'sop') && (str_contains($jLower, 'pktj') || str_contains($nLower, 'kp-pktj')))) {
+                    continue;
+                }
+
                 $kat = $r->kategori ?? 'Umum';
                 if ($kat === 'Komisi Informasi Pusat') $kat = 'Peraturan KIP';
 
                 $resolvedLink = $r->link_download;
-                if ($resolvedLink && !str_starts_with($resolvedLink, 'http')) {
+                // Auto-override legacy link if maklumat
+                if (!$resolvedLink || str_contains($resolvedLink, 'pktj.ac.id/ppid')) {
+                    if (str_contains($jLower, 'maklumat')) {
+                        $resolvedLink = 'https://pktj.ac.id/program-studi/50-pernyataan-kebijakan-dan-maklumat-pelayanan-pktj';
+                    }
+                } elseif (!str_starts_with($resolvedLink, 'http')) {
                     $resolvedLink = url($resolvedLink);
+                }
+
+                $filePath = $r->file_path;
+                if ($filePath && str_contains($filePath, 'pktj.ac.id/ppid')) {
+                    $filePath = null;
                 }
 
                 $itemsList->push([
@@ -411,7 +428,7 @@
                     'tahun' => $r->tahun ?? 2024,
                     'kategori' => $kat,
                     'deskripsi' => $r->deskripsi ?? 'Dokumen landasan hukum keterbukaan informasi publik resmi.',
-                    'file_path' => $r->file_path ? (str_starts_with($r->file_path, 'http') ? $r->file_path : asset($r->file_path)) : ($resolvedLink ?: 'https://bpsdm.kemenhub.go.id/jdih/'),
+                    'file_path' => $filePath ? (str_starts_with($filePath, 'http') ? $filePath : asset($filePath)) : ($resolvedLink ?: 'https://bpsdm.kemenhub.go.id/jdih/'),
                 ]);
             }
         } else {
@@ -447,9 +464,6 @@
                     <a href="https://bpsdm.kemenhub.go.id/jdih/" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1.5 fw-bold ms-2" style="font-size: 12px;">
                         <i class="fas fa-arrow-up-right-from-square me-1"></i> JDIH BPSDM
                     </a>
-                    <a href="https://pktj.ac.id/program-studi/50-pernyataan-kebijakan-dan-maklumat-pelayanan-pktj" target="_blank" class="btn btn-warning text-dark btn-sm rounded-pill px-3 py-1.5 fw-bold ms-1 shadow-sm" style="font-size: 12px;">
-                        <i class="fas fa-certificate me-1"></i> Maklumat Pelayanan
-                    </a>
                 </div>
             </div>
 
@@ -477,31 +491,6 @@
                     <span class="badge-count">{{ $cntPKTJ }}</span>
                 </button>
                 @endif
-            </div>
-        </div>
-
-        <!-- BANNER MAKLUMAT PELAYANAN RESMI -->
-        <div class="card border-0 rounded-4 shadow-sm mb-4 overflow-hidden" style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;" data-aos="fade-up">
-            <div class="card-body p-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px; font-size: 20px;">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <div>
-                        <h6 class="fw-bold text-warning mb-1" style="font-size: 16px;">Maklumat Pelayanan Informasi Publik PPID PKTJ</h6>
-                        <p class="text-white-50 small mb-0" style="font-size: 13px;">
-                            Pernyataan komitmen Direktur & pimpinan PPID PKTJ menyelenggarakan pelayanan informasi prima bebas biaya (Rp 0,-), kepastian waktu 10 hari kerja, dan desk layanan fisik.
-                        </p>
-                    </div>
-                </div>
-                <div class="flex-shrink-0 d-flex gap-2 flex-wrap">
-                    <a href="https://pktj.ac.id/program-studi/50-pernyataan-kebijakan-dan-maklumat-pelayanan-pktj" target="_blank" class="btn btn-warning text-dark fw-bold rounded-pill px-3.5 py-2 shadow-sm" style="font-size: 13px;">
-                        <i class="fas fa-external-link-alt me-1.5"></i> Maklumat di Website PKTJ
-                    </a>
-                    <a href="/layanan-informasi/maklumat" class="btn btn-outline-light fw-bold rounded-pill px-3.5 py-2 shadow-sm" style="font-size: 13px;">
-                        <i class="fas fa-certificate me-1.5"></i> Standar Komitmen & Biaya
-                    </a>
-                </div>
             </div>
         </div>
 

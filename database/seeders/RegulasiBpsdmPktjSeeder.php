@@ -151,41 +151,45 @@ class RegulasiBpsdmPktjSeeder extends Seeder
             ],
 
             // =========================================================================
-            // 4. PKTJ TEGAL & BPSDM PERHUBUNGAN
+            // 4. PKTJ TEGAL & BPSDM PERHUBUNGAN (MAKLUMAT RESMI)
             // =========================================================================
-            [
-                'judul' => 'Keputusan Direktur PKTJ tentang Penetapan Pengelola PPID Pelaksana PKTJ Tegal',
-                'nomor' => 'KP-PKTJ 32 Tahun 2024',
-                'tahun' => 2024,
-                'deskripsi' => 'tentang Pejabat Pengelola Informasi dan Dokumentasi (PPID) Politeknik Keselamatan Transportasi Jalan Tegal (Lengkap dengan Lampiran Susunan dan Uraian Tugas Petugas)',
-                'kategori' => 'PKTJ Tegal',
-                'urutan' => 13,
-                'link_download' => 'storage/dokumen/SK_PPID_PKTJ.pdf',
-                'is_active' => true,
-            ],
             [
                 'judul' => 'Maklumat Pelayanan Informasi Publik PPID PKTJ Tegal',
                 'nomor' => 'Maklumat PKTJ 2025/2026',
                 'tahun' => 2025,
                 'deskripsi' => 'Pernyataan Kebijakan dan Maklumat Pelayanan Informasi Publik Politeknik Keselamatan Transportasi Jalan Sesuai Standar Layanan KIP',
                 'kategori' => 'PKTJ Tegal',
-                'urutan' => 14,
+                'urutan' => 13,
                 'link_download' => 'https://pktj.ac.id/program-studi/50-pernyataan-kebijakan-dan-maklumat-pelayanan-pktj',
-                'is_active' => true,
-            ],
-            [
-                'judul' => 'SOP Pelayanan dan Tata Kelola Informasi Publik PPID PKTJ',
-                'nomor' => 'Lampiran KP-PKTJ 32 / KM 117',
-                'tahun' => 2024,
-                'deskripsi' => 'Standar Operasional Prosedur, Tugas, Wewenang, dan Prosedur Pelayanan Petugas PPID Politeknik Keselamatan Transportasi Jalan Tegal',
-                'kategori' => 'PKTJ Tegal',
-                'urutan' => 15,
-                'link_download' => 'storage/dokumen/SOP_PPID_PKTJ.pdf',
                 'is_active' => true,
             ],
         ];
 
+        // Hapus entri SK Direktur dan SOP PKTJ yang tidak ada dokumen resminya di drive (sesuai instruksi user)
+        Peraturan::where(function($q) {
+            $q->where('nomor', 'like', '%KP-PKTJ 32%')
+              ->orWhere('nomor', 'like', '%SK Direktur%')
+              ->orWhere('judul', 'like', '%Penetapan Pengelola PPID%')
+              ->orWhere('judul', 'like', '%SOP Pelayanan dan Tata Kelola%')
+              ->orWhere('judul', 'like', '%SOP PPID PKTJ%')
+              ->orWhere('link_download', 'like', '%SK_PPID_PKTJ%')
+              ->orWhere('link_download', 'like', '%SOP_PPID_PKTJ%')
+              ->orWhere('link_download', 'like', '%pktj.ac.id/ppid%')
+              ->orWhere('file_path', 'like', '%pktj.ac.id/ppid%');
+        })->delete();
+
         foreach ($regulasiList as $reg) {
+            // Khusus Maklumat: jika user sudah menginput/mengedit via admin panel, jangan menimpa datanya
+            if (str_contains(strtolower($reg['judul']), 'maklumat')) {
+                $existingMaklumat = Peraturan::where('judul', 'like', '%Maklumat%')->first();
+                if ($existingMaklumat) {
+                    if (empty($existingMaklumat->link_download) || str_contains($existingMaklumat->link_download, 'pktj.ac.id/ppid')) {
+                        $existingMaklumat->update(['link_download' => $reg['link_download']]);
+                    }
+                    continue;
+                }
+            }
+
             Peraturan::updateOrCreate(
                 ['judul' => $reg['judul']],
                 $reg

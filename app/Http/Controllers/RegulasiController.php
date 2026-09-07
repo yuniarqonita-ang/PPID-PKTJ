@@ -27,6 +27,21 @@ class RegulasiController extends Controller
             } catch (\Throwable $e) {}
         }
 
+        try {
+            // Hapus SK Direktur dan SOP PKTJ tanpa dokumen sesuai arahan user
+            Peraturan::where(function($q) {
+                $q->where('nomor', 'like', '%KP-PKTJ 32%')
+                  ->orWhere('nomor', 'like', '%SK Direktur%')
+                  ->orWhere('judul', 'like', '%Penetapan Pengelola PPID%')
+                  ->orWhere('judul', 'like', '%SOP Pelayanan dan Tata Kelola%')
+                  ->orWhere('judul', 'like', '%SOP PPID PKTJ%')
+                  ->orWhere('link_download', 'like', '%SK_PPID_PKTJ%')
+                  ->orWhere('link_download', 'like', '%SOP_PPID_PKTJ%')
+                  ->orWhere('link_download', 'like', '%pktj.ac.id/ppid%')
+                  ->orWhere('file_path', 'like', '%pktj.ac.id/ppid%');
+            })->delete();
+        } catch (\Throwable $e) {}
+
         if (Peraturan::count() === 0) {
             try {
                 $seeder = new \Database\Seeders\RegulasiBpsdmPktjSeeder();

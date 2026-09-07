@@ -317,10 +317,17 @@ Route::get('/refresh-deploy', function() {
                 ->update(['value' => 'Laporan Layanan Informasi Publik']);
         } catch (\Throwable $dEx) {}
 
-        // 1. Bersihkan dummy regulasi lama (yang ber-link pktj.ac.id/ppid) & sinkronkan regulasi resmi
+        // 1. Bersihkan dummy regulasi lama & hapus SK / SOP yang tidak memiliki dokumen (sesuai arahan user)
         try {
             \Illuminate\Support\Facades\DB::table('peraturans')
-                ->where('link_download', 'like', '%pktj.ac.id/ppid%')
+                ->where('nomor', 'like', '%KP-PKTJ 32%')
+                ->orWhere('nomor', 'like', '%SK Direktur%')
+                ->orWhere('judul', 'like', '%Penetapan Pengelola PPID%')
+                ->orWhere('judul', 'like', '%SOP Pelayanan dan Tata Kelola%')
+                ->orWhere('judul', 'like', '%SOP PPID PKTJ%')
+                ->orWhere('link_download', 'like', '%SK_PPID_PKTJ%')
+                ->orWhere('link_download', 'like', '%SOP_PPID_PKTJ%')
+                ->orWhere('link_download', 'like', '%pktj.ac.id/ppid%')
                 ->orWhere('file_path', 'like', '%pktj.ac.id/ppid%')
                 ->delete();
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'RegulasiBpsdmPktjSeeder', '--force' => true]);
