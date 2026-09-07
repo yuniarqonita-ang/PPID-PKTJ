@@ -282,7 +282,7 @@
                             </a>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-6" id="meja-layanan">
                         <div class="service-channel-box">
                             <div class="channel-icon" style="background: #fef3c7; color: #b45309;">
                                 <i class="fas fa-building"></i>
@@ -291,8 +291,13 @@
                             <p class="text-muted small mb-3" style="line-height: 1.6;">
                                 Meja Layanan Terpadu PPID di <strong>Kampus II PKTJ Tegal</strong>, Jl. Abdul Syukur No. 17, Margadana, Kota Tegal. Dilengkapi sarana komputer akses publik, ruang tunggu nyaman, dan formulir permohonan cetak & Braille.
                             </p>
-                            <div class="badge bg-light text-dark border px-2.5 py-1.5 rounded-pill font-monospace" style="font-size: 11.5px;">
-                                <i class="far fa-clock me-1 text-primary"></i> Senin-Jumat: 08.00 - 15.30 WIB
+                            <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
+                                <div class="badge bg-light text-dark border px-2.5 py-1.5 rounded-pill font-monospace" style="font-size: 11.5px;">
+                                    <i class="far fa-clock me-1 text-primary"></i> Senin-Jumat: 08.00 - 15.30 WIB
+                                </div>
+                                <button type="button" class="btn btn-outline-warning btn-sm rounded-pill px-3 fw-bold text-dark" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan">
+                                    <i class="fas fa-camera me-1"></i> Foto Meja Layanan
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -327,6 +332,56 @@
 
         </div>
 
+    </div>
+
+    <!-- MODAL FOTO MEJA LAYANAN & FORMULIR FISIK (AKIP C.1 & C.2) -->
+    <div class="modal fade" id="modalFotoMejaLayanan" tabindex="-1" aria-labelledby="modalFotoMejaLayananLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
+                <div class="modal-header bg-primary text-white border-0 py-3 px-4" style="background: linear-gradient(135deg, #002b5c, #0d6efd) !important;">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-building text-warning fs-5"></i>
+                        <h5 class="modal-title outfit fw-bold mb-0 text-white" id="modalFotoMejaLayananLabel">Meja Layanan Informasi Publik Terpadu (AKIP C.1 & C.2)</h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm rounded-3 overflow-hidden h-100">
+                                <div class="card-header bg-white py-2 fw-bold text-dark small">
+                                    <i class="fas fa-desktop text-primary me-1"></i> Desk / Meja Layanan PPID (C.1)
+                                </div>
+                                <img src="{{ asset('images/sarana/meja-layanan-ppid.png') }}" class="card-img-top img-fluid" alt="Meja Layanan PPID PKTJ" style="object-fit: cover; max-height: 250px;">
+                                <div class="card-body p-2.5">
+                                    <p class="small text-muted mb-0">Lokasi: Meja Layanan Terpadu Kampus II PKTJ Margadana Kota Tegal.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm rounded-3 overflow-hidden h-100">
+                                <div class="card-header bg-white py-2 fw-bold text-dark small">
+                                    <i class="fas fa-file-alt text-warning me-1"></i> Formulir Permohonan & Keberatan Fisik (C.2)
+                                </div>
+                                <img src="{{ asset('images/sarana/formulir-meja-layanan.jpg') }}" class="card-img-top img-fluid" alt="Formulir Fisik Meja Layanan" style="object-fit: cover; max-height: 250px;">
+                                <div class="card-body p-2.5">
+                                    <p class="small text-muted mb-0">Ketersediaan formulir fisik permohonan informasi & pengajuan keberatan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
+                        <a href="{{ url('/dokumen/formulir-permohonan-cetak') }}" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill fw-bold">
+                            <i class="fas fa-print me-1"></i> Cetak Formulir Permohonan
+                        </a>
+                        <a href="{{ url('/dokumen/formulir-keberatan-cetak') }}" target="_blank" class="btn btn-outline-secondary btn-sm rounded-pill fw-bold">
+                            <i class="fas fa-print me-1"></i> Cetak Formulir Keberatan
+                        </a>
+                        <button type="button" class="btn btn-secondary btn-sm rounded-pill px-3" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     @include('footer')

@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('layouts.app')
 
 @section('title', 'Kelola Regulasi & Dasar Hukum PPID')
 
@@ -13,7 +13,7 @@
                 <span class="text-xs font-medium text-slate-500">Database-driven</span>
             </div>
             <h1 class="text-2xl font-black text-slate-900 tracking-tight">Kelola Regulasi & Peraturan</h1>
-            <p class="text-sm text-slate-500 font-medium mt-0.5">Daftar Undang-Undang, Peraturan Komisi Informasi, Peraturan Kemenhub, dan SK PPID PKTJ.</p>
+            <p class="text-sm text-slate-500 font-medium mt-0.5">Daftar Undang-Undang, Peraturan Komisi Informasi, dan Peraturan Kementerian Perhubungan.</p>
         </div>
         <div class="flex items-center gap-3">
             <a href="{{ route('profil.regulasi.html') }}" target="_blank" class="px-4 py-2.5 bg-slate-100 text-slate-700 font-bold text-xs rounded-xl hover:bg-slate-200 transition-all flex items-center shadow-sm">

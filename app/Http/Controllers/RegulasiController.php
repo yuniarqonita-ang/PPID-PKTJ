@@ -114,7 +114,7 @@ class RegulasiController extends Controller
     public function create()
     {
         $this->ensureSchema();
-        $categories = ['Undang-Undang', 'Komisi Informasi Pusat', 'Kementerian Perhubungan', 'PKTJ Tegal', 'Peraturan Pemerintah', 'Umum'];
+        $categories = ['Undang-Undang', 'Komisi Informasi Pusat', 'Kementerian Perhubungan', 'Peraturan Pemerintah', 'Umum'];
         return view('admin.regulasi.create', compact('categories'));
     }
 
@@ -156,7 +156,7 @@ class RegulasiController extends Controller
     {
         $this->ensureSchema();
         $peraturan = Peraturan::findOrFail($id);
-        $categories = ['Undang-Undang', 'Komisi Informasi Pusat', 'Kementerian Perhubungan', 'PKTJ Tegal', 'Peraturan Pemerintah', 'Umum'];
+        $categories = ['Undang-Undang', 'Komisi Informasi Pusat', 'Kementerian Perhubungan', 'Peraturan Pemerintah', 'Umum'];
         return view('admin.regulasi.edit', compact('peraturan', 'categories'));
     }
 

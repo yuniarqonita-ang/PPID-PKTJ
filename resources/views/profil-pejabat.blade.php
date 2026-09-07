@@ -275,6 +275,180 @@
             </div>
 
         </div>
+        <!-- AKHIR CONTENT-CARD PEJABAT -->
+
+        <!-- SECTION STATISTIK KEPEGAWAIAN PKTJ (E.8 AKIP 2026) -->
+        <div class="content-card mt-5" id="statistik-pegawai" data-aos="fade-up">
+            <!-- Header Section -->
+            <div class="d-flex flex-column flex-lg-row justify-content-between align-items-lg-center gap-3 pb-4 mb-4 border-bottom">
+                <div>
+                    <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-primary-subtle text-primary border border-primary-subtle fw-bold mb-2" style="font-size: 11px; letter-spacing: 0.5px;">
+                        <i class="fas fa-users-cog"></i> DATA STATISTIK SUMBER DAYA MANUSIA
+                    </div>
+                    <h3 class="fw-bold outfit text-[#002b5c] mb-1">
+                        <i class="fas fa-chart-pie text-[#004a99] me-2"></i>Statistik Kepegawaian Politeknik Keselamatan Transportasi Jalan
+                    </h3>
+                    <p class="text-muted small mb-0">
+                        Komposisi resmi aparatur sipil negara dan tenaga penunjang berdasarkan Sistem Informasi Manajemen Kepegawaian (SIMPEG).
+                    </p>
+                </div>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold" style="font-size: 12px;">
+                        <i class="fas fa-calendar-check me-1"></i> Data Terverifikasi TA 2025
+                    </span>
+                    <a href="https://drive.google.com/drive/folders/1AxMUqcMqb3ZX4ew0GVXyefRlVq97HOPS" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1.5" style="font-size: 12px;">
+                        <i class="fab fa-google-drive text-warning"></i> Arsip Google Drive
+                    </a>
+                </div>
+            </div>
+
+            <!-- Alert Notice Keterbukaan Informasi TA 2025 -->
+            <div class="alert alert-warning border-0 rounded-4 p-3.5 mb-4 shadow-sm d-flex align-items-center gap-3" style="background: rgba(255, 193, 7, 0.12); border: 1px solid rgba(255, 193, 7, 0.35) !important;">
+                <div class="w-10 h-10 rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center flex-shrink-0 fs-5 shadow-sm">
+                    <i class="fas fa-info-circle"></i>
+                </div>
+                <div class="small text-dark leading-relaxed">
+                    <strong>Catatan Pemutakhiran Data:</strong> Data statistik kepegawaian di bawah ini merupakan data resmi terverifikasi per <strong>Tahun Anggaran 2025</strong>. Proses pemutakhiran statistik formasi <strong>Tahun Anggaran 2026</strong> sedang berlangsung mengikuti penataan formasi ASN dan keputusan Badan Pengembangan SDM Perhubungan.
+                </div>
+            </div>
+
+            <!-- KPI Summary Cards (4 Cards) -->
+            <div class="row g-3 mb-5">
+                <div class="col-6 col-lg-3">
+                    <div class="p-3.5 rounded-4 border bg-white shadow-sm h-100 d-flex align-items-center gap-3" style="border-color: rgba(0, 74, 153, 0.15) !important;">
+                        <div class="w-12 h-12 rounded-3 text-white d-flex align-items-center justify-content-center fs-4 flex-shrink-0" style="background: linear-gradient(135deg, #002b5c, #004a99) !important; width: 48px; height: 48px;">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">Total Pegawai</div>
+                            <div class="fw-bold outfit text-dark" style="font-size: 24px; line-height: 1.1;">174 <span class="fs-6 fw-normal text-muted">Org</span></div>
+                            <div class="text-primary fw-semibold" style="font-size: 11px;">100% Seluruh Unit</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="p-3.5 rounded-4 border bg-white shadow-sm h-100 d-flex align-items-center gap-3" style="border-color: rgba(14, 165, 233, 0.2) !important;">
+                        <div class="w-12 h-12 rounded-3 text-white d-flex align-items-center justify-content-center fs-4 flex-shrink-0" style="background: linear-gradient(135deg, #0284c7, #38bdf8) !important; width: 48px; height: 48px;">
+                            <i class="fas fa-id-badge"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">PNS</div>
+                            <div class="fw-bold outfit text-dark" style="font-size: 24px; line-height: 1.1;">115 <span class="fs-6 fw-normal text-muted">Org</span></div>
+                            <div class="text-success fw-semibold" style="font-size: 11px;">66.1% Komposisi</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="p-3.5 rounded-4 border bg-white shadow-sm h-100 d-flex align-items-center gap-3" style="border-color: rgba(16, 185, 129, 0.2) !important;">
+                        <div class="w-12 h-12 rounded-3 text-white d-flex align-items-center justify-content-center fs-4 flex-shrink-0" style="background: linear-gradient(135deg, #059669, #10b981) !important; width: 48px; height: 48px;">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">PPPK (P3K)</div>
+                            <div class="fw-bold outfit text-dark" style="font-size: 24px; line-height: 1.1;">41 <span class="fs-6 fw-normal text-muted">Org</span></div>
+                            <div class="text-success fw-semibold" style="font-size: 11px;">23.6% Komposisi</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 col-lg-3">
+                    <div class="p-3.5 rounded-4 border bg-white shadow-sm h-100 d-flex align-items-center gap-3" style="border-color: rgba(239, 68, 68, 0.2) !important;">
+                        <div class="w-12 h-12 rounded-3 text-white d-flex align-items-center justify-content-center fs-4 flex-shrink-0" style="background: linear-gradient(135deg, #dc2626, #f87171) !important; width: 48px; height: 48px;">
+                            <i class="fas fa-user-clock"></i>
+                        </div>
+                        <div>
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">Non-ASN & CPNS</div>
+                            <div class="fw-bold outfit text-dark" style="font-size: 24px; line-height: 1.1;">18 <span class="fs-6 fw-normal text-muted">Org</span></div>
+                            <div class="text-muted fw-semibold" style="font-size: 11px;">17 Non-ASN, 1 CPNS</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section: 2 Columns -->
+            <div class="row g-4 mb-5">
+                <!-- Doughnut Chart: Komposisi Status Pegawai -->
+                <div class="col-lg-5 col-12">
+                    <div class="p-4 rounded-4 border bg-light h-100">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 class="fw-bold outfit text-[#002b5c] mb-0">
+                                <i class="fas fa-chart-pie me-2 text-primary"></i>Komposisi Status Pegawai
+                            </h5>
+                            <span class="badge bg-white text-dark border px-2.5 py-1 rounded-pill small">TA 2025</span>
+                        </div>
+                        <div style="height: 250px; position: relative;">
+                            <canvas id="chartJenisPegawai"></canvas>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 justify-content-center mt-3 pt-2 border-top">
+                            <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#0284c7;"></span> PNS: <strong>115</strong></span>
+                            <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#10b981;"></span> PPPK: <strong>41</strong></span>
+                            <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#ef4444;"></span> Non-ASN: <strong>17</strong></span>
+                            <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#a855f7;"></span> CPNS: <strong>1</strong></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bar Chart: Tingkat Pendidikan -->
+                <div class="col-lg-7 col-12">
+                    <div class="p-4 rounded-4 border bg-light h-100">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <h5 class="fw-bold outfit text-[#002b5c] mb-0">
+                                <i class="fas fa-graduation-cap me-2 text-primary"></i>Tingkat Pendidikan Terakhir
+                            </h5>
+                            <span class="badge bg-white text-dark border px-2.5 py-1 rounded-pill small">Pendidikan Akhir</span>
+                        </div>
+                        <div style="height: 250px; position: relative;">
+                            <canvas id="chartPendidikanPegawai"></canvas>
+                        </div>
+                        <div class="d-flex flex-wrap gap-2 justify-content-center mt-3 pt-2 border-top">
+                            <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">S-2: <strong>68 (39.1%)</strong></span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">D-III: <strong>31 (17.8%)</strong></span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">D-IV: <strong>24 (13.8%)</strong></span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">S-1: <strong>23 (13.2%)</strong></span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">SLTA: <strong>23 (13.2%)</strong></span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">Profesi: <strong>6</strong></span>
+                            <span class="badge bg-white text-dark border rounded-pill px-2.5 py-1">S-3: <strong>2</strong></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bar Chart: Golongan Pegawai -->
+            <div class="p-4 rounded-4 border bg-light mb-4">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="fw-bold outfit text-[#002b5c] mb-0">
+                        <i class="fas fa-layer-group me-2 text-primary"></i>Komposisi Golongan / Ruang Pegawai (TA 2025)
+                    </h5>
+                    <span class="badge bg-primary text-white px-3 py-1 rounded-pill small">Golongan II, III, IV & PPPK</span>
+                </div>
+                <div style="height: 280px; position: relative;">
+                    <canvas id="chartGolonganPegawai"></canvas>
+                </div>
+            </div>
+
+            <!-- Footer Section & Original Proof Preview Modal Trigger -->
+            <div class="p-4 rounded-4 border bg-white d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="w-10 h-10 rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fs-5 flex-shrink-0" style="width: 40px; height: 40px;">
+                        <i class="fas fa-file-invoice"></i>
+                    </div>
+                    <div>
+                        <div class="fw-bold text-dark">Data Dukung Penilaian Keterbukaan Informasi Publik (AKIP 2026 - Indikator E.8)</div>
+                        <div class="text-muted small">Tersedia tangkapan layar resmi sistem SIMPEG dan arsip pendukung kepegawaian Politeknik Keselamatan Transportasi Jalan.</div>
+                    </div>
+                </div>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill px-3 py-2 fw-semibold btn-sm" onclick="openKepegawaianProofModal()">
+                        <i class="fas fa-images me-1 text-primary"></i> Lihat Tangkapan Layar Resmi
+                    </button>
+                    <a href="https://drive.google.com/drive/folders/1AxMUqcMqb3ZX4ew0GVXyefRlVq97HOPS" target="_blank" class="btn btn-primary rounded-pill px-3.5 py-2 fw-bold btn-sm shadow-sm">
+                        <i class="fab fa-google-drive me-1 text-warning"></i> Buka Folder Drive AKIP
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <!-- AKHIR SECTION STATISTIK KEPEGAWAIAN -->
+
     </div>
 
     <!-- LIGHTBOX MODAL UNTUK PREVIEW FOTO PEJABAT BESAR -->
@@ -293,9 +467,56 @@
         </div>
     </div>
 
+    <!-- MODAL TANGKAPAN LAYAR RESMI SIMPEG KEPEGAWAIAN -->
+    <div class="modal fade" id="kepegawaianProofModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content border-0 shadow-2xl rounded-4 overflow-hidden">
+                <div class="modal-header bg-[#002b5c] text-white p-3.5">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-chart-bar text-warning fs-5"></i>
+                        <h5 class="modal-title fw-bold outfit text-white mb-0">Tangkapan Layar Resmi SIMPEG PKTJ (TA 2025)</h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <ul class="nav nav-pills mb-3 gap-2" id="simpegTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active rounded-pill fw-bold btn-sm px-3" id="tab-jenis-tab" data-bs-toggle="pill" data-bs-target="#tab-jenis" type="button" role="tab">1. Pegawai Per Jenis</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link rounded-pill fw-bold btn-sm px-3" id="tab-pendidikan-tab" data-bs-toggle="pill" data-bs-target="#tab-pendidikan" type="button" role="tab">2. Tingkat Pendidikan</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link rounded-pill fw-bold btn-sm px-3" id="tab-golongan-tab" data-bs-toggle="pill" data-bs-target="#tab-golongan" type="button" role="tab">3. Golongan Pegawai</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content bg-white p-3 rounded-3 border shadow-sm" id="simpegTabsContent">
+                        <div class="tab-pane fade show active text-center" id="tab-jenis" role="tabpanel">
+                            <img src="{{ asset('images/kepegawaian/E6a.jpg') }}" alt="Pegawai Per Jenis" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
+                            <div class="text-muted small mt-2">Sumber: SIMPEG Kementerian Perhubungan - Politeknik Keselamatan Transportasi Jalan</div>
+                        </div>
+                        <div class="tab-pane fade text-center" id="tab-pendidikan" role="tabpanel">
+                            <img src="{{ asset('images/kepegawaian/E6b.jpg') }}" alt="Tingkat Pendidikan Pegawai" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
+                            <div class="text-muted small mt-2">Komposisi Pegawai Berdasarkan Tingkat Pendidikan Akhir</div>
+                        </div>
+                        <div class="tab-pane fade text-center" id="tab-golongan" role="tabpanel">
+                            <img src="{{ asset('images/kepegawaian/E6c.jpg') }}" alt="Golongan Pegawai" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
+                            <div class="text-muted small mt-2">Komposisi Pegawai Berdasarkan Golongan / Ruang</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer bg-white p-3 justify-content-between">
+                    <span class="text-muted small"><i class="fas fa-check-circle text-success me-1"></i> Data otentik terverifikasi untuk pemenuhan Indikator E.8 AKIP 2026</span>
+                    <button type="button" class="btn btn-secondary px-4 rounded-pill fw-bold btn-sm" data-bs-dismiss="modal">Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 600, once: true });
@@ -306,6 +527,125 @@
             document.getElementById('lightboxRole').textContent = role;
             new bootstrap.Modal(document.getElementById('pejabatPhotoLightbox')).show();
         }
+
+        function openKepegawaianProofModal() {
+            new bootstrap.Modal(document.getElementById('kepegawaianProofModal')).show();
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Chart 1: Jenis Pegawai (Doughnut)
+            const ctxJenis = document.getElementById('chartJenisPegawai');
+            if (ctxJenis) {
+                new Chart(ctxJenis.getContext('2d'), {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['PNS', 'PPPK', 'Non-ASN', 'CPNS'],
+                        datasets: [{
+                            data: [115, 41, 17, 1],
+                            backgroundColor: ['#0284c7', '#10b981', '#ef4444', '#a855f7'],
+                            borderWidth: 2,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(c) {
+                                        let total = 174;
+                                        let val = c.parsed;
+                                        let pct = ((val / total) * 100).toFixed(1);
+                                        return `${c.label}: ${val} orang (${pct}%)`;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+
+            // Chart 2: Pendidikan Pegawai (Bar)
+            const ctxPendidikan = document.getElementById('chartPendidikanPegawai');
+            if (ctxPendidikan) {
+                new Chart(ctxPendidikan.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['S-2', 'D-III', 'D-IV', 'S-1', 'SLTA', 'Profesi', 'S-3', 'D-II', 'SMK'],
+                        datasets: [{
+                            label: 'Jumlah Pegawai',
+                            data: [68, 31, 24, 23, 23, 6, 2, 1, 1],
+                            backgroundColor: [
+                                '#10b981', '#84cc16', '#a3e635', '#22c55e', '#f97316', '#06b6d4', '#3b82f6', '#eab308', '#ef4444'
+                            ],
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(c) {
+                                        let total = 179;
+                                        let val = c.parsed.y;
+                                        let pct = ((val / total) * 100).toFixed(1);
+                                        return `${val} orang (${pct}%)`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: { grid: { display: false } },
+                            y: { beginAtZero: true, ticks: { precision: 0 } }
+                        }
+                    }
+                });
+            }
+
+            // Chart 3: Golongan Pegawai (Bar)
+            const ctxGolongan = document.getElementById('chartGolonganPegawai');
+            if (ctxGolongan) {
+                new Chart(ctxGolongan.getContext('2d'), {
+                    type: 'bar',
+                    data: {
+                        labels: ['Penata (III/c)', 'Penata Muda Tk I (III/b)', 'Penata Tk I (III/d)', 'Gol. VII (PPPK)', 'Gol. IX (PPPK)', 'Pembina (IV/a)', 'Penata Muda (III/a)', 'Pengatur (II/c)', 'Gol. X (PPPK)', 'Gol. V (PPPK)', 'Pengatur Tk I (II/d)', 'Pembina Tk I (IV/b)'],
+                        datasets: [{
+                            label: 'Jumlah Pegawai',
+                            data: [30, 21, 20, 17, 14, 14, 13, 9, 5, 5, 5, 4],
+                            backgroundColor: '#004a99',
+                            hoverBackgroundColor: '#ffc107',
+                            borderRadius: 6
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: { display: false },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(c) {
+                                        return `${c.parsed.y} orang (${((c.parsed.y / 174) * 100).toFixed(1)}%)`;
+                                    }
+                                }
+                            }
+                        },
+                        scales: {
+                            x: {
+                                grid: { display: false },
+                                ticks: { font: { size: 11 } }
+                            },
+                            y: { beginAtZero: true, ticks: { precision: 0 } }
+                        }
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>

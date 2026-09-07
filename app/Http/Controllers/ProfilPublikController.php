@@ -161,9 +161,19 @@ class ProfilPublikController extends Controller
     public function showPage($type, $view = null)
     {
         $profil = ProfilPpid::where('type', $type)->first();
+        if (!$profil) {
+            $profil = new \stdClass();
+            $profil->type = $type;
+            $profil->judul = ucwords(str_replace(['_', '-'], ' ', $type));
+            $profil->konten_pembuka = '';
+            $profil->konten_detail = '';
+            $profil->gambaran = '';
+            $profil->is_blurred = false;
+            $profil->additional_sections = [];
+        }
         $isBlurred = $profil->is_blurred ?? false;
         
-        if ($profil) {
+        if (is_object($profil) && !($profil instanceof \stdClass)) {
             $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $isBlurred);
             $profil->konten_detail = $this->processContent($profil->konten_detail, $isBlurred);
             $profil->gambaran = $this->processContent($profil->gambaran, $isBlurred);

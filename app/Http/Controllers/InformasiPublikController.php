@@ -176,6 +176,13 @@ class InformasiPublikController extends Controller
         return view('profil-pejabat', compact('pejabats', 'settings'));
     }
 
+    // Data & Statistik Kepegawaian PKTJ (Dedicated Page)
+    public function statistikPegawai()
+    {
+        $settings = $this->getSettings();
+        return view('statistik-pegawai', compact('settings'));
+    }
+
     // Informasi Serta Merta
     public function informasiSertamerta()
     {

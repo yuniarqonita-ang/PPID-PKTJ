@@ -329,7 +329,7 @@
                                         }
                                     @endphp
                                     <li>
-                                        @if(str_starts_with($childUrl, 'http://') || str_starts_with($childUrl, 'https://'))
+                                        @if(str_starts_with($childUrl ?? '', 'http://') || str_starts_with($childUrl ?? '', 'https://'))
                                             <a class="dropdown-item" href="{{ $childUrl }}" target="_blank">{{ $childNama }}</a>
                                         @else
                                             <a class="dropdown-item" href="{{ $childUrl ?: '/halaman/' . $child->slug }}">{{ $childNama }}</a>
@@ -352,7 +352,7 @@
                                     $menuUrl = '/profil/tugas-dan-fungsi-ppid';
                                 }
                             @endphp
-                            @if(str_starts_with($menuUrl, 'http://') || str_starts_with($menuUrl, 'https://'))
+                            @if(str_starts_with($menuUrl ?? '', 'http://') || str_starts_with($menuUrl ?? '', 'https://'))
                                 <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ $menuUrl }}" target="_blank">{{ $menuNama }}</a>
                             @else
                                 <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ $menuUrl ?: '/halaman/' . $menu->slug }}">{{ $menuNama }}</a>

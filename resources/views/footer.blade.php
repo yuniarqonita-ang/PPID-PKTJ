@@ -49,7 +49,7 @@
                     @endphp
                     @foreach($footerMenus as $fMenu)
                         <li class="mb-2">
-                            @if(str_starts_with($fMenu->url, 'http://') || str_starts_with($fMenu->url, 'https://'))
+                            @if(str_starts_with($fMenu->url ?? '', 'http://') || str_starts_with($fMenu->url ?? '', 'https://'))
                                 <a href="{{ $fMenu->url }}" target="_blank" class="text-decoration-none text-reset opacity-75">{{ $fMenu->nama }}</a>
                             @else
                                 <a href="{{ $fMenu->url ?: '/halaman/' . $fMenu->slug }}" class="text-decoration-none text-reset opacity-75">{{ $fMenu->nama }}</a>

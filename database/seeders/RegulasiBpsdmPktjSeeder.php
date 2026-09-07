@@ -149,40 +149,6 @@ class RegulasiBpsdmPktjSeeder extends Seeder
                 'link_download' => 'https://ppid.kemenhub.go.id/fileupload/informasi-berkala/20240610103259.DIK_Kemenhub_Tahun_2024.pdf',
                 'is_active' => true,
             ],
-
-            // =========================================================================
-            // 4. PKTJ TEGAL & BPSDM PERHUBUNGAN
-            // =========================================================================
-            [
-                'judul' => 'Keputusan Direktur PKTJ tentang Penetapan Pengelola PPID Pelaksana PKTJ Tegal',
-                'nomor' => 'SK Direktur PKTJ 2025',
-                'tahun' => 2025,
-                'deskripsi' => 'tentang Struktur Organisasi dan Penunjukan Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Politeknik Keselamatan Transportasi Jalan Tegal',
-                'kategori' => 'PKTJ Tegal',
-                'urutan' => 13,
-                'link_download' => 'https://pktj.ac.id/ppid',
-                'is_active' => true,
-            ],
-            [
-                'judul' => 'Maklumat Pelayanan Informasi Publik PPID PKTJ Tegal',
-                'nomor' => 'Maklumat PKTJ 2025/2026',
-                'tahun' => 2025,
-                'deskripsi' => 'Komitmen dan Janji Pelayanan Informasi Publik Politeknik Keselamatan Transportasi Jalan Sesuai Standar Layanan KIP',
-                'kategori' => 'PKTJ Tegal',
-                'urutan' => 14,
-                'link_download' => 'https://pktj.ac.id/ppid',
-                'is_active' => true,
-            ],
-            [
-                'judul' => 'SOP Tata Kelola dan Pelayanan Informasi Publik Politeknik Keselamatan Transportasi Jalan',
-                'nomor' => 'SOP-PPID-PKTJ-01',
-                'tahun' => 2025,
-                'deskripsi' => 'Pedoman Teknis dan Alur Prosedur Pelayanan Permohonan Informasi, Pengajuan Keberatan, Pendokumentasian, dan Uji Konsekuensi Informasi di PKTJ',
-                'kategori' => 'PKTJ Tegal',
-                'urutan' => 15,
-                'link_download' => 'https://pktj.ac.id/ppid',
-                'is_active' => true,
-            ],
         ];
 
         foreach ($regulasiList as $reg) {

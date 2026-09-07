@@ -297,7 +297,7 @@
                 {{ $profil->judul ?? 'Regulasi Keterbukaan Informasi Publik' }}
             </h1>
             <p class="lead opacity-90 mx-auto mb-4" style="max-width: 820px; font-size: 15px;" data-aos="fade-up" data-aos-delay="100">
-                Pusat data seluruh peraturan perundang-undangan nasional, standar Komisi Informasi Pusat, regulasi Kementerian Perhubungan, dan Keputusan Direktur PKTJ.
+                Pusat data seluruh peraturan perundang-undangan nasional, standar Komisi Informasi Pusat, dan regulasi Kementerian Perhubungan.
             </p>
             <div data-aos="fade-up" data-aos-delay="150">
                 <a href="https://bpsdm.kemenhub.go.id/jdih/" target="_blank" class="btn btn-warning fw-bold px-4 py-2.5 rounded-pill text-dark shadow-sm d-inline-flex align-items-center gap-2" style="font-size: 13.5px;">
@@ -391,32 +391,18 @@
                 'deskripsi' => 'Pedoman sistem pengendalian intern pemerintah dalam menciptakan tata kelola keuangan dan operasional yang transparan.',
                 'file_path' => 'https://jdih.dephub.go.id/',
             ],
-            [
-                'id' => 10,
-                'judul' => 'Keputusan Direktur PKTJ tentang Penunjukan Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana UPT PKTJ Tegal',
-                'nomor' => 'SK PPID PKTJ 2024',
-                'tahun' => 2024,
-                'kategori' => 'PKTJ',
-                'deskripsi' => 'Penetapan struktur, tim pembantu, dan penanggung jawab layanan keterbukaan informasi publik di lingkungan kampus PKTJ Tegal.',
-                'file_path' => 'storage/dokumen/B1.pdf',
-            ],
-            [
-                'id' => 11,
-                'judul' => 'Surat Keputusan Direktur PKTJ tentang Standar Operasional Prosedur (SOP) Pelayanan Informasi Publik PKTJ Tegal',
-                'nomor' => 'SOP PKTJ 2024',
-                'tahun' => 2024,
-                'kategori' => 'PKTJ',
-                'deskripsi' => 'Buku pedoman SOP permohonan informasi, penanganan keberatan, penetapan daftar informasi, dan pengujian konsekuensi di lingkungan PKTJ.',
-                'file_path' => 'storage/dokumen/G2.pdf',
-            ],
         ];
 
         $itemsList = collect();
         if (isset($allRegulasi) && $allRegulasi->count() > 0) {
             foreach ($allRegulasi as $r) {
                 $kat = $r->kategori ?? 'Umum';
-                if ($kat === 'PKTJ Tegal') $kat = 'PKTJ';
                 if ($kat === 'Komisi Informasi Pusat') $kat = 'Peraturan KIP';
+
+                $resolvedLink = $r->link_download;
+                if ($resolvedLink && !str_starts_with($resolvedLink, 'http')) {
+                    $resolvedLink = url($resolvedLink);
+                }
 
                 $itemsList->push([
                     'id' => $r->id,
@@ -425,7 +411,7 @@
                     'tahun' => $r->tahun ?? 2024,
                     'kategori' => $kat,
                     'deskripsi' => $r->deskripsi ?? 'Dokumen landasan hukum keterbukaan informasi publik resmi.',
-                    'file_path' => $r->file_path ? asset($r->file_path) : ($r->link_download ?? 'https://bpsdm.kemenhub.go.id/jdih/'),
+                    'file_path' => $r->file_path ? (str_starts_with($r->file_path, 'http') ? $r->file_path : asset($r->file_path)) : ($resolvedLink ?: 'https://bpsdm.kemenhub.go.id/jdih/'),
                 ]);
             }
         } else {
@@ -436,7 +422,6 @@
         $cntUU = $itemsList->where('kategori', 'Undang-Undang')->count();
         $cntKIP = $itemsList->where('kategori', 'Komisi Informasi Pusat')->count() ?: $itemsList->where('kategori', 'Peraturan KIP')->count();
         $cntKemenhub = $itemsList->where('kategori', 'Kementerian Perhubungan')->count();
-        $cntPKTJ = $itemsList->where('kategori', 'PKTJ')->count() ?: $itemsList->where('kategori', 'PKTJ Tegal')->count();
     @endphp
 
     <div class="container page-container">
@@ -481,10 +466,6 @@
                 <button type="button" class="cat-tab-btn" onclick="filterByCategory('Kementerian Perhubungan', this)">
                     <i class="fas fa-building-columns text-info"></i> Kementerian Perhubungan
                     <span class="badge-count">{{ $cntKemenhub }}</span>
-                </button>
-                <button type="button" class="cat-tab-btn" onclick="filterByCategory('PKTJ', this)">
-                    <i class="fas fa-university text-warning"></i> PKTJ
-                    <span class="badge-count">{{ $cntPKTJ }}</span>
                 </button>
             </div>
         </div>
@@ -556,8 +537,17 @@
                                     <button type="button" class="btn-action-preview" onclick="openPreviewModal('{{ addslashes($item['judul']) }}', '{{ $item['nomor'] }}', '{{ $item['file_path'] }}', '{{ $cleanCat }}')">
                                         <i class="far fa-eye"></i> Lihat
                                     </button>
-                                    <a href="{{ $item['file_path'] }}" target="_blank" class="btn-action-download">
-                                        <i class="fas fa-download"></i> Unduh
+                                    @php
+                                        $isMaklumat = str_contains(strtolower($item['judul']), 'maklumat') || str_contains($item['file_path'], 'maklumat');
+                                    @endphp
+                                    <a href="{{ $item['file_path'] }}" target="{{ str_starts_with($item['file_path'], 'http') && !str_contains($item['file_path'], 'pktj.ac.id') ? '_blank' : '_self' }}" class="btn-action-download" style="{{ $isMaklumat ? 'background: #002b5c;' : '' }}">
+                                        @if($isMaklumat)
+                                            <i class="fas fa-file-signature me-1"></i> Buka Maklumat
+                                        @elseif(str_ends_with(strtolower($item['file_path']), '.pdf'))
+                                            <i class="fas fa-download me-1"></i> Unduh PDF
+                                        @else
+                                            <i class="fas fa-arrow-up-right-from-square me-1"></i> Buka
+                                        @endif
                                     </a>
                                 </div>
                             </td>
@@ -621,8 +611,17 @@
                             <button type="button" class="btn-action-preview" onclick="openPreviewModal('{{ addslashes($item['judul']) }}', '{{ $item['nomor'] }}', '{{ $item['file_path'] }}', '{{ $cleanCat }}')">
                                 <i class="far fa-eye"></i> Lihat
                             </button>
-                            <a href="{{ $item['file_path'] }}" target="_blank" class="btn-action-download">
-                                <i class="fas fa-download"></i> Unduh
+                            @php
+                                $isMaklumatGrid = str_contains(strtolower($item['judul']), 'maklumat') || str_contains($item['file_path'], 'maklumat');
+                            @endphp
+                            <a href="{{ $item['file_path'] }}" target="{{ str_starts_with($item['file_path'], 'http') && !str_contains($item['file_path'], 'pktj.ac.id') ? '_blank' : '_self' }}" class="btn-action-download" style="{{ $isMaklumatGrid ? 'background: #002b5c;' : '' }}">
+                                @if($isMaklumatGrid)
+                                    <i class="fas fa-file-signature me-1"></i> Buka Maklumat
+                                @elseif(str_ends_with(strtolower($item['file_path']), '.pdf'))
+                                    <i class="fas fa-download me-1"></i> Unduh PDF
+                                @else
+                                    <i class="fas fa-arrow-up-right-from-square me-1"></i> Buka
+                                @endif
                             </a>
                         </div>
                     </div>
@@ -773,6 +772,21 @@
             document.getElementById('modalRegulasiNomor').textContent = nomor;
             document.getElementById('modalRegulasiBadge').textContent = kategori;
             document.getElementById('modalDownloadBtn').href = link;
+            
+            const isMaklumat = judul.toLowerCase().includes('maklumat') || link.toLowerCase().includes('maklumat');
+            const iconEl = document.querySelector('#modalPreviewRegulasi .modal-body i.fa-4x');
+            const descEl = document.querySelector('#modalPreviewRegulasi .modal-body p.small');
+            const btnEl = document.getElementById('modalDownloadBtn');
+
+            if (isMaklumat) {
+                if (iconEl) iconEl.className = 'fas fa-file-signature fa-4x text-primary mb-3';
+                if (descEl) descEl.textContent = 'Halaman Resmi Maklumat Pelayanan PPID PKTJ (Piagam Komitmen Direktur, 4 Pilar Layanan Bebas Biaya Rp 0,-, Kepastian Waktu 10 Hari, dan Meja Layanan Fisik).';
+                if (btnEl) btnEl.innerHTML = '<i class="fas fa-external-link-alt me-1"></i> Buka Halaman Maklumat Resmi';
+            } else {
+                if (iconEl) iconEl.className = 'fas fa-file-pdf fa-4x text-danger mb-3';
+                if (descEl) descEl.textContent = 'Salinan format dokumen PDF resmi.';
+                if (btnEl) btnEl.innerHTML = '<i class="fas fa-arrow-up-right-from-square me-1"></i> Buka / Unduh Dokumen Lengkap';
+            }
             
             const modalEl = document.getElementById('modalPreviewRegulasi');
             const modal = new bootstrap.Modal(modalEl);

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ $berita->judul }} - {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}</title>
-    <meta name="description" content="{{ Str::limit(strip_tags($berita->konten), 160) }}">
+    <meta name="description" content="{{ Str::limit(strip_tags($berita->konten ?? ''), 160) }}">
     @if($berita->gambar)
         <meta property="og:image" content="{{ asset('storage/' . $berita->gambar) }}">
     @endif

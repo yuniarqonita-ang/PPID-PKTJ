@@ -104,7 +104,25 @@ Route::redirect('/layanan/laporan', '/layanan-informasi/laporan');
 Route::redirect('/layanan/laporan-layanan', '/layanan-informasi/laporan');
 Route::redirect('/layanan/laporan-survey', '/layanan-informasi/laporan-survey');
 Route::redirect('/layanan/maklumat-pelayanan', '/layanan-informasi/maklumat');
-Route::redirect('/layanan/permohonan-informasi', '/layanan-informasi/permohonan');
+Route::redirect('/maklumat-pelayanan', '/layanan-informasi/maklumat');
+Route::redirect('/program-studi/50-pernyataan-kebijakan-dan-maklumat-pelayanan-pktj', '/layanan-informasi/maklumat');
+Route::redirect('/regulasi/maklumat', '/layanan-informasi/maklumat');
+Route::redirect('/regulasi/maklumat-pelayanan', '/layanan-informasi/maklumat');
+Route::redirect('/regulasi/maklumat-pelayanan-informasi-publik-ppid-pktj-tegal', '/layanan-informasi/maklumat');
+Route::redirect('/profil/profil-singkat', '/profil/profil-ppid');
+Route::redirect('/profil/visi-dan-misi-ppid', '/profil/visi-misi');
+Route::redirect('/profil/struktur-organisasi-ppid', '/profil/struktur-organisasi');
+Route::redirect('/profil/dasar-hukum-ppid', '/regulasi');
+Route::redirect('/profil/hak-dan-tata-cara-memperoleh-informasi', '/prosedur/sop-permintaan');
+Route::redirect('/layanan-informasi/permohonan', 'https://bpsdm.kemenhub.go.id/ppid/pktj/login');
+Route::redirect('/layanan-informasi/keberatan', '/prosedur/sop-keberatan');
+Route::get('/profil/statistik-pegawai', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai'])->name('profil.statistik-pegawai');
+Route::get('/statistik-pegawai', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai'])->name('statistik.pegawai');
+Route::get('/statistik-kepegawaian', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai']);
+Route::get('/informasi-publik/statistik-pegawai', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai']);
+Route::get('/profil-statistik-pegawai.html', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai']);
+Route::get('/statistik-pegawai.html', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai']);
+Route::redirect('/layanan/permohonan-informasi', '/permohonan-informasi');
 Route::redirect('/layanan/daftar-informasi', '/layanan-informasi/daftar');
 
 // ==========================================
@@ -1366,6 +1384,7 @@ Route::name('profil.')->prefix('profil')->group(function () {
     Route::get('/tugas-fungsi-ppid', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); });
     Route::get('/tugas', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); })->name('tugas');
     Route::get('/tugas-tanggung-jawab', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); })->name('tugas-tanggung-jawab');
+    Route::get('/tugas-dan-tanggung-jawab', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); });
     Route::get('/visi', [ProfilPublikController::class, 'showVisi'])->name('visi');
     Route::get('/visi-misi', [ProfilPublikController::class, 'showVisi'])->name('visi-misi');
     Route::get('/profil-visi-misi', [ProfilPublikController::class, 'showVisi'])->name('profil-visi-misi');
