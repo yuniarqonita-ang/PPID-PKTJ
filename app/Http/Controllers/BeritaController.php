@@ -173,7 +173,40 @@ class BeritaController extends Controller
         $searchQuery   = $request->query('search');
 
         // Ambil semua berita realtime dari seluruh kategori PKTJ.ac.id
-        $allNews = $service->getNewsByCategory($kategoriAktif, 200);
+        try {
+            $allNews = $service->getNewsByCategory($kategoriAktif, 200);
+        } catch (\Throwable $e) {
+            $allNews = [];
+        }
+
+        if (empty($allNews)) {
+            $localQuery = Berita::where('aktif', true)->orderBy('tanggal', 'desc')->orderBy('created_at', 'desc');
+            if ($kategoriAktif && strtolower($kategoriAktif) !== 'semua') {
+                $localQuery->where('kategori', 'like', "%{$kategoriAktif}%");
+            }
+            $allNews = $localQuery->take(200)->get()->map(function($b) {
+                $img = $b->gambar;
+                if (!empty($img) && !str_starts_with($img, 'http')) {
+                    $img = asset('storage/' . $img);
+                }
+                $tglObj = $b->tanggal ? \Carbon\Carbon::parse($b->tanggal) : \Carbon\Carbon::parse($b->created_at);
+                return [
+                    'judul'       => $b->judul,
+                    'slug'        => $b->slug,
+                    'link'        => $b->link_sumber ?: url('/berita/' . $b->slug),
+                    'guid'        => $b->guid ?: $b->slug,
+                    'gambar'      => $img ?: 'https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png',
+                    'konten'      => strip_tags($b->konten ?? ''),
+                    'ringkasan'   => Str::limit(strip_tags($b->konten ?? ''), 140),
+                    'kategori'    => $b->kategori ?: 'Liputan/Berita',
+                    'tanggal_raw' => $b->tanggal,
+                    'tanggal'     => $tglObj->format('Y-m-d'),
+                    'tanggal_f'   => $tglObj->translatedFormat('d F Y'),
+                    'is_external' => (bool) $b->is_external,
+                    'sumber'      => $b->is_external ? 'pktj.ac.id' : 'PPID PKTJ',
+                ];
+            })->toArray();
+        }
 
         if (!empty($searchQuery)) {
             $q = strtolower($searchQuery);

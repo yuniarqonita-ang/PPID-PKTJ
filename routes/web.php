@@ -304,8 +304,12 @@ Route::get('/refresh-deploy', function() {
         \Illuminate\Support\Facades\Artisan::call('view:clear');
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
         \Illuminate\Support\Facades\Artisan::call('route:clear');
-        \Illuminate\Support\Facades\Artisan::call('config:clear');
+        \Illuminate\Support\Facades\Cache::forget('pktj_live_all_news_v5');
+        \Illuminate\Support\Facades\Cache::forget('pktj_live_all_news_v4');
         \Illuminate\Support\Facades\Cache::forget('pktj_live_all_news_v3');
+        try {
+            app(\App\Services\PktjNewsService::class)->getLiveNews(20, true);
+        } catch (\Throwable $nEx) {}
 
         // Manually purge all compiled blade view files in storage
         $viewsPath = storage_path('framework/views');
