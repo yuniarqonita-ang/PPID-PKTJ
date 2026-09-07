@@ -446,6 +446,9 @@
                     <a href="https://bpsdm.kemenhub.go.id/jdih/" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1.5 fw-bold ms-2" style="font-size: 12px;">
                         <i class="fas fa-arrow-up-right-from-square me-1"></i> JDIH BPSDM
                     </a>
+                    <a href="/layanan-informasi/maklumat" class="btn btn-warning text-dark btn-sm rounded-pill px-3 py-1.5 fw-bold ms-1 shadow-sm" style="font-size: 12px;">
+                        <i class="fas fa-certificate me-1"></i> Maklumat Pelayanan
+                    </a>
                 </div>
             </div>
 
@@ -467,6 +470,28 @@
                     <i class="fas fa-building-columns text-info"></i> Kementerian Perhubungan
                     <span class="badge-count">{{ $cntKemenhub }}</span>
                 </button>
+            </div>
+        </div>
+
+        <!-- BANNER MAKLUMAT PELAYANAN RESMI -->
+        <div class="card border-0 rounded-4 shadow-sm mb-4 overflow-hidden" style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); color: white;" data-aos="fade-up">
+            <div class="card-body p-4 d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle bg-warning text-dark d-flex align-items-center justify-content-center flex-shrink-0" style="width: 48px; height: 48px; font-size: 20px;">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <div>
+                        <h6 class="fw-bold text-warning mb-1" style="font-size: 16px;">Maklumat Pelayanan Informasi Publik PPID PKTJ</h6>
+                        <p class="text-white-50 small mb-0" style="font-size: 13px;">
+                            Pernyataan komitmen Direktur & pimpinan PPID PKTJ menyelenggarakan pelayanan informasi prima bebas biaya (Rp 0,-), kepastian waktu 10 hari kerja, dan desk layanan fisik.
+                        </p>
+                    </div>
+                </div>
+                <div class="flex-shrink-0">
+                    <a href="/layanan-informasi/maklumat" class="btn btn-warning text-dark fw-bold rounded-pill px-4 py-2 shadow-sm" style="font-size: 13px;">
+                        <i class="fas fa-file-signature me-1.5"></i> Buka Maklumat Pelayanan
+                    </a>
+                </div>
             </div>
         </div>
 
