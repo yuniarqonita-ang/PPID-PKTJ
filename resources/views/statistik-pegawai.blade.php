@@ -144,9 +144,6 @@
                 <a href="#bukti-otentik" class="btn btn-outline-light fw-bold px-4 py-2 rounded-pill shadow-sm" style="font-size: 13.5px;">
                     <i class="fas fa-file-shield me-1"></i> Tangkapan Layar SIMPEG
                 </a>
-                <a href="https://drive.google.com/drive/folders/1AxMUqcMqb3ZX4ew0GVXyefRlVq97HOPS" target="_blank" class="btn btn-primary fw-bold px-4 py-2 rounded-pill shadow-sm" style="font-size: 13.5px; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3);">
-                    <i class="fab fa-google-drive me-1 text-warning"></i> Arsip Drive AKIP
-                </a>
             </div>
         </div>
     </div>
@@ -443,23 +440,20 @@
                 </div>
             </div>
 
-            <!-- 5. CALLOUT DRIVE DOKUMEN DUKUNG -->
+            <!-- 5. CALLOUT DOKUMEN DUKUNG -->
             <div class="p-4 rounded-4 border bg-light d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                 <div class="d-flex align-items-center gap-3">
                     <div class="w-12 h-12 rounded-3 bg-primary text-white d-flex align-items-center justify-content-center fs-4 flex-shrink-0" style="width: 48px; height: 48px;">
-                        <i class="fas fa-folder-open text-warning"></i>
+                        <i class="fas fa-user-shield text-warning"></i>
                     </div>
                     <div>
-                        <div class="fw-bold text-dark fs-6">Arsip Data Kepegawaian & Laporan Keterbukaan Informasi</div>
-                        <div class="text-muted small">Seluruh dokumen pembuktian dan data dukung AKIP 2026 tersimpan aman pada repository Google Drive PPID PKTJ.</div>
+                        <div class="fw-bold text-dark fs-6">Data Kepegawaian & Profil Pimpinan PPID PKTJ</div>
+                        <div class="text-muted small">Informasi resmi komposisi ketenagaan serta kepatuhan Laporan Harta Kekayaan Penyelenggara Negara (LHKPN) pimpinan PKTJ Tegal.</div>
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <a href="{{ url('/profil/pejabat') }}" class="btn btn-outline-secondary rounded-pill px-3.5 py-2 fw-semibold btn-sm">
+                    <a href="{{ url('/profil/pejabat') }}" class="btn btn-primary rounded-pill px-4 py-2 fw-bold btn-sm shadow-sm">
                         <i class="fas fa-user-tie me-1"></i> Profil Pejabat & LHKPN
-                    </a>
-                    <a href="https://drive.google.com/drive/folders/1AxMUqcMqb3ZX4ew0GVXyefRlVq97HOPS" target="_blank" class="btn btn-primary rounded-pill px-4 py-2 fw-bold btn-sm shadow-sm">
-                        <i class="fab fa-google-drive me-1 text-warning"></i> Akses Folder Drive AKIP
                     </a>
                 </div>
             </div>

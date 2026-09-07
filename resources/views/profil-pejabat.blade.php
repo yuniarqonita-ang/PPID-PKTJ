@@ -296,8 +296,8 @@
                     <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold" style="font-size: 12px;">
                         <i class="fas fa-calendar-check me-1"></i> Data Terverifikasi TA 2025
                     </span>
-                    <a href="https://drive.google.com/drive/folders/1AxMUqcMqb3ZX4ew0GVXyefRlVq97HOPS" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1.5" style="font-size: 12px;">
-                        <i class="fab fa-google-drive text-warning"></i> Arsip Google Drive
+                    <a href="{{ url('/profil/statistik-pegawai') }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1.5" style="font-size: 12px;">
+                        <i class="fas fa-chart-pie text-primary"></i> Halaman Statistik Lengkap
                     </a>
                 </div>
             </div>
@@ -440,8 +440,8 @@
                     <button type="button" class="btn btn-outline-secondary rounded-pill px-3 py-2 fw-semibold btn-sm" onclick="openKepegawaianProofModal()">
                         <i class="fas fa-images me-1 text-primary"></i> Lihat Tangkapan Layar Resmi
                     </button>
-                    <a href="https://drive.google.com/drive/folders/1AxMUqcMqb3ZX4ew0GVXyefRlVq97HOPS" target="_blank" class="btn btn-primary rounded-pill px-3.5 py-2 fw-bold btn-sm shadow-sm">
-                        <i class="fab fa-google-drive me-1 text-warning"></i> Buka Folder Drive AKIP
+                    <a href="{{ url('/profil/statistik-pegawai') }}" class="btn btn-primary rounded-pill px-3.5 py-2 fw-bold btn-sm shadow-sm">
+                        <i class="fas fa-chart-line me-1"></i> Dashboard Statistik Pegawai
                     </a>
                 </div>
             </div>

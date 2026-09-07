@@ -422,6 +422,7 @@
         $cntUU = $itemsList->where('kategori', 'Undang-Undang')->count();
         $cntKIP = $itemsList->where('kategori', 'Komisi Informasi Pusat')->count() ?: $itemsList->where('kategori', 'Peraturan KIP')->count();
         $cntKemenhub = $itemsList->where('kategori', 'Kementerian Perhubungan')->count();
+        $cntPKTJ = $itemsList->filter(function($i) { return str_contains($i['kategori'], 'PKTJ'); })->count();
     @endphp
 
     <div class="container page-container">
@@ -446,7 +447,7 @@
                     <a href="https://bpsdm.kemenhub.go.id/jdih/" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1.5 fw-bold ms-2" style="font-size: 12px;">
                         <i class="fas fa-arrow-up-right-from-square me-1"></i> JDIH BPSDM
                     </a>
-                    <a href="/layanan-informasi/maklumat" class="btn btn-warning text-dark btn-sm rounded-pill px-3 py-1.5 fw-bold ms-1 shadow-sm" style="font-size: 12px;">
+                    <a href="https://pktj.ac.id/program-studi/50-pernyataan-kebijakan-dan-maklumat-pelayanan-pktj" target="_blank" class="btn btn-warning text-dark btn-sm rounded-pill px-3 py-1.5 fw-bold ms-1 shadow-sm" style="font-size: 12px;">
                         <i class="fas fa-certificate me-1"></i> Maklumat Pelayanan
                     </a>
                 </div>
@@ -470,6 +471,12 @@
                     <i class="fas fa-building-columns text-info"></i> Kementerian Perhubungan
                     <span class="badge-count">{{ $cntKemenhub }}</span>
                 </button>
+                @if($cntPKTJ > 0)
+                <button type="button" class="cat-tab-btn" onclick="filterByCategory('PKTJ', this)">
+                    <i class="fas fa-university text-success"></i> PKTJ Tegal
+                    <span class="badge-count">{{ $cntPKTJ }}</span>
+                </button>
+                @endif
             </div>
         </div>
 
@@ -487,9 +494,12 @@
                         </p>
                     </div>
                 </div>
-                <div class="flex-shrink-0">
-                    <a href="/layanan-informasi/maklumat" class="btn btn-warning text-dark fw-bold rounded-pill px-4 py-2 shadow-sm" style="font-size: 13px;">
-                        <i class="fas fa-file-signature me-1.5"></i> Buka Maklumat Pelayanan
+                <div class="flex-shrink-0 d-flex gap-2 flex-wrap">
+                    <a href="https://pktj.ac.id/program-studi/50-pernyataan-kebijakan-dan-maklumat-pelayanan-pktj" target="_blank" class="btn btn-warning text-dark fw-bold rounded-pill px-3.5 py-2 shadow-sm" style="font-size: 13px;">
+                        <i class="fas fa-external-link-alt me-1.5"></i> Maklumat di Website PKTJ
+                    </a>
+                    <a href="/layanan-informasi/maklumat" class="btn btn-outline-light fw-bold rounded-pill px-3.5 py-2 shadow-sm" style="font-size: 13px;">
+                        <i class="fas fa-certificate me-1.5"></i> Standar Komitmen & Biaya
                     </a>
                 </div>
             </div>

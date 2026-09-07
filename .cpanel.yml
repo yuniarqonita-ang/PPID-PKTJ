@@ -5,9 +5,12 @@ deployment:
     - /bin/cp -r app resources routes database config bootstrap public $DEPLOYPATH/
     - /bin/cp -rf public/index.php /home/ppid2026/public_html/index.php 2>/dev/null || true
     - /bin/cp -rf public/images/. /home/ppid2026/public_html/images/ 2>/dev/null || true
+    - /bin/cp -rf public/storage/. /home/ppid2026/public_html/storage/ 2>/dev/null || true
+    - /bin/cp -rf public/dokumen/. /home/ppid2026/public_html/dokumen/ 2>/dev/null || true
     - /bin/cp -f .cpanel.yml $DEPLOYPATH/.cpanel.yml
     - cd $DEPLOYPATH && php artisan config:clear
     - cd $DEPLOYPATH && php artisan cache:clear
     - cd $DEPLOYPATH && php artisan view:clear
     - cd $DEPLOYPATH && php artisan route:clear
     - cd $DEPLOYPATH && php artisan migrate --force
+    - cd $DEPLOYPATH && php artisan db:seed --class=RegulasiBpsdmPktjSeeder --force 2>/dev/null || true

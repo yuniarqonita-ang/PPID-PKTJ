@@ -149,6 +149,40 @@ class RegulasiBpsdmPktjSeeder extends Seeder
                 'link_download' => 'https://ppid.kemenhub.go.id/fileupload/informasi-berkala/20240610103259.DIK_Kemenhub_Tahun_2024.pdf',
                 'is_active' => true,
             ],
+
+            // =========================================================================
+            // 4. PKTJ TEGAL & BPSDM PERHUBUNGAN
+            // =========================================================================
+            [
+                'judul' => 'Keputusan Direktur PKTJ tentang Penetapan Pengelola PPID Pelaksana PKTJ Tegal',
+                'nomor' => 'KP-PKTJ 32 Tahun 2024',
+                'tahun' => 2024,
+                'deskripsi' => 'tentang Pejabat Pengelola Informasi dan Dokumentasi (PPID) Politeknik Keselamatan Transportasi Jalan Tegal (Lengkap dengan Lampiran Susunan dan Uraian Tugas Petugas)',
+                'kategori' => 'PKTJ Tegal',
+                'urutan' => 13,
+                'link_download' => 'storage/dokumen/SK_PPID_PKTJ.pdf',
+                'is_active' => true,
+            ],
+            [
+                'judul' => 'Maklumat Pelayanan Informasi Publik PPID PKTJ Tegal',
+                'nomor' => 'Maklumat PKTJ 2025/2026',
+                'tahun' => 2025,
+                'deskripsi' => 'Pernyataan Kebijakan dan Maklumat Pelayanan Informasi Publik Politeknik Keselamatan Transportasi Jalan Sesuai Standar Layanan KIP',
+                'kategori' => 'PKTJ Tegal',
+                'urutan' => 14,
+                'link_download' => 'https://pktj.ac.id/program-studi/50-pernyataan-kebijakan-dan-maklumat-pelayanan-pktj',
+                'is_active' => true,
+            ],
+            [
+                'judul' => 'SOP Pelayanan dan Tata Kelola Informasi Publik PPID PKTJ',
+                'nomor' => 'Lampiran KP-PKTJ 32 / KM 117',
+                'tahun' => 2024,
+                'deskripsi' => 'Standar Operasional Prosedur, Tugas, Wewenang, dan Prosedur Pelayanan Petugas PPID Politeknik Keselamatan Transportasi Jalan Tegal',
+                'kategori' => 'PKTJ Tegal',
+                'urutan' => 15,
+                'link_download' => 'storage/dokumen/SOP_PPID_PKTJ.pdf',
+                'is_active' => true,
+            ],
         ];
 
         foreach ($regulasiList as $reg) {

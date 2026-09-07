@@ -190,6 +190,26 @@ Route::get('/pencarian', [\App\Http\Controllers\GlobalSearchController::class, '
 Route::get('/api/global-search', [\App\Http\Controllers\GlobalSearchController::class, 'searchApi'])->name('api.global.search');
 
 // Dokumentasi (Public)
+Route::get('/storage/dokumen/{filename}', function($filename) {
+    $paths = [
+        public_path('dokumen/' . $filename),
+        public_path('storage/dokumen/' . $filename),
+        storage_path('app/public/dokumen/' . $filename),
+        base_path('public/dokumen/' . $filename),
+        '/home/ppid2026/public_html/dokumen/' . $filename,
+        '/home/ppid2026/public_html/storage/dokumen/' . $filename,
+    ];
+    foreach ($paths as $p) {
+        if (file_exists($p)) {
+            return response()->file($p);
+        }
+    }
+    abort(404);
+});
+Route::get('/dokumen/pdf/{filename}', function($filename) {
+    return redirect('/storage/dokumen/' . $filename);
+});
+
 Route::get('/dokumen', [DokumenController::class, 'publicList'])->name('dokumen.public');
 Route::get('/dokumen/{id}/view', [DokumenController::class, 'view'])->name('dokumen.view');
 Route::get('/dokumen/{id}/download', [DokumenController::class, 'download'])->name('dokumen.download');
@@ -297,11 +317,11 @@ Route::get('/refresh-deploy', function() {
                 ->update(['value' => 'Laporan Layanan Informasi Publik']);
         } catch (\Throwable $dEx) {}
 
-        // 1. Bersihkan dummy regulasi & pastikan 12 regulasi resmi nasional
+        // 1. Bersihkan dummy regulasi lama (yang ber-link pktj.ac.id/ppid) & sinkronkan regulasi resmi
         try {
             \Illuminate\Support\Facades\DB::table('peraturans')
-                ->where('kategori', 'like', '%PKTJ%')
-                ->orWhere('judul', 'like', '%Maklumat%')
+                ->where('link_download', 'like', '%pktj.ac.id/ppid%')
+                ->orWhere('file_path', 'like', '%pktj.ac.id/ppid%')
                 ->delete();
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'RegulasiBpsdmPktjSeeder', '--force' => true]);
         } catch (\Throwable $rEx) {}
