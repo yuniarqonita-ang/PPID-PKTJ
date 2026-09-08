@@ -51,6 +51,9 @@ class Dip2026SyncSeeder extends Seeder
         if (Schema::hasTable('informasi_setiap_saats')) {
             DB::table('informasi_setiap_saats')->delete();
         }
+        if (Schema::hasTable('informasi_setiapsaats')) {
+            DB::table('informasi_setiapsaats')->delete();
+        }
 
         // 4. Clean daftar_informasis (keep informasi-dikecualikan)
         if (Schema::hasTable('daftar_informasis')) {
