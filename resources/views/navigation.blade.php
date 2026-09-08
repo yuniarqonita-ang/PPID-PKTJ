@@ -305,12 +305,25 @@
                 @endphp
 
                 @foreach($headerMenus as $menu)
-                    @if(str_contains(strtolower($menu->nama), 'daftar informasi publik') || str_contains($menu->url ?? '', 'layanan-informasi/daftar'))
+                    @if(in_array(strtolower(trim($menu->nama)), ['regulasi', 'berita', 'daftar informasi publik']) || str_contains(strtolower($menu->nama), 'daftar informasi publik') || str_contains($menu->url ?? '', 'layanan-informasi/daftar'))
                         @continue
                     @endif
+                    @php
+                        $menuNama = $menu->nama;
+                        $menuUrl = $menu->url;
+                        $menuNama = str_ireplace('SOP', 'Prosedur', $menuNama);
+                        if ($menu->slug === 'jdih-sub' || str_contains(strtolower($menu->slug), 'jdih') || str_contains(strtolower($menuUrl ?? ''), 'jdih') || str_contains(strtolower($menuNama), 'jdih')) {
+                            $menuNama = 'JDIH BPSDM Perhubungan';
+                            $menuUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
+                        }
+                        if (str_contains(strtolower($menuNama), 'tanggung jawab') || str_contains(strtolower($menuNama), 'tugas') || str_contains(strtolower($menuUrl ?? ''), 'tugas') || str_contains(strtolower($menu->slug ?? ''), 'tugas')) {
+                            $menuNama = 'Tugas & Fungsi PPID';
+                            $menuUrl = '/profil/tugas-dan-fungsi-ppid';
+                        }
+                    @endphp
                     @if($menu->children->count() > 0)
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{ $menu->nama }}</a>
+                            <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{ $menuNama }}</a>
                             <ul class="dropdown-menu" style="min-width: 250px;">
                                 @foreach($menu->children as $child)
                                     @if(in_array($child->slug, ['sop-penetapan-sub', 'sop-pengujian-sub', 'sop-pendokumentasian-sub', 'layanan-daftar-sub', 'daftar-informasi-sub']) || str_contains(strtolower($child->nama), 'daftar informasi publik') || str_contains($child->url, 'sop-penetapan') || str_contains($child->url, 'sop-pengujian') || str_contains($child->url, 'sop-pendokumentasian') || str_contains($child->url, 'layanan-informasi/daftar'))
@@ -319,6 +332,7 @@
                                     @php
                                         $childNama = $child->nama;
                                         $childUrl = $child->url;
+                                        $childNama = str_ireplace('SOP', 'Prosedur', $childNama);
                                         if ($child->slug === 'jdih-sub' || str_contains(strtolower($child->slug), 'jdih') || str_contains(strtolower($childUrl ?? ''), 'jdih') || str_contains(strtolower($childNama), 'jdih')) {
                                             $childNama = 'JDIH BPSDM Perhubungan';
                                             $childUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
@@ -340,18 +354,6 @@
                         </li>
                     @else
                         <li class="nav-item">
-                            @php
-                                $menuNama = $menu->nama;
-                                $menuUrl = $menu->url;
-                                if ($menu->slug === 'jdih-sub' || str_contains(strtolower($menu->slug), 'jdih') || str_contains(strtolower($menuUrl ?? ''), 'jdih') || str_contains(strtolower($menuNama), 'jdih')) {
-                                    $menuNama = 'JDIH BPSDM Perhubungan';
-                                    $menuUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
-                                }
-                                if (str_contains(strtolower($menuNama), 'tanggung jawab') || str_contains(strtolower($menuNama), 'tugas') || str_contains(strtolower($menuUrl ?? ''), 'tugas') || str_contains(strtolower($menu->slug ?? ''), 'tugas')) {
-                                    $menuNama = 'Tugas & Fungsi PPID';
-                                    $menuUrl = '/profil/tugas-dan-fungsi-ppid';
-                                }
-                            @endphp
                             @if(str_starts_with($menuUrl ?? '', 'http://') || str_starts_with($menuUrl ?? '', 'https://'))
                                 <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ $menuUrl }}" target="_blank">{{ $menuNama }}</a>
                             @else
@@ -566,7 +568,7 @@
             <!-- SEARCH INPUT BAR -->
             <div class="p-3 border-bottom d-flex align-items-center gap-3" style="background: rgba(0, 43, 92, 0.9); border-color: rgba(0, 242, 254, 0.2) !important;">
                 <i class="fas fa-search fs-5 text-warning"></i>
-                <input type="text" id="globalSpotlightInput" class="form-control border-0 shadow-none text-white fs-5" placeholder="Ketik kata kunci dokumen (contoh: DIPA, LHKPN, SOP, Braille, Pengadaan)..." style="background: transparent; font-family: 'Outfit', sans-serif;" autocomplete="off">
+                <input type="text" id="globalSpotlightInput" class="form-control border-0 shadow-none text-white fs-5" placeholder="Ketik kata kunci dokumen (contoh: DIPA, LHKPN, Prosedur, Braille, Pengadaan)..." style="background: transparent; font-family: 'Outfit', sans-serif;" autocomplete="off">
                 <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-2.5 py-1 text-white-50" data-bs-dismiss="modal" style="border-color: rgba(255,255,255,0.2); font-size: 11px;">ESC</button>
             </div>
 
@@ -581,7 +583,7 @@
                     <div class="d-flex flex-wrap gap-2 mb-3">
                         <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('DIPA')">📄 DIPA / RKA</button>
                         <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('LHKPN')">💼 LHKPN / LHKASN</button>
-                        <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('SOP')">📜 SOP Permohonan Informasi</button>
+                        <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('Prosedur')">📜 Prosedur Permohonan Informasi</button>
                         <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('Braille')">🦯 Layanan Braille Disabilitas</button>
                         <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('Pengadaan')">🛒 Pengadaan Barang & Jasa</button>
                         <button type="button" class="btn btn-sm btn-outline-light rounded-pill px-3 py-1 text-xs" style="border-color: rgba(255,255,255,0.15); background: rgba(255,255,255,0.05);" onclick="fillSpotlightQuery('Regulasi')">⚖️ Regulasi PM 46 / KM 117</button>

@@ -30,7 +30,7 @@ class Dip2026SyncSeeder extends Seeder
                 ->update(['jabatan' => 'Kepala Bagian Keuangan dan Administrasi Umum']);
         }
 
-        // 2. Clean dummy Laporan Layanan
+        // 2. Clean dummy Laporan Layanan / Dokumens
         if (Schema::hasTable('dokumens')) {
             DB::table('dokumens')
                 ->whereIn('kategori', ['Laporan Layanan', 'Laporan Akses', 'Laporan Tahunan'])
@@ -41,12 +41,15 @@ class Dip2026SyncSeeder extends Seeder
                 ->delete();
         }
 
-        // 3. Clean unverified rows from legacy tables
+        // 3. Clean legacy tables to prevent stale or duplicate entries
         if (Schema::hasTable('informasi_berkalas')) {
             DB::table('informasi_berkalas')->delete();
         }
         if (Schema::hasTable('informasi_sertamertas')) {
             DB::table('informasi_sertamertas')->delete();
+        }
+        if (Schema::hasTable('informasi_setiap_saats')) {
+            DB::table('informasi_setiap_saats')->delete();
         }
 
         // 4. Clean daftar_informasis (keep informasi-dikecualikan)
@@ -87,7 +90,7 @@ class Dip2026SyncSeeder extends Seeder
             ]);
         };
 
-        // 5. INFORMASI BERKALA (26 Verified Items)
+        // 5. INFORMASI BERKALA (28 Verified Items)
         $berkalaData = [
             [
                 'judul' => 'Akreditasi Program Studi (LED & LKPS Prodi RSTJ, TRO, TO)',
@@ -98,7 +101,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1rvltyYA70k88Icn1dUpuyD9jpSlhhdDY/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1cn3kpfAolP2XXpMwIeFjIbyLyJzMsDGT/view?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Audit Mutu Internal (AMI) PKTJ Tahun 2025',
@@ -109,18 +112,18 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '2 Tahun',
-                'link' => 'https://drive.google.com/file/d/1k9sOdvKbToFwcTiE2McZ2B73KO0_4fkY/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1SgWVM5rXisRA03X2mP1V4XE-n_vx7n1A/view?usp=drive_link',
             ],
             [
-                'judul' => 'Jadwal Kegiatan Softskill Taruna Tahun 2025',
-                'ringkasan' => 'Jadwal dan susunan kegiatan pembentukan karakter dan softskill taruna mengenai literasi kesehatan mental tahun 2025.',
+                'judul' => 'Jadwal Kegiatan Softskill Literasi Kesehatan Mental Taruna Tahun 2025',
+                'ringkasan' => 'Jadwal dan susunan kegiatan pembentukan karakter softskill taruna mengenai literasi kesehatan mental tahun 2025.',
                 'pejabat' => 'Pengasuh Praja',
                 'penerbit' => 'Pusat Pembangunan Karakter',
                 'bentuk' => 'Softfile',
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1xPtTCgRHcI_uA9vlTRv2QvYPm42DINeH/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1UKgitogU1fpLfSizig91wbB_XVHSEgxz/view?usp=drive_link',
             ],
             [
                 'judul' => 'Jadwal Perkuliahan Program Studi D3 Teknologi Otomotif (TO) TA 2025/2026',
@@ -131,7 +134,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '6 Bulan',
-                'link' => 'https://drive.google.com/file/d/1tY4S4T279H3GIRLw1Pkd96TBUZdNQrJS/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1P4_gCmIeBuj2-NKea-66BFfCutwCc7UX/view?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Pengawasan Mutu & Manajemen Sistem Penyelenggaraan Makanan (MSPM) Taruna 2025',
@@ -142,7 +145,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1lbc6mAZtkDVIkVrpsQg8uuYBn_FL33zn/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/12hNO6rPTU_0uWUe7jht2aYNH0vGK2M62/view?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Kegiatan Pengukuran Indeks Massa Tubuh (IMT) Taruna Tahun 2025',
@@ -153,22 +156,9 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1AzLms44HlcLDJncxnUcDV_wFZZOgxdch/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1Yfm4P60ku-VES3DguWMX-hUmwKPYIP2e/view?usp=drive_link',
             ],
             [
-                // Row 11: Fixed typo Softkill -> Softskill & clear title
-                'judul' => 'Jadwal Kegiatan Softskill Literasi Kesehatan Mental Taruna Tahun 2025',
-                'ringkasan' => 'Jadwal dan susunan kegiatan pembentukan karakter softskill taruna mengenai literasi kesehatan mental tahun 2025.',
-                'pejabat' => 'Pengasuh Praja',
-                'penerbit' => 'Pusat Pembangunan Karakter',
-                'bentuk' => 'Softfile',
-                'waktu' => '2025',
-                'tempat' => 'Tegal',
-                'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1IfqfbuDqsbUskq1H_tFHUwRJcxuoynga/view?usp=drive_link',
-            ],
-            [
-                // Row 12: Fixed typo Penilian -> Penilaian
                 'judul' => 'Laporan Penilaian Samapta Periodik Taruna Tahun 2025',
                 'ringkasan' => 'Laporan penilaian tes kesamaptaan jasmani periodik taruna/i PKTJ yang dilaksanakan pada Semester Ganjil dan Semester Genap Tahun 2025.',
                 'pejabat' => 'Pengasuh Praja',
@@ -177,7 +167,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1dklOY3q0RlCz6m-NTLlgjwG1mG1anUrk/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1OfKfPGUfovfe34wYQ0IvmB-Gn0JJEynA/view?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Perkuliahan Semester Genap Prodi RSTJ TA 2024/2025',
@@ -188,7 +178,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => 'Selama Masih Berlaku',
-                'link' => 'https://drive.google.com/file/d/1whVnOxu2OAIrLjGQOi4UVnSODDvWSFtN/view?usp=drive_link',
+                'link' => 'https://drive.google.com/drive/folders/1tGeLPdWyPcEIU3eg3Ir9dx4TtkiDJsgO?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Tracer Study Lulusan PKTJ Tahun 2025',
@@ -199,7 +189,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1Z03rj5TTeSRbyoJbvoI1OVNeHDeJnmr2/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1_R9FtirHJn8EYshWXI8JpgmJ9ad1SkWO/view?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Pelaksanaan Uji Kompetensi Penilai Analisis Dampak Lalu Lintas (Andalalin) 2025',
@@ -210,7 +200,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '1 Tahun',
-                'link' => 'https://drive.google.com/file/d/1hgqfwqJATIAUnQMK89_WqFOsXvgNyxLq/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1Ilhf0YdRhQ7dxrekCkvdzJ4CJCtaGPYP/view?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Pelaksanaan Uji Kompetensi Pembantu Penguji Kendaraan Bermotor (PKB) 2025',
@@ -221,7 +211,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '1 Tahun',
-                'link' => 'https://drive.google.com/file/d/1bkVuYjckwiflyopuFsEhQn75Jr3KUAmn/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1T0e51-oIN1zi70Tp96Et7tu2WheeAXa7/view?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Pelaksanaan Uji Kompetensi Pemeliharaan Jalan (PKS Kerjasama) 2025',
@@ -232,7 +222,18 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '1 Tahun',
-                'link' => 'https://drive.google.com/file/d/1NhA8-ImFldPpGCTGJm0YzEnmSK4zgJnn/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1qnwCoURKV1qnMPuCGXVUwpFn9MlP0Jx8/view?usp=drive_link',
+            ],
+            [
+                'judul' => 'Laporan Pelaksanaan Uji Kompetensi Penguji Berkala Kendaraan Bermotor Tingkat 3',
+                'ringkasan' => 'Pra-ujikom dan uji kompetensi penguji berkala kendaraan bermotor tingkat 3 bagi 106 mahasiswa D3 TO POLBIT dan NON-POLBIT.',
+                'pejabat' => 'Kepala Program Studi D3 TO',
+                'penerbit' => 'Prodi D3 TO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => '2025',
+                'tempat' => 'Tegal',
+                'retensi' => '1 Tahun',
+                'link' => 'https://drive.google.com/drive/folders/10bFBQqAABU4xr-UZ4-nD9n_AjTKuVl9U?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Pelaksanaan Uji Kompetensi Sistem Manajemen Keselamatan (SMK) 2025',
@@ -243,7 +244,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '1 Tahun',
-                'link' => 'https://drive.google.com/file/d/13R7DxU7BzK53vXcvyDPZaGFA2HQvucVz/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1YsTHPUBSn-LhG4dhs1xFjmHrEF9UwT2s/view?usp=drive_link',
             ],
             [
                 'judul' => 'Pelaksanaan UTS dan UAS Program Studi RSTJ TA 2025/2026',
@@ -254,7 +255,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '6 Bulan',
-                'link' => 'https://drive.google.com/file/d/1skDjqrJrioh7lhKpvN1fAWYkSsqPKFj-/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/15vXKG0Fm8zNr7i-tuC9gHhygv_0rgdIE/view?usp=drive_link',
             ],
             [
                 'judul' => 'Pelaksanaan UTS dan UAS Program Studi TRO TA 2025/2026',
@@ -265,7 +266,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '6 Bulan',
-                'link' => 'https://drive.google.com/file/d/1ez4_J3ZyLFN41OY-tBchy3W0k8AeOAAx/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1cFjBfLtGgOkYsjud8uMLu9qXd5jWbix8/view?usp=drive_link',
             ],
             [
                 'judul' => 'Pelaksanaan UTS dan UAS Program Studi D3 TO TA 2025/2026',
@@ -276,7 +277,29 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '6 Bulan',
-                'link' => 'https://drive.google.com/file/d/1hlV5Ac65SPio7VLsn9E8Zvx5Deecatxe/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1gAl4oo672SWlv05qOeAupBflSJ8DY-F7/view?usp=drive_link',
+            ],
+            [
+                'judul' => 'Ploting dan Jadwal Perkuliahan Semester Genap Prodi RSTJ',
+                'ringkasan' => 'Ploting dosen pengampu dan susunan jadwal perkuliahan semester genap Program Studi Sarjana Terapan RSTJ.',
+                'pejabat' => 'Kepala Program Studi RSTJ',
+                'penerbit' => 'Prodi RSTJ Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => '2025',
+                'tempat' => 'Tegal',
+                'retensi' => '6 Bulan',
+                'link' => 'https://drive.google.com/drive/folders/17IaQFiEyMC3mgEI6Xd99myZV0WA3LAhG?usp=drive_link',
+            ],
+            [
+                'judul' => 'Rapat Tinjauan Manajemen (RTM) PKTJ Tahun 2025',
+                'ringkasan' => 'Risalah dan hasil evaluasi rapat tinjauan manajemen penjaminan mutu SPM PKTJ Tegal Tahun 2025.',
+                'pejabat' => 'Kepala SPM',
+                'penerbit' => 'Tim SPM PKTJ',
+                'bentuk' => 'Softcopy & Hardcopy',
+                'waktu' => '2025',
+                'tempat' => 'Tegal',
+                'retensi' => '1 Tahun',
+                'link' => 'https://drive.google.com/drive/folders/1YJqNIXAXI-LVZd9ejMdKPLoeePJQJ_TH?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Pelaksanaan Screening Kesehatan Gigi dan Skrining TB Taruna PKTJ 2025',
@@ -287,7 +310,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1cs5uk0mhMAnJA50LLm7MTgTkC9a7fULp/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1wt1p7rf2tFoYkEHk3nJxTrc86Oxcea5p/view?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Audit Surveillance ISO 21001:2018 Sistem Manajemen Organisasi Pendidikan 2025',
@@ -298,7 +321,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '2 Tahun',
-                'link' => 'https://drive.google.com/file/d/1RP4Mq6eUcA24hvZMDNmL7XxPp27A_Vhz/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1ipXcaEhEjIAUnyCitdhBxGV2cc2rputU/view?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Survei Kepuasan Masyarakat (IKM) & Indeks Persepsi Korupsi (IPK) Semester I 2025',
@@ -309,10 +332,9 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '1 Tahun',
-                'link' => 'https://drive.google.com/file/d/1gYZNEK_IFgG0hlYSmbHXG9R1Q688Z68_/view?usp=drive_link',
+                'link' => 'https://drive.google.com/drive/folders/1ZDALUWnp5ReH7QRUZt4bXYXjHlGOk6yq?usp=drive_link',
             ],
             [
-                // Row 25
                 'judul' => 'DIPA Petikan PKTJ Tahun Anggaran 2025 (Revisi 08)',
                 'ringkasan' => 'Dokumen otorisasi pelaksanaan anggaran Daftar Isian Pelaksanaan Anggaran (DIPA) Petikan PKTJ Tegal Tahun Anggaran 2025 revisi ke-8.',
                 'pejabat' => 'Ketua Tim Substansi Bidang Keuangan',
@@ -324,7 +346,6 @@ class Dip2026SyncSeeder extends Seeder
                 'link' => 'https://drive.google.com/file/d/1hLQ-26Oko2u1uve8jD9NMbNknRnyLD_W/view?usp=drive_link',
             ],
             [
-                // Row 26: Year 2024
                 'judul' => 'Surat Keputusan (SK) Penetapan PPID Pelaksana UPT PKTJ Tahun 2024',
                 'ringkasan' => 'Surat Keputusan Direktur PKTJ Nomor SK-PKTJ 12 Tahun 2024 tentang Penetapan Pengelola Informasi dan Dokumentasi (PPID) Pelaksana di lingkungan UPT PKTJ Tegal.',
                 'pejabat' => 'Direktur PKTJ',
@@ -336,8 +357,7 @@ class Dip2026SyncSeeder extends Seeder
                 'link' => 'https://drive.google.com/file/d/16_4Pmme_pWLgafTXlmBU0uuS82qs5RhP/view?usp=sharing',
             ],
             [
-                // AKIP 1
-                'judul' => 'Penyampaian Laporan Tahunan Pelayanan Informasi Publik PKTJ Tahun 2025 ke PPID Utama Kemenhub',
+                'judul' => 'Penyampaian Laporan Tahunan Pelayanan Informasi Publik PKTJ 2025 ke PPID Utama Kemenhub',
                 'ringkasan' => 'Surat penyampaian resmi Laporan Tahunan Layanan Informasi Publik UPT PKTJ Tegal Tahun 2025 kepada PPID Utama Kementerian Perhubungan.',
                 'pejabat' => 'Direktur PKTJ',
                 'penerbit' => 'PPID Pelaksana PKTJ',
@@ -348,8 +368,7 @@ class Dip2026SyncSeeder extends Seeder
                 'link' => 'https://drive.google.com/file/d/1NabSL0TAkoFyp7aEEiyeXbWrkBDbMGyx/view?usp=drive_link',
             ],
             [
-                // AKIP 2
-                'judul' => 'Laporan Tahunan Pelaksanaan Program Kerja dan Pengelolaan Keuangan PKTJ Tahun 2025',
+                'judul' => 'Laporan Tahunan Pelaksanaan Program Kerja & Keuangan PKTJ 2025',
                 'ringkasan' => 'Laporan tahunan komprehensif pertanggungjawaban pelaksanaan seluruh program kerja, kegiatan akademis, dan realisasi anggaran PKTJ Tegal Tahun 2025.',
                 'pejabat' => 'Direktur PKTJ',
                 'penerbit' => 'Bagian Keuangan dan Administrasi Umum',
@@ -360,8 +379,7 @@ class Dip2026SyncSeeder extends Seeder
                 'link' => 'https://drive.google.com/file/d/1pe1vqLCRemRpA6G5q2VpC0L6KhTGriEo/view?usp=sharing',
             ],
             [
-                // AKIP 3
-                'judul' => 'Ringkasan Eksekutif Laporan Kinerja Instansi Pemerintah (LKjIP / LAKIP) PKTJ Tahun 2025',
+                'judul' => 'Ringkasan Eksekutif LKjIP / LAKIP PKTJ 2025',
                 'ringkasan' => 'Ringkasan eksekutif akuntabilitas kinerja instansi pemerintah (LKjIP / LAKIP) mengenai pencapaian target sasaran strategis PKTJ Tegal Tahun 2025.',
                 'pejabat' => 'Direktur PKTJ',
                 'penerbit' => 'Subbagian Tata Usaha & Tim AKIP',
@@ -372,8 +390,7 @@ class Dip2026SyncSeeder extends Seeder
                 'link' => 'https://drive.google.com/file/d/18azvUjvumzPkAN-hTmSWhkWaJrXZFle3/view?usp=drive_link',
             ],
             [
-                // AKIP 4
-                'judul' => 'Laporan Penanganan Pengaduan Masyarakat, WBS, dan SP4N-LAPOR PKTJ Tahun 2025/2026',
+                'judul' => 'Laporan Pengaduan Masyarakat, WBS, dan SP4N-LAPOR 2025/2026',
                 'ringkasan' => 'Rekapitulasi penanganan aspirasi masyarakat, Whistleblowing System (WBS), dan tindak lanjut laporan pengaduan melalui portal SP4N-LAPOR PKTJ.',
                 'pejabat' => 'Satuan Pengawas Internal (SPI)',
                 'penerbit' => 'Tim Penanganan Pengaduan Masyarakat & SPI PKTJ',
@@ -389,10 +406,9 @@ class Dip2026SyncSeeder extends Seeder
             $insertItem('informasi-berkala', $item);
         }
 
-        // 6. INFORMASI SERTA MERTA (18 Verified Items - No 404, No Dummy Duplicates)
+        // 6. INFORMASI SERTA MERTA (18 Verified Items)
         $sertaMertaData = [
             [
-                // Row 1: Fixed Roadmap P3M 2024
                 'judul' => 'Roadmap Penelitian dan Pengabdian Kepada Masyarakat (P3M) PKTJ Tahun 2024',
                 'ringkasan' => 'Dokumen Roadmap Penelitian dan Pengabdian Kepada Masyarakat (P3M) Politeknik Keselamatan Transportasi Jalan Tahun 2024 yang memuat peta jalan dan tema strategis riset institusi.',
                 'pejabat' => 'Kepala Pusat Penelitian dan Pengabdian Masyarakat (P3M)',
@@ -406,106 +422,105 @@ class Dip2026SyncSeeder extends Seeder
             [
                 'judul' => 'Jumlah Kunjungan Pasien Klinik Pratama PKTJ Tahun 2025',
                 'ringkasan' => 'Data statistik dan rekapitulasi kunjungan pasien rawat jalan pada Klinik Pratama PKTJ meliputi taruna, pegawai, dan masyarakat umum periode Januari-November 2025.',
-                'pejabat' => 'Kepala Unit Kesehatan',
-                'penerbit' => 'Tenaga Kesehatan Unit Kesehatan PKTJ',
+                'pejabat' => 'Kanit Kesehatan',
+                'penerbit' => 'Nakes Unit Kesehatan',
                 'bentuk' => 'Softfile',
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1jY-CngE5yJKKUDvqpVAKa_SC5Ab2cFME/view?usp=sharing',
+                'link' => 'https://drive.google.com/drive/folders/1zmYPO6XuAm6rp9HMuUO1UAy6fSROproS?usp=drive_link',
             ],
             [
-                // Row 3: FULL FOLDER JAN-DES 2025
                 'judul' => 'Laporan Kebersihan Asrama PKTJ Tahun 2025 (Bulan Januari s/d Desember Lengkap)',
                 'ringkasan' => 'Rekapitulasi berkala laporan pengecekan dan monitoring kebersihan asrama taruna/i PKTJ Kampus I dan II dari Bulan Januari hingga Desember 2025 secara lengkap.',
-                'pejabat' => 'Kepala Unit Asrama PKTJ',
-                'penerbit' => 'Unit Pengelolaan Asrama Taruna',
+                'pejabat' => 'Kanit Asrama',
+                'penerbit' => 'Unit Asrama',
                 'bentuk' => 'Google Drive Folder',
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
-                'retensi' => '1 Tahun',
+                'retensi' => '2 Tahun',
                 'link' => 'https://drive.google.com/drive/folders/1qU81c6u8w7zy6oCCF2mLxN_FxIouESxW?usp=drive_link',
             ],
             [
                 'judul' => 'Pemeriksaan Kesehatan Gratis Pengemudi Ojek Online Dalam Rangka Hari Perhubungan Nasional Tahun 2025',
                 'ringkasan' => 'Kegiatan bakti sosial pemeriksaan kesehatan gratis (tekanan darah, gula darah sewaktu, kolesterol, dan asam urat) bagi pengemudi ojek online dalam rangka Hari Perhubungan Nasional 2025.',
-                'pejabat' => 'Kepala Unit Kesehatan',
-                'penerbit' => 'Tenaga Kesehatan Unit Kesehatan PKTJ',
+                'pejabat' => 'Kanit Kesehatan',
+                'penerbit' => 'Nakes Unit Kesehatan',
                 'bentuk' => 'Softfile',
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1PCJ7TjFLh--7npmi85dXwP8Yi6cO6wlF/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1a3nUuc1aFcz38juWmUw-FTrpL3QkErkE/view?usp=drive_link',
             ],
             [
-                'judul' => 'Pemeriksaan Kesehatan Gratis Pengemudi Ojek Online Dalam Rangka Peringatan HUT RI',
-                'ringkasan' => 'Kegiatan bakti sosial pemeriksaan kesehatan umum secara cuma-cuma bagi mitra transportasi online pengemudi ojek online dalam rangka memeriahkan HUT Kemerdekaan RI.',
-                'pejabat' => 'Kepala Unit Kesehatan',
-                'penerbit' => 'Tenaga Kesehatan Unit Kesehatan PKTJ',
+                'judul' => 'Pemeriksaan Kesehatan Gratis Pengemudi Ojek Online Dalam Rangka HUT RI ke 80',
+                'ringkasan' => 'Kegiatan bakti sosial pemeriksaan kesehatan gratis meliputi pemeriksaan tekanan darah, gula darah sewaktu, kolesterol, dan asam urat bagi pengemudi ojek online dalam rangka HUT RI ke-80.',
+                'pejabat' => 'Kanit Kesehatan',
+                'penerbit' => 'Nakes Unit Kesehatan',
                 'bentuk' => 'Softfile',
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1k1lxiDvvRFcCvI5OIfXOZbfo00Bw0sZI/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/14qD_iSgw9QYvEDjeexFzMOqjQBE4O9R7/view?usp=drive_link',
             ],
             [
                 'judul' => 'Penghapusan Barang Milik Negara (BMN) PKTJ Tahun 2025',
-                'ringkasan' => 'Dokumen administrasi rekomendasi dan penetapan penghapusan Barang Milik Negara (BMN) kondisi rusak berat di lingkungan Politeknik Keselamatan Transportasi Jalan Tahun 2025.',
+                'ringkasan' => 'Kegiatan penghapusan Barang Milik Negara di lingkungan Politeknik Keselamatan Transportasi Jalan Tahun 2025.',
                 'pejabat' => 'Ketua Tim Bidang Umum',
-                'penerbit' => 'Bagian Keuangan dan Umum',
-                'bentuk' => 'Softfile',
+                'penerbit' => 'Bagian Keuangan Umum dan Kerjasama',
+                'bentuk' => 'Soft file',
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '7 Tahun',
-                'link' => 'https://drive.google.com/file/d/1aRbozmigMYPH-3LQwjApjdCT4iI1OuAG/view?usp=drive_link',
+                'link' => 'https://drive.google.com/drive/folders/19cbR6rqgd7geDJsO4q9hxtan9D8Lpz1b?usp=drive_link',
             ],
             [
-                'judul' => 'Profil Program Studi Sarjana Terapan Rekayasa Sistem Transportasi Jalan (RSTJ)',
-                'ringkasan' => 'Dokumen profil komprehensif memuat visi misi, kurikulum, profil lulusan, capaian pembelajaran, dosen, dan prestasi taruna Program Studi RSTJ PKTJ Tegal.',
+                'judul' => 'Profil Program Studi Rekayasa Sistem Transportasi Jalan (RSTJ)',
+                'ringkasan' => 'Memuat Visi Misi, Lulusan, Dosen, Prestasi Taruna/i Prodi RSTJ dan kegiatan Pembelajaran Prodi RSTJ.',
                 'pejabat' => 'Kepala Program Studi RSTJ',
                 'penerbit' => 'Prodi RSTJ Politeknik Keselamatan Transportasi Jalan',
                 'bentuk' => 'Softcopy',
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
-                'retensi' => 'Selama Berlaku',
-                'link' => 'https://drive.google.com/file/d/1qOzwfGGg3V2edOgdxBD4Fjj1DncRU30X/view?usp=drive_link',
+                'retensi' => 'Selama masih berlaku / Diperbarui jika ada perubahan',
+                'link' => 'https://drive.google.com/drive/folders/1_uPmo1JucI1DNNpRdtWci5n0Oxyunouq?usp=drive_link',
             ],
             [
-                'judul' => 'Profil Unit Perpustakaan PKTJ Tegal',
-                'ringkasan' => 'Dokumen profil unit perpustakaan memuat sejarah pendirian, visi misi, struktur organisasi, tata tertib, jam layanan, serta fasilitas koleksi literatur keselamatan transportasi.',
+                'judul' => 'Profil Unit Perpustakaan PKTJ',
+                'ringkasan' => 'Memuat sejarah, visi misi, struktur organisasi, jam layanan, dan fasilitas perpustakaan.',
                 'pejabat' => 'Kepala Unit Perpustakaan',
                 'penerbit' => 'Unit Perpustakaan PKTJ',
                 'bentuk' => 'Hardcopy & Softcopy',
                 'waktu' => '2023',
                 'tempat' => 'Tegal',
-                'retensi' => 'Selama Berlaku',
-                'link' => 'https://drive.google.com/file/d/1hcC1XY8hd7XWF-AHqW1fdDoUzyyED934/view?usp=drive_link',
+                'retensi' => 'Selama berlaku / Diperbarui jika ada perubahan',
+                'link' => 'https://drive.google.com/file/d/1dTJ_sBSr8JU1tnKSkavIZ1r2nUOUrMrx/view?usp=drive_link',
             ],
             [
-                'judul' => 'Sosialisasi Pencegahan, Pemberantasan, Penyalahgunaan dan Peredaran Gelap Narkotika (P4GN) 2025',
-                'ringkasan' => 'Laporan kegiatan penyuluhan dan sosialisasi bahaya narkoba (P4GN) secara daring kepada seluruh taruna/i Politeknik Keselamatan Transportasi Jalan.',
-                'pejabat' => 'Kepala Unit Kesehatan',
+                'judul' => 'Sosialisasi P4GN kepada Taruna PKTJ',
+                'ringkasan' => 'Kegiatan Sosialisasi Pencegahan, Pemberantasan, Penyalahgunaan dan Peredaran Gelap Narkotika (P4GN) kepada Taruna PKTJ dilakukan secara online.',
+                'pejabat' => 'Kanit Kesehatan',
                 'penerbit' => 'Dokter Unit Kesehatan PKTJ',
                 'bentuk' => 'Softfile',
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '5 Tahun',
-                'link' => 'https://drive.google.com/file/d/1CZsernmJspWDeXuq0c-1V0LE0ufnsMZK/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1-Nv0oNJwzwEHTP6pUEWR9cQbTLzc-7wy/view?usp=drive_link',
             ],
             [
                 'judul' => 'Piagam Satuan Pengawas Internal (SPI Charter) PKTJ Tegal',
-                'ringkasan' => 'Piagam pengawasan internal formal yang menetapkan komitmen pimpinan institusi atas mandat, wewenang, ruang lingkup tugas, dan independensi Satuan Pengawas Internal PKTJ.',
+                'ringkasan' => 'Piagam Satuan Pengawas Internal (Audit Charter SPI) adalah dokumen formal yang berisi komitmen pimpinan berupa pengakuan keberadaan dan berfungsinya Satuan Pengawas Internal di sebuah organisasi.',
                 'pejabat' => 'Kepala SPI',
                 'penerbit' => 'SPI Politeknik Keselamatan Transportasi Jalan',
-                'bentuk' => 'Softcopy & Hardcopy',
+                'bentuk' => 'Softcopy dan Hardcopy',
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
-                'retensi' => '1 Tahun',
-                'link' => 'https://drive.google.com/file/d/1XY_1ktDrqGwQJ2nuK_sslnYrP0Ddv4nx/view?usp=drive_link',
+                'retensi' => '1 (satu) tahun',
+                'link' => 'https://drive.google.com/file/d/1H14Y7vILtPAGoSluY3Zv9zlYk69gDPZl/view?usp=drive_link',
             ],
             [
                 'judul' => 'SK BPSDMP No. 17 Tahun 2025 tentang Pembentukan Tim Penghapusan BMN PKTJ',
-                'ringkasan' => 'Keputusan Kepala BPSDMP mengenai pembentukan tim penghapusan barang milik negara rusak berat yang berpotensi membahayakan keselamatan gedung kampus.',
+                'ringkasan' => 'Keputusan Kepala BPSDMP mengenai penetapan tim penghapusan barang milik negara rusak berat pada Politeknik Keselamatan Transportasi Jalan.',
                 'pejabat' => 'Bagian Keuangan dan Umum',
                 'penerbit' => 'BPSDMP Kemenhub / PKTJ',
                 'bentuk' => 'Softcopy',
@@ -516,7 +531,7 @@ class Dip2026SyncSeeder extends Seeder
             ],
             [
                 'judul' => 'Surat Keterangan Penghentian Penggunaan Barang Milik Negara (BMN) Rusak Berat',
-                'ringkasan' => 'Pengumuman kedaruratan penghentian operasional fasilitas dan aset kampus yang telah aus dan membahayakan keselamatan taruna.',
+                'ringkasan' => 'Surat keterangan resmi mengenai penghentian penggunaan barang milik negara dalam kondisi rusak berat.',
                 'pejabat' => 'Pengelola BMN PKTJ',
                 'penerbit' => 'Bagian Keuangan dan Umum',
                 'bentuk' => 'Softcopy',
@@ -527,7 +542,7 @@ class Dip2026SyncSeeder extends Seeder
             ],
             [
                 'judul' => 'Surat Rekomendasi Kedaruratan Penghapusan Bangunan Gedung Rusak ke KPKNL',
-                'ringkasan' => 'Rekomendasi teknis pembongkaran dan penghapusan konstruksi bangunan gedung asrama/laboratorium yang mengalami kerusakan struktur.',
+                'ringkasan' => 'Surat rekomendasi permohonan penghapusan dan pembongkaran bangunan gedung rusak kepada KPKNL Tegal.',
                 'pejabat' => 'Tim Teknis Sarpras PKTJ',
                 'penerbit' => 'Bagian Keuangan dan Umum',
                 'bentuk' => 'Softcopy',
@@ -538,7 +553,7 @@ class Dip2026SyncSeeder extends Seeder
             ],
             [
                 'judul' => 'Berita Acara Pemeriksaan Kondisi Barang dan Fisik Gedung Rusak Berat Tahun 2025',
-                'ringkasan' => 'Berita acara resmi hasil inspeksi fisik kondisi material dan konstruksi gedung penunjang pendidikan.',
+                'ringkasan' => 'Berita acara hasil pemeriksaan fisik dan inventarisasi kondisi gedung yang mengalami kerusakan berat.',
                 'pejabat' => 'Tim Verifikasi BMN',
                 'penerbit' => 'Bagian Keuangan dan Umum',
                 'bentuk' => 'Softcopy',
@@ -549,7 +564,7 @@ class Dip2026SyncSeeder extends Seeder
             ],
             [
                 'judul' => 'Perjanjian Kerjasama Darurat Akses E-Journal dengan Konsorsium FPPTI',
-                'ringkasan' => 'Perjanjian pembukaan akses jurnal digital internasional secara terbuka bagi seluruh sivitas akademika dalam situasi penyesuaian pembelajaran.',
+                'ringkasan' => 'Perjanjian kerjasama pemanfaatan dan akses konsorsium e-journal ilmiah antara PKTJ dengan FPPTI Jawa Tengah.',
                 'pejabat' => 'Kepala Unit Perpustakaan',
                 'penerbit' => 'Unit Perpustakaan PKTJ',
                 'bentuk' => 'Softcopy',
@@ -560,7 +575,7 @@ class Dip2026SyncSeeder extends Seeder
             ],
             [
                 'judul' => 'Perjanjian Kerjasama Pertukaran Informasi Pustaka dengan IAIN Kendari',
-                'ringkasan' => 'PKS jejaring perpustakaan perguruan tinggi untuk akses sumber rujukan ilmiah mahasiswa secara daring.',
+                'ringkasan' => 'Perjanjian kerjasama perpustakaan untuk pertukaran referensi literatur dan informasi ilmiah antara PKTJ dan IAIN Kendari.',
                 'pejabat' => 'Kepala Unit Perpustakaan',
                 'penerbit' => 'Unit Perpustakaan PKTJ',
                 'bentuk' => 'Softcopy',
@@ -571,7 +586,7 @@ class Dip2026SyncSeeder extends Seeder
             ],
             [
                 'judul' => 'Perjanjian Kerjasama Pertukaran Informasi Pustaka dengan Stikes Bhamada Slawi',
-                'ringkasan' => 'Kerjasama antar-kampus se-Karesidenan Pekalongan untuk mitigasi literasi kesehatan dan keselamatan lingkungan.',
+                'ringkasan' => 'Kerjasama antar-perpustakaan perguruan tinggi untuk akses koleksi bahan pustaka dan layanan informasi.',
                 'pejabat' => 'Kepala Unit Perpustakaan',
                 'penerbit' => 'Unit Perpustakaan PKTJ',
                 'bentuk' => 'Softcopy',
@@ -582,7 +597,7 @@ class Dip2026SyncSeeder extends Seeder
             ],
             [
                 'judul' => 'Perjanjian Kerjasama Pertukaran Informasi Pustaka dengan UIN Sunan Gunung Djati',
-                'ringkasan' => 'Kerjasama pertukaran publikasi ilmiah dan repositori digital terbuka antar-perguruan tinggi.',
+                'ringkasan' => 'Kerjasama pertukaran publikasi ilmiah dan jejaring perpustakaan perguruan tinggi Islam negeri dengan PKTJ.',
                 'pejabat' => 'Kepala Unit Perpustakaan',
                 'penerbit' => 'Unit Perpustakaan PKTJ',
                 'bentuk' => 'Softcopy',
@@ -597,7 +612,7 @@ class Dip2026SyncSeeder extends Seeder
             $insertItem('informasi-serta-merta', $item);
         }
 
-        // 7. INFORMASI SETIAP SAAT (22 Verified Items - No Asrama, Deduplicated MoU/PKS/SPK, SOP 2023, Sosmed 2026)
+        // 7. INFORMASI SETIAP SAAT (27 Verified Items)
         $setiapSaatData = [
             [
                 'judul' => 'Dokumen Kurikulum Program Studi Sarjana Terapan RSTJ (KP-BPSDMP 173 Tahun 2025)',
@@ -608,7 +623,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => 'Selama Masih Berlaku',
-                'link' => 'https://drive.google.com/file/d/1Yq1cQU5fVWRM0ogGBIlONl-p6AtbHcOT/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1y6IgSsr8_Nan6lx9x3MS8tNNodGIzxYM/view?usp=drive_link',
             ],
             [
                 'judul' => 'Dokumen Kurikulum Program Studi Sarjana Terapan TRO (KP-BPSDMP 181 Tahun 2025)',
@@ -619,7 +634,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => 'Selama Masih Berlaku',
-                'link' => 'https://drive.google.com/file/d/14Z2niInObd5DyMfw1LL_9QYdX3jGbPS6/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1JvAj5qveSh5KW55HlTzEPNWd2XeQuFSU/view?usp=drive_link',
             ],
             [
                 'judul' => 'Dokumen Kurikulum Program Studi D3 Teknologi Otomotif (Kurikulum 2020)',
@@ -630,7 +645,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => 'Selama Masih Berlaku',
-                'link' => 'https://drive.google.com/file/d/1GRN5PAXrJwYUc01QqVskbyHpF-Uo-WKi/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1cyX-7EgNPsdcsgT2CiBt6b5skNLHGcgv/view?usp=drive_link',
             ],
             [
                 'judul' => 'Dokumen Kurikulum Hasil Review Program Studi D3 Teknologi Otomotif Tahun 2025',
@@ -641,7 +656,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => 'Selama Masih Berlaku',
-                'link' => 'https://drive.google.com/file/d/1JzIqbOa5BZy49tJYKfdICmkh1Ysi0yNQ/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1jCxlNseEQufG024MQCutbXfFRLGlnjY3/view?usp=drive_link',
             ],
             [
                 'judul' => 'Pedoman Pembelajaran Teaching Factory (TeFa) Prodi RSTJ',
@@ -652,7 +667,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '1 Tahun',
-                'link' => 'https://drive.google.com/file/d/1Q4KCRsbVOCqY2VTlOhwZ8OOnBRmnkN54/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1U_0Gxo_VDiR44WPU1d3kgzGUWWxwEJZM/view?usp=drive_link',
             ],
             [
                 'judul' => 'Laporan Progres Pembelajaran Teaching Factory (TeFa) Prodi RSTJ Semester Ganjil',
@@ -663,7 +678,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '6 Bulan',
-                'link' => 'https://drive.google.com/file/d/1xYhKYTH3JSQyrZsnV09DR28GIpPgRq9l/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1thfMdVSo7D-kf2cFTtffKmGeDIg-h1gw/view?usp=drive_link',
             ],
             [
                 'judul' => 'Portofolio dan Laporan Produk TeFa Prodi RSTJ Kelas A (Kelompok 1 - 6)',
@@ -674,7 +689,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '6 Bulan',
-                'link' => 'https://drive.google.com/file/d/1a-yG1DvOuosOMRKt5-77hUGzlL5N3_vo/view?usp=drive_link',
+                'link' => 'https://drive.google.com/drive/folders/1JRi9kaNpvPbNkFxWoCl-DMyRkQVRbWog?usp=drive_link',
             ],
             [
                 'judul' => 'Portofolio dan Laporan Produk TeFa Prodi RSTJ Kelas B (Kelompok 1 - 6)',
@@ -685,7 +700,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '6 Bulan',
-                'link' => 'https://drive.google.com/file/d/1z5qQ6l5LGVjSaClxwCaSDIYDwm3ds66-/view?usp=drive_link',
+                'link' => 'https://drive.google.com/drive/folders/1Q1Hlce9Fc8ndhC5vRVHcW10KdtnsGkeC?usp=drive_link',
             ],
             [
                 'judul' => 'Surat Keputusan (SK) Penunjukan Tim Teaching Factory (TeFa) Prodi TRO 2025',
@@ -696,10 +711,9 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '1 Tahun',
-                'link' => 'https://drive.google.com/file/d/1QFpmVataYKiB9UNgr_l9-p0Z7m4dchhG/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/1UqUH_JDSE84qvKkT-KrdFjCb53XJTX0i/view?usp=drive_link',
             ],
             [
-                // Row 10: TeFa TRO Folder
                 'judul' => 'Kegiatan Pembelajaran Teaching Factory (TeFa) - Produk TeFa Prodi TRO PKTJ',
                 'ringkasan' => 'Dokumen portofolio dan laporan produk kegiatan pembelajaran Teaching Factory (TeFa) Program Studi Teknologi Rekayasa Otomotif (TRO) PKTJ Tegal Tahun 2025.',
                 'pejabat' => 'Kepala Program Studi TRO',
@@ -711,7 +725,6 @@ class Dip2026SyncSeeder extends Seeder
                 'link' => 'https://drive.google.com/drive/folders/1-KoetVPqIyiJ3VXd3EaVwpZkaC2bzRcB?usp=drive_link',
             ],
             [
-                // Kontrak (Right Column Link)
                 'judul' => 'Kontrak Pengujian dan Perjanjian Kerja Kemitraan PKTJ',
                 'ringkasan' => 'Dokumen kontrak kesepakatan pelaksanaan pekerjaan pengujian ketidakrataan dan kekesatan jalan tol antara PKTJ dengan mitra penyedia jasa.',
                 'pejabat' => 'Katim Kerjasama / PPK PKTJ',
@@ -720,10 +733,9 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => 'Sesuai Masa Kontrak',
-                'link' => 'https://drive.google.com/file/d/1LUoIDHDwphNHlW6a0lx1v1waAobKJPxy/view?usp=drive_link',
+                'link' => 'https://drive.google.com/drive/folders/1LUoIDHDwphNHlW6a0lx1v1waAobKJPxy?usp=drive_link',
             ],
             [
-                // MoU (Right Column Link)
                 'judul' => 'Memorandum of Understanding (MoU) / Nota Kesepahaman Kemitraan PKTJ',
                 'ringkasan' => 'Dokumen Nota Kesepahaman (Memorandum of Understanding / MoU) kemitraan dan kerja sama kelembagaan Politeknik Keselamatan Transportasi Jalan.',
                 'pejabat' => 'Katim Kerjasama PKTJ',
@@ -732,10 +744,9 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => 'Sesuai Masa Berlaku MoU (3-5 Tahun)',
-                'link' => 'https://drive.google.com/file/d/1lm5RH7NM7YTS5OETZyY1nJ2iLMxgRWtD/view?usp=drive_link',
+                'link' => 'https://drive.google.com/drive/folders/1lm5RH7NM7YTS5OETZyY1nJ2iLMxgRWtD?usp=drive_link',
             ],
             [
-                // PKS (Right Column Link)
                 'judul' => 'Perjanjian Kerja Sama (PKS) Kemitraan Strategis PKTJ',
                 'ringkasan' => 'Dokumen kesepakatan formal dan legalitas Perjanjian Kerja Sama (PKS) antara Politeknik Keselamatan Transportasi Jalan dengan instansi/mitra strategis.',
                 'pejabat' => 'Katim Kerjasama PKTJ',
@@ -744,10 +755,9 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => 'Sesuai Masa Berlaku Kerjasama',
-                'link' => 'https://drive.google.com/file/d/1opXQdCZ9G3kKIqTcmgEcEbU-Bxjc0mUz/view?usp=drive_link',
+                'link' => 'https://drive.google.com/drive/folders/1opXQdCZ9G3kKIqTcmgEcEbU-Bxjc0mUz?usp=drive_link',
             ],
             [
-                // SPK/SPMK (Right Column Link)
                 'judul' => 'Surat Perjanjian Kerja / Surat Perintah Mulai Kerja (SPK/SPMK)',
                 'ringkasan' => 'Dokumen legal Surat Perjanjian Kerja (SPK) dan Surat Perintah Mulai Kerja (SPMK) pengadaan jasa uji reflektifitas dan pengujian laboratorium PKTJ.',
                 'pejabat' => 'PPK & Katim Kerjasama',
@@ -756,7 +766,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => 'Sesuai Masa Pelaksanaan Kontrak',
-                'link' => 'https://drive.google.com/file/d/1jP_z3VAlXuB4Dti4_UPhEv_GAD-rJszw/view?usp=drive_link',
+                'link' => 'https://drive.google.com/drive/folders/1jP_z3VAlXuB4Dti4_UPhEv_GAD-rJszw?usp=drive_link',
             ],
             [
                 'judul' => 'Program Kerja Pengawasan Tahunan Satuan Pengawas Internal (SPI) PKTJ 2025',
@@ -767,7 +777,7 @@ class Dip2026SyncSeeder extends Seeder
                 'waktu' => '2025',
                 'tempat' => 'Tegal',
                 'retensi' => '1 Tahun',
-                'link' => 'https://drive.google.com/file/d/11SVPDZoPM8apJYh8KDgFGrip_92Kz9zm/view?usp=drive_link',
+                'link' => 'https://drive.google.com/file/d/17fHyAY4ctzyzVUIPzhHM2F9o-2Hc0RSi/view?usp=drive_link',
             ],
             [
                 'judul' => 'Roadmap Penelitian dan Pengabdian Kepada Masyarakat (P3M) PKTJ 5 Tahunan',
@@ -825,7 +835,6 @@ class Dip2026SyncSeeder extends Seeder
                 'link' => 'https://drive.google.com/file/d/1OjmlHil-8HLWjWDuA-sJ1qPXlBd_Q7cs/view?usp=sharing',
             ],
             [
-                // Row 31: Fixed Year to 2023 (Nomor: 04/SOP/O-02/PKTJ/2023 disahkan 05 Desember 2023)
                 'judul' => 'SOP Inventarisasi Peralatan Ruangan Laboratorium dan Simulator Pendidikan',
                 'ringkasan' => 'Standar Operasional Prosedur inventarisasi peralatan, perlengkapan ruangan laboratorium, dan simulator pendidikan di lingkungan Politeknik Keselamatan Transportasi Jalan.',
                 'pejabat' => 'Kepala Unit Laboratorium Pendidikan',
@@ -837,7 +846,6 @@ class Dip2026SyncSeeder extends Seeder
                 'link' => 'https://drive.google.com/file/d/1DUFV_F1NHCdS8rp7LhaDtBgKvF99irdJ/view?usp=sharing',
             ],
             [
-                // Row 32: Realtime Social Media Consultation Sheet (Year 2026)
                 'judul' => 'Laporan Rekapitulasi Pertanyaan Masuk dan Konsultasi Layanan Informasi Publik di Media Sosial PKTJ Tahun 2026',
                 'ringkasan' => 'Lembar rekapitulasi interaktif monitoring pertanyaan publik, permohonan informasi, dan konsultasi masyarakat melalui kanal media sosial resmi PKTJ Tegal Tahun 2026.',
                 'pejabat' => 'Tim Pokja Humas dan PPID PKTJ',
@@ -847,6 +855,61 @@ class Dip2026SyncSeeder extends Seeder
                 'tempat' => 'Tegal',
                 'retensi' => '1 Tahun',
                 'link' => 'https://docs.google.com/spreadsheets/d/1q8R8llMqjE8wNysRQ39q8vafcsXcvKxNRSEkIe-JR_c/edit?usp=sharing',
+            ],
+            [
+                'judul' => 'Struktur Organisasi Unit Teknologi Informasi',
+                'ringkasan' => 'Struktur organisasi Unit Teknologi Informasi PKTJ yang terdiri dari Kepala Unit TI di bawah Kepala Bagian Administrasi Akademik dan Ketarunaan.',
+                'pejabat' => 'Unit TI',
+                'penerbit' => 'Unit Kerja di lingkungan PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => '2025',
+                'tempat' => 'Tegal',
+                'retensi' => 'Sesuai Retensi Arsip',
+                'link' => 'https://drive.google.com/file/d/1lLKLUvNEDY8OAUCoOIvV24aFZg3u9JHJ/view?usp=drive_link',
+            ],
+            [
+                'judul' => 'SOP Pembuatan Surat Bebas Pustaka',
+                'ringkasan' => 'Syarat dan prosedur pengurusan surat keterangan bebas pustaka untuk syarat Wisuda/Kelulusan taruna/i PKTJ.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penerbit' => 'Bagian Penjaminan Mutu PKTJ',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => '2023',
+                'tempat' => 'Tegal',
+                'retensi' => 'Selama SOP Belum Direvisi',
+                'link' => 'https://drive.google.com/drive/folders/1xm0_eKUn8Sd419Cr3f_lgj5y2PjlUddg?usp=drive_link',
+            ],
+            [
+                'judul' => 'SOP Pengadaan Bahan Pustaka',
+                'ringkasan' => 'Tata cara pengajuan usulan pengadaan buku dan bahan pustaka oleh Dosen atau Taruna/i PKTJ.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penerbit' => 'Bagian Penjaminan Mutu PKTJ',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => '2023',
+                'tempat' => 'Tegal',
+                'retensi' => 'Selama SOP Belum Direvisi',
+                'link' => 'https://drive.google.com/drive/folders/1FE5gflmJ0NoXv51HMzmbz4Q2HRX21zqA?usp=drive_link',
+            ],
+            [
+                'judul' => 'SOP Pemberian Layanan Jasa Perpustakaan Dan Informasi Mengenai Sumber Pembelajaran',
+                'ringkasan' => 'Prosedur dan alur layanan peminjaman serta pengembalian buku bagi pemustaka di lingkungan perpustakaan PKTJ.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penerbit' => 'Bagian Penjaminan Mutu PKTJ',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => '2023',
+                'tempat' => 'Tegal',
+                'retensi' => 'Selama SOP Belum Direvisi',
+                'link' => 'https://drive.google.com/drive/folders/12LcansqF1ms4T-fTUj1BRyJm-ZK94TaA?usp=drive_link',
+            ],
+            [
+                'judul' => 'Rekapan Pengelolaan CCTV Kampus PKTJ',
+                'ringkasan' => 'Informasi ringkas dan berkala mengenai status fungsionalitas dan lokasi CCTV yang terpasang di area kampus PKTJ.',
+                'pejabat' => 'Unit IT',
+                'penerbit' => 'Unit Kerja di lingkungan PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => '2025',
+                'tempat' => 'Tegal',
+                'retensi' => 'Sesuai Retensi Arsip',
+                'link' => 'https://drive.google.com/drive/folders/1kBOEMVmvaqK-GkNwlFkldbE0tnXIDWxW?usp=drive_link',
             ],
         ];
 

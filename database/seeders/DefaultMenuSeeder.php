@@ -70,9 +70,9 @@ class DefaultMenuSeeder extends Seeder
 
         // 4. PROSEDUR
         $prosedurId = $insertParent('PROSEDUR', 'prosedur-menu', null, 4);
-        $insertChild($prosedurId, 'SOP Permintaan Informasi Publik', 'sop-permintaan-sub', '/prosedur/sop-permintaan', 1);
-        $insertChild($prosedurId, 'SOP Penanganan Keberatan', 'sop-keberatan-sub', '/prosedur/sop-keberatan', 2);
-        $insertChild($prosedurId, 'SOP Pengajuan Sengketa Informasi Publik', 'sop-sengketa-sub', '/prosedur/sop-sengketa', 3);
+        $insertChild($prosedurId, 'Prosedur Permintaan Informasi Publik', 'sop-permintaan-sub', '/prosedur/sop-permintaan', 1);
+        $insertChild($prosedurId, 'Prosedur Penanganan Keberatan', 'sop-keberatan-sub', '/prosedur/sop-keberatan', 2);
+        $insertChild($prosedurId, 'Prosedur Pengajuan Sengketa Informasi Publik', 'sop-sengketa-sub', '/prosedur/sop-sengketa', 3);
 
         // 5. FAQ
         $insertParent('FAQ', 'faq-menu', '/faq', 5);
