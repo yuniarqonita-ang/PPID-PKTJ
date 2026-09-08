@@ -630,23 +630,26 @@
         }
         .schedule-pill-card {
             background: #ffffff;
-            border: 1px solid rgba(226, 232, 240, 0.9);
-            border-radius: 20px;
-            padding: 24px;
+            border: 1.5px solid rgba(226, 232, 240, 0.95);
+            border-radius: 22px;
+            padding: 22px;
             color: #1e293b;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
+            justify-content: center;
+            gap: 14px;
             box-shadow: 0 10px 30px rgba(0, 30, 70, 0.08);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
         }
         .schedule-pill-card:hover {
             transform: translateY(-4px);
             box-shadow: 0 18px 36px rgba(0, 30, 70, 0.16);
-            border-color: rgba(255, 193, 7, 0.4);
+            border-color: rgba(255, 193, 7, 0.5);
         }
         .schedule-pill-card.location-card {
-            background: rgba(255, 255, 255, 0.08);
+            justify-content: space-between;
+            background: rgba(255, 255, 255, 0.09);
             backdrop-filter: blur(12px);
             border: 1.5px solid rgba(255, 255, 255, 0.22);
             color: white;
@@ -657,49 +660,79 @@
             border-color: rgba(255, 193, 7, 0.6);
             box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
         }
-        .schedule-card-head {
-            margin-bottom: 18px;
-            padding-bottom: 14px;
-            border-bottom: 1.5px solid #f1f5f9;
+        .schedule-day-plaque {
+            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
+            border: 1px solid rgba(255, 193, 7, 0.35);
+            border-radius: 14px;
+            padding: 10px 16px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 43, 92, 0.15);
         }
-        .schedule-pill-card.location-card .schedule-card-head {
-            border-bottom: 1.5px solid rgba(255, 255, 255, 0.15);
+        .schedule-day-plaque.location {
+            background: rgba(255, 255, 255, 0.14);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: none;
         }
         .schedule-day-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 1.15rem;
+            font-size: 1.1rem;
             font-weight: 800;
             margin: 0;
-            color: #002b5c;
-            letter-spacing: -0.3px;
+            color: #ffffff;
+            letter-spacing: 0.2px;
         }
-        .schedule-pill-card.location-card .schedule-day-title {
-            color: white;
-        }
-        .schedule-times-box {
+        .schedule-times-stack {
             display: flex;
             flex-direction: column;
-            gap: 12px;
-            margin-bottom: 0;
+            gap: 8px;
         }
-        .schedule-time-badge {
+        .time-frame-box {
             background: #f8fafc;
             border: 1.5px solid #e2e8f0;
+            border-left: 4px solid #ffc107;
             border-radius: 12px;
-            padding: 13px 16px;
-            font-size: 15.5px;
-            font-weight: 800;
-            color: #002b5c;
-            font-family: 'Outfit', sans-serif;
-            letter-spacing: 0.4px;
-            text-align: center;
+            padding: 11px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 6px rgba(0, 43, 92, 0.03);
             transition: all 0.25s ease;
         }
-        .schedule-time-badge:hover {
-            background: #f0f7ff;
+        .time-frame-box:hover {
+            background: #ffffff;
             border-color: #004a99;
+            border-left-color: #004a99;
+            transform: translateX(3px);
+            box-shadow: 0 4px 14px rgba(0, 74, 153, 0.1);
+        }
+        .time-text {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 15px;
+            color: #002b5c;
+            letter-spacing: 0.3px;
+        }
+        .time-zone-badge {
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            font-weight: 800;
             color: #004a99;
-            transform: scale(1.02);
+            background: #e0f2fe;
+            padding: 3px 8px;
+            border-radius: 6px;
+            letter-spacing: 0.5px;
+        }
+        .time-bridge-divider {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 6px;
+        }
+        .bridge-line {
+            width: 32px;
+            height: 2px;
+            background: #cbd5e1;
+            border-radius: 2px;
         }
         .location-address {
             font-size: 13.5px;
@@ -792,12 +825,21 @@
                     <!-- Senin s/d Kamis -->
                     <div class="col-md-6 col-lg-4">
                         <div class="schedule-pill-card h-100">
-                            <div class="schedule-card-head">
+                            <div class="schedule-day-plaque">
                                 <h4 class="schedule-day-title">Senin s/d Kamis</h4>
                             </div>
-                            <div class="schedule-times-box">
-                                <div class="schedule-time-badge">08.00 - 12.00 WIB</div>
-                                <div class="schedule-time-badge">13.00 - 16.00 WIB</div>
+                            <div class="schedule-times-stack">
+                                <div class="time-frame-box">
+                                    <span class="time-text">08.00 - 12.00</span>
+                                    <span class="time-zone-badge">WIB</span>
+                                </div>
+                                <div class="time-bridge-divider">
+                                    <span class="bridge-line"></span>
+                                </div>
+                                <div class="time-frame-box">
+                                    <span class="time-text">13.00 - 16.00</span>
+                                    <span class="time-zone-badge">WIB</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -805,12 +847,21 @@
                     <!-- Hari Jumat -->
                     <div class="col-md-6 col-lg-4">
                         <div class="schedule-pill-card h-100">
-                            <div class="schedule-card-head">
+                            <div class="schedule-day-plaque">
                                 <h4 class="schedule-day-title">Jumat</h4>
                             </div>
-                            <div class="schedule-times-box">
-                                <div class="schedule-time-badge">08.00 - 11.30 WIB</div>
-                                <div class="schedule-time-badge">13.30 - 16.30 WIB</div>
+                            <div class="schedule-times-stack">
+                                <div class="time-frame-box">
+                                    <span class="time-text">08.00 - 11.30</span>
+                                    <span class="time-zone-badge">WIB</span>
+                                </div>
+                                <div class="time-bridge-divider">
+                                    <span class="bridge-line"></span>
+                                </div>
+                                <div class="time-frame-box">
+                                    <span class="time-text">13.30 - 16.30</span>
+                                    <span class="time-zone-badge">WIB</span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -818,13 +869,15 @@
                     <!-- Lokasi Meja Layanan Fisik -->
                     <div class="col-lg-4">
                         <div class="schedule-pill-card location-card h-100">
-                            <div class="schedule-card-head">
+                            <div class="schedule-day-plaque location">
                                 <h4 class="schedule-day-title">Desk Meja Layanan Fisik</h4>
                             </div>
-                            <p class="location-address">
-                                <strong class="text-white">Kampus II PKTJ Margadana</strong><br>
-                                Jl. Abdul Syukur No. 17, Margadana, Kota Tegal, Jawa Tengah 52143.
-                            </p>
+                            <div class="py-2">
+                                <p class="location-address mb-0">
+                                    <strong class="text-white d-block mb-1" style="font-size: 15px;">Kampus Margadana</strong>
+                                    <span>Jl. Abdul Syukur No. 17, Margadana, Kota Tegal, Jawa Tengah 52143.</span>
+                                </p>
+                            </div>
                             <div class="d-flex flex-column gap-2 mt-auto">
                                 <a href="https://maps.google.com/?q=Politeknik+Keselamatan+Transportasi+Jalan+Kampus+2+Margadana" target="_blank" class="btn-desk-action primary">
                                     <i class="fas fa-map-location-dot me-1.5"></i> Petunjuk Arah Google Maps
