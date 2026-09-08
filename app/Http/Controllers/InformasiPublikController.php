@@ -40,11 +40,8 @@ class InformasiPublikController extends Controller
     private function ensureDataSeeded(): void
     {
         try {
-            $smCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-serta-merta')->where('aktif', 1)->count();
-            $bkCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-berkala')->where('aktif', 1)->count();
-            $ssCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-setiap-saat')->where('aktif', 1)->count();
-
-            if ($smCount < 23 || $bkCount < 25 || $ssCount < 25) {
+            $totalCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->count();
+            if ($totalCount === 0) {
                 $seederFile = database_path('seeders/Dip2026SyncSeeder.php');
                 if (file_exists($seederFile)) {
                     require_once $seederFile;
@@ -148,7 +145,7 @@ class InformasiPublikController extends Controller
             }
 
             // FILTER KETAT: Jangan tayangkan jika tidak ada file dan tidak ada link
-            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortByDesc('created_at')->values();
+            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }
@@ -218,7 +215,7 @@ class InformasiPublikController extends Controller
             }
 
             // FILTER KETAT: Jangan tayangkan jika tidak ada file dan tidak ada link
-            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortByDesc('created_at')->values();
+            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }
@@ -261,7 +258,7 @@ class InformasiPublikController extends Controller
             }
 
             // FILTER KETAT: Jangan tayangkan jika tidak ada file dan tidak ada link
-            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortByDesc('created_at')->values();
+            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }

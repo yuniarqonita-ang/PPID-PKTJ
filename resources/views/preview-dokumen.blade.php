@@ -9,14 +9,19 @@
     $isPdf     = ($extension === 'pdf') && !$isGDrive;
     $gdriveId  = '';
     $embedUrl  = '';
+    $isFolder  = false;
 
     if ($isGDrive) {
-        if (preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $file_path, $m)) {
+        if (preg_match('/\/folders\/([a-zA-Z0-9_-]+)/', $file_path, $m)) {
+            $gdriveId = $m[1];
+            $isFolder = true;
+            $embedUrl = "https://drive.google.com/embeddedfolderview?id={$gdriveId}#list";
+        } elseif (preg_match('/\/d\/([a-zA-Z0-9_-]+)/', $file_path, $m)) {
             $gdriveId = $m[1];
         } elseif (preg_match('/[?&]id=([a-zA-Z0-9_-]+)/', $file_path, $m)) {
             $gdriveId = $m[1];
         }
-        if ($gdriveId) {
+        if ($gdriveId && !$isFolder) {
             if (str_contains($file_path, 'docs.google.com/document/')) {
                 $embedUrl = "https://docs.google.com/document/d/{$gdriveId}/preview";
             } elseif (str_contains($file_path, 'docs.google.com/spreadsheets/')) {
@@ -483,9 +488,15 @@
             <div style="display:flex; align-items:center; gap:10px;">
                 @if($isPdf || $isGDrive)
                     @if($isGDrive && $gdriveId)
-                        <a href="{{ route('proxy.gdrive', ['id' => $gdriveId, 'download' => 1]) }}" class="btn-gold-action" target="_blank" download>
-                            <i class="fas fa-download"></i> Unduh PDF
-                        </a>
+                        @if($isFolder)
+                            <a href="https://drive.google.com/drive/folders/{{ $gdriveId }}" class="btn-gold-action" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> Buka di Drive
+                            </a>
+                        @else
+                            <a href="{{ route('proxy.gdrive', ['id' => $gdriveId, 'download' => 1]) }}" class="btn-gold-action" target="_blank" download>
+                                <i class="fas fa-download"></i> Unduh PDF
+                            </a>
+                        @endif
                     @elseif($isPdf)
                         <a href="{{ asset($file_path) }}" class="btn-gold-action" target="_blank" download>
                             <i class="fas fa-download"></i> Unduh PDF
