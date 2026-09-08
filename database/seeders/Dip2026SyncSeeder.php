@@ -30,15 +30,118 @@ class Dip2026SyncSeeder extends Seeder
                 ->update(['jabatan' => 'Kepala Bagian Keuangan dan Administrasi Umum']);
         }
 
-        // 2. Clean dummy Laporan Layanan / Dokumens
+        // 2. Ensure official Laporan Layanan & Laporan Akses exist (Preserve user uploads!)
         if (Schema::hasTable('dokumens')) {
-            DB::table('dokumens')
-                ->whereIn('kategori', ['Laporan Layanan', 'Laporan Akses', 'Laporan Tahunan'])
-                ->delete();
-            DB::table('dokumens')
-                ->where('judul', 'like', '%Laporan Permohonan Informasi%')
-                ->orWhere('judul', 'like', '%Laporan Tahunan%')
-                ->delete();
+            $laporanSeeds = [
+                [
+                    'judul' => 'Laporan Tahunan Pelaksanaan Program Kerja dan Pengelolaan Keuangan PKTJ Tahun 2025',
+                    'file_path' => 'https://drive.google.com/file/d/1pe1vqLCRemRpA6G5q2VpC0L6KhTGriEo/view?usp=sharing',
+                    'file_name' => 'Laporan Tahunan PKTJ Tahun 2025.pdf',
+                    'file_size' => '2.72 MB',
+                    'file_type' => 'pdf',
+                    'kategori' => 'Laporan Layanan',
+                    'tanggal' => '2025-12-31',
+                    'deskripsi' => 'Laporan Tahunan komprehensif memuat evaluasi program kerja, capaian operasional, dan pengelolaan keuangan Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2025.',
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'is_blurred' => 0
+                ],
+                [
+                    'judul' => 'Penyampaian Laporan Tahunan Pelayanan Informasi Publik PKTJ Tahun 2025 ke PPID Utama Kementerian Perhubungan',
+                    'file_path' => 'https://drive.google.com/file/d/1NabSL0TAkoFyp7aEEiyeXbWrkBDbMGyx/view?usp=drive_link',
+                    'file_name' => 'Penyampaian Laporan Permohonan Informasi PKTJ Tahun 2025.pdf',
+                    'file_size' => '1.05 MB',
+                    'file_type' => 'pdf',
+                    'kategori' => 'Laporan Layanan',
+                    'tanggal' => '2025-12-31',
+                    'deskripsi' => 'Surat pengantar resmi nomor UM.006/2/16/PKTJ/2025 dan tanda terima pengiriman laporan tahunan pelayanan informasi publik PKTJ Tegal ke PPID Utama Kementerian Perhubungan.',
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'is_blurred' => 0
+                ],
+                [
+                    'judul' => 'Ringkasan Eksekutif Laporan Kinerja Instansi Pemerintah (LKjIP / LAKIP) PKTJ Tahun 2025',
+                    'file_path' => 'https://drive.google.com/file/d/18azvUjvumzPkAN-hTmSWhkWaJrXZFle3/view?usp=drive_link',
+                    'file_name' => 'Ringkasan_Eksekutif_LKjIP_PKTJ_2025.pdf',
+                    'file_size' => '290 KB',
+                    'file_type' => 'pdf',
+                    'kategori' => 'Laporan Layanan',
+                    'tanggal' => '2025-12-31',
+                    'deskripsi' => 'Ringkasan eksekutif akuntabilitas kinerja instansi pemerintah (LKjIP) PKTJ Tahun 2025 yang merangkum pencapaian Indikator Kinerja Utama (IKU).',
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'is_blurred' => 0
+                ],
+                [
+                    'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2024',
+                    'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                    'file_name' => 'Laporan_Tahunan_Layanan_Informasi_Publik_PKTJ_2024.pdf',
+                    'file_size' => 'Google Drive Folder',
+                    'file_type' => 'link',
+                    'kategori' => 'Laporan Layanan',
+                    'tanggal' => '2024-12-31',
+                    'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2024.',
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'is_blurred' => 0
+                ],
+                [
+                    'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2023',
+                    'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                    'file_name' => 'Laporan_Tahunan_Layanan_Informasi_Publik_PKTJ_2023.pdf',
+                    'file_size' => 'Google Drive Folder',
+                    'file_type' => 'link',
+                    'kategori' => 'Laporan Layanan',
+                    'tanggal' => '2023-12-31',
+                    'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2023.',
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'is_blurred' => 0
+                ],
+                [
+                    'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2022',
+                    'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                    'file_name' => 'Laporan_Tahunan_Layanan_Informasi_Publik_PKTJ_2022.pdf',
+                    'file_size' => 'Google Drive Folder',
+                    'file_type' => 'link',
+                    'kategori' => 'Laporan Layanan',
+                    'tanggal' => '2022-12-31',
+                    'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2022.',
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'is_blurred' => 0
+                ],
+                [
+                    'judul' => 'Rekapitulasi Pelayanan Informasi Publik Bulanan PKTJ TA 2024',
+                    'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                    'file_name' => 'Rekapitulasi_Layanan_Informasi_Bulanan_PKTJ_2024.pdf',
+                    'file_size' => 'Google Drive Folder',
+                    'file_type' => 'link',
+                    'kategori' => 'Laporan Akses',
+                    'tanggal' => '2024-12-31',
+                    'deskripsi' => 'Rekapitulasi permohonan informasi publik bulanan Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2024.',
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'is_blurred' => 0
+                ],
+                [
+                    'judul' => 'Rekapitulasi Pelayanan Informasi Publik dan Pertanyaan Masuk di Media Sosial PKTJ TA 2026',
+                    'file_path' => 'https://docs.google.com/spreadsheets/d/1q8R8llMqjE8wNysRQ39q8vafcsXcvKxNRSEkIe-JR_c/edit?usp=sharing',
+                    'file_name' => 'LAPORAN pertanyaan masuk di sosmed PKTJ TAHUN 2026.xlsx',
+                    'file_size' => '157 KB',
+                    'file_type' => 'xlsx',
+                    'kategori' => 'Laporan Akses',
+                    'tanggal' => '2026-08-31',
+                    'deskripsi' => 'Rekapitulasi log bulanan permohonan informasi dan pertanyaan masuk di kanal media sosial resmi Politeknik Keselamatan Transportasi Jalan Tahun Berjalan 2026.',
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'is_blurred' => 0
+                ],
+            ];
+
+            foreach ($laporanSeeds as $ls) {
+                \App\Models\Dokumen::updateOrCreate(['judul' => $ls['judul']], $ls);
+            }
         }
 
         // 3. Clean legacy tables to prevent stale or duplicate entries

@@ -160,7 +160,7 @@
     <div class="hero-statistik">
         <div class="container text-center position-relative" style="z-index: 10;">
             <div class="hero-badge-pill" data-aos="fade-down">
-                <i class="fas fa-users-cog text-warning"></i> {{ $data['hero_badge'] ?? 'Pemenuhan Standar AKIP 2026 • Indikator E.8' }}
+                <i class="fas fa-users text-warning"></i> {{ $data['hero_badge'] ?? 'Data & Informasi Kepegawaian Resmi' }}
             </div>
             <h1 class="display-6 fw-bold outfit text-uppercase mb-3 tracking-tight" data-aos="fade-up">
                 {{ $data['hero_judul'] ?? 'Data & Statistik Kepegawaian PKTJ' }}
@@ -398,14 +398,14 @@
                 </div>
             </div>
 
-            <!-- 4. TANGKAPAN LAYAR RESMI SIMPEG (BUKTI OTENTIK AKIP) -->
+            <!-- 4. TANGKAPAN LAYAR RESMI SIMPEG -->
             <div id="bukti-otentik" class="mb-5 pt-3">
                 <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3 flex-wrap gap-2">
                     <div>
                         <h4 class="fw-bold outfit text-[#002b5c] mb-1">
                             <i class="fas fa-file-shield text-primary me-2"></i>Tangkapan Layar Resmi SIMPEG Kemenhub
                         </h4>
-                        <p class="text-muted small mb-0">Arsip otentik sistem kepegawaian sebagai bukti sah penilaian AKIP 2026 (Klik gambar untuk memperbesar)</p>
+                        <p class="text-muted small mb-0">Arsip otentik sistem kepegawaian resmi SIMPEG Kemenhub (Klik gambar untuk memperbesar)</p>
                     </div>
                     <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1.5 fw-bold" onclick="openKepegawaianProofModal()">
                         <i class="fas fa-expand me-1"></i> Mode Galeri
@@ -417,7 +417,6 @@
                         <div class="proof-img-card">
                             <img src="{{ asset($img1) }}" alt="{{ $data['bukti_1_judul'] ?? 'Pegawai Per Jenis - SIMPEG PKTJ' }}" onclick="openProofLightbox('{{ asset($img1) }}', '{{ addslashes($data['bukti_1_judul'] ?? 'Data Pegawai Berdasarkan Jenis') }}')">
                             <div class="p-3 bg-white">
-                                <span class="badge bg-primary-subtle text-primary fw-bold mb-1" style="font-size: 11px;">{{ $data['bukti_1_indikator'] ?? 'Indikator E.8a' }}</span>
                                 <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $data['bukti_1_judul'] ?? 'Data Pegawai Berdasarkan Jenis' }}</h6>
                                 <p class="text-muted small mb-0">{{ $data['bukti_1_deskripsi'] ?? 'Tangkapan layar otentik data PNS, PPPK, dan Non-ASN SIMPEG.' }}</p>
                             </div>
@@ -428,7 +427,6 @@
                         <div class="proof-img-card">
                             <img src="{{ asset($img2) }}" alt="{{ $data['bukti_2_judul'] ?? 'Tingkat Pendidikan Pegawai - SIMPEG PKTJ' }}" onclick="openProofLightbox('{{ asset($img2) }}', '{{ addslashes($data['bukti_2_judul'] ?? 'Data Tingkat Pendidikan Pegawai') }}')">
                             <div class="p-3 bg-white">
-                                <span class="badge bg-success-subtle text-success fw-bold mb-1" style="font-size: 11px;">{{ $data['bukti_2_indikator'] ?? 'Indikator E.8b' }}</span>
                                 <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $data['bukti_2_judul'] ?? 'Data Tingkat Pendidikan Pegawai' }}</h6>
                                 <p class="text-muted small mb-0">{{ $data['bukti_2_deskripsi'] ?? 'Komposisi jenjang pendidikan S-2, D-III, D-IV, dan S-1.' }}</p>
                             </div>
@@ -439,7 +437,6 @@
                         <div class="proof-img-card">
                             <img src="{{ asset($img3) }}" alt="{{ $data['bukti_3_judul'] ?? 'Golongan Pegawai - SIMPEG PKTJ' }}" onclick="openProofLightbox('{{ asset($img3) }}', '{{ addslashes($data['bukti_3_judul'] ?? 'Data Golongan / Ruang Pegawai') }}')">
                             <div class="p-3 bg-white">
-                                <span class="badge bg-warning-subtle text-dark fw-bold mb-1" style="font-size: 11px;">{{ $data['bukti_3_indikator'] ?? 'Indikator E.8c' }}</span>
                                 <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $data['bukti_3_judul'] ?? 'Data Golongan / Ruang Pegawai' }}</h6>
                                 <p class="text-muted small mb-0">{{ $data['bukti_3_deskripsi'] ?? 'Komposisi pegawai dari Golongan II/c hingga IV/b dan PPPK.' }}</p>
                             </div>
@@ -508,7 +505,7 @@
                     </div>
                 </div>
                 <div class="modal-footer bg-white p-3 justify-content-between">
-                    <span class="text-muted small"><i class="fas fa-check-circle text-success me-1"></i> Data otentik terverifikasi untuk pemenuhan Indikator E.8 AKIP 2026</span>
+                    <span class="text-muted small"><i class="fas fa-check-circle text-success me-1"></i> Data otentik terverifikasi sistem kepegawaian SIMPEG Kemenhub</span>
                     <button type="button" class="btn btn-secondary px-4 rounded-pill fw-bold btn-sm" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>

@@ -298,7 +298,11 @@ class ProfilPublikController extends Controller
         }
 
         if ($type === 'laporan-layanan' || $type === 'laporan_layanan') {
-            $query = \App\Models\Dokumen::where('kategori', 'Laporan Layanan')->where('aktif', true);
+            $query = \App\Models\Dokumen::where(function($q) {
+                $q->whereIn('kategori', ['Laporan Layanan', 'Laporan Tahunan', 'Laporan Layanan Informasi', 'Laporan Layanan Informasi Publik'])
+                  ->orWhere('judul', 'like', '%Laporan Tahunan%')
+                  ->orWhere('judul', 'like', '%Laporan Layanan%');
+            })->where('aktif', true);
             $rawLaporan = $useTanggal 
                 ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
                 : $query->orderBy('created_at', 'desc')->get();
@@ -307,7 +311,11 @@ class ProfilPublikController extends Controller
                 return $p !== '' && $p !== '-' && $p !== '#';
             })->values();
         } elseif ($type === 'laporan-akses' || $type === 'laporan_akses') {
-            $query = \App\Models\Dokumen::where('kategori', 'Laporan Akses')->where('aktif', true);
+            $query = \App\Models\Dokumen::where(function($q) {
+                $q->whereIn('kategori', ['Laporan Akses', 'Laporan Akses Informasi', 'Laporan Akses Informasi Publik'])
+                  ->orWhere('judul', 'like', '%Laporan Akses%')
+                  ->orWhere('judul', 'like', '%Rekapitulasi Pelayanan%');
+            })->where('aktif', true);
             $rawAkses = $useTanggal 
                 ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
                 : $query->orderBy('created_at', 'desc')->get();

@@ -15,7 +15,7 @@ class StatistikPegawaiController extends Controller
     public static function getDefaults(): array
     {
         return [
-            'hero_badge' => 'Pemenuhan Standar AKIP 2026 • Indikator E.8',
+            'hero_badge' => 'Data & Informasi Kepegawaian Resmi',
             'hero_judul' => 'Data & Statistik Kepegawaian PKTJ',
             'hero_subjudul' => 'Informasi publik berkala mengenai profil ketenagaan, klasifikasi status ASN/PPPK, tingkat pendidikan akhir, dan kepangkatan/golongan pegawai Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.',
             'tahun_anggaran' => 'TA 2025 / 2026',
@@ -69,17 +69,17 @@ class StatistikPegawaiController extends Controller
 
             // Proof Images (SIMPEG Screens)
             'bukti_1_gambar' => 'images/kepegawaian/E6a.jpg',
-            'bukti_1_indikator' => 'Indikator E.8a',
+            'bukti_1_indikator' => '',
             'bukti_1_judul' => 'Data Pegawai Berdasarkan Jenis',
             'bukti_1_deskripsi' => 'Tangkapan layar otentik data PNS, PPPK, dan Non-ASN SIMPEG.',
 
             'bukti_2_gambar' => 'images/kepegawaian/E6b.jpg',
-            'bukti_2_indikator' => 'Indikator E.8b',
+            'bukti_2_indikator' => '',
             'bukti_2_judul' => 'Data Tingkat Pendidikan Pegawai',
             'bukti_2_deskripsi' => 'Komposisi jenjang pendidikan S-2, D-III, D-IV, dan S-1.',
 
             'bukti_3_gambar' => 'images/kepegawaian/E6c.jpg',
-            'bukti_3_indikator' => 'Indikator E.8c',
+            'bukti_3_indikator' => '',
             'bukti_3_judul' => 'Data Golongan / Ruang Pegawai',
             'bukti_3_deskripsi' => 'Komposisi pegawai dari Golongan II/c hingga IV/b dan PPPK.',
 

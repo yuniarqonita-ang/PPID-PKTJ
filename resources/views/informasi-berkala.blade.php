@@ -375,14 +375,51 @@
                                 <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
                                 <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
                                 <td class="text-center">
-                                    @if(has_valid_document($it->file_path))
-                                        <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" 
-                                                style="font-size: 11.5px;"
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#previewModal" 
-                                                data-url="{{ route('preview.dokumen', ['file' => $it->file_path, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
-                                            Disini <i class="fas fa-file-pdf ms-1"></i>
-                                        </button>
+                                    @php
+                                        $rawPath = trim($it->file_path ?? '');
+                                        $allLinks = [];
+                                        if (!empty($rawPath)) {
+                                            if (preg_match_all('/https?:\/\/[^\s"\'<>]+/i', $rawPath, $mUrls)) {
+                                                $allLinks = array_values(array_unique($mUrls[0]));
+                                            } else {
+                                                $allLinks = [$rawPath];
+                                            }
+                                        }
+                                        if (empty($allLinks) && !empty($it->deskripsi)) {
+                                            if (preg_match_all('/https?:\/\/[^\s"\'<>]+/i', $it->deskripsi, $mUrls)) {
+                                                $allLinks = array_values(array_unique($mUrls[0]));
+                                            }
+                                        }
+                                    @endphp
+
+                                    @if(count($allLinks) === 1)
+                                        @php
+                                            $singleL = $allLinks[0];
+                                            $isWeb = str_starts_with($singleL, 'http://') || str_starts_with($singleL, 'https://');
+                                        @endphp
+                                        @if($isWeb)
+                                            <a href="{{ $singleL }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                                Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                            </a>
+                                        @elseif(has_valid_document($singleL))
+                                            <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" 
+                                                    style="font-size: 11.5px;"
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#previewModal" 
+                                                    data-url="{{ route('preview.dokumen', ['file' => $singleL, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
+                                                Disini <i class="fas fa-file-pdf ms-1"></i>
+                                            </button>
+                                        @else
+                                            <span class="badge bg-light text-muted border">Tersedia Fisik</span>
+                                        @endif
+                                    @elseif(count($allLinks) > 1)
+                                        <div class="d-flex flex-column gap-1 align-items-center justify-content-center">
+                                            @foreach($allLinks as $lIdx => $lnk)
+                                                <a href="{{ $lnk }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary rounded-pill px-2.5 py-0.5 fw-bold text-nowrap" style="font-size: 11px;">
+                                                    Link {{ $lIdx + 1 }} <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size: 9px;"></i>
+                                                </a>
+                                            @endforeach
+                                        </div>
                                     @else
                                         <span class="badge bg-light text-muted border">Tersedia Fisik</span>
                                     @endif
