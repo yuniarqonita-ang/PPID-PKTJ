@@ -299,6 +299,18 @@ Route::middleware(['auth'])->group(function () {
 // ==========================================
 Route::redirect('/dashboard', '/admin');
 
+Route::get('/sync-menu', function() {
+    try {
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DefaultMenuSeeder', '--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        \Illuminate\Support\Facades\Artisan::call('route:clear');
+        return '<h2 style="color:green;font-family:sans-serif;">SUCCESS: Menu navigasi publik berhasil dikembalikan ke 5 menu original!</h2><p><a href="/">Kembali ke Beranda</a></p>';
+    } catch (\Throwable $e) {
+        return 'ERROR: ' . $e->getMessage();
+    }
+});
+
 Route::get('/refresh-deploy', function() {
     try {
         try {
