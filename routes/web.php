@@ -333,7 +333,7 @@ Route::get('/refresh-deploy', function() {
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'RegulasiBpsdmPktjSeeder', '--force' => true]);
         } catch (\Throwable $rEx) {}
 
-        // 2. Sinkronkan navigasi menu resmi (termasuk Statistik Kepegawaian & Regulasi)
+        // 2. Sinkronkan navigasi menu publik ke struktur original (5 Menu Standar: PROFIL, INFORMASI PUBLIK, LAYANAN INFORMASI, PROSEDUR, FAQ)
         try {
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DefaultMenuSeeder', '--force' => true]);
         } catch (\Throwable $mEx) {}
