@@ -331,15 +331,15 @@
                     (object)[
                         'id' => 14,
                         'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2024',
-                        'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                        'file_path' => 'https://drive.google.com/file/d/1WzJYrLqNvVcXtJRU0TD8czhsJmpYgumh/view?usp=sharing',
                         'tanggal' => '2024-12-31',
-                        'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2024.',
+                        'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2024 (Dokumen B1-B4).',
                         'is_blurred' => 0
                     ],
                     (object)[
                         'id' => 15,
                         'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2023',
-                        'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                        'file_path' => 'https://drive.google.com/file/d/1hcC1XY8hd7XWF-AHqW1fdDoUzyyED934/view?usp=sharing',
                         'tanggal' => '2023-12-31',
                         'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2023.',
                         'is_blurred' => 0
@@ -347,7 +347,7 @@
                     (object)[
                         'id' => 16,
                         'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2022',
-                        'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                        'file_path' => 'https://drive.google.com/file/d/1qucNCvXKKfXm8XjP14hRYRE0buqa2vKD/view?usp=sharing',
                         'tanggal' => '2022-12-31',
                         'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2022.',
                         'is_blurred' => 0
