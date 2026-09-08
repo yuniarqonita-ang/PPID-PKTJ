@@ -636,14 +636,16 @@
             border: 1.5px solid rgba(255, 255, 255, 0.22);
             border-top: 3.5px solid #ffc107;
             border-radius: 20px;
-            padding: 20px;
+            padding: 18px 20px;
             color: white;
             display: flex;
             flex-direction: column;
-            justify-content: space-between;
             box-shadow: 0 12px 30px rgba(0, 20, 50, 0.15);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
+        }
+        .schedule-pill-card.location-card {
+            padding: 20px;
         }
         .schedule-pill-card:hover {
             transform: translateY(-4px);
@@ -657,7 +659,7 @@
             padding: 9px 16px;
             text-align: center;
             box-shadow: 0 4px 14px rgba(255, 193, 7, 0.3);
-            margin-bottom: 14px;
+            margin-bottom: 12px;
         }
         .schedule-day-plaque.location {
             background: rgba(255, 255, 255, 0.16);
@@ -679,7 +681,6 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-bottom: auto;
         }
         .time-frame-box {
             background: #ffffff;
@@ -817,10 +818,10 @@
                 </div>
 
                 <!-- 3 CARDS: SENIN-KAMIS, JUMAT, LOKASI FISIK -->
-                <div class="row g-4 align-items-stretch">
+                <div class="row g-4 align-items-start">
                     <!-- Senin s/d Kamis -->
                     <div class="col-md-6 col-lg-4">
-                        <div class="schedule-pill-card h-100">
+                        <div class="schedule-pill-card">
                             <div class="schedule-day-plaque">
                                 <h4 class="schedule-day-title">Senin s/d Kamis</h4>
                             </div>
@@ -839,7 +840,7 @@
 
                     <!-- Hari Jumat -->
                     <div class="col-md-6 col-lg-4">
-                        <div class="schedule-pill-card h-100">
+                        <div class="schedule-pill-card">
                             <div class="schedule-day-plaque">
                                 <h4 class="schedule-day-title">Jumat</h4>
                             </div>
@@ -858,7 +859,7 @@
 
                     <!-- Lokasi Meja Layanan Fisik -->
                     <div class="col-lg-4">
-                        <div class="schedule-pill-card h-100">
+                        <div class="schedule-pill-card location-card">
                             <div class="schedule-day-plaque location">
                                 <h4 class="schedule-day-title">Desk Meja Layanan Fisik</h4>
                             </div>
@@ -875,14 +876,16 @@
                                 <strong class="text-white d-block mb-0.5" style="font-size: 14px;">Kampus Margadana</strong>
                                 <span style="font-size: 12px; opacity: 0.9; line-height: 1.45; display: block;">Jl. Abdul Syukur No. 17, Margadana, Kota Tegal, Jawa Tengah 52143.</span>
                             </p>
-                            <div class="d-flex flex-column gap-2 mt-auto">
-                                <button type="button" class="btn-desk-action warning" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan" onclick="openFotoModal()">
-                                    <i class="fas fa-camera me-1.5"></i> Lihat Foto Meja Layanan
-                                </button>
-                                <a href="https://maps.google.com/?q=Politeknik+Keselamatan+Transportasi+Jalan+Kampus+2+Margadana" target="_blank" class="btn-desk-action primary">
-                                    <i class="fas fa-map-location-dot me-1.5"></i> Petunjuk Arah Google Maps
-                                </a>
-                                <a href="https://bpsdm.kemenhub.go.id/ppid/pktj/login" target="_blank" class="btn-desk-action secondary">
+                            <div class="d-flex flex-column gap-2 mt-2">
+                                <div class="d-flex gap-2">
+                                    <button type="button" class="btn-desk-action warning flex-fill" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan" onclick="openFotoModal()">
+                                        <i class="fas fa-camera me-1.5"></i> Foto Meja Layanan
+                                    </button>
+                                    <a href="https://maps.google.com/?q=Politeknik+Keselamatan+Transportasi+Jalan+Kampus+2+Margadana" target="_blank" class="btn-desk-action primary flex-fill">
+                                        <i class="fas fa-map-location-dot me-1.5"></i> Google Maps
+                                    </a>
+                                </div>
+                                <a href="https://bpsdm.kemenhub.go.id/ppid/pktj/login" target="_blank" class="btn-desk-action secondary w-100 text-center">
                                     <i class="fas fa-file-signature me-1.5"></i> Ajukan Permohonan Online
                                 </a>
                             </div>
