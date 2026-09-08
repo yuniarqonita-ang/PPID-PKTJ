@@ -289,7 +289,7 @@
                             </div>
                             <h5 class="outfit fw-bold text-dark mb-2">2. Meja Layanan Fisik (Luring / Offline)</h5>
                             <p class="text-muted small mb-3" style="line-height: 1.6;">
-                                Meja Layanan Terpadu PPID di <strong>Kampus II PKTJ Tegal</strong>, Jl. Abdul Syukur No. 17, Margadana, Kota Tegal. Dilengkapi sarana komputer akses publik, ruang tunggu nyaman, dan formulir permohonan cetak & Braille.
+                                Meja Layanan Terpadu PPID di <strong>Kampus Margadana</strong>, Jl. Abdul Syukur No. 17, Margadana, Kota Tegal. Dilengkapi sarana komputer akses publik, ruang tunggu nyaman, dan formulir permohonan cetak & Braille.
                             </p>
                             <div class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-3">
                                 <div class="badge bg-light text-dark border px-2.5 py-1.5 rounded-pill font-monospace" style="font-size: 11.5px;">
@@ -354,7 +354,7 @@
                                 </div>
                                 <img src="{{ asset('images/sarana/meja-layanan-ppid.png') }}" class="card-img-top img-fluid" alt="Meja Layanan PPID PKTJ" style="object-fit: cover; max-height: 250px;">
                                 <div class="card-body p-2.5">
-                                    <p class="small text-muted mb-0">Lokasi: Meja Layanan Terpadu Kampus II PKTJ Margadana Kota Tegal.</p>
+                                    <p class="small text-muted mb-0">Lokasi: Meja Layanan Terpadu Kampus Margadana Kota Tegal.</p>
                                 </div>
                             </div>
                         </div>
@@ -370,14 +370,8 @@
                             </div>
                         </div>
                     </div>
-                    <div class="d-flex justify-content-between align-items-center mt-3 pt-2 border-top">
-                        <a href="{{ url('/dokumen/formulir-permohonan-cetak') }}" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill fw-bold">
-                            <i class="fas fa-print me-1"></i> Cetak Formulir Permohonan
-                        </a>
-                        <a href="{{ url('/dokumen/formulir-keberatan-cetak') }}" target="_blank" class="btn btn-outline-secondary btn-sm rounded-pill fw-bold">
-                            <i class="fas fa-print me-1"></i> Cetak Formulir Keberatan
-                        </a>
-                        <button type="button" class="btn btn-secondary btn-sm rounded-pill px-3" data-bs-dismiss="modal">Tutup</button>
+                    <div class="d-flex justify-content-end align-items-center mt-3 pt-2 border-top">
+                        <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Tutup</button>
                     </div>
                 </div>
             </div>

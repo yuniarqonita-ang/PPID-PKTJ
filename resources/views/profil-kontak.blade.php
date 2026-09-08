@@ -744,7 +744,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 10px 16px;
+            padding: 9px 16px;
             border-radius: 12px;
             font-size: 12px;
             font-weight: 800;
@@ -752,24 +752,36 @@
             transition: all 0.25s ease;
             font-family: 'Outfit', sans-serif;
             letter-spacing: 0.3px;
+            border: none;
+            cursor: pointer;
         }
-        .btn-desk-action.primary {
+        .btn-desk-action.warning {
             background: #ffc107;
             color: #002b5c;
             box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
         }
-        .btn-desk-action.primary:hover {
+        .btn-desk-action.warning:hover {
             background: #f59e0b;
             color: #001a38;
             transform: translateY(-2px);
         }
-        .btn-desk-action.secondary {
-            background: rgba(255, 255, 255, 0.15);
+        .btn-desk-action.primary {
+            background: rgba(255, 255, 255, 0.18);
             color: white;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.35);
+        }
+        .btn-desk-action.primary:hover {
+            background: rgba(255, 255, 255, 0.28);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .btn-desk-action.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.22);
         }
         .btn-desk-action.secondary:hover {
-            background: rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.2);
             color: white;
             transform: translateY(-2px);
         }
@@ -814,6 +826,9 @@
                         <p class="desk-subtitle mb-0">Layanan tatap muka pemberian informasi publik, konsultasi, dan penerimaan permohonan langsung di Kampus PKTJ.</p>
                     </div>
                     <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <button type="button" class="btn btn-warning btn-sm rounded-pill px-3 py-1.5 fw-bold text-dark shadow-sm" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan" style="font-size: 12px; font-family: 'Outfit', sans-serif;">
+                            <i class="fas fa-camera me-1.5"></i> Foto Meja Layanan
+                        </button>
                         <span class="badge bg-success bg-opacity-25 text-white border border-success border-opacity-50 px-3.5 py-2 rounded-pill fw-bold" style="font-size: 11.5px; letter-spacing: 0.5px;">
                             <i class="fas fa-circle-check text-warning me-1.5"></i> Jam Layanan Aktif
                         </span>
@@ -872,13 +887,23 @@
                             <div class="schedule-day-plaque location">
                                 <h4 class="schedule-day-title">Desk Meja Layanan Fisik</h4>
                             </div>
-                            <div class="py-2">
-                                <p class="location-address mb-0">
-                                    <strong class="text-white d-block mb-1" style="font-size: 15px;">Kampus Margadana</strong>
-                                    <span>Jl. Abdul Syukur No. 17, Margadana, Kota Tegal, Jawa Tengah 52143.</span>
-                                </p>
+
+                            <!-- Foto Meja Layanan Preview Thumbnail -->
+                            <div class="my-2 position-relative rounded-3 overflow-hidden shadow-sm border border-white border-opacity-25" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan" title="Klik untuk melihat foto meja layanan">
+                                <img src="{{ asset('images/sarana/meja-layanan-ppid.png') }}" class="w-100" style="height: 100px; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'" alt="Foto Meja Layanan PPID PKTJ">
+                                <div class="position-absolute bottom-0 start-0 end-0 bg-dark bg-opacity-75 py-1 px-2 text-center">
+                                    <span class="text-white fw-bold" style="font-size: 11px;"><i class="fas fa-camera text-warning me-1"></i> Foto Meja Layanan</span>
+                                </div>
                             </div>
+
+                            <p class="location-address mb-2">
+                                <strong class="text-white d-block mb-0.5" style="font-size: 14px;">Kampus Margadana</strong>
+                                <span style="font-size: 12px; opacity: 0.9; line-height: 1.45; display: block;">Jl. Abdul Syukur No. 17, Margadana, Kota Tegal, Jawa Tengah 52143.</span>
+                            </p>
                             <div class="d-flex flex-column gap-2 mt-auto">
+                                <button type="button" class="btn-desk-action warning" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan">
+                                    <i class="fas fa-camera me-1.5"></i> Lihat Foto Meja Layanan
+                                </button>
                                 <a href="https://maps.google.com/?q=Politeknik+Keselamatan+Transportasi+Jalan+Kampus+2+Margadana" target="_blank" class="btn-desk-action primary">
                                     <i class="fas fa-map-location-dot me-1.5"></i> Petunjuk Arah Google Maps
                                 </a>
@@ -1143,6 +1168,48 @@
             </div>
         </div>
 
+    <!-- MODAL FOTO MEJA LAYANAN & FORMULIR FISIK (AKIP C.1 & C.2) -->
+    <div class="modal fade" id="modalFotoMejaLayanan" tabindex="-1" aria-labelledby="modalFotoMejaLayananLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
+                <div class="modal-header text-white border-0 py-3 px-4" style="background: linear-gradient(135deg, #002b5c, #004a99) !important;">
+                    <div class="d-flex align-items-center gap-2">
+                        <i class="fas fa-building text-warning fs-5"></i>
+                        <h5 class="modal-title outfit fw-bold mb-0 text-white" id="modalFotoMejaLayananLabel">Meja Layanan Informasi Publik Terpadu (AKIP C.1 & C.2)</h5>
+                    </div>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-4 bg-light">
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm rounded-3 overflow-hidden h-100">
+                                <div class="card-header bg-white py-2 fw-bold text-dark small">
+                                    <i class="fas fa-desktop text-primary me-1"></i> Desk / Meja Layanan PPID (C.1)
+                                </div>
+                                <img src="{{ asset('images/sarana/meja-layanan-ppid.png') }}" class="card-img-top img-fluid" alt="Meja Layanan PPID PKTJ" style="object-fit: cover; max-height: 250px;">
+                                <div class="card-body p-2.5">
+                                    <p class="small text-muted mb-0">Lokasi: Meja Layanan Terpadu Kampus Margadana Kota Tegal.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card border-0 shadow-sm rounded-3 overflow-hidden h-100">
+                                <div class="card-header bg-white py-2 fw-bold text-dark small">
+                                    <i class="fas fa-file-alt text-warning me-1"></i> Formulir Permohonan & Keberatan Fisik (C.2)
+                                </div>
+                                <img src="{{ asset('images/sarana/formulir-meja-layanan.jpg') }}" class="card-img-top img-fluid" alt="Formulir Fisik Meja Layanan" style="object-fit: cover; max-height: 250px;">
+                                <div class="card-body p-2.5">
+                                    <p class="small text-muted mb-0">Ketersediaan formulir fisik permohonan informasi & pengajuan keberatan.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-center mt-3 pt-2 border-top">
+                        <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Tutup</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     @include('footer')
