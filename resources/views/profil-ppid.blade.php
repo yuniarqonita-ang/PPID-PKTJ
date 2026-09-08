@@ -343,7 +343,7 @@
                         <i class="fas fa-building text-warning fs-5"></i>
                         <h5 class="modal-title outfit fw-bold mb-0 text-white" id="modalFotoMejaLayananLabel">Meja Layanan Informasi Publik Terpadu (AKIP C.1 & C.2)</h5>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" onclick="closeFotoModal()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4 bg-light">
                     <div class="row g-3">
@@ -371,7 +371,7 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end align-items-center mt-3 pt-2 border-top">
-                        <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal" onclick="closeFotoModal()">Tutup</button>
                     </div>
                 </div>
             </div>
@@ -384,6 +384,35 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
+
+        function closeFotoModal() {
+            const modalEl = document.getElementById('modalFotoMejaLayanan');
+            if (!modalEl) return;
+            try {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    const inst = bootstrap.Modal.getInstance(modalEl);
+                    if (inst) inst.hide();
+                }
+            } catch(e) {}
+            modalEl.classList.remove('show');
+            modalEl.style.display = 'none';
+            modalEl.setAttribute('aria-hidden', 'true');
+            document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+            document.body.classList.remove('modal-open');
+            document.body.style.removeProperty('overflow');
+            document.body.style.removeProperty('padding-right');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalEl = document.getElementById('modalFotoMejaLayanan');
+            if (modalEl) {
+                modalEl.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeFotoModal();
+                    }
+                });
+            }
+        });
     </script>
 </body>
 </html>

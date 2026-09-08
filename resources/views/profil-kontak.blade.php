@@ -628,117 +628,98 @@
             max-width: 680px;
             line-height: 1.55;
         }
+        /* 3 CARDS: UNIFIED FROSTED GLASS & GOLD ACCENTS (NO VAST EMPTY WHITE) */
         .schedule-pill-card {
-            background: #ffffff;
-            border: 1.5px solid rgba(226, 232, 240, 0.95);
-            border-radius: 22px;
-            padding: 22px;
-            color: #1e293b;
+            background: rgba(255, 255, 255, 0.09);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(255, 255, 255, 0.22);
+            border-top: 3.5px solid #ffc107;
+            border-radius: 20px;
+            padding: 20px;
+            color: white;
             display: flex;
             flex-direction: column;
-            justify-content: center;
-            gap: 14px;
-            box-shadow: 0 10px 30px rgba(0, 30, 70, 0.08);
+            justify-content: space-between;
+            box-shadow: 0 12px 30px rgba(0, 20, 50, 0.15);
             transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
         }
         .schedule-pill-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 18px 36px rgba(0, 30, 70, 0.16);
-            border-color: rgba(255, 193, 7, 0.5);
-        }
-        .schedule-pill-card.location-card {
-            justify-content: space-between;
-            background: rgba(255, 255, 255, 0.09);
-            backdrop-filter: blur(12px);
-            border: 1.5px solid rgba(255, 255, 255, 0.22);
-            color: white;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
-        }
-        .schedule-pill-card.location-card:hover {
             background: rgba(255, 255, 255, 0.14);
             border-color: rgba(255, 193, 7, 0.6);
-            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+            box-shadow: 0 20px 40px rgba(0, 20, 50, 0.25);
         }
         .schedule-day-plaque {
-            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
-            border: 1px solid rgba(255, 193, 7, 0.35);
-            border-radius: 14px;
-            padding: 10px 16px;
+            background: linear-gradient(135deg, #ffc107 0%, #f59e0b 100%);
+            border-radius: 12px;
+            padding: 9px 16px;
             text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 43, 92, 0.15);
+            box-shadow: 0 4px 14px rgba(255, 193, 7, 0.3);
+            margin-bottom: 14px;
         }
         .schedule-day-plaque.location {
-            background: rgba(255, 255, 255, 0.14);
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.35);
             box-shadow: none;
         }
         .schedule-day-title {
             font-family: 'Outfit', sans-serif;
             font-size: 1.1rem;
-            font-weight: 800;
+            font-weight: 900;
             margin: 0;
-            color: #ffffff;
+            color: #002b5c;
             letter-spacing: 0.2px;
+        }
+        .schedule-day-plaque.location .schedule-day-title {
+            color: #ffffff;
         }
         .schedule-times-stack {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 10px;
+            margin-bottom: auto;
         }
         .time-frame-box {
-            background: #f8fafc;
-            border: 1.5px solid #e2e8f0;
-            border-left: 4px solid #ffc107;
+            background: #ffffff;
             border-radius: 12px;
-            padding: 11px 16px;
+            padding: 12px 16px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 6px rgba(0, 43, 92, 0.03);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
             transition: all 0.25s ease;
+            border-left: 4px solid #004a99;
         }
         .time-frame-box:hover {
-            background: #ffffff;
-            border-color: #004a99;
-            border-left-color: #004a99;
+            background: #f8fafc;
             transform: translateX(3px);
-            box-shadow: 0 4px 14px rgba(0, 74, 153, 0.1);
+            box-shadow: 0 6px 16px rgba(255, 193, 7, 0.3);
+            border-left-color: #ffc107;
         }
         .time-text {
             font-family: 'Outfit', sans-serif;
-            font-weight: 800;
+            font-weight: 900;
             font-size: 15px;
             color: #002b5c;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
         }
         .time-zone-badge {
             font-family: 'Outfit', sans-serif;
             font-size: 11px;
-            font-weight: 800;
-            color: #004a99;
-            background: #e0f2fe;
+            font-weight: 900;
+            color: #ffffff;
+            background: #004a99;
             padding: 3px 8px;
             border-radius: 6px;
             letter-spacing: 0.5px;
         }
-        .time-bridge-divider {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 6px;
-        }
-        .bridge-line {
-            width: 32px;
-            height: 2px;
-            background: #cbd5e1;
-            border-radius: 2px;
-        }
         .location-address {
-            font-size: 13.5px;
-            line-height: 1.6;
+            font-size: 13px;
+            line-height: 1.5;
             color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 20px;
+            margin-bottom: 14px;
         }
         .btn-desk-action {
             display: inline-flex;
@@ -836,7 +817,7 @@
                 </div>
 
                 <!-- 3 CARDS: SENIN-KAMIS, JUMAT, LOKASI FISIK -->
-                <div class="row g-4">
+                <div class="row g-4 align-items-stretch">
                     <!-- Senin s/d Kamis -->
                     <div class="col-md-6 col-lg-4">
                         <div class="schedule-pill-card h-100">
@@ -847,9 +828,6 @@
                                 <div class="time-frame-box">
                                     <span class="time-text">08.00 - 12.00</span>
                                     <span class="time-zone-badge">WIB</span>
-                                </div>
-                                <div class="time-bridge-divider">
-                                    <span class="bridge-line"></span>
                                 </div>
                                 <div class="time-frame-box">
                                     <span class="time-text">13.00 - 16.00</span>
@@ -870,9 +848,6 @@
                                     <span class="time-text">08.00 - 11.30</span>
                                     <span class="time-zone-badge">WIB</span>
                                 </div>
-                                <div class="time-bridge-divider">
-                                    <span class="bridge-line"></span>
-                                </div>
                                 <div class="time-frame-box">
                                     <span class="time-text">13.30 - 16.30</span>
                                     <span class="time-zone-badge">WIB</span>
@@ -883,13 +858,13 @@
 
                     <!-- Lokasi Meja Layanan Fisik -->
                     <div class="col-lg-4">
-                        <div class="schedule-pill-card location-card h-100">
+                        <div class="schedule-pill-card h-100">
                             <div class="schedule-day-plaque location">
                                 <h4 class="schedule-day-title">Desk Meja Layanan Fisik</h4>
                             </div>
 
                             <!-- Foto Meja Layanan Preview Thumbnail -->
-                            <div class="my-2 position-relative rounded-3 overflow-hidden shadow-sm border border-white border-opacity-25" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan" title="Klik untuk melihat foto meja layanan">
+                            <div class="my-2 position-relative rounded-3 overflow-hidden shadow-sm border border-white border-opacity-25" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan" onclick="openFotoModal()" title="Klik untuk melihat foto meja layanan">
                                 <img src="{{ asset('images/sarana/meja-layanan-ppid.png') }}" class="w-100" style="height: 100px; object-fit: cover; transition: transform 0.3s ease;" onmouseover="this.style.transform='scale(1.04)'" onmouseout="this.style.transform='scale(1)'" alt="Foto Meja Layanan PPID PKTJ">
                                 <div class="position-absolute bottom-0 start-0 end-0 bg-dark bg-opacity-75 py-1 px-2 text-center">
                                     <span class="text-white fw-bold" style="font-size: 11px;"><i class="fas fa-camera text-warning me-1"></i> Foto Meja Layanan</span>
@@ -901,7 +876,7 @@
                                 <span style="font-size: 12px; opacity: 0.9; line-height: 1.45; display: block;">Jl. Abdul Syukur No. 17, Margadana, Kota Tegal, Jawa Tengah 52143.</span>
                             </p>
                             <div class="d-flex flex-column gap-2 mt-auto">
-                                <button type="button" class="btn-desk-action warning" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan">
+                                <button type="button" class="btn-desk-action warning" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan" onclick="openFotoModal()">
                                     <i class="fas fa-camera me-1.5"></i> Lihat Foto Meja Layanan
                                 </button>
                                 <a href="https://maps.google.com/?q=Politeknik+Keselamatan+Transportasi+Jalan+Kampus+2+Margadana" target="_blank" class="btn-desk-action primary">
@@ -1167,9 +1142,12 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    @include('footer')
 
     <!-- MODAL FOTO MEJA LAYANAN & FORMULIR FISIK (AKIP C.1 & C.2) -->
-    <div class="modal fade" id="modalFotoMejaLayanan" tabindex="-1" aria-labelledby="modalFotoMejaLayananLabel" aria-hidden="true">
+    <div class="modal fade" id="modalFotoMejaLayanan" tabindex="-1" aria-labelledby="modalFotoMejaLayananLabel" aria-hidden="true" style="z-index: 99999;">
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
                 <div class="modal-header text-white border-0 py-3 px-4" style="background: linear-gradient(135deg, #002b5c, #004a99) !important;">
@@ -1177,7 +1155,7 @@
                         <i class="fas fa-building text-warning fs-5"></i>
                         <h5 class="modal-title outfit fw-bold mb-0 text-white" id="modalFotoMejaLayananLabel">Meja Layanan Informasi Publik Terpadu (AKIP C.1 & C.2)</h5>
                     </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" onclick="closeFotoModal()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4 bg-light">
                     <div class="row g-3">
@@ -1205,17 +1183,68 @@
                         </div>
                     </div>
                     <div class="d-flex justify-content-end align-items-center mt-3 pt-2 border-top">
-                        <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal">Tutup</button>
+                        <button type="button" class="btn btn-secondary btn-sm rounded-pill px-4 fw-bold" data-bs-dismiss="modal" onclick="closeFotoModal()">Tutup</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    @include('footer')
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script>AOS.init({duration: 800, once: true});</script>
+    <script>
+        AOS.init({duration: 800, once: true});
+
+        function openFotoModal() {
+            const modalEl = document.getElementById('modalFotoMejaLayanan');
+            if (!modalEl) return;
+            try {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    const inst = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                    inst.show();
+                    return;
+                }
+            } catch(e) {}
+            modalEl.classList.add('show');
+            modalEl.style.display = 'block';
+            modalEl.removeAttribute('aria-hidden');
+            let backdrop = document.querySelector('.modal-backdrop');
+            if (!backdrop) {
+                backdrop = document.createElement('div');
+                backdrop.className = 'modal-backdrop fade show';
+                document.body.appendChild(backdrop);
+            }
+            document.body.classList.add('modal-open');
+        }
+
+        function closeFotoModal() {
+            const modalEl = document.getElementById('modalFotoMejaLayanan');
+            if (!modalEl) return;
+            try {
+                if (typeof bootstrap !== 'undefined' && bootstrap.Modal) {
+                    const inst = bootstrap.Modal.getInstance(modalEl);
+                    if (inst) inst.hide();
+                }
+            } catch(e) {}
+            modalEl.classList.remove('show');
+            modalEl.style.display = 'none';
+            modalEl.setAttribute('aria-hidden', 'true');
+            document.querySelectorAll('.modal-backdrop').forEach(b => b.remove());
+            document.body.classList.remove('modal-open');
+            document.body.style.removeProperty('overflow');
+            document.body.style.removeProperty('padding-right');
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const modalEl = document.getElementById('modalFotoMejaLayanan');
+            if (modalEl) {
+                modalEl.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        closeFotoModal();
+                    }
+                });
+            }
+        });
+    </script>
 </body>
 </html>
