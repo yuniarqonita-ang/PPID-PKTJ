@@ -4,7 +4,7 @@
     <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $settings['sop_penetapan_judul_hero'] ?? 'SOP Penetapan & Pemutakhiran DIP' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
+    <title>{{ $settings['sop_penetapan_judul_hero'] ?? 'Prosedur Penetapan & Pemutakhiran DIP' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <meta name="description" content="{{ $settings['sop_penetapan_tagline_hero'] ?? 'Standar Operasional Prosedur Penetapan dan Pengelolaan Daftar Informasi PPID PKTJ' }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
             <div class="hero-badge">
                 <i class="fas fa-sync-alt me-2"></i> Prosedur Pemutakhiran
             </div>
-            <h1 class="hero-title outfit">{{ $settings['sop_penetapan_judul_hero'] ?? 'SOP Penetapan & Pemutakhiran DIP' }}</h1>
+            <h1 class="hero-title outfit">{{ $settings['sop_penetapan_judul_hero'] ?? 'Prosedur Penetapan & Pemutakhiran DIP' }}</h1>
             <p class="hero-tagline">{{ $settings['sop_penetapan_tagline_hero'] ?? 'Standar Operasional Prosedur Penetapan dan Pengelolaan Daftar Informasi' }}</p>
         </div>
     </div>

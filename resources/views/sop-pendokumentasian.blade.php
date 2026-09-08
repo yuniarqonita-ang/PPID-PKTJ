@@ -4,7 +4,7 @@
     <link rel="icon" type="image/png" href="{{ asset('images/logo-pktj.png') }}">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ $settings['sop_pendokumentasian_judul_hero'] ?? 'SOP Pendokumentasian' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
+    <title>{{ $settings['sop_pendokumentasian_judul_hero'] ?? 'Prosedur Pendokumentasian Informasi Publik' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <meta name="description" content="{{ $settings['sop_pendokumentasian_tagline_hero'] ?? 'Standar Operasional Prosedur Pendokumentasian Informasi PPID PKTJ' }}">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -24,7 +24,7 @@
             <div class="hero-badge">
                 <i class="fas fa-archive me-2"></i> Prosedur Pendokumentasian
             </div>
-            <h1 class="hero-title outfit">{{ $settings['sop_pendokumentasian_judul_hero'] ?? 'SOP Pendokumentasian' }}</h1>
+            <h1 class="hero-title outfit">{{ $settings['sop_pendokumentasian_judul_hero'] ?? 'Prosedur Pendokumentasian Informasi Publik' }}</h1>
             <p class="hero-tagline">{{ $settings['sop_pendokumentasian_tagline_hero'] ?? 'Standar Operasional Prosedur Pendokumentasian Informasi' }}</p>
         </div>
     </div>

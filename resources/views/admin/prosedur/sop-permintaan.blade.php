@@ -10,12 +10,12 @@
             <div class="space-y-4">
                 <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
                     <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
-                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Modul Prosedur SOP</h2>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Modul Prosedur</h2>
                 </div>
                 <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
-                    SOP <span class="text-[#ffc107]">Permintaan Informasi</span>
+                    Prosedur <span class="text-[#ffc107]">Permintaan Informasi</span>
                 </h1>
-                <p class="text-blue-50 text-base font-bold max-w-2xl opacity-90">Kelola tampilan, konten narasi, gambar diagram SOP, dan alur proses.</p>
+                <p class="text-blue-50 text-base font-bold max-w-2xl opacity-90">Kelola tampilan, konten narasi, gambar diagram Prosedur, dan alur proses.</p>
             </div>
             <div>
                 <a href="{{ route('prosedur.sop-permintaan') }}" target="_blank" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
@@ -34,7 +34,7 @@
 
     @include('admin.components.sop-settings-form', [
         'prefix' => 'sop_permintaan',
-        'judulSop' => 'SOP Permintaan Informasi Publik',
+        'judulSop' => 'Prosedur Permintaan Informasi Publik',
         'publicRoute' => route('prosedur.sop-permintaan')
     ])
 </div>

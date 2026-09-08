@@ -448,9 +448,9 @@
                             <i class="fas fa-chevron-down ml-auto opacity-50"></i>
                         </button>
                         <div class="submenu {{ request()->is('admin/prosedur*') ? 'open' : '' }}">
-                            <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-permintaan*') ? 'active' : '' }}">SOP Permintaan</a>
-                            <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-keberatan*') ? 'active' : '' }}">SOP Keberatan</a>
-                            <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-sengketa*') ? 'active' : '' }}">SOP Sengketa</a>
+                            <a href="{{ route('admin.prosedur.sop-permintaan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-permintaan*') ? 'active' : '' }}">Prosedur Permintaan</a>
+                            <a href="{{ route('admin.prosedur.sop-keberatan') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-keberatan*') ? 'active' : '' }}">Prosedur Keberatan</a>
+                            <a href="{{ route('admin.prosedur.sop-sengketa') }}" class="submenu-link {{ request()->routeIs('admin.prosedur.sop-sengketa*') ? 'active' : '' }}">Prosedur Sengketa</a>
                         </div>
 
                         <a href="{{ route('admin.faq.index') }}" class="nav-link {{ request()->routeIs('admin.faq.*') || request()->is('admin/faq*') ? 'active' : '' }}">
@@ -463,10 +463,6 @@
 
                         <a href="{{ route('admin.pemohon.index') }}" class="nav-link {{ request()->routeIs('admin.pemohon.*') ? 'active' : '' }}">
                             <i class="fas fa-id-card nav-icon"></i> VERIFIKASI PEMOHON
-                        </a>
-
-                        <a href="{{ route('admin.pesan-kontak.index') }}" class="nav-link {{ request()->is('admin/pesan-kontak*') ? 'active' : '' }}">
-                            <i class="fas fa-inbox nav-icon"></i> PESAN KONTAK
                         </a>
 
                         <a href="{{ route('admin.permohonan.report') }}" class="nav-link {{ request()->is('admin/permohonan/report*') ? 'active' : '' }}">
@@ -1396,16 +1392,6 @@
                                 showToast('🔴 PERMOHONAN INFORMASI BARU!', 
                                           'Pemohon: ' + (data.permohonan_latest_nama || 'Masyarakat'), 
                                           "{{ route('admin.permohonan.submissions') }}");
-                            } 
-                            // Check Pesan Kontak Baru
-                            else if (data.pesan_latest_time > parseInt(lastPesanTime)) {
-                                lastPesanTime = data.pesan_latest_time;
-                                localStorage.setItem('last_seen_pesan_time', lastPesanTime);
-                                
-                                playLoudNotificationChime();
-                                showToast('✉️ PESAN KONTAK BARU!', 
-                                          'Dari: ' + (data.pesan_latest_nama || 'Pengunjung') + ' (' + (data.pesan_latest_judul || 'Pesan Baru') + ')', 
-                                          "{{ route('admin.pesan-kontak.index') }}");
                             }
                         })
                         .catch(e => {});

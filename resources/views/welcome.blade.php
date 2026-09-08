@@ -738,7 +738,7 @@
                 </div>
 
                 <div class="row g-4 justify-content-center">
-                    <!-- Kartu 1: SOP Permintaan -->
+                    <!-- Kartu 1: Prosedur Permintaan -->
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="150">
                         <a href="{{ route('prosedur.sop-permintaan') }}" class="prosedur-card" style="--card-accent: #004a99; --icon-bg: #e0f2fe; --icon-color: #004a99; --icon-shadow: rgba(0,74,153,0.3); --badge-bg: #e0f2fe; --badge-color: #004a99; --badge-border: #bae6fd;">
                             <div>
@@ -748,7 +748,7 @@
                                     </div>
                                     <span class="prosedur-step-badge">Prosedur 01</span>
                                 </div>
-                                <h3 class="prosedur-card-title">SOP Permintaan Informasi</h3>
+                                <h3 class="prosedur-card-title">Prosedur Permintaan Informasi</h3>
                                 <p class="prosedur-card-desc">Tata cara dan syarat pengajuan permohonan informasi publik secara online maupun langsung.</p>
                                 <div class="prosedur-pill-time">
                                     <i class="fas fa-clock"></i> 10 Menit / 10 Hari Kerja
@@ -761,7 +761,7 @@
                         </a>
                     </div>
 
-                    <!-- Kartu 2: SOP Keberatan -->
+                    <!-- Kartu 2: Prosedur Keberatan -->
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
                         <a href="{{ route('prosedur.sop-keberatan') }}" class="prosedur-card" style="--card-accent: #d97706; --icon-bg: #fef3c7; --icon-color: #d97706; --icon-shadow: rgba(217,119,6,0.3); --badge-bg: #fef3c7; --badge-color: #d97706; --badge-border: #fde68a;">
                             <div>
@@ -771,7 +771,7 @@
                                     </div>
                                     <span class="prosedur-step-badge">Prosedur 02</span>
                                 </div>
-                                <h3 class="prosedur-card-title">SOP Penanganan Keberatan</h3>
+                                <h3 class="prosedur-card-title">Prosedur Penanganan Keberatan</h3>
                                 <p class="prosedur-card-desc">Tata cara pengajuan keberatan jika permohonan informasi ditolak, terlambat, atau tidak memuaskan.</p>
                                 <div class="prosedur-pill-time">
                                     <i class="fas fa-clock"></i> 30 Hari Kerja
@@ -784,7 +784,7 @@
                         </a>
                     </div>
 
-                    <!-- Kartu 3: SOP Sengketa -->
+                    <!-- Kartu 3: Prosedur Sengketa -->
                     <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="250">
                         <a href="{{ route('prosedur.sop-sengketa') }}" class="prosedur-card" style="--card-accent: #dc2626; --icon-bg: #fee2e2; --icon-color: #dc2626; --icon-shadow: rgba(220,38,38,0.3); --badge-bg: #fee2e2; --badge-color: #dc2626; --badge-border: #fecaca;">
                             <div>
@@ -794,7 +794,7 @@
                                     </div>
                                     <span class="prosedur-step-badge">Prosedur 03</span>
                                 </div>
-                                <h3 class="prosedur-card-title">SOP Penyelesaian Sengketa</h3>
+                                <h3 class="prosedur-card-title">Prosedur Penyelesaian Sengketa</h3>
                                 <p class="prosedur-card-desc">Tata cara penyelesaian sengketa informasi publik melalui proses mediasi &amp; adjudikasi Komisi Informasi.</p>
                                 <div class="prosedur-pill-time">
                                     <i class="fas fa-clock"></i> 14 Hari / 100 Hari Kerja
@@ -914,85 +914,6 @@
                 <a href="{{ url('/berita') }}" class="btn btn-outline-primary fw-bold px-5 py-3 rounded-pill shadow-sm" style="color: #004a99; border-color: #004a99; font-family: 'Outfit', sans-serif;">
                     <i class="fas fa-newspaper me-2"></i> Lihat Selengkapnya Berita PKTJ <i class="fas fa-arrow-right ms-2"></i>
                 </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- SEKSI SP4N-LAPOR! (INTEGRASI LAYANAN PENGADUAN NASIONAL) -->
-    <section class="sp4n-lapor-section py-5" style="background: linear-gradient(135deg, #0b1d3a 0%, #002b5c 50%, #004a99 100%); position: relative; overflow: hidden;">
-        <div class="position-absolute top-0 end-0 w-50 h-100 opacity-10 pointer-events-none" style="background: radial-gradient(circle, #ffc107 10%, transparent 70%);"></div>
-        <div class="container position-relative" style="z-index: 2;">
-            <div class="card border-0 shadow-2xl rounded-4 overflow-hidden" style="background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.15) !important;">
-                <div class="card-body p-4 p-md-5">
-                    <div class="row align-items-center g-4">
-                        <div class="col-lg-8" data-aos="fade-right">
-                            <div class="d-inline-flex align-items-center gap-2 px-3 py-1.5 rounded-pill bg-danger text-white fw-bold text-xs uppercase tracking-wider mb-3 shadow-sm">
-                                <i class="fas fa-bullhorn animate-pulse"></i> SP4N-LAPOR! Kemenhub
-                            </div>
-                            <h2 class="display-6 fw-black text-white outfit mb-3" style="line-height: 1.25;">
-                                {{ $settings['span_lapor_judul'] ?? 'UNTUK PELAYANAN PUBLIK YANG LEBIH BAIK, BERANI LAPOR MELALUI SP4N-LAPOR!' }}
-                            </h2>
-                            <p class="text-white-50 mb-4" style="font-size: 15px; line-height: 1.7; max-width: 650px;">
-                                {{ $settings['span_lapor_deskripsi'] ?? 'Sistem Pengelolaan Pengaduan Pelayanan Publik Nasional - Layanan Aspirasi dan Pengaduan Online Rakyat. Sampaikan aspirasi, saran, dan laporan pelayanan secara transparan, aman, dan terpercaya.' }}
-                            </p>
-                            
-                            <!-- 3 Pilar Jaminan SP4N -->
-                            <div class="row g-3 mb-4">
-                                <div class="col-sm-4">
-                                    <div class="d-flex align-items-center gap-2.5 text-white">
-                                        <div class="w-8 h-8 rounded-circle bg-warning text-dark d-flex align-items-center justify-center flex-shrink-0 fw-bold" style="font-size: 13px;">
-                                            <i class="fas fa-user-shield"></i>
-                                        </div>
-                                        <span class="small fw-semibold">Identitas Pelapor Dirahasiakan</span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="d-flex align-items-center gap-2.5 text-white">
-                                        <div class="w-8 h-8 rounded-circle bg-warning text-dark d-flex align-items-center justify-center flex-shrink-0 fw-bold" style="font-size: 13px;">
-                                            <i class="fas fa-barcode"></i>
-                                        </div>
-                                        <span class="small fw-semibold">Nomor Unik Pelacakan</span>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="d-flex align-items-center gap-2.5 text-white">
-                                        <div class="w-8 h-8 rounded-circle bg-warning text-dark d-flex align-items-center justify-center flex-shrink-0 fw-bold" style="font-size: 13px;">
-                                            <i class="fas fa-lock"></i>
-                                        </div>
-                                        <span class="small fw-semibold">Privasi Terjamin Aman</span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="d-flex flex-wrap gap-3">
-                                <a href="{{ $settings['span_lapor_link'] ?? 'https://www.lapor.go.id/instansi/politeknik-keselamatan-transportasi-jalan-tegal' }}" target="_blank" rel="noopener" class="btn btn-warning btn-lg px-4 py-3 rounded-pill fw-bold text-dark shadow-lg d-inline-flex align-items-center gap-2" style="font-size: 14px; letter-spacing: 0.5px;">
-                                    <i class="fas fa-paper-plane"></i>
-                                    <span>BUAT LAPORAN SEKARANG</span>
-                                </a>
-                                <a href="https://www.lapor.go.id" target="_blank" rel="noopener" class="btn btn-outline-light btn-lg px-4 py-3 rounded-pill fw-bold d-inline-flex align-items-center gap-2" style="font-size: 14px; border-color: rgba(255,255,255,0.3);">
-                                    <i class="fas fa-globe"></i>
-                                    <span>Portal www.lapor.go.id</span>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="col-lg-4 text-center" data-aos="fade-left">
-                            <div class="position-relative p-3 rounded-4" style="background: rgba(255, 255, 255, 0.08); border: 1.5px solid rgba(255, 255, 255, 0.2);">
-                                @if(!empty($settings['span_lapor_banner']))
-                                    <img src="{{ asset('storage/' . $settings['span_lapor_banner']) }}" alt="Banner SP4N-LAPOR!" class="img-fluid rounded-3 shadow-md" style="max-height: 220px; object-fit: contain;">
-                                @else
-                                    <div class="p-4 text-center">
-                                        <div class="w-20 h-20 mx-auto rounded-circle bg-white text-danger d-flex align-items-center justify-content-center mb-3 shadow-lg" style="width: 75px; height: 75px; font-size: 32px;">
-                                            <i class="fas fa-comments"></i>
-                                        </div>
-                                        <h5 class="text-white outfit fw-bold mb-1">SP4N - LAPOR!</h5>
-                                        <p class="text-white-50 text-xs mb-3">Layanan Aspirasi dan Pengaduan Online Rakyat Resmi PKTJ Tegal</p>
-                                        <span class="badge bg-warning text-dark px-3 py-1.5 rounded-pill fw-bold text-xs">Instansi Terhubung: PKTJ Tegal</span>
-                                    </div>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </section>

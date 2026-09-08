@@ -9,7 +9,7 @@
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     
     <style>
@@ -148,6 +148,11 @@
             border-color: transparent;
             color: white;
         }
+        .social-item.twitter:hover i,
+        .social-item.twitter:hover .social-x-icon {
+            color: white !important;
+            transform: scale(1.18);
+        }
         .social-item.youtube:hover {
             background: #FF0000;
             border-color: transparent;
@@ -183,35 +188,254 @@
             transform: scale(1.18);
         }
 
-        /* Form Styling */
-        .form-card {
-            background: #f8fafc;
-            border-radius: 24px;
-            padding: 40px;
-            border: 1px solid #e2e8f0;
+        /* SP4N-LAPOR Modern Card Styling */
+        .sp4n-lapor-card {
+            background: white;
+            border-radius: 28px;
+            border: 1.5px solid rgba(0, 74, 153, 0.1);
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
             height: 100%;
+            transition: all 0.3s ease;
         }
 
-        .form-floating > .form-control:focus, 
-        .form-floating > .form-control:not(:placeholder-shown) {
-            padding-top: 1.625rem;
-            padding-bottom: .625rem;
+        .sp4n-lapor-card:hover {
+            box-shadow: 0 25px 50px rgba(0, 43, 92, 0.12);
         }
 
-        .form-control, .form-select {
-            border-radius: 16px;
+        .sp4n-header {
+            background: linear-gradient(135deg, #002b5c 0%, #003d80 50%, #004a99 100%);
+            padding: 34px 34px 28px;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sp4n-header::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(255, 193, 7, 0.22) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .sp4n-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: white;
+        }
+
+        .sp4n-tag {
+            background: #dc2626;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 50px;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .sp4n-icon-circle {
+            width: 52px;
+            height: 52px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .sp4n-title {
+            font-size: 1.85rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            color: white;
+            margin: 0;
+            line-height: 1.15;
+        }
+
+        .sp4n-sub {
+            font-size: 11px;
+            font-weight: 700;
+            color: #ffc107;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 0;
+        }
+
+        .sp4n-desc {
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 13.5px;
+            line-height: 1.65;
+            margin-top: 14px;
+            margin-bottom: 0;
+        }
+
+        .sp4n-body {
+            padding: 28px 32px 32px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: #ffffff;
+        }
+
+        .sp4n-pillars-heading {
+            font-size: 10.5px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            color: #64748b;
+            text-transform: uppercase;
+            margin-bottom: 14px;
+        }
+
+        .sp4n-pillar-box {
+            background: #f8fafc;
             border: 1.5px solid #e2e8f0;
-            padding: 14px 20px;
-            font-size: 14px;
-            font-weight: 500;
-            background-color: white;
-            transition: all var(--transition-speed) ease;
+            border-radius: 18px;
+            padding: 16px 14px;
+            height: 100%;
+            transition: all 0.25s ease;
         }
 
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary-blue);
-            box-shadow: 0 0 0 4px rgba(0, 74, 153, 0.1);
-            background-color: white;
+        .sp4n-pillar-box:hover {
+            border-color: #004a99;
+            background: #ffffff;
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 74, 153, 0.08);
+        }
+
+        .sp4n-pillar-icon {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .sp4n-pillar-icon.bg-blue-soft {
+            background: #eff6ff;
+        }
+        .sp4n-pillar-icon.bg-gold-soft {
+            background: #fefce8;
+        }
+        .sp4n-pillar-icon.bg-emerald-soft {
+            background: #ecfdf5;
+        }
+
+        .sp4n-pillar-box h6 {
+            font-weight: 800;
+            font-size: 12.5px;
+            color: #0f172a;
+            margin-bottom: 5px;
+        }
+
+        .sp4n-pillar-box p {
+            font-size: 11.5px;
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .sp4n-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-sp4n-primary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #ffc107 0%, #f59e0b 100%);
+            color: #002b5c;
+            font-weight: 900;
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 16px 22px;
+            border-radius: 16px;
+            text-decoration: none;
+            box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .btn-sp4n-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(245, 158, 11, 0.45);
+            color: #001a38;
+        }
+
+        .btn-sp4n-secondary {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #f8fafc;
+            color: #004a99;
+            font-weight: 800;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12.5px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            padding: 13px 20px;
+            border-radius: 16px;
+            border: 1.5px solid #cbd5e1;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-sp4n-secondary:hover {
+            background: #004a99;
+            color: white;
+            border-color: #004a99;
+        }
+
+        .sp4n-footer-info {
+            background: #f8fafc;
+            border-top: 1px dashed #e2e8f0;
+            padding: 14px 28px;
+            border-bottom-left-radius: 28px;
+            border-bottom-right-radius: 28px;
+        }
+
+        .sp4n-sms-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #002b5c;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 50px;
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            flex-shrink: 0;
         }
 
         /* Campus Map Cards */
@@ -397,7 +621,7 @@
                         <h2 class="section-title outfit">Informasi, Saran & Pengaduan</h2>
                         
                         <div class="text-slate-500 mb-4 font-medium">
-                            {!! $profil->konten_pembuka ?? '<p>Silakan kirimkan pertanyaan, permohonan informasi, saran, atau pengaduan Anda melalui form pesan atau hubungi kami lewat jejaring sosial resmi kami di bawah ini.</p>' !!}
+                            {!! $profil->konten_pembuka ?? '<p>Silakan sampaikan pertanyaan, permohonan informasi, aspirasi, atau pengaduan pelayanan publik Anda melalui kanal resmi SP4N-LAPOR! atau hubungi kami lewat jejaring sosial resmi kami di bawah ini.</p>' !!}
                         </div>
 
                         <!-- Social Media Icons Grid -->
@@ -432,8 +656,10 @@
                                 <span>Facebook</span>
                             </a>
                             <!-- Twitter/X -->
-                            <a href="{{ $twitter }}" target="_blank" class="social-item twitter">
-                                <i class="fa-brands fa-x-twitter text-slate-900"></i>
+                            <a href="{{ $twitter }}" target="_blank" class="social-item twitter" title="Twitter / X Resmi PPID PKTJ">
+                                <svg viewBox="0 0 24 24" width="28" height="28" fill="currentColor" class="social-x-icon" style="margin-bottom: 12px; transition: transform var(--transition-speed) ease;">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
                                 <span>Twitter / X</span>
                             </a>
                             <!-- YouTube -->
@@ -465,66 +691,94 @@
                     </div>
                 </div>
 
-                <!-- Right Column: Interactive Form -->
+                <!-- Right Column: SP4N-LAPOR! Official Grievance Channel -->
                 <div class="col-lg-7">
-                    <div class="form-card">
-                        <h4 class="outfit fw-black text-slate-800 mb-4 flex items-center gap-2">
-                            <i class="fa-solid fa-pen-to-square text-[#ffc107]"></i> Formulir Pesan
-                        </h4>
-                        
-                        <form action="{{ route('profil.kontak.submit') }}" method="POST">
-                            @csrf
+                    <div class="sp4n-lapor-card">
+                        <!-- Top Banner Header -->
+                        <div class="sp4n-header">
+                            <div class="d-flex flex-wrap align-items-center justify-content-between gap-3 mb-3">
+                                <div class="sp4n-badge">
+                                    <i class="fa-solid fa-bullhorn text-[#ffc107]"></i>
+                                    <span>LAYANAN PENGADUAN NASIONAL</span>
+                                </div>
+                                <span class="sp4n-tag">KEMENHUB &amp; PKTJ TEGAL</span>
+                            </div>
                             
-                            @php
-                                $num1 = rand(2, 9);
-                                $num2 = rand(2, 9);
-                                $answer = $num1 + $num2;
-                            @endphp
-                            <input type="hidden" name="captcha_answer" value="{{ $answer }}">
-
-                            <div class="row g-4">
-                                <div class="col-md-6">
-                                    <label class="form-label text-xs font-bold text-slate-500 uppercase">Nama Lengkap</label>
-                                    <input type="text" name="nama" value="{{ old('nama') }}" required class="form-control" placeholder="Contoh: Budi Santoso">
-                                    @error('nama') <p class="text-danger text-xs font-bold mt-1">{{ $message }}</p> @enderror
+                            <div class="d-flex align-items-center gap-3 mb-2">
+                                <div class="sp4n-icon-circle">
+                                    <i class="fa-solid fa-comments text-white fs-3"></i>
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-xs font-bold text-slate-500 uppercase">Alamat Email</label>
-                                    <input type="email" name="email" value="{{ old('email') }}" required class="form-control" placeholder="nama@email.com">
-                                    @error('email') <p class="text-danger text-xs font-bold mt-1">{{ $message }}</p> @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-xs font-bold text-slate-500 uppercase">Nomor Telepon</label>
-                                    <input type="text" name="telepon" value="{{ old('telepon') }}" required class="form-control" placeholder="081234567xxx">
-                                    @error('telepon') <p class="text-danger text-xs font-bold mt-1">{{ $message }}</p> @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label text-xs font-bold text-slate-500 uppercase">Judul Pesan / Subjek</label>
-                                    <input type="text" name="judul" value="{{ old('judul') }}" required class="form-control" placeholder="Informasi / Saran / Pengaduan">
-                                    @error('judul') <p class="text-danger text-xs font-bold mt-1">{{ $message }}</p> @enderror
-                                </div>
-                                <div class="col-12">
-                                    <label class="form-label text-xs font-bold text-slate-500 uppercase">Isi Pesan Lengkap</label>
-                                    <textarea name="pesan" rows="5" required class="form-control" placeholder="Tuliskan detail pesan Anda di sini..."></textarea>
-                                    @error('pesan') <p class="text-danger text-xs font-bold mt-1">{{ $message }}</p> @enderror
-                                </div>
-
-                                <div class="col-12">
-                                    <label class="form-label text-xs font-bold text-slate-500 uppercase">Verifikasi Keamanan (Captcha)</label>
-                                    <div class="captcha-box">
-                                        <p class="captcha-label">Berapakah hasil dari <strong>{{ $num1 }} + {{ $num2 }}</strong> ?</p>
-                                        <input type="number" name="captcha" required class="form-control" style="max-width: 150px;" placeholder="Jawaban...">
-                                    </div>
-                                    @error('captcha') <p class="text-danger text-xs font-bold mt-1">{{ $message }}</p> @enderror
-                                </div>
-
-                                <div class="col-12 pt-2">
-                                    <button type="submit" class="btn btn-premium w-100 py-3 shadow">
-                                        <i class="fa-solid fa-paper-plane mr-2 text-[#ffc107]"></i> Kirim Pesan Sekarang
-                                    </button>
+                                <div>
+                                    <h3 class="sp4n-title outfit">SP4N - LAPOR!</h3>
+                                    <p class="sp4n-sub outfit">Layanan Aspirasi &amp; Pengaduan Online Rakyat</p>
                                 </div>
                             </div>
-                        </form>
+
+                            <p class="sp4n-desc">
+                                {{ $settings['span_lapor_deskripsi'] ?? 'Sistem Pengelolaan Pengaduan Pelayanan Publik Nasional - Layanan Aspirasi dan Pengaduan Online Rakyat. Sampaikan kritik, aspirasi, saran, dan pengaduan pelayanan publik secara transparan, aman, dan langsung ditindaklanjuti oleh PPID PKTJ Tegal.' }}
+                            </p>
+                        </div>
+
+                        <!-- 3 Pilar Jaminan SP4N -->
+                        <div class="sp4n-body">
+                            <div>
+                                <h6 class="sp4n-pillars-heading outfit">JAMINAN &amp; STANDAR LAYANAN PENGADUAN</h6>
+                                <div class="row g-3 mb-4">
+                                    <div class="col-md-4 col-sm-6">
+                                        <div class="sp4n-pillar-box">
+                                            <div class="sp4n-pillar-icon bg-blue-soft">
+                                                <i class="fa-solid fa-user-shield text-[#004a99]"></i>
+                                            </div>
+                                            <h6 class="outfit">Anonim &amp; Rahasia</h6>
+                                            <p>Identitas pelapor terjamin kerahasiaannya sesuai UU No. 25 Tahun 2009.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-6">
+                                        <div class="sp4n-pillar-box">
+                                            <div class="sp4n-pillar-icon bg-gold-soft">
+                                                <i class="fa-solid fa-qrcode text-[#d97706]"></i>
+                                            </div>
+                                            <h6 class="outfit">Tracking ID Unik</h6>
+                                            <p>Pantau progres dan tindak lanjut aduan secara realtime melalui kode laporan.</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 col-sm-12">
+                                        <div class="sp4n-pillar-box">
+                                            <div class="sp4n-pillar-icon bg-emerald-soft">
+                                                <i class="fa-solid fa-bolt text-[#059669]"></i>
+                                            </div>
+                                            <h6 class="outfit">Respon Cepat</h6>
+                                            <p>Laporan langsung diverifikasi dan ditindaklanjuti secara resmi oleh tim PKTJ.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- CTA Action Buttons -->
+                                <div class="sp4n-actions">
+                                    <a href="{{ $settings['span_lapor_link'] ?? 'https://www.lapor.go.id/instansi/politeknik-keselamatan-transportasi-jalan-tegal' }}" target="_blank" rel="noopener" class="btn-sp4n-primary">
+                                        <i class="fa-solid fa-paper-plane"></i>
+                                        <span>BUAT LAPORAN / PENGADUAN SEKARANG</span>
+                                        <i class="fa-solid fa-arrow-up-right-from-square fs-6 opacity-75"></i>
+                                    </a>
+                                    <a href="https://www.lapor.go.id" target="_blank" rel="noopener" class="btn-sp4n-secondary">
+                                        <i class="fa-solid fa-globe"></i>
+                                        <span>Portal www.lapor.go.id</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Hotline / SMS Section -->
+                        <div class="sp4n-footer-info">
+                            <div class="d-flex flex-wrap align-items-center gap-3">
+                                <div class="sp4n-sms-badge">
+                                    <i class="fa-solid fa-comment-sms"></i> SMS 1708
+                                </div>
+                                <div class="text-xs text-slate-500 font-medium">
+                                    Format SMS: <strong>PKTJ (spasi) Isi Pengaduan</strong> kirim ke <strong>1708</strong>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -540,22 +794,13 @@
                     <div class="row g-0 h-100">
                         <div class="col-md-6 p-4 d-flex flex-column justify-content-between">
                             <div>
-                                <span class="campus-badge">{{ $settings['kontak_kampus_1_nama'] ?? 'Kampus Perintis' }}</span>
-                                <h4 class="outfit fw-black text-slate-800 mb-3" style="font-size: 18px; line-height: 1.3;">
-                                    {{ $settings['kontak_kampus_1_nama'] ?? 'Politeknik Keselamatan Transportasi Jalan (Kampus Perintis)' }}
+                                <h4 class="outfit fw-black text-slate-900 mb-3" style="font-size: 20px; line-height: 1.3;">
+                                    Kampus Perintis
                                 </h4>
                                 <ul class="campus-info-list">
                                     <li>
                                         <i class="fa-solid fa-location-dot"></i>
-                                        <span>{{ $settings['kontak_kampus_1_alamat'] ?? 'Jl. Perintis Kemerdekaan No. 17, Slerok, Tegal Timur, Tegal' }}</span>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-envelope"></i>
-                                        <a href="mailto:{{ $settings['kontak_kampus_1_email'] ?? 'pktj@pktj.ac.id' }}">{{ $settings['kontak_kampus_1_email'] ?? 'pktj@pktj.ac.id' }}</a>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-phone"></i>
-                                        <a href="tel:{{ $settings['kontak_kampus_1_telepon'] ?? '(0283) 351061' }}">{{ $settings['kontak_kampus_1_telepon'] ?? '(0283) 351061' }}</a>
+                                        <span>{{ $settings['kontak_kampus_1_alamat'] ?? 'Jl. Perintis Kemerdekaan No. 17, Slerok, Tegal Timur, Kota Tegal' }}</span>
                                     </li>
                                 </ul>
                             </div>
@@ -579,22 +824,13 @@
                     <div class="row g-0 h-100">
                         <div class="col-md-6 p-4 d-flex flex-column justify-content-between">
                             <div>
-                                <span class="campus-badge" style="background-color: var(--secondary-gold); color: var(--primary-dark);">{{ $settings['kontak_kampus_2_nama'] ?? 'Kampus Margadana' }}</span>
-                                <h4 class="outfit fw-black text-slate-800 mb-3" style="font-size: 18px; line-height: 1.3;">
-                                    {{ $settings['kontak_kampus_2_nama'] ?? 'Politeknik Keselamatan Transportasi Jalan (Kampus Margadana)' }}
+                                <h4 class="outfit fw-black text-slate-900 mb-3" style="font-size: 20px; line-height: 1.3;">
+                                    Kampus Margadana
                                 </h4>
                                 <ul class="campus-info-list">
                                     <li>
                                         <i class="fa-solid fa-location-dot"></i>
-                                        <span>{{ $settings['kontak_kampus_2_alamat'] ?? 'Jl. KH. Abdul Syukur No. 17, Margadana, Tegal' }}</span>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-envelope"></i>
-                                        <a href="mailto:{{ $settings['kontak_kampus_2_email'] ?? 'pktj@pktj.ac.id' }}">{{ $settings['kontak_kampus_2_email'] ?? 'pktj@pktj.ac.id' }}</a>
-                                    </li>
-                                    <li>
-                                        <i class="fa-solid fa-phone"></i>
-                                        <a href="tel:{{ $settings['kontak_kampus_2_telepon'] ?? '(0283) 351061' }}">{{ $settings['kontak_kampus_2_telepon'] ?? '(0283) 351061' }}</a>
+                                        <span>{{ $settings['kontak_kampus_2_alamat'] ?? 'Jl. KH. Abdul Syukur No. 17, Margadana, Kota Tegal' }}</span>
                                     </li>
                                 </ul>
                             </div>
