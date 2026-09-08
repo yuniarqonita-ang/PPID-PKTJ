@@ -629,120 +629,83 @@
             line-height: 1.55;
         }
         .schedule-pill-card {
-            background: rgba(255, 255, 255, 0.96);
-            border: 1.5px solid rgba(255, 255, 255, 0.3);
-            border-radius: 24px;
+            background: #ffffff;
+            border: 1px solid rgba(226, 232, 240, 0.9);
+            border-radius: 20px;
             padding: 24px;
             color: #1e293b;
             display: flex;
             flex-direction: column;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            justify-content: space-between;
+            box-shadow: 0 10px 30px rgba(0, 30, 70, 0.08);
             transition: all 0.3s ease;
         }
         .schedule-pill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
-            background: #ffffff;
+            transform: translateY(-4px);
+            box-shadow: 0 18px 36px rgba(0, 30, 70, 0.16);
+            border-color: rgba(255, 193, 7, 0.4);
         }
         .schedule-pill-card.location-card {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.08);
             backdrop-filter: blur(12px);
-            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            border: 1.5px solid rgba(255, 255, 255, 0.22);
             color: white;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
         }
         .schedule-pill-card.location-card:hover {
-            background: rgba(255, 255, 255, 0.16);
-            border-color: rgba(255, 193, 7, 0.5);
+            background: rgba(255, 255, 255, 0.14);
+            border-color: rgba(255, 193, 7, 0.6);
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
         }
         .schedule-card-head {
-            display: flex;
-            align-items: center;
-            gap: 14px;
             margin-bottom: 18px;
+            padding-bottom: 14px;
+            border-bottom: 1.5px solid #f1f5f9;
         }
-        .schedule-icon-circle {
-            width: 46px;
-            height: 46px;
-            border-radius: 14px;
-            background: #e0f2fe;
-            color: #0284c7;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            flex-shrink: 0;
+        .schedule-pill-card.location-card .schedule-card-head {
+            border-bottom: 1.5px solid rgba(255, 255, 255, 0.15);
         }
-        .schedule-icon-circle.jumat {
-            background: #fef3c7;
-            color: #d97706;
-        }
-        .schedule-icon-circle.location {
-            background: rgba(239, 68, 68, 0.2);
-            color: #f87171;
-            border: 1px solid rgba(239, 68, 68, 0.4);
-        }
-        .schedule-day-tag {
-            font-size: 10px;
-            font-weight: 900;
-            letter-spacing: 1px;
-            text-transform: uppercase;
-            color: #0284c7;
-            display: block;
-        }
-        .schedule-day-tag.jumat { color: #d97706; }
-        .schedule-day-tag.location { color: #fca5a5; }
         .schedule-day-title {
             font-family: 'Outfit', sans-serif;
-            font-size: 16px;
+            font-size: 1.15rem;
             font-weight: 800;
             margin: 0;
-            color: #0f172a;
+            color: #002b5c;
+            letter-spacing: -0.3px;
         }
         .schedule-pill-card.location-card .schedule-day-title {
             color: white;
         }
         .schedule-times-box {
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            padding: 12px 14px;
             display: flex;
             flex-direction: column;
-            gap: 8px;
-            margin-bottom: 14px;
+            gap: 12px;
+            margin-bottom: 0;
         }
-        .schedule-session-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 8px;
-            font-size: 12.5px;
-        }
-        .session-label {
-            color: #64748b;
-            font-weight: 600;
-        }
-        .session-time {
+        .schedule-time-badge {
+            background: #f8fafc;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 13px 16px;
+            font-size: 15.5px;
             font-weight: 800;
             color: #002b5c;
-            background: #ffffff;
-            padding: 3px 10px;
-            border-radius: 8px;
-            border: 1px solid #cbd5e1;
             font-family: 'Outfit', sans-serif;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
+            text-align: center;
+            transition: all 0.25s ease;
         }
-        .schedule-card-foot {
-            font-size: 11px;
-            color: #64748b;
-            font-weight: 600;
-            margin-top: auto;
+        .schedule-time-badge:hover {
+            background: #f0f7ff;
+            border-color: #004a99;
+            color: #004a99;
+            transform: scale(1.02);
         }
         .location-address {
-            font-size: 13px;
+            font-size: 13.5px;
             line-height: 1.6;
-            color: rgba(255, 255, 255, 0.85);
-            margin-bottom: 18px;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 20px;
         }
         .btn-desk-action {
             display: inline-flex;
@@ -830,26 +793,11 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="schedule-pill-card h-100">
                             <div class="schedule-card-head">
-                                <div class="schedule-icon-circle">
-                                    <i class="fas fa-calendar-week"></i>
-                                </div>
-                                <div>
-                                    <span class="schedule-day-tag">Senin s/d Kamis</span>
-                                    <h4 class="schedule-day-title">Hari Kerja Reguler</h4>
-                                </div>
+                                <h4 class="schedule-day-title">Senin s/d Kamis</h4>
                             </div>
                             <div class="schedule-times-box">
-                                <div class="schedule-session-row">
-                                    <div class="session-label"><i class="fas fa-sun text-warning me-1.5"></i> Sesi Pagi</div>
-                                    <div class="session-time">08.00 - 12.00 WIB</div>
-                                </div>
-                                <div class="schedule-session-row">
-                                    <div class="session-label"><i class="fas fa-cloud-sun text-primary me-1.5"></i> Sesi Siang</div>
-                                    <div class="session-time">13.00 - 16.00 WIB</div>
-                                </div>
-                            </div>
-                            <div class="schedule-card-foot">
-                                <i class="fas fa-utensils me-1 text-muted"></i> Istirahat: 12.00 - 13.00 WIB
+                                <div class="schedule-time-badge">08.00 - 12.00 WIB</div>
+                                <div class="schedule-time-badge">13.00 - 16.00 WIB</div>
                             </div>
                         </div>
                     </div>
@@ -858,26 +806,11 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="schedule-pill-card h-100">
                             <div class="schedule-card-head">
-                                <div class="schedule-icon-circle jumat">
-                                    <i class="fas fa-mosque"></i>
-                                </div>
-                                <div>
-                                    <span class="schedule-day-tag jumat">Hari Jumat</span>
-                                    <h4 class="schedule-day-title">Hari Kerja Khusus</h4>
-                                </div>
+                                <h4 class="schedule-day-title">Jumat</h4>
                             </div>
                             <div class="schedule-times-box">
-                                <div class="schedule-session-row">
-                                    <div class="session-label"><i class="fas fa-sun text-warning me-1.5"></i> Sesi Pagi</div>
-                                    <div class="session-time">08.00 - 11.30 WIB</div>
-                                </div>
-                                <div class="schedule-session-row">
-                                    <div class="session-label"><i class="fas fa-cloud-sun text-primary me-1.5"></i> Sesi Siang</div>
-                                    <div class="session-time">13.30 - 16.30 WIB</div>
-                                </div>
-                            </div>
-                            <div class="schedule-card-foot">
-                                <i class="fas fa-clock me-1 text-muted"></i> Istirahat & Sholat: 11.30 - 13.30 WIB
+                                <div class="schedule-time-badge">08.00 - 11.30 WIB</div>
+                                <div class="schedule-time-badge">13.30 - 16.30 WIB</div>
                             </div>
                         </div>
                     </div>
@@ -886,13 +819,7 @@
                     <div class="col-lg-4">
                         <div class="schedule-pill-card location-card h-100">
                             <div class="schedule-card-head">
-                                <div class="schedule-icon-circle location">
-                                    <i class="fas fa-location-dot"></i>
-                                </div>
-                                <div>
-                                    <span class="schedule-day-tag location">Lokasi Fisik</span>
-                                    <h4 class="schedule-day-title">Desk Meja Layanan</h4>
-                                </div>
+                                <h4 class="schedule-day-title">Desk Meja Layanan Fisik</h4>
                             </div>
                             <p class="location-address">
                                 <strong class="text-white">Kampus II PKTJ Margadana</strong><br>
