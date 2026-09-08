@@ -306,10 +306,107 @@ class ProfilPublikController extends Controller
             $rawLaporan = $useTanggal 
                 ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
                 : $query->orderBy('created_at', 'desc')->get();
-            $extraData['laporan'] = $rawLaporan->filter(function($doc) {
+            $filtered = $rawLaporan->filter(function($doc) {
                 $p = trim($doc->file_path ?? '');
                 return $p !== '' && $p !== '-' && $p !== '#';
             })->values();
+
+            if ($filtered->isEmpty()) {
+                $defaultReports = [
+                    [
+                        'judul' => 'Laporan Tahunan Pelaksanaan Program Kerja dan Pengelolaan Keuangan PKTJ Tahun 2025',
+                        'file_path' => 'https://drive.google.com/file/d/1pe1vqLCRemRpA6G5q2VpC0L6KhTGriEo/view?usp=sharing',
+                        'file_name' => 'Laporan Tahunan PKTJ Tahun 2025.pdf',
+                        'file_size' => '2.72 MB',
+                        'file_type' => 'pdf',
+                        'kategori' => 'Laporan Layanan',
+                        'tanggal' => '2025-12-31',
+                        'deskripsi' => 'Laporan Tahunan komprehensif memuat evaluasi program kerja, capaian operasional, dan pengelolaan keuangan Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2025.',
+                        'aktif' => 1,
+                        'bisa_download' => 1,
+                        'is_blurred' => 0
+                    ],
+                    [
+                        'judul' => 'Penyampaian Laporan Tahunan Pelayanan Informasi Publik PKTJ Tahun 2025 ke PPID Utama Kementerian Perhubungan',
+                        'file_path' => 'https://drive.google.com/file/d/1NabSL0TAkoFyp7aEEiyeXbWrkBDbMGyx/view?usp=drive_link',
+                        'file_name' => 'Penyampaian Laporan Permohonan Informasi PKTJ Tahun 2025.pdf',
+                        'file_size' => '1.05 MB',
+                        'file_type' => 'pdf',
+                        'kategori' => 'Laporan Layanan',
+                        'tanggal' => '2025-12-31',
+                        'deskripsi' => 'Surat pengantar resmi nomor UM.006/2/16/PKTJ/2025 dan tanda terima pengiriman laporan tahunan pelayanan informasi publik PKTJ Tegal ke PPID Utama Kementerian Perhubungan.',
+                        'aktif' => 1,
+                        'bisa_download' => 1,
+                        'is_blurred' => 0
+                    ],
+                    [
+                        'judul' => 'Ringkasan Eksekutif Laporan Kinerja Instansi Pemerintah (LKjIP / LAKIP) PKTJ Tahun 2025',
+                        'file_path' => 'https://drive.google.com/file/d/18azvUjvumzPkAN-hTmSWhkWaJrXZFle3/view?usp=drive_link',
+                        'file_name' => 'Ringkasan_Eksekutif_LKjIP_PKTJ_2025.pdf',
+                        'file_size' => '290 KB',
+                        'file_type' => 'pdf',
+                        'kategori' => 'Laporan Layanan',
+                        'tanggal' => '2025-12-31',
+                        'deskripsi' => 'Ringkasan eksekutif akuntabilitas kinerja instansi pemerintah (LKjIP) PKTJ Tahun 2025 yang merangkum pencapaian Indikator Kinerja Utama (IKU).',
+                        'aktif' => 1,
+                        'bisa_download' => 1,
+                        'is_blurred' => 0
+                    ],
+                    [
+                        'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2024',
+                        'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                        'file_name' => 'Laporan_Tahunan_Layanan_Informasi_Publik_PKTJ_2024.pdf',
+                        'file_size' => 'Google Drive Folder',
+                        'file_type' => 'link',
+                        'kategori' => 'Laporan Layanan',
+                        'tanggal' => '2024-12-31',
+                        'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2024.',
+                        'aktif' => 1,
+                        'bisa_download' => 1,
+                        'is_blurred' => 0
+                    ],
+                    [
+                        'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2023',
+                        'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                        'file_name' => 'Laporan_Tahunan_Layanan_Informasi_Publik_PKTJ_2023.pdf',
+                        'file_size' => 'Google Drive Folder',
+                        'file_type' => 'link',
+                        'kategori' => 'Laporan Layanan',
+                        'tanggal' => '2023-12-31',
+                        'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2023.',
+                        'aktif' => 1,
+                        'bisa_download' => 1,
+                        'is_blurred' => 0
+                    ],
+                    [
+                        'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2022',
+                        'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                        'file_name' => 'Laporan_Tahunan_Layanan_Informasi_Publik_PKTJ_2022.pdf',
+                        'file_size' => 'Google Drive Folder',
+                        'file_type' => 'link',
+                        'kategori' => 'Laporan Layanan',
+                        'tanggal' => '2022-12-31',
+                        'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2022.',
+                        'aktif' => 1,
+                        'bisa_download' => 1,
+                        'is_blurred' => 0
+                    ],
+                ];
+
+                try {
+                    foreach ($defaultReports as $rep) {
+                        \App\Models\Dokumen::updateOrCreate(['judul' => $rep['judul']], $rep);
+                    }
+                    $filtered = \App\Models\Dokumen::where('kategori', 'Laporan Layanan')
+                        ->where('aktif', true)
+                        ->orderByRaw('COALESCE(tanggal, created_at) DESC')
+                        ->get();
+                } catch (\Throwable $e) {
+                    $filtered = collect(array_map(fn($d) => (object)$d, $defaultReports));
+                }
+            }
+
+            $extraData['laporan'] = $filtered;
         } elseif ($type === 'laporan-akses' || $type === 'laporan_akses') {
             $query = \App\Models\Dokumen::where(function($q) {
                 $q->whereIn('kategori', ['Laporan Akses', 'Laporan Akses Informasi', 'Laporan Akses Informasi Publik'])
@@ -319,10 +416,55 @@ class ProfilPublikController extends Controller
             $rawAkses = $useTanggal 
                 ? $query->orderByRaw('COALESCE(tanggal, created_at) DESC')->get()
                 : $query->orderBy('created_at', 'desc')->get();
-            $extraData['laporan'] = $rawAkses->filter(function($doc) {
+            $filteredAkses = $rawAkses->filter(function($doc) {
                 $p = trim($doc->file_path ?? '');
                 return $p !== '' && $p !== '-' && $p !== '#';
             })->values();
+
+            if ($filteredAkses->isEmpty()) {
+                $defaultAkses = [
+                    [
+                        'judul' => 'Rekapitulasi Pelayanan Informasi Publik Bulanan PKTJ TA 2024',
+                        'file_path' => 'https://drive.google.com/drive/folders/17uWXBspza1_i7ffnpGS1jCTGD0tv7lCr',
+                        'file_name' => 'Rekapitulasi_Layanan_Informasi_Bulanan_PKTJ_2024.pdf',
+                        'file_size' => 'Google Drive Folder',
+                        'file_type' => 'link',
+                        'kategori' => 'Laporan Akses',
+                        'tanggal' => '2024-12-31',
+                        'deskripsi' => 'Rekapitulasi permohonan informasi publik bulanan Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2024.',
+                        'aktif' => 1,
+                        'bisa_download' => 1,
+                        'is_blurred' => 0
+                    ],
+                    [
+                        'judul' => 'Rekapitulasi Pelayanan Informasi Publik dan Pertanyaan Masuk di Media Sosial PKTJ TA 2026',
+                        'file_path' => 'https://docs.google.com/spreadsheets/d/1q8R8llMqjE8wNysRQ39q8vafcsXcvKxNRSEkIe-JR_c/edit?usp=sharing',
+                        'file_name' => 'LAPORAN pertanyaan masuk di sosmed PKTJ TAHUN 2026.xlsx',
+                        'file_size' => '157 KB',
+                        'file_type' => 'xlsx',
+                        'kategori' => 'Laporan Akses',
+                        'tanggal' => '2026-08-31',
+                        'deskripsi' => 'Rekapitulasi log bulanan permohonan informasi dan pertanyaan masuk di kanal media sosial resmi Politeknik Keselamatan Transportasi Jalan Tahun Berjalan 2026.',
+                        'aktif' => 1,
+                        'bisa_download' => 1,
+                        'is_blurred' => 0
+                    ],
+                ];
+
+                try {
+                    foreach ($defaultAkses as $acc) {
+                        \App\Models\Dokumen::updateOrCreate(['judul' => $acc['judul']], $acc);
+                    }
+                    $filteredAkses = \App\Models\Dokumen::where('kategori', 'Laporan Akses')
+                        ->where('aktif', true)
+                        ->orderByRaw('COALESCE(tanggal, created_at) DESC')
+                        ->get();
+                } catch (\Throwable $e) {
+                    $filteredAkses = collect(array_map(fn($d) => (object)$d, $defaultAkses));
+                }
+            }
+
+            $extraData['laporan'] = $filteredAkses;
 
             // Aggregations for Laporan Akses Visualizations
             $dbYears = collect();

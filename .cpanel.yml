@@ -2,18 +2,29 @@
 deployment:
   tasks:
     - export DEPLOYPATH=/home/ppid2026/Laravel-Core
-    - /bin/cp -r app resources routes database config bootstrap public $DEPLOYPATH/
+    - rm -rf $DEPLOYPATH/app/app $DEPLOYPATH/resources/resources $DEPLOYPATH/routes/routes $DEPLOYPATH/public/public 2>/dev/null || true
+    - /bin/cp -rf app/. $DEPLOYPATH/app/
+    - /bin/cp -rf resources/. $DEPLOYPATH/resources/
+    - /bin/cp -rf routes/. $DEPLOYPATH/routes/
+    - /bin/cp -rf database/. $DEPLOYPATH/database/
+    - /bin/cp -rf config/. $DEPLOYPATH/config/
+    - /bin/cp -rf bootstrap/. $DEPLOYPATH/bootstrap/
+    - /bin/cp -rf public/. $DEPLOYPATH/public/
     - /bin/cp -rf public/index.php /home/ppid2026/public_html/index.php 2>/dev/null || true
     - /bin/cp -rf public/images/. /home/ppid2026/public_html/images/ 2>/dev/null || true
     - /bin/cp -rf public/storage/. /home/ppid2026/public_html/storage/ 2>/dev/null || true
     - /bin/cp -rf public/dokumen/. /home/ppid2026/public_html/dokumen/ 2>/dev/null || true
     - /bin/cp -rf public/Rekapitulasi_Link_Terverifikasi_dan_Tayang_Publik_2026.xlsx /home/ppid2026/public_html/ 2>/dev/null || true
     - /bin/cp -f .cpanel.yml $DEPLOYPATH/.cpanel.yml
-    - cd $DEPLOYPATH && php artisan config:clear
-    - cd $DEPLOYPATH && php artisan cache:clear
-    - cd $DEPLOYPATH && php artisan view:clear
-    - cd $DEPLOYPATH && php artisan route:clear
-    - cd $DEPLOYPATH && php artisan migrate --force
+    - cd $DEPLOYPATH && php artisan config:clear 2>/dev/null || true
+    - cd $DEPLOYPATH && php artisan cache:clear 2>/dev/null || true
+    - cd $DEPLOYPATH && php artisan view:clear 2>/dev/null || true
+    - cd $DEPLOYPATH && php artisan route:clear 2>/dev/null || true
+    - cd $DEPLOYPATH && php artisan migrate --force 2>/dev/null || true
     - cd $DEPLOYPATH && php artisan db:seed --class=RegulasiBpsdmPktjSeeder --force 2>/dev/null || true
     - cd $DEPLOYPATH && php artisan db:seed --class=DefaultMenuSeeder --force 2>/dev/null || true
     - cd $DEPLOYPATH && php artisan db:seed --class=Dip2026SyncSeeder --force 2>/dev/null || true
+    - cd $DEPLOYPATH && /usr/local/bin/ea-php83 artisan view:clear 2>/dev/null || true
+    - cd $DEPLOYPATH && /usr/local/bin/ea-php82 artisan view:clear 2>/dev/null || true
+    - cd $DEPLOYPATH && /usr/local/bin/ea-php83 artisan db:seed --class=Dip2026SyncSeeder --force 2>/dev/null || true
+    - cd $DEPLOYPATH && /usr/local/bin/ea-php82 artisan db:seed --class=Dip2026SyncSeeder --force 2>/dev/null || true
