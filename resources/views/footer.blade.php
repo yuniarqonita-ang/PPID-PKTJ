@@ -61,7 +61,7 @@
             <div class="col-lg-2">
                 <h6 class="fw-bold text-white mb-4">Layanan</h6>
                 <ul class="list-unstyled small">
-                    <li class="mb-2"><a href="{{ route('layanan.maklumat-pelayanan') }}" class="text-decoration-none text-reset opacity-75">Maklumat Pelayanan</a></li>
+                    <li class="mb-2"><a href="{{ route('layanan.maklumat-dan-standar-biaya-layanan') }}" class="text-decoration-none text-reset opacity-75">Maklumat dan Standar Biaya Layanan</a></li>
                     <li class="mb-2"><a href="{{ route('layanan.laporan-layanan') }}" class="text-decoration-none text-reset opacity-75">Laporan Tahunan</a></li>
                     @php
                         $urlPermohonanBpsdm = \App\Models\Dashboard::getValue('link_permohonan_bpsdm') ?: 'https://bpsdm.kemenhub.go.id/ppid/pktj/login';

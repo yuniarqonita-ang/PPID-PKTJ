@@ -62,7 +62,7 @@ class DefaultMenuSeeder extends Seeder
 
         // 3. LAYANAN INFORMASI
         $layananId = $insertParent('LAYANAN INFORMASI', 'layanan-informasi-menu', null, 3);
-        $insertChild($layananId, 'Maklumat Pelayanan & Standar Biaya', 'maklumat-pelayanan-sub', '/layanan-informasi/maklumat', 1);
+        $insertChild($layananId, 'Maklumat dan Standar Biaya Layanan', 'maklumat-dan-standar-biaya-layanan-sub', '/layanan-informasi/maklumat-dan-standar-biaya-layanan', 1);
         $insertChild($layananId, 'Laporan Layanan Informasi Publik', 'laporan-layanan-sub', '/layanan-informasi/laporan', 2);
         $insertChild($layananId, 'Laporan Akses Informasi Publik', 'laporan-akses-sub', '/layanan-informasi/laporan-akses', 3);
         $insertChild($layananId, 'Laporan Survey Kepuasan Layanan', 'laporan-survey-sub', '/layanan-informasi/laporan-survey', 4);
@@ -70,9 +70,9 @@ class DefaultMenuSeeder extends Seeder
 
         // 4. PROSEDUR
         $prosedurId = $insertParent('PROSEDUR', 'prosedur-menu', null, 4);
-        $insertChild($prosedurId, 'Prosedur Permintaan Informasi Publik', 'sop-permintaan-sub', '/prosedur/sop-permintaan', 1);
-        $insertChild($prosedurId, 'Prosedur Penanganan Keberatan', 'sop-keberatan-sub', '/prosedur/sop-keberatan', 2);
-        $insertChild($prosedurId, 'Prosedur Pengajuan Sengketa Informasi Publik', 'sop-sengketa-sub', '/prosedur/sop-sengketa', 3);
+        $insertChild($prosedurId, 'Prosedur Permintaan Informasi Publik', 'prosedur-permintaan-sub', '/prosedur/permintaan-informasi', 1);
+        $insertChild($prosedurId, 'Prosedur Penanganan Keberatan', 'prosedur-keberatan-sub', '/prosedur/penanganan-keberatan', 2);
+        $insertChild($prosedurId, 'Prosedur Pengajuan Sengketa Informasi Publik', 'prosedur-sengketa-sub', '/prosedur/sengketa-informasi', 3);
 
         // 5. FAQ
         $insertParent('FAQ', 'faq-menu', '/faq', 5);

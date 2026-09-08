@@ -89,12 +89,12 @@ Route::redirect('/informasi-setiap-saat.html', '/informasi-publik/setiap-saat');
 Route::redirect('/laporan-akses-informasi-publik.html', '/layanan-informasi/laporan-akses');
 Route::redirect('/laporan-layanan-informasi.html', '/layanan-informasi/laporan');
 Route::redirect('/laporan-survey-kepuasan.html', '/layanan-informasi/laporan-survey');
-Route::redirect('/maklumat-pelayanan.html', '/layanan-informasi/maklumat');
-Route::redirect('/sop-penanganan-keberatan.html', '/prosedur/sop-keberatan');
-Route::redirect('/sop-pendokumentasian.html', '/prosedur/sop-pendokumentasian');
-Route::redirect('/sop-pengajuan-sengketa.html', '/prosedur/sop-sengketa');
-Route::redirect('/sop-pengujian-konsekuensi.html', '/prosedur/sop-pengujian');
-Route::redirect('/sop-permintaan-informasi.html', '/prosedur/sop-permintaan');
+Route::redirect('/maklumat-pelayanan.html', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
+Route::redirect('/sop-penanganan-keberatan.html', '/prosedur/penanganan-keberatan');
+Route::redirect('/sop-pendokumentasian.html', '/prosedur/permintaan-informasi');
+Route::redirect('/sop-pengajuan-sengketa.html', '/prosedur/sengketa-informasi');
+Route::redirect('/sop-pengujian-konsekuensi.html', '/prosedur/permintaan-informasi');
+Route::redirect('/sop-permintaan-informasi.html', '/prosedur/permintaan-informasi');
 Route::redirect('/faq.html', '/faq');
 Route::redirect('/permohonan-informasi.html', '/permohonan-informasi');
 
@@ -103,19 +103,19 @@ Route::redirect('/layanan/laporan-akses', '/layanan-informasi/laporan-akses');
 Route::redirect('/layanan/laporan', '/layanan-informasi/laporan');
 Route::redirect('/layanan/laporan-layanan', '/layanan-informasi/laporan');
 Route::redirect('/layanan/laporan-survey', '/layanan-informasi/laporan-survey');
-Route::redirect('/layanan/maklumat-pelayanan', '/layanan-informasi/maklumat');
-Route::redirect('/maklumat-pelayanan', '/layanan-informasi/maklumat');
-Route::redirect('/program-studi/50-pernyataan-kebijakan-dan-maklumat-pelayanan-pktj', '/layanan-informasi/maklumat');
-Route::redirect('/regulasi/maklumat', '/layanan-informasi/maklumat');
-Route::redirect('/regulasi/maklumat-pelayanan', '/layanan-informasi/maklumat');
-Route::redirect('/regulasi/maklumat-pelayanan-informasi-publik-ppid-pktj-tegal', '/layanan-informasi/maklumat');
+Route::redirect('/layanan/maklumat-pelayanan', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
+Route::redirect('/maklumat-pelayanan', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
+Route::redirect('/program-studi/50-pernyataan-kebijakan-dan-maklumat-pelayanan-pktj', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
+Route::redirect('/regulasi/maklumat', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
+Route::redirect('/regulasi/maklumat-pelayanan', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
+Route::redirect('/regulasi/maklumat-pelayanan-informasi-publik-ppid-pktj-tegal', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
 Route::redirect('/profil/profil-singkat', '/profil/profil-ppid');
 Route::redirect('/profil/visi-dan-misi-ppid', '/profil/visi-misi');
 Route::redirect('/profil/struktur-organisasi-ppid', '/profil/struktur-organisasi');
 Route::redirect('/profil/dasar-hukum-ppid', '/regulasi');
-Route::redirect('/profil/hak-dan-tata-cara-memperoleh-informasi', '/prosedur/sop-permintaan');
+Route::redirect('/profil/hak-dan-tata-cara-memperoleh-informasi', '/prosedur/permintaan-informasi');
 Route::redirect('/layanan-informasi/permohonan', 'https://bpsdm.kemenhub.go.id/ppid/pktj/login');
-Route::redirect('/layanan-informasi/keberatan', '/prosedur/sop-keberatan');
+Route::redirect('/layanan-informasi/keberatan', '/prosedur/penanganan-keberatan');
 Route::get('/profil/statistik-pegawai', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai'])->name('profil.statistik-pegawai');
 Route::get('/statistik-pegawai', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai'])->name('statistik.pegawai');
 Route::get('/statistik-kepegawaian', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai']);
@@ -254,7 +254,10 @@ Route::get('/profil-pejabat', [\App\Http\Controllers\InformasiPublikController::
 Route::get('/profil-struktur-organisasi', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
 
 Route::get('/layanan-informasi/daftar', [ProfilPublikController::class, 'showPage'])->defaults('type', 'layanan-daftar')->defaults('view', 'daftar-informasi-publik')->name('layanan.daftar-informasi');
-Route::get('/layanan-informasi/maklumat', [ProfilPublikController::class, 'showPage'])->defaults('type', 'maklumat-pelayanan')->defaults('view', 'maklumat-pelayanan')->name('layanan.maklumat-pelayanan');
+Route::get('/layanan-informasi/maklumat-dan-standar-biaya-layanan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'maklumat-pelayanan')->defaults('view', 'maklumat-pelayanan')->name('layanan.maklumat-dan-standar-biaya-layanan');
+Route::redirect('/layanan-informasi/maklumat', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
+Route::redirect('/layanan-informasi/maklumat-pelayanan', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
+Route::get('/layanan-informasi/maklumat-legacy', [ProfilPublikController::class, 'showPage'])->defaults('type', 'maklumat-pelayanan')->defaults('view', 'maklumat-pelayanan')->name('layanan.maklumat-pelayanan');
 Route::get('/layanan-informasi/laporan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-layanan')->defaults('view', 'laporan-layanan-informasi')->name('layanan.laporan-layanan');
 Route::get('/layanan-informasi/laporan-akses', [ProfilPublikController::class, 'showPage'])->defaults('type', 'laporan-akses')->defaults('view', 'laporan-akses-informasi-publik')->name('layanan.laporan-akses');
 Route::get('/layanan-informasi/laporan-survey', [\App\Http\Controllers\SurveyController::class, 'index'])->name('layanan.laporan-survey');
@@ -1177,31 +1180,44 @@ Route::name('profil.')->prefix('profil')->group(function () {
     Route::post('/kontak', [ProfilPublikController::class, 'submitKontak'])->name('kontak.submit');
 });
 
-// Prosedur Routes (Public - Dynamic from Controller)
+// Prosedur Routes (Public - Dynamic from Controller, Clean Non-SOP URLs)
 Route::name('prosedur.')->prefix('prosedur')->group(function () {
-    Route::get('/sop-permintaan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_permintaan')->defaults('view', 'sop-permintaan')->name('sop-permintaan');
-    Route::get('/sop-permintaan-informasi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_permintaan')->defaults('view', 'sop-permintaan');
-    
-    Route::get('/sop-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_keberatan')->defaults('view', 'sop-penanganan-keberatan')->name('sop-keberatan');
-    Route::get('/sop-penanganan-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_keberatan')->defaults('view', 'sop-penanganan-keberatan');
-    
-    Route::get('/sop-sengketa', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_sengketa')->defaults('view', 'sop-sengketa')->name('sop-sengketa');
-    Route::get('/sop-pengajuan-sengketa', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_sengketa')->defaults('view', 'sop-sengketa');
-    
-    Route::get('/sop-penetapan', function() { return redirect()->route('prosedur.sop-permintaan'); });
-    Route::get('/sop-penetapan-pemutakhiran', function() { return redirect()->route('prosedur.sop-permintaan'); });
-    
-    Route::get('/sop-pengujian', function() { return redirect()->route('prosedur.sop-permintaan'); });
-    Route::get('/sop-pengujian-konsekuensi', function() { return redirect()->route('prosedur.sop-permintaan'); });
-    
-    Route::get('/sop-pendokumentasian', function() { return redirect()->route('prosedur.sop-permintaan'); });
+    Route::get('/permintaan-informasi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_permintaan')->defaults('view', 'sop-permintaan')->name('permintaan-informasi');
+    Route::get('/prosedur-permintaan-informasi', function() { return redirect('/prosedur/permintaan-informasi', 301); });
+    Route::get('/permintaan', function() { return redirect('/prosedur/permintaan-informasi', 301); });
+
+    Route::get('/penanganan-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_keberatan')->defaults('view', 'sop-penanganan-keberatan')->name('penanganan-keberatan');
+    Route::get('/pengajuan-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_keberatan')->defaults('view', 'sop-penanganan-keberatan')->name('pengajuan-keberatan');
+    Route::get('/prosedur-keberatan', function() { return redirect('/prosedur/penanganan-keberatan', 301); });
+    Route::get('/keberatan', function() { return redirect('/prosedur/penanganan-keberatan', 301); });
+
+    Route::get('/sengketa-informasi', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_sengketa')->defaults('view', 'sop-sengketa')->name('sengketa-informasi');
+    Route::get('/pengajuan-sengketa', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_sengketa')->defaults('view', 'sop-sengketa')->name('pengajuan-sengketa');
+    Route::get('/penyelesaian-sengketa', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_sengketa')->defaults('view', 'sop-sengketa')->name('penyelesaian-sengketa');
+    Route::get('/prosedur-sengketa', function() { return redirect('/prosedur/sengketa-informasi', 301); });
+    Route::get('/sengketa', function() { return redirect('/prosedur/sengketa-informasi', 301); });
+
+    // Legacy SOP Route Redirects (301 Permanent Redirect)
+    Route::get('/sop-permintaan', function() { return redirect('/prosedur/permintaan-informasi', 301); })->name('sop-permintaan');
+    Route::get('/sop-permintaan-informasi', function() { return redirect('/prosedur/permintaan-informasi', 301); });
+    Route::get('/sop-keberatan', function() { return redirect('/prosedur/penanganan-keberatan', 301); })->name('sop-keberatan');
+    Route::get('/sop-penanganan-keberatan', function() { return redirect('/prosedur/penanganan-keberatan', 301); });
+    Route::get('/sop-sengketa', function() { return redirect('/prosedur/sengketa-informasi', 301); })->name('sop-sengketa');
+    Route::get('/sop-pengajuan-sengketa', function() { return redirect('/prosedur/sengketa-informasi', 301); });
+
+    Route::get('/sop-penetapan', function() { return redirect()->route('prosedur.permintaan-informasi'); });
+    Route::get('/sop-penetapan-pemutakhiran', function() { return redirect()->route('prosedur.permintaan-informasi'); });
+    Route::get('/sop-pengujian', function() { return redirect()->route('prosedur.permintaan-informasi'); });
+    Route::get('/sop-pengujian-konsekuensi', function() { return redirect()->route('prosedur.permintaan-informasi'); });
+    Route::get('/sop-pendokumentasian', function() { return redirect()->route('prosedur.permintaan-informasi'); });
     
     // Additional Public Procedures
-    Route::get('/sop-maklumat-pelayanan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_maklumat')->defaults('view', 'sop-generic')->name('sop-maklumat');
-    Route::get('/sop-standar-biaya', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_biaya')->defaults('view', 'sop-generic')->name('sop-biaya');
-    Route::get('/sop-standar-waktu', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_waktu')->defaults('view', 'sop-generic')->name('sop-waktu');
-    Route::get('/sop-alur-permohonan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_alur_permohonan')->defaults('view', 'sop-generic')->name('sop-alur-permohonan');
-    Route::get('/sop-alur-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_alur_keberatan')->defaults('view', 'sop-generic')->name('sop-alur-keberatan');
+    Route::get('/maklumat-pelayanan', function() { return redirect('/layanan-informasi/maklumat-dan-standar-biaya-layanan', 301); });
+    Route::get('/sop-maklumat-pelayanan', function() { return redirect('/layanan-informasi/maklumat-dan-standar-biaya-layanan', 301); });
+    Route::get('/standar-biaya', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_biaya')->defaults('view', 'sop-generic')->name('standar-biaya');
+    Route::get('/standar-waktu', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_waktu')->defaults('view', 'sop-generic')->name('standar-waktu');
+    Route::get('/alur-permohonan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_alur_permohonan')->defaults('view', 'sop-generic')->name('alur-permohonan');
+    Route::get('/alur-keberatan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'sop_alur_keberatan')->defaults('view', 'sop-generic')->name('alur-keberatan');
 });
 
 // Printable Forms

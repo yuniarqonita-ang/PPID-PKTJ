@@ -29,35 +29,21 @@
         </div>
     </div>
 
+    @php
+        $d = $settings ?? [];
+        $rawKonten = ($d['sop_keberatan_isi_konten'] ?? '') . ($d['sop_keberatan_konten'] ?? '') . ($d['sop_keberatan_isi_maklumat'] ?? '');
+        $hasText = !empty(trim(strip_tags($rawKonten)));
+        $hasDocs = isset($laporan) && $laporan->count() > 0;
+        $hasContent = $hasText || $hasDocs || ($d['sop_keberatan_gambar_sop'] ?? null) || ($d['sop_keberatan_gambar_proses'] ?? null);
+    @endphp
+
+    @if($hasContent)
     <div class="container page-container">
         <div class="content-card" data-aos="fade-up" data-aos-delay="100">
-            @php
-                $d = $settings ?? [];
-                $hasContent = ($d['sop_keberatan_isi_konten'] ?? null) ||
-                              ($d['sop_keberatan_konten'] ?? null) ||
-                              ($d['sop_keberatan_gambar_sop'] ?? null) ||
-                              ($d['sop_keberatan_gambar_proses'] ?? null) ||
-                              ($d['sop_keberatan_youtube_link'] ?? null) ||
-                              ($d['sop_keberatan_isi_maklumat'] ?? null) ||
-                              (isset($laporan) && $laporan->count() > 0);
-            @endphp
-
-            @if($hasContent)
-                @include('components.konten-dinamis', ['prefix' => 'sop_keberatan'])
-            @else
-                <div class="empty-state">
-                    <div class="empty-icon">
-                        <i class="fas fa-exclamation-circle"></i>
-                    </div>
-                    <h3>Konten Sedang Disiapkan</h3>
-                    <p>Informasi mengenai SOP Penanganan Keberatan sedang dalam proses penyusunan oleh tim PPID PKTJ.</p>
-                    <a href="{{ route('keberatan.create') }}" class="btn-action">
-                        <i class="fas fa-gavel me-2"></i> Ajukan Keberatan
-                    </a>
-                </div>
-            @endif
+            @include('components.konten-dinamis', ['prefix' => 'sop_keberatan'])
         </div>
     </div>
+    @endif
 
     {{-- ============================================================ --}}
     {{-- DENAH ALUR DIAGRAM SOP KEBERATAN INTERAKTIF (DATABASE-DRIVEN) --}}

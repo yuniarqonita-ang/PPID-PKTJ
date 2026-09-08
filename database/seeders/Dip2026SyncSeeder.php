@@ -732,5 +732,25 @@ Otomotif (TRO), dan Diploma III Teknologi Otomotif (TO).',
         foreach ($setiapSaatData as $item) {
             $insertItem('informasi-setiap-saat', $item);
         }
+
+        // Sinkronisasi menu navigasi
+        $this->call(DefaultMenuSeeder::class);
+
+        // Update Dashboard Settings
+        $updateSetting = function($key, $val) {
+            DB::table('dashboards')->updateOrInsert(
+                ['key' => $key],
+                ['value' => $val, 'type' => 'text', 'updated_at' => now()]
+            );
+        };
+
+        $updateSetting('maklumat_pelayanan_judul_hero', 'Maklumat dan Standar Biaya Layanan');
+        $updateSetting('maklumat_pelayanan_judul_standar', 'Standar Biaya Layanan Informasi');
+        $updateSetting('sop_keb_diagram_judul', 'Prosedur Penanganan Keberatan Informasi');
+        $updateSetting('sop_perm_diagram_judul', 'Prosedur Permohonan Informasi Publik');
+        $updateSetting('sop_seng_diagram_judul', 'Prosedur Pengajuan Sengketa Informasi Publik');
+        
+        // Kosongkan sop_permintaan_konten default agar tidak muncul kotak sampai admin mengisinya
+        DB::table('dashboards')->where('key', 'sop_permintaan_konten')->update(['value' => '']);
     }
 }

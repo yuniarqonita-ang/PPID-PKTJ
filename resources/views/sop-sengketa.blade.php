@@ -29,35 +29,21 @@
         </div>
     </div>
 
+    @php
+        $d = $settings ?? [];
+        $rawKonten = ($d['sop_sengketa_isi_konten'] ?? '') . ($d['sop_sengketa_konten'] ?? '') . ($d['sop_sengketa_isi_maklumat'] ?? '');
+        $hasText = !empty(trim(strip_tags($rawKonten)));
+        $hasDocs = isset($laporan) && $laporan->count() > 0;
+        $hasContent = $hasText || $hasDocs || ($d['sop_sengketa_gambar_sop'] ?? null) || ($d['sop_sengketa_gambar_proses'] ?? null);
+    @endphp
+
+    @if($hasContent)
     <div class="container page-container">
         <div class="content-card" data-aos="fade-up" data-aos-delay="100">
-            @php
-                $d = $settings ?? [];
-                $hasContent = ($d['sop_sengketa_isi_konten'] ?? null) ||
-                              ($d['sop_sengketa_konten'] ?? null) ||
-                              ($d['sop_sengketa_gambar_sop'] ?? null) ||
-                              ($d['sop_sengketa_gambar_proses'] ?? null) ||
-                              ($d['sop_sengketa_youtube_link'] ?? null) ||
-                              ($d['sop_sengketa_isi_maklumat'] ?? null) ||
-                              (isset($laporan) && $laporan->count() > 0);
-            @endphp
-
-            @if($hasContent)
-                @include('components.konten-dinamis', ['prefix' => 'sop_sengketa'])
-            @else
-                <div class="empty-state">
-                    <div class="empty-icon">
-                        <i class="fas fa-balance-scale"></i>
-                    </div>
-                    <h3>Konten Sedang Disiapkan</h3>
-                    <p>Informasi mengenai SOP Pengajuan Sengketa sedang dalam proses penyusunan oleh tim PPID PKTJ.</p>
-                    <a href="{{ route('layanan.daftar-informasi') }}" class="btn-action">
-                        <i class="fas fa-info-circle me-2"></i> Lihat Daftar Informasi
-                    </a>
-                </div>
-            @endif
+            @include('components.konten-dinamis', ['prefix' => 'sop_sengketa'])
         </div>
     </div>
+    @endif
 
     {{-- ============================================================ --}}
     {{-- DENAH ALUR DIAGRAM SOP SENGKETA INTERAKTIF (DATABASE-DRIVEN)  --}}

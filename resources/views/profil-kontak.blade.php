@@ -575,6 +575,211 @@
             color: var(--primary-dark);
             margin: 0;
         }
+
+        /* ============================================================ */
+        /* UNIQUE SHOWCASE STYLES: DESK MEJA LAYANAN PPID              */
+        /* ============================================================ */
+        .desk-layanan-hero-card {
+            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
+            border-radius: 32px;
+            padding: 38px 42px;
+            box-shadow: 0 25px 60px rgba(0, 43, 92, 0.22);
+            color: white;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+        }
+        .desk-layanan-hero-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -20%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 193, 7, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        .desk-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            color: #ffc107;
+            padding: 6px 16px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .desk-title {
+            font-size: clamp(1.35rem, 2.2vw, 1.85rem);
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            color: white;
+        }
+        .desk-subtitle {
+            color: rgba(255, 255, 255, 0.82);
+            font-size: 13.5px;
+            max-width: 680px;
+            line-height: 1.55;
+        }
+        .schedule-pill-card {
+            background: rgba(255, 255, 255, 0.96);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
+            border-radius: 24px;
+            padding: 24px;
+            color: #1e293b;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+        .schedule-pill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+            background: #ffffff;
+        }
+        .schedule-pill-card.location-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            color: white;
+        }
+        .schedule-pill-card.location-card:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 193, 7, 0.5);
+        }
+        .schedule-card-head {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 18px;
+        }
+        .schedule-icon-circle {
+            width: 46px;
+            height: 46px;
+            border-radius: 14px;
+            background: #e0f2fe;
+            color: #0284c7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+        .schedule-icon-circle.jumat {
+            background: #fef3c7;
+            color: #d97706;
+        }
+        .schedule-icon-circle.location {
+            background: rgba(239, 68, 68, 0.2);
+            color: #f87171;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        .schedule-day-tag {
+            font-size: 10px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: #0284c7;
+            display: block;
+        }
+        .schedule-day-tag.jumat { color: #d97706; }
+        .schedule-day-tag.location { color: #fca5a5; }
+        .schedule-day-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            margin: 0;
+            color: #0f172a;
+        }
+        .schedule-pill-card.location-card .schedule-day-title {
+            color: white;
+        }
+        .schedule-times-box {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            padding: 12px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 14px;
+        }
+        .schedule-session-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            font-size: 12.5px;
+        }
+        .session-label {
+            color: #64748b;
+            font-weight: 600;
+        }
+        .session-time {
+            font-weight: 800;
+            color: #002b5c;
+            background: #ffffff;
+            padding: 3px 10px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 0.3px;
+        }
+        .schedule-card-foot {
+            font-size: 11px;
+            color: #64748b;
+            font-weight: 600;
+            margin-top: auto;
+        }
+        .location-address {
+            font-size: 13px;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 18px;
+        }
+        .btn-desk-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 16px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 800;
+            text-decoration: none !important;
+            transition: all 0.25s ease;
+            font-family: 'Outfit', sans-serif;
+            letter-spacing: 0.3px;
+        }
+        .btn-desk-action.primary {
+            background: #ffc107;
+            color: #002b5c;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.3);
+        }
+        .btn-desk-action.primary:hover {
+            background: #f59e0b;
+            color: #001a38;
+            transform: translateY(-2px);
+        }
+        .btn-desk-action.secondary {
+            background: rgba(255, 255, 255, 0.15);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .btn-desk-action.secondary:hover {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            transform: translateY(-2px);
+        }
+        @media (max-width: 767px) {
+            .desk-layanan-hero-card { padding: 26px 20px; border-radius: 24px; }
+        }
     </style>
     @include('components.public-page-style')
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -598,6 +803,115 @@
     </div>
 
     <div class="container main-container mb-5">
+        <!-- ============================================================ -->
+        <!-- SHOWCASE CARD: JAM OPERASIONAL & DESK MEJA LAYANAN FISIK PPID -->
+        <!-- ============================================================ -->
+        <div class="desk-layanan-hero-card mb-5 animate__animated animate__fadeInUp">
+            <div class="desk-layanan-inner position-relative" style="z-index: 2;">
+                <!-- TOP HEADER -->
+                <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3 pb-4 mb-4 border-bottom border-white border-opacity-15">
+                    <div>
+                        <div class="desk-badge">
+                            <i class="fas fa-headset text-warning"></i> JAM PELAYANAN DESK MEJA LAYANAN PPID
+                        </div>
+                        <h2 class="desk-title outfit mb-1">Waktu Operasional Pelayanan Langsung (Tatap Muka)</h2>
+                        <p class="desk-subtitle mb-0">Layanan tatap muka pemberian informasi publik, konsultasi, dan penerimaan permohonan langsung di Kampus PKTJ.</p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="badge bg-success bg-opacity-25 text-white border border-success border-opacity-50 px-3.5 py-2 rounded-pill fw-bold" style="font-size: 11.5px; letter-spacing: 0.5px;">
+                            <i class="fas fa-circle-check text-warning me-1.5"></i> Jam Layanan Aktif
+                        </span>
+                    </div>
+                </div>
+
+                <!-- 3 CARDS: SENIN-KAMIS, JUMAT, LOKASI FISIK -->
+                <div class="row g-4">
+                    <!-- Senin s/d Kamis -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="schedule-pill-card h-100">
+                            <div class="schedule-card-head">
+                                <div class="schedule-icon-circle">
+                                    <i class="fas fa-calendar-week"></i>
+                                </div>
+                                <div>
+                                    <span class="schedule-day-tag">Senin s/d Kamis</span>
+                                    <h4 class="schedule-day-title">Hari Kerja Reguler</h4>
+                                </div>
+                            </div>
+                            <div class="schedule-times-box">
+                                <div class="schedule-session-row">
+                                    <div class="session-label"><i class="fas fa-sun text-warning me-1.5"></i> Sesi Pagi</div>
+                                    <div class="session-time">08.00 - 12.00 WIB</div>
+                                </div>
+                                <div class="schedule-session-row">
+                                    <div class="session-label"><i class="fas fa-cloud-sun text-primary me-1.5"></i> Sesi Siang</div>
+                                    <div class="session-time">13.00 - 16.00 WIB</div>
+                                </div>
+                            </div>
+                            <div class="schedule-card-foot">
+                                <i class="fas fa-utensils me-1 text-muted"></i> Istirahat: 12.00 - 13.00 WIB
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hari Jumat -->
+                    <div class="col-md-6 col-lg-4">
+                        <div class="schedule-pill-card h-100">
+                            <div class="schedule-card-head">
+                                <div class="schedule-icon-circle jumat">
+                                    <i class="fas fa-mosque"></i>
+                                </div>
+                                <div>
+                                    <span class="schedule-day-tag jumat">Hari Jumat</span>
+                                    <h4 class="schedule-day-title">Hari Kerja Khusus</h4>
+                                </div>
+                            </div>
+                            <div class="schedule-times-box">
+                                <div class="schedule-session-row">
+                                    <div class="session-label"><i class="fas fa-sun text-warning me-1.5"></i> Sesi Pagi</div>
+                                    <div class="session-time">08.00 - 11.30 WIB</div>
+                                </div>
+                                <div class="schedule-session-row">
+                                    <div class="session-label"><i class="fas fa-cloud-sun text-primary me-1.5"></i> Sesi Siang</div>
+                                    <div class="session-time">13.30 - 16.30 WIB</div>
+                                </div>
+                            </div>
+                            <div class="schedule-card-foot">
+                                <i class="fas fa-clock me-1 text-muted"></i> Istirahat & Sholat: 11.30 - 13.30 WIB
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Lokasi Meja Layanan Fisik -->
+                    <div class="col-lg-4">
+                        <div class="schedule-pill-card location-card h-100">
+                            <div class="schedule-card-head">
+                                <div class="schedule-icon-circle location">
+                                    <i class="fas fa-location-dot"></i>
+                                </div>
+                                <div>
+                                    <span class="schedule-day-tag location">Lokasi Fisik</span>
+                                    <h4 class="schedule-day-title">Desk Meja Layanan</h4>
+                                </div>
+                            </div>
+                            <p class="location-address">
+                                <strong class="text-white">Kampus II PKTJ Margadana</strong><br>
+                                Jl. Abdul Syukur No. 17, Margadana, Kota Tegal, Jawa Tengah 52143.
+                            </p>
+                            <div class="d-flex flex-column gap-2 mt-auto">
+                                <a href="https://maps.google.com/?q=Politeknik+Keselamatan+Transportasi+Jalan+Kampus+2+Margadana" target="_blank" class="btn-desk-action primary">
+                                    <i class="fas fa-map-location-dot me-1.5"></i> Petunjuk Arah Google Maps
+                                </a>
+                                <a href="https://bpsdm.kemenhub.go.id/ppid/pktj/login" target="_blank" class="btn-desk-action secondary">
+                                    <i class="fas fa-file-signature me-1.5"></i> Ajukan Permohonan Online
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="premium-card p-4 p-md-5 animate__animated animate__fadeInUp">
             
             <!-- Success Alert -->

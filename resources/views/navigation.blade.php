@@ -333,6 +333,19 @@
                                         $childNama = $child->nama;
                                         $childUrl = $child->url;
                                         $childNama = str_ireplace('SOP', 'Prosedur', $childNama);
+                                        if (str_contains(strtolower($childNama), 'maklumat')) {
+                                            $childNama = 'Maklumat dan Standar Biaya Layanan';
+                                            $childUrl = '/layanan-informasi/maklumat-dan-standar-biaya-layanan';
+                                        }
+                                        if (str_contains($childUrl ?? '', 'sop-permintaan')) {
+                                            $childUrl = '/prosedur/permintaan-informasi';
+                                        }
+                                        if (str_contains($childUrl ?? '', 'sop-keberatan')) {
+                                            $childUrl = '/prosedur/penanganan-keberatan';
+                                        }
+                                        if (str_contains($childUrl ?? '', 'sop-sengketa')) {
+                                            $childUrl = '/prosedur/sengketa-informasi';
+                                        }
                                         if ($child->slug === 'jdih-sub' || str_contains(strtolower($child->slug), 'jdih') || str_contains(strtolower($childUrl ?? ''), 'jdih') || str_contains(strtolower($childNama), 'jdih')) {
                                             $childNama = 'JDIH BPSDM Perhubungan';
                                             $childUrl = 'https://bpsdm.kemenhub.go.id/jdih/';

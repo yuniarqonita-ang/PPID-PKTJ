@@ -23,7 +23,7 @@
             ]
         ],
         'sop_keb' => [
-            'judul'    => 'SOP Penanganan Keberatan Informasi',
+            'judul'    => 'Prosedur Penanganan Keberatan Informasi',
             'subtitle' => 'Alur Penanganan Keberatan atas Penolakan atau Ketidakpuasan Layanan Informasi Publik',
             'steps' => [
                 1 => ['nomor'=>'01','judul'=>'Penerimaan Surat Keberatan','deskripsi'=>'Petugas menerima surat dan formulir pengajuan keberatan informasi dari masyarakat','waktu'=>'10 Menit','aktor'=>'Masyarakat / Pemohon','icon'=>'fas fa-file-circle-exclamation','warna'=>'#dc2626'],
@@ -65,6 +65,10 @@
     $currentDefaults = $allDefaults[$pKey] ?? $allDefaults['sop_perm'];
     $diagJudul    = (array_key_exists("{$pKey}_diagram_judul", $d) && !empty(trim($d["{$pKey}_diagram_judul"])))       ? $d["{$pKey}_diagram_judul"]    : $currentDefaults['judul'];
     $diagSubtitle = (array_key_exists("{$pKey}_diagram_subtitle", $d) && !empty(trim($d["{$pKey}_diagram_subtitle"]))) ? $d["{$pKey}_diagram_subtitle"] : $currentDefaults['subtitle'];
+
+    // Pastikan kata SOP diubah menjadi Prosedur
+    $diagJudul = trim(preg_replace('/\bSOP\b/i', 'Prosedur', $diagJudul));
+    $diagSubtitle = trim(preg_replace('/\bSOP\b/i', 'Prosedur', $diagSubtitle));
 
     $steps = [];
     for ($i = 1; $i <= 7; $i++) {
@@ -118,16 +122,13 @@
         overflow: hidden;
     }
 
-    /* TOP HEADER BANNER & LEGEND */
+    /* TOP HEADER BANNER */
     .zigzag-header-row {
-        display: flex; flex-direction: column; gap: 24px;
-        margin-bottom: 50px; position: relative; z-index: 5;
-    }
-    @media (min-width: 992px) {
-        .zigzag-header-row { flex-direction: row; align-items: flex-start; justify-content: space-between; }
+        display: flex; flex-direction: column; align-items: center; text-align: center;
+        margin-bottom: 45px; position: relative; z-index: 5;
     }
 
-    .zigzag-title-box { max-width: 600px; }
+    .zigzag-title-box { max-width: 800px; margin: 0 auto; text-align: center; }
     .zigzag-badge-pill {
         display: inline-flex; align-items: center; gap: 8px;
         background: #e0f2fe; color: #0284c7; border: 1.5px solid #bae6fd;
@@ -142,27 +143,6 @@
     .zigzag-title-text span { color: #004a99; }
     .zigzag-subtitle-text {
         font-size: 15px; color: #475569; font-weight: 500; line-height: 1.55; margin: 0;
-    }
-
-    /* FLOATING LEGEND CARD */
-    .zigzag-legend-card {
-        background: #ffffff; border: 2px solid #e2e8f0;
-        border-radius: 26px; padding: 22px 28px; min-width: 270px;
-        box-shadow: 0 12px 30px rgba(0,0,0,0.04);
-    }
-    .zigzag-legend-head {
-        font-size: 11.5px; font-weight: 900; text-transform: uppercase;
-        letter-spacing: 2px; color: #004a99; margin-bottom: 14px;
-        display: flex; align-items: center; gap: 8px;
-    }
-    .zigzag-legend-grid {
-        display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px;
-    }
-    .zigzag-legend-chip {
-        display: flex; align-items: center; gap: 10px;
-        background: #f8fafc; border: 1.5px solid #e2e8f0;
-        padding: 8px 14px; border-radius: 14px; font-size: 12px;
-        font-weight: 800; color: #1e293b;
     }
 
     /* ============================================================ */
@@ -291,33 +271,16 @@
 <div class="container">
     <div class="zigzag-sop-wrapper" data-aos="fade-up" data-aos-delay="100">
         
-        <!-- HEADER ROW: TITLE BANNER (LEFT) + LEGEND CARD (RIGHT) -->
+        <!-- HEADER ROW: TITLE BANNER (CENTERED) -->
         <div class="zigzag-header-row">
             <div class="zigzag-title-box">
                 <div class="zigzag-badge-pill">
-                    <i class="fas fa-sitemap"></i> Bagan Struktur Alur Organisasi
+                    <i class="fas fa-sitemap"></i> Alur Prosedur Layanan
                 </div>
                 <h1 class="zigzag-title-text">
                     {{ Str::beforeLast($diagJudul, ' ') }} <span>{{ Str::afterLast($diagJudul, ' ') }}</span>
                 </h1>
                 <p class="zigzag-subtitle-text">{{ $diagSubtitle }}</p>
-            </div>
-
-            <!-- Legend Box -->
-            <div class="zigzag-legend-card">
-                <div class="zigzag-legend-head">
-                    <i class="fas fa-tags"></i> Keterangan Simbol &amp; Legenda
-                </div>
-                <div class="zigzag-legend-grid">
-                    @foreach($legend as $leg)
-                    @if(!empty(trim($leg['nama'])))
-                    <div class="zigzag-legend-chip">
-                        <i class="{{ $leg['icon'] }}" style="color: {{ $leg['warna'] }};"></i>
-                        <span>{{ $leg['nama'] }}</span>
-                    </div>
-                    @endif
-                    @endforeach
-                </div>
             </div>
         </div>
 

@@ -40,7 +40,7 @@
     <div class="hero-section">
         <div class="container hero-content text-center">
             <div class="hero-badge">
-                <i class="fas fa-file-signature me-2"></i> Prosedur & SOP
+                <i class="fas fa-file-signature me-2"></i> Prosedur Layanan
             </div>
             <h1 class="hero-title outfit">{{ $judul }}</h1>
             <p class="hero-tagline">{{ $tagline }}</p>

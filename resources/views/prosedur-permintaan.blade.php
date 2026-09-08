@@ -29,32 +29,21 @@
         </div>
     </div>
 
+    @php
+        $d = $settings ?? [];
+        $rawKonten = ($d['sop_permintaan_isi_konten'] ?? '') . ($d['sop_permintaan_konten'] ?? '') . ($d['sop_permintaan_isi_maklumat'] ?? '');
+        $hasText = !empty(trim(strip_tags($rawKonten)));
+        $hasDocs = isset($laporan) && $laporan->count() > 0;
+        $hasContent = $hasText || $hasDocs;
+    @endphp
+
+    @if($hasContent)
     <div class="container page-container">
         <div class="content-card" data-aos="fade-up" data-aos-delay="100">
-            @php
-                $d = $settings ?? [];
-                $hasContent = ($d['sop_permintaan_isi_konten'] ?? null) ||
-                              ($d['sop_permintaan_konten'] ?? null) ||
-                              ($d['sop_permintaan_isi_maklumat'] ?? null) ||
-                              (isset($laporan) && $laporan->count() > 0);
-            @endphp
-
-            @if($hasContent)
-                @include('components.konten-dinamis', ['prefix' => 'sop_permintaan'])
-            @else
-                <div class="empty-state">
-                    <div class="empty-icon">
-                        <i class="fas fa-file-alt"></i>
-                    </div>
-                    <h3>Konten Sedang Disiapkan</h3>
-                    <p>Informasi mengenai Prosedur Permintaan Informasi sedang dalam proses penyusunan oleh tim PPID PKTJ.</p>
-                    <a href="https://bpsdm.kemenhub.go.id/ppid/setbpsdm/login" target="_blank" class="btn-action btn-action-gold">
-                        <i class="fas fa-paper-plane"></i> Ajukan Permohonan Sekarang
-                    </a>
-                </div>
-            @endif
+            @include('components.konten-dinamis', ['prefix' => 'sop_permintaan'])
         </div>
     </div>
+    @endif
 
     @include('footer')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
