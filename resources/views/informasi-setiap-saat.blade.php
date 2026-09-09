@@ -243,6 +243,14 @@
                             </td>
                         </tr>
                         @endforeach
+                        @else
+                        <tr>
+                            <td colspan="9" class="text-center py-5 text-muted">
+                                <i class="fas fa-folder-open fa-3x mb-3 text-secondary opacity-50 d-block"></i>
+                                <h6 class="fw-bold mb-1">Dokumen Sedang Dalam Proses Pemutakhiran</h6>
+                                <p class="small text-muted mb-0">Daftar informasi saat ini sedang diverifikasi dan dimutakhirkan oleh Tim PPID Pelaksana PKTJ Tegal.</p>
+                            </td>
+                        </tr>
                         @endif
                     </tbody>
                 </table>
