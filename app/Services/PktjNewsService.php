@@ -31,57 +31,33 @@ class PktjNewsService
     /**
      * Mengambil seluruh daftar berita realtime dari website pktj.ac.id
      */
-    public function getLiveNews(int $limit = 100, bool $forceRefresh = false): array
+    public function getLiveNews(int $limit = 500, bool $forceRefresh = false): array
     {
-        $cacheKey = 'pktj_live_all_news_v5';
+        $cacheKey = 'pktj_live_all_news_v6';
 
         if ($forceRefresh) {
             Cache::forget($cacheKey);
+            Cache::forget('pktj_live_all_news_v5');
             Cache::forget('pktj_live_all_news_v4');
-            Cache::forget('pktj_live_all_news_v3');
         }
 
         return Cache::remember($cacheKey, $this->cacheTtlSeconds, function () use ($limit) {
-            // 1. Coba ambil langsung dari remote PKTJ (RSS Feed + Web) untuk mendapatkan berita paling mutakhir
-            $remote = $this->fetchFastFromPktj();
+            // 1. Ambil seluruh berita permanen dari database lokal
+            $local = $this->fetchFromLocalDatabase($limit);
 
-            if (!empty($remote)) {
-                // Auto-sync top artikel terbaru ke database lokal (phpMyAdmin) agar selalu sinkron
-                $this->quickSyncToDatabase($remote);
-
-                // Ambil juga dari database lokal (termasuk berita manual/lokal yang dibuat admin)
-                $local = $this->fetchFromLocalDatabase($limit);
-
-                $merged = [];
-                $seenTitles = [];
-
-                // 1. Utamakan remote untuk berita dari pktj.ac.id
-                foreach ($remote as $r) {
-                    $titleKey = Str::slug($r['judul'] ?? '');
-                    if (!empty($titleKey) && !isset($seenTitles[$titleKey])) {
-                        $seenTitles[$titleKey] = true;
-                        $merged[] = $r;
-                    }
+            // 2. Coba fetch cepat dari remote PKTJ (RSS Feed + Halaman 1) untuk deteksi artikel baru
+            try {
+                $remote = $this->fetchFastFromPktj();
+                if (!empty($remote)) {
+                    // Auto-sync artikel baru ke database secara permanen
+                    $this->quickSyncToDatabase($remote);
+                    // Ambil ulang data lokal yang sudah terupdate
+                    $local = $this->fetchFromLocalDatabase($limit);
                 }
-
-                // 2. Tambahkan berita lokal/manual yang belum ada
-                foreach ($local as $l) {
-                    $titleKey = Str::slug($l['judul'] ?? '');
-                    if (!empty($titleKey) && !isset($seenTitles[$titleKey])) {
-                        $seenTitles[$titleKey] = true;
-                        $merged[] = $l;
-                    }
-                }
-
-                usort($merged, function ($a, $b) {
-                    return strcmp($b['tanggal'], $a['tanggal']);
-                });
-
-                return array_slice($merged, 0, $limit);
+            } catch (\Throwable $e) {
+                Log::info('PKTJ fast fetch skipped: ' . $e->getMessage());
             }
 
-            // 2. Fallback jika jaringan ke pktj.ac.id sedang lambat/offline: ambil dari database lokal
-            $local = $this->fetchFromLocalDatabase($limit);
             return array_slice($local, 0, $limit);
         });
     }
@@ -198,9 +174,9 @@ class PktjNewsService
     /**
      * Ambil berita berdasarkan kategori
      */
-    public function getNewsByCategory(?string $category = null, int $limit = 100): array
+    public function getNewsByCategory(?string $category = null, int $limit = 500): array
     {
-        $allNews = $this->getLiveNews($limit * 2);
+        $allNews = $this->getLiveNews($limit);
 
         if (!$category || strtolower($category) === 'semua' || strtolower($category) === 'all') {
             return array_slice($allNews, 0, $limit);
@@ -432,7 +408,7 @@ class PktjNewsService
     public function quickSyncToDatabase(array $articles): void
     {
         try {
-            foreach (array_slice($articles, 0, 20) as $art) {
+            foreach ($articles as $art) {
                 $link = $art['link'] ?? null;
                 $judul = $art['judul'] ?? null;
                 if (!$judul) continue;
@@ -573,9 +549,12 @@ class PktjNewsService
         
         $deleted = 0;
         foreach ($dummyKeywords as $keyword) {
-            $deleted += Berita::where('judul', 'like', "%{$keyword}%")
-                ->orWhere('konten', 'like', "%{$keyword}%")
-                ->orWhere('gambar', 'like', "%{$keyword}%")
+            $deleted += Berita::where('is_external', false)
+                ->where(function($q) use ($keyword) {
+                    $q->where('judul', 'like', "%{$keyword}%")
+                      ->orWhere('konten', 'like', "%{$keyword}%")
+                      ->orWhere('gambar', 'like', "%{$keyword}%");
+                })
                 ->delete();
         }
 
@@ -585,7 +564,7 @@ class PktjNewsService
     /**
      * Ambil dari database lokal
      */
-    protected function fetchFromLocalDatabase(int $limit = 100): array
+    protected function fetchFromLocalDatabase(int $limit = 500): array
     {
         try {
             $beritas = Berita::where('aktif', true)

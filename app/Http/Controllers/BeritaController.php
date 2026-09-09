@@ -71,6 +71,9 @@ class BeritaController extends Controller
     public function edit($id)
     {
         $berita = Berita::findOrFail($id);
+        if ($berita->is_external) {
+            return redirect()->route('admin.berita.index')->with('error', 'Berita sinkronisasi PKTJ.ac.id bersifat permanen dan tidak dapat diedit secara manual.');
+        }
         return view('admin.berita.edit', compact('berita'));
     }
 
@@ -118,6 +121,9 @@ class BeritaController extends Controller
     public function destroy($id)
     {
         $berita = Berita::findOrFail($id);
+        if ($berita->is_external) {
+            return redirect()->route('admin.berita.index')->with('error', 'Berita resmi dari PKTJ.ac.id dilindungi secara permanen dan tidak dapat dihapus.');
+        }
         if ($berita->gambar && Storage::disk('public')->exists($berita->gambar)) {
             Storage::disk('public')->delete($berita->gambar);
         }
@@ -174,7 +180,7 @@ class BeritaController extends Controller
 
         // Ambil semua berita realtime dari seluruh kategori PKTJ.ac.id
         try {
-            $allNews = $service->getNewsByCategory($kategoriAktif, 200);
+            $allNews = $service->getNewsByCategory($kategoriAktif, 1000);
         } catch (\Throwable $e) {
             $allNews = [];
         }
@@ -182,9 +188,12 @@ class BeritaController extends Controller
         if (empty($allNews)) {
             $localQuery = Berita::where('aktif', true)->orderBy('tanggal', 'desc')->orderBy('created_at', 'desc');
             if ($kategoriAktif && strtolower($kategoriAktif) !== 'semua') {
-                $localQuery->where('kategori', 'like', "%{$kategoriAktif}%");
+                $localQuery->where(function($q) use ($kategoriAktif) {
+                    $q->where('kategori', 'like', "%{$kategoriAktif}%")
+                      ->orWhere('judul', 'like', "%{$kategoriAktif}%");
+                });
             }
-            $allNews = $localQuery->take(200)->get()->map(function($b) {
+            $allNews = $localQuery->take(1000)->get()->map(function($b) {
                 $img = $b->gambar;
                 if (!empty($img) && !str_starts_with($img, 'http')) {
                     $img = asset('storage/' . $img);
@@ -219,9 +228,9 @@ class BeritaController extends Controller
             $allNews = array_values($allNews);
         }
 
-        // Pagination array manual
+        // Pagination array manual (12 item per halaman)
         $page = (int) $request->query('page', 1);
-        $perPage = 9;
+        $perPage = 12;
         $totalItems = count($allNews);
         $offset = ($page - 1) * $perPage;
         $itemsForCurrentPage = array_slice($allNews, $offset, $perPage);

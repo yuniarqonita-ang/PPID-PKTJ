@@ -159,16 +159,22 @@
                             </td>
                             <td class="px-8 py-6">
                                 <div class="flex justify-center items-center gap-2">
-                                    <a href="{{ route('admin.berita.edit', $berita) }}" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-[#004a99] hover:border-[#004a99] hover:bg-blue-50 transition-all flex items-center justify-center group/btn shadow-sm" title="Edit Berita">
-                                        <i class="fas fa-edit text-sm group-hover/btn:scale-110"></i>
-                                    </a>
-                                    <form action="{{ route('admin.berita.destroy', $berita) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all flex items-center justify-center group/btn shadow-sm" title="Hapus Berita">
-                                            <i class="fas fa-trash-alt text-sm group-hover/btn:scale-110"></i>
-                                        </button>
-                                    </form>
+                                    @if($berita->is_external)
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-100 text-slate-500 rounded-xl text-[10px] font-bold border border-slate-200 shadow-sm" title="Berita otomatis dari PKTJ.ac.id dilindungi secara permanen">
+                                            <i class="fas fa-lock text-amber-500"></i> Permanen (PKTJ)
+                                        </span>
+                                    @else
+                                        <a href="{{ route('admin.berita.edit', $berita) }}" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-[#004a99] hover:border-[#004a99] hover:bg-blue-50 transition-all flex items-center justify-center group/btn shadow-sm" title="Edit Berita">
+                                            <i class="fas fa-edit text-sm group-hover/btn:scale-110"></i>
+                                        </a>
+                                        <form action="{{ route('admin.berita.destroy', $berita) }}" method="POST" class="inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="w-10 h-10 rounded-xl bg-white border border-slate-200 text-slate-400 hover:text-red-500 hover:border-red-200 hover:bg-red-50 transition-all flex items-center justify-center group/btn shadow-sm" title="Hapus Berita">
+                                                <i class="fas fa-trash-alt text-sm group-hover/btn:scale-110"></i>
+                                            </button>
+                                        </form>
+                                    @endif
                                 </div>
                             </td>
                         </tr>
