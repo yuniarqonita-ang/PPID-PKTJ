@@ -34,8 +34,8 @@ if (!function_exists('has_valid_document')) {
             return false;
         }
 
-        // Web URLs (Google Drive, Cloud links, etc.)
-        if (str_starts_with($clean, 'http://') || str_starts_with($clean, 'https://')) {
+        // Web URLs (Google Drive, Cloud links, internal routes, etc.)
+        if (str_starts_with($clean, 'http://') || str_starts_with($clean, 'https://') || str_starts_with($clean, '/')) {
             return true;
         }
 

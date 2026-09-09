@@ -209,15 +209,15 @@
                                     }
                                 @endphp
 
-                                @if(count($allLinks) === 1)
-                                    @php
-                                        $singleL = $allLinks[0];
-                                        $isWeb = str_starts_with($singleL, 'http://') || str_starts_with($singleL, 'https://');
-                                    @endphp
-                                    @if($isWeb)
-                                        <a href="{{ $singleL }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                            Disini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                        </a>
+                                    @if(count($allLinks) === 1)
+                                        @php
+                                            $singleL = $allLinks[0];
+                                            $isWeb = str_starts_with($singleL, 'http://') || str_starts_with($singleL, 'https://') || str_starts_with($singleL, '/');
+                                        @endphp
+                                        @if($isWeb)
+                                            <a href="{{ $singleL }}" target="{{ str_starts_with($singleL, '/') ? '_self' : '_blank' }}" rel="noopener noreferrer" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
+                                                Di Sini <i class="fas {{ str_starts_with($singleL, '/') ? 'fa-arrow-right' : 'fa-arrow-up-right-from-square' }} ms-1"></i>
+                                            </a>
                                     @elseif(has_valid_document($singleL))
                                         <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" 
                                                 style="font-size: 11.5px;"
