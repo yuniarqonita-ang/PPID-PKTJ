@@ -480,19 +480,25 @@
                                                 </div>
                                                 @if(has_valid_document($item->file_path))
                                                 <div class="d-flex gap-2 flex-wrap">
-                                                    @if(is_previewable($item->file_path))
-                                                     <button type="button" 
-                                                            class="btn-download-premium" 
-                                                            data-bs-toggle="modal" 
-                                                            data-bs-target="#previewModal" 
-                                                            data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
-                                                        <i class="fas fa-eye"></i> Lihat Dokumen
-                                                    </button>
-                                                    @endif
-                                                    @if($item->bisa_download)
-                                                    <a href="{{ route('download.file', ['model' => 'berkala', 'id' => $item->id]) }}" class="btn-download-premium" style="background: #198754; color: white;">
-                                                        <i class="fas fa-download"></i> Unduh
+                                                    @if(str_starts_with($item->file_path, 'http://') || str_starts_with($item->file_path, 'https://'))
+                                                    <a href="{{ $item->file_path }}" target="_blank" rel="noopener noreferrer" class="btn-download-premium">
+                                                        <i class="fas fa-arrow-up-right-from-square me-1"></i> Buka Dokumen
                                                     </a>
+                                                    @else
+                                                        @if(is_previewable($item->file_path))
+                                                         <button type="button" 
+                                                                class="btn-download-premium" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#previewModal" 
+                                                                data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
+                                                            <i class="fas fa-eye"></i> Lihat Dokumen
+                                                        </button>
+                                                        @endif
+                                                        @if($item->bisa_download)
+                                                        <a href="{{ route('download.file', ['model' => 'berkala', 'id' => $item->id]) }}" class="btn-download-premium" style="background: #198754; color: white;">
+                                                            <i class="fas fa-download"></i> Unduh
+                                                        </a>
+                                                        @endif
                                                     @endif
                                                 </div>
                                                 @endif

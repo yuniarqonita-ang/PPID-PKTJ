@@ -289,13 +289,20 @@
                                                 <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->format('d M Y') }}
                                             </span>
                                             @if(has_valid_document($item->file_path))
-                                            <button type="button" 
-                                                    class="btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold" 
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#previewModal" 
-                                                    data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
-                                                <i class="fas fa-eye me-1"></i> Lihat Dokumen
-                                            </button>
+                                                @if(str_starts_with($item->file_path, 'http://') || str_starts_with($item->file_path, 'https://'))
+                                                <a href="{{ $item->file_path }}" target="_blank" rel="noopener noreferrer" 
+                                                   class="btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold">
+                                                    <i class="fas fa-arrow-up-right-from-square me-1"></i> Buka Dokumen
+                                                </a>
+                                                @else
+                                                <button type="button" 
+                                                        class="btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#previewModal" 
+                                                        data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
+                                                    <i class="fas fa-eye me-1"></i> Lihat Dokumen
+                                                </button>
+                                                @endif
                                             @endif
                                         </div>
                                     </div>
