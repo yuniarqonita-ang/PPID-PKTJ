@@ -2684,3 +2684,95 @@
 #0 C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\hide_previous_and_seed_poltrada.php(655): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Array to string...', 'C:\\\\Users\\\\Yuniar...', 655)
 #1 {main}
 "} 
+[2026-09-09 06:50:29] local.ERROR: Command "tinker" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"tinker\" is not defined. at D:\\laragon\\www\\PPID-PKTJ\\vendor\\symfony\\console\\Application.php:720)
+[stacktrace]
+#0 D:\\laragon\\www\\PPID-PKTJ\\vendor\\symfony\\console\\Application.php(259): Symfony\\Component\\Console\\Application->find('tinker')
+#1 D:\\laragon\\www\\PPID-PKTJ\\vendor\\symfony\\console\\Application.php(171): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(94): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(129): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 D:\\laragon\\www\\PPID-PKTJ\\artisan(17): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2026-09-09 09:20:31] local.ERROR: Command "tinker" is not defined. {"exception":"[object] (Symfony\\Component\\Console\\Exception\\CommandNotFoundException(code: 0): Command \"tinker\" is not defined. at D:\\laragon\\www\\PPID-PKTJ\\vendor\\symfony\\console\\Application.php:720)
+[stacktrace]
+#0 D:\\laragon\\www\\PPID-PKTJ\\vendor\\symfony\\console\\Application.php(259): Symfony\\Component\\Console\\Application->find('tinker')
+#1 D:\\laragon\\www\\PPID-PKTJ\\vendor\\symfony\\console\\Application.php(171): Symfony\\Component\\Console\\Application->doRun(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#2 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php(94): Symfony\\Component\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#3 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(129): Illuminate\\Console\\Application->run(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#4 D:\\laragon\\www\\PPID-PKTJ\\artisan(17): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
+#5 {main}
+"} 
+[2026-09-10 01:48:49] local.ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'deskripsi' in 'field list' (SQL: update `daftar_informasis` set `deskripsi` = Kedudukan, alamat lengkap, kontak, gambaran umum, tugas dan fungsi, serta visi dan misi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal., `kategori` = informasi-berkala, `pejabat_penguasa` = PPID Pelaksana UPT PKTJ Tegal, `penanggung_jawab` = Bagian Keuangan dan Administrasi Umum, `bentuk_informasi` = Hardcopy & Softcopy, `tempat_pembuatan` = Tegal, `waktu_pembuatan` = 2025, `jangka_waktu` = 1 Tahun, `file_path` = /profil-ppid, `aktif` = 1, `updated_at` = 2026-09-10 01:48:32 where `id` = 1586) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S22): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'deskripsi' in 'field list' (SQL: update `daftar_informasis` set `deskripsi` = Kedudukan, alamat lengkap, kontak, gambaran umum, tugas dan fungsi, serta visi dan misi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal., `kategori` = informasi-berkala, `pejabat_penguasa` = PPID Pelaksana UPT PKTJ Tegal, `penanggung_jawab` = Bagian Keuangan dan Administrasi Umum, `bentuk_informasi` = Hardcopy & Softcopy, `tempat_pembuatan` = Tegal, `waktu_pembuatan` = 2025, `jangka_waktu` = 1 Tahun, `file_path` = /profil-ppid, `aktif` = 1, `updated_at` = 2026-09-10 01:48:32 where `id` = 1586) at D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:712)
+[stacktrace]
+#0 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(672): Illuminate\\Database\\Connection->runQueryCallback('update `daftar_...', Array, Object(Closure))
+#1 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(514): Illuminate\\Database\\Connection->run('update `daftar_...', Array, Object(Closure))
+#2 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(466): Illuminate\\Database\\Connection->affectingStatement('update `daftar_...', Array)
+#3 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3062): Illuminate\\Database\\Connection->update('update `daftar_...', Array)
+#4 C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\seed_dip_data.php(317): Illuminate\\Database\\Query\\Builder->update(Array)
+#5 C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\seed_dip_data.php(355): upsertDaftarInformasi(Array, true)
+#6 {main}
+
+[previous exception] [object] (PDOException(code: 42S22): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'deskripsi' in 'field list' at D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:522)
+[stacktrace]
+#0 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(522): PDO->prepare('update `daftar_...')
+#1 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(705): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('update `daftar_...', Array)
+#2 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(672): Illuminate\\Database\\Connection->runQueryCallback('update `daftar_...', Array, Object(Closure))
+#3 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(514): Illuminate\\Database\\Connection->run('update `daftar_...', Array, Object(Closure))
+#4 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(466): Illuminate\\Database\\Connection->affectingStatement('update `daftar_...', Array)
+#5 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3062): Illuminate\\Database\\Connection->update('update `daftar_...', Array)
+#6 C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\seed_dip_data.php(317): Illuminate\\Database\\Query\\Builder->update(Array)
+#7 C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\seed_dip_data.php(355): upsertDaftarInformasi(Array, true)
+#8 {main}
+"} 
+[2026-09-10 02:12:32] local.ERROR: Array to string conversion {"exception":"[object] (ErrorException(code: 0): Array to string conversion at C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\inspect_pejabat.php:12)
+[stacktrace]
+#0 C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\inspect_pejabat.php(12): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Array to string...', 'C:\\\\Users\\\\Yuniar...', 12)
+#1 {main}
+"} 
+[2026-09-10 02:32:27] local.ERROR: Undefined property: stdClass::$isi {"exception":"[object] (ErrorException(code: 0): Undefined property: stdClass::$isi at C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\check_jam_db.php:35)
+[stacktrace]
+#0 C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\check_jam_db.php(35): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined prope...', 'C:\\\\Users\\\\Yuniar...', 35)
+#1 {main}
+"} 
+[2026-09-10 02:37:36] local.ERROR: SQLSTATE[HY000]: General error: 1364 Field 'type' doesn't have a default value (SQL: insert into `dashboards` (`key`, `value`, `updated_at`, `created_at`) values (jam_layanan_senin_kamis, 09.00 - 16.00, 2026-09-10 02:37:36, 2026-09-10 02:37:36)) {"exception":"[object] (Illuminate\\Database\\QueryException(code: HY000): SQLSTATE[HY000]: General error: 1364 Field 'type' doesn't have a default value (SQL: insert into `dashboards` (`key`, `value`, `updated_at`, `created_at`) values (jam_layanan_senin_kamis, 09.00 - 16.00, 2026-09-10 02:37:36, 2026-09-10 02:37:36)) at D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:712)
+[stacktrace]
+#0 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(672): Illuminate\\Database\\Connection->runQueryCallback('insert into `da...', Array, Object(Closure))
+#1 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(490): Illuminate\\Database\\Connection->run('insert into `da...', Array, Object(Closure))
+#2 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(454): Illuminate\\Database\\Connection->statement('insert into `da...', Array)
+#3 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Processors\\Processor.php(32): Illuminate\\Database\\Connection->insert('insert into `da...', Array)
+#4 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3028): Illuminate\\Database\\Query\\Processors\\Processor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `da...', Array, 'id')
+#5 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(1657): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#6 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1188): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#7 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1153): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#8 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(994): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#9 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(509): Illuminate\\Database\\Eloquent\\Model->save()
+#10 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php(263): Illuminate\\Database\\Eloquent\\Builder->Illuminate\\Database\\Eloquent\\{closure}(Object(App\\Models\\Dashboard))
+#11 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(508): tap(Object(App\\Models\\Dashboard), Object(Closure))
+#12 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Traits\\ForwardsCalls.php(23): Illuminate\\Database\\Eloquent\\Builder->updateOrCreate(Array, Array)
+#13 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(2132): Illuminate\\Database\\Eloquent\\Model->forwardCallTo(Object(Illuminate\\Database\\Eloquent\\Builder), 'updateOrCreate', Array)
+#14 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(2144): Illuminate\\Database\\Eloquent\\Model->__call('updateOrCreate', Array)
+#15 C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\update_jam_db.php(20): Illuminate\\Database\\Eloquent\\Model::__callStatic('updateOrCreate', Array)
+#16 {main}
+
+[previous exception] [object] (PDOException(code: HY000): SQLSTATE[HY000]: General error: 1364 Field 'type' doesn't have a default value at D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:501)
+[stacktrace]
+#0 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(501): PDOStatement->execute()
+#1 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(705): Illuminate\\Database\\Connection->Illuminate\\Database\\{closure}('insert into `da...', Array)
+#2 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(672): Illuminate\\Database\\Connection->runQueryCallback('insert into `da...', Array, Object(Closure))
+#3 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(490): Illuminate\\Database\\Connection->run('insert into `da...', Array, Object(Closure))
+#4 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(454): Illuminate\\Database\\Connection->statement('insert into `da...', Array)
+#5 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Processors\\Processor.php(32): Illuminate\\Database\\Connection->insert('insert into `da...', Array)
+#6 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Query\\Builder.php(3028): Illuminate\\Database\\Query\\Processors\\Processor->processInsertGetId(Object(Illuminate\\Database\\Query\\Builder), 'insert into `da...', Array, 'id')
+#7 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(1657): Illuminate\\Database\\Query\\Builder->insertGetId(Array, 'id')
+#8 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1188): Illuminate\\Database\\Eloquent\\Builder->__call('insertGetId', Array)
+#9 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(1153): Illuminate\\Database\\Eloquent\\Model->insertAndSetId(Object(Illuminate\\Database\\Eloquent\\Builder), Array)
+#10 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(994): Illuminate\\Database\\Eloquent\\Model->performInsert(Object(Illuminate\\Database\\Eloquent\\Builder))
+#11 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(509): Illuminate\\Database\\Eloquent\\Model->save()
+#12 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\helpers.php(263): Illuminate\\Database\\Eloquent\\Builder->Illuminate\\Database\\Eloquent\\{closure}(Object(App\\Models\\Dashboard))
+#13 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(508): tap(Object(App\\Models\\Dashboard), Object(Closure))
+#14 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Support\\Traits\\ForwardsCalls.php(23): Illuminate\\Database\\Eloquent\\Builder->updateOrCreate(Array, Array)
+#15 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(2132): Illuminate\\Database\\Eloquent\\Model->forwardCallTo(Object(Illuminate\\Database\\Eloquent\\Builder), 'updateOrCreate', Array)
+#16 D:\\laragon\\www\\PPID-PKTJ\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Model.php(2144): Illuminate\\Database\\Eloquent\\Model->__call('updateOrCreate', Array)
+#17 C:\\Users\\Yuniar Qonita\\.gemini\\antigravity\\brain\\00da732e-f460-4db4-a1c2-8135b16a9734\\scratch\\update_jam_db.php(20): Illuminate\\Database\\Eloquent\\Model::__callStatic('updateOrCreate', Array)
+#18 {main}
+"} 
