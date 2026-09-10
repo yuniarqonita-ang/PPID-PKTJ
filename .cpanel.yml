@@ -24,7 +24,13 @@ deployment:
     - cd $DEPLOYPATH && php artisan db:seed --class=RegulasiBpsdmPktjSeeder --force 2>/dev/null || true
     - cd $DEPLOYPATH && php artisan db:seed --class=DefaultMenuSeeder --force 2>/dev/null || true
     - cd $DEPLOYPATH && php artisan db:seed --class=Dip2026SyncSeeder --force 2>/dev/null || true
+    - cd $DEPLOYPATH && php artisan db:seed --class=PoltradaBaliDipSeeder --force 2>/dev/null || true
+    - cd $DEPLOYPATH && php artisan db:seed --class=PejabatSeeder --force 2>/dev/null || true
     - cd $DEPLOYPATH && /usr/local/bin/ea-php83 artisan view:clear 2>/dev/null || true
     - cd $DEPLOYPATH && /usr/local/bin/ea-php82 artisan view:clear 2>/dev/null || true
     - cd $DEPLOYPATH && /usr/local/bin/ea-php83 artisan db:seed --class=Dip2026SyncSeeder --force 2>/dev/null || true
+    - cd $DEPLOYPATH && /usr/local/bin/ea-php83 artisan db:seed --class=PoltradaBaliDipSeeder --force 2>/dev/null || true
+    - cd $DEPLOYPATH && /usr/local/bin/ea-php83 artisan db:seed --class=PejabatSeeder --force 2>/dev/null || true
     - cd $DEPLOYPATH && /usr/local/bin/ea-php82 artisan db:seed --class=Dip2026SyncSeeder --force 2>/dev/null || true
+    - cd $DEPLOYPATH && /usr/local/bin/ea-php82 artisan db:seed --class=PoltradaBaliDipSeeder --force 2>/dev/null || true
+    - cd $DEPLOYPATH && /usr/local/bin/ea-php82 artisan db:seed --class=PejabatSeeder --force 2>/dev/null || true
