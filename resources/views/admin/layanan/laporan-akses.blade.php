@@ -246,15 +246,22 @@
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex flex-col items-center gap-1">
-                                    @if($item->aktif)
-                                        <span class="inline-flex items-center px-2.5 py-0.5 bg-green-100 text-green-600 rounded-full text-[9px] font-black uppercase">
-                                            <span class="w-1 h-1 bg-green-500 rounded-full mr-1 animate-pulse"></span> AKTIF
-                                        </span>
-                                    @else
-                                        <span class="inline-flex items-center px-2.5 py-0.5 bg-gray-100 text-gray-400 rounded-full text-[9px] font-black uppercase">
-                                            DRAFT
-                                        </span>
-                                    @endif
+                                    <form action="{{ route('admin.dokumen.toggle-status', $item->id) }}" method="POST" class="inline-block toggle-status-form">
+                                        @csrf
+                                        <button type="submit" 
+                                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-sm {{ $item->aktif ? 'bg-emerald-100 text-emerald-700 hover:bg-red-100 hover:text-red-700 border border-emerald-300' : 'bg-rose-50 text-rose-600 hover:bg-emerald-100 hover:text-emerald-700 border border-rose-200' }}"
+                                                title="Klik untuk {{ $item->aktif ? 'Menonaktifkan / Sembunyikan' : 'Mengaktifkan / Tayangkan' }}">
+                                            @if($item->aktif)
+                                                <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                                                <span>AKTIF</span>
+                                                <i class="fas fa-toggle-on text-emerald-600 text-xs ml-0.5"></i>
+                                            @else
+                                                <span class="w-1.5 h-1.5 bg-rose-400 rounded-full"></span>
+                                                <span>TIDAK AKTIF</span>
+                                                <i class="fas fa-toggle-off text-rose-400 text-xs ml-0.5"></i>
+                                            @endif
+                                        </button>
+                                    </form>
                                     <div class="flex gap-1 justify-center mt-1">
                                         @if($item->is_blurred)
                                             <span class="px-1.5 py-0.2 bg-amber-50 text-amber-600 border border-amber-200 rounded text-[8px] font-bold uppercase">BLUR</span>

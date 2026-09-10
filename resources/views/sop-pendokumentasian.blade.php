@@ -50,8 +50,8 @@
                     </div>
                     <h3>Konten Sedang Disiapkan</h3>
                     <p>Informasi mengenai SOP Pendokumentasian sedang dalam proses penyusunan oleh tim PPID PKTJ.</p>
-                    <a href="{{ route('layanan.daftar-informasi') }}" class="btn-action">
-                        <i class="fas fa-list me-2"></i> Lihat Daftar Informasi
+                    <a href="{{ route('informasi.berkala') }}" class="btn-action">
+                        <i class="fas fa-list me-2"></i> Lihat Informasi Publik
                     </a>
                 </div>
             @endif

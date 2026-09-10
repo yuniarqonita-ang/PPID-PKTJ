@@ -84,7 +84,7 @@ use App\Http\Controllers\HalamanCustomController;
 // ==========================================
 Route::redirect('/jdih', 'https://bpsdm.kemenhub.go.id/jdih/');
 Route::redirect('/layanan-informasi/jdih', 'https://bpsdm.kemenhub.go.id/jdih/');
-Route::redirect('/daftar-informasi-publik.html', '/layanan-informasi/daftar');
+Route::redirect('/daftar-informasi-publik.html', '/informasi-publik/berkala', 301);
 Route::redirect('/informasi-berkala.html', '/informasi-publik/berkala');
 Route::redirect('/informasi-dikecualikan.html', '/informasi-publik/dikecualikan');
 Route::redirect('/informasi-serta-merta.html', '/informasi-publik/serta-merta');
@@ -126,7 +126,7 @@ Route::get('/informasi-publik/statistik-pegawai', [\App\Http\Controllers\Informa
 Route::get('/profil-statistik-pegawai.html', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai']);
 Route::get('/statistik-pegawai.html', [\App\Http\Controllers\InformasiPublikController::class, 'statistikPegawai']);
 Route::redirect('/layanan/permohonan-informasi', '/permohonan-informasi');
-Route::redirect('/layanan/daftar-informasi', '/layanan-informasi/daftar');
+Route::redirect('/layanan/daftar-informasi', '/informasi-publik/berkala', 301);
 
 // ==========================================
 // 1. FRONT OFFICE
@@ -266,9 +266,9 @@ Route::get('/informasi-serta-merta', [InformasiPublikController::class, 'informa
 Route::get('/informasi-serta-merta.html', [InformasiPublikController::class, 'informasiSertamerta']);
 Route::get('/profil-ppid', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil']);
 Route::get('/profil-pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat']);
-Route::get('/profil-struktur-organisasi', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
-
-Route::get('/layanan-informasi/daftar', [ProfilPublikController::class, 'showPage'])->defaults('type', 'layanan-daftar')->defaults('view', 'daftar-informasi-publik')->name('layanan.daftar-informasi');
+Route::get('/layanan-informasi/daftar', function() {
+    return redirect('/informasi-publik/berkala', 301);
+})->name('layanan.daftar-informasi');
 Route::get('/layanan-informasi/maklumat-dan-standar-biaya-layanan', [ProfilPublikController::class, 'showPage'])->defaults('type', 'maklumat-pelayanan')->defaults('view', 'maklumat-pelayanan')->name('layanan.maklumat-dan-standar-biaya-layanan');
 Route::redirect('/layanan-informasi/maklumat', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
 Route::redirect('/layanan-informasi/maklumat-pelayanan', '/layanan-informasi/maklumat-dan-standar-biaya-layanan');
@@ -368,16 +368,6 @@ Route::get('/refresh-deploy', function() {
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DefaultMenuSeeder', '--force' => true]);
         } catch (\Throwable $mEx) {}
 
-        // 3. Sinkronkan dokumen DIP Poltrada Bali
-        try {
-            $seederFile = database_path('seeders/PoltradaBaliDipSeeder.php');
-            if (file_exists($seederFile)) {
-                require_once $seederFile;
-                $seeder = new \Database\Seeders\PoltradaBaliDipSeeder();
-                $seeder->run();
-            }
-        } catch (\Throwable $sEx) {}
-
         \Illuminate\Support\Facades\Artisan::call('view:clear');
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
         \Illuminate\Support\Facades\Artisan::call('route:clear');
@@ -409,15 +399,7 @@ Route::get('/refresh-deploy', function() {
 
             \App\Models\Pejabat::where('nama', 'LIKE', '%Bambang%')
                 ->update([
-                    'nama' => 'Dr. Ir. Bambang Istiyanto, S.SiT., M.T., IPU',
-                    'biografi' => 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Meraih gelar Doktor Teknik Sipil di Universitas Islam Sultan Agung (UNISSULA) Semarang dengan disertasi Model Evaluasi Keberhasilan Program Keselamatan Jalan Perkotaan Berbasis Safety Performance Function (SPF) dan Crash Modification Factor (CMF) dengan Pendekatan System Dynamics. Memimpin penyelenggaraan pendidikan vokasi keselamatan transportasi darat, tata kelola BLU, dan penguatan keterbukaan informasi publik di lingkungan BPSDMP Kementerian Perhubungan.',
-                    'pendidikan' => [
-                        'S3 - Doktor (Dr.) Teknik Sipil, Universitas Islam Sultan Agung (UNISSULA) Semarang',
-                        'Profesi Insinyur - Insinyur Profesional Utama (IPU), Persatuan Insinyur Indonesia (PII)',
-                        'S2 - Magister Teknik (M.T.) Sipil / Transportasi, Institut Teknologi Bandung (ITB)',
-                        'D4 / S1 Terapan - Sarjana Sains Terapan Transportasi (S.SiT), Sekolah Tinggi Transportasi Darat (STTD)',
-                        'Pendidikan dan Pelatihan Penjenjangan Kepemimpinan Administrator (PIM Tingkat III)'
-                    ]
+                    'nama' => 'Bambang Istiyanto, S.SiT., MT',
                 ]);
             
             \App\Models\Dashboard::updateOrCreate(
@@ -729,6 +711,9 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/dikecualikan/{id}/edit', [InformasiDikecualikanController::class, 'edit'])->name('dikecualikan.edit');
         Route::put('/dikecualikan/{id}', [InformasiDikecualikanController::class, 'update'])->name('dikecualikan.update');
         Route::delete('/dikecualikan/{id}', [InformasiDikecualikanController::class, 'destroy'])->name('dikecualikan.destroy');
+        
+        // Quick Toggle Status Route
+        Route::post('/toggle-status/{type}/{id}', [InformasiPublikController::class, 'toggleStatus'])->name('toggle-status');
     });
 
     // PKTJ News Sync & Clean
@@ -740,6 +725,7 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::post('pejabat/update-size', [\App\Http\Controllers\PejabatController::class, 'updateSizeSettings'])->name('admin.pejabat.update-size');
     Route::resource('pejabat', \App\Http\Controllers\PejabatController::class)->names('admin.pejabat');
     Route::resource('berita', BeritaController::class)->names('admin.berita');
+    Route::post('dokumen/toggle-status/{id}', [InformasiPublikController::class, 'toggleDokumenStatus'])->name('admin.dokumen.toggle-status');
     Route::resource('dokumen', DokumenController::class)->names('admin.dokumen');
     Route::resource('prosedur-crud', DokumenController::class)->names('admin.prosedur-crud');
     

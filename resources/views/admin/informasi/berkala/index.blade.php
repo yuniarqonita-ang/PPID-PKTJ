@@ -201,15 +201,22 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 text-center">
-                                @if($item->aktif)
-                                    <span class="inline-flex items-center px-3 py-1 bg-green-100 text-green-600 rounded-full text-[10px] font-black uppercase">
-                                        <span class="w-1.5 h-1.5 bg-green-500 rounded-full mr-2 animate-pulse"></span> AKTIF
-                                    </span>
-                                @else
-                                    <span class="inline-flex items-center px-3 py-1 bg-gray-100 text-gray-400 rounded-full text-[10px] font-black uppercase">
-                                        DRAFT
-                                    </span>
-                                @endif
+                                <form action="{{ route('admin.informasi.toggle-status', ['type' => 'berkala', 'id' => $item->id]) }}" method="POST" class="inline-block toggle-status-form">
+                                    @csrf
+                                    <button type="submit" 
+                                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-sm {{ $item->aktif ? 'bg-emerald-100 text-emerald-700 hover:bg-red-100 hover:text-red-700 border border-emerald-300' : 'bg-rose-50 text-rose-600 hover:bg-emerald-100 hover:text-emerald-700 border border-rose-200' }}"
+                                            title="Klik untuk {{ $item->aktif ? 'Menonaktifkan / Sembunyikan' : 'Mengaktifkan / Tayangkan' }}">
+                                        @if($item->aktif)
+                                            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                                            <span>AKTIF</span>
+                                            <i class="fas fa-toggle-on text-emerald-600 text-xs ml-0.5"></i>
+                                        @else
+                                            <span class="w-2 h-2 bg-rose-400 rounded-full"></span>
+                                            <span>TIDAK AKTIF</span>
+                                            <i class="fas fa-toggle-off text-rose-400 text-xs ml-0.5"></i>
+                                        @endif
+                                    </button>
+                                </form>
                             </td>
                             <td class="px-6 py-4">
                                 <div class="flex items-center justify-center gap-2">

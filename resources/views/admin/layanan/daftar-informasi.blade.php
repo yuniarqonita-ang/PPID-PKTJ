@@ -135,15 +135,22 @@
                         <td class="px-6 py-4 text-xs">{{ $item->waktu_pembuatan ?? '-' }}</td>
                         <td class="px-6 py-4 text-xs">{{ $item->jangka_waktu ?? '-' }}</td>
                         <td class="px-6 py-4 text-center">
-                            @if($item->aktif)
-                                <span class="inline-flex items-center px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full text-[10px] font-black uppercase tracking-wider">
-                                    <i class="fas fa-check-circle mr-1 text-emerald-600"></i> Tayang di Publik
-                                </span>
-                            @else
-                                <span class="inline-flex items-center px-3 py-1 bg-amber-100 text-amber-900 rounded-full text-[10px] font-black uppercase tracking-wider" title="Tersimpan di Admin Panel, belum tayang di publik karena belum ada dokumen/link resmi">
-                                    <i class="fas fa-clock mr-1 text-amber-600"></i> Draft (Menunggu Berkas)
-                                </span>
-                            @endif
+                            <form action="{{ route('admin.informasi.toggle-status', ['type' => 'daftar', 'id' => $item->id]) }}" method="POST" class="inline-block toggle-status-form">
+                                @csrf
+                                <button type="submit" 
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-sm {{ $item->aktif ? 'bg-emerald-100 text-emerald-700 hover:bg-red-100 hover:text-red-700 border border-emerald-300' : 'bg-rose-50 text-rose-600 hover:bg-emerald-100 hover:text-emerald-700 border border-rose-200' }}"
+                                        title="Klik untuk {{ $item->aktif ? 'Menonaktifkan / Sembunyikan' : 'Mengaktifkan / Tayangkan' }}">
+                                    @if($item->aktif)
+                                        <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
+                                        <span>AKTIF</span>
+                                        <i class="fas fa-toggle-on text-emerald-600 text-xs ml-0.5"></i>
+                                    @else
+                                        <span class="w-1.5 h-1.5 bg-rose-400 rounded-full"></span>
+                                        <span>TIDAK AKTIF</span>
+                                        <i class="fas fa-toggle-off text-rose-400 text-xs ml-0.5"></i>
+                                    @endif
+                                </button>
+                            </form>
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center justify-end gap-2">

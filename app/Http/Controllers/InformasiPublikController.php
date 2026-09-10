@@ -39,36 +39,8 @@ class InformasiPublikController extends Controller
 
     private function ensureDataSeeded(): void
     {
-        try {
-            $hasPoltrada = \Illuminate\Support\Facades\DB::table('daftar_informasis')
-                ->where('judul_informasi', 'Tata cara permohonan informasi publik')
-                ->where('aktif', 1)
-                ->exists();
-
-            if (!$hasPoltrada) {
-                $seederFile = database_path('seeders/PoltradaBaliDipSeeder.php');
-                if (file_exists($seederFile)) {
-                    require_once $seederFile;
-                    $seeder = new \Database\Seeders\PoltradaBaliDipSeeder();
-                    $seeder->run();
-                }
-            }
-
-            $hasCorrectPejabat = \Illuminate\Support\Facades\DB::table('pejabats')
-                ->where('nama', 'Bambang Istiyanto, S.SiT., MT')
-                ->exists();
-
-            if (!$hasCorrectPejabat) {
-                $pjSeederFile = database_path('seeders/PejabatSeeder.php');
-                if (file_exists($pjSeederFile)) {
-                    require_once $pjSeederFile;
-                    $pjSeeder = new \Database\Seeders\PejabatSeeder();
-                    $pjSeeder->run();
-                }
-            }
-        } catch (\Throwable $e) {
-            \Illuminate\Support\Facades\Log::error('Auto seed error: ' . $e->getMessage());
-        }
+        // Never auto-seed or reset database data on page load
+        return;
     }
 
     private function getHiddenTitles(): array
@@ -447,5 +419,89 @@ class InformasiPublikController extends Controller
         } catch (\Throwable $e) {
             abort(404, 'File tidak dapat diakses.');
         }
+    }
+
+    /**
+     * Quick toggle status (aktif/tidak aktif) for Admin Panel
+     */
+    public function toggleStatus(\Illuminate\Http\Request $request, $type, $id)
+    {
+        $newStatus = null;
+        $title = null;
+
+        if ($type === 'berkala') {
+            $item = \App\Models\InformasiBerkala::find($id) ?? \App\Models\DaftarInformasi::find($id);
+            if ($item) {
+                $newStatus = !(bool)$item->aktif;
+                $title = $item->judul ?? $item->judul_informasi;
+                if (class_exists(\App\Models\InformasiBerkala::class)) {
+                    \App\Models\InformasiBerkala::where('id', $id)->orWhere('judul', $title)->update(['aktif' => $newStatus]);
+                }
+                \App\Models\DaftarInformasi::where('id', $id)->orWhere('judul_informasi', $title)->update(['aktif' => $newStatus]);
+            }
+        } elseif ($type === 'sertamerta') {
+            $item = \App\Models\InformasiSertaMerta::find($id) ?? \App\Models\DaftarInformasi::find($id);
+            if ($item) {
+                $newStatus = !(bool)$item->aktif;
+                $title = $item->judul ?? $item->judul_informasi;
+                if (class_exists(\App\Models\InformasiSertaMerta::class)) {
+                    \App\Models\InformasiSertaMerta::where('id', $id)->orWhere('judul', $title)->update(['aktif' => $newStatus]);
+                }
+                \App\Models\DaftarInformasi::where('id', $id)->orWhere('judul_informasi', $title)->update(['aktif' => $newStatus]);
+            }
+        } elseif ($type === 'setiapsaat') {
+            $item = \App\Models\InformasiSetiapsaat::find($id) ?? \App\Models\DaftarInformasi::find($id);
+            if ($item) {
+                $newStatus = !(bool)$item->aktif;
+                $title = $item->judul ?? $item->judul_informasi;
+                if (class_exists(\App\Models\InformasiSetiapsaat::class)) {
+                    \App\Models\InformasiSetiapsaat::where('id', $id)->orWhere('judul', $title)->update(['aktif' => $newStatus]);
+                }
+                \App\Models\DaftarInformasi::where('id', $id)->orWhere('judul_informasi', $title)->update(['aktif' => $newStatus]);
+            }
+        } elseif ($type === 'dikecualikan') {
+            $item = \App\Models\InformasiDikecualikan::find($id) ?? \App\Models\DaftarInformasi::find($id);
+            if ($item) {
+                $newStatus = !(bool)$item->aktif;
+                $title = $item->judul ?? $item->judul_informasi;
+                if (class_exists(\App\Models\InformasiDikecualikan::class)) {
+                    \App\Models\InformasiDikecualikan::where('id', $id)->orWhere('judul', $title)->update(['aktif' => $newStatus]);
+                }
+                \App\Models\DaftarInformasi::where('id', $id)->orWhere('judul_informasi', $title)->update(['aktif' => $newStatus]);
+            }
+        } elseif ($type === 'daftar') {
+            $item = \App\Models\DaftarInformasi::find($id);
+            if ($item) {
+                $newStatus = !(bool)$item->aktif;
+                $item->aktif = $newStatus;
+                $item->save();
+            }
+        } elseif ($type === 'dokumen') {
+            $item = \App\Models\Dokumen::find($id);
+            if ($item) {
+                $newStatus = !(bool)$item->aktif;
+                $item->aktif = $newStatus;
+                $item->save();
+            }
+        }
+
+        if ($request->ajax() || $request->wantsJson()) {
+            return response()->json([
+                'success' => true,
+                'aktif' => (bool)$newStatus,
+                'status_label' => $newStatus ? 'AKTIF' : 'TIDAK AKTIF',
+                'message' => 'Status berhasil diubah menjadi ' . ($newStatus ? 'AKTIF' : 'TIDAK AKTIF')
+            ]);
+        }
+
+        return back()->with('success', 'Status publikasi berhasil diubah menjadi ' . ($newStatus ? 'AKTIF' : 'TIDAK AKTIF') . '!');
+    }
+
+    /**
+     * Quick toggle status for Dokumen
+     */
+    public function toggleDokumenStatus(\Illuminate\Http\Request $request, $id)
+    {
+        return $this->toggleStatus($request, 'dokumen', $id);
     }
 }

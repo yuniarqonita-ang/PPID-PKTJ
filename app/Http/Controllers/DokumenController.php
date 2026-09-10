@@ -129,6 +129,11 @@ class DokumenController extends Controller
         return redirect($redirectTo)->with('success', 'Dokumen berhasil ditambahkan!');
     }
 
+    public function show($id)
+    {
+        return redirect()->route('admin.dokumen.edit', $id);
+    }
+
     public function edit($id)
     {
         $dokumen = Dokumen::findOrFail($id);

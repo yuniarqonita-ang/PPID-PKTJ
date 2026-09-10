@@ -559,6 +559,42 @@
                     $(this).closest('.submenu').addClass('open');
                     $(this).closest('.submenu').prev('.accordion-toggle').addClass('active');
                 });
+
+                // Global Quick Toggle Status in Admin Tables
+                $(document).on('submit', '.toggle-status-form', function(e) {
+                    e.preventDefault();
+                    var form = $(this);
+                    var btn = form.find('button[type="submit"]');
+                    btn.prop('disabled', true).css('opacity', '0.5');
+
+                    $.ajax({
+                        url: form.attr('action'),
+                        type: 'POST',
+                        data: form.serialize(),
+                        headers: { 'X-Requested-With': 'XMLHttpRequest' },
+                        success: function(res) {
+                            if (res && res.success) {
+                                if (res.aktif) {
+                                    btn.removeClass('bg-rose-50 text-rose-600 border-rose-200')
+                                       .addClass('bg-emerald-100 text-emerald-700 border-emerald-300')
+                                       .attr('title', 'Klik untuk Menonaktifkan / Sembunyikan')
+                                       .html('<span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span><span>AKTIF</span><i class="fas fa-toggle-on text-emerald-600 text-xs ml-0.5"></i>');
+                                } else {
+                                    btn.removeClass('bg-emerald-100 text-emerald-700 border-emerald-300')
+                                       .addClass('bg-rose-50 text-rose-600 border-rose-200')
+                                       .attr('title', 'Klik untuk Mengaktifkan / Tayangkan')
+                                       .html('<span class="w-1.5 h-1.5 bg-rose-400 rounded-full"></span><span>TIDAK AKTIF</span><i class="fas fa-toggle-off text-rose-400 text-xs ml-0.5"></i>');
+                                }
+                            }
+                        },
+                        error: function() {
+                            form.off('submit').submit();
+                        },
+                        complete: function() {
+                            btn.prop('disabled', false).css('opacity', '1');
+                        }
+                    });
+                });
             });
         </script>
         
