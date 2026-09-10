@@ -179,8 +179,9 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // FILTER KETAT: Hanya tayangkan yang aktif dan memiliki tautan/file valid
-            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
+            // Tampilkan semua item yang aktif (aktif=true di admin panel sudah cukup)
+            $items = $merged->sortBy('id')->values();
+
         } catch (\Throwable $e) {
             $items = collect([]);
         }
@@ -256,8 +257,9 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // FILTER KETAT: Hanya tayangkan yang aktif dan memiliki tautan/file valid
-            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
+            // Tampilkan semua item yang aktif (aktif=true di admin panel sudah cukup)
+            $items = $merged->sortBy('id')->values();
+
         } catch (\Throwable $e) {
             $items = collect([]);
         }

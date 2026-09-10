@@ -226,6 +226,7 @@ Route::get('/profil-tugas-tanggung-jawab.html', function() { return redirect('/p
 Route::get('/profil-tugas-fungsi.html', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); });
 Route::get('/profil-visi-misi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showVisi'])->name('profil.visi.html');
 Route::get('/profil-struktur-organisasi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur'])->name('profil.struktur.html');
+Route::get('/profil/struktur-organisasi', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur'])->name('profil.struktur-organisasi');
 Route::get('/profil-regulasi.html', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('profil.regulasi.html');
 Route::get('/regulasi', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('regulasi');
 Route::get('/profil-kontak.html', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak'])->name('profil.kontak.html');
