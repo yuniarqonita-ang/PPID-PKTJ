@@ -515,10 +515,9 @@ Route::get('/setup-db-2025', function() {
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
         \Illuminate\Support\Facades\Artisan::call('route:clear');
         \Illuminate\Support\Facades\Artisan::call('config:clear');
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DipSeeder', '--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'UpdateProfilSeeder', '--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'PoltradaBaliDipSeeder', '--force' => true]);
         \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'PejabatSeeder', '--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'SyncDaftarInformasiSeeder', '--force' => true]);
+        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DefaultMenuSeeder', '--force' => true]);
 
         try {
             \App\Models\Pejabat::where('nama', 'LIKE', '%Prima%')
