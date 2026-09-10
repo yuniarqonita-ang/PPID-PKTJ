@@ -186,6 +186,34 @@ class DaftarInformasiController extends Controller
 
             $item->update($data);
 
+            // Sinkronkan ke tabel model (InformasiBerkala, SetiapSaat, SertaMerta) jika judulnya sama
+            $targetJudul = $data['judul_informasi'] ?? $item->judul_informasi;
+            $syncData = [
+                'aktif'         => (bool) ($data['aktif'] ?? false),
+                'is_blurred'    => (bool) ($data['is_blurred'] ?? false),
+                'bisa_download' => (bool) ($data['bisa_download'] ?? true),
+            ];
+            if (!empty($data['isi_informasi'])) {
+                $syncData['deskripsi'] = $data['isi_informasi'];
+            }
+            if (!empty($data['file_informasi'])) {
+                $syncData['file_path'] = $data['file_informasi'];
+            }
+
+            try {
+                if (class_exists(\App\Models\InformasiBerkala::class)) {
+                    \App\Models\InformasiBerkala::where('judul', $targetJudul)->update($syncData);
+                }
+                if (class_exists(\App\Models\InformasiSetiapsaat::class)) {
+                    \App\Models\InformasiSetiapsaat::where('judul', $targetJudul)->update($syncData);
+                }
+                if (class_exists(\App\Models\InformasiSertaMerta::class)) {
+                    \App\Models\InformasiSertaMerta::where('judul', $targetJudul)->update($syncData);
+                }
+            } catch (\Throwable $e) {
+                // Ignore if model or column not available
+            }
+
             return redirect()->route('admin.layanan.daftar-informasi')
                 ->with('success', 'Data informasi publik berhasil diperbarui!');
         } catch (\Exception $e) {
@@ -196,6 +224,7 @@ class DaftarInformasiController extends Controller
     public function destroy($id)
     {
         $item = DaftarInformasi::findOrFail($id);
+        $targetJudul = $item->judul_informasi;
         if ($item->file_informasi && Storage::exists(str_replace('storage/', 'public/', $item->file_informasi))) {
             Storage::delete(str_replace('storage/', 'public/', $item->file_informasi));
         }
@@ -203,6 +232,20 @@ class DaftarInformasiController extends Controller
             Storage::delete(str_replace('storage/', 'public/', $item->image));
         }
         $item->delete();
+
+        try {
+            if (class_exists(\App\Models\InformasiBerkala::class)) {
+                \App\Models\InformasiBerkala::where('judul', $targetJudul)->delete();
+            }
+            if (class_exists(\App\Models\InformasiSetiapsaat::class)) {
+                \App\Models\InformasiSetiapsaat::where('judul', $targetJudul)->delete();
+            }
+            if (class_exists(\App\Models\InformasiSertaMerta::class)) {
+                \App\Models\InformasiSertaMerta::where('judul', $targetJudul)->delete();
+            }
+        } catch (\Throwable $e) {
+            // Ignore
+        }
 
         return redirect()->route('admin.layanan.daftar-informasi')
             ->with('success', 'Data informasi publik berhasil dihapus!');

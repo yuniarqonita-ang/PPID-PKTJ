@@ -54,21 +54,41 @@ class InformasiPublikController extends Controller
         }
     }
 
+    private function getHiddenTitles(): array
+    {
+        try {
+            $hiddenDaftar = DaftarInformasi::where('aktif', false)
+                ->pluck('judul_informasi')
+                ->map(fn($t) => strtolower(trim($t)))
+                ->all();
+
+            $hiddenBerkala = class_exists(InformasiBerkala::class) 
+                ? InformasiBerkala::where('aktif', false)->pluck('judul')->map(fn($t) => strtolower(trim($t)))->all() 
+                : [];
+
+            $hiddenSetiapSaat = class_exists(InformasiSetiapSaat::class) 
+                ? InformasiSetiapSaat::where('aktif', false)->pluck('judul')->map(fn($t) => strtolower(trim($t)))->all() 
+                : [];
+
+            $hiddenSertaMerta = class_exists(InformasiSertaMerta::class) 
+                ? InformasiSertaMerta::where('aktif', false)->pluck('judul')->map(fn($t) => strtolower(trim($t)))->all() 
+                : [];
+
+            return array_unique(array_filter(array_merge($hiddenDaftar, $hiddenBerkala, $hiddenSetiapSaat, $hiddenSertaMerta)));
+        } catch (\Throwable $e) {
+            return [];
+        }
+    }
+
     private function mapDaftarInformasi($item)
     {
         $item->judul = $item->judul_informasi;
         $item->deskripsi = $this->processContent($item->isi_informasi, $item->is_blurred ?? false);
         
         $rawFile = $item->file_informasi;
-        if (function_exists('has_valid_document') && has_valid_document($rawFile)) {
-            $item->file_path = $rawFile;
-            $item->bisa_download = (bool) ($item->bisa_download ?? true);
-            $item->file_size = $item->file_size ?? '-';
-        } else {
-            $item->file_path = null;
-            $item->bisa_download = false;
-            $item->file_size = null;
-        }
+        $item->file_path = $rawFile;
+        $item->bisa_download = (bool) ($item->bisa_download ?? true);
+        $item->file_size = $item->file_size ?? '-';
 
         $item->tanggal = $item->created_at;
         return $item;
@@ -82,15 +102,18 @@ class InformasiPublikController extends Controller
         $item->deskripsi = $this->processContent($s->deskripsi, $s->is_blurred ?? false);
         
         $rawFile = $s->file_path;
-        if (function_exists('has_valid_document') && has_valid_document($rawFile)) {
-            $item->file_path = $rawFile;
-            $item->bisa_download = (bool) ($s->bisa_download ?? true);
-            $item->file_size = $s->file_size ?? '-';
-        } else {
-            $item->file_path = null;
-            $item->bisa_download = false;
-            $item->file_size = null;
-        }
+        $item->file_path = $rawFile;
+        $item->bisa_download = (bool) ($s->bisa_download ?? true);
+        $item->file_size = $s->file_size ?? '-';
+
+        $item->pejabat_penguasa = $s->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal';
+        $item->penerbit_informasi = $s->penerbit_informasi ?? 'Bagian Keuangan dan Umum';
+        $item->penanggung_jawab = $s->penanggung_jawab ?? $item->penerbit_informasi;
+        $item->tempat_pembuatan = $s->tempat_pembuatan ?? 'Tegal';
+        $item->waktu_pembuatan = $s->waktu_pembuatan ?? ($s->tanggal ? date('Y', strtotime($s->tanggal)) : '2025');
+        $item->bentuk_informasi = $s->bentuk_informasi ?? 'Softcopy & Hardcopy';
+        $item->jangka_waktu = $s->jangka_waktu ?? '1 Tahun';
+        $item->tipe_informasi = $s->tipe_informasi ?? null;
 
         $item->tanggal = $s->tanggal ?? $s->created_at;
         $item->created_at = $s->created_at ?? now();
@@ -100,9 +123,15 @@ class InformasiPublikController extends Controller
 
     private function itemHasValidContent($item): bool
     {
-        // Hanya tayangkan jika dokumen fisik benar-benar ada ATAU memiliki tautan web/Google Drive aktif
-        if (!empty($item->file_path) && function_exists('has_valid_document') && has_valid_document($item->file_path)) {
-            return true;
+        // Hanya tayangkan jika memiliki file riil ATAU link web/Google Drive/prosedur aktif
+        if (!empty($item->file_path)) {
+            $path = trim($item->file_path);
+            if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '/')) {
+                return true;
+            }
+            if (function_exists('has_valid_document') && has_valid_document($path)) {
+                return true;
+            }
         }
         if (!empty($item->deskripsi) && preg_match('/https?:\/\/[^\s"\'<>]+/i', $item->deskripsi)) {
             return true;
@@ -115,6 +144,8 @@ class InformasiPublikController extends Controller
     {
         $this->ensureDataSeeded();
         try {
+            $hiddenTitles = $this->getHiddenTitles();
+
             $daftarItems = DaftarInformasi::where('aktif', true)
                 ->where('kategori', 'informasi-berkala')
                 ->get()
@@ -132,11 +163,15 @@ class InformasiPublikController extends Controller
                 return strtolower(trim($it->judul));
             });
 
-            foreach ($grouped as $group) {
+            foreach ($grouped as $titleKey => $group) {
+                // JIKA JUDUL INI SUDAH DI-HIDE DI MANA PUN DI ADMIN PANEL, JANGAN TAMPILKAN!
+                if (in_array($titleKey, $hiddenTitles)) {
+                    continue;
+                }
+
                 if ($group->count() === 1) {
                     $merged->push($group->first());
                 } else {
-                    // Prioritaskan versi yang memiliki tabel / konten deskripsi lebih panjang & lengkap
                     $best = $group->sortByDesc(function($it) {
                         return strlen(strip_tags($it->deskripsi ?? ''));
                     })->first();
@@ -144,11 +179,12 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // FILTER KETAT: Jangan tayangkan jika tidak ada file dan tidak ada link
+            // FILTER KETAT: Hanya tayangkan yang aktif dan memiliki tautan/file valid
             $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }
+
 
         try {
             $pejabats = Pejabat::getActivePejabats();
@@ -186,6 +222,8 @@ class InformasiPublikController extends Controller
     {
         $this->ensureDataSeeded();
         try {
+            $hiddenTitles = $this->getHiddenTitles();
+
             $daftarItems = DaftarInformasi::where('aktif', true)
                 ->whereIn('kategori', ['informasi-serta-merta', 'informasi-sertamerta'])
                 ->get()
@@ -203,7 +241,11 @@ class InformasiPublikController extends Controller
                 return strtolower(trim($it->judul));
             });
 
-            foreach ($grouped as $group) {
+            foreach ($grouped as $titleKey => $group) {
+                if (in_array($titleKey, $hiddenTitles)) {
+                    continue;
+                }
+
                 if ($group->count() === 1) {
                     $merged->push($group->first());
                 } else {
@@ -214,7 +256,7 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // FILTER KETAT: Jangan tayangkan jika tidak ada file dan tidak ada link
+            // FILTER KETAT: Hanya tayangkan yang aktif dan memiliki tautan/file valid
             $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
@@ -229,6 +271,8 @@ class InformasiPublikController extends Controller
     {
         $this->ensureDataSeeded();
         try {
+            $hiddenTitles = $this->getHiddenTitles();
+
             $daftarItems = DaftarInformasi::where('aktif', true)
                 ->whereIn('kategori', ['informasi-setiap-saat', 'informasi-setiapsaat'])
                 ->get()
@@ -246,7 +290,11 @@ class InformasiPublikController extends Controller
                 return strtolower(trim($it->judul));
             });
 
-            foreach ($grouped as $group) {
+            foreach ($grouped as $titleKey => $group) {
+                if (in_array($titleKey, $hiddenTitles)) {
+                    continue;
+                }
+
                 if ($group->count() === 1) {
                     $merged->push($group->first());
                 } else {
@@ -257,7 +305,7 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // FILTER KETAT: Jangan tayangkan jika tidak ada file dan tidak ada link
+            // FILTER KETAT: Hanya tayangkan yang aktif dan memiliki tautan/file valid
             $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
@@ -266,6 +314,7 @@ class InformasiPublikController extends Controller
         $settings = $this->getSettings();
         return view('informasi-setiap-saat', compact('items', 'settings'));
     }
+
 
     // Informasi Dikecualikan
     public function informasiDikecualikan(\Illuminate\Http\Request $request)

@@ -5,17 +5,17 @@
     gap: 6px;
 }
 .page-box-btn {
-    min-width: 38px;
-    height: 38px;
-    padding: 0 12px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background-color: #ffffff;
     color: #1e293b;
     border: 1px solid #cbd5e1;
-    border-radius: 3px;
-    font-size: 14px;
+    border-radius: 4px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
@@ -28,8 +28,8 @@
     color: #0f172a;
 }
 .page-box-btn.active {
-    background-color: #142238 !important;
-    border-color: #142238 !important;
+    background-color: #004a99 !important;
+    border-color: #004a99 !important;
     color: #ffffff !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.12);
     cursor: default;
@@ -44,208 +44,264 @@
     <title>Informasi Serta Merta - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     @include('components.public-page-style')
     <style>
         .outfit { font-family: 'Outfit', sans-serif; }
 
         .hero-section {
-            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
-            padding: 85px 0 100px;
+            background: linear-gradient(135deg, rgba(0, 30, 64, 0.95) 0%, rgba(0, 74, 153, 0.92) 100%);
+            padding: 70px 0 85px;
             color: white;
             position: relative;
         }
 
         .content-card {
             background: white;
-            padding: 40px;
-            border-radius: 30px;
-            box-shadow: 0 20px 50px rgba(0, 43, 92, 0.08);
-            margin-top: -50px;
+            padding: 40px 45px;
+            border-radius: 24px;
+            box-shadow: 0 15px 45px rgba(0, 43, 92, 0.08);
+            margin-top: -45px;
             border: 1px solid rgba(226, 232, 240, 0.9);
             position: relative;
             z-index: 20;
-            margin-bottom: 60px;
+            margin-bottom: 70px;
         }
 
-        .smart-table thead th {
+        /* Poltrada Bali TablePress Style Table */
+        .tablepress-dip {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 13px;
+        }
+
+        .tablepress-dip thead th {
             background: #002b5c;
-            color: white;
+            color: #ffffff;
             font-weight: 700;
-            font-size: 13px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            padding: 14px 16px;
-            border: none;
-        }
-
-        .smart-table td {
-            padding: 14px 16px;
+            padding: 13px 12px;
             vertical-align: middle;
-            border-bottom: 1px solid #f1f5f9;
+            border: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
             font-size: 13px;
+            letter-spacing: 0.2px;
+        }
+        .tablepress-dip thead th:last-child {
+            border-right: none;
         }
 
-        .smart-table tbody tr:hover {
+        .tablepress-dip tbody td {
+            padding: 12px 14px;
+            vertical-align: middle;
+            border-top: 1px solid #e2e8f0;
+            border-right: 1px solid #f1f5f9;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .tablepress-dip tbody td:last-child {
+            border-right: none;
+        }
+
+        .tablepress-dip tbody tr:nth-child(even) td {
             background-color: #f8fafc;
         }
 
-        .info-item {
-            background: #ffffff;
-            border-radius: 20px;
-            padding: 24px;
-            margin-bottom: 20px;
-            border: 1.5px solid #e2e8f0;
-            border-left: 5px solid #004a99;
-            box-shadow: 0 8px 25px rgba(0, 43, 92, 0.04);
-            transition: all 0.3s ease;
+        .tablepress-dip tbody tr:hover td {
+            background-color: #eff6ff !important;
         }
 
-        .info-item:hover {
-            transform: translateY(-4px);
-            border-color: #004a99;
-            box-shadow: 0 16px 35px rgba(0, 74, 153, 0.1);
+        /* Category Divider Row */
+        .tablepress-dip tr.category-divider-row td {
+            background: #e2e8f0 !important;
+            color: #002b5c !important;
+            font-weight: 800 !important;
+            font-size: 12.5px !important;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 10px 16px !important;
+            border-top: 2px solid #cbd5e1 !important;
+            border-bottom: 1px solid #cbd5e1 !important;
         }
 
-        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-4px); box-shadow: 0 16px 35px rgba(0,0,0,0.08); }
+        .btn-disini {
+            background: #004a99;
+            border: 1px solid #004a99;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 5px 14px;
+            border-radius: 50rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            white-space: nowrap;
+        }
+        .btn-disini:hover {
+            background: #ffc107;
+            border-color: #ffc107;
+            color: #002b5c;
+            box-shadow: 0 4px 10px rgba(0, 74, 153, 0.25);
+            transform: translateY(-1px);
+        }
     </style>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 </head>
 <body>
 
     @include('navigation')
 
+    <!-- HERO HEADER -->
     <div class="hero-section">
-        <div class="container text-center hero-content">
-            <div class="badge bg-warning text-dark font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase" style="font-size: 12px; letter-spacing: 0.5px;">
-                <i class="fas fa-triangle-exclamation me-1"></i> Daftar Informasi Publik (DIP)
-            </div>
-            <h1 class="display-5 fw-bold outfit text-uppercase mb-2">Informasi Serta Merta</h1>
-            <p class="lead opacity-90 mx-auto mb-0" style="max-width: 800px; font-size: 15px;">
-                Informasi yang wajib diumumkan secara serta merta yang menyangkut hajat hidup orang banyak dan ketertiban umum di lingkungan PKTJ Tegal.
-            </p>
+        <div class="container text-center">
+            <h1 class="display-4 fw-black outfit uppercase mb-2">Informasi Serta Merta</h1>
+            <p class="lead opacity-85 mb-0" style="font-size: 1.15rem;">Daftar Informasi Publik (DIP) Serta Merta Resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal</p>
         </div>
     </div>
 
+    <!-- MAIN CONTENT CONTAINER -->
     <div class="container-fluid px-3 px-md-5">
-        <div class="content-card" data-aos="fade-up">
+        <div class="content-card">
             
-            <!-- TOOLBAR PENCARIAN & TOGGLE VIEW -->
-            <div class="p-3 mb-4 rounded-4 border shadow-sm bg-white" style="border-color: #cbd5e1;">
-                <div class="row g-3 align-items-center">
-                    <div class="col-lg-7">
-                        <div class="position-relative">
-                            <i class="fas fa-search position-absolute top-50 translate-middle-y text-muted ms-3" style="font-size: 15px;"></i>
-                            <input type="text" id="topSearchInputSertaMerta" placeholder="Cari informasi darurat, penutupan fasilitas, atau info serta merta..." onkeyup="filterSertaMertaContent()" class="form-control ps-5 rounded-pill border-2 bg-light" style="font-size: 13.5px;">
-                        </div>
-                    </div>
-                    <div class="col-lg-5 d-flex justify-content-lg-end align-items-center gap-2">
-                        <span class="text-muted small me-1">Mode Tampilan:</span>
-                        <button type="button" id="btnModeTableSerta" class="btn btn-primary btn-sm rounded-pill px-3 py-1.5 fw-bold" onclick="switchSertaDisplay('table')">
-                            <i class="fas fa-table-list me-1"></i> Tampilan Tabel DIP
-                        </button>
-                        <button type="button" id="btnModeCardsSerta" class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1.5 fw-bold" onclick="switchSertaDisplay('cards')">
-                            <i class="fas fa-th-large me-1"></i> Tampilan Kartu
-                        </button>
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
+                <div>
+                    <h3 class="fw-bold outfit mb-1" style="color: #002b5c; font-size: 1.7rem;">
+                        Informasi Serta Merta Tahun 2026
+                    </h3>
+                    <p class="text-muted small mb-0">Informasi publik yang berkaitan dengan hajat hidup orang banyak dan ketertiban umum yang wajib diumumkan secara serta-merta tanpa penundaan.</p>
+                </div>
+                <!-- SEARCH INPUT -->
+                <div style="min-width: 280px; max-width: 380px;" class="w-100 w-md-auto">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
+                        <input type="text" id="tableSearchInput" placeholder="Cari dokumen serta merta..." onkeyup="filterDIPTable()" class="form-control border-start-0 ps-0" style="font-size: 13px;">
                     </div>
                 </div>
             </div>
 
             @include('components.konten-dinamis', ['prefix' => 'informasi_sertamerta'])
 
-            <!-- 1. TABEL VIEW (STANDAR RESMI POLTRADA & KEMENHUB - 9 KOLOM) -->
-            <div id="sertaTableView" class="table-responsive rounded-3 border mb-3" style="border-color: #e2e8f0;">
-                <table class="table table-hover align-middle mb-0 smart-table">
+            <!-- POLTRADA BALI MASTER 9-COLUMN DIP TABLE -->
+            <div class="table-responsive mb-3">
+                <table class="tablepress-dip" id="dipTableSertaMerta">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 50px;">No</th>
+                            <th class="text-center" style="width: 45px;">No</th>
                             <th style="min-width: 190px;">Informasi</th>
                             <th style="min-width: 260px;">Ringkasan Informasi</th>
-                            <th style="min-width: 160px;">Pejabat yang Menguasai</th>
+                            <th style="min-width: 160px;">Pejabat yang Menguasai Informasi</th>
                             <th style="min-width: 150px;">Penerbit Informasi</th>
-                            <th class="text-center" style="min-width: 120px;">Bentuk Informasi</th>
-                            <th class="text-center" style="min-width: 130px;">Waktu & Tempat</th>
-                            <th class="text-center" style="min-width: 100px;">Retensi</th>
-                            <th class="text-center" style="min-width: 120px;">Tautan</th>
+                            <th class="text-center" style="min-width: 120px;">Bentuk Informasi yang Tersedia</th>
+                            <th class="text-center" style="min-width: 130px;">Tempat dan Waktu Pembuatan Informasi</th>
+                            <th class="text-center" style="min-width: 110px;">Jangka Waktu Penyimpanan / Retensi Arsip</th>
+                            <th class="text-center" style="min-width: 110px;">Tautan</th>
                         </tr>
                     </thead>
-                                        <tbody id="sertaTableBody">
-                        @if(isset($items) && $items->count() > 0)
-                        @foreach($items as $idx => $it)
+                    <tbody>
                         @php
-                            $rowNo = $idx + 1;
-                            $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 130);
-                            if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
-                                $cleanDesc = 'Pengumuman informasi serta merta resmi PPID Politeknik Keselamatan Transportasi Jalan.';
-                            }
-                            $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
-                        @endphp
-                        <tr class="searchable-sertamerta-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc) }}">
-                            <td class="text-center fw-bold">{{ $rowNo }}</td>
-                            <td><strong class="text-dark">{{ $it->judul }}</strong></td>
-                            <td class="text-muted small">{{ $cleanDesc }}</td>
-                            <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
-                            <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
-                            <td class="text-center"><span class="badge bg-light text-dark border">{{ $it->bentuk_informasi ?? 'Softcopy' }}</span></td>
-                            <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
-                            <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
-                            <td class="text-center">
-                                @php
-                                    $rawPath = trim($it->file_path ?? '');
-                                    $allLinks = [];
-                                    if (!empty($rawPath)) {
-                                        if (preg_match_all('/https?:\/\/[^\s"\'<>]+/i', $rawPath, $mUrls)) {
-                                            $allLinks = array_values(array_unique($mUrls[0]));
-                                        } else {
-                                            $allLinks = [$rawPath];
-                                        }
-                                    }
-                                    if (empty($allLinks) && !empty($it->deskripsi)) {
-                                        if (preg_match_all('/https?:\/\/[^\s"\'<>]+/i', $it->deskripsi, $mUrls)) {
-                                            $allLinks = array_values(array_unique($mUrls[0]));
-                                        }
-                                    }
-                                @endphp
+                            $categories = [
+                                'TANGGAP DARURAT & KESELAMATAN KAMPUS' => ['penutupan layanan', 'darurat', 'bencana', 'cuaca ekstrem', 'penutupan sementara', 'protokol'],
+                                'SISTEM INFORMASI & TEKNOLOGI' => ['pemeliharaan', 'gangguan', 'jaringan', 'server', 'sistem informasi'],
+                                'PELAYANAN KESEHATAN & MASYARAKAT' => ['kesehatan', 'ojek online', 'klinik', 'p4gn', 'narkotika', 'penghapusan bmn', 'spi charter', 'perpustakaan', 'rstj']
+                            ];
 
-                                    @if(count($allLinks) === 1)
+                            $groupedItems = [];
+                            $assignedItemIds = [];
+
+                            foreach ($categories as $catName => $catKeywords) {
+                                $groupedItems[$catName] = collect();
+                                foreach ($items as $item) {
+                                    if (in_array($item->id, $assignedItemIds)) continue;
+                                    $itemTitle = strtolower($item->judul);
+                                    foreach ($catKeywords as $kw) {
+                                        if (str_contains($itemTitle, $kw)) {
+                                            $groupedItems[$catName]->push($item);
+                                            $assignedItemIds[] = $item->id;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            $groupedItems['INFORMASI SERTA MERTA LAINNYA'] = collect();
+                            foreach ($items as $item) {
+                                if (!in_array($item->id, $assignedItemIds)) {
+                                    $groupedItems['INFORMASI SERTA MERTA LAINNYA']->push($item);
+                                }
+                            }
+
+                            $runningNo = 0;
+                        @endphp
+
+                        @if(isset($items) && $items->count() > 0)
+                            @foreach($groupedItems as $categoryName => $catItems)
+                                @if($catItems->count() > 0)
+                                    <!-- CATEGORY SUBHEADER ROW -->
+                                    <tr class="category-divider-row" data-category="{{ $categoryName }}">
+                                        <td colspan="9">
+                                            <i class="fas fa-folder-open me-2 text-warning"></i> {{ $categoryName }}
+                                        </td>
+                                    </tr>
+
+                                    @foreach($catItems as $it)
                                         @php
-                                            $singleL = $allLinks[0];
-                                            $isWeb = str_starts_with($singleL, 'http://') || str_starts_with($singleL, 'https://') || str_starts_with($singleL, '/');
+                                            $runningNo++;
+                                            $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 160);
+                                            if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
+                                                $cleanDesc = 'Informasi serta merta resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
+                                            }
+                                            $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
+
+                                            // Resolve Tautan / Link
+                                            $rawPath = trim($it->file_path ?? '');
+                                            $isWeb = str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://');
+                                            $isInternal = str_starts_with($rawPath, '/');
                                         @endphp
-                                        @if($isWeb)
-                                            <a href="{{ $singleL }}" target="{{ str_starts_with($singleL, '/') ? '_self' : '_blank' }}" rel="noopener noreferrer" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                                Di Sini <i class="fas {{ str_starts_with($singleL, '/') ? 'fa-arrow-right' : 'fa-arrow-up-right-from-square' }} ms-1"></i>
-                                            </a>
-                                    @elseif(has_valid_document($singleL))
-                                        <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" 
-                                                style="font-size: 11.5px;"
-                                                data-bs-toggle="modal" 
-                                                data-bs-target="#previewModal" 
-                                                data-url="{{ route('preview.dokumen', ['file' => $singleL, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
-                                            Disini <i class="fas fa-file-pdf ms-1"></i>
-                                        </button>
-                                    @else
-                                        <span class="badge bg-light text-muted border">Tersedia di Meja PPID</span>
-                                    @endif
-                                @elseif(count($allLinks) > 1)
-                                    <div class="d-flex flex-column gap-1 align-items-center justify-content-center">
-                                        @foreach($allLinks as $lIdx => $lnk)
-                                            <a href="{{ $lnk }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary rounded-pill px-2.5 py-0.5 fw-bold text-nowrap" style="font-size: 11px;">
-                                                Link {{ $lIdx + 1 }} <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size: 9px;"></i>
-                                            </a>
-                                        @endforeach
-                                    </div>
-                                @else
-                                    <span class="badge bg-light text-muted border">Tersedia di Meja PPID</span>
+                                        <tr class="dip-data-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc . ' ' . $categoryName) }}">
+                                            <td class="text-center fw-bold text-muted">{{ $runningNo }}</td>
+                                            <td><strong class="text-dark">{{ $it->judul }}</strong></td>
+                                            <td class="text-muted small">{{ $cleanDesc }}</td>
+                                            <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
+                                            <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
+                                            <td class="text-center">{{ $it->bentuk_informasi ?? 'Hardcopy dan Softcopy' }}</td>
+                                            <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
+                                            <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
+                                            <td class="text-center">
+                                                @if($isInternal)
+                                                    <a href="{{ url($rawPath) }}" class="btn-disini">
+                                                        Di Sini <i class="fas fa-arrow-right ms-1"></i>
+                                                    </a>
+                                                @elseif($isWeb)
+                                                    <a href="{{ $rawPath }}" target="_blank" rel="noopener noreferrer" class="btn-disini">
+                                                        Di Sini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                                    </a>
+                                                @elseif(has_valid_document($rawPath))
+                                                    <button type="button" class="btn-disini" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#previewModal" 
+                                                            data-url="{{ route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
+                                                        Di Sini <i class="fas fa-file-pdf ms-1"></i>
+                                                    </button>
+                                                @else
+                                                    <span class="badge bg-light text-muted border px-2.5 py-1.5 rounded-pill" style="font-size: 11px;">Tersedia Fisik</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
                                 @endif
-                            </td>
-                        </tr>
-                        @endforeach
+                            @endforeach
                         @else
-                        <tr>
-                            <td colspan="9" class="text-center py-4 text-muted">Belum ada dokumen informasi serta merta yang tersedia.</td>
-                        </tr>
+                            <tr>
+                                <td colspan="9" class="text-center py-5 text-muted">
+                                    <i class="fas fa-folder-open fa-3x mb-3 text-secondary opacity-50 d-block"></i>
+                                    <h6 class="fw-bold mb-1">Dokumen Sedang Dalam Proses Pemutakhiran</h6>
+                                    <p class="small text-muted mb-0">Silakan hubungi Desk Layanan PPID PKTJ untuk informasi peringatan darurat terkini.</p>
+                                </td>
+                            </tr>
                         @endif
                     </tbody>
                 </table>
@@ -254,71 +310,20 @@
             <!-- PAGINATION CONTROLS -->
             <div class="p-3 bg-light border rounded-3 mt-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
                 <div class="d-flex align-items-center gap-3 flex-wrap">
-                    <div id="sertaPaginationInfo" class="text-muted small fw-medium">
+                    <div id="tablePaginationInfo" class="text-muted small fw-medium">
                         Menampilkan data...
                     </div>
                     <div class="d-flex align-items-center gap-1.5 ms-md-2">
                         <span class="text-muted small">Tampilkan:</span>
-                        <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changeSertaPageSize(this.value)">
-                <option value="5" selected>5 data per halaman</option>
-                <option value="10">10 data per halaman</option>
-                <option value="25">25 data per halaman</option>
-                <option value="all">Semua data</option>
-            </select>
+                        <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changePageSize(this.value)">
+                            <option value="10" selected>10 data per halaman</option>
+                            <option value="25">25 data per halaman</option>
+                            <option value="all">Semua data</option>
+                        </select>
                     </div>
                 </div>
-                <div id="sertaPaginationControls">
+                <div id="tablePaginationControls">
                     <!-- Filled by JS -->
-                </div>
-            </div>
-
-            <!-- 2. CARDS VIEW (ALTERNATIF TAMPILAN KARTU) -->
-            <div id="sertaCardsView" style="display: none;" class="mt-4">
-                <div class="row" id="sertaItemsContainer">
-                    @forelse($items as $item)
-                        <div class="col-12 searchable-sertamerta-card-item" data-keywords="{{ strtolower($item->judul . ' ' . strip_tags($item->deskripsi)) }}">
-                            <div class="info-item hover-lift">
-                                <div class="d-flex align-items-start flex-column flex-md-row gap-4">
-                                    <div class="info-icon" style="width: 50px; height: 50px; border-radius: 14px; background: #fee2e2; color: #dc2626; display: flex; align-items: center; justify-content: center; font-size: 20px; flex-shrink: 0;">
-                                        <i class="fas fa-triangle-exclamation"></i>
-                                    </div>
-                                    <div class="flex-grow-1 w-100" style="min-width: 0;">
-                                        <h4 class="fw-bold outfit text-dark mb-2" style="font-size: 1.25rem;">{{ $item->judul }}</h4>
-                                        <div class="text-muted small mb-3">
-                                            {!! $item->deskripsi ?? 'Tidak ada deskripsi terperinci.' !!}
-                                        </div>
-                                        <div class="d-flex align-items-center justify-content-between pt-3 border-top flex-wrap gap-2">
-                                            <span class="badge bg-light text-secondary border px-3 py-1.5 rounded-pill font-monospace" style="font-size: 11.5px;">
-                                                <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->format('d M Y') }}
-                                            </span>
-                                            @if(has_valid_document($item->file_path))
-                                                @if(str_starts_with($item->file_path, 'http://') || str_starts_with($item->file_path, 'https://'))
-                                                <a href="{{ $item->file_path }}" target="_blank" rel="noopener noreferrer" 
-                                                   class="btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold">
-                                                    <i class="fas fa-arrow-up-right-from-square me-1"></i> Buka Dokumen
-                                                </a>
-                                                @else
-                                                <button type="button" 
-                                                        class="btn btn-sm btn-primary rounded-pill px-3 py-1.5 fw-bold" 
-                                                        data-bs-toggle="modal" 
-                                                        data-bs-target="#previewModal" 
-                                                        data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
-                                                    <i class="fas fa-eye me-1"></i> Lihat Dokumen
-                                                </button>
-                                                @endif
-                                            @endif
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
-                        <div class="col-12 text-center py-5">
-                            <i class="fas fa-shield-halved fa-4x text-muted mb-4 opacity-25"></i>
-                            <h4 class="text-muted outfit fw-bold">Situasi Terkendali & Layanan Normal</h4>
-                            <p class="text-muted">Saat ini tidak ada keadaan darurat atau force majeure penutupan layanan publik di lingkungan PKTJ Tegal.</p>
-                        </div>
-                    @endforelse
                 </div>
             </div>
 
@@ -328,142 +333,110 @@
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
+        let currentPage = 1;
+        let rowsPerPage = 10;
+        let filteredRows = [];
 
-        function switchSertaDisplay(mode) {
-            const tbl = document.getElementById('sertaTableView');
-            const crd = document.getElementById('sertaCardsView');
-            const btnTbl = document.getElementById('btnModeTableSerta');
-            const btnCrd = document.getElementById('btnModeCardsSerta');
-
-            if (mode === 'table') {
-                tbl.style.display = 'block';
-                crd.style.display = 'none';
-                btnTbl.classList.add('btn-primary');
-                btnTbl.classList.remove('btn-outline-secondary');
-                btnCrd.classList.add('btn-outline-secondary');
-                btnCrd.classList.remove('btn-primary');
-            } else {
-                tbl.style.display = 'none';
-                crd.style.display = 'block';
-                btnCrd.classList.add('btn-primary');
-                btnCrd.classList.remove('btn-outline-secondary');
-                btnTbl.classList.add('btn-outline-secondary');
-                btnTbl.classList.remove('btn-primary');
-            }
+        function filterDIPTable() {
+            currentPage = 1;
+            initTablePagination();
         }
 
-        // PAGINATION & FILTER LOGIC (10 BARIS PER HALAMAN)
-                        function changeSertaPageSize(val) {
-            sertaRowsPerPage = val === 'all' ? 9999 : parseInt(val);
-            currentSertaPage = 1;
-            initSertaPagination();
+        function changePageSize(val) {
+            rowsPerPage = val === 'all' ? 9999 : parseInt(val);
+            currentPage = 1;
+            initTablePagination();
         }
 
-        let currentSertaPage = 1;
-        let sertaRowsPerPage = 5;
-        let filteredSertaRows = [];
-
-        function initSertaPagination() {
-            const allRows = Array.from(document.querySelectorAll('#sertaTableBody tr.searchable-sertamerta-row'));
-            const searchInput = document.getElementById('topSearchInputSerta');
+        function initTablePagination() {
+            const searchInput = document.getElementById('tableSearchInput');
             const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
+            const allRows = Array.from(document.querySelectorAll('#dipTableSertaMerta tbody tr.dip-data-row'));
 
-            filteredSertaRows = allRows.filter(row => {
+            // Filter data rows
+            filteredRows = allRows.filter(row => {
                 const kw = row.getAttribute('data-keywords') || '';
-                const text = row.innerText.toLowerCase();
-                return !query || kw.includes(query) || text.includes(query);
+                return !query || kw.includes(query) || row.innerText.toLowerCase().includes(query);
             });
 
-            const totalPages = Math.ceil(filteredSertaRows.length / sertaRowsPerPage) || 1;
-            if (currentSertaPage > totalPages) currentSertaPage = 1;
-
-            renderSertaTablePage();
-            renderSertaPaginationControls();
-        }
-
-        function renderSertaTablePage() {
-            const allRows = document.querySelectorAll('#sertaTableBody tr.searchable-sertamerta-row');
+            // Hide all rows initially
             allRows.forEach(r => r.style.display = 'none');
 
-            const total = filteredSertaRows.length;
-            const startIdx = (currentSertaPage - 1) * sertaRowsPerPage;
-            const endIdx = Math.min(startIdx + sertaRowsPerPage, total);
+            // Render current page rows
+            const total = filteredRows.length;
+            const totalPages = Math.ceil(total / rowsPerPage) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const startIdx = (currentPage - 1) * rowsPerPage;
+            const endIdx = Math.min(startIdx + rowsPerPage, total);
 
             for (let i = startIdx; i < endIdx; i++) {
-                if (filteredSertaRows[i]) {
-                    filteredSertaRows[i].style.display = '';
-                    const noCell = filteredSertaRows[i].querySelector('td:first-child');
-                    if (noCell) {
-                        noCell.innerText = (i + 1);
-                    }
+                if (filteredRows[i]) {
+                    filteredRows[i].style.display = '';
+                    const noCell = filteredRows[i].querySelector('td:first-child');
+                    if (noCell) noCell.innerText = (i + 1);
                 }
             }
 
-            const sectionHeaders = document.querySelectorAll('#sertaTableBody tr.table-light');
-            sectionHeaders.forEach(sh => {
-                sh.style.display = total === 0 ? 'none' : '';
+            // Update category divider rows visibility
+            const catRows = document.querySelectorAll('#dipTableSertaMerta tbody tr.category-divider-row');
+            catRows.forEach(cr => {
+                if (query) {
+                    cr.style.display = 'none';
+                } else {
+                    cr.style.display = '';
+                }
             });
 
-            const infoEl = document.getElementById('sertaPaginationInfo');
+            // Update info
+            const infoEl = document.getElementById('tablePaginationInfo');
             if (infoEl) {
                 if (total === 0) {
-                    infoEl.innerHTML = '<span class="text-danger"><i class="fas fa-search me-1"></i> Tidak ada informasi serta merta yang cocok dengan pencarian.</span>';
+                    infoEl.innerHTML = '<span class="text-danger"><i class="fas fa-search me-1"></i> Tidak ada informasi yang cocok dengan kata kunci pencarian.</span>';
                 } else {
-                    infoEl.innerHTML = `Menampilkan baris <strong>${startIdx + 1}</strong> - <strong>${endIdx}</strong> dari total <strong>${total}</strong> data informasi publik`;
+                    infoEl.innerHTML = `Menampilkan baris <strong>${startIdx + 1}</strong> - <strong>${endIdx}</strong> dari total <strong>${total}</strong> data informasi serta merta`;
                 }
             }
+
+            renderPaginationControls(totalPages);
         }
 
-        function goToSertaPage(page) {
-            const totalPages = Math.ceil(filteredSertaRows.length / sertaRowsPerPage) || 1;
-            if (page < 1) page = 1;
-            if (page > totalPages) page = totalPages;
-            currentSertaPage = page;
-            renderSertaTablePage();
-            renderSertaPaginationControls();
-
-            const tbl = document.getElementById('sertaTableBody');
+        function goToPage(p) {
+            currentPage = p;
+            initTablePagination();
+            const tbl = document.getElementById('dipTableSertaMerta');
             if (tbl) tbl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function renderSertaPaginationControls() {
-            const container = document.getElementById('sertaPaginationControls');
+        function renderPaginationControls(totalPages) {
+            const container = document.getElementById('tablePaginationControls');
             if (!container) return;
 
-            const totalPages = Math.ceil(filteredSertaRows.length / sertaRowsPerPage) || 1;
-
-            let html = '<div class="pagination-box-group d-flex align-items-center gap-1">';
-
-            // Tombol Panah Kiri (Prev)
-            if (currentSertaPage > 1) {
-                html += `<button type="button" class="page-box-btn" onclick="goToSertaPage(${currentSertaPage - 1})" title="Halaman Sebelumnya">←</button>`;
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
             }
 
-            // Tombol Kotak Nomor (1, 2, 3, ...) persis Gambar 2
+            let html = '<div class="pagination-box-group">';
+            if (currentPage > 1) {
+                html += `<button type="button" class="page-box-btn" onclick="goToPage(${currentPage - 1})" title="Sebelumnya">←</button>`;
+            }
+
             for (let p = 1; p <= totalPages; p++) {
-                const isCur = p === currentSertaPage;
-                const activeClass = isCur ? 'page-box-btn active' : 'page-box-btn';
-                html += `<button type="button" class="${activeClass}" onclick="goToSertaPage(${p})">${p}</button>`;
+                const active = p === currentPage ? 'active' : '';
+                html += `<button type="button" class="page-box-btn ${active}" onclick="goToPage(${p})">${p}</button>`;
             }
 
-            // Tombol Panah Kanan (Next)
-            if (currentSertaPage < totalPages) {
-                html += `<button type="button" class="page-box-btn" onclick="goToSertaPage(${currentSertaPage + 1})" title="Halaman Selanjutnya">→</button>`;
+            if (currentPage < totalPages) {
+                html += `<button type="button" class="page-box-btn" onclick="goToPage(${currentPage + 1})" title="Selanjutnya">→</button>`;
             }
-
             html += '</div>';
             container.innerHTML = html;
         }
 
-        // Initialize pagination reliably
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initSertaPagination);
-        } else {
-            initSertaPagination();
-        }
+        document.addEventListener('DOMContentLoaded', initTablePagination);
     </script>
 </body>
 </html>

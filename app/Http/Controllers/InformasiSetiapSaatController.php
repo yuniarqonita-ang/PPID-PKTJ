@@ -191,6 +191,38 @@ class InformasiSetiapSaatController extends Controller
             $filePath = $request->gdrive_link;
         }
 
+        $isAktif = $request->has('aktif');
+        $isBlurred = $request->has('is_blurred');
+        $bisaDownload = $request->has('bisa_download');
+
+        $oldTitle = ($setiapsaat ? $setiapsaat->judul : ($daftar ? $daftar->judul_informasi : null)) ?? $request->judul;
+
+        InformasiSetiapsaat::where('id', $id)
+            ->orWhere('judul', $oldTitle)
+            ->orWhere('judul', $request->judul)
+            ->update([
+                'judul' => $request->judul,
+                'deskripsi' => $request->deskripsi ?? '',
+                'file_path' => $filePath,
+                'aktif' => $isAktif,
+                'is_blurred' => $isBlurred,
+                'bisa_download' => $bisaDownload,
+                'tanggal' => $request->tanggal,
+            ]);
+
+        DaftarInformasi::where('id', $id)
+            ->orWhere('judul_informasi', $oldTitle)
+            ->orWhere('judul_informasi', $request->judul)
+            ->update([
+                'judul_informasi' => $request->judul,
+                'isi_informasi'   => $request->deskripsi ?? '',
+                'file_informasi'  => $filePath,
+                'aktif'           => $isAktif,
+                'is_blurred'      => $isBlurred,
+                'bisa_download'   => $bisaDownload,
+                'waktu_pembuatan' => date('Y', strtotime($request->tanggal)),
+            ]);
+
         if (!$setiapsaat && !$daftar) {
             DaftarInformasi::create([
                 'judul_informasi' => $request->judul,
@@ -198,35 +230,10 @@ class InformasiSetiapSaatController extends Controller
                 'kategori'        => 'informasi-setiap-saat',
                 'tipe_informasi'  => 'setiapsaat',
                 'file_informasi'  => $filePath,
-                'aktif'           => $request->has('aktif'),
-                'is_blurred'      => $request->has('is_blurred'),
-                'bisa_download'   => $request->has('bisa_download'),
+                'aktif'           => $isAktif,
+                'is_blurred'      => $isBlurred,
+                'bisa_download'   => $bisaDownload,
                 'waktu_pembuatan' => date('Y', strtotime($request->tanggal)),
-            ]);
-            return redirect()->route('admin.informasi.setiapsaat.index')
-                ->with('success', 'Informasi setiap saat berhasil diperbarui!');
-        }
-
-        if ($setiapsaat) {
-            $setiapsaat->update([
-                'judul' => $request->judul,
-                'deskripsi' => $request->deskripsi ?? '',
-                'file_path' => $filePath,
-                'aktif' => $request->has('aktif'),
-                'is_blurred' => $request->has('is_blurred'),
-                'bisa_download' => $request->has('bisa_download'),
-                'tanggal' => $request->tanggal,
-            ]);
-        }
-
-        if ($daftar) {
-            $daftar->update([
-                'judul_informasi' => $request->judul,
-                'isi_informasi'   => $request->deskripsi ?? '',
-                'file_informasi'  => $filePath,
-                'aktif'           => $request->has('aktif'),
-                'is_blurred'      => $request->has('is_blurred'),
-                'bisa_download'   => $request->has('bisa_download'),
             ]);
         }
 
@@ -239,8 +246,10 @@ class InformasiSetiapSaatController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
+        $targetJudul = null;
         $setiapsaat = InformasiSetiapsaat::find($id);
         if ($setiapsaat) {
+            $targetJudul = $setiapsaat->judul;
             if ($setiapsaat->file_path && !str_starts_with($setiapsaat->file_path, 'http') && Storage::exists(str_replace('storage/', 'public/', $setiapsaat->file_path))) {
                 Storage::delete(str_replace('storage/', 'public/', $setiapsaat->file_path));
             }
@@ -249,10 +258,16 @@ class InformasiSetiapSaatController extends Controller
 
         $daftar = DaftarInformasi::find($id);
         if ($daftar) {
+            if (!$targetJudul) $targetJudul = $daftar->judul_informasi;
             if ($daftar->file_informasi && !str_starts_with($daftar->file_informasi, 'http') && Storage::exists(str_replace('storage/', 'public/', $daftar->file_informasi))) {
                 Storage::delete(str_replace('storage/', 'public/', $daftar->file_informasi));
             }
             $daftar->delete();
+        }
+
+        if ($targetJudul) {
+            InformasiSetiapsaat::where('judul', $targetJudul)->delete();
+            DaftarInformasi::where('judul_informasi', $targetJudul)->delete();
         }
 
         return redirect()->route('admin.informasi.setiapsaat.index')

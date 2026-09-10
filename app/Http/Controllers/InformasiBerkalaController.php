@@ -193,6 +193,39 @@ class InformasiBerkalaController extends Controller
             $filePath = $request->input('gdrive_link');
         }
 
+        $isAktif = $request->has('aktif');
+        $isBlurred = $request->has('is_blurred');
+        $bisaDownload = $request->has('bisa_download');
+
+        // Pastikan kedua tabel terupdate secara serentak (by id maupun by judul)
+        $oldTitle = ($berkala ? $berkala->judul : ($daftar ? $daftar->judul_informasi : null)) ?? $validated['judul'];
+
+        InformasiBerkala::where('id', $id)
+            ->orWhere('judul', $oldTitle)
+            ->orWhere('judul', $validated['judul'])
+            ->update([
+                'judul' => $validated['judul'],
+                'deskripsi' => $validated['deskripsi'] ?? null,
+                'file_path' => $filePath,
+                'aktif' => $isAktif,
+                'is_blurred' => $isBlurred,
+                'bisa_download' => $bisaDownload,
+                'tanggal' => $request->tanggal,
+            ]);
+
+        DaftarInformasi::where('id', $id)
+            ->orWhere('judul_informasi', $oldTitle)
+            ->orWhere('judul_informasi', $validated['judul'])
+            ->update([
+                'judul_informasi' => $validated['judul'],
+                'isi_informasi'   => $validated['deskripsi'] ?? null,
+                'file_informasi'  => $filePath,
+                'aktif'           => $isAktif,
+                'is_blurred'      => $isBlurred,
+                'bisa_download'   => $bisaDownload,
+                'waktu_pembuatan' => date('Y', strtotime($request->tanggal)),
+            ]);
+
         if (!$berkala && !$daftar) {
             DaftarInformasi::create([
                 'judul_informasi' => $validated['judul'],
@@ -200,35 +233,10 @@ class InformasiBerkalaController extends Controller
                 'kategori'        => 'informasi-berkala',
                 'tipe_informasi'  => 'berkala',
                 'file_informasi'  => $filePath,
-                'aktif'           => $request->has('aktif'),
-                'is_blurred'      => $request->has('is_blurred'),
-                'bisa_download'   => $request->has('bisa_download'),
+                'aktif'           => $isAktif,
+                'is_blurred'      => $isBlurred,
+                'bisa_download'   => $bisaDownload,
                 'waktu_pembuatan' => date('Y', strtotime($request->tanggal)),
-            ]);
-            return redirect()->route('admin.informasi.berkala.index')
-                ->with('success', 'Informasi berkala berhasil diperbarui!');
-        }
-
-        if ($berkala) {
-            $berkala->update([
-                'judul' => $validated['judul'],
-                'deskripsi' => $validated['deskripsi'] ?? null,
-                'file_path' => $filePath,
-                'aktif' => $request->has('aktif'),
-                'is_blurred' => $request->has('is_blurred'),
-                'bisa_download' => $request->has('bisa_download'),
-                'tanggal' => $request->tanggal,
-            ]);
-        }
-
-        if ($daftar) {
-            $daftar->update([
-                'judul_informasi' => $validated['judul'],
-                'isi_informasi'   => $validated['deskripsi'] ?? null,
-                'file_informasi'  => $filePath,
-                'aktif'           => $request->has('aktif'),
-                'is_blurred'      => $request->has('is_blurred'),
-                'bisa_download'   => $request->has('bisa_download'),
             ]);
         }
 
@@ -241,8 +249,10 @@ class InformasiBerkalaController extends Controller
      */
     public function destroy(string $id): RedirectResponse
     {
+        $targetJudul = null;
         $berkala = InformasiBerkala::find($id);
         if ($berkala) {
+            $targetJudul = $berkala->judul;
             if ($berkala->file_path && !str_starts_with($berkala->file_path, 'http') && Storage::exists(str_replace('storage/', 'public/', $berkala->file_path))) {
                 Storage::delete(str_replace('storage/', 'public/', $berkala->file_path));
             }
@@ -251,10 +261,16 @@ class InformasiBerkalaController extends Controller
 
         $daftar = DaftarInformasi::find($id);
         if ($daftar) {
+            if (!$targetJudul) $targetJudul = $daftar->judul_informasi;
             if ($daftar->file_informasi && !str_starts_with($daftar->file_informasi, 'http') && Storage::exists(str_replace('storage/', 'public/', $daftar->file_informasi))) {
                 Storage::delete(str_replace('storage/', 'public/', $daftar->file_informasi));
             }
             $daftar->delete();
+        }
+
+        if ($targetJudul) {
+            InformasiBerkala::where('judul', $targetJudul)->delete();
+            DaftarInformasi::where('judul_informasi', $targetJudul)->delete();
         }
 
         return redirect()->route('admin.informasi.berkala.index')

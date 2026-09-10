@@ -1071,9 +1071,6 @@
                                 <div class="sp4n-sms-badge">
                                     <i class="fa-solid fa-comment-sms"></i> SMS 1708
                                 </div>
-                                <div class="text-xs text-slate-500 font-medium">
-                                    Format SMS: <strong>PKTJ (spasi) Isi Pengaduan</strong> kirim ke <strong>1708</strong>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -5,17 +5,17 @@
     gap: 6px;
 }
 .page-box-btn {
-    min-width: 38px;
-    height: 38px;
-    padding: 0 12px;
+    min-width: 36px;
+    height: 36px;
+    padding: 0 10px;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     background-color: #ffffff;
     color: #1e293b;
     border: 1px solid #cbd5e1;
-    border-radius: 3px;
-    font-size: 14px;
+    border-radius: 4px;
+    font-size: 13px;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.15s ease-in-out;
@@ -28,8 +28,8 @@
     color: #0f172a;
 }
 .page-box-btn.active {
-    background-color: #142238 !important;
-    border-color: #142238 !important;
+    background-color: #004a99 !important;
+    border-color: #004a99 !important;
     color: #ffffff !important;
     box-shadow: 0 2px 4px rgba(0,0,0,0.12);
     cursor: default;
@@ -44,654 +44,404 @@
     <title>Informasi Berkala - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     @include('components.public-page-style')
     <style>
         .outfit { font-family: 'Outfit', sans-serif; }
 
-        /* Modern Hero Section */
         .hero-section {
-            background: linear-gradient(135deg, rgba(0, 30, 64, 0.95) 0%, rgba(0, 74, 153, 0.88) 100%), 
-                        url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=2070');
-            background-size: cover;
-            background-position: center;
-            padding: 130px 0 140px;
+            background: linear-gradient(135deg, rgba(0, 30, 64, 0.95) 0%, rgba(0, 74, 153, 0.92) 100%);
+            padding: 70px 0 85px;
             color: white;
             position: relative;
-            overflow: hidden;
         }
-
-        .hero-section::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: linear-gradient(to top, rgba(248, 250, 252, 1), transparent);
-            pointer-events: none;
-        }
-
-        .hero-content { position: relative; z-index: 10; }
 
         .content-card {
             background: white;
-            padding: 50px 55px;
-            border-radius: 36px;
-            box-shadow: 0 25px 60px rgba(0, 43, 92, 0.09), 0 4px 16px rgba(0,0,0,0.02);
-            margin-top: -70px;
-            border: 1px solid rgba(226, 232, 240, 0.8);
+            padding: 40px 45px;
+            border-radius: 24px;
+            box-shadow: 0 15px 45px rgba(0, 43, 92, 0.08);
+            margin-top: -45px;
+            border: 1px solid rgba(226, 232, 240, 0.9);
             position: relative;
             z-index: 20;
-            margin-bottom: 80px;
+            margin-bottom: 70px;
         }
 
-        .section-title {
-            color: var(--primary-blue);
-            font-weight: 900;
-            margin-bottom: 40px;
-            border-left: 8px solid var(--secondary-gold);
-            padding-left: 25px;
-            text-transform: uppercase;
-            letter-spacing: -0.5px;
-            font-family: 'Outfit', sans-serif;
-            font-size: 2.2rem;
+        /* Poltrada Bali TablePress Style Table */
+        .tablepress-dip {
+            border-collapse: separate;
+            border-spacing: 0;
+            width: 100%;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            overflow: hidden;
+            font-size: 13px;
         }
 
-        .info-item {
-            background: #ffffff;
-            border-radius: 26px;
-            padding: 32px 36px;
-            margin-bottom: 28px;
-            border: 1.5px solid #e2e8f0;
-            border-left: 6px solid #004a99;
-            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.04);
-            transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .info-item:hover {
-            transform: translateY(-6px);
-            background: #ffffff;
-            border-color: #004a99;
-            border-left: 6px solid var(--secondary-gold);
-            box-shadow: 0 20px 45px rgba(0, 74, 153, 0.12);
-        }
-
-        .info-icon {
-            width: 58px;
-            height: 58px;
-            background: linear-gradient(135deg, rgba(0, 74, 153, 0.1) 0%, rgba(0, 74, 153, 0.04) 100%);
-            color: var(--primary-blue);
-            border-radius: 18px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            margin-right: 20px;
-            flex-shrink: 0;
-            border: 1px solid rgba(0, 74, 153, 0.15);
-        }
-
-        .btn-download-premium {
-            background: linear-gradient(135deg, #002b5c 0%, #004a99 100%);
-            color: white;
-            padding: 11px 22px;
-            border-radius: 14px;
+        .tablepress-dip thead th {
+            background: #002b5c;
+            color: #ffffff;
             font-weight: 700;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 13px 12px;
+            vertical-align: middle;
+            border: none;
+            border-right: 1px solid rgba(255, 255, 255, 0.15);
+            font-size: 13px;
+            letter-spacing: 0.2px;
+        }
+        .tablepress-dip thead th:last-child {
+            border-right: none;
+        }
+
+        .tablepress-dip tbody td {
+            padding: 12px 14px;
+            vertical-align: middle;
+            border-top: 1px solid #e2e8f0;
+            border-right: 1px solid #f1f5f9;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .tablepress-dip tbody td:last-child {
+            border-right: none;
+        }
+
+        .tablepress-dip tbody tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        .tablepress-dip tbody tr:hover td {
+            background-color: #eff6ff !important;
+        }
+
+        /* Category Divider Row */
+        .tablepress-dip tr.category-divider-row td {
+            background: #e2e8f0 !important;
+            color: #002b5c !important;
+            font-weight: 800 !important;
+            font-size: 12.5px !important;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 10px 16px !important;
+            border-top: 2px solid #cbd5e1 !important;
+            border-bottom: 1px solid #cbd5e1 !important;
+        }
+
+        .btn-disini {
+            background: #004a99;
+            border: 1px solid #004a99;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 12px;
+            padding: 5px 14px;
+            border-radius: 50rem;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
-            font-size: 0.92rem;
-            box-shadow: 0 4px 14px rgba(0, 74, 153, 0.2);
-            border: none;
+            gap: 6px;
+            text-decoration: none;
+            transition: all 0.2s ease-in-out;
+            white-space: nowrap;
         }
-
-        .btn-download-premium:hover {
-            background: var(--secondary-gold);
-            color: var(--primary-blue);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(217, 119, 6, 0.3);
+        .btn-disini:hover {
+            background: #ffc107;
+            border-color: #ffc107;
+            color: #002b5c;
+            box-shadow: 0 4px 10px rgba(0, 74, 153, 0.25);
+            transform: translateY(-1px);
         }
-
-        .rich-content {
-            color: #334155;
-            font-size: 1.02rem;
-            line-height: 1.8;
-        }
-
-        .rich-content p {
-            margin-bottom: 14px;
-            line-height: 1.8;
-            color: #334155;
-        }
-
-        .rich-content p:last-child {
-            margin-bottom: 0;
-        }
-
-        .rich-content p:empty,
-        .rich-content p > br:only-child {
-            min-height: 1.5em;
-            display: block;
-            margin-bottom: 14px;
-        }
-
-        .rich-content table {
-            width: 100% !important;
-            border-collapse: collapse !important;
-            margin: 16px 0 !important;
-            background: #ffffff !important;
-        }
-        .rich-content th, .rich-content td {
-            border: 1px solid #cbd5e1 !important;
-            padding: 10px 14px !important;
-            vertical-align: middle !important;
-        }
-        .rich-content th {
-            background-color: #004a99 !important;
-            color: #ffffff !important;
-            font-weight: 700 !important;
-        }
-        .rich-content a {
-            color: #004a99 !important;
-            text-decoration: underline !important;
-            font-weight: 600 !important;
-        }
-        .rich-content a.btn {
-            text-decoration: none !important;
-        }
-    </style>
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <style>
-        .hover-lift { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-        .hover-lift:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
     </style>
 </head>
 <body>
 
     @include('navigation')
 
+    <!-- HERO HEADER -->
     <div class="hero-section">
-        <div class="container text-center hero-content">
-            <h1 class="display-3 fw-black outfit uppercase">Informasi Berkala</h1>
-            <p class="lead opacity-75 mb-0">Akses daftar informasi publik yang disediakan secara rutin oleh PPID PKTJ.</p>
+        <div class="container text-center">
+            <h1 class="display-4 fw-black outfit uppercase mb-2">Informasi Berkala</h1>
+            <p class="lead opacity-85 mb-0" style="font-size: 1.15rem;">Daftar Informasi Publik (DIP) Berkala Resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal</p>
         </div>
     </div>
 
+    <!-- MAIN CONTENT CONTAINER -->
     <div class="container-fluid px-3 px-md-5">
-        <div class="content-card" data-aos="fade-up" data-aos-delay="100">
-            <!-- TOP HERO QUICK SEARCH BAR -->
-            <div class="p-4 mb-4 rounded-4 border shadow-sm" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-color: #cbd5e1;">
-                <div class="row g-3 align-items-center">
-                    <div class="col-lg-8">
-                        <div class="position-relative">
-                            <i class="fas fa-search position-absolute top-50 translate-middle-y text-muted ms-3" style="font-size: 16px;"></i>
-                            <input type="text" id="topSearchInputBerkala" placeholder="Cari kata kunci, nama pejabat, jenis dokumen berkala..." onkeyup="filterBerkalaContent()" class="form-control form-control-lg ps-5 rounded-pill border-2 bg-white" style="font-size: 14.5px; box-shadow: 0 2px 8px rgba(0,0,0,0.03);">
-                        </div>
-                    </div>
-                    <div class="col-lg-4 text-lg-end text-muted small">
-                        <span class="badge bg-white text-dark border px-3 py-2 rounded-pill shadow-xs">
-                            <i class="fas fa-list-check text-primary me-1"></i> Mode Penjelajahan Publik
-                        </span>
+        <div class="content-card">
+            
+            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
+                <div>
+                    <h3 class="fw-bold outfit mb-1" style="color: #002b5c; font-size: 1.7rem;">
+                        Informasi Berkala Tahun 2026
+                    </h3>
+                    <p class="text-muted small mb-0">Informasi publik yang wajib disediakan dan diumumkan secara berkala sesuai ketentuan perundang-undangan.</p>
+                </div>
+                <!-- SEARCH INPUT -->
+                <div style="min-width: 280px; max-width: 380px;" class="w-100 w-md-auto">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
+                        <input type="text" id="tableSearchInput" placeholder="Cari dokumen berkala..." onkeyup="filterDIPTable()" class="form-control border-start-0 ps-0" style="font-size: 13px;">
                     </div>
                 </div>
             </div>
 
             @include('components.konten-dinamis', ['prefix' => 'informasi_berkala'])
 
-            <!-- ATM POLTRADA BALI: TABEL DAFTAR INFORMASI PUBLIK (DIP) BERKALA -->
-            <div class="my-5 p-4 p-md-5 rounded-4 border shadow-sm bg-white" style="border-color: #cbd5e1;" data-aos="fade-up">
-                <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
-                    <div>
-                        <div class="badge bg-primary text-white font-black px-3 py-1.5 rounded-pill mb-2 text-uppercase" style="font-size: 11px; letter-spacing: 0.5px;">
-                            <i class="fas fa-table me-1"></i> Standar DIP Berkala Kemenhub & Poltrada
-                        </div>
-                        <h3 class="fw-bold outfit mb-1" style="color: #004a99; font-size: 1.65rem;">
-                            Tabel Daftar Informasi Publik (DIP) Berkala
-                        </h3>
-                        <p class="text-muted small mb-0">Format master tabel informasi berkala yang dikuasai dan dipublikasikan resmi oleh PPID Pelaksana PKTJ Tegal.</p>
-                    </div>
-                    <div class="d-flex gap-2">
-                        <button type="button" id="btnModeTable" class="btn btn-primary btn-sm rounded-pill px-4 py-2 fw-bold" onclick="switchBerkalaDisplay('table')">
-                            <i class="fas fa-table-list me-1"></i> Tampilan Tabel DIP
-                        </button>
-                        <button type="button" id="btnModeCards" class="btn btn-outline-secondary btn-sm rounded-pill px-4 py-2 fw-bold" onclick="switchBerkalaDisplay('cards')">
-                            <i class="fas fa-th-large me-1"></i> Tampilan Kartu
-                        </button>
-                    </div>
-                </div>
-
-                <!-- 1. TABEL VIEW (STANDAR RESMI POLTRADA & KEMENHUB - 9 KOLOM) -->
-                <div id="berkalaTableView" class="table-responsive rounded-3 border mb-4" style="border-color: #e2e8f0;">
-                    <table class="table table-hover align-middle mb-0" style="font-size: 13px;">
-                        <thead style="background: #002b5c; color: white;">
-                            <tr>
-                                <th class="text-center py-3 px-2" style="width: 50px;">No</th>
-                                <th class="py-3 px-3" style="min-width: 180px;">Informasi</th>
-                                <th class="py-3 px-3" style="min-width: 250px;">Ringkasan Informasi</th>
-                                <th class="py-3 px-3" style="min-width: 160px;">Pejabat yang Menguasai Informasi</th>
-                                <th class="py-3 px-3" style="min-width: 150px;">Penerbit Informasi</th>
-                                <th class="py-3 px-2 text-center" style="min-width: 130px;">Bentuk Informasi</th>
-                                <th class="py-3 px-3 text-center" style="min-width: 140px;">Waktu & Tempat Pembuatan</th>
-                                <th class="py-3 px-2 text-center" style="min-width: 110px;">Retensi Arsip</th>
-                                <th class="py-3 px-3 text-center" style="min-width: 130px;">Tautan</th>
-                            </tr>
-                        </thead>
-                                                                        <tbody>
-                        @if(isset($items) && $items->count() > 0)
-                        @foreach($items as $idx => $it)
+            <!-- POLTRADA BALI MASTER 9-COLUMN DIP TABLE -->
+            <div class="table-responsive mb-3">
+                <table class="tablepress-dip" id="dipTableBerkala">
+                    <thead>
+                        <tr>
+                            <th class="text-center" style="width: 45px;">No</th>
+                            <th style="min-width: 190px;">Informasi</th>
+                            <th style="min-width: 260px;">Ringkasan Informasi</th>
+                            <th style="min-width: 160px;">Pejabat yang Menguasai Informasi</th>
+                            <th style="min-width: 150px;">Penerbit Informasi</th>
+                            <th class="text-center" style="min-width: 120px;">Bentuk Informasi yang Tersedia</th>
+                            <th class="text-center" style="min-width: 130px;">Tempat dan Waktu Pembuatan Informasi</th>
+                            <th class="text-center" style="min-width: 110px;">Jangka Waktu Penyimpanan / Retensi Arsip</th>
+                            <th class="text-center" style="min-width: 110px;">Tautan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         @php
-                            $rowNo = $idx + 1;
-                            $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 130);
-                            if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
-                                $cleanDesc = 'Dokumen berkala keterbukaan informasi publik resmi Politeknik Keselamatan Transportasi Jalan Tegal.';
-                            }
-                            $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
-                        @endphp
-                        <tr class="searchable-berkala-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc) }}">
-                            <td class="text-center fw-bold">{{ $rowNo }}</td>
-                            <td><strong class="text-dark">{{ $it->judul }}</strong></td>
-                                <td class="text-muted small">{{ $cleanDesc }}</td>
-                                <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
-                                <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
-                                <td class="text-center"><span class="badge bg-light text-dark border">{{ $it->bentuk_informasi ?? 'Softcopy' }}</span></td>
-                                <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
-                                <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
-                                <td class="text-center">
-                                    @php
-                                        $rawPath = trim($it->file_path ?? '');
-                                        $allLinks = [];
-                                        if (!empty($rawPath)) {
-                                            if (preg_match_all('/https?:\/\/[^\s"\'<>]+/i', $rawPath, $mUrls)) {
-                                                $allLinks = array_values(array_unique($mUrls[0]));
-                                            } else {
-                                                $allLinks = [$rawPath];
-                                            }
-                                        }
-                                        if (empty($allLinks) && !empty($it->deskripsi)) {
-                                            if (preg_match_all('/https?:\/\/[^\s"\'<>]+/i', $it->deskripsi, $mUrls)) {
-                                                $allLinks = array_values(array_unique($mUrls[0]));
-                                            }
-                                        }
-                                    @endphp
+                            // Kelompokkan item berdasarkan kategori Poltrada Bali
+                            $categories = [
+                                'PROFIL' => ['profil', 'struktur organisasi', 'visi', 'misi', 'tugas', 'fungsi', 'pejabat', 'lhkpn', 'statistik data kepegawaian'],
+                                'PROGRAM DAN KEGIATAN' => ['sipencatar', 'biaya pendidikan', 'kalender akademik', 'program', 'kegiatan'],
+                                'KINERJA DAN KEUANGAN' => ['renstra', 'rencana strategis', 'rkt', 'perjanjian kinerja', 'iku', 'indikator kinerja', 'lkjip', 'lakip', 'akip', 'dipa', 'anggaran', 'keuangan', 'laporan pelayanan informasi'],
+                                'PENGADAAN BARANG DAN JASA' => ['sirup', 'pengadaan', 'tender', 'lpse', 'barang dan jasa'],
+                                'PROSEDUR DAN LAYANAN INFORMASI' => ['tata cara', 'prosedur', 'permohonan', 'keberatan', 'sengketa', 'pengaduan', 'whistleblowing', 'wbs']
+                            ];
 
-                                    @if(count($allLinks) === 1)
+                            // Map setiap item ke kategori
+                            $groupedItems = [];
+                            $assignedItemIds = [];
+
+                            foreach ($categories as $catName => $catKeywords) {
+                                $groupedItems[$catName] = collect();
+                                foreach ($items as $item) {
+                                    if (in_array($item->id, $assignedItemIds)) continue;
+                                    $itemTitle = strtolower($item->judul);
+                                    foreach ($catKeywords as $kw) {
+                                        if (str_contains($itemTitle, $kw)) {
+                                            $groupedItems[$catName]->push($item);
+                                            $assignedItemIds[] = $item->id;
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Sisa item yang belum masuk kategori
+                            $groupedItems['LAINNYA'] = collect();
+                            foreach ($items as $item) {
+                                if (!in_array($item->id, $assignedItemIds)) {
+                                    $groupedItems['LAINNYA']->push($item);
+                                }
+                            }
+
+                            $runningNo = 0;
+                        @endphp
+
+                        @if(isset($items) && $items->count() > 0)
+                            @foreach($groupedItems as $categoryName => $catItems)
+                                @if($catItems->count() > 0)
+                                    <!-- CATEGORY SUBHEADER ROW -->
+                                    <tr class="category-divider-row" data-category="{{ $categoryName }}">
+                                        <td colspan="9">
+                                            <i class="fas fa-folder-open me-2 text-warning"></i> {{ $categoryName }}
+                                        </td>
+                                    </tr>
+
+                                    @foreach($catItems as $it)
                                         @php
-                                            $singleL = $allLinks[0];
-                                            $isWeb = str_starts_with($singleL, 'http://') || str_starts_with($singleL, 'https://') || str_starts_with($singleL, '/');
+                                            $runningNo++;
+                                            $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 160);
+                                            if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
+                                                $cleanDesc = 'Informasi berkala resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
+                                            }
+                                            $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
+
+                                            // Resolve Tautan / Link
+                                            $rawPath = trim($it->file_path ?? '');
+                                            $isWeb = str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://');
+                                            $isInternal = str_starts_with($rawPath, '/');
                                         @endphp
-                                        @if($isWeb)
-                                            <a href="{{ $singleL }}" target="{{ str_starts_with($singleL, '/') ? '_self' : '_blank' }}" rel="noopener noreferrer" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" style="font-size: 11.5px;">
-                                                Di Sini <i class="fas {{ str_starts_with($singleL, '/') ? 'fa-arrow-right' : 'fa-arrow-up-right-from-square' }} ms-1"></i>
-                                            </a>
-                                        @elseif(has_valid_document($singleL))
-                                            <button type="button" class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-bold" 
-                                                    style="font-size: 11.5px;"
-                                                    data-bs-toggle="modal" 
-                                                    data-bs-target="#previewModal" 
-                                                    data-url="{{ route('preview.dokumen', ['file' => $singleL, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
-                                                Disini <i class="fas fa-file-pdf ms-1"></i>
-                                            </button>
-                                        @else
-                                            <span class="badge bg-light text-muted border">Tersedia Fisik</span>
-                                        @endif
-                                    @elseif(count($allLinks) > 1)
-                                        <div class="d-flex flex-column gap-1 align-items-center justify-content-center">
-                                            @foreach($allLinks as $lIdx => $lnk)
-                                                <a href="{{ $lnk }}" target="_blank" rel="noopener noreferrer" class="btn btn-sm btn-primary rounded-pill px-2.5 py-0.5 fw-bold text-nowrap" style="font-size: 11px;">
-                                                    Link {{ $lIdx + 1 }} <i class="fas fa-arrow-up-right-from-square ms-1" style="font-size: 9px;"></i>
-                                                </a>
-                                            @endforeach
-                                        </div>
-                                    @else
-                                        <span class="badge bg-light text-muted border">Tersedia Fisik</span>
-                                    @endif
+                                        <tr class="dip-data-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc . ' ' . $categoryName) }}">
+                                            <td class="text-center fw-bold text-muted">{{ $runningNo }}</td>
+                                            <td><strong class="text-dark">{{ $it->judul }}</strong></td>
+                                            <td class="text-muted small">{{ $cleanDesc }}</td>
+                                            <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
+                                            <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
+                                            <td class="text-center">{{ $it->bentuk_informasi ?? 'Hardcopy dan Softcopy' }}</td>
+                                            <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
+                                            <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
+                                            <td class="text-center">
+                                                @if($isInternal)
+                                                    <a href="{{ url($rawPath) }}" class="btn-disini">
+                                                        Di Sini <i class="fas fa-arrow-right ms-1"></i>
+                                                    </a>
+                                                @elseif($isWeb)
+                                                    <a href="{{ $rawPath }}" target="_blank" rel="noopener noreferrer" class="btn-disini">
+                                                        Di Sini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                                    </a>
+                                                @elseif(has_valid_document($rawPath))
+                                                    <button type="button" class="btn-disini" 
+                                                            data-bs-toggle="modal" 
+                                                            data-bs-target="#previewModal" 
+                                                            data-url="{{ route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
+                                                        Di Sini <i class="fas fa-file-pdf ms-1"></i>
+                                                    </button>
+                                                @else
+                                                    <span class="badge bg-light text-muted border px-2.5 py-1.5 rounded-pill" style="font-size: 11px;">Tersedia Fisik</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            @endforeach
+                        @else
+                            <tr>
+                                <td colspan="9" class="text-center py-5 text-muted">
+                                    <i class="fas fa-folder-open fa-3x mb-3 text-secondary opacity-50 d-block"></i>
+                                    <h6 class="fw-bold mb-1">Dokumen Sedang Dalam Proses Pemutakhiran</h6>
+                                    <p class="small text-muted mb-0">Silakan hubungi Desk Layanan PPID PKTJ untuk permintaan informasi langsung.</p>
                                 </td>
                             </tr>
-                            @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
-                <!-- PAGINATION CONTROLS -->
-                <div class="p-3 bg-light border rounded-3 mt-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
-                    <div class="d-flex align-items-center gap-3 flex-wrap">
-                        <div id="berkalaPaginationInfo" class="text-muted small fw-medium">
-                            Menampilkan data...
-                        </div>
-                        <div class="d-flex align-items-center gap-1.5 ms-md-2">
-                            <span class="text-muted small">Tampilkan:</span>
-                            <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changeBerkalaPageSize(this.value)">
-                <option value="5" selected>5 data per halaman</option>
-                <option value="10">10 data per halaman</option>
-                <option value="25">25 data per halaman</option>
-                <option value="all">Semua data</option>
-            </select>
-                        </div>
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- PAGINATION CONTROLS -->
+            <div class="p-3 bg-light border rounded-3 mt-3 d-flex justify-content-between align-items-center flex-wrap gap-3">
+                <div class="d-flex align-items-center gap-3 flex-wrap">
+                    <div id="tablePaginationInfo" class="text-muted small fw-medium">
+                        Menampilkan data...
                     </div>
-                    <div id="berkalaPaginationControls">
-                        <!-- Filled by JS -->
+                    <div class="d-flex align-items-center gap-1.5 ms-md-2">
+                        <span class="text-muted small">Tampilkan:</span>
+                        <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changePageSize(this.value)">
+                            <option value="10" selected>10 data per halaman</option>
+                            <option value="25">25 data per halaman</option>
+                            <option value="all">Semua data</option>
+                        </select>
                     </div>
                 </div>
-
-
-                <!-- 2. CARDS VIEW (ALTERNATIF TAMPILAN RINCI) -->
-                <div id="berkalaCardsView" style="display: none;">
-                    <div class="row mt-2" id="berkalaItemsContainer">
-                        @forelse($items as $item)
-                            <div class="col-12 searchable-berkala-item" data-keywords="{{ strtolower($item->judul . ' ' . strip_tags($item->deskripsi)) }}">
-                                <div class="info-item hover-lift mb-3" data-aos="fade-up">
-                                    <div class="d-flex align-items-start flex-column flex-md-row gap-4">
-                                        <div class="info-icon">
-                                            <i class="fas fa-calendar-check"></i>
-                                        </div>
-                                        <div class="flex-grow-1 w-100" style="min-width: 0;">
-                                            <h4 class="fw-bold outfit text-dark mb-3" style="font-size: 1.35rem; line-height: 1.4;">{{ $item->judul }}</h4>
-                                            <div class="rich-content mb-4">
-                                                {!! $item->deskripsi ?? 'Tidak ada deskripsi' !!}
-                                            </div>
-                                            <div class="d-flex align-items-center justify-content-between pt-3 border-top flex-wrap gap-3">
-                                                <div class="d-flex gap-2 flex-wrap">
-                                                    <span class="badge bg-light text-primary border px-3 py-2 rounded-pill" style="font-size: 12px;">
-                                                        <i class="fas fa-calendar-alt me-1"></i> {{ \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->translatedFormat('d F Y') }}
-                                                    </span>
-                                                    @if(has_valid_document($item->file_path) && isset($item->file_size) && $item->file_size !== '-' && $item->file_size !== '')
-                                                    <span class="badge bg-light text-secondary border px-3 py-2 rounded-pill" style="font-size: 12px;">
-                                                        <i class="fas fa-file-pdf me-1 text-danger"></i> {{ $item->file_size }}
-                                                    </span>
-                                                    @endif
-                                                </div>
-                                                @if(has_valid_document($item->file_path))
-                                                <div class="d-flex gap-2 flex-wrap">
-                                                    @if(str_starts_with($item->file_path, 'http://') || str_starts_with($item->file_path, 'https://'))
-                                                    <a href="{{ $item->file_path }}" target="_blank" rel="noopener noreferrer" class="btn-download-premium">
-                                                        <i class="fas fa-arrow-up-right-from-square me-1"></i> Buka Dokumen / Tautan
-                                                    </a>
-                                                    @elseif(str_starts_with($item->file_path, '/'))
-                                                    <a href="{{ $item->file_path }}" class="btn-download-premium">
-                                                        <i class="fas fa-arrow-right me-1"></i> Buka Prosedur / Halaman
-                                                    </a>
-                                                    @else
-                                                        @if(is_previewable($item->file_path))
-                                                         <button type="button" 
-                                                                class="btn-download-premium" 
-                                                                data-bs-toggle="modal" 
-                                                                data-bs-target="#previewModal" 
-                                                                data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
-                                                            <i class="fas fa-eye"></i> Lihat Dokumen
-                                                        </button>
-                                                        @endif
-                                                        @if($item->bisa_download)
-                                                        <a href="{{ route('download.file', ['model' => 'berkala', 'id' => $item->id]) }}" class="btn-download-premium" style="background: #198754; color: white;">
-                                                            <i class="fas fa-download"></i> Unduh
-                                                        </a>
-                                                        @endif
-                                                    @endif
-                                                </div>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @empty
-                            <div class="col-12 text-center py-5">
-                                <i class="fas fa-folder-open fa-4x text-muted mb-4 opacity-25"></i>
-                                <h3 class="text-muted outfit fw-bold">Data Belum Tersedia</h3>
-                                <p class="text-muted">Belum ada data informasi berkala tersedia saat ini.</p>
-                            </div>
-                        @endforelse
-                    </div>
+                <div id="tablePaginationControls">
+                    <!-- Filled by JS -->
                 </div>
             </div>
+
         </div>
     </div>
 
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        if (typeof AOS !== 'undefined') {
-            AOS.init({duration: 800, once: true});
+        let currentPage = 1;
+        let rowsPerPage = 10;
+        let filteredRows = [];
+
+        function filterDIPTable() {
+            currentPage = 1;
+            initTablePagination();
         }
 
-        function switchBerkalaDisplay(mode) {
-            const tbl = document.getElementById('berkalaTableView');
-            const crd = document.getElementById('berkalaCardsView');
-            const btnTbl = document.getElementById('btnModeTable');
-            const btnCrd = document.getElementById('btnModeCards');
-            if (!tbl || !crd) return;
-
-            if (mode === 'table') {
-                tbl.style.display = 'block';
-                crd.style.display = 'none';
-                if (btnTbl) {
-                    btnTbl.classList.add('btn-primary');
-                    btnTbl.classList.remove('btn-outline-secondary');
-                }
-                if (btnCrd) {
-                    btnCrd.classList.add('btn-outline-secondary');
-                    btnCrd.classList.remove('btn-primary');
-                }
-            } else {
-                tbl.style.display = 'none';
-                crd.style.display = 'block';
-                if (btnCrd) {
-                    btnCrd.classList.add('btn-primary');
-                    btnCrd.classList.remove('btn-outline-secondary');
-                }
-                if (btnTbl) {
-                    btnTbl.classList.add('btn-outline-secondary');
-                    btnTbl.classList.remove('btn-primary');
-                }
-            }
+        function changePageSize(val) {
+            rowsPerPage = val === 'all' ? 9999 : parseInt(val);
+            currentPage = 1;
+            initTablePagination();
         }
 
-        function filterBerkalaContent() {
-            const searchInput = document.getElementById('topSearchInputBerkala');
+        function initTablePagination() {
+            const searchInput = document.getElementById('tableSearchInput');
             const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-            
-            // Filter cards view
-            document.querySelectorAll('.searchable-berkala-item').forEach(el => {
-                const kw = el.getAttribute('data-keywords') || '';
-                if (!query || kw.includes(query) || el.innerText.toLowerCase().includes(query)) {
-                    el.classList.remove('d-none');
-                } else {
-                    el.classList.add('d-none');
-                }
-            });
+            const allRows = Array.from(document.querySelectorAll('#dipTableBerkala tbody tr.dip-data-row'));
 
-            // Update table pagination and view
-            currentBerkalaPage = 1;
-            initBerkalaPagination();
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            if (typeof Chart === 'undefined') return;
-            // Chart 1: Pendidikan
-            const ctxPend = document.getElementById('chartPendidikan');
-            if (ctxPend) {
-                new Chart(ctxPend, {
-                    type: 'doughnut',
-                    data: {
-                        labels: ['S3', 'S2', 'S1/D4', 'D3', 'SLTA'],
-                        datasets: [{
-                            data: [8, 45, 64, 15, 10],
-                            backgroundColor: ['#002b5c', '#004a99', '#38bdf8', '#fbbf24', '#94a3b8']
-                        }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } } }
-                });
-            }
-
-            // Chart 2: Golongan
-            const ctxGol = document.getElementById('chartGolongan');
-            if (ctxGol) {
-                new Chart(ctxGol, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Gol IV', 'Gol III', 'Gol II', 'PPPK/Non'],
-                        datasets: [{
-                            label: 'Jumlah Pegawai',
-                            data: [12, 78, 28, 24],
-                            backgroundColor: ['#002b5c', '#004a99', '#38bdf8', '#fbbf24'],
-                            borderRadius: 6
-                        }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-                });
-            }
-
-            // Chart 3: Gender
-            const ctxGen = document.getElementById('chartGender');
-            if (ctxGen) {
-                new Chart(ctxGen, {
-                    type: 'pie',
-                    data: {
-                        labels: ['Pria (88)', 'Wanita (54)'],
-                        datasets: [{
-                            data: [88, 54],
-                            backgroundColor: ['#004a99', '#ec4899']
-                        }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 9 } } } } }
-                });
-            }
-
-            // Chart 4: Jabatan
-            const ctxJab = document.getElementById('chartJabatan');
-            if (ctxJab) {
-                new Chart(ctxJab, {
-                    type: 'bar',
-                    data: {
-                        labels: ['Dosen', 'Fungsional', 'Umum', 'Pengasuh'],
-                        datasets: [{
-                            label: 'Pegawai',
-                            data: [48, 42, 32, 20],
-                            backgroundColor: '#10b981',
-                            borderRadius: 6
-                        }]
-                    },
-                    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
-                });
-            }
-        });
-    
-        // PAGINATION & LIVE FILTER LOGIC (10 BARIS PER HALAMAN)
-                        function changeBerkalaPageSize(val) {
-            berkalaRowsPerPage = val === 'all' ? 9999 : parseInt(val);
-            currentBerkalaPage = 1;
-            initBerkalaPagination();
-        }
-
-        let currentBerkalaPage = 1;
-        let berkalaRowsPerPage = 5;
-        let filteredBerkalaRows = [];
-
-        function initBerkalaPagination() {
-            const allRows = Array.from(document.querySelectorAll('#berkalaTableView tbody tr.searchable-berkala-row'));
-            const searchInput = document.getElementById('topSearchInputBerkala');
-            const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
-
-            filteredBerkalaRows = allRows.filter(row => {
+            // Filter data rows
+            filteredRows = allRows.filter(row => {
                 const kw = row.getAttribute('data-keywords') || '';
-                const text = row.innerText.toLowerCase();
-                return !query || kw.includes(query) || text.includes(query);
+                return !query || kw.includes(query) || row.innerText.toLowerCase().includes(query);
             });
 
-            const totalPages = Math.ceil(filteredBerkalaRows.length / berkalaRowsPerPage) || 1;
-            if (currentBerkalaPage > totalPages) currentBerkalaPage = 1;
-
-            renderBerkalaTablePage();
-            renderBerkalaPaginationControls();
-        }
-
-        function renderBerkalaTablePage() {
-            const allRows = document.querySelectorAll('#berkalaTableView tbody tr.searchable-berkala-row');
+            // Hide all rows initially
             allRows.forEach(r => r.style.display = 'none');
 
-            const total = filteredBerkalaRows.length;
-            const startIdx = (currentBerkalaPage - 1) * berkalaRowsPerPage;
-            const endIdx = Math.min(startIdx + berkalaRowsPerPage, total);
+            // Render current page rows
+            const total = filteredRows.length;
+            const totalPages = Math.ceil(total / rowsPerPage) || 1;
+            if (currentPage > totalPages) currentPage = totalPages;
+            if (currentPage < 1) currentPage = 1;
+
+            const startIdx = (currentPage - 1) * rowsPerPage;
+            const endIdx = Math.min(startIdx + rowsPerPage, total);
 
             for (let i = startIdx; i < endIdx; i++) {
-                if (filteredBerkalaRows[i]) {
-                    filteredBerkalaRows[i].style.display = '';
-                    const noCell = filteredBerkalaRows[i].querySelector('td:first-child');
-                    if (noCell) {
-                        noCell.innerText = (i + 1);
-                    }
+                if (filteredRows[i]) {
+                    filteredRows[i].style.display = '';
+                    const noCell = filteredRows[i].querySelector('td:first-child');
+                    if (noCell) noCell.innerText = (i + 1);
                 }
             }
 
-            const sectionHeaders = document.querySelectorAll('#berkalaTableView tbody tr.table-light');
-            sectionHeaders.forEach(sh => {
-                sh.style.display = total === 0 ? 'none' : '';
+            // Update category divider rows visibility
+            const catRows = document.querySelectorAll('#dipTableBerkala tbody tr.category-divider-row');
+            catRows.forEach(cr => {
+                if (query) {
+                    cr.style.display = 'none';
+                } else {
+                    cr.style.display = '';
+                }
             });
 
-            const infoEl = document.getElementById('berkalaPaginationInfo');
+            // Update info
+            const infoEl = document.getElementById('tablePaginationInfo');
             if (infoEl) {
                 if (total === 0) {
-                    infoEl.innerHTML = '<span class="text-danger"><i class="fas fa-search me-1"></i> Tidak ada informasi berkala yang cocok dengan pencarian.</span>';
+                    infoEl.innerHTML = '<span class="text-danger"><i class="fas fa-search me-1"></i> Tidak ada informasi yang cocok dengan kata kunci pencarian.</span>';
                 } else {
-                    infoEl.innerHTML = `Menampilkan baris <strong>${startIdx + 1}</strong> - <strong>${endIdx}</strong> dari total <strong>${total}</strong> data informasi publik`;
+                    infoEl.innerHTML = `Menampilkan baris <strong>${startIdx + 1}</strong> - <strong>${endIdx}</strong> dari total <strong>${total}</strong> data informasi berkala`;
                 }
             }
+
+            renderPaginationControls(totalPages);
         }
 
-        function goToBerkalaPage(page) {
-            const totalPages = Math.ceil(filteredBerkalaRows.length / berkalaRowsPerPage) || 1;
-            if (page < 1) page = 1;
-            if (page > totalPages) page = totalPages;
-            currentBerkalaPage = page;
-            renderBerkalaTablePage();
-            renderBerkalaPaginationControls();
-
-            const tbl = document.getElementById('berkalaTableView');
+        function goToPage(p) {
+            currentPage = p;
+            initTablePagination();
+            const tbl = document.getElementById('dipTableBerkala');
             if (tbl) tbl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         }
 
-        function renderBerkalaPaginationControls() {
-            const container = document.getElementById('berkalaPaginationControls');
+        function renderPaginationControls(totalPages) {
+            const container = document.getElementById('tablePaginationControls');
             if (!container) return;
 
-            const totalPages = Math.ceil(filteredBerkalaRows.length / berkalaRowsPerPage) || 1;
-
-            let html = '<div class="pagination-box-group d-flex align-items-center gap-1">';
-
-            // Tombol Panah Kiri (Prev)
-            if (currentBerkalaPage > 1) {
-                html += `<button type="button" class="page-box-btn" onclick="goToBerkalaPage(${currentBerkalaPage - 1})" title="Halaman Sebelumnya">←</button>`;
+            if (totalPages <= 1) {
+                container.innerHTML = '';
+                return;
             }
 
-            // Tombol Kotak Nomor (1, 2, 3, ...) persis Gambar 2
+            let html = '<div class="pagination-box-group">';
+            if (currentPage > 1) {
+                html += `<button type="button" class="page-box-btn" onclick="goToPage(${currentPage - 1})" title="Sebelumnya">←</button>`;
+            }
+
             for (let p = 1; p <= totalPages; p++) {
-                const isCur = p === currentBerkalaPage;
-                const activeClass = isCur ? 'page-box-btn active' : 'page-box-btn';
-                html += `<button type="button" class="${activeClass}" onclick="goToBerkalaPage(${p})">${p}</button>`;
+                const active = p === currentPage ? 'active' : '';
+                html += `<button type="button" class="page-box-btn ${active}" onclick="goToPage(${p})">${p}</button>`;
             }
 
-            // Tombol Panah Kanan (Next)
-            if (currentBerkalaPage < totalPages) {
-                html += `<button type="button" class="page-box-btn" onclick="goToBerkalaPage(${currentBerkalaPage + 1})" title="Halaman Selanjutnya">→</button>`;
+            if (currentPage < totalPages) {
+                html += `<button type="button" class="page-box-btn" onclick="goToPage(${currentPage + 1})" title="Selanjutnya">→</button>`;
             }
-
             html += '</div>';
             container.innerHTML = html;
         }
 
-        // Initialize pagination reliably
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initBerkalaPagination);
-        } else {
-            initBerkalaPagination();
-        }
+        document.addEventListener('DOMContentLoaded', initTablePagination);
     </script>
 </body>
 </html>
-
