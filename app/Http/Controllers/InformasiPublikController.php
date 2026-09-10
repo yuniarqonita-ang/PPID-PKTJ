@@ -40,8 +40,12 @@ class InformasiPublikController extends Controller
     private function ensureDataSeeded(): void
     {
         try {
-            $activeCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('aktif', 1)->count();
-            if ($activeCount === 0) {
+            $hasPoltrada = \Illuminate\Support\Facades\DB::table('daftar_informasis')
+                ->where('judul_informasi', 'Tata cara permohonan informasi publik')
+                ->where('aktif', 1)
+                ->exists();
+
+            if (!$hasPoltrada) {
                 $seederFile = database_path('seeders/PoltradaBaliDipSeeder.php');
                 if (file_exists($seederFile)) {
                     require_once $seederFile;
@@ -89,6 +93,15 @@ class InformasiPublikController extends Controller
         $item->file_path = $rawFile;
         $item->bisa_download = (bool) ($item->bisa_download ?? true);
         $item->file_size = $item->file_size ?? '-';
+
+        $item->pejabat_penguasa = $item->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal';
+        $item->penerbit_informasi = $item->penerbit_informasi ?? 'Bagian Keuangan dan Umum';
+        $item->penanggung_jawab = $item->penanggung_jawab ?? $item->penerbit_informasi;
+        $item->tempat_pembuatan = $item->tempat_pembuatan ?? 'Tegal';
+        $item->waktu_pembuatan = $item->waktu_pembuatan ?? ($item->created_at ? date('Y', strtotime($item->created_at)) : '2025');
+        $item->bentuk_informasi = $item->bentuk_informasi ?? 'hardcopy dan softcopy';
+        $item->jangka_waktu = $item->jangka_waktu ?? '1 Tahun';
+        $item->tipe_informasi = $item->tipe_informasi ?? null;
 
         $item->tanggal = $item->created_at;
         return $item;

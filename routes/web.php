@@ -365,9 +365,14 @@ Route::get('/refresh-deploy', function() {
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DefaultMenuSeeder', '--force' => true]);
         } catch (\Throwable $mEx) {}
 
-        // 3. Sinkronkan dokumen DIP
+        // 3. Sinkronkan dokumen DIP Poltrada Bali
         try {
-            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Dip2026SyncSeeder', '--force' => true]);
+            $seederFile = database_path('seeders/PoltradaBaliDipSeeder.php');
+            if (file_exists($seederFile)) {
+                require_once $seederFile;
+                $seeder = new \Database\Seeders\PoltradaBaliDipSeeder();
+                $seeder->run();
+            }
         } catch (\Throwable $sEx) {}
 
         \Illuminate\Support\Facades\Artisan::call('view:clear');
@@ -489,8 +494,13 @@ Route::get('/refresh-deploy', function() {
                 }
             }
 
-            // Jalankan sinkronisasi data resmi DIP 2026 & Menu Seeder
-            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\Dip2026SyncSeeder', '--force' => true]);
+            // Jalankan sinkronisasi data resmi DIP Poltrada Bali & Menu Seeder
+            $seederFile = database_path('seeders/PoltradaBaliDipSeeder.php');
+            if (file_exists($seederFile)) {
+                require_once $seederFile;
+                $seeder = new \Database\Seeders\PoltradaBaliDipSeeder();
+                $seeder->run();
+            }
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\DefaultMenuSeeder', '--force' => true]);
 
             // Bersihkan lhkpn_link generik KPK dari pejabat agar tidak tampil tautan default

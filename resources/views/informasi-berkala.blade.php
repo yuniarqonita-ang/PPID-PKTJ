@@ -192,10 +192,10 @@
                             // Kelompokkan item berdasarkan 5 Kategori Resmi Poltrada Bali
                             $categories = [
                                 'PROFIL' => ['profil', 'struktur organisasi', 'pejabat', 'lhkpn', 'agenda pimpinan', 'statistik'],
-                                'PROGRAM DAN KEGIATAN' => ['renstra', 'rencana strategis', 'rkt', 'rencana kerja tahunan', 'kalender akademik', 'sipencatar', 'biaya pendidikan', 'tarif layanan'],
-                                'KINERJA DAN KEUANGAN' => ['rka', 'dipa', 'perjanjian kinerja', 'lakip', 'lkjip', 'laporan tahunan', 'laporan keuangan', 'laporan pelayanan informasi'],
-                                'PENGADAAN BARANG DAN JASA' => ['sirup', 'pengadaan', 'lpse'],
-                                'TATA CARA / PROSEDUR' => ['tata cara', 'permohonan', 'keberatan', 'sengketa', 'pengaduan', 'whistleblowing', 'lapor', 'standar pelayanan', 'maklumat']
+                                'PROGRAM DAN KEGIATAN' => ['renstra', 'rencana strategis', 'rkt', 'rencana kerja tahunan', 'kalender akademik', 'sipencatar', 'biaya pendidikan', 'tarif layanan', 'kurikulum', 'akreditasi', 'audit mutu', 'ujikom', 'perkuliahan', 'pembelajaran', 'tracer study', 'samapta', 'softkill', 'softskill'],
+                                'KINERJA DAN KEUANGAN' => ['rka', 'dipa', 'perjanjian kinerja', 'lakip', 'lkjip', 'laporan tahunan', 'laporan keuangan', 'laporan pelayanan informasi', 'lra', 'neraca', 'survey kepuasan'],
+                                'PENGADAAN BARANG DAN JASA' => ['sirup', 'pengadaan', 'lpse', 'tender'],
+                                'TATA CARA / PROSEDUR' => ['tata cara', 'prosedur', 'mekanisme', 'keberatan', 'sengketa', 'pengaduan', 'whistleblowing', 'standar pelayanan', 'maklumat', 'sop']
                             ];
 
                             // Map setiap item ke kategori
@@ -204,6 +204,19 @@
 
                             foreach ($categories as $catName => $catKeywords) {
                                 $groupedItems[$catName] = collect();
+                            }
+
+                            // 1. Prioritaskan jika item memiliki tipe_informasi yang cocok dengan nama kategori
+                            foreach ($items as $item) {
+                                $tipeUpper = strtoupper(trim($item->tipe_informasi ?? ''));
+                                if (isset($groupedItems[$tipeUpper])) {
+                                    $groupedItems[$tipeUpper]->push($item);
+                                    $assignedItemIds[] = $item->id;
+                                }
+                            }
+
+                            // 2. Untuk item yang belum terpetakan, gunakan kata kunci judul
+                            foreach ($categories as $catName => $catKeywords) {
                                 foreach ($items as $item) {
                                     if (in_array($item->id, $assignedItemIds)) continue;
                                     $itemTitle = strtolower($item->judul);
@@ -217,7 +230,7 @@
                                 }
                             }
 
-                            // Sisa item yang belum masuk kategori (jika ada)
+                            // 3. Sisa item yang belum masuk kategori (jika ada)
                             $groupedItems['INFORMASI LAINNYA'] = collect();
                             foreach ($items as $item) {
                                 if (!in_array($item->id, $assignedItemIds)) {

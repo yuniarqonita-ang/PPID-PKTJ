@@ -655,7 +655,7 @@ class PoltradaBaliDipSeeder extends Seeder
 
             $dataToSave = [
                 'kategori' => $it['kategori'],
-                'tipe_informasi' => $it['tipe_informasi'],
+                'tipe_informasi' => $it['sub_kategori'] ?? $it['tipe_informasi'],
                 'judul_informasi' => $it['judul_informasi'],
                 'isi_informasi' => $it['isi_informasi'],
                 'pejabat_penguasa' => $it['pejabat_penguasa'],
