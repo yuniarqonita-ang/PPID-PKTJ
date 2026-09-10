@@ -121,19 +121,23 @@ class InformasiPublikController extends Controller
 
     private function itemHasValidContent($item): bool
     {
-        // Hanya tayangkan jika memiliki file riil ATAU link web/Google Drive/prosedur aktif
-        if (!empty($item->file_path)) {
-            $path = trim($item->file_path);
-            if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://') || str_starts_with($path, '/')) {
-                return true;
-            }
-            if (function_exists('has_valid_document') && has_valid_document($path)) {
-                return true;
-            }
+        if (empty($item->file_path)) {
+            return false;
         }
-        if (!empty($item->deskripsi) && preg_match('/https?:\/\/[^\s"\'<>]+/i', $item->deskripsi)) {
+
+        $path = trim($item->file_path);
+        if ($path === '' || in_array(strtolower($path), ['#', '-', 'null', 'none', 'tanpa preview', 'tidak ada', 'undefined', 'javascript:void(0)', '#!', '/layanan-informasi/daftar'])) {
+            return false;
+        }
+
+        if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
+            return !str_contains($path, 'elhkpn.kpk.go.id');
+        }
+
+        if (function_exists('has_valid_document') && has_valid_document($path)) {
             return true;
         }
+
         return false;
     }
 
@@ -177,8 +181,8 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // Tampilkan semua item yang aktif (aktif=true di admin panel sudah cukup)
-            $items = $merged->sortBy('id')->values();
+            // HANYA TAYANGKAN YANG MEMILIKI LINK GOOGLE DRIVE ATAU FILE DOKUMEN RIIL!
+            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
 
         } catch (\Throwable $e) {
             $items = collect([]);
@@ -255,8 +259,8 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // Tampilkan semua item yang aktif (aktif=true di admin panel sudah cukup)
-            $items = $merged->sortBy('id')->values();
+            // HANYA TAYANGKAN YANG MEMILIKI LINK GOOGLE DRIVE ATAU FILE DOKUMEN RIIL!
+            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
 
         } catch (\Throwable $e) {
             $items = collect([]);
@@ -305,8 +309,8 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // Tampilkan semua item yang aktif (aktif=true di admin panel sudah cukup)
-            $items = $merged->sortBy('id')->values();
+            // HANYA TAYANGKAN YANG MEMILIKI LINK GOOGLE DRIVE ATAU FILE DOKUMEN RIIL!
+            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }
