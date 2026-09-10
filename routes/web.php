@@ -218,6 +218,10 @@ Route::get('/dokumen/{id}/download', [DokumenController::class, 'download'])->na
 Route::get('/profil-ppid.html', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil'])->name('profil.ppid.html');
 Route::get('/profil-pejabat.html', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('profil.pejabat.html');
 Route::get('/profil/pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('profil.pejabat');
+Route::get('/profil-pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat']);
+Route::get('/pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat']);
+Route::get('/profil/profil-pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat']);
+
 // Tugas & Fungsi PPID Routes (URL Baru Bersih & Redirect Otomatis)
 Route::get('/profil-tugas-dan-fungsi-ppid.html', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas'])->name('profil.tugas-fungsi.html');
 Route::get('/profil/tugas-dan-fungsi-ppid', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas'])->name('profil.tugas-dan-fungsi-ppid');
@@ -227,6 +231,11 @@ Route::get('/profil-tugas-fungsi.html', function() { return redirect('/profil/tu
 Route::get('/profil-visi-misi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showVisi'])->name('profil.visi.html');
 Route::get('/profil-struktur-organisasi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur'])->name('profil.struktur.html');
 Route::get('/profil/struktur-organisasi', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur'])->name('profil.struktur-organisasi');
+Route::get('/profil-struktur', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
+Route::get('/profil-struktur.html', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
+Route::get('/profil/struktur', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
+Route::get('/struktur-organisasi', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
+Route::get('/struktur', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
 Route::get('/profil-regulasi.html', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('profil.regulasi.html');
 Route::get('/regulasi', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('regulasi');
 Route::get('/profil-kontak.html', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak'])->name('profil.kontak.html');
