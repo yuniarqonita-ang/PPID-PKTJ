@@ -199,8 +199,24 @@
 
                                     // Resolve Tautan / Link
                                     $rawPath = trim($it->file_path ?? '');
-                                    $isWeb = str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://');
-                                    $isInternal = str_starts_with($rawPath, '/');
+                                    $hasLink = false;
+                                    $targetUrl = null;
+                                    $isModal = false;
+
+                                    if (!empty($rawPath) && $rawPath !== '#' && $rawPath !== '/layanan-informasi/daftar' && strtolower($rawPath) !== 'null') {
+                                        if (function_exists('has_valid_document') && has_valid_document($rawPath)) {
+                                            $hasLink = true;
+                                            $isModal = true;
+                                        } elseif (str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://')) {
+                                            if (!str_contains($rawPath, 'elhkpn.kpk.go.id')) {
+                                                $hasLink = true;
+                                                $targetUrl = $rawPath;
+                                            }
+                                        } elseif (str_starts_with($rawPath, '/') && !in_array($rawPath, ['/', '/#', '/layanan-informasi/daftar'])) {
+                                            $hasLink = true;
+                                            $targetUrl = url($rawPath);
+                                        }
+                                    }
                                 @endphp
                                 <tr class="dip-data-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc) }}">
                                     <td class="text-center fw-bold text-muted">{{ $idx + 1 }}</td>
@@ -212,19 +228,21 @@
                                     <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
                                     <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
                                     <td class="text-center">
-                                        @if($isInternal)
-                                            <a href="{{ url($rawPath) }}" class="tautan-disini">Disini</a>
-                                        @elseif($isWeb)
-                                            <a href="{{ $rawPath }}" target="_blank" rel="noopener noreferrer" class="tautan-disini">Disini</a>
-                                        @elseif(has_valid_document($rawPath))
-                                            <a href="javascript:void(0)" class="tautan-disini" 
-                                               data-bs-toggle="modal" 
-                                               data-bs-target="#previewModal" 
-                                               data-url="{{ route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
-                                                Disini
-                                            </a>
+                                        @if($hasLink)
+                                            @if($isModal)
+                                                <a href="javascript:void(0)" class="tautan-disini" 
+                                                   data-bs-toggle="modal" 
+                                                   data-bs-target="#previewModal" 
+                                                   data-url="{{ route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
+                                                    Disini
+                                                </a>
+                                            @else
+                                                <a href="{{ $targetUrl }}" @if(str_starts_with($targetUrl, 'http')) target="_blank" rel="noopener noreferrer" @endif class="tautan-disini">
+                                                    Disini
+                                                </a>
+                                            @endif
                                         @else
-                                            <a href="{{ url('/layanan-informasi/daftar') }}" class="tautan-disini" title="Lihat Detail Informasi">Disini</a>
+                                            <span class="text-muted fw-bold">-</span>
                                         @endif
                                     </td>
                                 </tr>

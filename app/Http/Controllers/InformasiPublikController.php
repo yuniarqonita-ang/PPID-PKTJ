@@ -53,6 +53,19 @@ class InformasiPublikController extends Controller
                     $seeder->run();
                 }
             }
+
+            $hasCorrectPejabat = \Illuminate\Support\Facades\DB::table('pejabats')
+                ->where('nama', 'Bambang Istiyanto, S.SiT., MT')
+                ->exists();
+
+            if (!$hasCorrectPejabat) {
+                $pjSeederFile = database_path('seeders/PejabatSeeder.php');
+                if (file_exists($pjSeederFile)) {
+                    require_once $pjSeederFile;
+                    $pjSeeder = new \Database\Seeders\PejabatSeeder();
+                    $pjSeeder->run();
+                }
+            }
         } catch (\Throwable $e) {
             \Illuminate\Support\Facades\Log::error('Auto seed error: ' . $e->getMessage());
         }

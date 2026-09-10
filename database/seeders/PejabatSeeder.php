@@ -14,18 +14,16 @@ class PejabatSeeder extends Seeder
     {
         $pejabats = [
             [
-                'nama' => 'Dr. Ir. Bambang Istiyanto, S.SiT., M.T., IPU',
-                'nip' => '19730514 199803 1 002',
+                'nama' => 'Bambang Istiyanto, S.SiT., MT',
+                'nip' => '197307011996021002',
                 'jabatan' => 'Direktur Politeknik Keselamatan Transportasi Jalan',
                 'tempat_tanggal_lahir' => null,
                 'foto' => 'images/pejabat/Bambang Istiyanto.png',
-                'biografi' => 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Meraih gelar Doktor Teknik Sipil di Universitas Islam Sultan Agung (UNISSULA) Semarang dengan disertasi Model Evaluasi Keberhasilan Program Keselamatan Jalan Perkotaan Berbasis Safety Performance Function (SPF) dan Crash Modification Factor (CMF) dengan Pendekatan System Dynamics. Memimpin penyelenggaraan pendidikan vokasi keselamatan transportasi darat, tata kelola BLU, dan penguatan keterbukaan informasi publik di lingkungan BPSDMP Kementerian Perhubungan.',
+                'biografi' => 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Memimpin penyelenggaraan pendidikan vokasi keselamatan transportasi darat, tata kelola BLU, dan penguatan keterbukaan informasi publik di lingkungan Badan Pengembangan SDM Perhubungan Kementerian Perhubungan RI.',
                 'pendidikan' => [
-                    'S3 - Doktor (Dr.) Teknik Sipil, Universitas Islam Sultan Agung (UNISSULA) Semarang',
-                    'Profesi Insinyur - Insinyur Profesional Utama (IPU), Persatuan Insinyur Indonesia (PII)',
-                    'S2 - Magister Teknik (M.T.) Sipil / Transportasi, Institut Teknologi Bandung (ITB)',
+                    'S2 - Magister Teknik (MT)',
                     'D4 / S1 Terapan - Sarjana Sains Terapan Transportasi (S.SiT), Sekolah Tinggi Transportasi Darat (STTD)',
-                    'Pendidikan dan Pelatihan Penjenjangan Kepemimpinan Administrator (PIM Tingkat III)'
+                    'Pendidikan dan Pelatihan Penjenjangan Kepemimpinan Administrator'
                 ],
                 'riwayat_jabatan' => [
                     'Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal (2024 - Sekarang)',
@@ -37,7 +35,7 @@ class PejabatSeeder extends Seeder
                     'Satyalancana Karya Satya 20 Tahun Presiden RI',
                     'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 1,
                 'aktif' => true,
@@ -63,7 +61,7 @@ class PejabatSeeder extends Seeder
                     'Satyalancana Karya Satya 20 Tahun Presiden RI',
                     'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 2,
                 'aktif' => true,
@@ -90,7 +88,7 @@ class PejabatSeeder extends Seeder
                     'Satyalancana Karya Satya 30 Tahun Presiden RI',
                     'Satyalancana Karya Satya 20 Tahun Presiden RI'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 3,
                 'aktif' => true,
@@ -116,7 +114,7 @@ class PejabatSeeder extends Seeder
                     'Satyalancana Karya Satya 20 Tahun Presiden RI',
                     'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 4,
                 'aktif' => true,
@@ -124,17 +122,17 @@ class PejabatSeeder extends Seeder
             [
                 'nama' => 'Prima Anna Maria Gorety Cornelis, S.SiT.',
                 'nip' => '19780415 200212 2 001',
-                'jabatan' => 'Kepala Bagian Administrasi Akademik dan Ketarunaan (BAAK)',
+                'jabatan' => 'Kepala Bagian Administrasi Akademik dan Ketarunaan',
                 'tempat_tanggal_lahir' => null,
                 'foto' => 'images/pejabat/Prima Anna Maria.png',
-                'biografi' => 'Menjabat sebagai Kepala Bagian Administrasi Akademik dan Ketarunaan (BAAK) PKTJ Tegal. Bertanggung jawab atas pelayanan administrasi pendidikan vokasi, registrasi taruna/i, seleksi penerimaan (Sipencatar), dan ketatausahaan perkuliahan.',
+                'biografi' => 'Menjabat sebagai Kepala Bagian Administrasi Akademik dan Ketarunaan PKTJ Tegal. Bertanggung jawab atas pengelolaan administrasi akademik, admisi seleksi penerimaan taruna baru (Sipencatar), registrasi, data kemahasiswaan, dan pelayanan ketarunaan di lingkungan Politeknik Keselamatan Transportasi Jalan.',
                 'pendidikan' => [
                     'D4 / S1 Terapan - Sarjana Sains Terapan Transportasi (S.SiT), STTD Bekasi',
                     'Diklat Kepemimpinan Pengawas (PIM Tingkat IV)',
                     'Bimbingan Teknis Pelayanan Prima Keterbukaan Informasi Publik'
                 ],
                 'riwayat_jabatan' => [
-                    'Kepala Bagian Administrasi Akademik dan Ketarunaan (BAAK) PKTJ (2024 - Sekarang)',
+                    'Kepala Bagian Administrasi Akademik dan Ketarunaan PKTJ (2024 - Sekarang)',
                     'Kepala Subbagian Administrasi Akademik PKTJ',
                     'Pengelola Administrasi Ketarunaan dan Pengasuhan BPSDMP'
                 ],
@@ -142,7 +140,7 @@ class PejabatSeeder extends Seeder
                     'Satyalancana Karya Satya 20 Tahun Presiden RI',
                     'Satyalancana Karya Satya 10 Tahun Presiden RI'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 5,
                 'aktif' => true,
@@ -150,17 +148,17 @@ class PejabatSeeder extends Seeder
             [
                 'nama' => 'Agus Hariyanto, S.Kom, M.Sc.',
                 'nip' => '19790812 200502 1 001',
-                'jabatan' => 'Kepala Subbagian Keuangan dan Administrasi Umum',
+                'jabatan' => 'Kepala Bagian Keuangan, Umum, dan Kerjasama',
                 'tempat_tanggal_lahir' => null,
                 'foto' => 'images/pejabat/Agus Hariyanto.png',
-                'biografi' => 'Menjabat sebagai Kepala Subbagian Keuangan dan Administrasi Umum PKTJ Tegal. Mengelola perbendaharaan, tata kelola keuangan BLU, pengadaan barang/jasa, ketatausahaan, kerumahtanggaan, serta infrastruktur teknologi informasi.',
+                'biografi' => 'Menjabat sebagai Kepala Bagian Keuangan, Umum, dan Kerjasama PKTJ Tegal. Bertanggung jawab atas koordinasi pengelolaan keuangan, pelaksanaan anggaran BLU, kerumahtanggaan, tata usaha, serta pembinaan kerja sama dan kemitraan kelembagaan di lingkungan Politeknik Keselamatan Transportasi Jalan.',
                 'pendidikan' => [
                     'S2 - Master of Science (M.Sc) Transport & Information Technology',
                     'S1 - Sarjana Komputer (S.Kom), Universitas Diponegoro',
                     'Diklat Pengelolaan Keuangan BLU dan Pejabat Perbendaharaan Negara'
                 ],
                 'riwayat_jabatan' => [
-                    'Kepala Subbagian Keuangan dan Administrasi Umum PKTJ (2024 - Sekarang)',
+                    'Kepala Bagian Keuangan, Umum, dan Kerjasama PKTJ (2024 - Sekarang)',
                     'Kepala Unit Teknologi Informasi & Komunikasi (TIK) PKTJ',
                     'Ketua Program Studi Teknologi Rekayasa Otomotif (TRO) PKTJ'
                 ],
@@ -168,7 +166,7 @@ class PejabatSeeder extends Seeder
                     'Satyalancana Karya Satya 10 Tahun Presiden RI',
                     'Penghargaan Inovasi Sistem Pelayanan Informasi Digital'
                 ],
-                'lhkpn_link' => 'https://elhkpn.kpk.go.id/',
+                'lhkpn_link' => null,
                 'lhkpn_tahun' => '2025/2026',
                 'urutan' => 6,
                 'aktif' => true,

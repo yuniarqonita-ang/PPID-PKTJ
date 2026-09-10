@@ -140,7 +140,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2020',
                 'jangka_waktu' => '5 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -156,7 +156,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -172,7 +172,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -222,7 +222,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -238,7 +238,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -254,7 +254,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -270,7 +270,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -286,7 +286,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -302,7 +302,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -472,7 +472,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => 'Hingga Pemutakhiran',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -504,7 +504,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => 'Selama Berlaku',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -520,7 +520,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -536,7 +536,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => 'Sesuai Retensi Arsip',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -568,7 +568,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => 'Selama Berlaku',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -584,7 +584,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => 'Selama Berlaku',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -600,7 +600,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
             [
@@ -616,7 +616,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => 'Sesuai Retensi Arsip',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
         ];
@@ -638,7 +638,7 @@ class PoltradaBaliDipSeeder extends Seeder
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '1 Tahun',
-                'file_informasi' => '/layanan-informasi/daftar',
+                'file_informasi' => null,
                 'aktif' => 1,
             ],
         ];

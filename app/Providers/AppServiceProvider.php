@@ -35,8 +35,11 @@ if (!function_exists('has_valid_document')) {
         }
 
         // Web URLs (Google Drive, Cloud links, internal routes, etc.)
-        if (str_starts_with($clean, 'http://') || str_starts_with($clean, 'https://') || str_starts_with($clean, '/')) {
-            return true;
+        if (str_starts_with($clean, 'http://') || str_starts_with($clean, 'https://')) {
+            return !str_contains($clean, 'elhkpn.kpk.go.id');
+        }
+        if (str_starts_with($clean, '/')) {
+            return !in_array($clean, ['/', '/#', '/layanan-informasi/daftar']);
         }
 
         // Must have a valid document / media file extension

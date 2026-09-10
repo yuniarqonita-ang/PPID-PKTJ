@@ -57,25 +57,7 @@ class Pejabat extends Model
     public function getPendidikanAttribute($value)
     {
         $parsed = is_string($value) ? json_decode($value, true) : $value;
-        if (!is_array($parsed)) $parsed = [];
-        
-        if (str_contains($this->attributes['nama'] ?? '', 'Bambang')) {
-            $hasS3 = false;
-            foreach ($parsed as $p) {
-                if (str_contains($p, 'UNISSULA') || str_contains($p, 'Doktor')) {
-                    $hasS3 = true;
-                    break;
-                }
-            }
-            if (!$hasS3) {
-                array_unshift(
-                    $parsed,
-                    'S3 - Doktor (Dr.) Teknik Sipil, Universitas Islam Sultan Agung (UNISSULA) Semarang',
-                    'Profesi Insinyur - Insinyur Profesional Utama (IPU), Persatuan Insinyur Indonesia (PII)'
-                );
-            }
-        }
-        return $parsed;
+        return is_array($parsed) ? $parsed : [];
     }
 
     public static function getActivePejabats()
@@ -101,18 +83,16 @@ class Pejabat extends Model
     {
         return [
             [
-                'nama' => 'Dr. Ir. Bambang Istiyanto, S.SiT., M.T., IPU',
-                'nip' => '19730514 199803 1 002',
+                'nama' => 'Bambang Istiyanto, S.SiT., MT',
+                'nip' => '197307011996021002',
                 'jabatan' => 'Direktur Politeknik Keselamatan Transportasi Jalan',
                 'tempat_tanggal_lahir' => null,
                 'foto' => 'images/pejabat/Bambang Istiyanto.png',
-                'biografi' => 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Meraih gelar Doktor Teknik Sipil di Universitas Islam Sultan Agung (UNISSULA) Semarang dengan disertasi Model Evaluasi Keberhasilan Program Keselamatan Jalan Perkotaan Berbasis Safety Performance Function (SPF) dan Crash Modification Factor (CMF) dengan Pendekatan System Dynamics. Memimpin penyelenggaraan pendidikan vokasi keselamatan transportasi darat, tata kelola BLU, dan penguatan keterbukaan informasi publik di lingkungan BPSDMP Kementerian Perhubungan.',
+                'biografi' => 'Menjabat sebagai Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Memimpin penyelenggaraan pendidikan vokasi keselamatan transportasi darat, tata kelola BLU, dan penguatan keterbukaan informasi publik di lingkungan Badan Pengembangan SDM Perhubungan Kementerian Perhubungan RI.',
                 'pendidikan' => [
-                    'S3 - Doktor (Dr.) Teknik Sipil, Universitas Islam Sultan Agung (UNISSULA) Semarang',
-                    'Profesi Insinyur - Insinyur Profesional Utama (IPU), Persatuan Insinyur Indonesia (PII)',
-                    'S2 - Magister Teknik (M.T.) Sipil / Transportasi, Institut Teknologi Bandung (ITB)',
+                    'S2 - Magister Teknik (MT)',
                     'D4 / S1 Terapan - Sarjana Sains Terapan Transportasi (S.SiT), Sekolah Tinggi Transportasi Darat (STTD)',
-                    'Pendidikan dan Pelatihan Penjenjangan Kepemimpinan Administrator (PIM Tingkat III)'
+                    'Pendidikan dan Pelatihan Penjenjangan Kepemimpinan Administrator'
                 ],
                 'riwayat_jabatan' => [
                     'Direktur Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal (2024 - Sekarang)',
@@ -242,10 +222,10 @@ class Pejabat extends Model
             [
                 'nama' => 'Agus Hariyanto, S.Kom, M.Sc.',
                 'nip' => '19790812 200502 1 001',
-                'jabatan' => 'Kepala Bagian Keuangan dan Administrasi Umum',
+                'jabatan' => 'Kepala Bagian Keuangan, Umum, dan Kerjasama',
                 'tempat_tanggal_lahir' => null,
                 'foto' => 'images/pejabat/Agus Hariyanto.png',
-                'biografi' => 'Menjabat sebagai Kepala Bagian Keuangan dan Administrasi Umum PKTJ Tegal. Mengelola perbendaharaan, tata kelola keuangan BLU, pengadaan barang/jasa, ketatausahaan, kerumahtanggaan, serta infrastruktur teknologi informasi.',
+                'biografi' => 'Menjabat sebagai Kepala Bagian Keuangan, Umum, dan Kerjasama PKTJ Tegal. Bertanggung jawab atas koordinasi pengelolaan keuangan, pelaksanaan anggaran BLU, kerumahtanggaan, tata usaha, serta pembinaan kerja sama dan kemitraan kelembagaan di lingkungan Politeknik Keselamatan Transportasi Jalan.',
                 'pendidikan' => [
                     'S2 - Master of Science (M.Sc) Transport & Information Technology',
                     'S1 - Sarjana Komputer (S.Kom), Universitas Diponegoro',
