@@ -260,6 +260,72 @@
                 </div>
             </div>
 
+            <!-- SECTION: JAM PELAYANAN INFORMASI (DESK PPID) SESUAI STANDAR UPT -->
+            <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-amber-500 rounded-xl flex items-center justify-center text-white text-sm">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Jam Pelayanan Informasi (Desk PPID)</h3>
+                            <p class="text-[11px] text-slate-500 font-medium">Atur jam operasional tatap muka, istirahat, dan hari libur resmi PPID UPT PKTJ.</p>
+                        </div>
+                    </div>
+                    <span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-black rounded-full uppercase border border-amber-100">Brosur Resmi UPT</span>
+                </div>
+                <div class="p-8 space-y-6">
+                    <!-- Senin s.d Kamis -->
+                    <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-calendar-days text-[#004a99]"></i>
+                            <h4 class="text-xs font-black text-[#002b5c] uppercase tracking-wider">Senin s.d Kamis</h4>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Jam Pelayanan</label>
+                                <input type="text" name="jam_layanan_senin_kamis" value="{{ old('jam_layanan_senin_kamis', \App\Models\Dashboard::getValue('jam_layanan_senin_kamis', '09.00 - 16.00')) }}"
+                                       class="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700" placeholder="contoh: 09.00 - 16.00">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Waktu Istirahat</label>
+                                <input type="text" name="jam_istirahat_senin_kamis" value="{{ old('jam_istirahat_senin_kamis', \App\Models\Dashboard::getValue('jam_istirahat_senin_kamis', '12.00 s.d 13.30')) }}"
+                                       class="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700" placeholder="contoh: 12.00 s.d 13.30">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Jumat -->
+                    <div class="p-5 rounded-2xl border border-slate-100 bg-slate-50/50 space-y-4">
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-calendar-day text-[#004a99]"></i>
+                            <h4 class="text-xs font-black text-[#002b5c] uppercase tracking-wider">Hari Jumat</h4>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Jam Pelayanan</label>
+                                <input type="text" name="jam_layanan_jumat" value="{{ old('jam_layanan_jumat', \App\Models\Dashboard::getValue('jam_layanan_jumat', '09.00 - 16.30')) }}"
+                                       class="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700" placeholder="contoh: 09.00 - 16.30">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Waktu Istirahat</label>
+                                <input type="text" name="jam_istirahat_jumat" value="{{ old('jam_istirahat_jumat', \App\Models\Dashboard::getValue('jam_istirahat_jumat', '11.30 s.d 14.00')) }}"
+                                       class="w-full px-5 py-3 bg-white border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700" placeholder="contoh: 11.30 s.d 14.00">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Hari Libur -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest flex items-center gap-2">
+                            <i class="fas fa-calendar-xmark text-rose-500"></i> Hari Libur Operasional
+                        </label>
+                        <input type="text" name="jam_layanan_libur" value="{{ old('jam_layanan_libur', \App\Models\Dashboard::getValue('jam_layanan_libur', 'Sabtu - Minggu dan Hari Besar Nasional (Libur)')) }}"
+                               class="w-full px-5 py-3 bg-slate-50 border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#004a99] transition-all font-semibold text-slate-700" placeholder="Sabtu - Minggu dan Hari Besar Nasional (Libur)">
+                    </div>
+                </div>
+            </div>
+
             <!-- SECTION: PETA & KONTAK KAMPUS DINAMIS (KAMPUS PERINTIS & KAMPUS MARGADANA) -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
                 <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">

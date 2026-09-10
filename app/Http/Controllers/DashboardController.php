@@ -181,6 +181,13 @@ class DashboardController extends Controller
             'struktur_manajer_nama' => $request->struktur_manajer_nama,
             'struktur_pengelola_nama' => $request->struktur_pengelola_nama,
             'struktur_petugas_nama' => $request->struktur_petugas_nama,
+
+            // Jam Pelayanan Informasi Dinamis (Sesuai Standar Resmi UPT PKTJ)
+            'jam_layanan_senin_kamis' => $request->jam_layanan_senin_kamis,
+            'jam_istirahat_senin_kamis' => $request->jam_istirahat_senin_kamis,
+            'jam_layanan_jumat' => $request->jam_layanan_jumat,
+            'jam_istirahat_jumat' => $request->jam_istirahat_jumat,
+            'jam_layanan_libur' => $request->jam_layanan_libur,
         ];
 
         // Handle Hero Background Video Upload

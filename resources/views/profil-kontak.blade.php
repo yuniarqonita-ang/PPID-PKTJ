@@ -818,41 +818,55 @@
                 </div>
 
                 <!-- 3 CARDS: SENIN-KAMIS, JUMAT, LOKASI FISIK -->
-                <div class="row g-4 align-items-start">
+                <div class="row g-4 align-items-stretch">
                     <!-- Senin s/d Kamis -->
                     <div class="col-md-6 col-lg-4">
-                        <div class="schedule-pill-card">
-                            <div class="schedule-day-plaque">
-                                <h4 class="schedule-day-title">Senin s/d Kamis</h4>
+                        <div class="schedule-pill-card h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="schedule-day-plaque">
+                                    <h4 class="schedule-day-title">Senin s.d Kamis</h4>
+                                </div>
+                                <div class="schedule-times-stack">
+                                    <div class="time-frame-box">
+                                        <span class="time-text">{{ $settings['jam_layanan_senin_kamis'] ?? '09.00 - 16.00' }}</span>
+                                        <span class="time-zone-badge">WIB</span>
+                                    </div>
+                                    <div class="time-frame-box" style="background: rgba(255, 255, 255, 0.12); border: 1px dashed rgba(255, 255, 255, 0.3);">
+                                        <span class="time-text" style="font-size: 12.5px; font-weight: 600;"><i class="fas fa-mug-hot me-1.5 text-warning"></i> Istirahat: {{ $settings['jam_istirahat_senin_kamis'] ?? '12.00 s.d 13.30' }}</span>
+                                        <span class="time-zone-badge">WIB</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="schedule-times-stack">
-                                <div class="time-frame-box">
-                                    <span class="time-text">08.00 - 12.00</span>
-                                    <span class="time-zone-badge">WIB</span>
-                                </div>
-                                <div class="time-frame-box">
-                                    <span class="time-text">13.00 - 16.00</span>
-                                    <span class="time-zone-badge">WIB</span>
-                                </div>
+                            <div class="mt-3 pt-2 text-center border-top border-white border-opacity-15">
+                                <span class="badge bg-white bg-opacity-15 text-white fw-bold px-3 py-1 rounded-pill" style="font-size: 11px;">
+                                    <i class="fas fa-door-open me-1 text-warning"></i> Jam Layanan Tatap Muka
+                                </span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Hari Jumat -->
                     <div class="col-md-6 col-lg-4">
-                        <div class="schedule-pill-card">
-                            <div class="schedule-day-plaque">
-                                <h4 class="schedule-day-title">Jumat</h4>
+                        <div class="schedule-pill-card h-100 d-flex flex-column justify-content-between">
+                            <div>
+                                <div class="schedule-day-plaque">
+                                    <h4 class="schedule-day-title">Jumat</h4>
+                                </div>
+                                <div class="schedule-times-stack">
+                                    <div class="time-frame-box">
+                                        <span class="time-text">{{ $settings['jam_layanan_jumat'] ?? '09.00 - 16.30' }}</span>
+                                        <span class="time-zone-badge">WIB</span>
+                                    </div>
+                                    <div class="time-frame-box" style="background: rgba(255, 255, 255, 0.12); border: 1px dashed rgba(255, 255, 255, 0.3);">
+                                        <span class="time-text" style="font-size: 12.5px; font-weight: 600;"><i class="fas fa-mug-hot me-1.5 text-warning"></i> Istirahat: {{ $settings['jam_istirahat_jumat'] ?? '11.30 s.d 14.00' }}</span>
+                                        <span class="time-zone-badge">WIB</span>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="schedule-times-stack">
-                                <div class="time-frame-box">
-                                    <span class="time-text">08.00 - 11.30</span>
-                                    <span class="time-zone-badge">WIB</span>
-                                </div>
-                                <div class="time-frame-box">
-                                    <span class="time-text">13.30 - 16.30</span>
-                                    <span class="time-zone-badge">WIB</span>
-                                </div>
+                            <div class="mt-3 pt-2 text-center border-top border-white border-opacity-15">
+                                <span class="badge bg-white bg-opacity-15 text-white fw-bold px-3 py-1 rounded-pill" style="font-size: 11px;">
+                                    <i class="fas fa-door-open me-1 text-warning"></i> Jam Layanan Tatap Muka
+                                </span>
                             </div>
                         </div>
                     </div>
@@ -891,6 +905,22 @@
                             </div>
                         </div>
                     </div>
+                </div>
+
+                <!-- Banner Hari Libur Sesuai Brosur Resmi UPT -->
+                <div class="mt-4 p-3 rounded-4 d-flex flex-column flex-md-row align-items-center justify-content-between gap-3" style="background: rgba(239, 68, 68, 0.18); border: 1px solid rgba(239, 68, 68, 0.35); backdrop-filter: blur(8px);">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="rounded-circle bg-danger bg-opacity-30 d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width: 42px; height: 42px;">
+                            <i class="fas fa-calendar-xmark text-warning fs-5"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-white fw-bold mb-0" style="font-size: 14.5px;">{{ $settings['jam_layanan_libur'] ?? 'Sabtu - Minggu dan Hari Besar Nasional (Libur)' }}</h6>
+                            <p class="mb-0 text-white text-opacity-75 small">Layanan tatap muka di meja layanan tutup pada hari libur. Layanan permohonan daring (online) tetap aktif 24 jam melalui portal PPID & SP4N-LAPOR!.</p>
+                        </div>
+                    </div>
+                    <span class="badge bg-danger text-white px-3.5 py-2 rounded-pill fw-bold text-uppercase flex-shrink-0" style="font-size: 11px; letter-spacing: 0.5px;">
+                        <i class="fas fa-ban me-1"></i> Tutup Tatap Muka
+                    </span>
                 </div>
             </div>
         </div>
@@ -1148,18 +1178,29 @@
 
     <!-- MODAL FOTO MEJA LAYANAN & FORMULIR FISIK (AKIP C.1 & C.2) -->
     <div class="modal fade" id="modalFotoMejaLayanan" tabindex="-1" aria-labelledby="modalFotoMejaLayananLabel" aria-hidden="true" style="z-index: 99999;">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content rounded-4 border-0 shadow-lg overflow-hidden">
                 <div class="modal-header text-white border-0 py-3 px-4" style="background: linear-gradient(135deg, #002b5c, #004a99) !important;">
                     <div class="d-flex align-items-center gap-2">
                         <i class="fas fa-building text-warning fs-5"></i>
-                        <h5 class="modal-title outfit fw-bold mb-0 text-white" id="modalFotoMejaLayananLabel">Meja Layanan Informasi Publik Terpadu (AKIP C.1 & C.2)</h5>
+                        <h5 class="modal-title outfit fw-bold mb-0 text-white" id="modalFotoMejaLayananLabel">Sarana & Jam Pelayanan Informasi Publik Terpadu (AKIP C.1 & C.2)</h5>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" onclick="closeFotoModal()" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4 bg-light">
                     <div class="row g-3">
-                        <div class="col-md-6">
+                        <div class="col-lg-4 col-md-6">
+                            <div class="card border-0 shadow-sm rounded-3 overflow-hidden h-100">
+                                <div class="card-header bg-white py-2 fw-bold text-dark small">
+                                    <i class="fas fa-clock text-amber-500 me-1"></i> Jam Pelayanan & Alur Permohonan
+                                </div>
+                                <img src="{{ asset('images/sarana/jam-pelayanan-ppid.jpg') }}" class="card-img-top img-fluid" alt="Jam Pelayanan & Alur Permohonan Informasi PPID PKTJ" style="object-fit: cover; max-height: 250px;">
+                                <div class="card-body p-2.5">
+                                    <p class="small text-muted mb-0">Brosur resmi jam pelayanan & alur permohonan informasi PPID Pelaksana UPT PKTJ.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-6">
                             <div class="card border-0 shadow-sm rounded-3 overflow-hidden h-100">
                                 <div class="card-header bg-white py-2 fw-bold text-dark small">
                                     <i class="fas fa-desktop text-primary me-1"></i> Desk / Meja Layanan PPID (C.1)
@@ -1170,7 +1211,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-lg-4 col-md-12">
                             <div class="card border-0 shadow-sm rounded-3 overflow-hidden h-100">
                                 <div class="card-header bg-white py-2 fw-bold text-dark small">
                                     <i class="fas fa-file-alt text-warning me-1"></i> Formulir Permohonan & Keberatan Fisik (C.2)

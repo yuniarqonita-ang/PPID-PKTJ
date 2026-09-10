@@ -230,6 +230,8 @@ Route::get('/profil/struktur-organisasi', [\App\Http\Controllers\ProfilPublikCon
 Route::get('/profil-regulasi.html', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('profil.regulasi.html');
 Route::get('/regulasi', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('regulasi');
 Route::get('/profil-kontak.html', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak'])->name('profil.kontak.html');
+Route::get('/profil-kontak', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak']);
+Route::get('/kontak', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak']);
 
 // Informasi Publik (Public - Dynamic from Controller)
 Route::name('informasi.')->prefix('informasi-publik')->group(function () {
