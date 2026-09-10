@@ -40,12 +40,12 @@ class InformasiPublikController extends Controller
     private function ensureDataSeeded(): void
     {
         try {
-            $totalCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->count();
-            if ($totalCount === 0) {
-                $seederFile = database_path('seeders/Dip2026SyncSeeder.php');
+            $activeCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('aktif', 1)->count();
+            if ($activeCount === 0) {
+                $seederFile = database_path('seeders/PoltradaBaliDipSeeder.php');
                 if (file_exists($seederFile)) {
                     require_once $seederFile;
-                    $seeder = new \Database\Seeders\Dip2026SyncSeeder();
+                    $seeder = new \Database\Seeders\PoltradaBaliDipSeeder();
                     $seeder->run();
                 }
             }
@@ -307,8 +307,8 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // FILTER KETAT: Hanya tayangkan yang aktif dan memiliki tautan/file valid
-            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
+            // Tampilkan semua item yang aktif (aktif=true di admin panel sudah cukup)
+            $items = $merged->sortBy('id')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }

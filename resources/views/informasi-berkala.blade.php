@@ -203,13 +203,13 @@
                     </thead>
                     <tbody>
                         @php
-                            // Kelompokkan item berdasarkan kategori Poltrada Bali
+                            // Kelompokkan item berdasarkan 5 Kategori Resmi Poltrada Bali
                             $categories = [
-                                'PROFIL' => ['profil', 'struktur organisasi', 'visi', 'misi', 'tugas', 'fungsi', 'pejabat', 'lhkpn', 'statistik data kepegawaian'],
-                                'PROGRAM DAN KEGIATAN' => ['sipencatar', 'biaya pendidikan', 'kalender akademik', 'program', 'kegiatan'],
-                                'KINERJA DAN KEUANGAN' => ['renstra', 'rencana strategis', 'rkt', 'perjanjian kinerja', 'iku', 'indikator kinerja', 'lkjip', 'lakip', 'akip', 'dipa', 'anggaran', 'keuangan', 'laporan pelayanan informasi'],
-                                'PENGADAAN BARANG DAN JASA' => ['sirup', 'pengadaan', 'tender', 'lpse', 'barang dan jasa'],
-                                'PROSEDUR DAN LAYANAN INFORMASI' => ['tata cara', 'prosedur', 'permohonan', 'keberatan', 'sengketa', 'pengaduan', 'whistleblowing', 'wbs']
+                                'A. INFORMASI TENTANG PROFIL BADAN PUBLIK' => ['profil', 'struktur organisasi', 'pejabat', 'lhkpn', 'agenda pimpinan', 'statistik'],
+                                'B. INFORMASI TENTANG PROGRAM DAN KEGIATAN' => ['renstra', 'rencana strategis', 'rkt', 'rencana kerja tahunan', 'kalender akademik', 'sipencatar', 'biaya pendidikan', 'tarif layanan'],
+                                'C. INFORMASI TENTANG KINERJA DAN KEUANGAN' => ['rka', 'dipa', 'perjanjian kinerja', 'lakip', 'lkjip', 'laporan tahunan', 'laporan keuangan', 'laporan pelayanan informasi'],
+                                'D. INFORMASI TENTANG PENGADAAN BARANG DAN JASA' => ['sirup', 'pengadaan', 'lpse'],
+                                'E. INFORMASI TENTANG PROSEDUR DAN STANDAR PELAYANAN' => ['standar pelayanan', 'maklumat', 'permohonan', 'keberatan', 'sengketa', 'pengaduan', 'whistleblowing', 'lapor']
                             ];
 
                             // Map setiap item ke kategori
@@ -231,11 +231,11 @@
                                 }
                             }
 
-                            // Sisa item yang belum masuk kategori
-                            $groupedItems['LAINNYA'] = collect();
+                            // Sisa item yang belum masuk kategori (jika ada)
+                            $groupedItems['F. INFORMASI LAINNYA'] = collect();
                             foreach ($items as $item) {
                                 if (!in_array($item->id, $assignedItemIds)) {
-                                    $groupedItems['LAINNYA']->push($item);
+                                    $groupedItems['F. INFORMASI LAINNYA']->push($item);
                                 }
                             }
 
@@ -266,19 +266,19 @@
                                             $isWeb = str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://');
                                             $isInternal = str_starts_with($rawPath, '/');
                                         @endphp
-                                        <tr class="dip-data-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc . ' ' . $categoryName) }}">
+                                        <tr class="dip-data-row" data-category="{{ $categoryName }}" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc . ' ' . $categoryName) }}">
                                             <td class="text-center fw-bold text-muted">{{ $runningNo }}</td>
                                             <td><strong class="text-dark">{{ $it->judul }}</strong></td>
                                             <td class="text-muted small">{{ $cleanDesc }}</td>
                                             <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
                                             <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
-                                            <td class="text-center">{{ $it->bentuk_informasi ?? 'Hardcopy dan Softcopy' }}</td>
+                                            <td class="text-center">{{ $it->bentuk_informasi ?? 'Hardcopy & Softcopy' }}</td>
                                             <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
                                             <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
                                             <td class="text-center">
                                                 @if($isInternal)
                                                     <a href="{{ url($rawPath) }}" class="btn-disini">
-                                                        Di Sini <i class="fas fa-arrow-right ms-1"></i>
+                                                        Di Sini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
                                                     </a>
                                                 @elseif($isWeb)
                                                     <a href="{{ $rawPath }}" target="_blank" rel="noopener noreferrer" class="btn-disini">
@@ -292,7 +292,9 @@
                                                         Di Sini <i class="fas fa-file-pdf ms-1"></i>
                                                     </button>
                                                 @else
-                                                    <span class="badge bg-light text-muted border px-2.5 py-1.5 rounded-pill" style="font-size: 11px;">Tersedia Fisik</span>
+                                                    <a href="{{ url('/layanan-informasi/daftar') }}" class="btn-disini" title="Lihat Detail Informasi">
+                                                        Di Sini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                                    </a>
                                                 @endif
                                             </td>
                                         </tr>
@@ -321,9 +323,9 @@
                     <div class="d-flex align-items-center gap-1.5 ms-md-2">
                         <span class="text-muted small">Tampilkan:</span>
                         <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changePageSize(this.value)">
-                            <option value="10" selected>10 data per halaman</option>
+                            <option value="all" selected>Semua data (5 Kategori)</option>
+                            <option value="10">10 data per halaman</option>
                             <option value="25">25 data per halaman</option>
-                            <option value="all">Semua data</option>
                         </select>
                     </div>
                 </div>
@@ -340,7 +342,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let currentPage = 1;
-        let rowsPerPage = 10;
+        let rowsPerPage = 9999;
         let filteredRows = [];
 
         function filterDIPTable() {
@@ -365,7 +367,7 @@
                 return !query || kw.includes(query) || row.innerText.toLowerCase().includes(query);
             });
 
-            // Hide all rows initially
+            // Hide all data rows initially
             allRows.forEach(r => r.style.display = 'none');
 
             // Render current page rows
@@ -377,21 +379,25 @@
             const startIdx = (currentPage - 1) * rowsPerPage;
             const endIdx = Math.min(startIdx + rowsPerPage, total);
 
+            const visibleCategories = new Set();
             for (let i = startIdx; i < endIdx; i++) {
                 if (filteredRows[i]) {
                     filteredRows[i].style.display = '';
                     const noCell = filteredRows[i].querySelector('td:first-child');
                     if (noCell) noCell.innerText = (i + 1);
+                    const cat = filteredRows[i].getAttribute('data-category');
+                    if (cat) visibleCategories.add(cat);
                 }
             }
 
-            // Update category divider rows visibility
+            // Update category divider rows visibility based on whether any row in that category is visible
             const catRows = document.querySelectorAll('#dipTableBerkala tbody tr.category-divider-row');
             catRows.forEach(cr => {
-                if (query) {
-                    cr.style.display = 'none';
-                } else {
+                const catName = cr.getAttribute('data-category');
+                if (visibleCategories.has(catName)) {
                     cr.style.display = '';
+                } else {
+                    cr.style.display = 'none';
                 }
             });
 
@@ -400,6 +406,8 @@
             if (infoEl) {
                 if (total === 0) {
                     infoEl.innerHTML = '<span class="text-danger"><i class="fas fa-search me-1"></i> Tidak ada informasi yang cocok dengan kata kunci pencarian.</span>';
+                } else if (rowsPerPage >= total) {
+                    infoEl.innerHTML = `Menampilkan seluruh <strong>${total}</strong> data informasi berkala terstruktur`;
                 } else {
                     infoEl.innerHTML = `Menampilkan baris <strong>${startIdx + 1}</strong> - <strong>${endIdx}</strong> dari total <strong>${total}</strong> data informasi berkala`;
                 }

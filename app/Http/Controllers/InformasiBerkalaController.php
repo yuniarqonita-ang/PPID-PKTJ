@@ -27,7 +27,7 @@ class InformasiBerkalaController extends Controller
             $item->file_size = '-';
         }
 
-        $itemsBerkala = InformasiBerkala::all();
+        $itemsBerkala = class_exists(InformasiBerkala::class) ? InformasiBerkala::all() : collect();
         foreach ($itemsBerkala as $b) {
             $b->judul = $b->judul;
             $b->deskripsi = $b->deskripsi;
@@ -35,7 +35,18 @@ class InformasiBerkalaController extends Controller
             $b->file_size = '-';
         }
 
-        $items = $itemsBerkala->merge($itemsDaftar);
+        $grouped = $itemsDaftar->concat($itemsBerkala)->groupBy(function($it) {
+            return strtolower(trim($it->judul));
+        });
+
+        $items = collect();
+        foreach ($grouped as $titleKey => $group) {
+            $best = $group->sortByDesc(function($it) {
+                return ($it->aktif ? 1000 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
+            })->first();
+            $items->push($best);
+        }
+        $items = $items->sortByDesc('aktif')->values();
 
         try {
             $pejabats = \App\Models\Pejabat::getActivePejabats();

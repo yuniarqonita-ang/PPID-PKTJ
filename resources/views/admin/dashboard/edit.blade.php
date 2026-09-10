@@ -269,7 +269,7 @@
                         </div>
                         <div>
                             <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Jam Pelayanan Informasi (Desk PPID)</h3>
-                            <p class="text-[11px] text-slate-500 font-medium">Atur jam operasional tatap muka, istirahat, dan hari libur resmi PPID UPT PKTJ.</p>
+                            <p class="text-[11px] text-slate-500 font-medium">Atur jam operasional pelayanan dan hari libur resmi PPID UPT PKTJ.</p>
                         </div>
                     </div>
                     <span class="px-3 py-1 bg-amber-50 text-amber-700 text-[10px] font-black rounded-full uppercase border border-amber-100">Brosur Resmi UPT</span>

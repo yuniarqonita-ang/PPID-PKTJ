@@ -27,7 +27,7 @@ class InformasiSertaMertaController extends Controller
             $item->file_size = '-';
         }
 
-        $itemsSertaMerta = InformasiSertaMerta::all();
+        $itemsSertaMerta = class_exists(InformasiSertaMerta::class) ? InformasiSertaMerta::all() : collect();
         foreach ($itemsSertaMerta as $m) {
             $m->judul = $m->judul;
             $m->deskripsi = $m->deskripsi;
@@ -35,7 +35,18 @@ class InformasiSertaMertaController extends Controller
             $m->file_size = '-';
         }
 
-        $items = $itemsSertaMerta->merge($itemsDaftar);
+        $grouped = $itemsDaftar->concat($itemsSertaMerta)->groupBy(function($it) {
+            return strtolower(trim($it->judul));
+        });
+
+        $items = collect();
+        foreach ($grouped as $titleKey => $group) {
+            $best = $group->sortByDesc(function($it) {
+                return ($it->aktif ? 1000 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
+            })->first();
+            $items->push($best);
+        }
+        $items = $items->sortByDesc('aktif')->values();
         
         return view('admin.informasi.sertamerta.index', compact('items'));
     }

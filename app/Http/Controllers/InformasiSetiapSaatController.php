@@ -27,7 +27,7 @@ class InformasiSetiapSaatController extends Controller
             $item->file_size = '-';
         }
 
-        $itemsSetiapSaat = InformasiSetiapsaat::all();
+        $itemsSetiapSaat = class_exists(InformasiSetiapsaat::class) ? InformasiSetiapsaat::all() : collect();
         foreach ($itemsSetiapSaat as $s) {
             $s->judul = $s->judul;
             $s->deskripsi = $s->deskripsi;
@@ -35,7 +35,18 @@ class InformasiSetiapSaatController extends Controller
             $s->file_size = '-';
         }
 
-        $items = $itemsSetiapSaat->merge($itemsDaftar);
+        $grouped = $itemsDaftar->concat($itemsSetiapSaat)->groupBy(function($it) {
+            return strtolower(trim($it->judul));
+        });
+
+        $items = collect();
+        foreach ($grouped as $titleKey => $group) {
+            $best = $group->sortByDesc(function($it) {
+                return ($it->aktif ? 1000 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
+            })->first();
+            $items->push($best);
+        }
+        $items = $items->sortByDesc('aktif')->values();
         
         return view('admin.informasi.setiapsaat.index', compact('items'));
     }

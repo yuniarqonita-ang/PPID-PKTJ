@@ -202,100 +202,52 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            // Kelompokkan item berdasarkan kategori Poltrada Bali
-                            $categories = [
-                                'REGULASI & KEBIJAKAN DIREKTUR' => ['peraturan', 'keputusan', 'surat keputusan', 'sk ppid', 'sop internal', 'naskah dinas', 'kearsipan', 'kode etik', 'tata tertib'],
-                                'LAYANAN & INFORMASI PUBLIK' => ['daftar informasi publik', 'dip', 'register permohonan', 'register keberatan', 'perpustakaan', 'surat bebas pustaka', 'bahan pustaka'],
-                                'AKADEMIK, KURIKULUM & PEMBELAJARAN' => ['kurikulum', 'silabus', 'teaching factory', 'tefa'],
-                                'KERJASAMA & PENGADAAN' => ['mou', 'perjanjian kerja sama', 'kontrak', 'spk', 'spmk'],
-                                'OPERASIONAL & TATA KELOLA KAMPUS' => ['operasional', 'asrama', 'spi', 'cctv', 'roadmap', 'teknologi informasi', 'risalah rapat', 'notulen']
-                            ];
-
-                            $groupedItems = [];
-                            $assignedItemIds = [];
-
-                            foreach ($categories as $catName => $catKeywords) {
-                                $groupedItems[$catName] = collect();
-                                foreach ($items as $item) {
-                                    if (in_array($item->id, $assignedItemIds)) continue;
-                                    $itemTitle = strtolower($item->judul);
-                                    foreach ($catKeywords as $kw) {
-                                        if (str_contains($itemTitle, $kw)) {
-                                            $groupedItems[$catName]->push($item);
-                                            $assignedItemIds[] = $item->id;
-                                            break;
-                                        }
-                                    }
-                                }
-                            }
-
-                            $groupedItems['DOKUMEN SETIAP SAAT LAINNYA'] = collect();
-                            foreach ($items as $item) {
-                                if (!in_array($item->id, $assignedItemIds)) {
-                                    $groupedItems['DOKUMEN SETIAP SAAT LAINNYA']->push($item);
-                                }
-                            }
-
-                            $runningNo = 0;
-                        @endphp
-
                         @if(isset($items) && $items->count() > 0)
-                            @foreach($groupedItems as $categoryName => $catItems)
-                                @if($catItems->count() > 0)
-                                    <!-- CATEGORY SUBHEADER ROW -->
-                                    <tr class="category-divider-row" data-category="{{ $categoryName }}">
-                                        <td colspan="9">
-                                            <i class="fas fa-folder-open me-2 text-warning"></i> {{ $categoryName }}
-                                        </td>
-                                    </tr>
+                            @foreach($items as $idx => $it)
+                                @php
+                                    $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 160);
+                                    if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
+                                        $cleanDesc = 'Informasi publik setiap saat resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
+                                    }
+                                    $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
 
-                                    @foreach($catItems as $it)
-                                        @php
-                                            $runningNo++;
-                                            $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 160);
-                                            if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
-                                                $cleanDesc = 'Informasi publik setiap saat resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
-                                            }
-                                            $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
-
-                                            // Resolve Tautan / Link
-                                            $rawPath = trim($it->file_path ?? '');
-                                            $isWeb = str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://');
-                                            $isInternal = str_starts_with($rawPath, '/');
-                                        @endphp
-                                        <tr class="dip-data-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc . ' ' . $categoryName) }}">
-                                            <td class="text-center fw-bold text-muted">{{ $runningNo }}</td>
-                                            <td><strong class="text-dark">{{ $it->judul }}</strong></td>
-                                            <td class="text-muted small">{{ $cleanDesc }}</td>
-                                            <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
-                                            <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
-                                            <td class="text-center">{{ $it->bentuk_informasi ?? 'Hardcopy dan Softcopy' }}</td>
-                                            <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
-                                            <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
-                                            <td class="text-center">
-                                                @if($isInternal)
-                                                    <a href="{{ url($rawPath) }}" class="btn-disini">
-                                                        Di Sini <i class="fas fa-arrow-right ms-1"></i>
-                                                    </a>
-                                                @elseif($isWeb)
-                                                    <a href="{{ $rawPath }}" target="_blank" rel="noopener noreferrer" class="btn-disini">
-                                                        Di Sini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                                    </a>
-                                                @elseif(has_valid_document($rawPath))
-                                                    <button type="button" class="btn-disini" 
-                                                            data-bs-toggle="modal" 
-                                                            data-bs-target="#previewModal" 
-                                                            data-url="{{ route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
-                                                        Di Sini <i class="fas fa-file-pdf ms-1"></i>
-                                                    </button>
-                                                @else
-                                                    <span class="badge bg-light text-muted border px-2.5 py-1.5 rounded-pill" style="font-size: 11px;">Tersedia Fisik</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
+                                    // Resolve Tautan / Link
+                                    $rawPath = trim($it->file_path ?? '');
+                                    $isWeb = str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://');
+                                    $isInternal = str_starts_with($rawPath, '/');
+                                @endphp
+                                <tr class="dip-data-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc) }}">
+                                    <td class="text-center fw-bold text-muted">{{ $idx + 1 }}</td>
+                                    <td><strong class="text-dark">{{ $it->judul }}</strong></td>
+                                    <td class="text-muted small">{{ $cleanDesc }}</td>
+                                    <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
+                                    <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
+                                    <td class="text-center">{{ $it->bentuk_informasi ?? 'Hardcopy & Softcopy' }}</td>
+                                    <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
+                                    <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
+                                    <td class="text-center">
+                                        @if($isInternal)
+                                            <a href="{{ url($rawPath) }}" class="btn-disini">
+                                                Lihat <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                            </a>
+                                        @elseif($isWeb)
+                                            <a href="{{ $rawPath }}" target="_blank" rel="noopener noreferrer" class="btn-disini">
+                                                Lihat <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                            </a>
+                                        @elseif(has_valid_document($rawPath))
+                                            <button type="button" class="btn-disini" 
+                                                    data-bs-toggle="modal" 
+                                                    data-bs-target="#previewModal" 
+                                                    data-url="{{ route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
+                                                Lihat <i class="fas fa-file-pdf ms-1"></i>
+                                            </button>
+                                        @else
+                                            <a href="{{ url('/layanan-informasi/daftar') }}" class="btn-disini" title="Lihat Detail Informasi">
+                                                Lihat <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                            </a>
+                                        @endif
+                                    </td>
+                                </tr>
                             @endforeach
                         @else
                             <tr>
@@ -319,9 +271,9 @@
                     <div class="d-flex align-items-center gap-1.5 ms-md-2">
                         <span class="text-muted small">Tampilkan:</span>
                         <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changePageSize(this.value)">
-                            <option value="10" selected>10 data per halaman</option>
+                            <option value="all" selected>Semua data</option>
+                            <option value="10">10 data per halaman</option>
                             <option value="25">25 data per halaman</option>
-                            <option value="all">Semua data</option>
                         </select>
                     </div>
                 </div>
@@ -338,7 +290,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         let currentPage = 1;
-        let rowsPerPage = 10;
+        let rowsPerPage = 9999;
         let filteredRows = [];
 
         function filterDIPTable() {
@@ -357,16 +309,13 @@
             const query = searchInput ? searchInput.value.toLowerCase().trim() : '';
             const allRows = Array.from(document.querySelectorAll('#dipTableSetiapSaat tbody tr.dip-data-row'));
 
-            // Filter data rows
             filteredRows = allRows.filter(row => {
                 const kw = row.getAttribute('data-keywords') || '';
                 return !query || kw.includes(query) || row.innerText.toLowerCase().includes(query);
             });
 
-            // Hide all rows initially
             allRows.forEach(r => r.style.display = 'none');
 
-            // Render current page rows
             const total = filteredRows.length;
             const totalPages = Math.ceil(total / rowsPerPage) || 1;
             if (currentPage > totalPages) currentPage = totalPages;
@@ -383,21 +332,12 @@
                 }
             }
 
-            // Update category divider rows visibility
-            const catRows = document.querySelectorAll('#dipTableSetiapSaat tbody tr.category-divider-row');
-            catRows.forEach(cr => {
-                if (query) {
-                    cr.style.display = 'none';
-                } else {
-                    cr.style.display = '';
-                }
-            });
-
-            // Update info
             const infoEl = document.getElementById('tablePaginationInfo');
             if (infoEl) {
                 if (total === 0) {
                     infoEl.innerHTML = '<span class="text-danger"><i class="fas fa-search me-1"></i> Tidak ada informasi yang cocok dengan kata kunci pencarian.</span>';
+                } else if (rowsPerPage >= total) {
+                    infoEl.innerHTML = `Menampilkan seluruh <strong>${total}</strong> data informasi setiap saat`;
                 } else {
                     infoEl.innerHTML = `Menampilkan baris <strong>${startIdx + 1}</strong> - <strong>${endIdx}</strong> dari total <strong>${total}</strong> data informasi setiap saat`;
                 }

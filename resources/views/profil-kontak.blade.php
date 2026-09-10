@@ -804,8 +804,8 @@
                         <div class="desk-badge">
                             <i class="fas fa-headset text-warning"></i> JAM PELAYANAN DESK MEJA LAYANAN PPID
                         </div>
-                        <h2 class="desk-title outfit mb-1">Waktu Operasional Pelayanan Langsung (Tatap Muka)</h2>
-                        <p class="desk-subtitle mb-0">Layanan tatap muka pemberian informasi publik, konsultasi, dan penerimaan permohonan langsung di Kampus PKTJ.</p>
+                        <h2 class="desk-title outfit mb-1">Waktu Operasional Pelayanan Informasi</h2>
+                        <p class="desk-subtitle mb-0">Pemberian pelayanan informasi publik, konsultasi, dan penerimaan permohonan di Kampus PKTJ.</p>
                     </div>
                     <div class="d-flex align-items-center gap-2 flex-wrap">
                         <button type="button" class="btn btn-warning btn-sm rounded-pill px-3 py-1.5 fw-bold text-dark shadow-sm" data-bs-toggle="modal" data-bs-target="#modalFotoMejaLayanan" style="font-size: 12px; font-family: 'Outfit', sans-serif;">
@@ -821,7 +821,7 @@
                 <div class="row g-4 align-items-stretch">
                     <!-- Senin s/d Kamis -->
                     <div class="col-md-6 col-lg-4">
-                        <div class="schedule-pill-card h-100 d-flex flex-column justify-content-between">
+                        <div class="schedule-pill-card h-100 d-flex flex-column justify-content-center">
                             <div>
                                 <div class="schedule-day-plaque">
                                     <h4 class="schedule-day-title">Senin s.d Kamis</h4>
@@ -831,23 +831,14 @@
                                         <span class="time-text">{{ $settings['jam_layanan_senin_kamis'] ?? '09.00 - 16.00' }}</span>
                                         <span class="time-zone-badge">WIB</span>
                                     </div>
-                                    <div class="time-frame-box" style="background: rgba(255, 255, 255, 0.12); border: 1px dashed rgba(255, 255, 255, 0.3);">
-                                        <span class="time-text" style="font-size: 12.5px; font-weight: 600;"><i class="fas fa-mug-hot me-1.5 text-warning"></i> Istirahat: {{ $settings['jam_istirahat_senin_kamis'] ?? '12.00 s.d 13.30' }}</span>
-                                        <span class="time-zone-badge">WIB</span>
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="mt-3 pt-2 text-center border-top border-white border-opacity-15">
-                                <span class="badge bg-white bg-opacity-15 text-white fw-bold px-3 py-1 rounded-pill" style="font-size: 11px;">
-                                    <i class="fas fa-door-open me-1 text-warning"></i> Jam Layanan Tatap Muka
-                                </span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Hari Jumat -->
                     <div class="col-md-6 col-lg-4">
-                        <div class="schedule-pill-card h-100 d-flex flex-column justify-content-between">
+                        <div class="schedule-pill-card h-100 d-flex flex-column justify-content-center">
                             <div>
                                 <div class="schedule-day-plaque">
                                     <h4 class="schedule-day-title">Jumat</h4>
@@ -857,16 +848,7 @@
                                         <span class="time-text">{{ $settings['jam_layanan_jumat'] ?? '09.00 - 16.30' }}</span>
                                         <span class="time-zone-badge">WIB</span>
                                     </div>
-                                    <div class="time-frame-box" style="background: rgba(255, 255, 255, 0.12); border: 1px dashed rgba(255, 255, 255, 0.3);">
-                                        <span class="time-text" style="font-size: 12.5px; font-weight: 600;"><i class="fas fa-mug-hot me-1.5 text-warning"></i> Istirahat: {{ $settings['jam_istirahat_jumat'] ?? '11.30 s.d 14.00' }}</span>
-                                        <span class="time-zone-badge">WIB</span>
-                                    </div>
                                 </div>
-                            </div>
-                            <div class="mt-3 pt-2 text-center border-top border-white border-opacity-15">
-                                <span class="badge bg-white bg-opacity-15 text-white fw-bold px-3 py-1 rounded-pill" style="font-size: 11px;">
-                                    <i class="fas fa-door-open me-1 text-warning"></i> Jam Layanan Tatap Muka
-                                </span>
                             </div>
                         </div>
                     </div>
@@ -915,11 +897,11 @@
                         </div>
                         <div>
                             <h6 class="text-white fw-bold mb-0" style="font-size: 14.5px;">{{ $settings['jam_layanan_libur'] ?? 'Sabtu - Minggu dan Hari Besar Nasional (Libur)' }}</h6>
-                            <p class="mb-0 text-white text-opacity-75 small">Layanan tatap muka di meja layanan tutup pada hari libur. Layanan permohonan daring (online) tetap aktif 24 jam melalui portal PPID & SP4N-LAPOR!.</p>
+                            <p class="mb-0 text-white text-opacity-75 small">Layanan di meja layanan tutup pada hari libur. Layanan permohonan daring (online) tetap aktif 24 jam melalui portal PPID & SP4N-LAPOR!.</p>
                         </div>
                     </div>
                     <span class="badge bg-danger text-white px-3.5 py-2 rounded-pill fw-bold text-uppercase flex-shrink-0" style="font-size: 11px; letter-spacing: 0.5px;">
-                        <i class="fas fa-ban me-1"></i> Tutup Tatap Muka
+                        <i class="fas fa-ban me-1"></i> Tutup / Libur
                     </span>
                 </div>
             </div>
