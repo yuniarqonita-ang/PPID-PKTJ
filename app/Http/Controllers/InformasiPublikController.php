@@ -134,6 +134,10 @@ class InformasiPublikController extends Controller
             return !str_contains($path, 'elhkpn.kpk.go.id');
         }
 
+        if (str_starts_with($path, '/')) {
+            return !in_array($path, ['/', '/#', '/layanan-informasi/daftar']);
+        }
+
         if (function_exists('has_valid_document') && has_valid_document($path)) {
             return true;
         }
