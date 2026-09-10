@@ -80,18 +80,14 @@
         }
 
         .tablepress-dip thead th {
-            background: #002b5c;
-            color: #ffffff;
+            background: #dcecf8;
+            color: #0f172a;
             font-weight: 700;
             padding: 13px 12px;
             vertical-align: middle;
-            border: none;
-            border-right: 1px solid rgba(255, 255, 255, 0.15);
+            border: 1px solid #cbd5e1;
             font-size: 13px;
             letter-spacing: 0.2px;
-        }
-        .tablepress-dip thead th:last-child {
-            border-right: none;
         }
 
         .tablepress-dip tbody td {
@@ -116,38 +112,28 @@
 
         /* Category Divider Row */
         .tablepress-dip tr.category-divider-row td {
-            background: #e2e8f0 !important;
-            color: #002b5c !important;
+            background: #f8fafc !important;
+            color: #0f172a !important;
             font-weight: 800 !important;
-            font-size: 12.5px !important;
+            font-size: 13px !important;
             text-transform: uppercase;
-            letter-spacing: 0.8px;
-            padding: 10px 16px !important;
-            border-top: 2px solid #cbd5e1 !important;
+            letter-spacing: 0.5px;
+            padding: 11px 16px !important;
+            border-top: 1px solid #cbd5e1 !important;
             border-bottom: 1px solid #cbd5e1 !important;
         }
 
-        .btn-disini {
-            background: #004a99;
-            border: 1px solid #004a99;
-            color: #ffffff;
+        .tautan-disini {
+            color: #0056b3;
             font-weight: 700;
-            font-size: 12px;
-            padding: 5px 14px;
-            border-radius: 50rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
+            font-size: 13px;
             text-decoration: none;
-            transition: all 0.2s ease-in-out;
-            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.15s ease-in-out;
         }
-        .btn-disini:hover {
-            background: #ffc107;
-            border-color: #ffc107;
+        .tautan-disini:hover {
             color: #002b5c;
-            box-shadow: 0 4px 10px rgba(0, 74, 153, 0.25);
-            transform: translateY(-1px);
+            text-decoration: underline;
         }
     </style>
 </head>
@@ -205,11 +191,11 @@
                         @php
                             // Kelompokkan item berdasarkan 5 Kategori Resmi Poltrada Bali
                             $categories = [
-                                'A. INFORMASI TENTANG PROFIL BADAN PUBLIK' => ['profil', 'struktur organisasi', 'pejabat', 'lhkpn', 'agenda pimpinan', 'statistik'],
-                                'B. INFORMASI TENTANG PROGRAM DAN KEGIATAN' => ['renstra', 'rencana strategis', 'rkt', 'rencana kerja tahunan', 'kalender akademik', 'sipencatar', 'biaya pendidikan', 'tarif layanan'],
-                                'C. INFORMASI TENTANG KINERJA DAN KEUANGAN' => ['rka', 'dipa', 'perjanjian kinerja', 'lakip', 'lkjip', 'laporan tahunan', 'laporan keuangan', 'laporan pelayanan informasi'],
-                                'D. INFORMASI TENTANG PENGADAAN BARANG DAN JASA' => ['sirup', 'pengadaan', 'lpse'],
-                                'E. INFORMASI TENTANG PROSEDUR DAN STANDAR PELAYANAN' => ['standar pelayanan', 'maklumat', 'permohonan', 'keberatan', 'sengketa', 'pengaduan', 'whistleblowing', 'lapor']
+                                'PROFIL' => ['profil', 'struktur organisasi', 'pejabat', 'lhkpn', 'agenda pimpinan', 'statistik'],
+                                'PROGRAM DAN KEGIATAN' => ['renstra', 'rencana strategis', 'rkt', 'rencana kerja tahunan', 'kalender akademik', 'sipencatar', 'biaya pendidikan', 'tarif layanan'],
+                                'KINERJA DAN KEUANGAN' => ['rka', 'dipa', 'perjanjian kinerja', 'lakip', 'lkjip', 'laporan tahunan', 'laporan keuangan', 'laporan pelayanan informasi'],
+                                'PENGADAAN BARANG DAN JASA' => ['sirup', 'pengadaan', 'lpse'],
+                                'TATA CARA / PROSEDUR' => ['tata cara', 'permohonan', 'keberatan', 'sengketa', 'pengaduan', 'whistleblowing', 'lapor', 'standar pelayanan', 'maklumat']
                             ];
 
                             // Map setiap item ke kategori
@@ -232,10 +218,10 @@
                             }
 
                             // Sisa item yang belum masuk kategori (jika ada)
-                            $groupedItems['F. INFORMASI LAINNYA'] = collect();
+                            $groupedItems['INFORMASI LAINNYA'] = collect();
                             foreach ($items as $item) {
                                 if (!in_array($item->id, $assignedItemIds)) {
-                                    $groupedItems['F. INFORMASI LAINNYA']->push($item);
+                                    $groupedItems['INFORMASI LAINNYA']->push($item);
                                 }
                             }
 
@@ -247,8 +233,8 @@
                                 @if($catItems->count() > 0)
                                     <!-- CATEGORY SUBHEADER ROW -->
                                     <tr class="category-divider-row" data-category="{{ $categoryName }}">
-                                        <td colspan="9">
-                                            <i class="fas fa-folder-open me-2 text-warning"></i> {{ $categoryName }}
+                                        <td colspan="9" style="background: #f8fafc; font-weight: 800; font-size: 13px; color: #0f172a; padding: 11px 16px; border: 1px solid #cbd5e1;">
+                                            {{ $categoryName }}
                                         </td>
                                     </tr>
 
@@ -272,29 +258,23 @@
                                             <td class="text-muted small">{{ $cleanDesc }}</td>
                                             <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
                                             <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
-                                            <td class="text-center">{{ $it->bentuk_informasi ?? 'Hardcopy & Softcopy' }}</td>
+                                            <td class="text-center">{{ $it->bentuk_informasi ?? 'hardcopy dan softcopy' }}</td>
                                             <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
                                             <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
                                             <td class="text-center">
                                                 @if($isInternal)
-                                                    <a href="{{ url($rawPath) }}" class="btn-disini">
-                                                        Di Sini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                                    </a>
+                                                    <a href="{{ url($rawPath) }}" class="tautan-disini">Disini</a>
                                                 @elseif($isWeb)
-                                                    <a href="{{ $rawPath }}" target="_blank" rel="noopener noreferrer" class="btn-disini">
-                                                        Di Sini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
-                                                    </a>
+                                                    <a href="{{ $rawPath }}" target="_blank" rel="noopener noreferrer" class="tautan-disini">Disini</a>
                                                 @elseif(has_valid_document($rawPath))
-                                                    <button type="button" class="btn-disini" 
-                                                            data-bs-toggle="modal" 
-                                                            data-bs-target="#previewModal" 
-                                                            data-url="{{ route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
-                                                        Di Sini <i class="fas fa-file-pdf ms-1"></i>
-                                                    </button>
-                                                @else
-                                                    <a href="{{ url('/layanan-informasi/daftar') }}" class="btn-disini" title="Lihat Detail Informasi">
-                                                        Di Sini <i class="fas fa-arrow-up-right-from-square ms-1"></i>
+                                                    <a href="javascript:void(0)" class="tautan-disini" 
+                                                       data-bs-toggle="modal" 
+                                                       data-bs-target="#previewModal" 
+                                                       data-url="{{ route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul, 'is_blurred' => $it->is_blurred ? 1 : 0]) }}">
+                                                        Disini
                                                     </a>
+                                                @else
+                                                    <a href="{{ url('/layanan-informasi/daftar') }}" class="tautan-disini" title="Lihat Detail Informasi">Disini</a>
                                                 @endif
                                             </td>
                                         </tr>
