@@ -58,6 +58,22 @@ if (!function_exists('is_previewable')) {
     }
 }
 
+if (!function_exists('classify_link_type')) {
+    function classify_link_type($path) {
+        if (!$path || trim($path) === '' || trim($path) === '#' || trim($path) === '-') {
+            return 'empty';
+        }
+        $p = strtolower(trim($path));
+        if (str_contains($p, 'drive.google.com') || str_contains($p, 'docs.google.com')) {
+            return 'drive';
+        }
+        if (str_ends_with($p, '.pdf') || str_contains($p, '/dokumen/') || str_contains($p, '/storage/')) {
+            return 'pdf';
+        }
+        return 'website';
+    }
+}
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\BeritaController;
@@ -78,6 +94,23 @@ use App\Http\Controllers\InformasiSertaMertaController;
 use App\Http\Controllers\InformasiSetiapSaatController;
 use App\Http\Controllers\InformasiDikecualikanController;
 use App\Http\Controllers\HalamanCustomController;
+
+// Emergency 1-Click Clean DIP Sync Route for Live Deployment
+Route::get('/refresh-dip-clean-now', function() {
+    \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Dip2026SyncSeeder', '--force' => true]);
+    return response()->json([
+        'status' => 'success',
+        'message' => 'DIP Database has been cleanly reset and synchronized with 93 official items!',
+        'berkala_total' => \App\Models\InformasiBerkala::count(),
+        'berkala_aktif' => \App\Models\InformasiBerkala::where('aktif', 1)->count(),
+        'sertamerta_total' => \App\Models\InformasiSertaMerta::count(),
+        'setiapsaat_total' => \App\Models\InformasiSetiapSaat::count(),
+        'daftar_informasi_total' => \App\Models\DaftarInformasi::count(),
+        'daftar_informasi_aktif' => \App\Models\DaftarInformasi::where('aktif', 1)->count(),
+        'laporan_layanan_total' => \App\Models\Dokumen::count(),
+        'pejabat_total' => \App\Models\Pejabat::count(),
+    ]);
+});
 
 // ==========================================
 // 0. REDIRECT URL LAMA (.html) & EXTERNAL
@@ -399,7 +432,7 @@ Route::get('/refresh-deploy', function() {
 
             \App\Models\Pejabat::where('nama', 'LIKE', '%Bambang%')
                 ->update([
-                    'nama' => 'Bambang Istiyanto, S.SiT., MT',
+                    'nama' => 'Dr. Ir. Bambang Istiyanto, S.SiT., M.T., IPU',
                 ]);
             
             \App\Models\Dashboard::updateOrCreate(

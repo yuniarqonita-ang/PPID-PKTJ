@@ -291,7 +291,7 @@
                                             <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
                                             <td class="text-center">
                                                 @if($hasLink && !empty($targetUrl))
-                                                    <a href="{{ $targetUrl }}" class="tautan-disini">
+                                                    <a href="{{ $targetUrl }}" class="tautan-disini" target="_self">
                                                         Disini
                                                     </a>
                                                 @else

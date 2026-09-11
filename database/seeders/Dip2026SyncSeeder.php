@@ -5,20 +5,29 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
+use App\Models\InformasiBerkala;
+use App\Models\InformasiSertaMerta;
+use App\Models\InformasiSetiapSaat;
+use App\Models\DaftarInformasi;
 
 class Dip2026SyncSeeder extends Seeder
 {
     /**
-     * Sinkronisasi Daftar Informasi Publik (DIP) Resmi 2026
-     * Berdasarkan Kolom Paling Kanan (LINK DOKUMEN SENSOR UNTUK PUBLIK / _TERSENSOR)
-     * - Link mengarah langsung ke dokumen berlabel _TERSENSOR.pdf
-     * - Laporan Asrama (kebersihan, keluhan, perbaikan) digabung menjadi satu judul & deskripsi
-     * - Kontrak, MoU, PKS, dan SPK/SPMK dipisah masing-masing dengan link tersensor spesifik
-     * - Memanggil PoltradaBaliDipSeeder, PejabatSeeder, dan DefaultMenuSeeder
+     * Sinkronisasi Bersih Resmi DIP 2026 dari DAFTAR SIAP TAYANG.xlsx
+     * - Truncate informasi_berkalas, informasi_sertamertas, informasi_setiapsaats, daftar_informasis
+     * - Masukkan seluruh 93 dokumen resmi tanpa duplikasi
+     * - 21 Dokumen Berkala dengan file PDF Tersensor diaktifkan (aktif = 1)
+     * - Dokumen lainnya disimpan di Admin Panel sebagai draft (aktif = 0) siap diedit
      */
     public function run(): void
     {
-        // 1. Official Laporan Layanan & Laporan Akses (Single File Link Drive)
+        // 1. Bersihkan tabel dokumen berkala, serta merta, setiap saat, dan daftar informasi publik
+        InformasiBerkala::truncate();
+        InformasiSertaMerta::truncate();
+        InformasiSetiapSaat::truncate();
+        DaftarInformasi::truncate();
+
+        // 2. Data Laporan Layanan Resmi (TIDAK BOLEH HILANG)
         if (Schema::hasTable('dokumens')) {
             $laporanSeeds = [
                 [
@@ -119,30 +128,1238 @@ class Dip2026SyncSeeder extends Seeder
             }
         }
 
-        // 2. Delegate directly to PoltradaBaliDipSeeder for full and clean dataset
-        $this->call(PoltradaBaliDipSeeder::class);
+        // 3. SEED INFORMASI BERKALA
+        $berkalaItems = [
+            [
+                'judul' => 'Laporan Evaluasi Diri (LED) Akreditasi Program Studi RSTJ',
+                'ringkasan' => 'Dokumen Laporan Evaluasi Diri (LED) Akreditasi Program Studi Rekayasa Sistem Transportasi Jalan (RSTJ) Politeknik Keselamatan Transportasi Jalan Tahun 2025.',
+                'pejabat' => 'Kepala Program Studi RSTJ',
+                'penanggungjawab' => 'Prodi RSTJ PKTJ Tegal',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => '/storage/dokumen/Salinan led_211432025 (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Salinan led_211432025 (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Audit Mutu Internal (AMI) PKTJ Tahun 2025',
+                'ringkasan' => 'Dokumen laporan hasil pelaksanaan Audit Mutu Internal (AMI) Politeknik Keselamatan Transportasi Jalan Tahun 2025 guna penjaminan mutu pendidikan tinggi vokasi.',
+                'pejabat' => 'Kepala Satuan Penjaminan Mutu (SPM)',
+                'penanggungjawab' => 'Satuan Penjaminan Mutu PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => '/storage/dokumen/LAPORAN AMI 2025_TERSENSOR.pdf',
+                'file_name' => 'LAPORAN AMI 2025_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Jadwal Perkuliahan Program Studi D3 Teknologi Otomotif Semester Ganjil TA 2025/2026',
+                'ringkasan' => 'Jadwal resmi perkuliahan dan ploting pengampu mata kuliah Program Studi Diploma III Teknologi Otomotif Semester Ganjil Tahun Akademik 2025/2026.',
+                'pejabat' => 'Kepala Program Studi D3 Teknologi Otomotif',
+                'penanggungjawab' => 'Prodi D3 TO PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 Bulan',
+                'file_path' => '/storage/dokumen/Jadwal TO Semester Ganjil TA 2025-2026 (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Jadwal TO Semester Ganjil TA 2025-2026 (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Pengawasan Mutu & Sistem Penyelenggaraan Makanan (MSPM) Periode November 2025',
+                'ringkasan' => 'Laporan berkala kegiatan pengawasan mutu dan manajemen sistem penyelenggaraan makanan bagi taruna/i Politeknik Keselamatan Transportasi Jalan Periode November 2025.',
+                'pejabat' => 'Nutrisionis Terampil',
+                'penanggungjawab' => 'Unit Kesehatan dan Asrama PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => '/storage/dokumen/Salinan 11. LAPORAN MSPM NOVEMBER (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Salinan 11. LAPORAN MSPM NOVEMBER (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Pengukuran Indeks Massa Tubuh (IMT) Taruna Periode Maret 2025',
+                'ringkasan' => 'Laporan berkala hasil pengukuran dan pemantauan Indeks Massa Tubuh (IMT) serta status gizi taruna/i Politeknik Keselamatan Transportasi Jalan Periode Maret 2025.',
+                'pejabat' => 'Nutrisionis Terampil',
+                'penanggungjawab' => 'Unit Kesehatan PKTJ Tegal',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => '/storage/dokumen/Salinan 1. Laporan Kegiatan IMT Maret 2025 (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Salinan 1. Laporan Kegiatan IMT Maret 2025 (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Kegiatan Softskill Taruna: Literasi Kesehatan Mental Tahun 2025',
+                'ringkasan' => 'Laporan dan jadwal pelaksanaan kegiatan pembinaan softskill taruna mengenai literasi dan pemeliharaan kesehatan mental di lingkungan kampus PKTJ Tahun 2025.',
+                'pejabat' => 'Pengasuh Praja',
+                'penanggungjawab' => 'Pusat Pembangunan Karakter PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => '/storage/dokumen/JADWAL KEGIATAN SOFTSKILL LITERASI KESEHATAN MENTAL (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'JADWAL KEGIATAN SOFTSKILL LITERASI KESEHATAN MENTAL (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Panduan dan Jadwal Tambahan Literasi Kesehatan Mental Taruna 2025',
+                'ringkasan' => 'Jadwal lanjutan dan panduan materi sesi penguatan ketahanan mental dan psikologi taruna/i Politeknik Keselamatan Transportasi Jalan Tahun 2025.',
+                'pejabat' => 'Pengasuh Praja',
+                'penanggungjawab' => 'Pusat Pembangunan Karakter PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => '/storage/dokumen/JADWAL KEGIATAN SOFTSKILL LITERASI KESEHATAN MENTAL (Informasi Publik) (2)_TERSENSOR.pdf',
+                'file_name' => 'JADWAL KEGIATAN SOFTSKILL LITERASI KESEHATAN MENTAL (Informasi Publik) (2)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Penilaian Kesamaptaan Periodik Taruna Semester Ganjil 2025',
+                'ringkasan' => 'Laporan hasil evaluasi, pengujian fisik, dan penilaian kesamaptaan jasmani berkala taruna/i Semester Ganjil Tahun Akademik 2025.',
+                'pejabat' => 'Pengasuh Praja',
+                'penanggungjawab' => 'Pusat Pembangunan Karakter PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => '/storage/dokumen/Salinan 1. LAPORAN HASIL TES KESAMAPTAAN TARUNA SEMESTER GANJIL (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Salinan 1. LAPORAN HASIL TES KESAMAPTAAN TARUNA SEMESTER GANJIL (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Evaluasi Perkuliahan Semester Genap TA 2024/2025',
+                'ringkasan' => 'Laporan evaluasi proses belajar mengajar, kehadiran dosen, dan ketercapaian RPS Semester Genap Politeknik Keselamatan Transportasi Jalan Tahun Akademik 2024/2025.',
+                'pejabat' => 'Kepala Program Studi RSTJ',
+                'penanggungjawab' => 'Bagian Administrasi Akademik PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => 'Selama berlaku',
+                'file_path' => '/storage/dokumen/Laporan Perkuliahan Semester Genap 2024_2025 (Informasi Publik).docx (1)_TERSENSOR.pdf',
+                'file_name' => 'Laporan Perkuliahan Semester Genap 2024_2025 (Informasi Publik).docx (1)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Tracer Study Lulusan PKTJ Tahun 2025',
+                'ringkasan' => 'Laporan hasil penelusuran lulusan (tracer study) Politeknik Keselamatan Transportasi Jalan Tahun 2025 mengenai masa tunggu kerja, relevansi kompetensi, dan serapan industri transportasi.',
+                'pejabat' => 'Katim Substansi Administrasi Ketarunaan & Alumni',
+                'penanggungjawab' => 'Bagian Administrasi Akademik & Ketarunaan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => '/storage/dokumen/Laporan Tracer Study 2025 (fix) (InformasI Publik)_TERSENSOR.pdf',
+                'file_name' => 'Laporan Tracer Study 2025 (fix) (InformasI Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Pelaksanaan Uji Kompetensi Andalalin Tahun 2025',
+                'ringkasan' => 'Laporan penyelenggaraan pra-ujikom dan uji kompetensi Analisis Dampak Lalu Lintas (Andalalin) bagi taruna dan peserta pelatihan di PKTJ Tahun 2025.',
+                'pejabat' => 'Kepala Program Studi RSTJ',
+                'penanggungjawab' => 'Prodi RSTJ dan LSP PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => '/storage/dokumen/laporan ujikom andalalin 2025 (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'laporan ujikom andalalin 2025 (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Pelaksanaan Uji Kompetensi Pembantu Penguji Kendaraan Bermotor (PKB) 2025',
+                'ringkasan' => 'Laporan pelaksanaan pra-ujikom dan uji kompetensi Pembantu Penguji Kendaraan Bermotor (PKB) di Politeknik Keselamatan Transportasi Jalan Tahun 2025.',
+                'pejabat' => 'Kepala Program Studi Teknologi Rekayasa Otomotif',
+                'penanggungjawab' => 'Prodi TRO dan LSP PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => '/storage/dokumen/Laporan Ujikom Pembantu PKB Tahun 2025 (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Laporan Ujikom Pembantu PKB Tahun 2025 (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Pelaksanaan Uji Kompetensi Pemeliharaan Jalan Tahun 2025',
+                'ringkasan' => 'Laporan pelaksanaan pelatihan dan sertifikasi uji kompetensi pemeliharaan jalan taruna/i Politeknik Keselamatan Transportasi Jalan Tahun 2025.',
+                'pejabat' => 'Kepala Program Studi RSTJ',
+                'penanggungjawab' => 'Prodi RSTJ dan LSP PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => '/storage/dokumen/Salinan LaporanPKS_Laporan_uji Kompetensi Peneliharaan Jalan (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Salinan LaporanPKS_Laporan_uji Kompetensi Peneliharaan Jalan (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Pelaksanaan Uji Kompetensi Sistem Manajemen Keselamatan (SMK) Perusahaan Angkutan Umum 2025',
+                'ringkasan' => 'Laporan hasil pelaksanaan sertifikasi kompetensi auditor dan penilai Sistem Manajemen Keselamatan (SMK) Perusahaan Angkutan Umum PKTJ Tahun 2025.',
+                'pejabat' => 'Kepala Program Studi Teknologi Rekayasa Otomotif',
+                'penanggungjawab' => 'Prodi TRO dan LSP PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => '/storage/dokumen/Laporan Ujikom SMK PAU 2025_fix (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Laporan Ujikom SMK PAU 2025_fix (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Pelaksanaan UTS dan UAS (Nota Dinas No. 86 Penyelenggaraan Perkuliahan 2025)',
+                'ringkasan' => 'Nota Dinas No. 86 tentang pedoman, persyaratan kehadiran 75%, dan kalender akademik pelaksanaan UTS dan UAS PKTJ Tahun 2025.',
+                'pejabat' => 'Kepala Program Studi RSTJ',
+                'penanggungjawab' => 'Bagian Administrasi Akademik PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 Bulan',
+                'file_path' => '/storage/dokumen/Salinan NOTA DINAS 86 (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Salinan NOTA DINAS 86 (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Nota Dinas Pelaksanaan Ujian Akhir Semester (UAS) Ganjil TA 2025/2026',
+                'ringkasan' => 'Petunjuk teknis dan nota dinas resmi penyelenggaraan Ujian Akhir Semester (UAS) Ganjil Tahun Akademik 2025/2026.',
+                'pejabat' => 'Kepala Program Studi Teknologi Rekayasa Otomotif',
+                'penanggungjawab' => 'Bagian Administrasi Akademik PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 Bulan',
+                'file_path' => '/storage/dokumen/Nodin Pelaksanaan UAS Ganjil 25-26 (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Nodin Pelaksanaan UAS Ganjil 25-26 (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Pengumuman Tata Tertib Ujian Tengah Semester (UTS) Ganjil TA 2025/2026',
+                'ringkasan' => 'Pengumuman resmi tata tertib, jadwal sesi ujian, dan ketentuan pakaian taruna dalam pelaksanaan UTS Ganjil TA 2025/2026.',
+                'pejabat' => 'Kepala Program Studi D3 Teknologi Otomotif',
+                'penanggungjawab' => 'Bagian Administrasi Akademik PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 Bulan',
+                'file_path' => '/storage/dokumen/Pengumuman UTS GANJIL 20252026 (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Pengumuman UTS GANJIL 20252026 (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Screening Kesehatan & Skrining TBC Taruna PKTJ Tahun 2025',
+                'ringkasan' => 'Laporan kegiatan berkala pemeriksaan kesehatan dan skrining TBC bagi seluruh taruna/i PKTJ bekerja sama dengan Dinas Kesehatan Kota Tegal Tahun 2025.',
+                'pejabat' => 'Kepala Unit Kesehatan',
+                'penanggungjawab' => 'Tenaga Kesehatan Unit Kesehatan PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'PKTJ Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => '/storage/dokumen/Laporan Kegiatan Skringing TB (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'Laporan Kegiatan Skringing TB (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Kegiatan Surveillance Audit ISO 21001:2018 EOMS PKTJ',
+                'ringkasan' => 'Laporan audit surveillance dari badan sertifikasi independen terkait penerapan Sistem Manajemen Organisasi Pendidikan (EOMS) ISO 21001:2018 di lingkungan PKTJ Tegal.',
+                'pejabat' => 'Kepala Satuan Penjaminan Mutu (SPM)',
+                'penanggungjawab' => 'Satuan Penjaminan Mutu PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '2 Tahun',
+                'file_path' => '/storage/dokumen/FULL LAPORAN HASIL KEGIATAN SURVEILLANCE ISO 21001;2018 C2V3 (Informasi Publik)_TERSENSOR.pdf',
+                'file_name' => 'FULL LAPORAN HASIL KEGIATAN SURVEILLANCE ISO 21001;2018 C2V3 (Informasi Publik)_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Survey Indeks Persepsi Korupsi (IPK) PKTJ Semester I Tahun 2025',
+                'ringkasan' => 'Laporan resmi hasil survey berkala Indeks Persepsi Korupsi (IPK) pada unit pelayanan Politeknik Keselamatan Transportasi Jalan Semester I Tahun 2025.',
+                'pejabat' => 'Kepala Satuan Penjaminan Mutu (SPM)',
+                'penanggungjawab' => 'Satuan Penjaminan Mutu PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => '/storage/dokumen/LAPORAN IPK PKTJ SEMESTER 1 2025_TERSENSOR.pdf',
+                'file_name' => 'LAPORAN IPK PKTJ SEMESTER 1 2025_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Survey Indeks Kepuasan Masyarakat (IKM) PKTJ Semester I Tahun 2025',
+                'ringkasan' => 'Laporan resmi pengukuran mutu pelayanan publik dan hasil survey Indeks Kepuasan Masyarakat (IKM) PKTJ Semester I Tahun 2025.',
+                'pejabat' => 'Kepala Satuan Penjaminan Mutu (SPM)',
+                'penanggungjawab' => 'Satuan Penjaminan Mutu PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => '/storage/dokumen/LAPORAN IKM PKTJ SEMESTER 1 2025_TERSENSOR.pdf',
+                'file_name' => 'LAPORAN IKM PKTJ SEMESTER 1 2025_TERSENSOR.pdf',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Kegiatan Kehumasan',
+                'ringkasan' => 'Laporan kegitan dalam bentuk penerbitan berita melalu media sosial, website, dan media massa selama tahun 2025',
+                'pejabat' => 'Kapokja PPID dan Humas',
+                'penanggungjawab' => 'Tim Kerjasama',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan Keuangan PKTJ Tegal',
+                'ringkasan' => 'Laporan Realisasi Anggaran (LRA), neraca, Laporan Operasional, Laporan Perubahan Ekuitas dan Catatan atas Laporan Keuangan PKTJ Tegal yang telah di audit oleh BPK-RI',
+                'pejabat' => 'Ketua Tim Substansi Bidang Keuangan',
+                'penanggungjawab' => 'Bagian Keuangan',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 (satu) tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan Perkuliahan Semester Ganjil',
+                'ringkasan' => 'Pelaksanaan Pembelajaran semester genap dimulai bulan maret s.d bulan Juli 2025',
+                'pejabat' => 'Kepala Progam Studi Rekayasa Sistem Transportasi Jalan (RSTJ)',
+                'penanggungjawab' => 'Prodi RSTJ Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan Permohonan Informasi Publik',
+                'ringkasan' => 'Laporan Permohonan Informasi Publik',
+                'pejabat' => 'Kapokja PPID dan Humas',
+                'penanggungjawab' => 'Tim Kerjasama',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan pelaksanaan seminar hasil',
+                'ringkasan' => 'Dijalankan saat taruna melaksanakan magang 1 dan membuat laporan magang juga menyusun proposal Tugas Akhir, data di ambil saat melaksanakan magang 1',
+                'pejabat' => 'Kepala Program Studi RSTJ',
+                'penanggungjawab' => 'Prodi RSTJ PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal 2025',
+                'retensi' => '3 Bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan pelaksanaan seminar proposal',
+                'ringkasan' => 'Dijalankan saat taruna di semester 5',
+                'pejabat' => 'Kepala Progam Studi Diploma III Teknologi Otomotif (TO)',
+                'penanggungjawab' => 'Prodi Diploma III TO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '3 Bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan pelaksanaan seminar proposal',
+                'ringkasan' => 'Dijalankan saat taruna melaksanakan magang 1 dan membuat laporan magang juga menyusun proposal Tugas Akhir, data di ambil saat melaksanakan magang 1',
+                'pejabat' => 'Kepala Progam Studi Teknologi Rekayasa Otomotif (TRO)',
+                'penanggungjawab' => 'Prodi TRO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '3 Bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Pelaksanaan Ujikom Penguji Berkala Kendaraan Bermotor Tingkat 3',
+                'ringkasan' => 'Diawali dengan kegiatan Pra Ujikom Penguji Berkala Kendaraan Bermotor Tingkat 3 pd tgl 25 s.d 28 dan di lanjutkan dengan Ujikom Penguji Berkala Kendaraan Bermotor Tingkat 3 pd tgl 11 s.d 18 Agustus 2025 yang diikuti oleh 106 Mahasiswa/i D3 TO POLBIT dan NoN POLBIT',
+                'pejabat' => 'Kepala Progam Studi Diploma III Teknologi Otomotif (TO)',
+                'penanggungjawab' => 'Prodi Diploma III TO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Rapat Tinjauan Manajemen',
+                'ringkasan' => 'Risalah rapat tinjauan manajemen tahun 2025',
+                'pejabat' => 'Ka SPM',
+                'penanggungjawab' => 'Tim SPM',
+                'bentuk' => 'Soft Copy dan Hard Copy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Rencana Kerja Tahunan (RKT) PKTJ Tegal Tahun 2025',
+                'ringkasan' => 'Penjabaran dari sasaran dan
+program yang telah ditetapkan dalam RENSTRA dan akan dilaksanakan oleh BPSDMP',
+                'pejabat' => 'Ketua Tim Substansi Bidang Keuangan',
+                'penanggungjawab' => 'Bagian Perencanaan',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 (satu) tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Rencana Strategis (Renstra)',
+                'ringkasan' => 'Rencana  Strategis (Renstra) PKTJ Tegal',
+                'pejabat' => 'Ketua Tim Substansi Bidang Keuangan',
+                'penanggungjawab' => 'Bagian Perencanaan',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 (lima) tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Rencana Umum Pengadaan',
+                'ringkasan' => 'Berisi dokumen daftar paket pekerjaan yang dilaksanakan dalam 1 (satu) Tahun  Anggaran',
+                'pejabat' => 'Kepala Bagian Umum dan Keuangan',
+                'penanggungjawab' => 'Bagian Umum dan Keuangan',
+                'bentuk' => 'Soft Copy dan Hard Copy',
+                'waktu' => 'Tegal, Tahun 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Tarif Layanan Diklat Teknis',
+                'ringkasan' => 'SK Tarif Layanan Pendidikan dan Pelatihan',
+                'pejabat' => 'Ka UPU',
+                'penanggungjawab' => 'Tim UPU',
+                'bentuk' => 'Soft File',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 (Satu) Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Tarif Layanan Penunjang Akademik',
+                'ringkasan' => 'SK Tarif Layanan Penunjang Akademik',
+                'pejabat' => 'Ka UPU',
+                'penanggungjawab' => 'Tim UPU',
+                'bentuk' => 'Soft File',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 (Satu) Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+        ];
 
-        // 3. Ensure official leadership data is synchronized
-        $this->call(PejabatSeeder::class);
+        // 4. SEED INFORMASI SERTA MERTA
+        $sertamertaItems = [
+            [
+                'judul' => 'Daftar MoU / Kerjasama',
+                'ringkasan' => 'Dokumen kerjasama perpustakaan PKTJ dengan perpustakaan perguruan tinggi lain atau instansi.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penanggungjawab' => 'Unit Kerjasama / Perpustakaan PKTJ',
+                'bentuk' => 'Hardcopy & Sofcopy',
+                'waktu' => 'Tegal. Sesuai Tanggal MoU',
+                'retensi' => 'Sesuai masa berlaku MoU (biasanya 3-5 tahun)',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Donor darah dalam rangka Hari Perhubungan Nasional tahun 2025',
+                'ringkasan' => 'Kegiatan Donor darah dalam rangka Hari Perhubungan Nasional tahun 2025 yang diikuti oleh civitas akademika PKTJ',
+                'pejabat' => 'Kanit Kesehatan',
+                'penanggungjawab' => 'Nakes Unit Kesehatan',
+                'bentuk' => 'Softfile',
+                'waktu' => 'PKTJ Tegal',
+                'retensi' => '5 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Jumlah kunjungan pasien klinik pratama PKTJ tahun 2025',
+                'ringkasan' => 'Kunjungan Pasien tahun 2025 meliputi taruna, pegawai, dan masyarakat umum',
+                'pejabat' => 'Kanit Kesehatan',
+                'penanggungjawab' => 'Nakes Unit Kesehatan',
+                'bentuk' => 'Softfile',
+                'waktu' => 'PKTJ Tegal di tiap akhir bulan',
+                'retensi' => '5 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Katalog Induk (OPAC)',
+                'ringkasan' => 'Daftar seluruh koleksi buku yang dimiliki perpustakaan beserta status ketersediaannya.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penanggungjawab' => 'Unit Perpustakaan PKTJ',
+                'bentuk' => 'Digital (Database)',
+                'waktu' => 'Tegal, Realtime',
+                'retensi' => 'Permanen (Database terus bertambah)',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan kebersihan asrama',
+                'ringkasan' => 'pengecekan kebersihan asrama',
+                'pejabat' => 'kanit asrama',
+                'penanggungjawab' => 'unit asrama',
+                'bentuk' => 'softfile',
+                'waktu' => 'PKTJ Tegal di tiap akhir bulan',
+                'retensi' => '2 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan Statistik Koleksi',
+                'ringkasan' => 'Informasi statistik pengunjung dan peminjaman koleksi',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penanggungjawab' => 'Unit Perpustakaan PKTJ',
+                'bentuk' => 'Hardcopy & Sofcopy',
+                'waktu' => 'Tegal,  Diperbarui setiap bulan',
+                'retensi' => '5 Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Pemeriksaan Kesehatan Gratis Pengemudi Ojek Online Dalam Rangka Hari Perhubungan Nasional Tahun 2025',
+                'ringkasan' => 'Kegiatan pemeriksaan kesehatan gratis meliputi pemeriksaan tekanan darah, gula darah sewaktu, kolesterol, dan asam urat bagi  pengemudi Ojek online',
+                'pejabat' => 'Kanit Kesehatan',
+                'penanggungjawab' => 'Nakes Unit Kesehatan',
+                'bentuk' => 'Softfile',
+                'waktu' => 'PKTJ Tegal',
+                'retensi' => '5 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Pemeriksaan Kesehatan Gratis Pengemudi Ojek Online Dalam Rangka HUT RI ke 80',
+                'ringkasan' => 'Kegiatan pemeriksaan kesehatan gratis meliputi pemeriksaan tekanan darah, gula darah sewaktu, kolesterol, dan asam urat bagi  pengemudi Ojek online',
+                'pejabat' => 'Kanit Kesehatan',
+                'penanggungjawab' => 'Nakes Unit Kesehatan',
+                'bentuk' => 'Softfile',
+                'waktu' => 'PKTJ Tegal',
+                'retensi' => '5 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Penawaran Diklat Teknis Sektor Perhubungan Darat',
+                'ringkasan' => 'Daftar Diklat Teknis, Tarif Diklat, RAB Diklat, Kurikulum dan Silabus Diklat',
+                'pejabat' => 'Ka UPU',
+                'penanggungjawab' => 'Tim UPU',
+                'bentuk' => 'Soft File',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => 'Selama masih berlaku',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Penghapusan BMN Tahun 2025',
+                'ringkasan' => 'Kegiatan penghapusan Barang Milik Negarai di lingkungan Politeknik Keselamatan Transportasi Jalan Tahun 2025',
+                'pejabat' => 'Ketua Tim Bidang Umum',
+                'penanggungjawab' => 'Bagiaun Keuangan Umum dan Kerjasama',
+                'bentuk' => 'Soft file',
+                'waktu' => 'Tegal bulan Juli 2025',
+                'retensi' => '7 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Penyuluhan Kesehatan Umum dan Gigi Mulut kepada taruna',
+                'ringkasan' => 'Kegiatan penyuluhan kesehatan kepada taruna/ni PKTJ baik kesehatan umum maupun kesehatan gigi dan mulut secara offline',
+                'pejabat' => 'Kanit Kesehatan',
+                'penanggungjawab' => 'Dokter Umum / Dokter Gigi / Nakes Unit Kesehatan',
+                'bentuk' => 'Softfile',
+                'waktu' => 'PKTJ Tegal',
+                'retensi' => '5 Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Profil Progam Studi RSTJ',
+                'ringkasan' => 'Memuat Visi Misi, Lulusan, Dosen, Prestasi Taruna/i Prodi RSTJ dan kegiatan Pembelajaran Prodi RSTJ',
+                'pejabat' => 'Kepala Progam Studi Rekayasa Sistem Transportasi Jalan (RSTJ)',
+                'penanggungjawab' => 'Prodi RSTJ Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => 'Selama masih berlaku /  Diperbarui jika ada perubahan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Profil Progam Studi TO',
+                'ringkasan' => 'Memuat Visi Misi, Lulusan, Dosen, Prestasi Taruna/i Prodi TO dan kegiatan Pembelajaran Prodi TO',
+                'pejabat' => 'Kepala Progam Studi Diploma III Teknologi Otomotif (TO)',
+                'penanggungjawab' => 'Prodi Diploma III TO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2021',
+                'retensi' => 'Selama masih berlaku /  Diperbarui jika ada perubahan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Profil Progam Studi TRO',
+                'ringkasan' => 'Memuat Visi Misi, Lulusan, Dosen, Prestasi Taruna/i Prodi TRO dan kegiatan Pembelajaran Prodi TRO',
+                'pejabat' => 'Kepala Progam Studi Teknologi Rekayasa Otomotif (TRO)',
+                'penanggungjawab' => 'Prodi TRO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2021',
+                'retensi' => 'Selama masih berlaku /  Diperbarui jika ada perubahan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Profil Unit Perpustakaan PKTJ',
+                'ringkasan' => 'Memuat sejarah, visi misi, struktur organisasi, jam layanan, dan fasilitas perpustakaan.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penanggungjawab' => 'Unit Perpustakaan PKTJ',
+                'bentuk' => 'Hardcopy & Sofcopy',
+                'waktu' => 'Tegal, 2023',
+                'retensi' => 'Selama berlaku / Diperbarui jika ada perubahan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Sosialisasi P4GN (Pencegahan, Pemberantasan, Penyalahgunaan dan Peredaran Gelap Narkotika) kepada Taruna PKTJ',
+                'ringkasan' => 'Kegiatan Sosialisasi P4GN dilakukan secara online',
+                'pejabat' => 'Kanit Kesehatan',
+                'penanggungjawab' => 'Dokter Unit Kesehatan PKTJ',
+                'bentuk' => 'Softfile',
+                'waktu' => 'PKTJ Tegal',
+                'retensi' => '5 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'SPI CHARTER (Piagam SPI)',
+                'ringkasan' => 'Piagam Satuan Pengawas Internal (Audit Charter SPI) adalah dokumen formal yang berisi tentang komitmen pimpinan berupa pengakuan keberadaan dan berfungsinya Satuan Pengawas Internal di sebuah organisasi. Piagam Satuan Pengawas Internal PKTJ mencakup visi, misi, kedudukan, tugas, fungsi, dan ruang lingkup serta persetujuan dan pengesahan dari Pimpinan Organisasi.',
+                'pejabat' => 'Kepala SPI',
+                'penanggungjawab' => 'SPI Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy dan Hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 (satu) tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+        ];
 
-        // 4. Ensure navigation menu is clean and standardized
-        $this->call(DefaultMenuSeeder::class);
+        // 5. SEED INFORMASI SETIAP SAAT
+        $setiapsaatItems = [
+            [
+                'judul' => 'Dokumen Kurikulum',
+                'ringkasan' => 'Hasil review kurikulum Prodi RSTJ. Kurikulum lama (tahun 2020) diganti dengan kurikulum baru (2025)',
+                'pejabat' => 'Kepala Progam Studi Rekayasa Sistem Transportasi Jalan (RSTJ)',
+                'penanggungjawab' => 'Prodi RSTJ Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => 'Selama masih berlaku',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Dokumen Kurikulum',
+                'ringkasan' => 'Hasil review kurikulum Prodi TRO. Kurikulum lama (tahun 2020) diganti dengan kurikulum baru (2025)',
+                'pejabat' => 'Kepala Progam Studi Teknologi Rekayasa Otomotif (TRO)',
+                'penanggungjawab' => 'Prodi TRO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2026',
+                'retensi' => 'Selama masih berlaku',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Dokumen Kurikulum',
+                'ringkasan' => 'Kurikulum Prodi TO. Kurikulum lama (tahun 2020) diganti dengan kurikulum baru (2025)',
+                'pejabat' => 'Kepala Progam Studi Diploma III Teknologi Otomotif (TO)',
+                'penanggungjawab' => 'Prodi Diploma III TO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => 'Selama masih berlaku',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Dokumen Kurikulum',
+                'ringkasan' => 'Hasil review kurikulum Prodi TO. Kurikulum lama (tahun 2020) diganti dengan kurikulum baru (2025)',
+                'pejabat' => 'Kepala Progam Studi Diploma III Teknologi Otomotif (TO)',
+                'penanggungjawab' => 'Prodi Diploma III TO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => 'Selama masih berlaku',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Kegiatan Pembelajaran Teaching Factory (TeFa)',
+                'ringkasan' => 'Pedoman TeFa RSTJ',
+                'pejabat' => 'Kepala Progam Studi Rekayasa Sistem Transportasi Jalan (RSTJ)',
+                'penanggungjawab' => 'Prodi RSTJ Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Kegiatan Pembelajaran Teaching Factory (TeFa)',
+                'ringkasan' => 'Progres TeFa RSTJ',
+                'pejabat' => 'Kepala Progam Studi Rekayasa Sistem Transportasi Jalan (RSTJ)',
+                'penanggungjawab' => 'Prodi RSTJ Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Kegiatan Pembelajaran Teaching Factory (TeFa)',
+                'ringkasan' => 'Produk TeFa RSTJ Kelas A',
+                'pejabat' => 'Kepala Progam Studi Rekayasa Sistem Transportasi Jalan (RSTJ)',
+                'penanggungjawab' => 'Prodi RSTJ Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Kegiatan Pembelajaran Teaching Factory (TeFa)',
+                'ringkasan' => 'Produk TeFa RSTJ Kelas B',
+                'pejabat' => 'Kepala Progam Studi Rekayasa Sistem Transportasi Jalan (RSTJ)',
+                'penanggungjawab' => 'Prodi RSTJ Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Kegiatan Pembelajaran Teaching Factory (TeFa)',
+                'ringkasan' => 'SK PENUNJUKAN TIM TeFa 2025',
+                'pejabat' => 'Kepala Progam Studi Teknologi Rekayasa Otomotif (TRO)',
+                'penanggungjawab' => 'Prodi TRO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 Bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Kegiatan Pembelajaran Teaching Factory (TeFa)',
+                'ringkasan' => 'Produk TeFa TRO',
+                'pejabat' => 'Kepala Progam Studi Teknologi Rekayasa Otomotif (TRO)',
+                'penanggungjawab' => 'Prodi TRO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 Bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Kegiatan Pembelajaran Teaching Factory (TeFa)',
+                'ringkasan' => 'Pada semester ganjil 2025-2026, dimulai model pembelajaran Tefa. Setelah UTS, taruna mengerjakan proyek baik dari industri maupun dari internal kampus PKTJ.',
+                'pejabat' => 'Kepala Progam Studi Diploma III Teknologi Otomotif (TO)',
+                'penanggungjawab' => 'Prodi Diploma III TO Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '6 Bulan',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Kontrak',
+                'ringkasan' => 'Kontrak adalah kesepakatan atau perjanjian mengikat secara hukum antara dua pihak atau lebih yang menciptakan kewajiban tertentu bagi masing-masing pihak, mengatur hak dan tanggung jawab mereka, serta dapat ditegakkan secara hukum jika terjadi wanprestasi, bisa dalam bentuk lisan atau tulisan, dan seringkali merupakan bagian dari perjanjian yang lebih luas (perikatan).',
+                'pejabat' => 'Katim Kerjasama',
+                'penanggungjawab' => 'Tim Kerjasama',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan Diklat Pemberdayaan Masyarakat',
+                'ringkasan' => 'Laporan seluruh DIklat Pemberdayaan Masyarakat yang dilaksanakan selama tahun 2025',
+                'pejabat' => 'Kapokja Diklat',
+                'penanggungjawab' => 'Tim Administrasi Akademik',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '2 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan Diklat Teknis',
+                'ringkasan' => 'Laporan seluruh diklat teknis yang dilaksanakan selama thuan 2025',
+                'pejabat' => 'Kapokja Diklat',
+                'penanggungjawab' => 'Tim Administrasi Akademik',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '2 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan kebersihan asrama',
+                'ringkasan' => 'pengecekan kebersihan asrama',
+                'pejabat' => 'kanit asrama',
+                'penanggungjawab' => 'unit asrama',
+                'bentuk' => 'softfile',
+                'waktu' => 'PKTJ Tegal di tiap akhir bulan',
+                'retensi' => '2 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan penanganan keluhan asrama',
+                'ringkasan' => 'tindak lanjut penanganan kekuhan oenghuni asrama',
+                'pejabat' => 'kanit asrama',
+                'penanggungjawab' => 'unit asrama',
+                'bentuk' => 'softfile',
+                'waktu' => 'PKTJ Tegal di tiap akhir bulan',
+                'retensi' => '2 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan Pengawasan Permakanan',
+                'ringkasan' => 'Laporan pengawasan pemakanan yang berisi kesesuaian menu permakanan taruna selama tahun 2025',
+                'pejabat' => 'Nutrisionis Terampil',
+                'penanggungjawab' => 'Pusat Pembangunan Karakter',
+                'bentuk' => 'Softfile',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Laporan perbaikan fasilitas asrama',
+                'ringkasan' => 'perbaikan yang dilakukan oleh tim unit asrama',
+                'pejabat' => 'kanit asrama',
+                'penanggungjawab' => 'unit asrama',
+                'bentuk' => 'softfile',
+                'waktu' => 'PKTJ Tegal di tiap akhir bulan',
+                'retensi' => '2 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'MoU',
+                'ringkasan' => 'MoU (Memorandum of Understanding) adalah nota kesepahaman atau perjanjian pendahuluan yang berisi pernyataan niat dan kesepakatan awal antara dua pihak atau lebih sebelum membuat kontrak formal yang lebih mengikat secara hukum. MoU berfungsi sebagai landasan awal untuk menjajaki kerja sama, menguraikan tujuan, dan ruang lingkup, namun biasanya tidak mengikat secara hukum seperti kontrak, kecuali ada klausul khusus yang ditambahkan',
+                'pejabat' => 'Katim Kerjasama',
+                'penanggungjawab' => 'Tim Kerjasama',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Panduan Pelaksanaan  Penelitian Dan Pengabdian Kepada Masyarakat',
+                'ringkasan' => 'Panduan Berisi Ketentuan-Ketentuan Pelaksanaan  Kegiatan Penelitian Dan PKM',
+                'pejabat' => 'Kepala P3M',
+                'penanggungjawab' => 'P3M Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2021',
+                'retensi' => '5 (lima) tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Perjanjian  Kinerja (PK) PKTJ Tegal tahun 2025',
+                'ringkasan' => 'Perjanjian Kinerja merupakan
+rencana kinerja tahunan yang merupakan penjabaran dari RENSTRA',
+                'pejabat' => 'Ketua Tim Substansi Bidang Keuangan',
+                'penanggungjawab' => 'Bagian Perencanaan',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 (satu) tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Perjanjian Kerja Sama',
+                'ringkasan' => 'Perjanjian Kerja Sama (PKS) adalah kesepakatan formal dan mengikat secara hukum antara dua pihak atau lebih untuk bekerja sama mencapai tujuan bersama, yang merinci hak, kewajiban, tanggung jawab, dan pembagian sumber daya untuk suatu proyek atau usaha tertentu, seringkali lebih mengikat daripada MoU (Memorandum of Understanding) yang bersifat pra-kontrak.',
+                'pejabat' => 'Katim Kerjasama',
+                'penanggungjawab' => 'Tim Kerjasama',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Perjanjian kerjasama Dejavato Foundation dan PKTJ',
+                'ringkasan' => 'Perjanjian Kerjasama tentang Penyediaan Volunteer Asing untuk meningkatkan kemampuan Bahasa Inggris Civitas Akademika PKTJ',
+                'pejabat' => 'Kanit Bahasa',
+                'penanggungjawab' => 'Unit Kerjasama / Unit Bahasa',
+                'bentuk' => 'Softcopy dan Hardcopy',
+                'waktu' => 'PKTJ Tegal Tahun 2018',
+                'retensi' => '10 Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Perjanjian Kerjasama IIEF dan PKTJ',
+                'ringkasan' => 'Perjanjian Kerjasama tentang Penetapan PKTJ Tegal sebagai mitra IIEF untuk melaksanakan Tes TOEFL ITP berlisensi ETS',
+                'pejabat' => 'Kanit Bahasa',
+                'penanggungjawab' => 'Unit Kerjasama / Unit Bahasa',
+                'bentuk' => 'Softcopy dan Hardcopy',
+                'waktu' => 'PKTJ Tegal Tahun 2023',
+                'retensi' => '5 Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Perjanjian Kinerja (PK) PKTJ Tegal tahun 2025',
+                'ringkasan' => 'Perjanjian Kinerja merupakan
+ rencana kinerja tahunan yang merupakan penjabaran dari RENSTRA',
+                'pejabat' => 'Ketua Tim Substansi Bidang Keuangan',
+                'penanggungjawab' => 'Bagian Perencanaan',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 (satu) tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Program Kerja dan Sasaran Mutu Unit Bahasa',
+                'ringkasan' => 'Program Kerja Unit Bahasa merupakan dokumen yang berisi tentang rencana tahunan kegiatan Unit Bahasa dan Sasaran Mutu mencakup target yang akan dicapai dalam satu tahun.',
+                'pejabat' => 'Kanit Bahasa',
+                'penanggungjawab' => 'Unit Bahasa',
+                'bentuk' => 'Softcopy dan Hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Program Kerja SPI',
+                'ringkasan' => 'Program Kerja SPI merupakan dokumen yang berisi tentang rencana tahunan kegiatan pengawasan (audit, reviu, evaluasi) untuk memastikan tujuan organisasi tercapai, pengelolaan keuangan dan aset aman, serta kepatuhan terhadap aturan, mencakup aspek kelembagaan, sistem pengendalian, SDM, dan tindak lanjut temuan audit di PKTJ.',
+                'pejabat' => 'Kepala SPI',
+                'penanggungjawab' => 'SPI Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy dan Hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 (satu) tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Rekapan Pengelolaan CCTV Kampus PKTJ',
+                'ringkasan' => 'Informasi ringkas dan berkala mengenai status fungsionalitas dan lokasi CCTV yang terpasang di area kampus PKTJ.',
+                'pejabat' => 'Unit IT',
+                'penanggungjawab' => 'Unit Kerja di lingkungan PKTJ',
+                'bentuk' => 'softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => 'sesuai retensi arsip',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Rekapitulasi Sewa Aset Sarana dan Prasarana PKTJ',
+                'ringkasan' => 'Identitas Penyewa, Pelaksanaan Sewa, Tujuan Sewa',
+                'pejabat' => 'Ka UPU',
+                'penanggungjawab' => 'Tim UPU',
+                'bentuk' => 'Soft File',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 (lima) Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Repository Institusi (Karya Ilmiah)',
+                'ringkasan' => 'Informasi metadata karya ilmiah (Tugas Akhir dan Laporan Magang) yang dihasilkan sivitas akademika PKTJ.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penanggungjawab' => 'Unit Perpustakaan PKTJ',
+                'bentuk' => 'Digital (Database)',
+                'waktu' => 'Tegal, Realtime',
+                'retensi' => 'Permanen (Database terus bertambah)',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Roadmap Penelitian Dan Pengabdian Kepada Masyarakat',
+                'ringkasan' => 'Roadmap Penelitian Dan Pengabdian Kepada Masyarakat Berisi Tema-Tema Penelitian dan PKM selama 5 tahun',
+                'pejabat' => 'Kepala P3M',
+                'penanggungjawab' => 'P3M Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2024',
+                'retensi' => '5 (lima) tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'SOP',
+                'ringkasan' => 'Dokumen yang berisi Standar Operasional Prosedur Unit Bahasa',
+                'pejabat' => 'Kanit Bahasa',
+                'penanggungjawab' => 'Bagian Penjaminan Mutu PKTJ',
+                'bentuk' => 'Softcopy dan Hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 Tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'SOP Layanan BLU',
+                'ringkasan' => 'Prosedur dan Alur Layanan BLU PKTJ',
+                'pejabat' => 'Ka. UPU',
+                'penanggungjawab' => 'Tim UPU',
+                'bentuk' => 'Soft File',
+                'waktu' => 'Tegal,2025',
+                'retensi' => 'Selama masih berlaku',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'SOP Pemberian Layanan Jasa Perpustakaan Dan Informasi Mengenai Sumber Pembelajaran',
+                'ringkasan' => 'Prosedur dan alur layanan peminjaman serta pengembalian buku bagi pemustaka.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penanggungjawab' => 'Bagian Penjaminan Mutu PKTJ',
+                'bentuk' => 'Hardcopy & Sofcopy',
+                'waktu' => 'Tegal, 2023',
+                'retensi' => 'Selama SOP belum direvisi',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'SOP Pembuatan Surat Bebas Pustaka',
+                'ringkasan' => 'Syarat dan prosedur pengurusan surat keterangan bebas pustaka untuk syarat Wisuda/Kelulusan.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penanggungjawab' => 'Bagian Penjaminan Mutu PKTJ',
+                'bentuk' => 'Hardcopy & Sofcopy',
+                'waktu' => 'Tegal, 2023',
+                'retensi' => 'Selama SOP belum direvisi',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'SOP Penetapan Tarif',
+                'ringkasan' => 'Prosedur dan Alur Penetapan Tarif Baru Layanan PKTJ',
+                'pejabat' => 'Ka. UPU',
+                'penanggungjawab' => 'Tim UPU',
+                'bentuk' => 'Soft File',
+                'waktu' => 'Tegal,2025',
+                'retensi' => 'Selama masih berlaku',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'SOP Pengadaan Bahan Pustaka',
+                'ringkasan' => 'Tata cara pengajuan usulan pengadaan buku oleh Dosen atau Taruna.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penanggungjawab' => 'Bagian Penjaminan Mutu PKTJ',
+                'bentuk' => 'Hardcopy & Sofcopy',
+                'waktu' => 'Tegal, 2023',
+                'retensi' => 'Selama SOP belum direvisi',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'SOP SPI',
+                'ringkasan' => 'Dokumen yang berisi tentang Standar Operasional dan Prosedur SPI',
+                'pejabat' => 'Kepala SPI',
+                'penanggungjawab' => 'SPI Politeknik Keselamatan Transportasi Jalan',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '5 (lima) tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'SPK/SPMK (Surat Perjanjian Kerja)/(Surat Perintah Mulai Kerja)',
+                'ringkasan' => 'Surat Perjanjian Kerja/Surat Perintah Kerja /Surat Perintah Mulai Kerja adalah dokumen legal yang mengikat secara hukum, berisi perintah resmi dari pemberi kerja (perusahaan/instansi) kepada pekerja/penyedia jasa untuk memulai suatu pekerjaan, serta merinci syarat-syarat kerja, hak, kewajiban, ruang lingkup pekerjaan, batas waktu (durasi), hingga biaya atau nilai kontrak, menjadikannya landasan hukum pelaksanaan proyek atau tugas',
+                'pejabat' => 'Katim Kerjasama',
+                'penanggungjawab' => 'Tim Kerjasama',
+                'bentuk' => 'softcopy dan hardcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 tahun',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Struktur Organisasi Unit Teknologi Informasi',
+                'ringkasan' => 'Struktur organisasi Unit Teknologi Informasi PKTJ yang terdiri dari Kepala Unit Teknologi Informasi di bawah Kepala Bagian Administrasi Akademik dan Ketarunaan, serta Kelompok Jabatan Fungsional. Struktur ini berada di bawah koordinasi Direktur Politeknik Keselamatan Transportasi Jalan',
+                'pejabat' => 'Unit TI',
+                'penanggungjawab' => 'Unit Kerja di lingkungan PKTJ',
+                'bentuk' => 'softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => 'sesuai retensi arsip',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+            [
+                'judul' => 'Tata Tertib Perpustakaan',
+                'ringkasan' => 'Peraturan mengenai etika, tata cara berpakaian, dan larangan di dalam ruang perpustakaan.',
+                'pejabat' => 'Kepala Unit Perpustakaan',
+                'penanggungjawab' => 'Unit Perpustakaan PKTJ',
+                'bentuk' => 'Softcopy',
+                'waktu' => 'Tegal, 2019',
+                'retensi' => 'Selama peraturan masih berlaku',
+                'file_path' => null,
+                'file_name' => null,
+                'aktif' => false,
+            ],
+        ];
 
-        // 5. Update Dashboard Settings
-        $updateSetting = function($key, $val) {
-            DB::table('dashboards')->updateOrInsert(
-                ['key' => $key],
-                ['value' => $val, 'type' => 'text', 'updated_at' => now()]
-            );
-        };
+        // Insert Berkala
+        foreach ($berkalaItems as $it) {
+            $m = new InformasiBerkala();
+            $m->judul = $it['judul'];
+            $m->deskripsi = $it['ringkasan'];
+            $m->tanggal = '2025-10-01';
+            $m->file_path = $it['file_path'];
+            $m->file_name = $it['file_name'];
+            $m->file_size = $it['file_path'] ? 'PDF' : null;
+            $m->file_type = 'pdf';
+            $m->aktif = $it['aktif'];
+            $m->is_blurred = false;
+            $m->bisa_download = true;
+            $m->save();
 
-        $updateSetting('maklumat_pelayanan_judul_hero', 'Maklumat dan Standar Biaya Layanan');
-        $updateSetting('maklumat_pelayanan_judul_standar', 'Standar Biaya Layanan Informasi');
-        $updateSetting('sop_keb_diagram_judul', 'Prosedur Penanganan Keberatan Informasi');
-        $updateSetting('sop_perm_diagram_judul', 'Prosedur Permohonan Informasi Publik');
-        $updateSetting('sop_seng_diagram_judul', 'Prosedur Pengajuan Sengketa Informasi Publik');
+            $d = new DaftarInformasi();
+            $d->judul_informasi = $it['judul'];
+            $d->kategori = 'informasi-berkala';
+            $d->tipe_informasi = 'berkala';
+            $d->isi_informasi = $it['ringkasan'];
+            $d->pejabat_penguasa = $it['pejabat'];
+            $d->penerbit_informasi = $it['penanggungjawab'];
+            $d->penanggung_jawab = $it['penanggungjawab'];
+            $d->tempat_pembuatan = 'Tegal';
+            $d->waktu_pembuatan = $it['waktu'];
+            $d->bentuk_informasi = $it['bentuk'];
+            $d->jangka_waktu = $it['retensi'];
+            $d->file_informasi = $it['file_path'];
+            $d->aktif = $it['aktif'];
+            $d->is_blurred = false;
+            $d->bisa_download = true;
+            $d->save();
+        }
 
-        // Kosongkan sop_permintaan_konten default agar tidak muncul kotak sampai admin mengisinya
-        DB::table('dashboards')->where('key', 'sop_permintaan_konten')->update(['value' => '']);
+        // Insert Serta Merta
+        foreach ($sertamertaItems as $it) {
+            $m = new InformasiSertaMerta();
+            $m->judul = $it['judul'];
+            $m->deskripsi = $it['ringkasan'];
+            $m->tanggal = '2025-10-01';
+            $m->file_path = $it['file_path'];
+            $m->file_name = $it['file_name'];
+            $m->file_size = $it['file_path'] ? 'PDF' : null;
+            $m->file_type = 'pdf';
+            $m->aktif = $it['aktif'];
+            $m->is_blurred = false;
+            $m->bisa_download = true;
+            $m->save();
+
+            $d = new DaftarInformasi();
+            $d->judul_informasi = $it['judul'];
+            $d->kategori = 'informasi-serta-merta';
+            $d->tipe_informasi = 'sertamerta';
+            $d->isi_informasi = $it['ringkasan'];
+            $d->pejabat_penguasa = $it['pejabat'];
+            $d->penerbit_informasi = $it['penanggungjawab'];
+            $d->penanggung_jawab = $it['penanggungjawab'];
+            $d->tempat_pembuatan = 'Tegal';
+            $d->waktu_pembuatan = $it['waktu'];
+            $d->bentuk_informasi = $it['bentuk'];
+            $d->jangka_waktu = $it['retensi'];
+            $d->file_informasi = $it['file_path'];
+            $d->aktif = $it['aktif'];
+            $d->is_blurred = false;
+            $d->bisa_download = true;
+            $d->save();
+        }
+
+        // Insert Setiap Saat
+        foreach ($setiapsaatItems as $it) {
+            $m = new InformasiSetiapSaat();
+            $m->judul = $it['judul'];
+            $m->deskripsi = $it['ringkasan'];
+            $m->tanggal = '2025-10-01';
+            $m->file_path = $it['file_path'];
+            $m->file_name = $it['file_name'];
+            $m->file_size = $it['file_path'] ? 'PDF' : null;
+            $m->file_type = 'pdf';
+            $m->aktif = $it['aktif'];
+            $m->is_blurred = false;
+            $m->bisa_download = true;
+            $m->save();
+
+            $d = new DaftarInformasi();
+            $d->judul_informasi = $it['judul'];
+            $d->kategori = 'informasi-setiap-saat';
+            $d->tipe_informasi = 'setiapsaat';
+            $d->isi_informasi = $it['ringkasan'];
+            $d->pejabat_penguasa = $it['pejabat'];
+            $d->penerbit_informasi = $it['penanggungjawab'];
+            $d->penanggung_jawab = $it['penanggungjawab'];
+            $d->tempat_pembuatan = 'Tegal';
+            $d->waktu_pembuatan = $it['waktu'];
+            $d->bentuk_informasi = $it['bentuk'];
+            $d->jangka_waktu = $it['retensi'];
+            $d->file_informasi = $it['file_path'];
+            $d->aktif = $it['aktif'];
+            $d->is_blurred = false;
+            $d->bisa_download = true;
+            $d->save();
+        }
+
     }
 }

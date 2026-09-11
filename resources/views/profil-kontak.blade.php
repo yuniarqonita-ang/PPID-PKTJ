@@ -818,37 +818,47 @@
                 </div>
 
                 <!-- 3 CARDS: SENIN-KAMIS, JUMAT, LOKASI FISIK -->
-                <div class="row g-4 align-items-stretch">
+                <div class="row g-3 align-items-start">
                     <!-- Senin s/d Kamis -->
                     <div class="col-md-6 col-lg-4">
-                        <div class="schedule-pill-card h-100 d-flex flex-column justify-content-center">
+                        <div class="schedule-pill-card py-2.5 px-3.5">
                             <div>
-                                <div class="schedule-day-plaque">
-                                    <h4 class="schedule-day-title">Senin s.d Kamis</h4>
+                                <div class="schedule-day-plaque mb-2 py-2">
+                                    <h4 class="schedule-day-title" style="font-size: 1rem;">Senin s.d Kamis</h4>
                                 </div>
                                 <div class="schedule-times-stack">
-                                    <div class="time-frame-box">
-                                        <span class="time-text">{{ $settings['jam_layanan_senin_kamis'] ?? '09.00 - 16.00' }}</span>
+                                    <div class="time-frame-box py-2 px-3">
+                                        <span class="time-text" style="font-size: 14.5px;">{{ $settings['jam_layanan_senin_kamis'] ?? '09.00 - 16.00' }}</span>
                                         <span class="time-zone-badge">WIB</span>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="mt-2 pt-1.5 text-center" style="border-top: 1px solid rgba(255, 255, 255, 0.15);">
+                                <span class="small text-white text-opacity-85" style="font-size: 11px;">
+                                    <i class="fas fa-clock text-warning me-1"></i> Waktu Pelayanan Operasional
+                                </span>
                             </div>
                         </div>
                     </div>
 
                     <!-- Hari Jumat -->
                     <div class="col-md-6 col-lg-4">
-                        <div class="schedule-pill-card h-100 d-flex flex-column justify-content-center">
+                        <div class="schedule-pill-card py-2.5 px-3.5">
                             <div>
-                                <div class="schedule-day-plaque">
-                                    <h4 class="schedule-day-title">Jumat</h4>
+                                <div class="schedule-day-plaque mb-2 py-2">
+                                    <h4 class="schedule-day-title" style="font-size: 1rem;">Jumat</h4>
                                 </div>
                                 <div class="schedule-times-stack">
-                                    <div class="time-frame-box">
-                                        <span class="time-text">{{ $settings['jam_layanan_jumat'] ?? '09.00 - 16.30' }}</span>
+                                    <div class="time-frame-box py-2 px-3">
+                                        <span class="time-text" style="font-size: 14.5px;">{{ $settings['jam_layanan_jumat'] ?? '09.00 - 16.30' }}</span>
                                         <span class="time-zone-badge">WIB</span>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="mt-2 pt-1.5 text-center" style="border-top: 1px solid rgba(255, 255, 255, 0.15);">
+                                <span class="small text-white text-opacity-85" style="font-size: 11px;">
+                                    <i class="fas fa-mosque text-warning me-1"></i> Istirahat Sholat Jumat: 11.30 - 13.00
+                                </span>
                             </div>
                         </div>
                     </div>

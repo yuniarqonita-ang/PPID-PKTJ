@@ -13,19 +13,9 @@ class PoltradaBaliDipSeeder extends Seeder
 {
     public function run()
     {
-        // 1. Reset status aktif lama
-        DB::table('daftar_informasis')->update(['aktif' => 0]);
-        if (DB::getSchemaBuilder()->hasTable('informasi_berkalas')) {
-            DB::table('informasi_berkalas')->update(['aktif' => 0]);
-        }
-        if (DB::getSchemaBuilder()->hasTable('informasi_setiapsaats')) {
-            DB::table('informasi_setiapsaats')->update(['aktif' => 0]);
-        }
-        if (DB::getSchemaBuilder()->hasTable('informasi_sertamertas')) {
-            DB::table('informasi_sertamertas')->update(['aktif' => 0]);
-        }
-        if (DB::getSchemaBuilder()->hasTable('informasi_dikecualikans')) {
-            DB::table('informasi_dikecualikans')->update(['aktif' => 0]);
+        // Jika sudah ada data aktif di tabel, jangan pernah me-reset atau menimpa perubahan admin!
+        if (DaftarInformasi::where('aktif', 1)->count() > 10) {
+            return;
         }
 
         // =========================================================================

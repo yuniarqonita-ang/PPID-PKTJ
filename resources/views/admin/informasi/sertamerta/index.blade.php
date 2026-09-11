@@ -42,6 +42,28 @@
             </div>
         @endif
 
+        <!-- FILTER KATEGORI TAUTAN / DOKUMEN (KHUSUS ADMIN) -->
+        <div class="flex flex-wrap items-center gap-2 p-3 bg-white rounded-2xl border border-slate-200 shadow-sm mb-4">
+            <span class="text-xs font-black text-slate-500 uppercase tracking-wider mr-2 ml-1">
+                <i class="fas fa-filter text-[#004a99] mr-1"></i> Filter Tautan:
+            </span>
+            <button type="button" onclick="filterLinkType('all')" class="filter-btn active px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-[#004a99] text-white shadow-sm" data-filter="all">
+                Semua Dokumen (<span class="font-black">{{ count($items) }}</span>)
+            </button>
+            <button type="button" onclick="filterLinkType('pdf')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200" data-filter="pdf">
+                <i class="fas fa-file-pdf text-emerald-600 mr-1"></i> PDF Tersensor (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i->file_path) === 'pdf')->count() }}</span>)
+            </button>
+            <button type="button" onclick="filterLinkType('drive')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200" data-filter="drive">
+                <i class="fab fa-google-drive text-amber-600 mr-1"></i> Google Drive (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i->file_path) === 'drive')->count() }}</span>)
+            </button>
+            <button type="button" onclick="filterLinkType('website')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-blue-50 text-blue-800 hover:bg-blue-100 border border-blue-200" data-filter="website">
+                <i class="fas fa-globe text-blue-600 mr-1"></i> Halaman Website (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i->file_path) === 'website')->count() }}</span>)
+            </button>
+            <button type="button" onclick="filterLinkType('empty')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200" data-filter="empty">
+                <i class="fas fa-unlink text-slate-400 mr-1"></i> Belum Ada Tautan (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i->file_path) === 'empty')->count() }}</span>)
+            </button>
+        </div>
+
         <!-- TABLE CARD -->
         <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
             <div class="overflow-x-auto">
@@ -55,31 +77,55 @@
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse($items as $item)
-                        <tr class="hover:bg-blue-50/30 transition-colors group {{ !$item->file_path ? 'bg-red-50/30' : '' }}">
+                        @php
+                            $linkType = classify_link_type($item->file_path);
+                        @endphp
+                        <tr class="hover:bg-blue-50/30 transition-colors group {{ !$item->file_path ? 'bg-red-50/30' : '' }}" data-link-type="{{ $linkType }}">
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-4">
                                     <div class="w-12 h-12 {{ $item->file_path ? 'bg-blue-50 text-[#004a99]' : 'bg-red-50 text-red-400' }} rounded-xl flex items-center justify-center text-xl group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm">
-                                        <i class="fas {{ $item->file_path ? 'fa-file-invoice' : 'fa-exclamation-triangle' }}"></i>
+                                        @if($linkType === 'pdf')
+                                            <i class="fas fa-file-pdf text-emerald-600"></i>
+                                        @elseif($linkType === 'drive')
+                                            <i class="fab fa-google-drive text-amber-600"></i>
+                                        @elseif($linkType === 'website')
+                                            <i class="fas fa-globe text-blue-600"></i>
+                                        @else
+                                            <i class="fas fa-exclamation-triangle text-rose-400"></i>
+                                        @endif
                                     </div>
                                     <div>
                                         <h3 class="text-sm font-bold text-gray-800">{{ $item->judul }}</h3>
-                                        <div class="flex items-center gap-2 mt-1">
-                                            @if($item->file_path)
-                                                <span class="inline-flex items-center px-2 py-0.5 bg-emerald-100 text-emerald-700 rounded-full text-[9px] font-black uppercase">
-                                                    <i class="fas fa-check-circle mr-1"></i> Ada Dokumen
+                                        <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
+                                            @if($linkType === 'pdf')
+                                                <span class="inline-flex items-center px-2 py-0.5 bg-emerald-100 text-emerald-800 border border-emerald-300 rounded text-[10px] font-black uppercase">
+                                                    <i class="fas fa-file-pdf mr-1"></i> PDF Tersensor
+                                                </span>
+                                            @elseif($linkType === 'drive')
+                                                <span class="inline-flex items-center px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 rounded text-[10px] font-black uppercase">
+                                                    <i class="fab fa-google-drive mr-1"></i> Google Drive
+                                                </span>
+                                            @elseif($linkType === 'website')
+                                                <span class="inline-flex items-center px-2 py-0.5 bg-blue-100 text-blue-900 border border-blue-300 rounded text-[10px] font-black uppercase">
+                                                    <i class="fas fa-globe mr-1"></i> Halaman Website
                                                 </span>
                                             @else
-                                                <span class="inline-flex items-center px-2 py-0.5 bg-red-100 text-red-600 rounded-full text-[9px] font-black uppercase">
-                                                    <i class="fas fa-times-circle mr-1"></i> Belum Ada Link/File
+                                                <span class="inline-flex items-center px-2 py-0.5 bg-rose-100 text-rose-700 border border-rose-300 rounded text-[10px] font-black uppercase">
+                                                    <i class="fas fa-unlink mr-1"></i> Belum Ada Tautan
                                                 </span>
                                             @endif
-                                            <span class="text-[10px] text-gray-400 font-bold uppercase">
-                                                <i class="fas fa-calendar-day mr-1"></i> {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+
+                                            @if($item->file_path)
+                                                <a href="{{ $item->file_path }}" target="_blank" class="inline-flex items-center px-2 py-0.5 bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-[#004a99] border border-slate-200 rounded text-[10px] font-mono transition-colors" title="{{ $item->file_path }}">
+                                                    <i class="fas fa-external-link-alt text-[9px] mr-1"></i>
+                                                    {{ Str::limit($item->file_path, 32) }}
+                                                </a>
+                                            @endif
+
+                                            <span class="text-[10px] text-gray-400 font-bold uppercase ml-1">
+                                                <i class="fas fa-calendar-day mr-1"></i> {{ $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('d M Y') : '2025/2026' }}
                                             </span>
                                         </div>
-                                        @if(!$item->file_path)
-                                            <p class="text-[10px] text-red-500 font-bold mt-1">⚠️ Klik Edit → tambahkan Link Google Drive agar tombol "Lihat Dokumen" muncul di halaman publik.</p>
-                                        @endif
                                     </div>
                                 </div>
                             </td>
@@ -226,6 +272,32 @@
         modal.classList.remove('opacity-100');
         modal.querySelector('div').classList.remove('scale-100');
         setTimeout(() => modal.classList.add('hidden'), 300);
+    }
+
+    function filterLinkType(type) {
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            if (btn.getAttribute('data-filter') === type) {
+                btn.className = 'filter-btn active px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-[#004a99] text-white shadow-sm';
+            } else {
+                const f = btn.getAttribute('data-filter');
+                let baseClass = 'filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ';
+                if (f === 'pdf') baseClass += 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200';
+                else if (f === 'drive') baseClass += 'bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200';
+                else if (f === 'website') baseClass += 'bg-blue-50 text-blue-800 hover:bg-blue-100 border border-blue-200';
+                else if (f === 'empty') baseClass += 'bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200';
+                else baseClass += 'bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-200';
+                btn.className = baseClass;
+            }
+        });
+
+        const rows = document.querySelectorAll('tbody tr[data-link-type]');
+        rows.forEach(row => {
+            if (type === 'all' || row.getAttribute('data-link-type') === type) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
     }
 </script>
 @endsection

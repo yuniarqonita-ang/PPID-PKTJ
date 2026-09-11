@@ -83,10 +83,6 @@
         }
 
         .pejabat-photo-container {
-            width: 190px;
-            min-width: 190px;
-            height: 270px;
-            border-radius: 10px;
             overflow: hidden;
             border: 1px solid #cbd5e1;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
@@ -100,7 +96,6 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            object-position: top center;
             transition: transform 0.4s ease;
         }
 
@@ -196,12 +191,18 @@
                         <!-- Flex Body (Foto Kiri + Teks Biografi Kanan) -->
                         <div class="pejabat-body-flex">
                             
-                            <!-- Foto Resmi Pejabat -->
-                            <div class="pejabat-photo-container" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
+                            <!-- Foto Resmi Pejabat (Ukuran Dinamis dari Admin Panel) -->
+                            @php
+                                $cardWidth  = $pejabat->foto_width ?: ($settings['pejabat_foto_table_width'] ?? 160);
+                                $cardHeight = $pejabat->foto_height ?: ($settings['pejabat_foto_table_height'] ?? 240);
+                                $cardPos    = $pejabat->foto_position ?: ($settings['pejabat_foto_position'] ?? 'top center');
+                                $cardRadius = $pejabat->foto_radius ?: ($settings['pejabat_foto_radius'] ?? '14px');
+                            @endphp
+                            <div class="pejabat-photo-container" style="width: {{ $cardWidth }}px; min-width: {{ $cardWidth }}px; height: {{ $cardHeight }}px; border-radius: {{ $cardRadius }};" onclick="openPejabatLightbox('{{ asset($pejabat->foto) }}', '{{ addslashes($pejabat->nama) }}', '{{ addslashes($pejabat->jabatan) }}')" title="Klik untuk memperbesar foto">
                                 @if($pejabat->foto)
-                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" onerror="if(this.src.indexOf('Prima')!==-1){this.src='{{ asset('images/pejabat/Prima Anna Maria.png') }}';}">
+                                    <img src="{{ asset($pejabat->foto) }}" alt="{{ $pejabat->nama }}" style="object-position: {{ $cardPos }}; border-radius: {{ $cardRadius }};" onerror="if(this.src.indexOf('Prima')!==-1){this.src='{{ asset('images/pejabat/Prima Anna Maria.png') }}';}">
                                 @else
-                                    <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                                    <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted" style="border-radius: {{ $cardRadius }};">
                                         <i class="fas fa-user-tie fa-4x opacity-25"></i>
                                     </div>
                                 @endif
