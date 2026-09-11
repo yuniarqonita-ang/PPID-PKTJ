@@ -17,7 +17,7 @@ class InformasiSertaMertaController extends Controller
     public function index(): View
     {
         $itemsDaftar = DaftarInformasi::whereIn('kategori', ['informasi-serta-merta', 'informasi-sertamerta'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
             
         foreach ($itemsDaftar as $item) {
@@ -25,14 +25,17 @@ class InformasiSertaMertaController extends Controller
             $item->deskripsi = $item->isi_informasi;
             $item->file_path = $item->file_informasi;
             $item->file_size = '-';
+            $links = $item->tautan_links;
+            if (is_string($links)) $links = json_decode($links, true);
+            $item->tautan_links = is_array($links) ? $links : [];
         }
 
-        $itemsSertaMerta = class_exists(InformasiSertaMerta::class) ? InformasiSertaMerta::all() : collect();
+        $itemsSertaMerta = class_exists(InformasiSertamerta::class) ? InformasiSertamerta::orderBy('id', 'asc')->get() : collect();
         foreach ($itemsSertaMerta as $m) {
-            $m->judul = $m->judul;
-            $m->deskripsi = $m->deskripsi;
-            $m->file_path = $m->file_path;
             $m->file_size = '-';
+            $links = $m->tautan_links;
+            if (is_string($links)) $links = json_decode($links, true);
+            $m->tautan_links = is_array($links) ? $links : [];
         }
 
         $grouped = $itemsDaftar->concat($itemsSertaMerta)->groupBy(function($it) {
@@ -42,11 +45,11 @@ class InformasiSertaMertaController extends Controller
         $items = collect();
         foreach ($grouped as $titleKey => $group) {
             $best = $group->sortByDesc(function($it) {
-                return ($it->aktif ? 1000 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
+                return ($it->aktif ? 1000 : 0) + (!empty($it->tautan_links) ? 200 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
             })->first();
             $items->push($best);
         }
-        $items = $items->sortByDesc('aktif')->values();
+        $items = $items->sortBy('id')->values();
         
         return view('admin.informasi.sertamerta.index', compact('items'));
     }

@@ -59,11 +59,27 @@ if (!function_exists('is_previewable')) {
 }
 
 if (!function_exists('classify_link_type')) {
-    function classify_link_type($path) {
-        if (!$path || trim($path) === '' || trim($path) === '#' || trim($path) === '-') {
+    function classify_link_type($itemOrPath) {
+        $path = null;
+        if (is_object($itemOrPath)) {
+            $path = $itemOrPath->file_path ?? null;
+            if (!$path && !empty($itemOrPath->tautan_links)) {
+                $links = $itemOrPath->tautan_links;
+                if (is_string($links)) $links = json_decode($links, true);
+                if (is_array($links) && count($links) > 0) {
+                    $path = $links[0]['url'] ?? null;
+                }
+            }
+        } elseif (is_array($itemOrPath)) {
+            $path = $itemOrPath['file_path'] ?? ($itemOrPath['url'] ?? null);
+        } else {
+            $path = $itemOrPath;
+        }
+
+        if (!$path || trim((string)$path) === '' || trim((string)$path) === '#' || trim((string)$path) === '-') {
             return 'empty';
         }
-        $p = strtolower(trim($path));
+        $p = strtolower(trim((string)$path));
         if (str_contains($p, 'drive.google.com') || str_contains($p, 'docs.google.com')) {
             return 'drive';
         }
@@ -122,8 +138,13 @@ Route::redirect('/layanan-informasi/jdih', 'https://bpsdm.kemenhub.go.id/jdih/')
 Route::redirect('/daftar-informasi-publik.html', '/informasi-publik/berkala', 301);
 Route::redirect('/informasi-berkala.html', '/informasi-publik/berkala');
 Route::redirect('/informasi-dikecualikan.html', '/informasi-publik/dikecualikan');
-Route::redirect('/informasi-serta-merta.html', '/informasi-publik/serta-merta');
 Route::redirect('/informasi-setiap-saat.html', '/informasi-publik/setiap-saat');
+Route::redirect('/informasi/berkala', '/informasi-publik/berkala');
+Route::redirect('/informasi/setiap-saat', '/informasi-publik/setiap-saat');
+Route::redirect('/informasi/setiapsaat', '/informasi-publik/setiap-saat');
+Route::redirect('/informasi/serta-merta', '/informasi-publik/serta-merta');
+Route::redirect('/informasi/sertamerta', '/informasi-publik/serta-merta');
+Route::redirect('/informasi/dikecualikan', '/informasi-publik/dikecualikan');
 Route::redirect('/laporan-akses-informasi-publik.html', '/layanan-informasi/laporan-akses');
 Route::redirect('/laporan-layanan-informasi.html', '/layanan-informasi/laporan');
 Route::redirect('/laporan-survey-kepuasan.html', '/layanan-informasi/laporan-survey');

@@ -23,7 +23,7 @@
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="http://ppid.pktj.ac.id/informasi-publik/serta-merta" target="_blank" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                <a href="{{ route('informasi.serta-merta') }}" target="_blank" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
                     <i class="fas fa-eye mr-3"></i> Lihat Publik
                 </a>
                 <a href="{{ route('admin.informasi.sertamerta.create') }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
@@ -51,16 +51,16 @@
                 Semua Dokumen (<span class="font-black">{{ count($items) }}</span>)
             </button>
             <button type="button" onclick="filterLinkType('pdf')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200" data-filter="pdf">
-                <i class="fas fa-file-pdf text-emerald-600 mr-1"></i> PDF Tersensor (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i->file_path) === 'pdf')->count() }}</span>)
+                <i class="fas fa-file-pdf text-emerald-600 mr-1"></i> PDF Tersensor (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i) === 'pdf')->count() }}</span>)
             </button>
             <button type="button" onclick="filterLinkType('drive')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200" data-filter="drive">
-                <i class="fab fa-google-drive text-amber-600 mr-1"></i> Google Drive (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i->file_path) === 'drive')->count() }}</span>)
+                <i class="fab fa-google-drive text-amber-600 mr-1"></i> Google Drive (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i) === 'drive')->count() }}</span>)
             </button>
             <button type="button" onclick="filterLinkType('website')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-blue-50 text-blue-800 hover:bg-blue-100 border border-blue-200" data-filter="website">
-                <i class="fas fa-globe text-blue-600 mr-1"></i> Halaman Website (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i->file_path) === 'website')->count() }}</span>)
+                <i class="fas fa-globe text-blue-600 mr-1"></i> Halaman Website (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i) === 'website')->count() }}</span>)
             </button>
             <button type="button" onclick="filterLinkType('empty')" class="filter-btn px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-200" data-filter="empty">
-                <i class="fas fa-unlink text-slate-400 mr-1"></i> Belum Ada Tautan (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i->file_path) === 'empty')->count() }}</span>)
+                <i class="fas fa-unlink text-slate-400 mr-1"></i> Belum Ada Tautan (<span class="font-black">{{ $items->filter(fn($i) => classify_link_type($i) === 'empty')->count() }}</span>)
             </button>
         </div>
 
@@ -70,20 +70,28 @@
                 <table class="w-full text-left">
                     <thead>
                         <tr class="bg-[#004a99] text-white">
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest">Informasi / Dokumen</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Status</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Aksi</th>
+                            <th class="px-4 py-4 text-xs font-black uppercase tracking-widest text-center w-12">No</th>
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest" style="min-width: 280px;">Informasi & Tautan Dokumen</th>
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest hidden md:table-cell" style="min-width: 260px;">Kelengkapan Kolom DIP</th>
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center w-28">Status</th>
+                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center w-28">Aksi</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-100">
                         @forelse($items as $item)
                         @php
-                            $linkType = classify_link_type($item->file_path);
+                            $linkType = classify_link_type($item);
+                            $hasLinks = (!empty($item->tautan_links) && is_array($item->tautan_links) && count($item->tautan_links) > 0);
                         @endphp
-                        <tr class="hover:bg-blue-50/30 transition-colors group {{ !$item->file_path ? 'bg-red-50/30' : '' }}" data-link-type="{{ $linkType }}">
+                        <tr class="hover:bg-blue-50/30 transition-colors group {{ (!$item->file_path && !$hasLinks) ? 'bg-red-50/30' : '' }}" data-link-type="{{ $linkType }}">
+                            <td class="px-4 py-4 text-center font-black text-slate-400">
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-slate-100 rounded-lg text-slate-700 font-bold text-xs">
+                                    {{ $loop->iteration }}
+                                </span>
+                            </td>
                             <td class="px-6 py-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 {{ $item->file_path ? 'bg-blue-50 text-[#004a99]' : 'bg-red-50 text-red-400' }} rounded-xl flex items-center justify-center text-xl group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm">
+                                <div class="flex items-start gap-3">
+                                    <div class="w-10 h-10 mt-1 {{ ($item->file_path || $hasLinks) ? 'bg-blue-50 text-[#004a99]' : 'bg-red-50 text-red-400' }} rounded-xl flex items-center justify-center text-lg group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm flex-shrink-0">
                                         @if($linkType === 'pdf')
                                             <i class="fas fa-file-pdf text-emerald-600"></i>
                                         @elseif($linkType === 'drive')
@@ -91,41 +99,57 @@
                                         @elseif($linkType === 'website')
                                             <i class="fas fa-globe text-blue-600"></i>
                                         @else
-                                            <i class="fas fa-exclamation-triangle text-rose-400"></i>
+                                            <i class="fas fa-file-lines text-blue-600"></i>
                                         @endif
                                     </div>
-                                    <div>
-                                        <h3 class="text-sm font-bold text-gray-800">{{ $item->judul }}</h3>
-                                        <div class="flex flex-wrap items-center gap-1.5 mt-1.5">
-                                            @if($linkType === 'pdf')
-                                                <span class="inline-flex items-center px-2 py-0.5 bg-emerald-100 text-emerald-800 border border-emerald-300 rounded text-[10px] font-black uppercase">
-                                                    <i class="fas fa-file-pdf mr-1"></i> PDF Tersensor
+                                    <div class="flex-1 min-w-0">
+                                        <h3 class="text-sm font-bold text-gray-900 leading-snug">{{ $item->judul }}</h3>
+                                        
+                                        <!-- Multi-Link Pills -->
+                                        @if($hasLinks)
+                                            <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                                                @foreach($item->tautan_links as $lnk)
+                                                    @php $lUrl = trim($lnk['url'] ?? ''); @endphp
+                                                    @if($lUrl !== '')
+                                                        <a href="{{ $lUrl }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-[#004a99] text-[#004a99] hover:text-white border border-blue-200 rounded-lg text-[11px] font-bold transition-all shadow-xs" title="{{ $lUrl }}">
+                                                            <i class="fas fa-external-link-alt text-[9px] text-amber-500"></i>
+                                                            <span>{{ $lnk['nama'] ?? 'Lihat Dokumen' }}</span>
+                                                        </a>
+                                                    @endif
+                                                @endforeach
+                                                <span class="inline-flex items-center px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded text-[10px] font-black uppercase">
+                                                    {{ count($item->tautan_links) }} Tautan
                                                 </span>
-                                            @elseif($linkType === 'drive')
-                                                <span class="inline-flex items-center px-2 py-0.5 bg-amber-100 text-amber-900 border border-amber-300 rounded text-[10px] font-black uppercase">
-                                                    <i class="fab fa-google-drive mr-1"></i> Google Drive
-                                                </span>
-                                            @elseif($linkType === 'website')
-                                                <span class="inline-flex items-center px-2 py-0.5 bg-blue-100 text-blue-900 border border-blue-300 rounded text-[10px] font-black uppercase">
-                                                    <i class="fas fa-globe mr-1"></i> Halaman Website
-                                                </span>
-                                            @else
+                                            </div>
+                                        @elseif($item->file_path)
+                                            <div class="flex flex-wrap items-center gap-1.5 mt-2">
+                                                <a href="{{ $item->file_path }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 hover:bg-[#004a99] text-slate-700 hover:text-white border border-slate-200 rounded-lg text-[11px] font-mono transition-colors" title="{{ $item->file_path }}">
+                                                    <i class="fas fa-file-alt text-[10px] text-blue-500"></i>
+                                                    <span>{{ Str::limit($item->file_path, 36) }}</span>
+                                                </a>
+                                            </div>
+                                        @else
+                                            <div class="mt-2">
                                                 <span class="inline-flex items-center px-2 py-0.5 bg-rose-100 text-rose-700 border border-rose-300 rounded text-[10px] font-black uppercase">
                                                     <i class="fas fa-unlink mr-1"></i> Belum Ada Tautan
                                                 </span>
-                                            @endif
-
-                                            @if($item->file_path)
-                                                <a href="{{ $item->file_path }}" target="_blank" class="inline-flex items-center px-2 py-0.5 bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-[#004a99] border border-slate-200 rounded text-[10px] font-mono transition-colors" title="{{ $item->file_path }}">
-                                                    <i class="fas fa-external-link-alt text-[9px] mr-1"></i>
-                                                    {{ Str::limit($item->file_path, 32) }}
-                                                </a>
-                                            @endif
-
-                                            <span class="text-[10px] text-gray-400 font-bold uppercase ml-1">
-                                                <i class="fas fa-calendar-day mr-1"></i> {{ $item->tanggal ? \Carbon\Carbon::parse($item->tanggal)->format('d M Y') : '2025/2026' }}
-                                            </span>
-                                        </div>
+                                            </div>
+                                        @endif
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 hidden md:table-cell text-xs">
+                                <div class="space-y-1.5 bg-slate-50/80 p-3 rounded-xl border border-slate-100">
+                                    <div class="text-slate-700 text-[11px]">
+                                        <strong class="text-slate-900">Penguasa:</strong> {{ $item->pejabat_penguasa ?? 'PPID Pelaksana UPT' }}
+                                    </div>
+                                    <div class="text-slate-700 text-[11px]">
+                                        <strong class="text-slate-900">PJ / Penerbit:</strong> {{ $item->penanggung_jawab ?? $item->penerbit_informasi ?? '-' }}
+                                    </div>
+                                    <div class="flex flex-wrap items-center gap-2 text-slate-500 text-[10.5px] pt-1 border-t border-slate-200/60">
+                                        <span class="bg-white px-2 py-0.5 rounded border border-slate-200"><i class="fas fa-file-lines mr-1 text-blue-500"></i>{{ $item->bentuk_informasi ?? 'Hardcopy & Softcopy' }}</span>
+                                        <span class="bg-white px-2 py-0.5 rounded border border-slate-200"><i class="fas fa-clock mr-1 text-amber-500"></i>Retensi: {{ $item->jangka_waktu ?? '1 Thn' }}</span>
+                                        <span class="bg-white px-2 py-0.5 rounded border border-slate-200"><i class="fas fa-map-marker-alt mr-1 text-emerald-500"></i>{{ $item->tempat_pembuatan ?? 'Tegal' }}, {{ $item->waktu_pembuatan ?? '2025/2026' }}</span>
                                     </div>
                                 </div>
                             </td>
@@ -161,15 +185,11 @@
                                             data-url="{{ route('preview.dokumen', ['file' => $item->file_path, 'title' => $item->judul, 'is_blurred' => $item->is_blurred ? 1 : 0]) }}">
                                         <i class="fas fa-file-pdf"></i>
                                     </button>
-                                    @else
-                                    <a href="{{ route('admin.informasi.sertamerta.edit', $item->id) }}" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm" title="Tambah Link/File Dokumen">
-                                        <i class="fas fa-link"></i>
-                                    </a>
                                     @endif
-                                    <a href="{{ route('admin.informasi.sertamerta.edit', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm">
+                                    <a href="{{ route('admin.informasi.sertamerta.edit', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm" title="Edit Informasi">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button onclick="confirmDelete('{{ $item->id }}')" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                                    <button onclick="confirmDelete('{{ $item->id }}')" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm" title="Hapus">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
@@ -177,7 +197,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="3" class="px-6 py-20 text-center">
+                            <td colspan="5" class="px-6 py-20 text-center">
                                 <div class="flex flex-col items-center">
                                     <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
                                         <i class="fas fa-folder-open text-gray-200 text-4xl"></i>
@@ -193,9 +213,7 @@
                 </table>
             </div>
         </div>
-
     </div>
-</div>
 
 <!-- DETAIL MODAL -->
 <div id="detailModal" class="fixed inset-0 bg-[#004a99]/20 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-opacity duration-300">

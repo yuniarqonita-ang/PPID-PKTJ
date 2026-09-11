@@ -17,7 +17,7 @@ class InformasiBerkalaController extends Controller
     public function index(): View
     {
         $itemsDaftar = DaftarInformasi::where('kategori', 'informasi-berkala')
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
             
         foreach ($itemsDaftar as $item) {
@@ -25,14 +25,17 @@ class InformasiBerkalaController extends Controller
             $item->deskripsi = $item->isi_informasi;
             $item->file_path = $item->file_informasi;
             $item->file_size = '-';
+            $links = $item->tautan_links;
+            if (is_string($links)) $links = json_decode($links, true);
+            $item->tautan_links = is_array($links) ? $links : [];
         }
 
-        $itemsBerkala = class_exists(InformasiBerkala::class) ? InformasiBerkala::all() : collect();
+        $itemsBerkala = class_exists(InformasiBerkala::class) ? InformasiBerkala::orderBy('id', 'asc')->get() : collect();
         foreach ($itemsBerkala as $b) {
-            $b->judul = $b->judul;
-            $b->deskripsi = $b->deskripsi;
-            $b->file_path = $b->file_path;
             $b->file_size = '-';
+            $links = $b->tautan_links;
+            if (is_string($links)) $links = json_decode($links, true);
+            $b->tautan_links = is_array($links) ? $links : [];
         }
 
         $grouped = $itemsDaftar->concat($itemsBerkala)->groupBy(function($it) {
@@ -42,11 +45,11 @@ class InformasiBerkalaController extends Controller
         $items = collect();
         foreach ($grouped as $titleKey => $group) {
             $best = $group->sortByDesc(function($it) {
-                return ($it->aktif ? 1000 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
+                return ($it->aktif ? 1000 : 0) + (!empty($it->tautan_links) ? 200 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
             })->first();
             $items->push($best);
         }
-        $items = $items->sortByDesc('aktif')->values();
+        $items = $items->sortBy('id')->values();
 
         try {
             $pejabats = \App\Models\Pejabat::getActivePejabats();

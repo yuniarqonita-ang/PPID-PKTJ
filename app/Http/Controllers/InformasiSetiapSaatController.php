@@ -17,7 +17,7 @@ class InformasiSetiapSaatController extends Controller
     public function index(): View
     {
         $itemsDaftar = DaftarInformasi::whereIn('kategori', ['informasi-setiap-saat', 'informasi-setiapsaat'])
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'asc')
             ->get();
             
         foreach ($itemsDaftar as $item) {
@@ -25,14 +25,17 @@ class InformasiSetiapSaatController extends Controller
             $item->deskripsi = $item->isi_informasi;
             $item->file_path = $item->file_informasi;
             $item->file_size = '-';
+            $links = $item->tautan_links;
+            if (is_string($links)) $links = json_decode($links, true);
+            $item->tautan_links = is_array($links) ? $links : [];
         }
 
-        $itemsSetiapSaat = class_exists(InformasiSetiapsaat::class) ? InformasiSetiapsaat::all() : collect();
+        $itemsSetiapSaat = class_exists(InformasiSetiapsaat::class) ? InformasiSetiapsaat::orderBy('id', 'asc')->get() : collect();
         foreach ($itemsSetiapSaat as $s) {
-            $s->judul = $s->judul;
-            $s->deskripsi = $s->deskripsi;
-            $s->file_path = $s->file_path;
             $s->file_size = '-';
+            $links = $s->tautan_links;
+            if (is_string($links)) $links = json_decode($links, true);
+            $s->tautan_links = is_array($links) ? $links : [];
         }
 
         $grouped = $itemsDaftar->concat($itemsSetiapSaat)->groupBy(function($it) {
@@ -42,11 +45,11 @@ class InformasiSetiapSaatController extends Controller
         $items = collect();
         foreach ($grouped as $titleKey => $group) {
             $best = $group->sortByDesc(function($it) {
-                return ($it->aktif ? 1000 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
+                return ($it->aktif ? 1000 : 0) + (!empty($it->tautan_links) ? 200 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
             })->first();
             $items->push($best);
         }
-        $items = $items->sortByDesc('aktif')->values();
+        $items = $items->sortBy('id')->values();
         
         return view('admin.informasi.setiapsaat.index', compact('items'));
     }
