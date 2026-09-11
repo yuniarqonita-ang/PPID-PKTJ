@@ -85,13 +85,13 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold text-white">Informasi Setiap Saat</h3>
-                        <p class="text-sm text-slate-400">{{ App\Models\InformasiSetiapsaat::count() }} item</p>
+                        <p class="text-sm text-slate-400">{{ App\Models\InformasiSetiapSaat::count() }} item</p>
                     </div>
                 </div>
             </div>
             <div class="space-y-2">
                 @php
-                    $setiapsaat = App\Models\InformasiSetiapsaat::latest()->take(3)->get();
+                    $setiapsaat = App\Models\InformasiSetiapSaat::latest()->take(3)->get();
                 @endphp
                 @forelse($setiapsaat as $item)
                     <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
@@ -128,13 +128,13 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold text-white">Informasi Serta Merta</h3>
-                        <p class="text-sm text-slate-400">{{ App\Models\InformasiSertamerta::count() }} item</p>
+                        <p class="text-sm text-slate-400">{{ App\Models\InformasiSertaMerta::count() }} item</p>
                     </div>
                 </div>
             </div>
             <div class="space-y-2">
                 @php
-                    $sertamerta = App\Models\InformasiSertamerta::latest()->take(3)->get();
+                    $sertamerta = App\Models\InformasiSertaMerta::latest()->take(3)->get();
                 @endphp
                 @forelse($sertamerta as $item)
                     <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
@@ -342,11 +342,11 @@
                 <div class="text-sm text-slate-300">Informasi Berkala</div>
             </div>
             <div class="text-center">
-                <div class="text-3xl font-bold text-cyan-600">{{ App\Models\InformasiSetiapsaat::count() }}</div>
+                <div class="text-3xl font-bold text-cyan-600">{{ App\Models\InformasiSetiapSaat::count() }}</div>
                 <div class="text-sm text-slate-300">Informasi Setiap Saat</div>
             </div>
             <div class="text-center">
-                <div class="text-3xl font-bold text-yellow-600">{{ App\Models\InformasiSertamerta::count() }}</div>
+                <div class="text-3xl font-bold text-yellow-600">{{ App\Models\InformasiSertaMerta::count() }}</div>
                 <div class="text-sm text-slate-300">Informasi Serta Merta</div>
             </div>
             <div class="text-center">

@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@php $errors = $errors ?? new \Illuminate\Support\ViewErrorBag; @endphp
+
 @section('content')
 <div class="min-h-screen bg-[#f8f9fa] p-4 md:p-6 w-full text-gray-800">
     <div class="w-full space-y-6">
@@ -24,7 +26,7 @@
         </div>
         @endif
 
-        @if($errors->any())
+        @if(isset($errors) && $errors->any())
         <div class="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl">
             <p class="font-bold mb-2"><i class="fas fa-exclamation-circle mr-2"></i>Ada kesalahan, silakan periksa:</p>
             <ul class="list-disc list-inside text-sm">
@@ -104,11 +106,20 @@
                                     </thead>
                                     <tbody id="tautanRepeaterBody">
                                         @php
-                                            $tautanList = old('tautan_nama') ? array_map(function($n, $u) { return ['nama' => $n, 'url' => $u]; }, old('tautan_nama'), old('tautan_url', [])) : [];
-                                            if (empty($tautanList)) {
-                                                $tautanList = [['nama' => '', 'url' => '']];
+                                        $oldNama = (array) old('tautan_nama', []);
+                                        $oldUrl  = (array) old('tautan_url', []);
+                                        $tautanList = [];
+                                        if (!empty($oldNama)) {
+                                            foreach ($oldNama as $i => $n) {
+                                                $tautanList[] = ['nama' => $n, 'url' => $oldUrl[$i] ?? ''];
                                             }
-                                        @endphp
+                                        } elseif (isset($item) && !empty($item->tautan_links)) {
+                                            $tautanList = is_string($item->tautan_links) ? json_decode($item->tautan_links, true) : (array)$item->tautan_links;
+                                        }
+                                        if (empty($tautanList) || !is_array($tautanList)) {
+                                            $tautanList = [['nama' => '', 'url' => '']];
+                                        }
+                                    @endphp
 
                                         @foreach($tautanList as $idx => $tItem)
                                             <tr class="tautan-row border-b border-blue-100 last:border-0">

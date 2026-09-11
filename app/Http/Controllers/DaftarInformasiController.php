@@ -31,6 +31,9 @@ class DaftarInformasiController extends Controller
                 $nama = trim($nama ?? '');
                 $url = trim($request->tautan_url[$i] ?? '');
                 if ($nama !== '' || $url !== '') {
+                    if ($url !== '' && !preg_match('~^(https?://|/|#)~i', $url)) {
+                        $url = 'https://' . $url;
+                    }
                     $links[] = [
                         'nama' => $nama !== '' ? $nama : 'Lihat Dokumen',
                         'url'  => $url
@@ -243,8 +246,8 @@ class DaftarInformasiController extends Controller
                 if (class_exists(\App\Models\InformasiBerkala::class)) {
                     \App\Models\InformasiBerkala::where('judul', $targetJudul)->update($syncData);
                 }
-                if (class_exists(\App\Models\InformasiSetiapsaat::class)) {
-                    \App\Models\InformasiSetiapsaat::where('judul', $targetJudul)->update($syncData);
+                if (class_exists(\App\Models\InformasiSetiapSaat::class)) {
+                    \App\Models\InformasiSetiapSaat::where('judul', $targetJudul)->update($syncData);
                 }
                 if (class_exists(\App\Models\InformasiSertaMerta::class)) {
                     \App\Models\InformasiSertaMerta::where('judul', $targetJudul)->update($syncData);
@@ -276,8 +279,8 @@ class DaftarInformasiController extends Controller
             if (class_exists(\App\Models\InformasiBerkala::class)) {
                 \App\Models\InformasiBerkala::where('judul', $targetJudul)->delete();
             }
-            if (class_exists(\App\Models\InformasiSetiapsaat::class)) {
-                \App\Models\InformasiSetiapsaat::where('judul', $targetJudul)->delete();
+            if (class_exists(\App\Models\InformasiSetiapSaat::class)) {
+                \App\Models\InformasiSetiapSaat::where('judul', $targetJudul)->delete();
             }
             if (class_exists(\App\Models\InformasiSertaMerta::class)) {
                 \App\Models\InformasiSertaMerta::where('judul', $targetJudul)->delete();

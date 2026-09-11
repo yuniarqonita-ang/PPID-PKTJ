@@ -33,8 +33,9 @@ class ProfilPpidController extends Controller
     /**
      * Show edit form for a specific profile section
      */
-    public function edit(string $type): View
+    public function edit(string $type = 'profil'): View
     {
+        $type = $type ?: 'profil';
         $aliasMap = [
             'profil_singkat' => 'profil',
             'tugas_fungsi' => 'tugas',
@@ -64,10 +65,15 @@ class ProfilPpidController extends Controller
     /**
      * Update a specific profile section
      */
-    public function update(Request $request, string $type): RedirectResponse
+    public function update(Request $request, string $type = 'profil'): RedirectResponse
     {
+        $type = $type ?: 'profil';
         if (!in_array($type, $this->types)) {
             abort(404);
+        }
+
+        if ($request->filled('link_dokumen') && !preg_match('~^https?://~i', $request->link_dokumen)) {
+            $request->merge(['link_dokumen' => 'https://' . $request->link_dokumen]);
         }
 
         // Validation - konten_pembuka nullable karena TinyMCE bisa kirim <p><br></p>

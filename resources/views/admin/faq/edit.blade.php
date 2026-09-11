@@ -59,8 +59,8 @@
                                 <i class="fas fa-history mr-2"></i> Info Update
                             </h3>
                             <div class="text-xs text-blue-800 space-y-2 font-medium">
-                                <p><strong>Dibuat:</strong> {{ $faq->created_at->translatedFormat('d F Y') }}</p>
-                                <p><strong>Update Terakhir:</strong> {{ $faq->updated_at->diffForHumans() }}</p>
+                                <p><strong>Dibuat:</strong> {{ optional($faq->created_at)->translatedFormat('d F Y') ?? '-' }}</p>
+                                <p><strong>Update Terakhir:</strong> {{ optional($faq->updated_at)->diffForHumans() ?? '-' }}</p>
                             </div>
                         </div>
 

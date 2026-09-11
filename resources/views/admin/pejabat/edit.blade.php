@@ -14,7 +14,7 @@
         </a>
     </div>
 
-    @if($errors->any())
+    @if(isset($errors) && $errors->any())
     <div class="p-6 bg-rose-50 border-2 border-rose-200 rounded-3xl space-y-2">
         <p class="font-black text-rose-800 text-sm uppercase">Terjadi Kesalahan:</p>
         <ul class="list-disc list-inside text-xs text-rose-700 space-y-1">

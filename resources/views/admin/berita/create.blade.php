@@ -29,7 +29,7 @@
         </div>
         @endif
 
-        @if($errors->any())
+        @if(isset($errors) && $errors->any())
         <div class="bg-red-50 border border-red-200 text-red-700 px-6 py-4 rounded-2xl">
             <p class="font-bold mb-2"><i class="fas fa-exclamation-circle mr-2"></i>Ada kesalahan:</p>
             <ul class="list-disc list-inside text-sm">

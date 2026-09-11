@@ -23,7 +23,7 @@
     </div>
 
     <!-- ==================== ALERTS SECTION ==================== -->
-    @if($errors->any())
+    @if(isset($errors) && $errors->any())
         <div class="group relative overflow-hidden rounded-2xl bg-gradient-to-r from-red-900/20 to-red-900/30 border border-red-600/30 p-6 shadow-lg">
             <div class="relative z-10">
                 <div class="flex items-start space-x-4">

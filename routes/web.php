@@ -656,15 +656,22 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::get('/', function() { return redirect()->route('halaman.index'); })->name('index');
         
         // CRUD untuk setiap tipe profil (lengkap dengan alias edit)
-        Route::get('/profil/{type}', [ProfilPpidController::class, 'edit'])->name('edit');
-        Route::get('/edit/{type}', [ProfilPpidController::class, 'edit']);
-        Route::get('/{type}', [ProfilPpidController::class, 'edit']);
-        Route::put('/profil/{type}', [ProfilPpidController::class, 'update'])->name('update');
-        Route::put('/edit/{type}', [ProfilPpidController::class, 'update']);
-        Route::put('/{type}', [ProfilPpidController::class, 'update']);
+        Route::get('/profil/{type?}', [ProfilPpidController::class, 'edit'])->name('edit');
+        Route::get('/edit/{type?}', [ProfilPpidController::class, 'edit']);
+        Route::get('/{type?}', [ProfilPpidController::class, 'edit']);
+        Route::put('/profil/{type?}', [ProfilPpidController::class, 'update'])->name('update');
+        Route::put('/edit/{type?}', [ProfilPpidController::class, 'update']);
+        Route::put('/{type?}', [ProfilPpidController::class, 'update']);
 
-        Route::delete('/{type}', [ProfilPpidController::class, 'destroy'])->name('destroy');
+        Route::delete('/{type?}', [ProfilPpidController::class, 'destroy'])->name('destroy');
     });
+
+    // Fallback Alias untuk Kontak Update & Kategori
+    Route::put('/kontak', [ProfilPpidController::class, 'update'])->defaults('type', 'kontak')->name('admin.kontak.update');
+    Route::post('/kontak', [ProfilPpidController::class, 'update'])->defaults('type', 'kontak');
+    Route::get('/kategori', function() { return redirect()->route('halaman.index'); })->name('admin.kategori.index');
+    Route::get('/kategori/create', function() { return redirect()->route('halaman.index'); })->name('admin.kategori.create');
+    Route::post('/kategori', function() { return redirect()->route('halaman.index'); })->name('admin.kategori.store');
 
     // Kelola Data & Statistik Kepegawaian (CMS Real-Time AKIP 2026)
     Route::get('/statistik-pegawai', [\App\Http\Controllers\StatistikPegawaiController::class, 'index'])->name('admin.statistik-pegawai.index');
@@ -1311,11 +1318,11 @@ Route::name('prosedur.')->prefix('prosedur')->group(function () {
     Route::get('/sop-sengketa', function() { return redirect('/prosedur/sengketa-informasi', 301); })->name('sop-sengketa');
     Route::get('/sop-pengajuan-sengketa', function() { return redirect('/prosedur/sengketa-informasi', 301); });
 
-    Route::get('/sop-penetapan', function() { return redirect()->route('prosedur.permintaan-informasi'); });
+    Route::get('/sop-penetapan', function() { return redirect()->route('prosedur.permintaan-informasi'); })->name('sop-penetapan');
     Route::get('/sop-penetapan-pemutakhiran', function() { return redirect()->route('prosedur.permintaan-informasi'); });
-    Route::get('/sop-pengujian', function() { return redirect()->route('prosedur.permintaan-informasi'); });
+    Route::get('/sop-pengujian', function() { return redirect()->route('prosedur.permintaan-informasi'); })->name('sop-pengujian');
     Route::get('/sop-pengujian-konsekuensi', function() { return redirect()->route('prosedur.permintaan-informasi'); });
-    Route::get('/sop-pendokumentasian', function() { return redirect()->route('prosedur.permintaan-informasi'); });
+    Route::get('/sop-pendokumentasian', function() { return redirect()->route('prosedur.permintaan-informasi'); })->name('sop-pendokumentasian');
     
     // Additional Public Procedures
     Route::get('/maklumat-pelayanan', function() { return redirect('/layanan-informasi/maklumat-dan-standar-biaya-layanan', 301); });

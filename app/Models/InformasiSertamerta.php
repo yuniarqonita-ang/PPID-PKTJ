@@ -37,3 +37,4 @@ class InformasiSertaMerta extends Model
         'tautan_links' => 'array',
     ];
 }
+

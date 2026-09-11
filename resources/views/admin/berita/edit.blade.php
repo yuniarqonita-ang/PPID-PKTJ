@@ -85,7 +85,7 @@
                     <div class="space-y-4">
                         <div class="flex justify-between text-sm">
                             <span class="text-gray-400 font-medium">Terakhir Update:</span>
-                            <span class="font-bold text-gray-700">{{ $berita->updated_at->diffForHumans() }}</span>
+                            <span class="font-bold text-gray-700">{{ optional($berita->updated_at)->diffForHumans() ?? '-' }}</span>
                         </div>
                         <div>
                             <label for="tanggal" class="block text-xs font-bold text-gray-500 uppercase mb-2">Tanggal Publikasi</label>

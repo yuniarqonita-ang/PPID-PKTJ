@@ -57,4 +57,12 @@ $app->singleton(
 |
 */
 
+spl_autoload_register(function ($class) {
+    if ($class === 'App\Models\InformasiSetiapSaat' || $class === 'App\Models\InformasiSetiapsaat') {
+        require_once __DIR__ . '/../app/Models/InformasiSetiapsaat.php';
+    } elseif ($class === 'App\Models\InformasiSertaMerta' || $class === 'App\Models\InformasiSertamerta') {
+        require_once __DIR__ . '/../app/Models/InformasiSertamerta.php';
+    }
+}, true, true);
+
 return $app;

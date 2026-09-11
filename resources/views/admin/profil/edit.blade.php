@@ -201,7 +201,7 @@
                             <div class="pt-4 space-y-3">
                                 <div class="flex items-center justify-between text-[10px]">
                                     <span class="font-bold text-blue-200/50 uppercase">Update:</span>
-                                    <span class="font-black text-[#ffc107] uppercase">{{ $profil->updated_at->diffForHumans() }}</span>
+                                    <span class="font-black text-[#ffc107] uppercase">{{ $profil->updated_at ? $profil->updated_at->diffForHumans() : 'Baru' }}</span>
                                 </div>
                             </div>
                         </div>
@@ -465,7 +465,7 @@
                             <div class="pt-4 space-y-3">
                                 <div class="flex items-center justify-between text-[10px]">
                                     <span class="font-bold text-blue-200/50 uppercase">Update:</span>
-                                    <span class="font-black text-[#ffc107] uppercase">{{ $profil->updated_at->diffForHumans() }}</span>
+                                    <span class="font-black text-[#ffc107] uppercase">{{ $profil->updated_at ? $profil->updated_at->diffForHumans() : 'Baru' }}</span>
                                 </div>
                             </div>
                         </div>

@@ -42,7 +42,7 @@
     </div>
     @endif
 
-    @if ($errors->any())
+    @if(isset($errors) && $errors->any())
     <div class="p-6 bg-red-50 border-2 border-red-200 rounded-3xl mb-6">
         <ul class="list-disc list-inside space-y-1">
             @foreach ($errors->all() as $error)

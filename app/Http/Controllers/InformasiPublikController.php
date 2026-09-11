@@ -485,12 +485,12 @@ class InformasiPublikController extends Controller
                 \App\Models\DaftarInformasi::where('id', $id)->orWhere('judul_informasi', $title)->update(['aktif' => $newStatus]);
             }
         } elseif ($type === 'setiapsaat') {
-            $item = \App\Models\InformasiSetiapsaat::find($id) ?? \App\Models\DaftarInformasi::find($id);
+            $item = \App\Models\InformasiSetiapSaat::find($id) ?? \App\Models\DaftarInformasi::find($id);
             if ($item) {
                 $newStatus = !(bool)$item->aktif;
                 $title = $item->judul ?? $item->judul_informasi;
-                if (class_exists(\App\Models\InformasiSetiapsaat::class)) {
-                    \App\Models\InformasiSetiapsaat::where('id', $id)->orWhere('judul', $title)->update(['aktif' => $newStatus]);
+                if (class_exists(\App\Models\InformasiSetiapSaat::class)) {
+                    \App\Models\InformasiSetiapSaat::where('id', $id)->orWhere('judul', $title)->update(['aktif' => $newStatus]);
                 }
                 \App\Models\DaftarInformasi::where('id', $id)->orWhere('judul_informasi', $title)->update(['aktif' => $newStatus]);
             }

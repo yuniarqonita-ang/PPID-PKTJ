@@ -7,7 +7,7 @@
         <p class="text-slate-500 text-sm font-semibold mt-1">Ubah konfigurasi menu navigasi "{{ $menu->nama }}" untuk website PPID PKTJ.</p>
     </div>
 
-    @if($errors->any())
+    @if(isset($errors) && $errors->any())
     <div class="bg-rose-50 border-2 border-rose-100 text-rose-800 p-6 rounded-[1.5rem] space-y-2">
         <div class="flex items-center gap-2 font-bold text-sm">
             <i class="fas fa-exclamation-circle text-rose-500"></i>

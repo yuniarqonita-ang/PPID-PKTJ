@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DaftarInformasi;
-use App\Models\InformasiSetiapsaat;
+use App\Models\InformasiSetiapSaat;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
@@ -30,7 +30,7 @@ class InformasiSetiapSaatController extends Controller
             $item->tautan_links = is_array($links) ? $links : [];
         }
 
-        $itemsSetiapSaat = class_exists(InformasiSetiapsaat::class) ? InformasiSetiapsaat::orderBy('id', 'asc')->get() : collect();
+        $itemsSetiapSaat = class_exists(InformasiSetiapSaat::class) ? InformasiSetiapSaat::orderBy('id', 'asc')->get() : collect();
         foreach ($itemsSetiapSaat as $s) {
             $s->file_size = '-';
             $links = $s->tautan_links;
@@ -73,6 +73,9 @@ class InformasiSetiapSaatController extends Controller
                 $nama = trim($nama ?? '');
                 $url = trim($request->tautan_url[$i] ?? '');
                 if ($nama !== '' || $url !== '') {
+                    if ($url !== '' && !preg_match('~^(https?://|/|#)~i', $url)) {
+                        $url = 'https://' . $url;
+                    }
                     $links[] = [
                         'nama' => $nama !== '' ? $nama : 'Lihat Dokumen',
                         'url'  => $url
@@ -88,6 +91,10 @@ class InformasiSetiapSaatController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if ($request->filled('gdrive_link') && !preg_match('~^https?://~i', $request->gdrive_link)) {
+            $request->merge(['gdrive_link' => 'https://' . $request->gdrive_link]);
+        }
+
         $request->validate([
             'judul'              => 'required|string|max:255',
             'deskripsi'          => 'nullable|string',
@@ -126,7 +133,7 @@ class InformasiSetiapSaatController extends Controller
         $waktuPembuatan = $request->input('waktu_pembuatan') ?: date('Y', strtotime($request->tanggal));
         $jangkaWaktu = $request->input('jangka_waktu') ?: '1 Tahun';
 
-        InformasiSetiapsaat::create([
+        InformasiSetiapSaat::create([
             'judul'              => $request->judul,
             'deskripsi'          => $request->deskripsi ?? '',
             'file_path'          => $filePath,
@@ -172,8 +179,8 @@ class InformasiSetiapSaatController extends Controller
      */
     public function edit(string $id): View
     {
-        // 1. Cek di model InformasiSetiapsaat
-        $setiapsaat = InformasiSetiapsaat::find($id);
+        // 1. Cek di model InformasiSetiapSaat
+        $setiapsaat = InformasiSetiapSaat::find($id);
         $daftar = DaftarInformasi::where('kategori', 'informasi-setiap-saat')->find($id) 
             ?? DaftarInformasi::find($id)
             ?? ($setiapsaat ? DaftarInformasi::where('judul_informasi', $setiapsaat->judul)->first() : null);
@@ -224,9 +231,9 @@ class InformasiSetiapSaatController extends Controller
         // 3. Fallback: ambil record setiap-saat ke-$id (index offset)
         $offset = max(0, ((int)$id) - 1);
         $fallback = DaftarInformasi::where('kategori', 'informasi-setiap-saat')->skip($offset)->first() 
-                 ?? InformasiSetiapsaat::skip($offset)->first()
+                 ?? InformasiSetiapSaat::skip($offset)->first()
                  ?? DaftarInformasi::where('kategori', 'informasi-setiap-saat')->first()
-                 ?? InformasiSetiapsaat::first();
+                 ?? InformasiSetiapSaat::first();
 
         if ($fallback) {
             $item = $fallback;
@@ -276,6 +283,10 @@ class InformasiSetiapSaatController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
+        if ($request->filled('gdrive_link') && !preg_match('~^https?://~i', $request->gdrive_link)) {
+            $request->merge(['gdrive_link' => 'https://' . $request->gdrive_link]);
+        }
+
         $request->validate([
             'judul'              => 'required|string|max:255',
             'deskripsi'          => 'nullable|string',
@@ -292,7 +303,7 @@ class InformasiSetiapSaatController extends Controller
             'aktif'              => 'boolean',
         ]);
 
-        $setiapsaat = InformasiSetiapsaat::find($id);
+        $setiapsaat = InformasiSetiapSaat::find($id);
         $daftar     = DaftarInformasi::find($id) ?? ($setiapsaat ? DaftarInformasi::where('judul_informasi', $setiapsaat->judul)->first() : null);
 
         $tautanLinks = $this->extractTautanLinks($request);
@@ -350,7 +361,7 @@ class InformasiSetiapSaatController extends Controller
             'tanggal'            => $request->tanggal,
         ];
 
-        InformasiSetiapsaat::where('id', $id)
+        InformasiSetiapSaat::where('id', $id)
             ->orWhere('judul', $oldTitle)
             ->orWhere('judul', $request->judul)
             ->update($updateData);
@@ -394,7 +405,7 @@ class InformasiSetiapSaatController extends Controller
     public function destroy(string $id): RedirectResponse
     {
         $targetJudul = null;
-        $setiapsaat = InformasiSetiapsaat::find($id);
+        $setiapsaat = InformasiSetiapSaat::find($id);
         if ($setiapsaat) {
             $targetJudul = $setiapsaat->judul;
             if ($setiapsaat->file_path && !str_starts_with($setiapsaat->file_path, 'http') && Storage::exists(str_replace('storage/', 'public/', $setiapsaat->file_path))) {
@@ -413,7 +424,7 @@ class InformasiSetiapSaatController extends Controller
         }
 
         if ($targetJudul) {
-            InformasiSetiapsaat::where('judul', $targetJudul)->delete();
+            InformasiSetiapSaat::where('judul', $targetJudul)->delete();
             DaftarInformasi::where('judul_informasi', $targetJudul)->delete();
         }
 

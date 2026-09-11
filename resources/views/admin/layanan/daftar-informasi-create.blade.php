@@ -42,7 +42,7 @@
     </div>
     @endif
 
-    @if ($errors->any())
+    @if(isset($errors) && $errors->any())
     <div class="p-6 bg-rose-50 border-2 border-rose-200 rounded-3xl mb-6">
         <div class="flex items-center gap-5 mb-4">
             <div class="w-14 h-14 bg-rose-500 text-white rounded-2xl flex items-center justify-center text-2xl shadow-lg">

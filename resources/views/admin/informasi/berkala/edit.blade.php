@@ -92,15 +92,20 @@
                                     </thead>
                                     <tbody id="tautanRepeaterBody">
                                         @php
-                                            $tautanList = old('tautan_nama') ? array_map(function($n, $u) { return ['nama' => $n, 'url' => $u]; }, old('tautan_nama'), old('tautan_url', [])) : ($item->tautan_links ?? []);
-                                            if (is_string($tautanList)) $tautanList = json_decode($tautanList, true);
-                                            if (empty($tautanList) && !empty($item->file_path) && str_starts_with($item->file_path, 'http')) {
-                                                $tautanList = [['nama' => 'Lihat Dokumen', 'url' => $item->file_path]];
+                                        $oldNama = (array) old('tautan_nama', []);
+                                        $oldUrl  = (array) old('tautan_url', []);
+                                        $tautanList = [];
+                                        if (!empty($oldNama)) {
+                                            foreach ($oldNama as $i => $n) {
+                                                $tautanList[] = ['nama' => $n, 'url' => $oldUrl[$i] ?? ''];
                                             }
-                                            if (empty($tautanList)) {
-                                                $tautanList = [['nama' => '', 'url' => '']];
-                                            }
-                                        @endphp
+                                        } elseif (isset($item) && !empty($item->tautan_links)) {
+                                            $tautanList = is_string($item->tautan_links) ? json_decode($item->tautan_links, true) : (array)$item->tautan_links;
+                                        }
+                                        if (empty($tautanList) || !is_array($tautanList)) {
+                                            $tautanList = [['nama' => '', 'url' => '']];
+                                        }
+                                    @endphp
 
                                         @if(!empty($tautanList) && is_array($tautanList))
                                             @foreach($tautanList as $idx => $tItem)

@@ -78,12 +78,12 @@
                     </h6>
                     <hr class="mb-3">
                     <div class="flex flex-wrap gap-x-3 gap-y-2 text-sm text-gray-600">
-                        <a href="{{ route('admin.profil.edit') }}" class="hover:text-blue-600">● Profil PPID</a>
+                        <a href="{{ route('admin.profil.edit', 'profil') }}" class="hover:text-blue-600">● Profil PPID</a>
                         <a href="{{ route('admin.profil.edit', 'tugas') }}" class="hover:text-blue-600">● Tugas & Fungsi PPID</a>
                         <a href="{{ route('admin.profil.edit', 'visi') }}" class="hover:text-blue-600">● Visi & Misi</a>
-                        <a href="{{ route('admin.profil.edit') }}" class="hover:text-blue-600">● Struktur Organisasi</a>
-                        <a href="{{ route('admin.profil.edit') }}" class="hover:text-blue-600">● Regulasi</a>
-                        <a href="{{ route('admin.profil.edit') }}" class="hover:text-blue-600">● Kontak</a>
+                        <a href="{{ route('admin.profil.edit', 'struktur') }}" class="hover:text-blue-600">● Struktur Organisasi</a>
+                        <a href="{{ route('admin.profil.edit', 'regulasi') }}" class="hover:text-blue-600">● Regulasi</a>
+                        <a href="{{ route('admin.profil.edit', 'kontak') }}" class="hover:text-blue-600">● Kontak</a>
                     </div>
                     
                     <h6 class="font-bold text-gray-800 mt-5 mb-3 flex items-center">

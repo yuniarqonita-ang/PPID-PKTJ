@@ -37,3 +37,4 @@ class InformasiSetiapSaat extends Model
         'tautan_links' => 'array',
     ];
 }
+

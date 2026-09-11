@@ -71,6 +71,9 @@ class InformasiBerkalaController extends Controller
                 $nama = trim($nama ?? '');
                 $url = trim($request->tautan_url[$i] ?? '');
                 if ($nama !== '' || $url !== '') {
+                    if ($url !== '' && !preg_match('~^(https?://|/|#)~i', $url)) {
+                        $url = 'https://' . $url;
+                    }
                     $links[] = [
                         'nama' => $nama !== '' ? $nama : 'Lihat Dokumen',
                         'url'  => $url
@@ -94,6 +97,10 @@ class InformasiBerkalaController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if ($request->filled('gdrive_link') && !preg_match('~^https?://~i', $request->gdrive_link)) {
+            $request->merge(['gdrive_link' => 'https://' . $request->gdrive_link]);
+        }
+
         $validated = $request->validate([
             'judul'              => 'required|string|max:255',
             'deskripsi'          => 'nullable|string',
@@ -263,6 +270,10 @@ class InformasiBerkalaController extends Controller
      */
     public function update(Request $request, string $id): RedirectResponse
     {
+        if ($request->filled('gdrive_link') && !preg_match('~^https?://~i', $request->gdrive_link)) {
+            $request->merge(['gdrive_link' => 'https://' . $request->gdrive_link]);
+        }
+
         $validated = $request->validate([
             'judul'              => 'required|string|max:255',
             'deskripsi'          => 'nullable|string',

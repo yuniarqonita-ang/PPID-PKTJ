@@ -74,8 +74,17 @@
                                 </thead>
                                 <tbody id="tautanRepeaterBody">
                                     @php
-                                        $tautanList = old('tautan_nama') ? array_map(function($n, $u) { return ['nama' => $n, 'url' => $u]; }, old('tautan_nama'), old('tautan_url', [])) : [];
-                                        if (empty($tautanList)) {
+                                        $oldNama = (array) old('tautan_nama', []);
+                                        $oldUrl  = (array) old('tautan_url', []);
+                                        $tautanList = [];
+                                        if (!empty($oldNama)) {
+                                            foreach ($oldNama as $i => $n) {
+                                                $tautanList[] = ['nama' => $n, 'url' => $oldUrl[$i] ?? ''];
+                                            }
+                                        } elseif (isset($item) && !empty($item->tautan_links)) {
+                                            $tautanList = is_string($item->tautan_links) ? json_decode($item->tautan_links, true) : (array)$item->tautan_links;
+                                        }
+                                        if (empty($tautanList) || !is_array($tautanList)) {
                                             $tautanList = [['nama' => '', 'url' => '']];
                                         }
                                     @endphp
