@@ -56,8 +56,8 @@ class DefaultMenuSeeder extends Seeder
         // 2. INFORMASI PUBLIK
         $infoId = $insertParent('INFORMASI PUBLIK', 'informasi-publik-menu', null, 2);
         $insertChild($infoId, 'Informasi Berkala', 'informasi-berkala-sub', '/informasi-publik/berkala', 1);
-        $insertChild($infoId, 'Informasi Serta Merta', 'informasi-serta-merta-sub', '/informasi-publik/serta-merta', 2);
-        $insertChild($infoId, 'Informasi Setiap Saat', 'informasi-setiap-saat-sub', '/informasi-publik/setiap-saat', 3);
+        $insertChild($infoId, 'Informasi Setiap Saat', 'informasi-setiap-saat-sub', '/informasi-publik/setiap-saat', 2);
+        $insertChild($infoId, 'Informasi Serta Merta', 'informasi-serta-merta-sub', '/informasi-publik/serta-merta', 3);
         $insertChild($infoId, 'Informasi Dikecualikan', 'informasi-dikecualikan-sub', '/informasi-publik/dikecualikan', 4);
 
         // 3. LAYANAN INFORMASI

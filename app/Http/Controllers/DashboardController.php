@@ -182,6 +182,10 @@ class DashboardController extends Controller
             'struktur_pengelola_nama' => $request->struktur_pengelola_nama,
             'struktur_petugas_nama' => $request->struktur_petugas_nama,
 
+            // Visibilitas Informasi Dikecualikan
+            'menu_dikecualikan_aktif' => $request->has('menu_dikecualikan_aktif') ? '1' : '0',
+            'struktur_lhkpn_direktur_link' => $request->struktur_lhkpn_direktur_link,
+
             // Jam Pelayanan Informasi Dinamis (Sesuai Standar Resmi UPT PKTJ)
             'jam_layanan_senin_kamis' => $request->jam_layanan_senin_kamis,
             'jam_istirahat_senin_kamis' => $request->jam_istirahat_senin_kamis,
@@ -217,6 +221,12 @@ class DashboardController extends Controller
                 ]
             );
         }
+
+        // Sync CustomMenu status untuk Informasi Dikecualikan
+        $isMenuAktif = ($request->has('menu_dikecualikan_aktif'));
+        \App\Models\CustomMenu::where('slug', 'informasi-dikecualikan-sub')
+            ->orWhere('url', 'like', '%dikecualikan%')
+            ->update(['aktif' => $isMenuAktif]);
 
         return redirect()->route('dashboard.edit')->with('success', 'Pengaturan dashboard berhasil diperbarui!');
     }

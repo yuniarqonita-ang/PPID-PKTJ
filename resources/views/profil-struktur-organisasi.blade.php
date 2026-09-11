@@ -111,6 +111,34 @@
         .role-indigo  { background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); }
         .role-navy    { background: linear-gradient(135deg, #004a99 0%, #002b5c 100%); }
         .role-emerald { background: linear-gradient(135deg, #059669 0%, #047857 100%); }
+        .pktj-btn-lhkpn-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(0, 43, 92, 0.9);
+            color: #ffffff !important;
+            border: 1px solid rgba(255, 193, 7, 0.85);
+            padding: 2.5px 10px;
+            border-radius: 50px;
+            font-size: 9px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            text-decoration: none !important;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+            transition: all 0.25s ease;
+            backdrop-filter: blur(4px);
+        }
+        .pktj-btn-lhkpn-pill:hover {
+            background: #ffc107;
+            color: #002b5c !important;
+            border-color: #ffffff;
+            transform: translateY(-1px) scale(1.04);
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.5);
+        }
+        .pktj-btn-lhkpn-pill:hover .text-warning {
+            color: #002b5c !important;
+        }
         .role-cyan    { background: linear-gradient(135deg, #0284c7 0%, #0369a1 100%); }
         .role-amber   { background: linear-gradient(135deg, #d97706 0%, #b45309 100%); }
         .role-purple  { background: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%); }
@@ -564,13 +592,30 @@
                         <!-- Top: PPID PELAKSANA UPT -->
                         <div class="d-flex justify-content-center">
                             <div class="pktj-chart-card pktj-card-upt">
-                                <div class="node-badge-role role-emerald">
-                                    <i class="fas fa-graduation-cap text-warning"></i>
-                                    <span>PPID PELAKSANA UPT</span>
+                                <div class="node-badge-role role-emerald flex-column py-2.5 px-3">
+                                    <div class="d-flex align-items-center justify-content-center gap-1.5 mb-1.5">
+                                        <i class="fas fa-graduation-cap text-warning"></i>
+                                        <span>{{ $settings['struktur_l1_role'] ?? 'PPID PELAKSANA UPT' }}</span>
+                                    </div>
+                                    @php
+                                        $direkturLhkpn = $settings['struktur_lhkpn_direktur_link'] 
+                                            ?? ($settings['lhkpn_direktur_link'] 
+                                            ?? ($settings['struktur_upt_lhkpn'] ?? ''));
+                                    @endphp
+                                    <div class="d-inline-flex justify-content-center">
+                                        <a href="{{ $direkturLhkpn ?: (route('profil.pejabat') . '#lhkpn') }}" 
+                                           target="_blank" 
+                                           class="pktj-btn-lhkpn-pill" 
+                                           title="Lihat LHKPN Direktur PKTJ">
+                                            <i class="fas fa-file-invoice-dollar text-warning"></i>
+                                            <span>LHKPN DIREKTUR</span>
+                                            <i class="fas fa-arrow-up-right-from-square" style="font-size: 8px; opacity: 0.85;"></i>
+                                        </a>
+                                    </div>
                                 </div>
                                 <div class="node-badge-person person-upt">
                                     <span class="d-block text-xs text-warning opacity-90 fw-bold mb-0.5" style="letter-spacing: 0.5px;">PIMPINAN UPT LEMBAGA</span>
-                                    {{ $settings['struktur_upt_direktur'] ?? 'DIREKTUR PKTJ TEGAL' }}
+                                    {{ $settings['struktur_upt_direktur'] ?? ($settings['struktur_l1_name'] ?? 'DIREKTUR PKTJ TEGAL') }}
                                 </div>
                             </div>
                         </div>

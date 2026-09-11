@@ -1,29 +1,34 @@
-@extends('layouts.app')
+@php
+    $dikecualikanAktif = \App\Models\Dashboard::getValue('menu_dikecualikan_aktif');
+    $isTayang = ($dikecualikanAktif === '1' || $dikecualikanAktif === 1 || $dikecualikanAktif === true);
+@endphp
 
 @section('content')
 <div class="space-y-8 animate-fade-in lg:px-8">
     
     <!-- DASHBOARD-STYLE HEADER SECTION -->
-    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-10">
+    <div class="bg-gradient-to-br from-[#004a99] via-[#005bb5] to-[#006ccf] rounded-[2rem] p-10 md:p-12 shadow-xl text-white relative overflow-hidden mb-8">
         <div class="absolute -right-20 -top-20 w-96 h-96 bg-white/10 rounded-full blur-3xl"></div>
         
         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-8">
             <div class="space-y-6">
-                <div class="inline-flex items-center gap-3 px-5 py-2 bg-[#ffc107] rounded-full text-[#004a99]">
-                    <span class="w-2.5 h-2.5 bg-[#004a99] rounded-full animate-ping"></span>
-                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">Sistem Dikecualikan: Aktif</h2>
+                <div class="inline-flex items-center gap-3 px-5 py-2 {{ $isTayang ? 'bg-emerald-400 text-emerald-950' : 'bg-[#ffc107] text-[#004a99]' }} rounded-full font-bold shadow-sm">
+                    <span class="w-2.5 h-2.5 {{ $isTayang ? 'bg-emerald-900' : 'bg-[#004a99]' }} rounded-full animate-ping"></span>
+                    <h2 class="text-[11px] font-black uppercase tracking-[3px]">
+                        Status Navigasi: {{ $isTayang ? 'Tayang di Website' : 'Disembunyikan (Private)' }}
+                    </h2>
                 </div>
                 
                 <div>
                     <h1 class="text-3xl md:text-5xl font-black tracking-tight leading-tight text-white mb-2">
                         Informasi <span class="text-[#ffc107]">Dikecualikan</span>
                     </h1>
-                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Daftar informasi yang dikecualikan berdasarkan uji konsekuensi.</p>
+                    <p class="text-blue-50 text-lg font-bold max-w-2xl opacity-90">Kelola daftar informasi yang dikecualikan dan atur penayangan submenu publik secara fleksibel.</p>
                 </div>
             </div>
 
             <div class="flex items-center gap-4">
-                <a href="http://ppid.pktj.ac.id/informasi-publik/dikecualikan" target="_blank" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
+                <a href="{{ url('/informasi-publik/dikecualikan') }}" target="_blank" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
                     <i class="fas fa-eye mr-3"></i> Lihat Publik
                 </a>
                 <a href="{{ route('admin.informasi.dikecualikan.create') }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
@@ -31,6 +36,37 @@
                 </a>
             </div>
         </div>
+    </div>
+
+    <!-- VISIBILITY STATUS & ONE-CLICK TOGGLE CARD -->
+    <div class="bg-white rounded-3xl p-6 md:p-8 shadow-lg border-2 {{ $isTayang ? 'border-emerald-500/40 bg-gradient-to-r from-emerald-50/40 via-white to-white' : 'border-rose-500/40 bg-gradient-to-r from-rose-50/40 via-white to-white' }} flex flex-col md:flex-row items-center justify-between gap-6 mb-8">
+        <div class="flex items-center gap-5">
+            <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl shadow-sm {{ $isTayang ? 'bg-emerald-500 text-white shadow-emerald-500/30' : 'bg-rose-500 text-white shadow-rose-500/30' }}">
+                <i class="fas {{ $isTayang ? 'fa-eye' : 'fa-eye-slash' }}"></i>
+            </div>
+            <div>
+                <div class="flex items-center gap-2 mb-1">
+                    <span class="text-[11px] font-black uppercase tracking-widest text-slate-400">Pengaturan Visibilitas Submenu Publik</span>
+                    <span class="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase tracking-wider {{ $isTayang ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">
+                        {{ $isTayang ? 'Aktif / Tayang' : 'Disembunyikan (Default)' }}
+                    </span>
+                </div>
+                <h3 class="text-xl font-black {{ $isTayang ? 'text-emerald-900' : 'text-rose-900' }} tracking-tight">
+                    {{ $isTayang ? 'Submenu & Halaman Sedang TAYANG di Website Publik' : 'Submenu & Halaman Sedang DISEMBUNYIKAN dari Publik' }}
+                </h3>
+                <p class="text-xs text-slate-500 font-medium mt-1">
+                    {{ $isTayang ? 'Pengunjung umum dapat melihat tautan "Informasi Dikecualikan" di navbar dan membuka datanya.' : 'Submenu tidak ditampilkan di navbar, dan pengunjung umum tidak dapat membuka halaman ini.' }}
+                </p>
+            </div>
+        </div>
+
+        <form action="{{ route('admin.informasi.dikecualikan.toggle-tayang') }}" method="POST" class="m-0 flex-shrink-0">
+            @csrf
+            <button type="submit" class="px-7 py-3.5 rounded-2xl font-black text-xs uppercase tracking-wider shadow-lg transition-all transform hover:scale-[1.03] active:scale-95 flex items-center gap-3 cursor-pointer border-none {{ $isTayang ? 'bg-rose-600 hover:bg-rose-700 text-white shadow-rose-600/30' : 'bg-emerald-600 hover:bg-emerald-700 text-white shadow-emerald-600/30' }}">
+                <i class="fas {{ $isTayang ? 'fa-eye-slash' : 'fa-check-circle' }} text-base"></i>
+                <span>{{ $isTayang ? 'Sembunyikan Menu Sekarang' : 'Aktifkan & Tayangkan Sekarang' }}</span>
+            </button>
+        </form>
     </div>
 
         @if(session('success'))

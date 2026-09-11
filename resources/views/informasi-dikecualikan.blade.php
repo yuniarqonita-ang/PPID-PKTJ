@@ -153,6 +153,29 @@
     </div>
 
     <div class="container">
+        @php
+            $dikecualikanAktif = \App\Models\Dashboard::getValue('menu_dikecualikan_aktif');
+            $isTayang = ($dikecualikanAktif === '1' || $dikecualikanAktif === 1 || $dikecualikanAktif === true);
+        @endphp
+        @if(!$isTayang && auth()->check())
+            <div class="alert alert-warning border-2 border-warning d-flex flex-wrap align-items-center justify-content-between p-3.5 mb-4 rounded-4 shadow-sm" style="background-color: #fffbeb; border-color: #f59e0b !important;">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="rounded-circle d-flex align-items-center justify-content-center fs-5 shadow-sm" style="width: 42px; height: 42px; background: #f59e0b; color: white;">
+                        <i class="fas fa-eye-slash"></i>
+                    </div>
+                    <div>
+                        <strong class="d-block text-dark" style="font-size: 14px;">Mode Pratinjau Administrator</strong>
+                        <span class="text-muted" style="font-size: 12.5px;">Halaman & Submenu ini saat ini <u>DISEMBUNYIKAN</u> dari website publik. Pengunjung biasa akan dialihkan ke Informasi Berkala.</span>
+                    </div>
+                </div>
+                <form action="{{ route('admin.informasi.dikecualikan.toggle-tayang') }}" method="POST" class="m-0 mt-2 mt-md-0">
+                    @csrf
+                    <button type="submit" class="btn btn-success btn-sm px-3.5 py-2 fw-bold rounded-pill shadow-sm" style="font-size: 12px; letter-spacing: 0.3px;">
+                        <i class="fas fa-check-circle me-1"></i> Tayangkan Sekarang
+                    </button>
+                </form>
+            </div>
+        @endif
         <div class="content-card" data-aos="fade-up" data-aos-delay="100">
             <!-- TOP HERO QUICK SEARCH BAR -->
             <div class="p-4 mb-4 rounded-4 border shadow-sm" style="background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%); border-color: #cbd5e1;">

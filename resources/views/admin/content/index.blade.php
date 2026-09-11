@@ -76,49 +76,6 @@
             </div>
         </div>
 
-        <!-- Informasi Serta Merta -->
-        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
-            <div class="flex items-center justify-between mb-4">
-                <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-lg font-semibold text-white">Informasi Serta Merta</h3>
-                        <p class="text-sm text-slate-400">{{ App\Models\InformasiSertamerta::count() }} item</p>
-                    </div>
-                </div>
-            </div>
-            <div class="space-y-2">
-                @php
-                    $sertamerta = App\Models\InformasiSertamerta::latest()->take(3)->get();
-                @endphp
-                @forelse($sertamerta as $item)
-                    <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
-                        <div class="flex-1">
-                            <p class="text-sm font-medium text-white truncate">{{ $item->judul }}</p>
-                            <p class="text-xs text-slate-400">{{ $item->file_name }}</p>
-                        </div>
-                        <div class="flex items-center space-x-1">
-                            <a href="#" class="text-blue-600 hover:text-blue-300">
-                                <i class="fas fa-edit text-sm"></i>
-                            </a>
-                            <button onclick="confirmDelete('informasi-sertamerta', {{ $item->id }})" class="text-red-600 hover:text-red-300">
-                                <i class="fas fa-trash text-sm"></i>
-                            </button>
-                        </div>
-                    </div>
-                @empty
-                    <p class="text-sm text-slate-400 text-center py-4">Belum ada data</p>
-                @endforelse
-            </div>
-            <div class="mt-4 pt-4 border-t border-slate-600/30">
-                <a href="#" class="w-full block text-center px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition">
-                    Kelola Semua
-                </a>
-            </div>
-        </div>
-
         <!-- Informasi Setiap Saat -->
         <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
             <div class="flex items-center justify-between mb-4">
@@ -157,6 +114,49 @@
             </div>
             <div class="mt-4 pt-4 border-t border-slate-600/30">
                 <a href="#" class="w-full block text-center px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition">
+                    Kelola Semua
+                </a>
+            </div>
+        </div>
+
+        <!-- Informasi Serta Merta -->
+        <div class="bg-slate-800/80 backdrop-blur-xl rounded-2xl shadow-2xl ring-1 ring-white/10 relative overflow-hidden">
+            <div class="flex items-center justify-between mb-4">
+                <div class="flex items-center space-x-3">
+                    <div class="w-12 h-12 bg-yellow-100 text-yellow-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-lg font-semibold text-white">Informasi Serta Merta</h3>
+                        <p class="text-sm text-slate-400">{{ App\Models\InformasiSertamerta::count() }} item</p>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-2">
+                @php
+                    $sertamerta = App\Models\InformasiSertamerta::latest()->take(3)->get();
+                @endphp
+                @forelse($sertamerta as $item)
+                    <div class="flex items-center justify-between p-2 bg-gray-50 rounded">
+                        <div class="flex-1">
+                            <p class="text-sm font-medium text-white truncate">{{ $item->judul }}</p>
+                            <p class="text-xs text-slate-400">{{ $item->file_name }}</p>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <a href="#" class="text-blue-600 hover:text-blue-300">
+                                <i class="fas fa-edit text-sm"></i>
+                            </a>
+                            <button onclick="confirmDelete('informasi-sertamerta', {{ $item->id }})" class="text-red-600 hover:text-red-300">
+                                <i class="fas fa-trash text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                @empty
+                    <p class="text-sm text-slate-400 text-center py-4">Belum ada data</p>
+                @endforelse
+            </div>
+            <div class="mt-4 pt-4 border-t border-slate-600/30">
+                <a href="#" class="w-full block text-center px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition">
                     Kelola Semua
                 </a>
             </div>
@@ -342,12 +342,12 @@
                 <div class="text-sm text-slate-300">Informasi Berkala</div>
             </div>
             <div class="text-center">
-                <div class="text-3xl font-bold text-yellow-600">{{ App\Models\InformasiSertamerta::count() }}</div>
-                <div class="text-sm text-slate-300">Informasi Serta Merta</div>
-            </div>
-            <div class="text-center">
                 <div class="text-3xl font-bold text-cyan-600">{{ App\Models\InformasiSetiapsaat::count() }}</div>
                 <div class="text-sm text-slate-300">Informasi Setiap Saat</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold text-yellow-600">{{ App\Models\InformasiSertamerta::count() }}</div>
+                <div class="text-sm text-slate-300">Informasi Serta Merta</div>
             </div>
             <div class="text-center">
                 <div class="text-3xl font-bold text-red-600">{{ App\Models\InformasiDikecualikan::count() }}</div>

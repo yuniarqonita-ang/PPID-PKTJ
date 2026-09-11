@@ -214,13 +214,34 @@
 
             <!-- SECTION: PENGATURAN INFORMASI DIKECUALIKAN -->
             <div class="bg-white rounded-3xl shadow-sm border border-slate-200/60 overflow-hidden">
-                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center gap-3">
-                    <div class="w-10 h-10 bg-[#ffc107] rounded-xl flex items-center justify-center text-[#004a99] text-sm">
-                        <i class="fas fa-user-shield"></i>
+                <div class="p-6 border-b border-slate-100 bg-slate-50/50 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-[#ffc107] rounded-xl flex items-center justify-center text-[#004a99] text-sm">
+                            <i class="fas fa-user-shield"></i>
+                        </div>
+                        <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Opsi Informasi Dikecualikan</h3>
                     </div>
-                    <h3 class="font-black text-[#002b5c] uppercase tracking-wider text-sm">Opsi Informasi Dikecualikan</h3>
+                    @php
+                        $isDikecualikanAktif = \App\Models\Dashboard::getValue('menu_dikecualikan_aktif') === '1';
+                    @endphp
+                    <span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider {{ $isDikecualikanAktif ? 'bg-emerald-100 text-emerald-800' : 'bg-rose-100 text-rose-800' }}">
+                        {{ $isDikecualikanAktif ? 'Status: Tayang' : 'Status: Disembunyikan' }}
+                    </span>
                 </div>
                 <div class="p-8 space-y-6">
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-500 uppercase tracking-widest block">Status Tayang Menu & Halaman Publik</label>
+                        <label class="flex items-center gap-3 p-4 {{ $isDikecualikanAktif ? 'bg-emerald-50/60 border-emerald-200' : 'bg-rose-50/60 border-rose-200' }} rounded-2xl border cursor-pointer select-none transition-colors">
+                            <input type="checkbox" name="menu_dikecualikan_aktif" value="1" {{ $isDikecualikanAktif ? 'checked' : '' }} class="w-5 h-5 text-emerald-600 rounded border-slate-300">
+                            <div>
+                                <span class="text-xs font-bold {{ $isDikecualikanAktif ? 'text-emerald-950' : 'text-rose-950' }}">
+                                    Tayangkan Submenu & Halaman "Informasi Dikecualikan" di Website Publik
+                                </span>
+                                <p class="text-[10px] text-slate-500 mt-0.5">Jika tidak dicentang, submenu Informasi Dikecualikan otomatis disembunyikan dari navbar publik.</p>
+                            </div>
+                        </label>
+                    </div>
+
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-slate-500 uppercase tracking-widest">Daftar Penanggung Jawab (Dropdown)</label>
                         <textarea name="list_penanggung_jawab" rows="8"

@@ -267,20 +267,50 @@
                                     <h4 class="text-xs font-black text-[#004a99] uppercase tracking-[2px]">Pengaturan Bagan Struktur Organisasi</h4>
                                     <p class="text-xs text-slate-500">Edit peranan dan nama pejabat yang tampil pada diagram organisasi secara real-time.</p>
 
-                                    <!-- Level 1 -->
-                                    <div class="bg-white p-6 rounded-2xl border border-slate-100 space-y-4">
-                                        <span class="inline-block bg-[#004a99] text-white text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider">Tingkat 1 (Pelaksana UPT)</span>
-                                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                            <div class="space-y-1">
-                                                <label class="text-[10px] font-bold text-slate-500 uppercase">Peran / Jabatan</label>
-                                                <input type="text" name="l1_role" value="{{ old('l1_role', $settings['l1_role'] ?? 'PPID Pelaksana UPT') }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
-                                            </div>
-                                            <div class="space-y-1">
-                                                <label class="text-[10px] font-bold text-slate-500 uppercase">Nama Pejabat</label>
-                                                <input type="text" name="l1_name" value="{{ old('l1_name', $settings['l1_name'] ?? 'Direktur PKTJ') }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
-                                            </div>
-                                        </div>
-                                    </div>
+                                     <!-- Level 1 -->
+                                     <div class="bg-white p-6 rounded-2xl border-2 border-emerald-500/30 space-y-4 shadow-sm relative overflow-hidden">
+                                         <div class="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 rounded-bl-full pointer-events-none"></div>
+                                         <div class="flex items-center justify-between">
+                                             <span class="inline-block bg-emerald-600 text-white text-[10px] font-black px-3.5 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+                                                 <i class="fas fa-graduation-cap text-amber-300 mr-1.5"></i> Tingkat 1 (PPID Pelaksana UPT - Kotak Hijau)
+                                             </span>
+                                             <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-lg border border-emerald-200">
+                                                 Bagan Organisasi PKTJ
+                                             </span>
+                                         </div>
+                                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                             <div class="space-y-1">
+                                                 <label class="text-[10px] font-bold text-slate-500 uppercase">Peran / Jabatan</label>
+                                                 <input type="text" name="l1_role" value="{{ old('l1_role', $settings['l1_role'] ?? 'PPID PELAKSANA UPT') }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
+                                             </div>
+                                             <div class="space-y-1">
+                                                 <label class="text-[10px] font-bold text-slate-500 uppercase">Nama Pejabat</label>
+                                                 <input type="text" name="l1_name" value="{{ old('l1_name', $settings['l1_name'] ?? ($settings['upt_direktur'] ?? ($settings['struktur_upt_direktur'] ?? 'Direktur PKTJ Tegal'))) }}" class="w-full px-4 py-2 border rounded-xl text-sm font-semibold">
+                                             </div>
+                                             <div class="space-y-1 md:col-span-2 pt-2 border-t border-slate-100">
+                                                 <div class="flex items-center justify-between">
+                                                     <label class="text-[11px] font-black text-emerald-800 uppercase tracking-wide flex items-center gap-1.5">
+                                                         <i class="fas fa-file-invoice-dollar text-emerald-600"></i> Link LHKPN Direktur (Tombol di Kotak Hijau)
+                                                     </label>
+                                                     @php
+                                                         $currentLhkpn = $settings['lhkpn_direktur_link'] ?? ($settings['upt_lhkpn'] ?? ($settings['struktur_lhkpn_direktur_link'] ?? ''));
+                                                     @endphp
+                                                     @if(!empty($currentLhkpn))
+                                                         <a href="{{ $currentLhkpn }}" target="_blank" class="inline-flex items-center gap-1 text-[10px] font-bold text-emerald-700 hover:text-emerald-900 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                                                             <i class="fas fa-external-link-alt"></i> Tes Buka Link
+                                                         </a>
+                                                     @endif
+                                                 </div>
+                                                 <input type="text" name="lhkpn_direktur_link" 
+                                                        value="{{ old('lhkpn_direktur_link', $currentLhkpn) }}" 
+                                                        placeholder="Tempel tautan Google Drive / e-LHKPN KPK (contoh: https://drive.google.com/...)" 
+                                                        class="w-full px-4 py-2.5 bg-emerald-50/30 border border-emerald-300 rounded-xl text-xs font-semibold focus:ring-2 focus:ring-emerald-500 focus:bg-white transition-all text-slate-800">
+                                                 <p class="text-[10px] text-slate-500 mt-1 italic">
+                                                     <i class="fas fa-info-circle text-emerald-600 mr-1"></i> Tautan ini akan otomatis memunculkan tombol <strong>"LHKPN DIREKTUR"</strong> di dalam kotak hijau PPID Pelaksana UPT pada bagan struktur publik.
+                                                 </p>
+                                             </div>
+                                         </div>
+                                     </div>
 
                                     <!-- Level 2 -->
                                     <div class="bg-white p-6 rounded-2xl border border-slate-100 space-y-6">

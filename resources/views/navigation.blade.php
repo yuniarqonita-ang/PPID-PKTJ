@@ -329,6 +329,15 @@
                                     @if(in_array($child->slug, ['sop-penetapan-sub', 'sop-pengujian-sub', 'sop-pendokumentasian-sub', 'layanan-daftar-sub', 'daftar-informasi-sub']) || str_contains(strtolower($child->nama), 'daftar informasi publik') || str_contains($child->url, 'sop-penetapan') || str_contains($child->url, 'sop-pengujian') || str_contains($child->url, 'sop-pendokumentasian') || str_contains($child->url, 'layanan-informasi/daftar'))
                                         @continue
                                     @endif
+                                    @if(str_contains(strtolower($child->nama), 'dikecualikan') || str_contains(strtolower($child->url ?? ''), 'dikecualikan') || $child->slug === 'informasi-dikecualikan-sub')
+                                        @php
+                                            $isDikecualikanAktif = \App\Models\Dashboard::getValue('menu_dikecualikan_aktif');
+                                            $tampilkanDikecualikan = ($isDikecualikanAktif === '1' || $isDikecualikanAktif === 1 || $isDikecualikanAktif === true);
+                                        @endphp
+                                        @if(!$tampilkanDikecualikan)
+                                            @continue
+                                        @endif
+                                    @endif
                                     @php
                                         $childNama = $child->nama;
                                         $childUrl = $child->url;

@@ -190,7 +190,7 @@ class ProfilPpidController extends Controller
             'facebook_link', 'instagram_link', 'twitter_link', 'linktree_link', 'whatsapp_link',
             'kampus_1_nama', 'kampus_1_alamat', 'kampus_1_email', 'kampus_1_telepon', 'kampus_1_map',
             'kampus_2_nama', 'kampus_2_alamat', 'kampus_2_email', 'kampus_2_telepon', 'kampus_2_map',
-            'l1_role', 'l1_name',
+            'l1_role', 'l1_name', 'lhkpn_direktur_link', 'upt_lhkpn',
             'l2_c1_role', 'l2_c1_name', 'l2_c2_role', 'l2_c2_name', 'l2_c3_role', 'l2_c3_name', 'l2_c4_role', 'l2_c4_name',
             'l3_c1_role', 'l3_c1_name', 'l3_c2_role', 'l3_c2_name',
             'l4_c1_role', 'l4_c1_name', 'l4_c2_role', 'l4_c2_name', 'l4_c3_role', 'l4_c3_name', 'l4_c4_role', 'l4_c4_name', 'l4_c5_role', 'l4_c5_name', 'l4_c6_role', 'l4_c6_name', 'l4_c7_role', 'l4_c7_name'
@@ -202,7 +202,7 @@ class ProfilPpidController extends Controller
                 $value = $request->input($field) ?? '';
 
                 // Restore https:// if it was stripped by client JS to bypass ModSecurity
-                if (in_array($field, ['facebook_link', 'instagram_link', 'twitter_link', 'linktree_link', 'whatsapp_link']) && !empty($value)) {
+                if (in_array($field, ['facebook_link', 'instagram_link', 'twitter_link', 'linktree_link', 'whatsapp_link', 'lhkpn_direktur_link', 'upt_lhkpn']) && !empty($value)) {
                     if (!preg_match('/^https?:\/\//i', $value) && $value !== '#') {
                         $value = 'https://' . $value;
                     }
@@ -217,6 +217,28 @@ class ProfilPpidController extends Controller
 
         // Special handling for dynamic organization diagram roles/sub-headings
         if ($type === 'struktur') {
+            // Sinkronkan nama direktur ke struktur_upt_direktur agar kompatibel dengan seluruh template
+            if ($request->filled('l1_name')) {
+                \App\Models\Dashboard::updateOrCreate(
+                    ['key' => 'struktur_upt_direktur'],
+                    ['value' => $request->input('l1_name'), 'type' => 'text', 'aktif' => true]
+                );
+            }
+            if ($request->has('lhkpn_direktur_link')) {
+                $lhkpnVal = $request->input('lhkpn_direktur_link') ?? '';
+                if (!empty($lhkpnVal) && !preg_match('/^https?:\/\//i', $lhkpnVal) && $lhkpnVal !== '#') {
+                    $lhkpnVal = 'https://' . $lhkpnVal;
+                }
+                \App\Models\Dashboard::updateOrCreate(
+                    ['key' => 'struktur_lhkpn_direktur_link'],
+                    ['value' => $lhkpnVal, 'type' => 'text', 'aktif' => true]
+                );
+                \App\Models\Dashboard::updateOrCreate(
+                    ['key' => 'struktur_upt_lhkpn'],
+                    ['value' => $lhkpnVal, 'type' => 'text', 'aktif' => true]
+                );
+            }
+
             for ($i = 1; $i <= 5; $i++) {
                 if ($request->has("role_$i")) {
                     \App\Models\Dashboard::updateOrCreate(

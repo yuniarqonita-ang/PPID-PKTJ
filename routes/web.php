@@ -749,6 +749,32 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         Route::delete('/setiap-saat/{id}', [InformasiSetiapSaatController::class, 'destroy'])->name('setiapsaat.destroy');
         
         // Dikecualikan
+        Route::match(['GET', 'POST'], '/dikecualikan/toggle-tayang', function() {
+            $current = \App\Models\Dashboard::getValue('menu_dikecualikan_aktif');
+            $isCurrentlyActive = ($current === '1' || $current === 1 || $current === true);
+            $newState = $isCurrentlyActive ? '0' : '1';
+
+            \App\Models\Dashboard::updateOrCreate(
+                ['key' => 'menu_dikecualikan_aktif'],
+                ['value' => $newState, 'type' => 'text', 'aktif' => true]
+            );
+
+            \App\Models\CustomMenu::where('slug', 'informasi-dikecualikan-sub')
+                ->orWhere('url', 'like', '%dikecualikan%')
+                ->update(['aktif' => ($newState === '1')]);
+
+            try {
+                \Illuminate\Support\Facades\Artisan::call('view:clear');
+                \Illuminate\Support\Facades\Artisan::call('cache:clear');
+            } catch (\Throwable $e) {}
+
+            $msg = $newState === '1'
+                ? 'Submenu dan halaman Informasi Dikecualikan sekarang AKTIF dan TAYANG di publik!'
+                : 'Submenu dan halaman Informasi Dikecualikan berhasil DISEMBUNYIKAN dari publik!';
+
+            return back()->with('success', $msg);
+        })->name('dikecualikan.toggle-tayang');
+
         Route::get('/dikecualikan', [InformasiDikecualikanController::class, 'index'])->name('dikecualikan.index');
         Route::get('/dikecualikan/create', [InformasiDikecualikanController::class, 'create'])->name('dikecualikan.create');
         Route::post('/dikecualikan', [InformasiDikecualikanController::class, 'store'])->name('dikecualikan.store');

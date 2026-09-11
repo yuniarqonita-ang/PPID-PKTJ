@@ -423,8 +423,8 @@
                         <div class="submenu {{ request()->is('admin/informasi*') || request()->is('admin/pejabat*') ? 'open' : '' }}">
                             <a href="{{ route('admin.informasi.berkala.index') }}" class="submenu-link {{ request()->is('admin/informasi/berkala*') ? 'active' : '' }}">Informasi Berkala</a>
                             <a href="{{ route('admin.pejabat.index') }}" class="submenu-link {{ request()->is('admin/pejabat*') ? 'active' : '' }}"><i class="fas fa-user-tie mr-1 text-[#004a99]"></i> Profil Pejabat PKTJ</a>
-                            <a href="{{ route('admin.informasi.sertamerta.index') }}" class="submenu-link {{ request()->is('admin/informasi/serta-merta*') ? 'active' : '' }}">Informasi Serta Merta</a>
                             <a href="{{ route('admin.informasi.setiapsaat.index') }}" class="submenu-link {{ request()->is('admin/informasi/setiap-saat*') ? 'active' : '' }}">Informasi Setiap Saat</a>
+                            <a href="{{ route('admin.informasi.sertamerta.index') }}" class="submenu-link {{ request()->is('admin/informasi/serta-merta*') ? 'active' : '' }}">Informasi Serta Merta</a>
                             <a href="{{ route('admin.informasi.dikecualikan.index') }}" class="submenu-link {{ request()->is('admin/informasi/dikecualikan*') ? 'active' : '' }}">Informasi Dikecualikan</a>
                         </div>
 

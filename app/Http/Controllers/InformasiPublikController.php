@@ -327,6 +327,14 @@ class InformasiPublikController extends Controller
     // Informasi Dikecualikan
     public function informasiDikecualikan(\Illuminate\Http\Request $request)
     {
+        $dikecualikanAktif = \App\Models\Dashboard::getValue('menu_dikecualikan_aktif');
+        $isTayang = ($dikecualikanAktif === '1' || $dikecualikanAktif === 1 || $dikecualikanAktif === true);
+
+        // Jika dinonaktifkan / disembunyikan dan pengunjung bukan admin yang sedang login
+        if (!$isTayang && !auth()->check()) {
+            return redirect()->route('informasi.berkala')->with('info', 'Halaman Informasi Dikecualikan saat ini sedang ditutup/tidak ditayangkan untuk publik.');
+        }
+
         try {
             $query = InformasiDikecualikan::where('aktif', true)
                 ->whereNotNull('file_path')
