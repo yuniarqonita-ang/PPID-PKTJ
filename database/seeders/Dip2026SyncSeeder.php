@@ -13,21 +13,19 @@ use App\Models\DaftarInformasi;
 class Dip2026SyncSeeder extends Seeder
 {
     /**
-     * Sinkronisasi Bersih Resmi DIP 2026 dari DAFTAR SIAP TAYANG.xlsx
-     * - Truncate informasi_berkalas, informasi_sertamertas, informasi_setiapsaats, daftar_informasis
-     * - Masukkan seluruh 93 dokumen resmi tanpa duplikasi
-     * - 21 Dokumen Berkala dengan file PDF Tersensor diaktifkan (aktif = 1)
-     * - Dokumen lainnya disimpan di Admin Panel sebagai draft (aktif = 0) siap diedit
+     * Sinkronisasi Bersih Resmi DIP 2026
+     * - Memuat seluruh Kategori Resmi: PROFIL (PKTJ, Struktur, Pejabat, dll.), TATA CARA / PROSEDUR, PENGADAAN, KINERJA & KEUANGAN
+     * - Memuat seluruh 35 dokumen dari DAFTAR SIAP TAYANG.xlsx (21 aktif tersensor)
+     * - Memuat Informasi Serta Merta dan Setiap Saat
      */
     public function run(): void
     {
-        // 1. Bersihkan tabel dokumen berkala, serta merta, setiap saat, dan daftar informasi publik
         InformasiBerkala::truncate();
         InformasiSertaMerta::truncate();
         InformasiSetiapSaat::truncate();
         DaftarInformasi::truncate();
 
-        // 2. Data Laporan Layanan Resmi (TIDAK BOLEH HILANG)
+        // 1. Data Laporan Layanan Resmi (TIDAK BOLEH HILANG)
         if (Schema::hasTable('dokumens')) {
             $laporanSeeds = [
                 [
@@ -128,8 +126,307 @@ class Dip2026SyncSeeder extends Seeder
             }
         }
 
-        // 3. SEED INFORMASI BERKALA
+        // 2. SEED INFORMASI BERKALA (PROFIL, TATA CARA, PENGADAAN, KINERJA, PROGRAM)
         $berkalaItems = [
+            [
+                'judul' => 'Profil Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal',
+                'ringkasan' => 'Informasi komprehensif mengenai kedudukan, alamat domisili kampus, kontak resmi, profil kelembagaan, tugas pokok dan fungsi, serta visi dan misi PKTJ Tegal.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => '/profil/profil-ppid',
+                'file_name' => 'Profil PKTJ Tegal',
+                'tipe_informasi' => 'PROFIL',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Profil PPID Pelaksana UPT PKTJ Tegal',
+                'ringkasan' => 'Profil kelembagaan Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Politeknik Keselamatan Transportasi Jalan Tegal.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Tim PPID dan Humas',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => '/profil/profil-ppid',
+                'file_name' => 'Profil PPID PKTJ',
+                'tipe_informasi' => 'PROFIL',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Struktur Organisasi di lingkungan PKTJ Tegal',
+                'ringkasan' => 'Bagan struktur organisasi tata kelola pimpinan institusi, jurusan, program studi, unit pelaksana teknis, serta struktur tim pengelola PPID Pelaksana PKTJ Tegal.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => '/profil/struktur-organisasi',
+                'file_name' => 'Struktur Organisasi PKTJ',
+                'tipe_informasi' => 'PROFIL',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Profil Singkat Pejabat Publik PKTJ Tegal',
+                'ringkasan' => 'Biografi ringkas, rekam jejak pengabdian, riwayat pendidikan formal, dan jabatan Direktur, para Wakil Direktur, dan Kepala Bagian di lingkungan PKTJ Tegal.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => '/profil/profil-pejabat',
+                'file_name' => 'Profil Singkat Pejabat PKTJ',
+                'tipe_informasi' => 'PROFIL',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Harta Kekayaan Pejabat Negara (LHKPN)',
+                'ringkasan' => 'Rekapitulasi tanda terima dan bukti kepatuhan pelaporan e-LHKPN bagi para pejabat penyelenggara negara di lingkungan PKTJ Tegal.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => '/profil/profil-pejabat',
+                'file_name' => 'LHKPN Pejabat PKTJ',
+                'tipe_informasi' => 'PROFIL',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Visi dan Misi PKTJ Tegal',
+                'ringkasan' => 'Visi dan misi resmi Politeknik Keselamatan Transportasi Jalan dalam mewujudkan pendidikan tinggi vokasi transportasi jalan yang berstandar internasional.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => '/profil/visi-misi',
+                'file_name' => 'Visi dan Misi PKTJ',
+                'tipe_informasi' => 'PROFIL',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Tugas Pokok, Fungsi, dan Tanggung Jawab PPID',
+                'ringkasan' => 'Rincian tugas pokok, wewenang, fungsi, dan tanggung jawab PPID Pelaksana UPT PKTJ Tegal dalam pengelolaan dan pelayanan informasi publik.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Tim PPID dan Humas',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => '/profil/tugas-dan-fungsi-ppid',
+                'file_name' => 'Tupoksi PPID PKTJ',
+                'tipe_informasi' => 'PROFIL',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Agenda Pimpinan PKTJ Tegal',
+                'ringkasan' => 'Jadwal kegiatan kedinasan, kunjungan kerja, dan audiensi resmi Direktur beserta jajaran manajemen pimpinan PKTJ Tegal.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => '/profil/profil-ppid',
+                'file_name' => 'Agenda Pimpinan PKTJ',
+                'tipe_informasi' => 'PROFIL',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Statistik Data Kepegawaian PKTJ Tegal',
+                'ringkasan' => 'Data statistik dan rekapitulasi jumlah dosen tetap, instruktur, pranata laboratorium, dan tenaga kependidikan ASN maupun PPNPN di PKTJ Tegal.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => '/informasi-publik/statistik-pegawai',
+                'file_name' => 'Statistik Kepegawaian',
+                'tipe_informasi' => 'PROFIL',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Standar Pelayanan PPID PKTJ',
+                'ringkasan' => 'Standar operasional pelayanan informasi publik meliputi persyaratan, alur, jangka waktu pemenuhan permohonan informasi, serta hak dan kewajiban pemohon informasi.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => 'Selama Berlaku',
+                'file_path' => '/layanan-informasi/maklumat-dan-standar-biaya-layanan',
+                'file_name' => 'Standar Pelayanan PPID',
+                'tipe_informasi' => 'TATA CARA / PROSEDUR',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Maklumat Pelayanan PPID PKTJ',
+                'ringkasan' => 'Pernyataan kesanggupan dan komitmen segenap jajaran pengelola PPID PKTJ untuk memberikan pelayanan informasi publik secara tepat waktu, transparan, dan akuntabel.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => 'Selama Berlaku',
+                'file_path' => '/layanan-informasi/maklumat-dan-standar-biaya-layanan',
+                'file_name' => 'Maklumat Pelayanan PPID',
+                'tipe_informasi' => 'TATA CARA / PROSEDUR',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Tata cara permohonan informasi publik',
+                'ringkasan' => 'Panduan prosedur dan tata cara permohonan informasi publik ke desk PPID PKTJ secara online melalui formulir daring atau permohonan langsung ke kantor layanan.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => 'Selama Berlaku',
+                'file_path' => '/prosedur/permintaan-informasi',
+                'file_name' => 'Tata Cara Permohonan Informasi',
+                'tipe_informasi' => 'TATA CARA / PROSEDUR',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Tata cara mengajukan keberatan informasi publik',
+                'ringkasan' => 'Prosedur pengajuan keberatan kepada Atasan PPID apabila pemohon informasi publik tidak memperoleh tanggapan atau tanggapan tidak sesuai ketentuan.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => 'Selama Berlaku',
+                'file_path' => '/prosedur/penanganan-keberatan',
+                'file_name' => 'Tata Cara Keberatan Informasi',
+                'tipe_informasi' => 'TATA CARA / PROSEDUR',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Tata cara penyelesaian sengketa informasi publik',
+                'ringkasan' => 'Mekanisme dan tahapan pengajuan sengketa informasi publik ke Komisi Informasi Pusat (KIP) apabila upaya keberatan tidak tercapai kesepakatan.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => 'Selama Berlaku',
+                'file_path' => '/prosedur/sengketa-informasi',
+                'file_name' => 'Tata Cara Sengketa Informasi',
+                'tipe_informasi' => 'TATA CARA / PROSEDUR',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Tata cara pengaduan masyarakat (Whistleblowing System & LAPOR!)',
+                'ringkasan' => 'Saluran resmi pengaduan masyarakat atas dugaan penyalahgunaan wewenang, pelanggaran etika, atau ketidakpuasan layanan melalui portal SP4N-LAPOR! dan WBS Kemenhub.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Satuan Pengawas Internal (SPI)',
+                'bentuk' => 'Softcopy (Online Portal)',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => 'Selama Berlaku',
+                'file_path' => 'https://www.lapor.go.id/',
+                'file_name' => 'Portal SP4N-LAPOR',
+                'tipe_informasi' => 'TATA CARA / PROSEDUR',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2025',
+                'ringkasan' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun 2025.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Tim PPID dan Humas',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => '/layanan-informasi/laporan',
+                'file_name' => 'Laporan Tahunan PPID 2025',
+                'tipe_informasi' => 'KINERJA DAN KEUANGAN',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Akses Layanan Informasi Publik dan Rekapitulasi Medsos TA 2026',
+                'ringkasan' => 'Rekapitulasi log bulanan permohonan informasi dan pertanyaan masuk di kanal media sosial resmi Politeknik Keselamatan Transportasi Jalan Tahun Berjalan 2026.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Tim PPID dan Humas',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2026',
+                'retensi' => '1 Tahun',
+                'file_path' => '/layanan-informasi/laporan-akses',
+                'file_name' => 'Laporan Akses PPID 2026',
+                'tipe_informasi' => 'KINERJA DAN KEUANGAN',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Laporan Survei Kepuasan Masyarakat (IKM) PKTJ',
+                'ringkasan' => 'Laporan berkala hasil survei kepuasan masyarakat (IKM) terhadap pelayanan informasi publik di Politeknik Keselamatan Transportasi Jalan Tegal.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => '/layanan-informasi/laporan-survey',
+                'file_name' => 'Laporan Survei IKM PKTJ',
+                'tipe_informasi' => 'KINERJA DAN KEUANGAN',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Ringkasan Eksekutif Laporan Kinerja Instansi Pemerintah (LKjIP / LAKIP) PKTJ Tahun 2025',
+                'ringkasan' => 'Ringkasan eksekutif akuntabilitas kinerja instansi pemerintah (LKjIP) PKTJ Tahun 2025 yang merangkum pencapaian Indikator Kinerja Utama (IKU).',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => 'https://drive.google.com/file/d/18azvUjvumzPkAN-hTmSWhkWaJrXZFle3/view?usp=drive_link',
+                'file_name' => 'Ringkasan_Eksekutif_LKjIP_PKTJ_2025.pdf',
+                'tipe_informasi' => 'KINERJA DAN KEUANGAN',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'DIPA Petikan PKTJ Tegal Tahun Anggaran 2025',
+                'ringkasan' => 'Alokasi anggaran DIPA Petikan Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2025.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Keuangan dan Umum',
+                'bentuk' => 'Hardcopy & Softcopy',
+                'waktu' => 'Tegal, 2025',
+                'retensi' => '1 Tahun',
+                'file_path' => '/storage/dokumen/DIPA_PKTJ_2025_Revisi_08.pdf',
+                'file_name' => 'DIPA_PKTJ_2025_Revisi_08.pdf',
+                'tipe_informasi' => 'KINERJA DAN KEUANGAN',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Rencana Umum Pengadaan (SiRUP) PKTJ Tegal',
+                'ringkasan' => 'Pengumuman Rencana Umum Pengadaan (RUP) penyedia barang dan jasa pemerintah di lingkungan PKTJ Tegal melalui portal resmi SiRUP Lembaga Kebijakan Pengadaan Barang/Jasa Pemerintah (LKPP).',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'PPK / Bagian Keuangan dan Umum',
+                'bentuk' => 'Softcopy (Online Portal)',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => 'https://sirup.lkpp.go.id/',
+                'file_name' => 'Portal SiRUP LKPP',
+                'tipe_informasi' => 'PENGADAAN BARANG DAN JASA',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Pengumuman Pengadaan Pemilihan Penyedia Barang dan Jasa (LPSE) PKTJ',
+                'ringkasan' => 'Daftar pengumuman tender terbuka, seleksi umum, e-purchasing, dan pengadaan barang/jasa satuan kerja PKTJ Tegal melalui Layanan Pengadaan Secara Elektronik (LPSE) Kementerian Perhubungan.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Pokja Pemilihan / UKPBJ',
+                'bentuk' => 'Softcopy (Online Portal)',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => 'https://lpse.dephub.go.id/',
+                'file_name' => 'Portal LPSE Kemenhub',
+                'tipe_informasi' => 'PENGADAAN BARANG DAN JASA',
+                'aktif' => true,
+            ],
+            [
+                'judul' => 'Informasi Penerimaan Calon Taruna (SIPENCATAR) PKTJ',
+                'ringkasan' => 'Portal dan informasi resmi alur seleksi penerimaan calon taruna/i (SIPENCATAR) Kementerian Perhubungan di lingkungan Politeknik Keselamatan Transportasi Jalan Tegal.',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penanggungjawab' => 'Bagian Administrasi Akademik dan Ketarunaan',
+                'bentuk' => 'Softcopy (Online Portal)',
+                'waktu' => 'Tegal, 2025/2026',
+                'retensi' => '1 Tahun',
+                'file_path' => 'https://pktj.ac.id/pages/informasi-sipencatar',
+                'file_name' => 'Portal SIPENCATAR',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
+                'aktif' => true,
+            ],
             [
                 'judul' => 'Laporan Evaluasi Diri (LED) Akreditasi Program Studi RSTJ',
                 'ringkasan' => 'Dokumen Laporan Evaluasi Diri (LED) Akreditasi Program Studi Rekayasa Sistem Transportasi Jalan (RSTJ) Politeknik Keselamatan Transportasi Jalan Tahun 2025.',
@@ -140,6 +437,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '5 Tahun',
                 'file_path' => '/storage/dokumen/Salinan led_211432025 (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Salinan led_211432025 (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -152,6 +450,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '5 Tahun',
                 'file_path' => '/storage/dokumen/LAPORAN AMI 2025_TERSENSOR.pdf',
                 'file_name' => 'LAPORAN AMI 2025_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -164,6 +463,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '6 Bulan',
                 'file_path' => '/storage/dokumen/Jadwal TO Semester Ganjil TA 2025-2026 (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Jadwal TO Semester Ganjil TA 2025-2026 (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -176,6 +476,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '5 Tahun',
                 'file_path' => '/storage/dokumen/Salinan 11. LAPORAN MSPM NOVEMBER (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Salinan 11. LAPORAN MSPM NOVEMBER (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -188,6 +489,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '5 Tahun',
                 'file_path' => '/storage/dokumen/Salinan 1. Laporan Kegiatan IMT Maret 2025 (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Salinan 1. Laporan Kegiatan IMT Maret 2025 (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -200,6 +502,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '5 Tahun',
                 'file_path' => '/storage/dokumen/JADWAL KEGIATAN SOFTSKILL LITERASI KESEHATAN MENTAL (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'JADWAL KEGIATAN SOFTSKILL LITERASI KESEHATAN MENTAL (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -212,6 +515,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '5 Tahun',
                 'file_path' => '/storage/dokumen/JADWAL KEGIATAN SOFTSKILL LITERASI KESEHATAN MENTAL (Informasi Publik) (2)_TERSENSOR.pdf',
                 'file_name' => 'JADWAL KEGIATAN SOFTSKILL LITERASI KESEHATAN MENTAL (Informasi Publik) (2)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -224,6 +528,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '5 Tahun',
                 'file_path' => '/storage/dokumen/Salinan 1. LAPORAN HASIL TES KESAMAPTAAN TARUNA SEMESTER GANJIL (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Salinan 1. LAPORAN HASIL TES KESAMAPTAAN TARUNA SEMESTER GANJIL (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -236,6 +541,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => 'Selama berlaku',
                 'file_path' => '/storage/dokumen/Laporan Perkuliahan Semester Genap 2024_2025 (Informasi Publik).docx (1)_TERSENSOR.pdf',
                 'file_name' => 'Laporan Perkuliahan Semester Genap 2024_2025 (Informasi Publik).docx (1)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -248,6 +554,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '5 Tahun',
                 'file_path' => '/storage/dokumen/Laporan Tracer Study 2025 (fix) (InformasI Publik)_TERSENSOR.pdf',
                 'file_name' => 'Laporan Tracer Study 2025 (fix) (InformasI Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -260,6 +567,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 Tahun',
                 'file_path' => '/storage/dokumen/laporan ujikom andalalin 2025 (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'laporan ujikom andalalin 2025 (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -272,6 +580,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 Tahun',
                 'file_path' => '/storage/dokumen/Laporan Ujikom Pembantu PKB Tahun 2025 (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Laporan Ujikom Pembantu PKB Tahun 2025 (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -284,6 +593,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 Tahun',
                 'file_path' => '/storage/dokumen/Salinan LaporanPKS_Laporan_uji Kompetensi Peneliharaan Jalan (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Salinan LaporanPKS_Laporan_uji Kompetensi Peneliharaan Jalan (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -296,6 +606,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 Tahun',
                 'file_path' => '/storage/dokumen/Laporan Ujikom SMK PAU 2025_fix (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Laporan Ujikom SMK PAU 2025_fix (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -308,6 +619,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '6 Bulan',
                 'file_path' => '/storage/dokumen/Salinan NOTA DINAS 86 (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Salinan NOTA DINAS 86 (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -320,6 +632,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '6 Bulan',
                 'file_path' => '/storage/dokumen/Nodin Pelaksanaan UAS Ganjil 25-26 (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Nodin Pelaksanaan UAS Ganjil 25-26 (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -332,6 +645,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '6 Bulan',
                 'file_path' => '/storage/dokumen/Pengumuman UTS GANJIL 20252026 (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Pengumuman UTS GANJIL 20252026 (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -344,6 +658,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '5 Tahun',
                 'file_path' => '/storage/dokumen/Laporan Kegiatan Skringing TB (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'Laporan Kegiatan Skringing TB (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -356,6 +671,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '2 Tahun',
                 'file_path' => '/storage/dokumen/FULL LAPORAN HASIL KEGIATAN SURVEILLANCE ISO 21001;2018 C2V3 (Informasi Publik)_TERSENSOR.pdf',
                 'file_name' => 'FULL LAPORAN HASIL KEGIATAN SURVEILLANCE ISO 21001;2018 C2V3 (Informasi Publik)_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -368,6 +684,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 Tahun',
                 'file_path' => '/storage/dokumen/LAPORAN IPK PKTJ SEMESTER 1 2025_TERSENSOR.pdf',
                 'file_name' => 'LAPORAN IPK PKTJ SEMESTER 1 2025_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -380,6 +697,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 Tahun',
                 'file_path' => '/storage/dokumen/LAPORAN IKM PKTJ SEMESTER 1 2025_TERSENSOR.pdf',
                 'file_name' => 'LAPORAN IKM PKTJ SEMESTER 1 2025_TERSENSOR.pdf',
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => true,
             ],
             [
@@ -392,6 +710,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 tahun',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -404,6 +723,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 (satu) tahun',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -416,6 +736,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '6 bulan',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -428,6 +749,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 tahun',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -440,6 +762,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '3 Bulan',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -452,6 +775,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '3 Bulan',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -464,6 +788,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '3 Bulan',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -476,6 +801,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 Tahun',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -488,6 +814,7 @@ class Dip2026SyncSeeder extends Seeder
                 'retensi' => '1 tahun',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -501,6 +828,7 @@ program yang telah ditetapkan dalam RENSTRA dan akan dilaksanakan oleh BPSDMP',
                 'retensi' => '1 (satu) tahun',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -513,6 +841,7 @@ program yang telah ditetapkan dalam RENSTRA dan akan dilaksanakan oleh BPSDMP',
                 'retensi' => '5 (lima) tahun',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -525,6 +854,7 @@ program yang telah ditetapkan dalam RENSTRA dan akan dilaksanakan oleh BPSDMP',
                 'retensi' => '1 Tahun',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -537,6 +867,7 @@ program yang telah ditetapkan dalam RENSTRA dan akan dilaksanakan oleh BPSDMP',
                 'retensi' => '1 (Satu) Tahun',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
             [
@@ -549,11 +880,12 @@ program yang telah ditetapkan dalam RENSTRA dan akan dilaksanakan oleh BPSDMP',
                 'retensi' => '1 (Satu) Tahun',
                 'file_path' => null,
                 'file_name' => null,
+                'tipe_informasi' => 'PROGRAM DAN KEGIATAN',
                 'aktif' => false,
             ],
         ];
 
-        // 4. SEED INFORMASI SERTA MERTA
+        // 3. SEED INFORMASI SERTA MERTA
         $sertamertaItems = [
             [
                 'judul' => 'Daftar MoU / Kerjasama',
@@ -761,7 +1093,7 @@ program yang telah ditetapkan dalam RENSTRA dan akan dilaksanakan oleh BPSDMP',
             ],
         ];
 
-        // 5. SEED INFORMASI SETIAP SAAT
+        // 4. SEED INFORMASI SETIAP SAAT
         $setiapsaatItems = [
             [
                 'judul' => 'Dokumen Kurikulum',
@@ -1277,7 +1609,7 @@ rencana kinerja tahunan yang merupakan penjabaran dari RENSTRA',
             $d = new DaftarInformasi();
             $d->judul_informasi = $it['judul'];
             $d->kategori = 'informasi-berkala';
-            $d->tipe_informasi = 'berkala';
+            $d->tipe_informasi = $it['tipe_informasi'];
             $d->isi_informasi = $it['ringkasan'];
             $d->pejabat_penguasa = $it['pejabat'];
             $d->penerbit_informasi = $it['penanggungjawab'];
@@ -1360,6 +1692,5 @@ rencana kinerja tahunan yang merupakan penjabaran dari RENSTRA',
             $d->bisa_download = true;
             $d->save();
         }
-
     }
 }

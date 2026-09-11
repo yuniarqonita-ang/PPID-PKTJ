@@ -894,10 +894,15 @@
                     loading.style.display = 'none';
                     if (container) {
                         container.innerHTML = `
-                            <div style="text-align:center; padding:50px 20px; color:#334155;">
-                                <i class="fas fa-exclamation-triangle" style="font-size:3rem; color:#dc3545; margin-bottom:20px;"></i>
-                                <p style="font-weight:bold; font-size:16px;">Gagal Memuat Dokumen</p>
-                                <p style="font-size:14px; opacity:0.7; margin-top:10px;">Pastikan file dokumen tersedia dan dapat diakses.</p>
+                            <div style="text-align:center; padding:60px 24px; color:#334155; max-width:560px; margin:40px auto; background:#ffffff; border-radius:16px; border:1px solid #e2e8f0; box-shadow:0 10px 25px rgba(0,0,0,0.05);">
+                                <div style="width:72px; height:72px; background:#eff6ff; color:#004a99; border-radius:50%; display:inline-flex; align-items:center; justify-content:center; font-size:2rem; margin-bottom:18px;">
+                                    <i class="fas fa-file-pdf"></i>
+                                </div>
+                                <h4 style="font-weight:700; font-size:18px; margin-bottom:8px; color:#0f172a;">Pratinjau Dokumen</h4>
+                                <p style="font-size:14px; color:#64748b; line-height:1.6; margin-bottom:24px;">Dokumen ini siap dibuka. Anda dapat langsung membuka pratinjau penuh atau mengunduh file melalui tautan di bawah ini:</p>
+                                <a href="${url}" target="_blank" rel="noopener noreferrer" style="display:inline-flex; align-items:center; gap:10px; padding:12px 28px; background-color:#004a99; color:#ffffff; font-weight:700; font-size:14px; border-radius:8px; text-decoration:none; box-shadow:0 4px 14px rgba(0,74,153,0.3); transition:all 0.2s;">
+                                    <i class="fas fa-external-link-alt"></i> Buka / Unduh Dokumen Langsung
+                                </a>
                             </div>`;
                     }
                 }, 200);

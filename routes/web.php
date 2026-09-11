@@ -227,24 +227,44 @@ Route::get('/api/global-search', [\App\Http\Controllers\GlobalSearchController::
 
 // Dokumentasi (Public)
 Route::get('/storage/dokumen/{filename}', function($filename) {
-    $paths = [
-        public_path('dokumen/' . $filename),
-        public_path('storage/dokumen/' . $filename),
-        storage_path('app/public/dokumen/' . $filename),
-        base_path('public/dokumen/' . $filename),
-        '/home/ppid2026/public_html/dokumen/' . $filename,
-        '/home/ppid2026/public_html/storage/dokumen/' . $filename,
+    $decoded = urldecode($filename);
+    $candidates = array_unique(array_filter([
+        $decoded,
+        $filename,
+        basename($decoded),
+        basename($filename),
+        rawurldecode($filename),
+    ]));
+
+    $baseDirs = [
+        public_path('storage/dokumen'),
+        public_path('dokumen'),
+        storage_path('app/public/dokumen'),
+        base_path('public/dokumen'),
+        base_path('public/storage/dokumen'),
+        '/home/ppid2026/public_html/storage/dokumen',
+        '/home/ppid2026/public_html/dokumen',
     ];
-    foreach ($paths as $p) {
-        if (file_exists($p)) {
-            return response()->file($p);
+
+    foreach ($baseDirs as $dir) {
+        foreach ($candidates as $cand) {
+            $full = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR . $cand;
+            if (file_exists($full) && !is_dir($full)) {
+                return response()->file($full, [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="' . basename($full) . '"',
+                    'Access-Control-Allow-Origin' => '*',
+                    'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+                ]);
+            }
         }
     }
-    abort(404);
-});
+    abort(404, 'Dokumen tidak ditemukan.');
+})->where('filename', '.*');
+
 Route::get('/dokumen/pdf/{filename}', function($filename) {
     return redirect('/storage/dokumen/' . $filename);
-});
+})->where('filename', '.*');
 
 Route::get('/dokumen', [DokumenController::class, 'publicList'])->name('dokumen.public');
 Route::get('/dokumen/{id}/view', [DokumenController::class, 'view'])->name('dokumen.view');
