@@ -134,6 +134,29 @@
             display: block;
             margin-bottom: 14px;
         }
+
+        .pktj-tautan-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #004a99;
+            background: #f0f7ff;
+            border: 1px solid #bae0fd;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            line-height: 1.35;
+        }
+        .pktj-tautan-pill:hover {
+            background: #004a99;
+            color: #ffffff !important;
+            border-color: #004a99;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 74, 153, 0.25);
+        }
     </style>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <style>
@@ -221,11 +244,20 @@
                 </form>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center mb-3">
-                <h2 class="section-title mb-0" style="font-size: 1.5rem;">Daftar Informasi Yang Dikecualikan</h2>
-                <span class="badge bg-light text-muted border px-3 py-2 rounded-pill font-mono small">
-                    Total: {{ $items->total() }} Dokumen Uji Konsekuensi
-                </span>
+            <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                <div>
+                    <h2 class="section-title mb-1" style="font-size: 1.5rem;">Daftar Informasi Yang Dikecualikan</h2>
+                    <p class="text-muted small mb-0">Berdasarkan Keputusan Direktur Politeknik Keselamatan Transportasi Jalan Nomor KP-SKJ 8 Tahun 2026 tentang Penetapan Informasi Publik yang Dikecualikan</p>
+                </div>
+                <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <a href="{{ route('preview.dokumen', ['file' => 'https://drive.google.com/file/d/1d-80lK55eSXGG0ZogSoUUPv7cJKZvie0/view?usp=drive_link', 'title' => 'SK Penetapan DIK 2026 (KP-SKJ 8 Tahun 2026)']) }}" class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1.5 fw-bold d-inline-flex align-items-center gap-1.5" style="border-color: #004a99; color: #004a99;">
+                        <i class="fas fa-file-pdf text-danger"></i>
+                        <span>Unduh SK KP-SKJ 8 / 2026</span>
+                    </a>
+                    <span class="badge bg-light text-muted border px-3 py-2 rounded-pill font-mono small">
+                        Total: {{ $items->total() }} Dokumen Uji Konsekuensi
+                    </span>
+                </div>
             </div>
 
             <div class="table-responsive rounded-4 shadow-sm border overflow-hidden">
@@ -248,6 +280,14 @@
                             <td class="py-4 px-4 border-end">
                                 <div class="fw-bold text-dark mb-2">{{ $item->judul }}</div>
                                 <div class="text-muted opacity-75">{!! $item->deskripsi !!}</div>
+                                @if(!empty($item->file_path))
+                                    <div class="mt-2.5 pt-1">
+                                        <a href="{{ str_contains($item->file_path, 'drive.google.com') ? route('preview.dokumen', ['file' => $item->file_path, 'title' => 'SK Penetapan DIK 2026 (KP-SKJ 8 Tahun 2026) - ' . $item->judul]) : $item->file_path }}" class="pktj-tautan-pill" target="_self">
+                                            <i class="fas fa-file-pdf text-danger" style="font-size: 11px;"></i>
+                                            <span>SK Penetapan DIK (KP-SKJ 8 / 2026)</span>
+                                        </a>
+                                    </div>
+                                @endif
                             </td>
                             <td class="py-4 px-4 border-end text-center"><div class="rich-content">{!! $item->dasar_hukum ?: '-' !!}</div></td>
                             <td class="py-4 px-4 border-end text-center"><div class="rich-content">{!! $item->konsekuensi_dibuka ?: '-' !!}</div></td>

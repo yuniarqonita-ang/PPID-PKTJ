@@ -60,17 +60,48 @@ class InformasiSetiapSaatController extends Controller
     }
 
     /**
+     * Helper to extract repeatable dynamic tautan links from request
+     */
+    private function extractTautanLinks(Request $request): ?array
+    {
+        $links = [];
+        if ($request->has('tautan_nama') && is_array($request->tautan_nama)) {
+            foreach ($request->tautan_nama as $i => $nama) {
+                $nama = trim($nama ?? '');
+                $url = trim($request->tautan_url[$i] ?? '');
+                if ($nama !== '' || $url !== '') {
+                    $links[] = [
+                        'nama' => $nama !== '' ? $nama : 'Lihat Dokumen',
+                        'url'  => $url
+                    ];
+                }
+            }
+        }
+        return !empty($links) ? $links : null;
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'judul'       => 'required|string|max:255',
-            'deskripsi'   => 'nullable|string',
-            'tanggal'     => 'required|date',
-            'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:20480',
-            'gdrive_link' => 'nullable|url',
+            'judul'              => 'required|string|max:255',
+            'deskripsi'          => 'nullable|string',
+            'tanggal'            => 'required|date',
+            'file'               => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:20480',
+            'gdrive_link'        => 'nullable|url',
+            'pejabat_penguasa'   => 'nullable|string|max:255',
+            'penanggung_jawab'   => 'nullable|string|max:255',
+            'penerbit_informasi' => 'nullable|string|max:255',
+            'bentuk_informasi'   => 'nullable|string|max:100',
+            'tempat_pembuatan'   => 'nullable|string|max:255',
+            'waktu_pembuatan'    => 'nullable|string|max:100',
+            'jangka_waktu'       => 'nullable|string|max:100',
+            'aktif'              => 'boolean',
         ]);
+
+        $tautanLinks = $this->extractTautanLinks($request);
 
         $filePath = null;
         if ($request->hasFile('file')) {
@@ -80,28 +111,53 @@ class InformasiSetiapSaatController extends Controller
             $filePath = 'storage/daftar-informasi/' . $filename;
         } elseif ($request->filled('gdrive_link')) {
             $filePath = $request->gdrive_link;
+        } elseif (!empty($tautanLinks)) {
+            $filePath = $tautanLinks[0]['url'] ?? null;
         }
 
+        $pejabatPenguasa = $request->input('pejabat_penguasa') ?: 'PPID Pelaksana UPT PKTJ Tegal';
+        $penanggungJawab = $request->input('penanggung_jawab') ?: 'Bagian Keuangan dan Umum';
+        $penerbitInformasi = $request->input('penerbit_informasi') ?: $penanggungJawab;
+        $bentukInformasi = $request->input('bentuk_informasi') ?: 'Hardcopy & Softcopy';
+        $tempatPembuatan = $request->input('tempat_pembuatan') ?: 'Tegal';
+        $waktuPembuatan = $request->input('waktu_pembuatan') ?: date('Y', strtotime($request->tanggal));
+        $jangkaWaktu = $request->input('jangka_waktu') ?: '1 Tahun';
+
         InformasiSetiapsaat::create([
-            'judul' => $request->judul,
-            'deskripsi' => $request->deskripsi ?? '',
-            'file_path' => $filePath,
-            'aktif' => $request->has('aktif'),
-            'is_blurred' => $request->has('is_blurred'),
-            'bisa_download' => $request->has('bisa_download'),
-            'tanggal' => $request->tanggal,
+            'judul'              => $request->judul,
+            'deskripsi'          => $request->deskripsi ?? '',
+            'file_path'          => $filePath,
+            'tautan_links'       => $tautanLinks,
+            'pejabat_penguasa'   => $pejabatPenguasa,
+            'penanggung_jawab'   => $penanggungJawab,
+            'penerbit_informasi' => $penerbitInformasi,
+            'bentuk_informasi'   => $bentukInformasi,
+            'tempat_pembuatan'   => $tempatPembuatan,
+            'waktu_pembuatan'    => $waktuPembuatan,
+            'jangka_waktu'       => $jangkaWaktu,
+            'aktif'              => $request->has('aktif'),
+            'is_blurred'         => $request->has('is_blurred'),
+            'bisa_download'      => $request->has('bisa_download'),
+            'tanggal'            => $request->tanggal,
         ]);
 
         DaftarInformasi::create([
-            'judul_informasi' => $request->judul,
-            'isi_informasi'   => $request->deskripsi ?? '',
-            'kategori'        => 'informasi-setiap-saat',
-            'tipe_informasi'  => 'setiapsaat',
-            'file_informasi'  => $filePath,
-            'aktif'           => $request->has('aktif'),
-            'is_blurred'      => $request->has('is_blurred'),
-            'bisa_download'   => $request->has('bisa_download'),
-            'waktu_pembuatan' => date('Y', strtotime($request->tanggal)),
+            'judul_informasi'    => $request->judul,
+            'isi_informasi'      => $request->deskripsi ?? '',
+            'kategori'           => 'informasi-setiap-saat',
+            'tipe_informasi'     => 'setiapsaat',
+            'file_informasi'     => $filePath,
+            'tautan_links'       => $tautanLinks,
+            'pejabat_penguasa'   => $pejabatPenguasa,
+            'penanggung_jawab'   => $penanggungJawab,
+            'penerbit_informasi' => $penerbitInformasi,
+            'bentuk_informasi'   => $bentukInformasi,
+            'tempat_pembuatan'   => $tempatPembuatan,
+            'waktu_pembuatan'    => $waktuPembuatan,
+            'jangka_waktu'       => $jangkaWaktu,
+            'aktif'              => $request->has('aktif'),
+            'is_blurred'         => $request->has('is_blurred'),
+            'bisa_download'      => $request->has('bisa_download'),
         ]);
 
         return redirect()->route('admin.informasi.setiapsaat.index')
@@ -115,23 +171,50 @@ class InformasiSetiapSaatController extends Controller
     {
         // 1. Cek di model InformasiSetiapsaat
         $setiapsaat = InformasiSetiapsaat::find($id);
+        $daftar = DaftarInformasi::where('kategori', 'informasi-setiap-saat')->find($id) 
+            ?? DaftarInformasi::find($id)
+            ?? ($setiapsaat ? DaftarInformasi::where('judul_informasi', $setiapsaat->judul)->first() : null);
+
         if ($setiapsaat) {
             $item = $setiapsaat;
             $item->judul = $setiapsaat->judul;
             $item->deskripsi = $setiapsaat->deskripsi;
-            $item->file_path = $setiapsaat->file_path;
+            $item->file_path = $setiapsaat->file_path ?: ($daftar ? $daftar->file_informasi : null);
             $item->tanggal = $setiapsaat->created_at ?? $setiapsaat->tanggal;
+            $item->pejabat_penguasa = $setiapsaat->pejabat_penguasa ?: ($daftar->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal');
+            $item->penanggung_jawab = $setiapsaat->penanggung_jawab ?: ($daftar->penanggung_jawab ?? 'Bagian Keuangan dan Umum');
+            $item->penerbit_informasi = $setiapsaat->penerbit_informasi ?: ($daftar->penerbit_informasi ?? 'Bagian Keuangan dan Umum');
+            $item->bentuk_informasi = $setiapsaat->bentuk_informasi ?: ($daftar->bentuk_informasi ?? 'Hardcopy & Softcopy');
+            $item->tempat_pembuatan = $setiapsaat->tempat_pembuatan ?: ($daftar->tempat_pembuatan ?? 'Tegal');
+            $item->waktu_pembuatan = $setiapsaat->waktu_pembuatan ?: ($daftar->waktu_pembuatan ?? '2025');
+            $item->jangka_waktu = $setiapsaat->jangka_waktu ?: ($daftar->jangka_waktu ?? '1 Tahun');
+
+            $links = $setiapsaat->tautan_links ?: ($daftar ? $daftar->tautan_links : []);
+            if (is_string($links)) $links = json_decode($links, true);
+            $item->tautan_links = is_array($links) ? $links : [];
+
             return view('admin.informasi.setiapsaat.edit', compact('item'));
         }
 
         // 2. Cek di model DaftarInformasi
-        $daftar = DaftarInformasi::where('kategori', 'informasi-setiap-saat')->find($id) ?? DaftarInformasi::find($id);
         if ($daftar) {
             $item = $daftar;
             $item->judul = $daftar->judul_informasi;
             $item->deskripsi = $daftar->isi_informasi;
             $item->file_path = $daftar->file_informasi;
             $item->tanggal = $daftar->created_at;
+            $item->pejabat_penguasa = $daftar->pejabat_penguasa ?: 'PPID Pelaksana UPT PKTJ Tegal';
+            $item->penanggung_jawab = $daftar->penanggung_jawab ?: 'Bagian Keuangan dan Umum';
+            $item->penerbit_informasi = $daftar->penerbit_informasi ?: 'Bagian Keuangan dan Umum';
+            $item->bentuk_informasi = $daftar->bentuk_informasi ?: 'Hardcopy & Softcopy';
+            $item->tempat_pembuatan = $daftar->tempat_pembuatan ?: 'Tegal';
+            $item->waktu_pembuatan = $daftar->waktu_pembuatan ?: '2025';
+            $item->jangka_waktu = $daftar->jangka_waktu ?: '1 Tahun';
+
+            $links = $daftar->tautan_links;
+            if (is_string($links)) $links = json_decode($links, true);
+            $item->tautan_links = is_array($links) ? $links : [];
+
             return view('admin.informasi.setiapsaat.edit', compact('item'));
         }
 
@@ -148,6 +231,16 @@ class InformasiSetiapSaatController extends Controller
             $item->deskripsi = $fallback->isi_informasi ?? $fallback->deskripsi;
             $item->file_path = $fallback->file_informasi ?? $fallback->file_path;
             $item->tanggal = $fallback->created_at ?? $fallback->tanggal ?? now();
+            $item->pejabat_penguasa = $fallback->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal';
+            $item->penanggung_jawab = $fallback->penanggung_jawab ?? 'Bagian Keuangan dan Umum';
+            $item->penerbit_informasi = $fallback->penerbit_informasi ?? 'Bagian Keuangan dan Umum';
+            $item->bentuk_informasi = $fallback->bentuk_informasi ?? 'Hardcopy & Softcopy';
+            $item->tempat_pembuatan = $fallback->tempat_pembuatan ?? 'Tegal';
+            $item->waktu_pembuatan = $fallback->waktu_pembuatan ?? '2025';
+            $item->jangka_waktu = $fallback->jangka_waktu ?? '1 Tahun';
+            $links = $fallback->tautan_links ?? [];
+            if (is_string($links)) $links = json_decode($links, true);
+            $item->tautan_links = is_array($links) ? $links : [];
             return view('admin.informasi.setiapsaat.edit', compact('item'));
         }
 
@@ -163,6 +256,14 @@ class InformasiSetiapSaatController extends Controller
         $item->judul = $item->judul_informasi;
         $item->deskripsi = $item->isi_informasi;
         $item->file_path = null;
+        $item->tautan_links = [];
+        $item->pejabat_penguasa = 'PPID Pelaksana UPT PKTJ Tegal';
+        $item->penanggung_jawab = 'Bagian Keuangan dan Umum';
+        $item->penerbit_informasi = 'Bagian Keuangan dan Umum';
+        $item->bentuk_informasi = 'Hardcopy & Softcopy';
+        $item->tempat_pembuatan = 'Tegal';
+        $item->waktu_pembuatan = date('Y');
+        $item->jangka_waktu = '1 Tahun';
         $item->tanggal = now();
         return view('admin.informasi.setiapsaat.edit', compact('item'));
     }
@@ -173,15 +274,25 @@ class InformasiSetiapSaatController extends Controller
     public function update(Request $request, string $id): RedirectResponse
     {
         $request->validate([
-            'judul'       => 'required|string|max:255',
-            'deskripsi'   => 'nullable|string',
-            'tanggal'     => 'required|date',
-            'file'        => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:20480',
-            'gdrive_link' => 'nullable|url',
+            'judul'              => 'required|string|max:255',
+            'deskripsi'          => 'nullable|string',
+            'tanggal'            => 'required|date',
+            'file'               => 'nullable|file|mimes:pdf,doc,docx,xls,xlsx,jpg,jpeg,png|max:20480',
+            'gdrive_link'        => 'nullable|url',
+            'pejabat_penguasa'   => 'nullable|string|max:255',
+            'penanggung_jawab'   => 'nullable|string|max:255',
+            'penerbit_informasi' => 'nullable|string|max:255',
+            'bentuk_informasi'   => 'nullable|string|max:100',
+            'tempat_pembuatan'   => 'nullable|string|max:255',
+            'waktu_pembuatan'    => 'nullable|string|max:100',
+            'jangka_waktu'       => 'nullable|string|max:100',
+            'aktif'              => 'boolean',
         ]);
 
         $setiapsaat = InformasiSetiapsaat::find($id);
-        $daftar     = DaftarInformasi::find($id);
+        $daftar     = DaftarInformasi::find($id) ?? ($setiapsaat ? DaftarInformasi::where('judul_informasi', $setiapsaat->judul)->first() : null);
+
+        $tautanLinks = $this->extractTautanLinks($request);
 
         $filePath = $setiapsaat ? $setiapsaat->file_path : ($daftar ? $daftar->file_informasi : null);
 
@@ -200,52 +311,74 @@ class InformasiSetiapSaatController extends Controller
             $filePath = 'storage/daftar-informasi/' . $filename;
         } elseif ($request->filled('gdrive_link')) {
             $filePath = $request->gdrive_link;
+        } elseif (!empty($tautanLinks) && empty($filePath)) {
+            $filePath = $tautanLinks[0]['url'] ?? null;
         }
 
         $isAktif = $request->has('aktif');
         $isBlurred = $request->has('is_blurred');
         $bisaDownload = $request->has('bisa_download');
 
+        $pejabatPenguasa = $request->input('pejabat_penguasa') ?: 'PPID Pelaksana UPT PKTJ Tegal';
+        $penanggungJawab = $request->input('penanggung_jawab') ?: 'Bagian Keuangan dan Umum';
+        $penerbitInformasi = $request->input('penerbit_informasi') ?: $penanggungJawab;
+        $bentukInformasi = $request->input('bentuk_informasi') ?: 'Hardcopy & Softcopy';
+        $tempatPembuatan = $request->input('tempat_pembuatan') ?: 'Tegal';
+        $waktuPembuatan = $request->input('waktu_pembuatan') ?: date('Y', strtotime($request->tanggal));
+        $jangkaWaktu = $request->input('jangka_waktu') ?: '1 Tahun';
+
         $oldTitle = ($setiapsaat ? $setiapsaat->judul : ($daftar ? $daftar->judul_informasi : null)) ?? $request->judul;
+
+        $updateData = [
+            'judul'              => $request->judul,
+            'deskripsi'          => $request->deskripsi ?? '',
+            'file_path'          => $filePath,
+            'tautan_links'       => $tautanLinks,
+            'pejabat_penguasa'   => $pejabatPenguasa,
+            'penanggung_jawab'   => $penanggungJawab,
+            'penerbit_informasi' => $penerbitInformasi,
+            'bentuk_informasi'   => $bentukInformasi,
+            'tempat_pembuatan'   => $tempatPembuatan,
+            'waktu_pembuatan'    => $waktuPembuatan,
+            'jangka_waktu'       => $jangkaWaktu,
+            'aktif'              => $isAktif,
+            'is_blurred'         => $isBlurred,
+            'bisa_download'      => $bisaDownload,
+            'tanggal'            => $request->tanggal,
+        ];
 
         InformasiSetiapsaat::where('id', $id)
             ->orWhere('judul', $oldTitle)
             ->orWhere('judul', $request->judul)
-            ->update([
-                'judul' => $request->judul,
-                'deskripsi' => $request->deskripsi ?? '',
-                'file_path' => $filePath,
-                'aktif' => $isAktif,
-                'is_blurred' => $isBlurred,
-                'bisa_download' => $bisaDownload,
-                'tanggal' => $request->tanggal,
-            ]);
+            ->update($updateData);
+
+        $updateDataDaftar = [
+            'judul_informasi'    => $request->judul,
+            'isi_informasi'      => $request->deskripsi ?? '',
+            'file_informasi'     => $filePath,
+            'tautan_links'       => $tautanLinks,
+            'pejabat_penguasa'   => $pejabatPenguasa,
+            'penanggung_jawab'   => $penanggungJawab,
+            'penerbit_informasi' => $penerbitInformasi,
+            'bentuk_informasi'   => $bentukInformasi,
+            'tempat_pembuatan'   => $tempatPembuatan,
+            'waktu_pembuatan'    => $waktuPembuatan,
+            'jangka_waktu'       => $jangkaWaktu,
+            'aktif'              => $isAktif,
+            'is_blurred'         => $isBlurred,
+            'bisa_download'      => $bisaDownload,
+        ];
 
         DaftarInformasi::where('id', $id)
             ->orWhere('judul_informasi', $oldTitle)
             ->orWhere('judul_informasi', $request->judul)
-            ->update([
-                'judul_informasi' => $request->judul,
-                'isi_informasi'   => $request->deskripsi ?? '',
-                'file_informasi'  => $filePath,
-                'aktif'           => $isAktif,
-                'is_blurred'      => $isBlurred,
-                'bisa_download'   => $bisaDownload,
-                'waktu_pembuatan' => date('Y', strtotime($request->tanggal)),
-            ]);
+            ->update($updateDataDaftar);
 
         if (!$setiapsaat && !$daftar) {
-            DaftarInformasi::create([
-                'judul_informasi' => $request->judul,
-                'isi_informasi'   => $request->deskripsi ?? '',
+            DaftarInformasi::create(array_merge($updateDataDaftar, [
                 'kategori'        => 'informasi-setiap-saat',
                 'tipe_informasi'  => 'setiapsaat',
-                'file_informasi'  => $filePath,
-                'aktif'           => $isAktif,
-                'is_blurred'      => $isBlurred,
-                'bisa_download'   => $bisaDownload,
-                'waktu_pembuatan' => date('Y', strtotime($request->tanggal)),
-            ]);
+            ]));
         }
 
         return redirect()->route('admin.informasi.setiapsaat.index')

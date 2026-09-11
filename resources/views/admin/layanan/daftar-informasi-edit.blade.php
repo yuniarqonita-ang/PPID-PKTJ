@@ -175,6 +175,76 @@
             </div>
         </div>
 
+        <!-- CARD: KELOLA TAUTAN & DOKUMEN (MULTI-LINK ALA BPSDM) -->
+        <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 overflow-hidden">
+            <div class="p-10 space-y-6">
+                <div class="flex items-center justify-between border-b-2 border-slate-50 pb-6 flex-wrap gap-4">
+                    <h3 class="text-lg font-black text-[#002b5c] uppercase tracking-widest flex items-center">
+                        <span class="w-10 h-10 bg-[#ffc107] text-[#002b5c] rounded-xl flex items-center justify-center mr-4 text-sm">
+                            <i class="fas fa-link"></i>
+                        </span>
+                        Pengisian Tautan / Link Dokumen (Multi-Link ala BPSDM)
+                    </h3>
+                    <button type="button" onclick="addTautanRow()" class="px-5 py-3 bg-[#004a99] hover:bg-[#003875] text-white font-bold text-xs rounded-xl shadow-sm transition-all inline-flex items-center">
+                        <i class="fas fa-plus mr-2"></i> Tambah Baris Link
+                    </button>
+                </div>
+                <p class="text-xs text-slate-500 font-medium">
+                    Tambahkan tautan dokumen (Google Drive atau URL Halaman) dengan keterangan halaman/dokumen yang jelas (ala BPSDM).
+                </p>
+
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left" id="tautanRepeaterTable">
+                        <thead>
+                            <tr class="text-[10px] font-black uppercase text-slate-400 tracking-wider">
+                                <th class="py-3 px-4 w-12 text-center">No</th>
+                                <th class="py-3 px-4 w-5/12">Nama / Keterangan Dokumen / Halaman <span class="text-red-500">*</span></th>
+                                <th class="py-3 px-4 w-6/12">URL Link Google Drive / Halaman Web <span class="text-red-500">*</span></th>
+                                <th class="py-3 px-4 w-16 text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tautanRepeaterBody">
+                            @php
+                                $tautanList = old('tautan_nama') ? array_map(function($n, $u) { return ['nama' => $n, 'url' => $u]; }, old('tautan_nama'), old('tautan_url', [])) : ($item->tautan_links ?? []);
+                                if (is_string($tautanList)) $tautanList = json_decode($tautanList, true);
+                                if (empty($tautanList) && !empty($item->file_informasi) && (str_starts_with($item->file_informasi, 'http') || strpos($item->file_informasi, 'drive.google.com') !== false)) {
+                                    $tautanList = [['nama' => 'Lihat Dokumen', 'url' => $item->file_informasi]];
+                                }
+                                if (empty($tautanList)) {
+                                    $tautanList = [['nama' => '', 'url' => '']];
+                                }
+                            @endphp
+
+                            @foreach($tautanList as $idx => $tItem)
+                                <tr class="tautan-row border-b border-slate-100 last:border-0">
+                                    <td class="py-3 px-4 text-center font-bold text-slate-400 row-number text-xs">{{ $idx + 1 }}</td>
+                                    <td class="py-3 px-4">
+                                        <input type="text" name="tautan_nama[]" value="{{ $tItem['nama'] ?? '' }}" placeholder="Contoh: Profil Lengkap / Dokumen Standar" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#004a99] outline-none">
+                                    </td>
+                                    <td class="py-3 px-4">
+                                        <input type="url" name="tautan_url[]" value="{{ $tItem['url'] ?? '' }}" placeholder="https://drive.google.com/file/d/... atau /halaman" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:bg-white focus:border-[#004a99] outline-none">
+                                    </td>
+                                    <td class="py-3 px-4 text-center">
+                                        <button type="button" onclick="removeTautanRow(this)" class="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all" title="Hapus Link">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pt-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-2">
+                    <p class="text-[11px] text-slate-500 font-medium">
+                        <i class="fas fa-info-circle text-[#004a99] mr-1"></i> Setiap link yang diisi di atas akan muncul sebagai tombol pill tersendiri dengan label yang jelas di tabel publik.
+                    </p>
+                    <button type="button" onclick="addTautanRow()" class="text-xs text-[#004a99] hover:underline font-bold inline-flex items-center">
+                        <i class="fas fa-plus-circle mr-1"></i> + Tambah Baris Link Lagi
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
             <!-- ATRIBUT TEKNIS -->
             <div class="bg-white rounded-[2.5rem] shadow-xl border-2 border-slate-100 p-10 space-y-8">
@@ -332,6 +402,40 @@
                 document.getElementById('image_placeholder').classList.add('hidden');
             }
             reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    function addTautanRow(nama = '', url = '') {
+        const tbody = document.getElementById('tautanRepeaterBody');
+        if (!tbody) return;
+        const rowCount = tbody.querySelectorAll('.tautan-row').length + 1;
+        const tr = document.createElement('tr');
+        tr.className = 'tautan-row border-b border-slate-100 last:border-0';
+        tr.innerHTML = `
+            <td class="py-3 px-4 text-center font-bold text-slate-400 row-number text-xs">${rowCount}</td>
+            <td class="py-3 px-4">
+                <input type="text" name="tautan_nama[]" value="${nama.replace(/"/g, '&quot;')}" placeholder="Contoh: Profil Lengkap / Dokumen Standar" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:bg-white focus:border-[#004a99] outline-none">
+            </td>
+            <td class="py-3 px-4">
+                <input type="url" name="tautan_url[]" value="${url.replace(/"/g, '&quot;')}" placeholder="https://drive.google.com/file/d/... atau /halaman" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:bg-white focus:border-[#004a99] outline-none">
+            </td>
+            <td class="py-3 px-4 text-center">
+                <button type="button" onclick="removeTautanRow(this)" class="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all" title="Hapus Link">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    }
+
+    function removeTautanRow(btn) {
+        const row = btn.closest('.tautan-row');
+        if (row) {
+            row.remove();
+            document.querySelectorAll('#tautanRepeaterBody .tautan-row').forEach((r, idx) => {
+                const numEl = r.querySelector('.row-number');
+                if (numEl) numEl.textContent = idx + 1;
+            });
         }
     }
 </script>

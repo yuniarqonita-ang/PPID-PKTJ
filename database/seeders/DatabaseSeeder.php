@@ -15,9 +15,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             FaqSeeder::class,
             PeraturanSeeder::class,
+            RegulasiBpsdmPktjSeeder::class,
             ScrapeContentSeeder::class,
-            PoltradaBaliDipSeeder::class,
-            PejabatSeeder::class,
+            DaftarInformasiPdf2026Seeder::class,
             DefaultMenuSeeder::class,
         ]);
     }

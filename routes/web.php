@@ -319,6 +319,9 @@ Route::get('/informasi-setiap-saat', [InformasiPublikController::class, 'informa
 Route::get('/informasi-setiap-saat.html', [InformasiPublikController::class, 'informasiSetiapsaat']);
 Route::get('/informasi-serta-merta', [InformasiPublikController::class, 'informasiSertamerta']);
 Route::get('/informasi-serta-merta.html', [InformasiPublikController::class, 'informasiSertamerta']);
+Route::get('/informasi-dikecualikan', [InformasiPublikController::class, 'informasiDikecualikan']);
+Route::get('/informasi-dikecualikan.html', [InformasiPublikController::class, 'informasiDikecualikan']);
+Route::get('/dikecualikan', [InformasiPublikController::class, 'informasiDikecualikan']);
 Route::get('/profil-ppid', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil']);
 Route::get('/profil-pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat']);
 Route::get('/layanan-informasi/daftar', function() {

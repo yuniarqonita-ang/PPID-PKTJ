@@ -11,6 +11,14 @@ class InformasiBerkala extends Model
         'deskripsi',
         'tanggal',
         'file_path',
+        'tautan_links',
+        'pejabat_penguasa',
+        'penanggung_jawab',
+        'penerbit_informasi',
+        'bentuk_informasi',
+        'tempat_pembuatan',
+        'waktu_pembuatan',
+        'jangka_waktu',
         'file_name',
         'file_size',
         'file_type',
@@ -24,5 +32,6 @@ class InformasiBerkala extends Model
         'is_blurred' => 'boolean',
         'bisa_download' => 'boolean',
         'tanggal' => 'date',
+        'tautan_links' => 'array',
     ];
 }

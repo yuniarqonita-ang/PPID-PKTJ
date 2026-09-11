@@ -242,8 +242,22 @@
                     @if(!empty($profil->konten_pembuka))
                         {!! $profil->konten_pembuka !!}
                     @else
-                        <p>Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Politeknik Keselamatan Transportasi Jalan (PKTJ) dibentuk sebagai wujud komitmen nyata institusi dalam mengimplementasikan keterbukaan informasi publik sesuai amanat Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik, Peraturan Komisi Informasi (PerKI) Nomor 1 Tahun 2021 tentang Standar Layanan Informasi Publik, serta Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan.</p>
-                        <p>Sebagai Unit Pelaksana Teknis (UPT) Pendidikan Tinggi Vokasi di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan, PKTJ menetapkan struktur PPID Pelaksana UPT melalui Surat Keputusan Direktur PKTJ. Pembentukan ini bertujuan memberikan kepastian hak bagi masyarakat, pemohon informasi, dan seluruh pemangku kepentingan untuk memperoleh informasi publik yang cepat, akurat, transparan, dan bebas biaya (Rp 0).</p>
+                        <p class="lead fw-semibold text-dark" style="font-size: 1.15rem; line-height: 1.8;">
+                            Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Unit Pelaksana Teknis (UPT) Politeknik Keselamatan Transportasi Jalan (PKTJ) dibentuk sebagai garda terdepan keterbukaan informasi publik di lingkungan pendidikan tinggi vokasi Kementerian Perhubungan.
+                        </p>
+                        <p>
+                            Keberadaan PPID Pelaksana PKTJ berakar kuat dari sejarah panjang pengabdian institusi yang didirikan pada tanggal <strong>14 Mei 1971</strong> dengan nama awal <em>Balai Pendidikan dan Latihan Transportasi Jalan Raya (Balai Diklat Trans Jaya) Tegal</em>. Melalui perjalanan transformasi berkelanjutan, institusi ini berkembang menjadi Pusat Pendidikan dan Latihan Perhubungan Darat (Pusdiklat Perhubdat), kemudian bertransformasi menjadi Balai Pendidikan dan Pelatihan Transportasi Darat (BPPTD) Tegal berdasarkan Keputusan Menteri Perhubungan Nomor KM 73 Tahun 2002.
+                        </p>
+                        <p>
+                            Puncaknya, pada tahun 2012 melalui Peraturan Menteri Perhubungan Republik Indonesia Nomor <strong>PM 15 Tahun 2012</strong>, institusi ini resmi ditingkatkan status kelembagaannya menjadi <strong>Politeknik Keselamatan Transportasi Jalan (PKTJ)</strong>, sebuah perguruan tinggi kedinasan vokasi pertama dan terdepan di Indonesia yang berfokus penuh pada keselamatan transportasi jalan.
+                        </p>
+                        <p>
+                            Saat ini, PKTJ beroperasi dengan 2 (dua) kampus utama di Kota Tegal, yaitu:
+                        </p>
+                        <ul>
+                            <li><strong>Kampus 1 (Kampus Perintis)</strong>: Berlokasi di Jl. Perintis Kemerdekaan No. 17, Kelurahan Slerok, Kecamatan Tegal Timur, Kota Tegal.</li>
+                            <li><strong>Kampus 2 (Kampus Margadana)</strong>: Berlokasi di Jl. KH. Abdul Syukur No. 17, Margadana, Kota Tegal — yang juga menjadi lokasi utama <em>Desk Meja Layanan Terpadu PPID PKTJ</em>.</li>
+                        </ul>
                     @endif
                 </div>
             </div>
@@ -251,13 +265,23 @@
             <!-- SECTION 2: PERAN & TUGAS FUNGSI DALAM MENDUKUNG PKTJ -->
             <div class="mb-5">
                 <div class="section-header-pill" style="background: #fef3c7; color: #92400e;">
-                    <i class="fas fa-bullseye text-warning"></i> {{ $profil->judul_sub ?? 'Peran & Dukungan Tugas Fungsi PKTJ' }}
+                    <i class="fas fa-bullseye text-warning"></i> {{ $profil->judul_sub ?? 'Mandat Kelembagaan & Transformasi Pendidikan Vokasi Keselamatan Jalan' }}
                 </div>
                 <div class="rich-content text-justify" style="font-size: 15px; color: #334155; line-height: 1.8;">
                     @if(!empty($profil->konten_detail))
                         {!! $profil->konten_detail !!}
                     @else
-                        <p>Dalam menjalankan perannya, PPID Pelaksana PKTJ berfungsi sebagai koordinator utama pengelolaan dan pelayanan dokumentasi informasi publik yang mendukung penyelenggaraan tridharma perguruan tinggi vokasi keselamatan transportasi jalan, pelaksanaan uji kompetensi teknis, penelitian keselamatan transportasi, serta pengelolaan tata kelola keuangan Badan Layanan Umum (BLU) yang bersih, transparan, dan akuntabel.</p>
+                        <p>
+                            Sebagai Unit Pelaksana Teknis (UPT) di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan, PKTJ memiliki mandat mulia mencetak perwira transportasi jalan yang profesional, berkarakter, dan berdaya saing global melalui 3 (tiga) program studi unggulan:
+                        </p>
+                        <ol>
+                            <li><strong>Sarjana Terapan (D-IV) Rekayasa Sistem Transportasi Jalan (RSTJ)</strong></li>
+                            <li><strong>Sarjana Terapan (D-IV) Teknologi Rekayasa Otomotif (TRO)</strong></li>
+                            <li><strong>Diploma III (D-III) Teknologi Otomotif (TO)</strong></li>
+                        </ol>
+                        <p>
+                            Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transparan, dan bebas dari korupsi (Good Governance & Clean Government), PPID Pelaksana UPT PKTJ Tegal berkomitmen penuh memberikan pelayanan informasi yang cepat, akurat, tidak memungut biaya apapun (Rp 0), serta menjamin hak setiap pemohon informasi publik sesuai amanat Undang-Undang Nomor 14 Tahun 2008 dan Peraturan Menhub Nomor PM 46 Tahun 2018.
+                        </p>
                     @endif
                 </div>
             </div>

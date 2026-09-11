@@ -46,6 +46,137 @@
                         </div>
                     </div>
 
+                    <!-- KELOLA TAUTAN & DOKUMEN (MULTI-LINK ALA BPSDM) -->
+                    <div class="bg-gradient-to-br from-blue-50/70 to-slate-50 rounded-3xl p-6 border-2 border-blue-200/90 shadow-sm space-y-4">
+                        <div class="flex items-center justify-between flex-wrap gap-2 border-b border-blue-200 pb-3">
+                            <div>
+                                <h3 class="text-xs font-black text-[#004a99] uppercase tracking-wider flex items-center">
+                                    <i class="fas fa-link text-[#ffc107] mr-2 text-sm"></i> Pengisian Tautan / Link Dokumen (Multi-Link)
+                                </h3>
+                                <p class="text-[11px] text-slate-500 font-medium mt-0.5">
+                                    Tambahkan tautan dokumen (Google Drive atau URL Halaman) dengan keterangan halaman/dokumen yang jelas (ala BPSDM).
+                                </p>
+                            </div>
+                            <button type="button" onclick="addTautanRow()" class="px-3.5 py-2 bg-[#004a99] hover:bg-[#003875] text-white font-bold text-xs rounded-xl shadow-sm transition-all inline-flex items-center">
+                                <i class="fas fa-plus mr-1.5"></i> Tambah Link
+                            </button>
+                        </div>
+
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left" id="tautanRepeaterTable">
+                                <thead>
+                                    <tr class="text-[10px] font-black uppercase text-slate-400 tracking-wider">
+                                        <th class="py-2 px-3 w-10 text-center">No</th>
+                                        <th class="py-2 px-3 w-5/12">Nama / Keterangan Dokumen / Halaman <span class="text-red-500">*</span></th>
+                                        <th class="py-2 px-3 w-6/12">URL Link Google Drive / Halaman Web <span class="text-red-500">*</span></th>
+                                        <th class="py-2 px-3 w-12 text-center">Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tautanRepeaterBody">
+                                    @php
+                                        $tautanList = old('tautan_nama') ? array_map(function($n, $u) { return ['nama' => $n, 'url' => $u]; }, old('tautan_nama'), old('tautan_url', [])) : ($item->tautan_links ?? []);
+                                        if (is_string($tautanList)) $tautanList = json_decode($tautanList, true);
+                                        if (empty($tautanList) && !empty($item->file_path) && str_starts_with($item->file_path, 'http')) {
+                                            $tautanList = [['nama' => 'Lihat Dokumen', 'url' => $item->file_path]];
+                                        }
+                                        if (empty($tautanList)) {
+                                            $tautanList = [['nama' => '', 'url' => '']];
+                                        }
+                                    @endphp
+
+                                    @foreach($tautanList as $idx => $tItem)
+                                        <tr class="tautan-row border-b border-blue-100 last:border-0">
+                                            <td class="py-2.5 px-3 text-center font-bold text-slate-400 row-number text-xs">{{ $idx + 1 }}</td>
+                                            <td class="py-2.5 px-3">
+                                                <input type="text" name="tautan_nama[]" value="{{ $tItem['nama'] ?? '' }}" placeholder="Contoh: Pengumuman Darurat / Dokumen Penting" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:border-[#004a99] outline-none">
+                                            </td>
+                                            <td class="py-2.5 px-3">
+                                                <input type="url" name="tautan_url[]" value="{{ $tItem['url'] ?? '' }}" placeholder="https://drive.google.com/file/d/... atau /darurat" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:border-[#004a99] outline-none">
+                                            </td>
+                                            <td class="py-2.5 px-3 text-center">
+                                                <button type="button" onclick="removeTautanRow(this)" class="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all" title="Hapus Link">
+                                                    <i class="fas fa-trash-alt"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="pt-2 border-t border-blue-100 flex items-center justify-between flex-wrap gap-2">
+                            <p class="text-[10px] text-slate-500 font-medium">
+                                <i class="fas fa-info-circle text-[#004a99] mr-1"></i> Setiap link yang diisi di atas akan muncul sebagai tombol pill tersendiri dengan label yang jelas di tabel publik.
+                            </p>
+                            <button type="button" onclick="addTautanRow()" class="text-xs text-[#004a99] hover:underline font-bold inline-flex items-center">
+                                <i class="fas fa-plus-circle mr-1"></i> + Tambah Baris Link Lagi
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- ATRIBUT & METADATA KOLOM TABEL DIP (9 KOLOM LENGKAP) -->
+                    <div class="bg-white rounded-3xl p-6 border border-slate-200 shadow-sm space-y-6">
+                        <div class="border-b border-slate-100 pb-3">
+                            <h3 class="text-xs font-black text-[#004a99] uppercase tracking-wider flex items-center">
+                                <i class="fas fa-table text-[#ffc107] mr-2 text-sm"></i> Kolom Standar DIP (Daftar Informasi Publik)
+                            </h3>
+                            <p class="text-[11px] text-slate-500 font-medium mt-0.5">
+                                Kelola kolom-kolom tabel publik 9 kolom langsung dari form ini.
+                            </p>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                            <!-- Pejabat yang Menguasai Informasi -->
+                            <div class="space-y-1.5">
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase">Pejabat yang Menguasai Informasi</label>
+                                <input type="text" name="pejabat_penguasa" value="{{ old('pejabat_penguasa', $item->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal') }}"
+                                    placeholder="Contoh: PPID Pelaksana UPT PKTJ Tegal"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#004a99] outline-none">
+                            </div>
+
+                            <!-- Penanggung Jawab / Penerbit -->
+                            <div class="space-y-1.5">
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase">Penanggung Jawab / Penerbit Informasi</label>
+                                <input type="text" name="penanggung_jawab" value="{{ old('penanggung_jawab', $item->penanggung_jawab ?? $item->penerbit_informasi ?? 'Bagian Keuangan dan Umum') }}"
+                                    placeholder="Contoh: Bagian Keuangan dan Umum"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#004a99] outline-none">
+                            </div>
+
+                            <!-- Bentuk Informasi yang Tersedia -->
+                            <div class="space-y-1.5">
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase">Bentuk Informasi yang Tersedia</label>
+                                <select name="bentuk_informasi" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#004a99] outline-none">
+                                    <option value="Hardcopy & Softcopy" {{ old('bentuk_informasi', $item->bentuk_informasi ?? '') == 'Hardcopy & Softcopy' ? 'selected' : '' }}>Hardcopy & Softcopy</option>
+                                    <option value="Softcopy" {{ old('bentuk_informasi', $item->bentuk_informasi ?? '') == 'Softcopy' ? 'selected' : '' }}>Softcopy</option>
+                                    <option value="Hardcopy" {{ old('bentuk_informasi', $item->bentuk_informasi ?? '') == 'Hardcopy' ? 'selected' : '' }}>Hardcopy</option>
+                                </select>
+                            </div>
+
+                            <!-- Jangka Waktu Penyimpanan / Retensi -->
+                            <div class="space-y-1.5">
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase">Jangka Waktu Penyimpanan / Retensi Arsip</label>
+                                <input type="text" name="jangka_waktu" value="{{ old('jangka_waktu', $item->jangka_waktu ?? 'Selama Berlaku') }}"
+                                    placeholder="Contoh: 1 Tahun / Selama Berlaku / Permanen"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#004a99] outline-none">
+                            </div>
+
+                            <!-- Tempat Pembuatan Informasi -->
+                            <div class="space-y-1.5">
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase">Tempat Pembuatan Informasi</label>
+                                <input type="text" name="tempat_pembuatan" value="{{ old('tempat_pembuatan', $item->tempat_pembuatan ?? 'Tegal') }}"
+                                    placeholder="Contoh: Tegal"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#004a99] outline-none">
+                            </div>
+
+                            <!-- Waktu Pembuatan (Tahun) -->
+                            <div class="space-y-1.5">
+                                <label class="block text-[11px] font-bold text-slate-700 uppercase">Waktu / Tahun Pembuatan Informasi</label>
+                                <input type="text" name="waktu_pembuatan" value="{{ old('waktu_pembuatan', $item->waktu_pembuatan ?? date('Y')) }}"
+                                    placeholder="Contoh: 2025 / 2026"
+                                    class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-semibold text-slate-800 focus:bg-white focus:border-[#004a99] outline-none">
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- File Upload -->
                     <div class="space-y-3 text-gray-800">
                         <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block text-gray-800">Lampiran Dokumen (Biarkan kosong jika tidak diubah)</label>
@@ -162,6 +293,40 @@
             display.innerText = input.files[0].name;
             display.classList.remove('text-slate-400');
             display.classList.add('text-[#004a99]');
+        }
+    }
+
+    function addTautanRow(nama = '', url = '') {
+        const tbody = document.getElementById('tautanRepeaterBody');
+        if (!tbody) return;
+        const rowCount = tbody.querySelectorAll('.tautan-row').length + 1;
+        const tr = document.createElement('tr');
+        tr.className = 'tautan-row border-b border-blue-100 last:border-0';
+        tr.innerHTML = `
+            <td class="py-2.5 px-3 text-center font-bold text-slate-400 row-number text-xs">${rowCount}</td>
+            <td class="py-2.5 px-3">
+                <input type="text" name="tautan_nama[]" value="${nama.replace(/"/g, '&quot;')}" placeholder="Contoh: Pengumuman Darurat / Dokumen Penting" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:border-[#004a99] outline-none">
+            </td>
+            <td class="py-2.5 px-3">
+                <input type="url" name="tautan_url[]" value="${url.replace(/"/g, '&quot;')}" placeholder="https://drive.google.com/file/d/... atau /darurat" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:border-[#004a99] outline-none">
+            </td>
+            <td class="py-2.5 px-3 text-center">
+                <button type="button" onclick="removeTautanRow(this)" class="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all" title="Hapus Link">
+                    <i class="fas fa-trash-alt"></i>
+                </button>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    }
+
+    function removeTautanRow(btn) {
+        const row = btn.closest('.tautan-row');
+        if (row) {
+            row.remove();
+            document.querySelectorAll('#tautanRepeaterBody .tautan-row').forEach((r, idx) => {
+                const numEl = r.querySelector('.row-number');
+                if (numEl) numEl.textContent = idx + 1;
+            });
         }
     }
 </script>

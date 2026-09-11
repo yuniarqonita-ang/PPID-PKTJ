@@ -135,6 +135,36 @@
             color: #002b5c;
             text-decoration: underline;
         }
+
+        /* Multi-link pill button styling ala BPSDM */
+        .pktj-tautan-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 12px;
+            font-size: 11.5px;
+            font-weight: 700;
+            color: #004a99;
+            background: #f0f7ff;
+            border: 1px solid #bae0fd;
+            border-radius: 20px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            white-space: normal;
+            text-align: left;
+            line-height: 1.35;
+            box-shadow: 0 1px 2px rgba(0, 74, 153, 0.05);
+        }
+        .pktj-tautan-pill:hover {
+            background: #004a99;
+            color: #ffffff !important;
+            border-color: #004a99;
+            transform: translateY(-1px);
+            box-shadow: 0 3px 8px rgba(0, 74, 153, 0.25);
+        }
+        .pktj-tautan-pill:hover i {
+            color: #ffc107 !important;
+        }
     </style>
 </head>
 <body>
@@ -260,27 +290,61 @@
                                             }
                                             $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
 
-                                            // Resolve Tautan / Link
-                                            $rawPath = trim($it->file_path ?? $it->file_informasi ?? '');
-                                            $hasLink = false;
-                                            $targetUrl = null;
+                                            // Resolve Multi-links (ala BPSDM) atau Fallback ke Single Link
+                                            $resolvedLinks = [];
+                                            $rawTautanLinks = $it->tautan_links ?? [];
+                                            if (is_string($rawTautanLinks)) {
+                                                $rawTautanLinks = json_decode($rawTautanLinks, true);
+                                            }
 
-                                            if (!empty($rawPath) && !in_array(strtolower($rawPath), ['#', '-', 'null', 'none', 'tanpa preview', 'tidak ada', '/layanan-informasi/daftar', 'javascript:void(0)'])) {
-                                                if (str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://')) {
-                                                    if (!str_contains($rawPath, 'elhkpn.kpk.go.id')) {
-                                                        $hasLink = true;
-                                                        if (str_contains($rawPath, 'drive.google.com') || str_contains($rawPath, 'docs.google.com')) {
-                                                            $targetUrl = route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul]);
-                                                        } else {
-                                                            $targetUrl = $rawPath;
-                                                        }
+                                            if (!empty($rawTautanLinks) && is_array($rawTautanLinks)) {
+                                                foreach ($rawTautanLinks as $lnk) {
+                                                    $lUrl = trim($lnk['url'] ?? '');
+                                                    $lNama = trim($lnk['nama'] ?? '');
+                                                    if (empty($lUrl) || in_array(strtolower($lUrl), ['#', '-', 'null', 'none', 'javascript:void(0)'])) {
+                                                        continue;
                                                     }
-                                                } elseif (str_starts_with($rawPath, '/') && !in_array($rawPath, ['/', '/#', '/layanan-informasi/daftar'])) {
-                                                    $hasLink = true;
-                                                    $targetUrl = url($rawPath);
-                                                } else {
-                                                    $hasLink = true;
-                                                    $targetUrl = route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul]);
+                                                    if (empty($lNama)) {
+                                                        $lNama = 'Lihat Dokumen';
+                                                    }
+
+                                                    if (str_starts_with($lUrl, 'http://') || str_starts_with($lUrl, 'https://')) {
+                                                        if (str_contains($lUrl, 'drive.google.com') || str_contains($lUrl, 'docs.google.com')) {
+                                                            $tUrl = route('preview.dokumen', ['file' => $lUrl, 'title' => $lNama]);
+                                                        } else {
+                                                            $tUrl = $lUrl;
+                                                        }
+                                                    } elseif (str_starts_with($lUrl, '/') && !in_array($lUrl, ['/', '/#', '/layanan-informasi/daftar'])) {
+                                                        $tUrl = url($lUrl);
+                                                    } else {
+                                                        $tUrl = route('preview.dokumen', ['file' => $lUrl, 'title' => $lNama]);
+                                                    }
+
+                                                    $resolvedLinks[] = [
+                                                        'nama' => $lNama,
+                                                        'url'  => $tUrl
+                                                    ];
+                                                }
+                                            }
+
+                                            // Fallback ke single file/link jika resolvedLinks masih kosong
+                                            if (empty($resolvedLinks)) {
+                                                $rawPath = trim($it->file_path ?? $it->file_informasi ?? '');
+                                                if (!empty($rawPath) && !in_array(strtolower($rawPath), ['#', '-', 'null', 'none', 'tanpa preview', 'tidak ada', '/layanan-informasi/daftar', 'javascript:void(0)'])) {
+                                                    if (str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://')) {
+                                                        if (!str_contains($rawPath, 'elhkpn.kpk.go.id')) {
+                                                            if (str_contains($rawPath, 'drive.google.com') || str_contains($rawPath, 'docs.google.com')) {
+                                                                $tUrl = route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul]);
+                                                            } else {
+                                                                $tUrl = $rawPath;
+                                                            }
+                                                            $resolvedLinks[] = ['nama' => 'Lihat Dokumen', 'url' => $tUrl];
+                                                        }
+                                                    } elseif (str_starts_with($rawPath, '/') && !in_array($rawPath, ['/', '/#', '/layanan-informasi/daftar'])) {
+                                                        $resolvedLinks[] = ['nama' => 'Lihat Halaman', 'url' => url($rawPath)];
+                                                    } else {
+                                                        $resolvedLinks[] = ['nama' => 'Lihat Dokumen', 'url' => route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul])];
+                                                    }
                                                 }
                                             }
                                         @endphp
@@ -293,11 +357,16 @@
                                             <td class="text-center">{{ $it->bentuk_informasi ?? 'hardcopy dan softcopy' }}</td>
                                             <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
                                             <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
-                                            <td class="text-center">
-                                                @if($hasLink && !empty($targetUrl))
-                                                    <a href="{{ $targetUrl }}" class="tautan-disini" target="_self">
-                                                        Disini
-                                                    </a>
+                                            <td class="text-center" style="vertical-align: middle;">
+                                                @if(!empty($resolvedLinks))
+                                                    <div class="d-flex flex-column gap-1.5 align-items-center justify-content-center py-1">
+                                                        @foreach($resolvedLinks as $lnk)
+                                                            <a href="{{ $lnk['url'] }}" class="pktj-tautan-pill" target="_self" title="{{ $lnk['nama'] }}">
+                                                                <i class="fas fa-external-link-alt text-warning" style="font-size: 10px;"></i>
+                                                                <span>{{ $lnk['nama'] }}</span>
+                                                            </a>
+                                                        @endforeach
+                                                    </div>
                                                 @else
                                                     <span class="text-muted fw-bold">-</span>
                                                 @endif

@@ -25,6 +25,7 @@ class DaftarInformasi extends Model
         'bentuk_informasi',
         'jangka_waktu',
         'file_informasi',
+        'tautan_links',
         'aktif',
         'is_blurred',
         'bisa_download'
@@ -33,6 +34,7 @@ class DaftarInformasi extends Model
     protected $casts = [
         'aktif' => 'boolean',
         'is_blurred' => 'boolean',
-        'bisa_download' => 'boolean'
+        'bisa_download' => 'boolean',
+        'tautan_links' => 'array',
     ];
 }

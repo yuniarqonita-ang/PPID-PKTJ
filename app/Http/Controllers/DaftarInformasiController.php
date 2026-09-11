@@ -20,6 +20,27 @@ class DaftarInformasiController extends Controller
         return view('admin.layanan.daftar-informasi-create');
     }
 
+    /**
+     * Helper to extract repeatable dynamic tautan links from request
+     */
+    private function extractTautanLinks(Request $request): ?array
+    {
+        $links = [];
+        if ($request->has('tautan_nama') && is_array($request->tautan_nama)) {
+            foreach ($request->tautan_nama as $i => $nama) {
+                $nama = trim($nama ?? '');
+                $url = trim($request->tautan_url[$i] ?? '');
+                if ($nama !== '' || $url !== '') {
+                    $links[] = [
+                        'nama' => $nama !== '' ? $nama : 'Lihat Dokumen',
+                        'url'  => $url
+                    ];
+                }
+            }
+        }
+        return !empty($links) ? $links : null;
+    }
+
     public function store(Request $request)
     {
         $request->validate([
@@ -46,12 +67,15 @@ class DaftarInformasiController extends Controller
         ]);
 
         try {
-            $data = $request->except(['_token', 'file_informasi', 'image', 'gdrive_link']);
+            $data = $request->except(['_token', 'file_informasi', 'image', 'gdrive_link', 'tautan_nama', 'tautan_url']);
             $data['aktif']         = $request->has('aktif');
             $data['is_blurred']    = $request->has('is_blurred');
             $data['bisa_download'] = $request->has('bisa_download');
 
-            // Prioritas: Upload File Lokal > GDrive Link
+            $tautanLinks = $this->extractTautanLinks($request);
+            $data['tautan_links'] = $tautanLinks;
+
+            // Prioritas: Upload File Lokal > GDrive Link > First Tautan Link
             if ($request->hasFile('file_informasi')) {
                 $file = $request->file('file_informasi');
                 $filename = time() . '_' . preg_replace('/[^A-Za-z0-9\-._]/', '_', $file->getClientOriginalName());
@@ -59,6 +83,8 @@ class DaftarInformasiController extends Controller
                 $data['file_informasi'] = 'storage/' . $path;
             } elseif ($request->filled('gdrive_link')) {
                 $data['file_informasi'] = $request->gdrive_link;
+            } elseif (!empty($tautanLinks)) {
+                $data['file_informasi'] = $tautanLinks[0]['url'] ?? null;
             }
 
             if ($request->hasFile('image')) {
@@ -128,10 +154,13 @@ class DaftarInformasiController extends Controller
         ]);
 
         try {
-            $data = $request->except(['_token', '_method', 'file_informasi', 'image', 'gdrive_link']);
+            $data = $request->except(['_token', '_method', 'file_informasi', 'image', 'gdrive_link', 'tautan_nama', 'tautan_url']);
             $data['aktif']         = $request->has('aktif');
             $data['is_blurred']    = $request->has('is_blurred');
             $data['bisa_download'] = $request->has('bisa_download');
+
+            $tautanLinks = $this->extractTautanLinks($request);
+            $data['tautan_links'] = $tautanLinks;
 
             if ($request->has('hapus_file')) {
                 if ($item->file_informasi && strpos($item->file_informasi, 'http') === false) {
@@ -162,10 +191,12 @@ class DaftarInformasiController extends Controller
                     }
                 }
                 $data['file_informasi'] = $request->gdrive_link;
+            } elseif (!empty($tautanLinks) && empty($item->file_informasi)) {
+                $data['file_informasi'] = $tautanLinks[0]['url'] ?? null;
             } else {
                 // If gdrive_link was cleared AND no new file is uploaded, but previously it was a GDrive link,
                 // set file_informasi to null. Otherwise keep the old file.
-                if ($item->file_informasi && (strpos($item->file_informasi, 'drive.google.com') !== false || strpos($item->file_informasi, 'docs.google.com') !== false) && !$request->filled('gdrive_link')) {
+                if ($item->file_informasi && (strpos($item->file_informasi, 'drive.google.com') !== false || strpos($item->file_informasi, 'docs.google.com') !== false) && !$request->filled('gdrive_link') && empty($tautanLinks)) {
                     $data['file_informasi'] = null;
                 }
             }
@@ -189,9 +220,17 @@ class DaftarInformasiController extends Controller
             // Sinkronkan ke tabel model (InformasiBerkala, SetiapSaat, SertaMerta) jika judulnya sama
             $targetJudul = $data['judul_informasi'] ?? $item->judul_informasi;
             $syncData = [
-                'aktif'         => (bool) ($data['aktif'] ?? false),
-                'is_blurred'    => (bool) ($data['is_blurred'] ?? false),
-                'bisa_download' => (bool) ($data['bisa_download'] ?? true),
+                'aktif'              => (bool) ($data['aktif'] ?? false),
+                'is_blurred'         => (bool) ($data['is_blurred'] ?? false),
+                'bisa_download'      => (bool) ($data['bisa_download'] ?? true),
+                'tautan_links'       => $data['tautan_links'] ?? null,
+                'pejabat_penguasa'   => $data['pejabat_penguasa'] ?? null,
+                'penanggung_jawab'   => $data['penanggung_jawab'] ?? null,
+                'penerbit_informasi' => $data['penerbit_informasi'] ?? null,
+                'bentuk_informasi'   => $data['bentuk_informasi'] ?? null,
+                'tempat_pembuatan'   => $data['tempat_pembuatan'] ?? null,
+                'waktu_pembuatan'    => $data['waktu_pembuatan'] ?? null,
+                'jangka_waktu'       => $data['jangka_waktu'] ?? null,
             ];
             if (!empty($data['isi_informasi'])) {
                 $syncData['deskripsi'] = $data['isi_informasi'];

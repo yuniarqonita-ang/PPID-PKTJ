@@ -1100,6 +1100,148 @@
             </div>
         </div>
 
+        <!-- KANAL RESMI PENGADUAN & LAYANAN TERPADU KEMENTERIAN PERHUBUNGAN -->
+        <div class="mt-5 pt-2 mb-5" data-aos="fade-up">
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
+                <div>
+                    <div class="section-header-badge mb-2">
+                        <i class="fa-solid fa-building-shield"></i> INTEGRASI KEMENTERIAN PERHUBUNGAN
+                    </div>
+                    <h3 class="outfit fw-black text-slate-900 mb-1" style="font-size: 1.85rem; letter-spacing: -0.5px;">
+                        Kanal Informasi & Pengaduan Terpadu Kemenhub
+                    </h3>
+                    <p class="text-muted small mb-0">Saluran resmi pelaporan, penanganan keluhan, dan pusat panggilan Kementerian Perhubungan Republik Indonesia yang terhubung langsung dengan UPT PKTJ Tegal.</p>
+                </div>
+            </div>
+
+            <div class="row g-4">
+                <!-- 1. CONTACT CENTER 151 KEMENHUB -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 position-relative overflow-hidden hover-lift" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1.5px solid #e2e8f0 !important; border-top: 5px solid #004a99 !important;">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 56px; height: 56px; background: rgba(0, 74, 153, 0.1); color: #004a99; font-size: 24px;">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-1.5 rounded-pill fw-bold font-mono" style="font-size: 11px;">
+                                <i class="fas fa-circle-dot text-success me-1"></i> 24 JAM / 7 HARI
+                            </span>
+                        </div>
+                        <h4 class="outfit fw-black text-dark mb-1" style="font-size: 1.3rem;">Contact Center 151</h4>
+                        <span class="text-muted small fw-semibold d-block mb-3">Pusat Panggilan Informasi Kemenhub</span>
+                        <p class="text-secondary small mb-4" style="line-height: 1.6;">
+                            Saluran cepat satu pintu Kementerian Perhubungan untuk konsultasi informasi publik, informasi rute dan perizinan transportasi, serta pengaduan masyarakat secara langsung.
+                        </p>
+                        
+                        <div class="p-3 rounded-3 bg-light border mb-4">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fas fa-phone text-primary" style="width: 18px;"></i>
+                                <span class="small text-muted">Telepon:</span>
+                                <a href="tel:151" class="fw-bold text-dark text-decoration-none ms-auto fs-6">151</a>
+                            </div>
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fas fa-envelope text-primary" style="width: 18px;"></i>
+                                <span class="small text-muted">Email:</span>
+                                <a href="mailto:info151@dephub.go.id" class="fw-bold text-primary text-decoration-none ms-auto small">info151@dephub.go.id</a>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-globe text-primary" style="width: 18px;"></i>
+                                <span class="small text-muted">Portal:</span>
+                                <a href="https://dephub.go.id" target="_blank" rel="noopener" class="fw-bold text-primary text-decoration-none ms-auto small">dephub.go.id</a>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto d-flex gap-2">
+                            <a href="tel:151" class="btn btn-primary btn-sm rounded-pill px-3 py-2 fw-bold flex-fill shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="background: #004a99; font-size: 12.5px;">
+                                <i class="fas fa-phone-volume"></i> Telepon 151
+                            </a>
+                            <a href="mailto:info151@dephub.go.id" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-2 fw-bold shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="font-size: 12.5px;">
+                                <i class="fas fa-envelope"></i> Email
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. SIMADU KEMENHUB -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 position-relative overflow-hidden hover-lift" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1.5px solid #e2e8f0 !important; border-top: 5px solid #059669 !important;">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 56px; height: 56px; background: rgba(5, 150, 105, 0.1); color: #059669; font-size: 24px;">
+                                <i class="fas fa-users-gear"></i>
+                            </div>
+                            <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-25 px-3 py-1.5 rounded-pill fw-bold font-mono" style="font-size: 11px;">
+                                <i class="fas fa-shield-check me-1"></i> PENGADUAN RESMI
+                            </span>
+                        </div>
+                        <h4 class="outfit fw-black text-dark mb-1" style="font-size: 1.3rem;">SIMADU Kemenhub</h4>
+                        <span class="text-muted small fw-semibold d-block mb-3">Sistem Informasi Pengaduan Masyarakat Terpadu</span>
+                        <p class="text-secondary small mb-4" style="line-height: 1.6;">
+                            Platform daring terpadu penanganan aspirasi, ketidakpuasan, dan pengaduan pelayanan publik aparatur Kementerian Perhubungan dengan tindak lanjut terukur dan berjenjang.
+                        </p>
+
+                        <div class="p-3 rounded-3 bg-light border mb-4">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fas fa-link text-success" style="width: 18px;"></i>
+                                <span class="small text-muted">Portal SIMADU:</span>
+                                <span class="small fw-bold text-dark ms-auto">simadu.dephub.go.id</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-id-card text-success" style="width: 18px;"></i>
+                                <span class="small text-muted">Akses Layanan:</span>
+                                <span class="badge bg-success bg-opacity-25 text-success ms-auto small">Publik &amp; Civitas</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto d-flex flex-column gap-2">
+                            <a href="https://simadu.dephub.go.id" target="_blank" rel="noopener" class="btn btn-success btn-sm rounded-pill px-3 py-2 fw-bold shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="background: #059669; font-size: 12.5px;">
+                                <i class="fas fa-external-link-alt"></i> Buka Portal SIMADU Dephub
+                            </a>
+                            <a href="https://simadu.polines.ac.id/login" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1.5 fw-semibold d-inline-flex align-items-center justify-content-center gap-1.5" style="font-size: 11.5px;">
+                                <i class="fas fa-right-to-bracket"></i> Login SIMADU Terpadu
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 3. WBS (WHISTLEBLOWING SYSTEM) -->
+                <div class="col-lg-4 col-md-12">
+                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 position-relative overflow-hidden hover-lift" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1.5px solid #e2e8f0 !important; border-top: 5px solid #dc2626 !important;">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 56px; height: 56px; background: rgba(220, 38, 38, 0.1); color: #dc2626; font-size: 24px;">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-1.5 rounded-pill fw-bold font-mono" style="font-size: 11px;">
+                                <i class="fas fa-lock me-1"></i> 100% RAHASIA
+                            </span>
+                        </div>
+                        <h4 class="outfit fw-black text-dark mb-1" style="font-size: 1.3rem;">WBS Kemenhub</h4>
+                        <span class="text-muted small fw-semibold d-block mb-3">Whistleblowing System Kemenhub</span>
+                        <p class="text-secondary small mb-4" style="line-height: 1.6;">
+                            Kanal khusus pelaporan dugaan tindak pidana korupsi, penyuapan, gratifikasi, pemerasan, kecurangan (fraud), atau benturan kepentingan dengan jaminan perlindungan identitas pelapor.
+                        </p>
+
+                        <div class="p-3 rounded-3 bg-light border mb-4">
+                            <div class="d-flex align-items-center gap-2 mb-2">
+                                <i class="fas fa-user-secret text-danger" style="width: 18px;"></i>
+                                <span class="small text-muted">Identitas:</span>
+                                <span class="badge bg-dark text-white ms-auto small">Anonim / Dijamin UU</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-2">
+                                <i class="fas fa-gavel text-danger" style="width: 18px;"></i>
+                                <span class="small text-muted">Pengelola:</span>
+                                <span class="small fw-bold text-dark ms-auto">Itjen Kemenhub</span>
+                            </div>
+                        </div>
+
+                        <div class="mt-auto">
+                            <a href="https://wbs.dephub.go.id" target="_blank" rel="noopener" class="btn btn-danger btn-sm rounded-pill px-3 py-2 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="background: #dc2626; font-size: 12.5px;">
+                                <i class="fas fa-bullhorn"></i> Lapor Pelanggaran ke WBS
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Campus Contact Cards (Kampus I & II) -->
         <h3 class="campus-section-title outfit">Lokasi Kampus Politeknik Keselamatan Transportasi Jalan</h3>
         

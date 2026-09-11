@@ -88,6 +88,12 @@ class InformasiPublikController extends Controller
         $item->jangka_waktu = $item->jangka_waktu ?? '1 Tahun';
         $item->tipe_informasi = $item->tipe_informasi ?? null;
 
+        $tautanLinks = $item->tautan_links;
+        if (is_string($tautanLinks)) {
+            $tautanLinks = json_decode($tautanLinks, true);
+        }
+        $item->tautan_links = is_array($tautanLinks) ? $tautanLinks : [];
+
         $item->tanggal = $item->created_at;
         return $item;
     }
@@ -113,6 +119,12 @@ class InformasiPublikController extends Controller
         $item->jangka_waktu = $s->jangka_waktu ?? '1 Tahun';
         $item->tipe_informasi = $s->tipe_informasi ?? null;
 
+        $tautanLinks = $s->tautan_links;
+        if (is_string($tautanLinks)) {
+            $tautanLinks = json_decode($tautanLinks, true);
+        }
+        $item->tautan_links = is_array($tautanLinks) ? $tautanLinks : [];
+
         $item->tanggal = $s->tanggal ?? $s->created_at;
         $item->created_at = $s->created_at ?? now();
         $item->is_blurred = (bool) ($s->is_blurred ?? false);
@@ -121,6 +133,15 @@ class InformasiPublikController extends Controller
 
     private function itemHasValidContent($item): bool
     {
+        if (!empty($item->tautan_links) && is_array($item->tautan_links)) {
+            foreach ($item->tautan_links as $lnk) {
+                $u = trim($lnk['url'] ?? '');
+                if ($u !== '' && !in_array(strtolower($u), ['#', '-', 'null', 'none', 'javascript:void(0)'])) {
+                    return true;
+                }
+            }
+        }
+
         if (empty($item->file_path)) {
             return false;
         }
@@ -131,7 +152,7 @@ class InformasiPublikController extends Controller
         }
 
         if (str_starts_with($path, 'http://') || str_starts_with($path, 'https://')) {
-            return !str_contains($path, 'elhkpn.kpk.go.id');
+            return true;
         }
 
         if (str_starts_with($path, '/')) {
@@ -336,9 +357,7 @@ class InformasiPublikController extends Controller
         }
 
         try {
-            $query = InformasiDikecualikan::where('aktif', true)
-                ->whereNotNull('file_path')
-                ->where('file_path', '!=', '');
+            $query = InformasiDikecualikan::where('aktif', true);
 
             if ($request->filled('informasi')) {
                 $query->where('judul', 'like', '%' . $request->informasi . '%');
