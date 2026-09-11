@@ -269,14 +269,18 @@
                                                 if (str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://')) {
                                                     if (!str_contains($rawPath, 'elhkpn.kpk.go.id')) {
                                                         $hasLink = true;
-                                                        $targetUrl = $rawPath;
+                                                        if (str_contains($rawPath, 'drive.google.com') || str_contains($rawPath, 'docs.google.com')) {
+                                                            $targetUrl = route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul]);
+                                                        } else {
+                                                            $targetUrl = $rawPath;
+                                                        }
                                                     }
                                                 } elseif (str_starts_with($rawPath, '/') && !in_array($rawPath, ['/', '/#', '/layanan-informasi/daftar'])) {
                                                     $hasLink = true;
                                                     $targetUrl = url($rawPath);
                                                 } else {
                                                     $hasLink = true;
-                                                    $targetUrl = asset($rawPath);
+                                                    $targetUrl = route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul]);
                                                 }
                                             }
                                         @endphp
