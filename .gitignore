@@ -22,9 +22,11 @@ yarn-error.log
 /storage/framework/testing/*
 /storage/framework/views/*
 /storage/logs/*
-/storage/app/public/dokumen/*
+/storage/app/public/*
 /bootstrap/cache/*
 .phpunit.cache
+
+/public/dokumen/*
 
 # Heavy external materials
 Bahan Website PPID PKTJ/

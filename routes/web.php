@@ -97,10 +97,12 @@ use App\Http\Controllers\HalamanCustomController;
 
 // Emergency 1-Click Clean DIP Sync Route for Live Deployment
 Route::get('/refresh-dip-clean-now', function() {
+    // Seed DIP categories (Berkala, Setiap Saat, Serta Merta) WITHOUT touching Dokumen / Pejabat / Dashboards
     \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Dip2026SyncSeeder', '--force' => true]);
+
     return response()->json([
         'status' => 'success',
-        'message' => 'DIP Database has been cleanly reset and synchronized with 93 official items!',
+        'message' => 'DIP Database telah diperbarui menggunakan tautan Google Drive resmi tanpa menyentuh Laporan Layanan ataupun Profil Pejabat!',
         'berkala_total' => \App\Models\InformasiBerkala::count(),
         'berkala_aktif' => \App\Models\InformasiBerkala::where('aktif', 1)->count(),
         'sertamerta_total' => \App\Models\InformasiSertaMerta::count(),
@@ -388,17 +390,7 @@ Route::get('/refresh-deploy', function() {
             \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
         } catch (\Throwable $mEx) {}
 
-        try {
-            \Illuminate\Support\Facades\DB::table('dokumens')
-                ->where('judul', 'like', '%Laporan Permohonan Informasi PPID Pelaksana%')
-                ->delete();
-            \Illuminate\Support\Facades\DB::table('dashboards')
-                ->where('key', 'laporan_layanan_tagline_hero')
-                ->update(['value' => 'Wujud komitmen keterbukaan dan transparansi akuntabilitas pelayanan informasi publik Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.']);
-            \Illuminate\Support\Facades\DB::table('dashboards')
-                ->where('key', 'laporan_layanan_judul_hero')
-                ->update(['value' => 'Laporan Layanan Informasi Publik']);
-        } catch (\Throwable $dEx) {}
+        // Dokumen & Dashboards (Laporan Layanan) TIDAK DISENTUH SAMA SEKALI agar seluruh edit user di admin panel tetap permanen!
 
         // 1. Bersihkan dummy regulasi lama & hapus SK / SOP yang tidak memiliki dokumen (sesuai arahan user)
         try {
