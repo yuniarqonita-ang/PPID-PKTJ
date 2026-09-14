@@ -183,25 +183,51 @@
     <div class="container-fluid px-3 px-md-5">
         <div class="content-card">
             
+            <!-- OFFICIAL DECREE HEADER BANNER -->
+            <div class="p-4 mb-4 rounded-4 border shadow-sm" style="background: linear-gradient(135deg, #f0f7ff 0%, #e0effe 100%); border-color: #bae0fd;">
+                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+                    <div>
+                        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-white text-primary rounded-pill text-xs font-bold uppercase shadow-xs mb-2 border border-primary-subtle" style="font-size: 11px;">
+                            <i class="fas fa-stamp text-warning"></i> SK SEKJEN KEMENHUB NOMOR KP-SKJ 9 TAHUN 2026
+                        </div>
+                        <h4 class="fw-bold outfit mb-1" style="color: #002b5c; font-size: 1.5rem;">
+                            Daftar Informasi Publik (DIP) Setiap Saat PKTJ Tegal Tahun 2026
+                        </h4>
+                        <p class="text-muted small mb-0">
+                            Sesuai Lampiran I Bagian B Keputusan Sekretaris Jenderal Kementerian Perhubungan Republik Indonesia Nomor KP-SKJ 9 Tahun 2026 tentang Penetapan Daftar Informasi Publik (DIP).
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-shrink-0 flex-wrap">
+                        <a href="{{ route('preview.dokumen', ['file' => 'https://drive.google.com/file/d/1Xn6oWl-3z9uXlB0i17zDk1RzN84Z6H8v/view', 'title' => 'SK Penetapan DIP 2026 (KP-SKJ 9 Tahun 2026)']) }}" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1.5 shadow-sm" style="background: #004a99; font-size: 12px;">
+                            <i class="fas fa-file-pdf text-warning"></i>
+                            <span>Unduh SK DIP 2026 (PDF Resmi)</span>
+                        </a>
+                        <span class="badge bg-white text-primary border px-3 py-2 rounded-pill font-mono" style="font-size: 12px;">
+                            Total: {{ $items->count() }} Dokumen DIP
+                        </span>
+                    </div>
+                </div>
+            </div>
+
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
                 <div>
-                    <h3 class="fw-bold outfit mb-1" style="color: #002b5c; font-size: 1.7rem;">
-                        Informasi Setiap Saat Tahun 2026
-                    </h3>
-                    <p class="text-muted small mb-0">Informasi publik yang wajib disediakan oleh Badan Publik dan siap tersedia setiap saat ketika dimohonkan oleh pemohon informasi.</p>
+                    <h5 class="fw-bold outfit mb-0" style="color: #002b5c;">
+                        Tabel Informasi Setiap Saat (1 s.d. {{ $items->count() }})
+                    </h5>
+                    <p class="text-muted small mb-0">9 Kolom Format Baku Daftar Informasi Publik (DIP) Kementerian Perhubungan</p>
                 </div>
                 <!-- SEARCH INPUT -->
                 <div style="min-width: 280px; max-width: 380px;" class="w-100 w-md-auto">
-                    <div class="input-group">
+                    <div class="input-group shadow-xs">
                         <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
-                        <input type="text" id="tableSearchInput" placeholder="Cari dokumen setiap saat..." onkeyup="filterDIPTable()" class="form-control border-start-0 ps-0" style="font-size: 13px;">
+                        <input type="text" id="tableSearchInput" placeholder="Cari nomor, nama dokumen, atau pejabat..." onkeyup="filterDIPTable()" class="form-control border-start-0 ps-0" style="font-size: 13px;">
                     </div>
                 </div>
             </div>
 
             @include('components.konten-dinamis', ['prefix' => 'informasi_setiapsaat'])
 
-            <!-- POLTRADA BALI MASTER 9-COLUMN DIP TABLE -->
+            <!-- OFFICIAL MASTER 9-COLUMN DIP TABLE -->
             <div class="table-responsive mb-3">
                 <table class="tablepress-dip" id="dipTableSetiapSaat">
                     <thead>

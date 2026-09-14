@@ -11,8 +11,21 @@ class DaftarInformasiController extends Controller
     public function index()
     {
         $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
-        $items = DaftarInformasi::latest()->paginate(15);
-        return view('admin.layanan.daftar-informasi', compact('items', 'settings'));
+        $query = DaftarInformasi::query();
+
+        if (request()->filled('kategori')) {
+            $query->where('kategori', request('kategori'));
+        }
+
+        $counts = [
+            'semua'      => DaftarInformasi::count(),
+            'berkala'    => DaftarInformasi::where('kategori', 'informasi-berkala')->count(),
+            'setiapsaat' => DaftarInformasi::where('kategori', 'informasi-setiap-saat')->count(),
+            'sertamerta' => DaftarInformasi::where('kategori', 'informasi-serta-merta')->count(),
+        ];
+
+        $items = $query->orderBy('id', 'asc')->paginate(50)->withQueryString();
+        return view('admin.layanan.daftar-informasi', compact('items', 'settings', 'counts'));
     }
 
     public function create()

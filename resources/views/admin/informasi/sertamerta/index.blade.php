@@ -66,119 +66,124 @@
 
         <!-- TABLE CARD -->
         <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
+            <div class="p-5 border-b border-slate-100 bg-gradient-to-r from-blue-50/50 via-white to-amber-50/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-[#004a99] rounded-full text-[10px] font-black uppercase tracking-wider mb-1">
+                        <i class="fas fa-stamp text-amber-600"></i> Standar Baku 9 Kolom DIP: SK Sekjen KP-SKJ 9 / 2026 (Bagian C)
+                    </div>
+                    <h3 class="text-lg font-black text-[#004a99]">Daftar Informasi Publik (DIP) Serta Merta PKTJ Tegal</h3>
+                    <p class="text-slate-500 font-medium text-xs">Menampilkan 9 kolom resmi sesuai format Keputusan Sekretaris Jenderal Kementerian Perhubungan.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="px-3 py-1.5 bg-white border border-slate-200 text-slate-700 font-bold text-xs rounded-xl shadow-xs">
+                        Total: {{ count($items) }} Dokumen
+                    </span>
+                </div>
+            </div>
+
             <div class="overflow-x-auto">
-                <table class="w-full text-left">
+                <table class="w-full text-left" style="min-width: 1450px;">
                     <thead>
-                        <tr class="bg-[#004a99] text-white">
-                            <th class="px-4 py-4 text-xs font-black uppercase tracking-widest text-center w-12">No</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest" style="min-width: 280px;">Informasi & Tautan Dokumen</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest hidden md:table-cell" style="min-width: 260px;">Kelengkapan Kolom DIP</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center w-28">Status</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center w-28">Aksi</th>
+                        <tr class="bg-[#004a99] text-white text-[11px] font-black uppercase tracking-wider">
+                            <th class="py-4 px-3 text-center w-12 border-r border-blue-800/40">No</th>
+                            <th class="py-4 px-4 border-r border-blue-800/40" style="width: 220px;">Informasi</th>
+                            <th class="py-4 px-4 border-r border-blue-800/40" style="width: 260px;">Ringkasan Informasi</th>
+                            <th class="py-4 px-3 border-r border-blue-800/40" style="width: 160px;">Pejabat Penguasa</th>
+                            <th class="py-4 px-3 border-r border-blue-800/40" style="width: 150px;">Penerbit / PJ</th>
+                            <th class="py-4 px-3 text-center border-r border-blue-800/40" style="width: 120px;">Bentuk Informasi</th>
+                            <th class="py-4 px-3 text-center border-r border-blue-800/40" style="width: 130px;">Tempat & Waktu</th>
+                            <th class="py-4 px-3 text-center border-r border-blue-800/40" style="width: 100px;">Retensi Arsip</th>
+                            <th class="py-4 px-3 text-center border-r border-blue-800/40" style="width: 150px;">Tautan Dokumen</th>
+                            <th class="py-4 px-3 text-center border-r border-blue-800/40" style="width: 100px;">Status</th>
+                            <th class="py-4 px-3 text-center" style="width: 110px;">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-gray-100 text-xs">
                         @forelse($items as $item)
                         @php
                             $linkType = classify_link_type($item);
                             $hasLinks = (!empty($item->tautan_links) && is_array($item->tautan_links) && count($item->tautan_links) > 0);
+                            $cleanDesc = Str::limit(strip_tags($item->deskripsi ?? ''), 220);
+                            if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
+                                $cleanDesc = 'Informasi serta merta resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
+                            }
+                            $tahun = \Carbon\Carbon::parse($item->tanggal ?? $item->created_at)->format('Y');
                         @endphp
-                        <tr class="hover:bg-blue-50/30 transition-colors group {{ (!$item->file_path && !$hasLinks) ? 'bg-red-50/30' : '' }}" data-link-type="{{ $linkType }}">
-                            <td class="px-4 py-4 text-center font-black text-slate-400">
-                                <span class="inline-flex items-center justify-center w-7 h-7 bg-slate-100 rounded-lg text-slate-700 font-bold text-xs">
+                        <tr class="hover:bg-blue-50/40 transition-colors group {{ (!$item->file_path && !$hasLinks) ? 'bg-red-50/20' : '' }}" data-link-type="{{ $linkType }}">
+                            <td class="py-3 px-3 text-center font-black text-slate-500 border-r border-slate-100">
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-slate-100 rounded-lg text-slate-800 font-bold text-xs">
                                     {{ $loop->iteration }}
                                 </span>
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-start gap-3">
-                                    <div class="w-10 h-10 mt-1 {{ ($item->file_path || $hasLinks) ? 'bg-blue-50 text-[#004a99]' : 'bg-red-50 text-red-400' }} rounded-xl flex items-center justify-center text-lg group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm flex-shrink-0">
-                                        @if($linkType === 'pdf')
-                                            <i class="fas fa-file-pdf text-emerald-600"></i>
-                                        @elseif($linkType === 'drive')
-                                            <i class="fab fa-google-drive text-amber-600"></i>
-                                        @elseif($linkType === 'website')
-                                            <i class="fas fa-globe text-blue-600"></i>
-                                        @else
-                                            <i class="fas fa-file-lines text-blue-600"></i>
-                                        @endif
-                                    </div>
-                                    <div class="flex-1 min-w-0">
-                                        <h3 class="text-sm font-bold text-gray-900 leading-snug">{{ $item->judul }}</h3>
-                                        
-                                        <!-- Multi-Link Pills -->
-                                        @if($hasLinks)
-                                            <div class="flex flex-wrap items-center gap-1.5 mt-2">
-                                                @foreach($item->tautan_links as $lnk)
-                                                    @php $lUrl = trim($lnk['url'] ?? ''); @endphp
-                                                    @if($lUrl !== '')
-                                                        <a href="{{ $lUrl }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-[#004a99] text-[#004a99] hover:text-white border border-blue-200 rounded-lg text-[11px] font-bold transition-all shadow-xs" title="{{ $lUrl }}">
-                                                            <i class="fas fa-external-link-alt text-[9px] text-amber-500"></i>
-                                                            <span>{{ $lnk['nama'] ?? 'Lihat Dokumen' }}</span>
-                                                        </a>
-                                                    @endif
-                                                @endforeach
-                                                <span class="inline-flex items-center px-2 py-0.5 bg-indigo-50 text-indigo-700 border border-indigo-200 rounded text-[10px] font-black uppercase">
-                                                    {{ count($item->tautan_links) }} Tautan
-                                                </span>
-                                            </div>
-                                        @elseif($item->file_path)
-                                            <div class="flex flex-wrap items-center gap-1.5 mt-2">
-                                                <a href="{{ $item->file_path }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 hover:bg-[#004a99] text-slate-700 hover:text-white border border-slate-200 rounded-lg text-[11px] font-mono transition-colors" title="{{ $item->file_path }}">
-                                                    <i class="fas fa-file-alt text-[10px] text-blue-500"></i>
-                                                    <span>{{ Str::limit($item->file_path, 36) }}</span>
+                            <td class="py-3 px-4 border-r border-slate-100">
+                                <h4 class="text-xs font-bold text-slate-900 leading-snug">{{ $item->judul }}</h4>
+                            </td>
+                            <td class="py-3 px-4 text-slate-600 border-r border-slate-100 leading-relaxed">
+                                {{ $cleanDesc }}
+                            </td>
+                            <td class="py-3 px-3 text-slate-700 font-medium border-r border-slate-100">
+                                {{ $item->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}
+                            </td>
+                            <td class="py-3 px-3 text-slate-700 font-medium border-r border-slate-100">
+                                {{ $item->penanggung_jawab ?? $item->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}
+                            </td>
+                            <td class="py-3 px-3 text-center text-slate-600 border-r border-slate-100">
+                                <span class="inline-block px-2 py-1 bg-slate-100 rounded text-[11px] font-semibold text-slate-700">
+                                    {{ $item->bentuk_informasi ?? 'Hardcopy & Softcopy' }}
+                                </span>
+                            </td>
+                            <td class="py-3 px-3 text-center text-slate-600 border-r border-slate-100">
+                                {{ $item->tempat_pembuatan ?? 'Tegal' }}, {{ $item->waktu_pembuatan ?? $tahun }}
+                            </td>
+                            <td class="py-3 px-3 text-center text-slate-700 font-bold border-r border-slate-100">
+                                {{ $item->jangka_waktu ?? '1 Tahun' }}
+                            </td>
+                            <td class="py-3 px-3 border-r border-slate-100">
+                                @if($hasLinks)
+                                    <div class="flex flex-col gap-1 items-center justify-center">
+                                        @foreach($item->tautan_links as $lnk)
+                                            @php $lUrl = trim($lnk['url'] ?? ''); @endphp
+                                            @if($lUrl !== '')
+                                                <a href="{{ $lUrl }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-blue-50 hover:bg-[#004a99] text-[#004a99] hover:text-white border border-blue-200 rounded-lg text-[10.5px] font-bold transition-all w-full justify-center" title="{{ $lUrl }}">
+                                                    <i class="fas fa-external-link-alt text-[9px] text-amber-500"></i>
+                                                    <span class="truncate max-w-[120px]">{{ $lnk['nama'] ?? 'Lihat Dokumen' }}</span>
                                                 </a>
-                                            </div>
-                                        @else
-                                            <div class="mt-2">
-                                                <span class="inline-flex items-center px-2 py-0.5 bg-rose-100 text-rose-700 border border-rose-300 rounded text-[10px] font-black uppercase">
-                                                    <i class="fas fa-unlink mr-1"></i> Belum Ada Tautan
-                                                </span>
-                                            </div>
-                                        @endif
+                                            @endif
+                                        @endforeach
                                     </div>
-                                </div>
+                                @elseif($item->file_path)
+                                    <a href="{{ $item->file_path }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-slate-100 hover:bg-[#004a99] text-slate-700 hover:text-white border border-slate-200 rounded-lg text-[10.5px] font-mono transition-colors justify-center w-full" title="{{ $item->file_path }}">
+                                        <i class="fas fa-file-alt text-[10px] text-blue-500"></i>
+                                        <span class="truncate max-w-[120px]">{{ Str::limit($item->file_path, 22) }}</span>
+                                    </a>
+                                @else
+                                    <span class="text-slate-400 font-bold text-center block">-</span>
+                                @endif
                             </td>
-                            <td class="px-6 py-4 hidden md:table-cell text-xs">
-                                <div class="space-y-1.5 bg-slate-50/80 p-3 rounded-xl border border-slate-100">
-                                    <div class="text-slate-700 text-[11px]">
-                                        <strong class="text-slate-900">Penguasa:</strong> {{ $item->pejabat_penguasa ?? 'PPID Pelaksana UPT' }}
-                                    </div>
-                                    <div class="text-slate-700 text-[11px]">
-                                        <strong class="text-slate-900">PJ / Penerbit:</strong> {{ $item->penanggung_jawab ?? $item->penerbit_informasi ?? '-' }}
-                                    </div>
-                                    <div class="flex flex-wrap items-center gap-2 text-slate-500 text-[10.5px] pt-1 border-t border-slate-200/60">
-                                        <span class="bg-white px-2 py-0.5 rounded border border-slate-200"><i class="fas fa-file-lines mr-1 text-blue-500"></i>{{ $item->bentuk_informasi ?? 'Hardcopy & Softcopy' }}</span>
-                                        <span class="bg-white px-2 py-0.5 rounded border border-slate-200"><i class="fas fa-clock mr-1 text-amber-500"></i>Retensi: {{ $item->jangka_waktu ?? '1 Thn' }}</span>
-                                        <span class="bg-white px-2 py-0.5 rounded border border-slate-200"><i class="fas fa-map-marker-alt mr-1 text-emerald-500"></i>{{ $item->tempat_pembuatan ?? 'Tegal' }}, {{ $item->waktu_pembuatan ?? '2025/2026' }}</span>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="px-6 py-4 text-center">
+                            <td class="py-3 px-3 text-center border-r border-slate-100">
                                 <form action="{{ route('admin.informasi.toggle-status', ['type' => 'sertamerta', 'id' => $item->id]) }}" method="POST" class="inline-block toggle-status-form">
                                     @csrf
                                     <button type="submit" 
-                                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-sm {{ $item->aktif ? 'bg-emerald-100 text-emerald-700 hover:bg-red-100 hover:text-red-700 border border-emerald-300' : 'bg-rose-50 text-rose-600 hover:bg-emerald-100 hover:text-emerald-700 border border-rose-200' }}"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[9.5px] font-black uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-xs {{ $item->aktif ? 'bg-emerald-100 text-emerald-700 hover:bg-red-100 hover:text-red-700 border border-emerald-300' : 'bg-rose-50 text-rose-600 hover:bg-emerald-100 hover:text-emerald-700 border border-rose-200' }}"
                                             title="Klik untuk {{ $item->aktif ? 'Menonaktifkan / Sembunyikan' : 'Mengaktifkan / Tayangkan' }}">
                                         @if($item->aktif)
-                                            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                                             <span>AKTIF</span>
-                                            <i class="fas fa-toggle-on text-emerald-600 text-xs ml-0.5"></i>
                                         @else
-                                            <span class="w-2 h-2 bg-rose-400 rounded-full"></span>
-                                            <span>TIDAK AKTIF</span>
-                                            <i class="fas fa-toggle-off text-rose-400 text-xs ml-0.5"></i>
+                                            <span class="w-1.5 h-1.5 bg-rose-400 rounded-full"></span>
+                                            <span>OFF</span>
                                         @endif
                                     </button>
                                 </form>
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center justify-center gap-2">
-                                    <button onclick="showDetail('{{ $item->judul }}', '{{ addslashes($item->deskripsi) }}')" class="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-600 hover:text-white transition-all shadow-sm" title="Lihat Deskripsi">
+                            <td class="py-3 px-3">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button onclick="showDetail('{{ $item->judul }}', '{{ addslashes($item->deskripsi) }}')" class="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-600 hover:text-white transition-all shadow-xs" title="Lihat Deskripsi">
                                         <i class="fas fa-info-circle"></i>
                                     </button>
                                     @if($item->file_path)
                                     <button type="button" 
-                                            class="p-2 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white transition-all shadow-sm" 
+                                            class="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white transition-all shadow-xs" 
                                             title="Pratinjau File"
                                             data-bs-toggle="modal" 
                                             data-bs-target="#previewModal" 
@@ -186,10 +191,10 @@
                                         <i class="fas fa-file-pdf"></i>
                                     </button>
                                     @endif
-                                    <a href="{{ route('admin.informasi.sertamerta.edit', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm" title="Edit Informasi">
+                                    <a href="{{ route('admin.informasi.sertamerta.edit', $item->id) }}" class="p-1.5 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-xs" title="Edit Informasi">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button onclick="confirmDelete('{{ $item->id }}')" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm" title="Hapus">
+                                    <button onclick="confirmDelete('{{ $item->id }}')" class="p-1.5 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-xs" title="Hapus">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
@@ -197,7 +202,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-20 text-center">
+                            <td colspan="11" class="px-6 py-20 text-center">
                                 <div class="flex flex-col items-center">
                                     <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
                                         <i class="fas fa-folder-open text-gray-200 text-4xl"></i>

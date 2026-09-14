@@ -80,66 +80,97 @@
 
         <!-- TABLE CARD -->
         <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
+            <div class="p-5 border-b border-slate-100 bg-gradient-to-r from-red-50/50 via-white to-amber-50/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                <div>
+                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-red-100 text-red-800 rounded-full text-[10px] font-black uppercase tracking-wider mb-1">
+                        <i class="fas fa-file-shield text-red-600"></i> Standar Baku Format DIK: SK Sekjen KP-SKJ 8 / 2026
+                    </div>
+                    <h3 class="text-lg font-black text-slate-900">Daftar Informasi Publik yang Dikecualikan (DIK) PKTJ Tegal</h3>
+                    <p class="text-slate-500 font-medium text-xs">Menampilkan format 6 kolom resmi uji konsekuensi sesuai Lampiran II SK Sekretaris Jenderal Kementerian Perhubungan.</p>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="px-3 py-1.5 bg-white border border-slate-200 text-slate-700 font-bold text-xs rounded-xl shadow-xs">
+                        Total: {{ count($items) }} Dokumen Uji Konsekuensi
+                    </span>
+                </div>
+            </div>
+
             <div class="overflow-x-auto">
-                <table class="w-full text-left">
+                <table class="w-full text-left" style="min-width: 1450px;">
                     <thead>
-                        <tr class="bg-[#004a99] text-white">
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest">Informasi / Dokumen</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Penanggung Jawab</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Jangka Waktu</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Status</th>
-                            <th class="px-6 py-4 text-xs font-black uppercase tracking-widest text-center">Aksi</th>
+                        <tr class="bg-[#002b5c] text-white text-[11px] font-black uppercase tracking-wider">
+                            <th class="py-4 px-3 text-center w-12 border-r border-blue-900/50">No</th>
+                            <th class="py-4 px-4 border-r border-blue-900/50" style="width: 220px;">Informasi</th>
+                            <th class="py-4 px-4 border-r border-blue-900/50" style="width: 220px;">Dasar Hukum Pengecualian</th>
+                            <th class="py-4 px-4 border-r border-blue-900/50" style="width: 220px;">Pertimbangan Dibuka</th>
+                            <th class="py-4 px-4 border-r border-blue-900/50" style="width: 220px;">Pertimbangan Ditutup</th>
+                            <th class="py-4 px-3 text-center border-r border-blue-900/50" style="width: 130px;">Jangka Waktu & PJ</th>
+                            <th class="py-4 px-3 text-center border-r border-blue-900/50" style="width: 140px;">Tautan Dokumen</th>
+                            <th class="py-4 px-3 text-center border-r border-blue-900/50" style="width: 100px;">Status</th>
+                            <th class="py-4 px-3 text-center" style="width: 110px;">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-gray-100">
+                    <tbody class="divide-y divide-gray-100 text-xs">
                         @forelse($items as $item)
-                        <tr class="hover:bg-blue-50/30 transition-colors group">
-                            <td class="px-6 py-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 bg-red-50 text-red-600 rounded-xl flex items-center justify-center text-xl group-hover:bg-[#004a99] group-hover:text-white transition-all shadow-sm">
-                                        <i class="fas fa-file-shield"></i>
-                                    </div>
-                                    <div>
-                                        <h3 class="text-sm font-bold text-gray-800">{{ $item->judul }}</h3>
-                                        <p class="text-[10px] text-gray-400 font-bold uppercase mt-1">
-                                            <i class="fas fa-hdd mr-1"></i> {{ $item->file_size ?: 'No File' }} | 
-                                            <i class="fas fa-calendar-day ml-2 mr-1"></i> {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
-                                        </p>
-                                    </div>
-                                </div>
+                        <tr class="hover:bg-red-50/20 transition-colors group">
+                            <td class="py-3 px-3 text-center font-black text-slate-500 border-r border-slate-100">
+                                <span class="inline-flex items-center justify-center w-7 h-7 bg-slate-100 rounded-lg text-slate-800 font-bold text-xs">
+                                    {{ $loop->iteration }}
+                                </span>
                             </td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="text-xs font-bold text-gray-600 uppercase">{{ $item->penanggung_jawab ?: '-' }}</span>
+                            <td class="py-3 px-4 border-r border-slate-100">
+                                <h4 class="text-xs font-bold text-slate-900 leading-snug">{{ $item->judul }}</h4>
+                                <p class="text-[10px] text-slate-400 font-bold uppercase mt-1">
+                                    <i class="fas fa-calendar-day mr-1"></i> {{ \Carbon\Carbon::parse($item->tanggal)->format('d M Y') }}
+                                </p>
                             </td>
-                            <td class="px-6 py-4 text-center">
-                                <span class="text-xs font-bold text-gray-600 uppercase">{{ $item->jangka_waktu ?: '-' }}</span>
+                            <td class="py-3 px-4 text-slate-600 border-r border-slate-100 leading-relaxed">
+                                {!! $item->dasar_hukum ?: '-' !!}
                             </td>
-                            <td class="px-6 py-4 text-center">
+                            <td class="py-3 px-4 text-slate-600 border-r border-slate-100 leading-relaxed">
+                                {!! $item->konsekuensi_dibuka ?: '-' !!}
+                            </td>
+                            <td class="py-3 px-4 text-slate-600 border-r border-slate-100 leading-relaxed">
+                                {!! $item->konsekuensi_ditutup ?: '-' !!}
+                            </td>
+                            <td class="py-3 px-3 text-center border-r border-slate-100">
+                                <div class="font-bold text-slate-900">{{ $item->jangka_waktu ?: '5 Tahun' }}</div>
+                                <div class="text-[10.5px] text-slate-500 mt-0.5">{{ $item->penanggung_jawab ?: 'PKTJ Tegal' }}</div>
+                            </td>
+                            <td class="py-3 px-3 border-r border-slate-100 text-center">
+                                @if($item->file_path)
+                                    <a href="{{ str_contains($item->file_path, 'drive.google.com') ? route('preview.dokumen', ['file' => $item->file_path, 'title' => 'SK Penetapan DIK 2026 - ' . $item->judul]) : asset($item->file_path) }}" target="_blank" class="inline-flex items-center gap-1 px-2.5 py-1 bg-red-50 hover:bg-red-700 text-red-700 hover:text-white border border-red-200 rounded-lg text-[10.5px] font-bold transition-all w-full justify-center" title="Buka Dokumen">
+                                        <i class="fas fa-file-pdf text-[10px] text-red-500 group-hover:text-white"></i>
+                                        <span class="truncate max-w-[110px]">SK DIK 2026</span>
+                                    </a>
+                                @else
+                                    <span class="text-slate-400 font-bold">-</span>
+                                @endif
+                            </td>
+                            <td class="py-3 px-3 text-center border-r border-slate-100">
                                 <form action="{{ route('admin.informasi.toggle-status', ['type' => 'dikecualikan', 'id' => $item->id]) }}" method="POST" class="inline-block toggle-status-form">
                                     @csrf
                                     <button type="submit" 
-                                            class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-sm {{ $item->aktif ? 'bg-emerald-100 text-emerald-700 hover:bg-red-100 hover:text-red-700 border border-emerald-300' : 'bg-rose-50 text-rose-600 hover:bg-emerald-100 hover:text-emerald-700 border border-rose-200' }}"
+                                            class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[9.5px] font-black uppercase tracking-wider transition-all duration-200 cursor-pointer shadow-xs {{ $item->aktif ? 'bg-emerald-100 text-emerald-700 hover:bg-red-100 hover:text-red-700 border border-emerald-300' : 'bg-rose-50 text-rose-600 hover:bg-emerald-100 hover:text-emerald-700 border border-rose-200' }}"
                                             title="Klik untuk {{ $item->aktif ? 'Menonaktifkan / Sembunyikan' : 'Mengaktifkan / Tayangkan' }}">
                                         @if($item->aktif)
-                                            <span class="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                                            <span class="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse"></span>
                                             <span>AKTIF</span>
-                                            <i class="fas fa-toggle-on text-emerald-600 text-xs ml-0.5"></i>
                                         @else
-                                            <span class="w-2 h-2 bg-rose-400 rounded-full"></span>
-                                            <span>TIDAK AKTIF</span>
-                                            <i class="fas fa-toggle-off text-rose-400 text-xs ml-0.5"></i>
+                                            <span class="w-1.5 h-1.5 bg-rose-400 rounded-full"></span>
+                                            <span>OFF</span>
                                         @endif
                                     </button>
                                 </form>
                             </td>
-                            <td class="px-6 py-4">
-                                <div class="flex items-center justify-center gap-2">
-                                    <button onclick="showDetail('{{ $item->judul }}', '{{ addslashes($item->deskripsi) }}')" class="p-2 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-600 hover:text-white transition-all shadow-sm" title="Lihat Deskripsi">
+                            <td class="py-3 px-3">
+                                <div class="flex items-center justify-center gap-1">
+                                    <button onclick="showDetail('{{ $item->judul }}', '{{ addslashes($item->deskripsi) }}')" class="p-1.5 bg-amber-50 text-amber-600 rounded-lg hover:bg-amber-600 hover:text-white transition-all shadow-xs" title="Lihat Deskripsi">
                                         <i class="fas fa-info-circle"></i>
                                     </button>
                                     @if($item->file_path)
                                     <button type="button" 
-                                            class="p-2 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white transition-all shadow-sm" 
+                                            class="p-1.5 bg-emerald-50 text-emerald-600 rounded-lg hover:bg-emerald-600 hover:text-white transition-all shadow-xs" 
                                             title="Pratinjau File"
                                             data-bs-toggle="modal" 
                                             data-bs-target="#previewModal" 
@@ -147,10 +178,10 @@
                                         <i class="fas fa-file-pdf"></i>
                                     </button>
                                     @endif
-                                    <a href="{{ route('admin.informasi.dikecualikan.edit', $item->id) }}" class="p-2 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-sm">
+                                    <a href="{{ route('admin.informasi.dikecualikan.edit', $item->id) }}" class="p-1.5 bg-blue-50 text-[#004a99] rounded-lg hover:bg-[#004a99] hover:text-white transition-all shadow-xs" title="Edit Informasi">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <button onclick="confirmDelete('{{ $item->id }}')" class="p-2 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-sm">
+                                    <button onclick="confirmDelete('{{ $item->id }}')" class="p-1.5 bg-red-50 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition-all shadow-xs" title="Hapus">
                                         <i class="fas fa-trash-alt"></i>
                                     </button>
                                 </div>
@@ -158,7 +189,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="5" class="px-6 py-20 text-center">
+                            <td colspan="9" class="px-6 py-20 text-center">
                                 <div class="flex flex-col items-center">
                                     <div class="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-4">
                                         <i class="fas fa-lock text-gray-200 text-4xl"></i>

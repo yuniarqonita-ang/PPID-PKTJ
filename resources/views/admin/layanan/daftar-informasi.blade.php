@@ -90,6 +90,38 @@
         </div>
     </div>
 
+    <!-- FILTER & BANNER RESMI DIP -->
+    <div class="bg-gradient-to-r from-blue-900 to-indigo-900 rounded-2xl p-6 text-white shadow-lg flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-4">
+            <div class="w-12 h-12 bg-amber-400 text-blue-950 rounded-xl flex items-center justify-center text-2xl font-black shrink-0">
+                <i class="fas fa-file-signature"></i>
+            </div>
+            <div>
+                <span class="inline-block px-3 py-1 bg-amber-400/20 text-amber-300 rounded-full text-[10px] font-black uppercase tracking-wider mb-1 border border-amber-400/30">Master Dokumen DIP Resmi</span>
+                <h4 class="text-base font-black tracking-tight text-white">SK Sekjen Kemenhub No. KP-SKJ 9 Tahun 2026</h4>
+                <p class="text-xs text-blue-200">Daftar Informasi Publik Terpadu Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal</p>
+            </div>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+            <a href="{{ route('admin.layanan.daftar-informasi') }}" 
+               class="px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all {{ !request()->filled('kategori') ? 'bg-amber-400 text-blue-950 shadow-md font-extrabold' : 'bg-white/10 hover:bg-white/20 text-white' }}">
+                Semua ({{ $counts['semua'] ?? 38 }})
+            </a>
+            <a href="{{ route('admin.layanan.daftar-informasi', ['kategori' => 'informasi-berkala']) }}" 
+               class="px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all {{ request('kategori') == 'informasi-berkala' ? 'bg-amber-400 text-blue-950 shadow-md font-extrabold' : 'bg-white/10 hover:bg-white/20 text-white' }}">
+                Berkala ({{ $counts['berkala'] ?? 25 }})
+            </a>
+            <a href="{{ route('admin.layanan.daftar-informasi', ['kategori' => 'informasi-setiap-saat']) }}" 
+               class="px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all {{ request('kategori') == 'informasi-setiap-saat' ? 'bg-amber-400 text-blue-950 shadow-md font-extrabold' : 'bg-white/10 hover:bg-white/20 text-white' }}">
+                Setiap Saat ({{ $counts['setiapsaat'] ?? 10 }})
+            </a>
+            <a href="{{ route('admin.layanan.daftar-informasi', ['kategori' => 'informasi-serta-merta']) }}" 
+               class="px-4 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider transition-all {{ request('kategori') == 'informasi-serta-merta' ? 'bg-amber-400 text-blue-950 shadow-md font-extrabold' : 'bg-white/10 hover:bg-white/20 text-white' }}">
+                Serta Merta ({{ $counts['sertamerta'] ?? 3 }})
+            </a>
+        </div>
+    </div>
+
     <!-- DATA TABLE AREA -->
     <div class="bg-white rounded-2xl shadow-xl border-2 border-slate-100 overflow-hidden">
         <div class="overflow-x-auto">

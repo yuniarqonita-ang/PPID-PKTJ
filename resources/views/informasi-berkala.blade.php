@@ -183,197 +183,160 @@
     <div class="container-fluid px-3 px-md-5">
         <div class="content-card">
             
+            <!-- OFFICIAL DECREE HEADER BANNER -->
+            <div class="p-4 mb-4 rounded-4 border shadow-sm" style="background: linear-gradient(135deg, #f0f7ff 0%, #e0effe 100%); border-color: #bae0fd;">
+                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
+                    <div>
+                        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-white text-primary rounded-pill text-xs font-bold uppercase shadow-xs mb-2 border border-primary-subtle" style="font-size: 11px;">
+                            <i class="fas fa-stamp text-warning"></i> SK SEKJEN KEMENHUB NOMOR KP-SKJ 9 TAHUN 2026
+                        </div>
+                        <h4 class="fw-bold outfit mb-1" style="color: #002b5c; font-size: 1.5rem;">
+                            Daftar Informasi Publik (DIP) Berkala PKTJ Tegal Tahun 2026
+                        </h4>
+                        <p class="text-muted small mb-0">
+                            Sesuai Lampiran I Bagian A Keputusan Sekretaris Jenderal Kementerian Perhubungan Republik Indonesia Nomor KP-SKJ 9 Tahun 2026 tentang Penetapan Daftar Informasi Publik (DIP).
+                        </p>
+                    </div>
+                    <div class="d-flex align-items-center gap-2 flex-shrink-0 flex-wrap">
+                        <a href="{{ route('preview.dokumen', ['file' => 'https://drive.google.com/file/d/1Xn6oWl-3z9uXlB0i17zDk1RzN84Z6H8v/view', 'title' => 'SK Penetapan DIP 2026 (KP-SKJ 9 Tahun 2026)']) }}" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1.5 shadow-sm" style="background: #004a99; font-size: 12px;">
+                            <i class="fas fa-file-pdf text-warning"></i>
+                            <span>Unduh SK DIP 2026 (PDF Resmi)</span>
+                        </a>
+                        <span class="badge bg-white text-primary border px-3 py-2 rounded-pill font-mono" style="font-size: 12px;">
+                            Total: {{ $items->count() }} Dokumen DIP
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SEARCH & TOOLBAR -->
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
                 <div>
-                    <h3 class="fw-bold outfit mb-1" style="color: #002b5c; font-size: 1.7rem;">
-                        Informasi Berkala Tahun 2026
-                    </h3>
-                    <p class="text-muted small mb-0">Informasi publik yang wajib disediakan dan diumumkan secara berkala sesuai ketentuan perundang-undangan.</p>
+                    <h5 class="fw-bold outfit mb-0" style="color: #002b5c;">
+                        Tabel Informasi Berkala (1 s.d. {{ $items->count() }})
+                    </h5>
+                    <p class="text-muted small mb-0">9 Kolom Format Baku Daftar Informasi Publik (DIP) Kementerian Perhubungan</p>
                 </div>
                 <!-- SEARCH INPUT -->
                 <div style="min-width: 280px; max-width: 380px;" class="w-100 w-md-auto">
-                    <div class="input-group">
+                    <div class="input-group shadow-xs">
                         <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
-                        <input type="text" id="tableSearchInput" placeholder="Cari dokumen berkala..." onkeyup="filterDIPTable()" class="form-control border-start-0 ps-0" style="font-size: 13px;">
+                        <input type="text" id="tableSearchInput" placeholder="Cari nomor, nama dokumen, atau pejabat..." onkeyup="filterDIPTable()" class="form-control border-start-0 ps-0" style="font-size: 13px;">
                     </div>
                 </div>
             </div>
 
             @include('components.konten-dinamis', ['prefix' => 'informasi_berkala'])
 
-            <!-- POLTRADA BALI MASTER 9-COLUMN DIP TABLE -->
+            <!-- OFFICIAL MASTER 9-COLUMN DIP TABLE -->
             <div class="table-responsive mb-3">
                 <table class="tablepress-dip" id="dipTableBerkala">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 45px;">No</th>
-                            <th style="min-width: 190px;">Informasi</th>
-                            <th style="min-width: 260px;">Ringkasan Informasi</th>
-                            <th style="min-width: 160px;">Pejabat yang Menguasai Informasi</th>
-                            <th style="min-width: 150px;">Penerbit Informasi</th>
+                            <th class="text-center" style="width: 50px;">No</th>
+                            <th style="min-width: 220px;">Informasi</th>
+                            <th style="min-width: 280px;">Ringkasan Informasi</th>
+                            <th style="min-width: 170px;">Pejabat yang Menguasai Informasi</th>
+                            <th style="min-width: 160px;">Penerbit Informasi</th>
                             <th class="text-center" style="min-width: 120px;">Bentuk Informasi yang Tersedia</th>
                             <th class="text-center" style="min-width: 130px;">Tempat dan Waktu Pembuatan Informasi</th>
                             <th class="text-center" style="min-width: 110px;">Jangka Waktu Penyimpanan / Retensi Arsip</th>
-                            <th class="text-center" style="min-width: 110px;">Tautan</th>
+                            <th class="text-center" style="min-width: 120px;">Tautan</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @php
-                            // Kelompokkan item berdasarkan 5 Kategori Resmi Poltrada Bali
-                            $categories = [
-                                'PROFIL' => ['profil', 'struktur organisasi', 'pejabat', 'lhkpn', 'agenda pimpinan', 'statistik'],
-                                'PROGRAM DAN KEGIATAN' => ['renstra', 'rencana strategis', 'rkt', 'rencana kerja tahunan', 'kalender akademik', 'sipencatar', 'biaya pendidikan', 'tarif layanan', 'kurikulum', 'akreditasi', 'audit mutu', 'ujikom', 'perkuliahan', 'pembelajaran', 'tracer study', 'samapta', 'softkill', 'softskill'],
-                                'KINERJA DAN KEUANGAN' => ['rka', 'dipa', 'perjanjian kinerja', 'lakip', 'lkjip', 'laporan tahunan', 'laporan keuangan', 'laporan pelayanan informasi', 'lra', 'neraca', 'survey kepuasan'],
-                                'PENGADAAN BARANG DAN JASA' => ['sirup', 'pengadaan', 'lpse', 'tender'],
-                                'TATA CARA / PROSEDUR' => ['tata cara', 'prosedur', 'mekanisme', 'keberatan', 'sengketa', 'pengaduan', 'whistleblowing', 'standar pelayanan', 'maklumat', 'sop']
-                            ];
+                        @if(isset($items) && $items->count() > 0)
+                            @foreach($items as $idx => $it)
+                                @php
+                                    $runningNo = $idx + 1;
+                                    $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 220);
+                                    if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
+                                        $cleanDesc = 'Informasi berkala resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
+                                    }
+                                    $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
 
-                            // Map setiap item ke kategori
-                            $groupedItems = [];
-                            $assignedItemIds = [];
+                                    // Resolve Multi-links atau Single Link
+                                    $resolvedLinks = [];
+                                    $rawTautanLinks = $it->tautan_links ?? [];
+                                    if (is_string($rawTautanLinks)) {
+                                        $rawTautanLinks = json_decode($rawTautanLinks, true);
+                                    }
 
-                            foreach ($categories as $catName => $catKeywords) {
-                                $groupedItems[$catName] = collect();
-                            }
+                                    if (!empty($rawTautanLinks) && is_array($rawTautanLinks)) {
+                                        foreach ($rawTautanLinks as $lnk) {
+                                            $lUrl = trim($lnk['url'] ?? '');
+                                            $lNama = trim($lnk['nama'] ?? '');
+                                            if (empty($lUrl) || in_array(strtolower($lUrl), ['#', '-', 'null', 'none', 'javascript:void(0)'])) {
+                                                continue;
+                                            }
+                                            if (empty($lNama)) {
+                                                $lNama = 'Lihat Dokumen';
+                                            }
 
-                            // 1. Prioritaskan jika item memiliki tipe_informasi yang cocok dengan nama kategori
-                            foreach ($items as $item) {
-                                $tipeUpper = strtoupper(trim($item->tipe_informasi ?? ''));
-                                if (isset($groupedItems[$tipeUpper])) {
-                                    $groupedItems[$tipeUpper]->push($item);
-                                    $assignedItemIds[] = $item->id;
-                                }
-                            }
+                                            if (str_starts_with($lUrl, 'http://') || str_starts_with($lUrl, 'https://')) {
+                                                if (str_contains($lUrl, 'drive.google.com') || str_contains($lUrl, 'docs.google.com')) {
+                                                    $tUrl = route('preview.dokumen', ['file' => $lUrl, 'title' => $lNama]);
+                                                } else {
+                                                    $tUrl = $lUrl;
+                                                }
+                                            } elseif (str_starts_with($lUrl, '/') && !in_array($lUrl, ['/', '/#', '/layanan-informasi/daftar'])) {
+                                                $tUrl = url($lUrl);
+                                            } else {
+                                                $tUrl = route('preview.dokumen', ['file' => $lUrl, 'title' => $lNama]);
+                                            }
 
-                            // 2. Untuk item yang belum terpetakan, gunakan kata kunci judul
-                            foreach ($categories as $catName => $catKeywords) {
-                                foreach ($items as $item) {
-                                    if (in_array($item->id, $assignedItemIds)) continue;
-                                    $itemTitle = strtolower($item->judul);
-                                    foreach ($catKeywords as $kw) {
-                                        if (str_contains($itemTitle, $kw)) {
-                                            $groupedItems[$catName]->push($item);
-                                            $assignedItemIds[] = $item->id;
-                                            break;
+                                            $resolvedLinks[] = [
+                                                'nama' => $lNama,
+                                                'url'  => $tUrl
+                                            ];
                                         }
                                     }
-                                }
-                            }
 
-                            // 3. Sisa item yang belum masuk kategori (jika ada)
-                            $groupedItems['INFORMASI LAINNYA'] = collect();
-                            foreach ($items as $item) {
-                                if (!in_array($item->id, $assignedItemIds)) {
-                                    $groupedItems['INFORMASI LAINNYA']->push($item);
-                                }
-                            }
-
-                            $runningNo = 0;
-                        @endphp
-
-                        @if(isset($items) && $items->count() > 0)
-                            @foreach($groupedItems as $categoryName => $catItems)
-                                @if($catItems->count() > 0)
-                                    <!-- CATEGORY SUBHEADER ROW -->
-                                    <tr class="category-divider-row" data-category="{{ $categoryName }}">
-                                        <td colspan="9" style="background: #f8fafc; font-weight: 800; font-size: 13px; color: #0f172a; padding: 11px 16px; border: 1px solid #cbd5e1;">
-                                            {{ $categoryName }}
-                                        </td>
-                                    </tr>
-
-                                    @foreach($catItems as $it)
-                                        @php
-                                            $runningNo++;
-                                            $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 160);
-                                            if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
-                                                $cleanDesc = 'Informasi berkala resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
-                                            }
-                                            $tahun = \Carbon\Carbon::parse($it->tanggal ?? $it->created_at)->format('Y');
-
-                                            // Resolve Multi-links (ala BPSDM) atau Fallback ke Single Link
-                                            $resolvedLinks = [];
-                                            $rawTautanLinks = $it->tautan_links ?? [];
-                                            if (is_string($rawTautanLinks)) {
-                                                $rawTautanLinks = json_decode($rawTautanLinks, true);
-                                            }
-
-                                            if (!empty($rawTautanLinks) && is_array($rawTautanLinks)) {
-                                                foreach ($rawTautanLinks as $lnk) {
-                                                    $lUrl = trim($lnk['url'] ?? '');
-                                                    $lNama = trim($lnk['nama'] ?? '');
-                                                    if (empty($lUrl) || in_array(strtolower($lUrl), ['#', '-', 'null', 'none', 'javascript:void(0)'])) {
-                                                        continue;
-                                                    }
-                                                    if (empty($lNama)) {
-                                                        $lNama = 'Lihat Dokumen';
-                                                    }
-
-                                                    if (str_starts_with($lUrl, 'http://') || str_starts_with($lUrl, 'https://')) {
-                                                        if (str_contains($lUrl, 'drive.google.com') || str_contains($lUrl, 'docs.google.com')) {
-                                                            $tUrl = route('preview.dokumen', ['file' => $lUrl, 'title' => $lNama]);
-                                                        } else {
-                                                            $tUrl = $lUrl;
-                                                        }
-                                                    } elseif (str_starts_with($lUrl, '/') && !in_array($lUrl, ['/', '/#', '/layanan-informasi/daftar'])) {
-                                                        $tUrl = url($lUrl);
+                                    // Fallback ke single file/link jika resolvedLinks masih kosong
+                                    if (empty($resolvedLinks)) {
+                                        $rawPath = trim($it->file_path ?? $it->file_informasi ?? '');
+                                        if (!empty($rawPath) && !in_array(strtolower($rawPath), ['#', '-', 'null', 'none', 'tanpa preview', 'tidak ada', '/layanan-informasi/daftar', 'javascript:void(0)'])) {
+                                            if (str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://')) {
+                                                if (!str_contains($rawPath, 'elhkpn.kpk.go.id')) {
+                                                    if (str_contains($rawPath, 'drive.google.com') || str_contains($rawPath, 'docs.google.com')) {
+                                                        $tUrl = route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul]);
                                                     } else {
-                                                        $tUrl = route('preview.dokumen', ['file' => $lUrl, 'title' => $lNama]);
+                                                        $tUrl = $rawPath;
                                                     }
-
-                                                    $resolvedLinks[] = [
-                                                        'nama' => $lNama,
-                                                        'url'  => $tUrl
-                                                    ];
+                                                    $resolvedLinks[] = ['nama' => 'Lihat Dokumen', 'url' => $tUrl];
                                                 }
+                                            } elseif (str_starts_with($rawPath, '/') && !in_array($rawPath, ['/', '/#', '/layanan-informasi/daftar'])) {
+                                                $resolvedLinks[] = ['nama' => 'Lihat Halaman', 'url' => url($rawPath)];
+                                            } else {
+                                                $resolvedLinks[] = ['nama' => 'Lihat Dokumen', 'url' => route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul])];
                                             }
-
-                                            // Fallback ke single file/link jika resolvedLinks masih kosong
-                                            if (empty($resolvedLinks)) {
-                                                $rawPath = trim($it->file_path ?? $it->file_informasi ?? '');
-                                                if (!empty($rawPath) && !in_array(strtolower($rawPath), ['#', '-', 'null', 'none', 'tanpa preview', 'tidak ada', '/layanan-informasi/daftar', 'javascript:void(0)'])) {
-                                                    if (str_starts_with($rawPath, 'http://') || str_starts_with($rawPath, 'https://')) {
-                                                        if (!str_contains($rawPath, 'elhkpn.kpk.go.id')) {
-                                                            if (str_contains($rawPath, 'drive.google.com') || str_contains($rawPath, 'docs.google.com')) {
-                                                                $tUrl = route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul]);
-                                                            } else {
-                                                                $tUrl = $rawPath;
-                                                            }
-                                                            $resolvedLinks[] = ['nama' => 'Lihat Dokumen', 'url' => $tUrl];
-                                                        }
-                                                    } elseif (str_starts_with($rawPath, '/') && !in_array($rawPath, ['/', '/#', '/layanan-informasi/daftar'])) {
-                                                        $resolvedLinks[] = ['nama' => 'Lihat Halaman', 'url' => url($rawPath)];
-                                                    } else {
-                                                        $resolvedLinks[] = ['nama' => 'Lihat Dokumen', 'url' => route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul])];
-                                                    }
-                                                }
-                                            }
-                                        @endphp
-                                        <tr class="dip-data-row" data-category="{{ $categoryName }}" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc . ' ' . $categoryName) }}">
-                                            <td class="text-center fw-bold text-muted">{{ $runningNo }}</td>
-                                            <td><strong class="text-dark">{{ $it->judul }}</strong></td>
-                                            <td class="text-muted small">{{ $cleanDesc }}</td>
-                                            <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
-                                            <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
-                                            <td class="text-center">{{ $it->bentuk_informasi ?? 'hardcopy dan softcopy' }}</td>
-                                            <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
-                                            <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
-                                            <td class="text-center" style="vertical-align: middle;">
-                                                @if(!empty($resolvedLinks))
-                                                    <div class="d-flex flex-column gap-1.5 align-items-center justify-content-center py-1">
-                                                        @foreach($resolvedLinks as $lnk)
-                                                            <a href="{{ $lnk['url'] }}" class="pktj-tautan-pill" target="_self" title="{{ $lnk['nama'] }}">
-                                                                <i class="fas fa-external-link-alt text-warning" style="font-size: 10px;"></i>
-                                                                <span>{{ $lnk['nama'] }}</span>
-                                                            </a>
-                                                        @endforeach
-                                                    </div>
-                                                @else
-                                                    <span class="text-muted fw-bold">-</span>
-                                                @endif
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
+                                        }
+                                    }
+                                @endphp
+                                <tr class="dip-data-row" data-keywords="{{ strtolower($runningNo . ' ' . $it->judul . ' ' . $cleanDesc . ' ' . ($it->pejabat_penguasa ?? '') . ' ' . ($it->penanggung_jawab ?? '')) }}">
+                                    <td class="text-center fw-bold text-muted">{{ $runningNo }}</td>
+                                    <td><strong class="text-dark" style="font-size: 13.5px;">{{ $it->judul }}</strong></td>
+                                    <td class="text-muted small" style="font-size: 12.5px; line-height: 1.5;">{{ $cleanDesc }}</td>
+                                    <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
+                                    <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
+                                    <td class="text-center">{{ $it->bentuk_informasi ?? 'Hardcopy & Softcopy' }}</td>
+                                    <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
+                                    <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
+                                    <td class="text-center" style="vertical-align: middle;">
+                                        @if(!empty($resolvedLinks))
+                                            <div class="d-flex flex-column gap-1.5 align-items-center justify-content-center py-1">
+                                                @foreach($resolvedLinks as $lnk)
+                                                    <a href="{{ $lnk['url'] }}" class="pktj-tautan-pill" target="_self" title="{{ $lnk['nama'] }}">
+                                                        <i class="fas fa-external-link-alt text-warning" style="font-size: 10px;"></i>
+                                                        <span>{{ $lnk['nama'] }}</span>
+                                                    </a>
+                                                @endforeach
+                                            </div>
+                                        @else
+                                            <span class="text-muted fw-bold">-</span>
+                                        @endif
+                                    </td>
+                                </tr>
                             @endforeach
                         @else
                             <tr>
@@ -397,7 +360,7 @@
                     <div class="d-flex align-items-center gap-1.5 ms-md-2">
                         <span class="text-muted small">Tampilkan:</span>
                         <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changePageSize(this.value)">
-                            <option value="all" selected>Semua data (5 Kategori)</option>
+                            <option value="all" selected>Semua data (25 item)</option>
                             <option value="10">10 data per halaman</option>
                             <option value="25">25 data per halaman</option>
                         </select>
@@ -453,27 +416,13 @@
             const startIdx = (currentPage - 1) * rowsPerPage;
             const endIdx = Math.min(startIdx + rowsPerPage, total);
 
-            const visibleCategories = new Set();
             for (let i = startIdx; i < endIdx; i++) {
                 if (filteredRows[i]) {
                     filteredRows[i].style.display = '';
                     const noCell = filteredRows[i].querySelector('td:first-child');
                     if (noCell) noCell.innerText = (i + 1);
-                    const cat = filteredRows[i].getAttribute('data-category');
-                    if (cat) visibleCategories.add(cat);
                 }
             }
-
-            // Update category divider rows visibility based on whether any row in that category is visible
-            const catRows = document.querySelectorAll('#dipTableBerkala tbody tr.category-divider-row');
-            catRows.forEach(cr => {
-                const catName = cr.getAttribute('data-category');
-                if (visibleCategories.has(catName)) {
-                    cr.style.display = '';
-                } else {
-                    cr.style.display = 'none';
-                }
-            });
 
             // Update info
             const infoEl = document.getElementById('tablePaginationInfo');
@@ -481,7 +430,7 @@
                 if (total === 0) {
                     infoEl.innerHTML = '<span class="text-danger"><i class="fas fa-search me-1"></i> Tidak ada informasi yang cocok dengan kata kunci pencarian.</span>';
                 } else if (rowsPerPage >= total) {
-                    infoEl.innerHTML = `Menampilkan seluruh <strong>${total}</strong> data informasi berkala terstruktur`;
+                    infoEl.innerHTML = `Menampilkan seluruh <strong>${total}</strong> data informasi berkala resmi (No 1 s.d. ${total})`;
                 } else {
                     infoEl.innerHTML = `Menampilkan baris <strong>${startIdx + 1}</strong> - <strong>${endIdx}</strong> dari total <strong>${total}</strong> data informasi berkala`;
                 }
