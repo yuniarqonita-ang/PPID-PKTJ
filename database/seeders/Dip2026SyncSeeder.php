@@ -788,9 +788,9 @@ class Dip2026SyncSeeder extends Seeder
             ]);
         }
 
-        // 7. AKTIFKAN MENU DIKECUALIKAN & DASHBOARD SETTING
-        CustomMenu::where('id', 12)->orWhere('slug', 'informasi-dikecualikan-sub')->update(['aktif' => 1]);
-        Dashboard::updateOrCreate(['key' => 'menu_dikecualikan_aktif'], ['value' => '1', 'type' => 'boolean']);
+        // 7. NONAKTIFKAN MENU DIKECUALIKAN & DASHBOARD SETTING (SEMBUNYIKAN TOTAL)
+        CustomMenu::where('id', 12)->orWhere('slug', 'informasi-dikecualikan-sub')->update(['aktif' => 0]);
+        Dashboard::updateOrCreate(['key' => 'menu_dikecualikan_aktif'], ['value' => '0', 'type' => 'boolean']);
 
         // 8. REGULASI SK DIP & SK DIK 2026
         Peraturan::updateOrCreate(
@@ -1002,10 +1002,11 @@ class Dip2026SyncSeeder extends Seeder
         unset($pVisi['id'], $pVisi['created_at'], $pVisi['updated_at']);
         ProfilPpid::updateOrCreate(['type' => 'visi'], $pVisi);
 
-        // 10. PASTIKAN URUTAN SUBMENU INFORMASI PUBLIK: BERKALA (1), SETIAP SAAT (2), SERTA MERTA (3), DIKECUALIKAN (4)
-        CustomMenu::where('slug', 'informasi-berkala-sub')->orWhere('url', 'like', '%/informasi-publik/berkala%')->update(['urutan' => 1]);
-        CustomMenu::where('slug', 'informasi-setiap-saat-sub')->orWhere('url', 'like', '%/informasi-publik/setiap-saat%')->update(['urutan' => 2]);
-        CustomMenu::where('slug', 'informasi-serta-merta-sub')->orWhere('url', 'like', '%/informasi-publik/serta-merta%')->update(['urutan' => 3]);
-        CustomMenu::where('slug', 'informasi-dikecualikan-sub')->orWhere('url', 'like', '%/informasi-publik/dikecualikan%')->update(['urutan' => 4]);
+        // 10. PASTIKAN URUTAN SUBMENU INFORMASI PUBLIK: BERKALA (1), SETIAP SAAT (2), SERTA MERTA (3) & HAPUS/SEMBUNYIKAN DIKECUALIKAN
+        CustomMenu::where('slug', 'informasi-berkala-sub')->orWhere('url', 'like', '%/informasi-publik/berkala%')->update(['urutan' => 1, 'aktif' => 1]);
+        CustomMenu::where('slug', 'informasi-setiap-saat-sub')->orWhere('url', 'like', '%/informasi-publik/setiap-saat%')->update(['urutan' => 2, 'aktif' => 1]);
+        CustomMenu::where('slug', 'informasi-serta-merta-sub')->orWhere('url', 'like', '%/informasi-publik/serta-merta%')->update(['urutan' => 3, 'aktif' => 1]);
+        CustomMenu::where('slug', 'informasi-dikecualikan-sub')->orWhere('url', 'like', '%/informasi-publik/dikecualikan%')->update(['aktif' => 0]);
+        Dashboard::updateOrCreate(['key' => 'menu_dikecualikan_aktif'], ['value' => '0', 'type' => 'boolean']);
     }
 }

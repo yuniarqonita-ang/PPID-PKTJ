@@ -343,13 +343,7 @@
                                         @continue
                                     @endif
                                     @if(str_contains(strtolower($child->nama), 'dikecualikan') || str_contains(strtolower($child->url ?? ''), 'dikecualikan') || $child->slug === 'informasi-dikecualikan-sub')
-                                        @php
-                                            $isDikecualikanAktif = \App\Models\Dashboard::getValue('menu_dikecualikan_aktif');
-                                            $tampilkanDikecualikan = ($isDikecualikanAktif === '1' || $isDikecualikanAktif === 1 || $isDikecualikanAktif === true);
-                                        @endphp
-                                        @if(!$tampilkanDikecualikan)
-                                            @continue
-                                        @endif
+                                        @continue
                                     @endif
                                     @php
                                         $childNama = $child->nama;

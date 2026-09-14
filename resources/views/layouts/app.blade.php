@@ -425,7 +425,6 @@
                             <a href="{{ route('admin.informasi.berkala.index') }}" class="submenu-link {{ request()->is('admin/informasi/berkala*') ? 'active' : '' }}">Informasi Berkala</a>
                             <a href="{{ route('admin.informasi.setiapsaat.index') }}" class="submenu-link {{ request()->is('admin/informasi/setiap-saat*') ? 'active' : '' }}">Informasi Setiap Saat</a>
                             <a href="{{ route('admin.informasi.sertamerta.index') }}" class="submenu-link {{ request()->is('admin/informasi/serta-merta*') ? 'active' : '' }}">Informasi Serta Merta</a>
-                            <a href="{{ route('admin.informasi.dikecualikan.index') }}" class="submenu-link {{ request()->is('admin/informasi/dikecualikan*') ? 'active' : '' }}">Informasi Dikecualikan</a>
                         </div>
 
                         <button class="accordion-toggle {{ request()->is('admin/layanan*') || request()->is('admin/dokumen*') ? 'active' : '' }}" onclick="toggleAccordion(this)">

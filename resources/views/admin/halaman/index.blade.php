@@ -149,7 +149,7 @@
                     </div>
                     <div>
                         <h3 class="text-lg font-semibold text-[#004a99]">Informasi Publik</h3>
-                        <p class="text-sm text-gray-500">4 kategori</p>
+                        <p class="text-sm text-gray-500">3 kategori</p>
                     </div>
                 </div>
             </div>
@@ -178,15 +178,6 @@
                         <p class="text-xs text-gray-500">{{ App\Models\InformasiSertaMerta::count() }} file</p>
                     </div>
                     <a href="{{ route('admin.informasi.sertamerta.index') }}" class="text-[#004a99] hover:text-blue-300">
-                        <i class="fas fa-list text-sm"></i>
-                    </a>
-                </div>
-                <div class="flex items-center justify-between p-2 bg-gray-50 border border-gray-100 rounded-lg hover:bg-gray-100 transition">
-                    <div class="flex-1">
-                        <p class="text-sm font-medium text-[#004a99]">Informasi Dikecualikan</p>
-                        <p class="text-xs text-gray-500">{{ App\Models\InformasiDikecualikan::count() }} file</p>
-                    </div>
-                    <a href="{{ route('admin.informasi.dikecualikan.index') }}" class="text-[#004a99] hover:text-blue-300">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
