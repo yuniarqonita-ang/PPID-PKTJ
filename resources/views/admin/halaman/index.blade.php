@@ -165,19 +165,19 @@
                 </div>
                 <div class="flex items-center justify-between p-2 bg-gray-50 border border-gray-100 rounded-lg hover:bg-gray-100 transition">
                     <div class="flex-1">
-                        <p class="text-sm font-medium text-[#004a99]">Informasi Serta Merta</p>
-                        <p class="text-xs text-gray-500">{{ App\Models\InformasiSertaMerta::count() }} file</p>
+                        <p class="text-sm font-medium text-[#004a99]">Informasi Setiap Saat</p>
+                        <p class="text-xs text-gray-500">{{ App\Models\InformasiSetiapSaat::count() }} file</p>
                     </div>
-                    <a href="{{ route('admin.informasi.sertamerta.index') }}" class="text-[#004a99] hover:text-blue-300">
+                    <a href="{{ route('admin.informasi.setiapsaat.index') }}" class="text-[#004a99] hover:text-blue-300">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>
                 <div class="flex items-center justify-between p-2 bg-gray-50 border border-gray-100 rounded-lg hover:bg-gray-100 transition">
                     <div class="flex-1">
-                        <p class="text-sm font-medium text-[#004a99]">Informasi Setiap Saat</p>
-                        <p class="text-xs text-gray-500">{{ App\Models\InformasiSetiapSaat::count() }} file</p>
+                        <p class="text-sm font-medium text-[#004a99]">Informasi Serta Merta</p>
+                        <p class="text-xs text-gray-500">{{ App\Models\InformasiSertaMerta::count() }} file</p>
                     </div>
-                    <a href="{{ route('admin.informasi.setiapsaat.index') }}" class="text-[#004a99] hover:text-blue-300">
+                    <a href="{{ route('admin.informasi.sertamerta.index') }}" class="text-[#004a99] hover:text-blue-300">
                         <i class="fas fa-list text-sm"></i>
                     </a>
                 </div>

@@ -322,10 +322,23 @@
                         }
                     @endphp
                     @if($menu->children->count() > 0)
+                        @php
+                            $sortedChildren = $menu->children;
+                            if (str_contains(strtoupper($menuNama), 'INFORMASI PUBLIK')) {
+                                $sortedChildren = $menu->children->sortBy(function($child) {
+                                    $s = strtolower($child->slug . ' ' . $child->url . ' ' . $child->nama);
+                                    if (str_contains($s, 'berkala')) return 1;
+                                    if (str_contains($s, 'setiap')) return 2;
+                                    if (str_contains($s, 'serta')) return 3;
+                                    if (str_contains($s, 'dikecualikan')) return 4;
+                                    return 99;
+                                });
+                            }
+                        @endphp
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-white px-3 fw-bold uppercase" href="#" data-bs-toggle="dropdown" aria-expanded="false">{{ $menuNama }}</a>
                             <ul class="dropdown-menu" style="min-width: 250px;">
-                                @foreach($menu->children as $child)
+                                @foreach($sortedChildren as $child)
                                     @if(in_array($child->slug, ['sop-penetapan-sub', 'sop-pengujian-sub', 'sop-pendokumentasian-sub', 'layanan-daftar-sub', 'daftar-informasi-sub']) || str_contains(strtolower($child->nama), 'daftar informasi publik') || str_contains($child->url, 'sop-penetapan') || str_contains($child->url, 'sop-pengujian') || str_contains($child->url, 'sop-pendokumentasian') || str_contains($child->url, 'layanan-informasi/daftar'))
                                         @continue
                                     @endif

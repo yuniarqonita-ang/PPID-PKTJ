@@ -1001,5 +1001,11 @@ class Dip2026SyncSeeder extends Seeder
 );
         unset($pVisi['id'], $pVisi['created_at'], $pVisi['updated_at']);
         ProfilPpid::updateOrCreate(['type' => 'visi'], $pVisi);
+
+        // 10. PASTIKAN URUTAN SUBMENU INFORMASI PUBLIK: BERKALA (1), SETIAP SAAT (2), SERTA MERTA (3), DIKECUALIKAN (4)
+        CustomMenu::where('slug', 'informasi-berkala-sub')->orWhere('url', 'like', '%/informasi-publik/berkala%')->update(['urutan' => 1]);
+        CustomMenu::where('slug', 'informasi-setiap-saat-sub')->orWhere('url', 'like', '%/informasi-publik/setiap-saat%')->update(['urutan' => 2]);
+        CustomMenu::where('slug', 'informasi-serta-merta-sub')->orWhere('url', 'like', '%/informasi-publik/serta-merta%')->update(['urutan' => 3]);
+        CustomMenu::where('slug', 'informasi-dikecualikan-sub')->orWhere('url', 'like', '%/informasi-publik/dikecualikan%')->update(['urutan' => 4]);
     }
 }
