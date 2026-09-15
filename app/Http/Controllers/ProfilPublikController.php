@@ -32,6 +32,19 @@ class ProfilPublikController extends Controller
     public function showProfil()
     {
         $profil = ProfilPpid::where('type', 'profil')->first();
+        if ($profil && (empty($profil->konten_pembuka) || str_contains($profil->konten_pembuka, 'Bali'))) {
+            $profil->konten_pembuka = '<p class="lead fw-semibold text-dark" style="font-size: 1.15rem; line-height: 1.8;">
+    Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal merupakan garda terdepan keterbukaan informasi publik di lingkungan perguruan tinggi kedinasan vokasi Kementerian Perhubungan. Keberadaan institusi ini berakar dari sejarah panjang pengabdian sejak 14 Mei 1971 saat pertama kali didirikan sebagai Balai Pendidikan dan Latihan Transportasi Jalan Raya (Balai Diklat Trans Jaya) Tegal, yang kemudian bertransformasi menjadi Balai Pendidikan dan Pelatihan Transportasi Darat (BPPTD) Tegal berdasarkan Keputusan Menteri Perhubungan Nomor KM 73 Tahun 2002, hingga akhirnya resmi bertransformasi menjadi Politeknik Keselamatan Transportasi Jalan (PKTJ) melalui Peraturan Menteri Perhubungan Nomor PM 15 Tahun 2012.
+</p>
+<p>
+    Sebagai Unit Pelaksana Teknis (UPT) unggulan di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP), PKTJ mengemban amanat strategis dalam mencetak sumber daya manusia perhubungan yang PRIMA, profesional, dan berdaya saing global di bidang keselamatan jalan raya. Aktivitas tridharma perguruan tinggi dan layanan kedinasan diselenggarakan secara terpadu di Kota Tegal melalui Kampus 1 di Jalan Perintis Kemerdekaan Kelurahan Slerok serta Kampus 2 di Jalan KH. Abdul Syukur Margadana yang juga menjadi pusat Meja Layanan Terpadu PPID PKTJ, dengan menyelenggarakan program studi Sarjana Terapan Rekayasa Sistem Transportasi Jalan, Sarjana Terapan Teknologi Rekayasa Otomotif, dan Diploma Tiga Teknologi Otomotif.
+</p>
+<p>
+    Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transparan, dan akuntabel (Good Institutional Governance), PPID Pelaksana PKTJ Tegal berkomitmen penuh melaksanakan amanat Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik dan Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018. Seluruh permohonan informasi publik dilayani secara berintegritas, cepat, akurat, dan tanpa dipungut biaya apapun (Rp 0), didukung integrasi sistem layanan modern baik secara daring melalui portal mandiri maupun luring di Meja Layanan Fisik yang ramah inklusif bagi seluruh lapisan masyarakat dan penyandang disabilitas.
+</p>';
+            $profil->konten_detail = null;
+            try { $profil->save(); } catch (\Throwable $e) {}
+        }
         if ($profil) {
             $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
             $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);

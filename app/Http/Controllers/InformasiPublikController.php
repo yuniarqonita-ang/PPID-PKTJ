@@ -39,8 +39,33 @@ class InformasiPublikController extends Controller
 
     private function ensureDataSeeded(): void
     {
-        // Never auto-seed or reset database data on page load
-        return;
+        try {
+            // Cek apakah data resmi DIP 2026 sudah ada di database
+            $berkalaCount = class_exists(InformasiBerkala::class) ? InformasiBerkala::where('aktif', true)->count() : 0;
+            $setiapCount = class_exists(InformasiSetiapSaat::class) ? InformasiSetiapSaat::where('aktif', true)->count() : 0;
+            $sertaCount = class_exists(InformasiSertaMerta::class) ? InformasiSertaMerta::where('aktif', true)->count() : 0;
+
+            // Jika data DIP kurang dari jumlah resmi (25 Berkala, 10 Setiap Saat, 3 Serta Merta), jalankan seeder otomatis
+            if ($berkalaCount < 25 || $setiapCount < 10 || $sertaCount < 3) {
+                $seederFile = database_path('seeders/DipPktj2026Seeder.php');
+                if (file_exists($seederFile)) {
+                    require_once $seederFile;
+                    $seeder = new \Database\Seeders\DipPktj2026Seeder();
+                    $seeder->run();
+                }
+            }
+
+            // Cek apakah Pejabat Sertijab 14 September 2026 sudah sinkron (Wadir I Dr. Setya, Wadir II Arief, Wadir III Hendrik)
+            $wadir1 = Pejabat::where('urutan', 2)->first();
+            if (!$wadir1 || !str_contains($wadir1->nama, 'Setya')) {
+                $seederPejabat = database_path('seeders/PejabatSeeder.php');
+                if (file_exists($seederPejabat)) {
+                    require_once $seederPejabat;
+                    $seeder = new \Database\Seeders\PejabatSeeder();
+                    $seeder->run();
+                }
+            }
+        } catch (\Throwable $e) {}
     }
 
     private function getHiddenTitles(): array
@@ -173,41 +198,27 @@ class InformasiPublikController extends Controller
         try {
             $hiddenTitles = $this->getHiddenTitles();
 
-            $daftarItems = DaftarInformasi::where('aktif', true)
-                ->where('kategori', 'informasi-berkala')
-                ->get()
-                ->map(fn($item) => $this->mapDaftarInformasi($item));
-
+            // 1. Ambil data utama resmi dari model InformasiBerkala (DIP 2026)
             $modelItems = collect();
             if (class_exists(InformasiBerkala::class)) {
                 $modelItems = InformasiBerkala::where('aktif', true)
+                    ->orderBy('id', 'asc')
                     ->get()
                     ->map(fn($item) => $this->mapModelItem($item));
             }
 
-            $merged = collect();
-            $grouped = $daftarItems->concat($modelItems)->groupBy(function($it) {
-                return strtolower(trim($it->judul));
-            });
+            $modelTitles = $modelItems->pluck('judul')->map(fn($t) => strtolower(trim($t)))->all();
 
-            foreach ($grouped as $titleKey => $group) {
-                // JIKA JUDUL INI SUDAH DI-HIDE DI MANA PUN DI ADMIN PANEL, JANGAN TAMPILKAN!
-                if (in_array($titleKey, $hiddenTitles)) {
-                    continue;
-                }
+            // 2. Ambil data tambahan dari DaftarInformasi yang belum ada di InformasiBerkala
+            $daftarItems = DaftarInformasi::where('aktif', true)
+                ->where('kategori', 'informasi-berkala')
+                ->get()
+                ->filter(fn($d) => !in_array(strtolower(trim($d->judul_informasi)), $modelTitles))
+                ->map(fn($item) => $this->mapDaftarInformasi($item));
 
-                if ($group->count() === 1) {
-                    $merged->push($group->first());
-                } else {
-                    $best = $group->sortByDesc(function($it) {
-                        return strlen(strip_tags($it->deskripsi ?? ''));
-                    })->first();
-                    $merged->push($best);
-                }
-            }
-
-            // Tampilkan seluruh daftar informasi berkala resmi yang aktif
-            $items = $merged->sortBy('id')->values();
+            $items = $modelItems->concat($daftarItems)
+                ->filter(fn($it) => !in_array(strtolower(trim($it->judul)), $hiddenTitles))
+                ->values();
 
         } catch (\Throwable $e) {
             $items = collect([]);
@@ -252,40 +263,27 @@ class InformasiPublikController extends Controller
         try {
             $hiddenTitles = $this->getHiddenTitles();
 
-            $daftarItems = DaftarInformasi::where('aktif', true)
-                ->whereIn('kategori', ['informasi-serta-merta', 'informasi-sertamerta'])
-                ->get()
-                ->map(fn($item) => $this->mapDaftarInformasi($item));
-
+            // 1. Ambil data utama resmi dari model InformasiSertaMerta (DIP 2026)
             $modelItems = collect();
             if (class_exists(InformasiSertaMerta::class)) {
                 $modelItems = InformasiSertaMerta::where('aktif', true)
+                    ->orderBy('id', 'asc')
                     ->get()
                     ->map(fn($item) => $this->mapModelItem($item));
             }
 
-            $merged = collect();
-            $grouped = $daftarItems->concat($modelItems)->groupBy(function($it) {
-                return strtolower(trim($it->judul));
-            });
+            $modelTitles = $modelItems->pluck('judul')->map(fn($t) => strtolower(trim($t)))->all();
 
-            foreach ($grouped as $titleKey => $group) {
-                if (in_array($titleKey, $hiddenTitles)) {
-                    continue;
-                }
+            // 2. Ambil data tambahan dari DaftarInformasi yang belum ada di InformasiSertaMerta
+            $daftarItems = DaftarInformasi::where('aktif', true)
+                ->whereIn('kategori', ['informasi-serta-merta', 'informasi-sertamerta'])
+                ->get()
+                ->filter(fn($d) => !in_array(strtolower(trim($d->judul_informasi)), $modelTitles))
+                ->map(fn($item) => $this->mapDaftarInformasi($item));
 
-                if ($group->count() === 1) {
-                    $merged->push($group->first());
-                } else {
-                    $best = $group->sortByDesc(function($it) {
-                        return strlen(strip_tags($it->deskripsi ?? ''));
-                    })->first();
-                    $merged->push($best);
-                }
-            }
-
-            // Tampilkan seluruh daftar informasi serta merta resmi yang aktif
-            $items = $merged->sortBy('id')->values();
+            $items = $modelItems->concat($daftarItems)
+                ->filter(fn($it) => !in_array(strtolower(trim($it->judul)), $hiddenTitles))
+                ->values();
 
         } catch (\Throwable $e) {
             $items = collect([]);
@@ -302,40 +300,27 @@ class InformasiPublikController extends Controller
         try {
             $hiddenTitles = $this->getHiddenTitles();
 
-            $daftarItems = DaftarInformasi::where('aktif', true)
-                ->whereIn('kategori', ['informasi-setiap-saat', 'informasi-setiapsaat'])
-                ->get()
-                ->map(fn($item) => $this->mapDaftarInformasi($item));
-
+            // 1. Ambil data utama resmi dari model InformasiSetiapSaat (DIP 2026)
             $modelItems = collect();
             if (class_exists(InformasiSetiapSaat::class)) {
                 $modelItems = InformasiSetiapSaat::where('aktif', true)
+                    ->orderBy('id', 'asc')
                     ->get()
                     ->map(fn($item) => $this->mapModelItem($item));
             }
 
-            $merged = collect();
-            $grouped = $daftarItems->concat($modelItems)->groupBy(function($it) {
-                return strtolower(trim($it->judul));
-            });
+            $modelTitles = $modelItems->pluck('judul')->map(fn($t) => strtolower(trim($t)))->all();
 
-            foreach ($grouped as $titleKey => $group) {
-                if (in_array($titleKey, $hiddenTitles)) {
-                    continue;
-                }
+            // 2. Ambil data tambahan dari DaftarInformasi yang belum ada di InformasiSetiapSaat
+            $daftarItems = DaftarInformasi::where('aktif', true)
+                ->whereIn('kategori', ['informasi-setiap-saat', 'informasi-setiapsaat'])
+                ->get()
+                ->filter(fn($d) => !in_array(strtolower(trim($d->judul_informasi)), $modelTitles))
+                ->map(fn($item) => $this->mapDaftarInformasi($item));
 
-                if ($group->count() === 1) {
-                    $merged->push($group->first());
-                } else {
-                    $best = $group->sortByDesc(function($it) {
-                        return strlen(strip_tags($it->deskripsi ?? ''));
-                    })->first();
-                    $merged->push($best);
-                }
-            }
-
-            // Tampilkan seluruh daftar informasi setiap saat resmi yang aktif
-            $items = $merged->sortBy('id')->values();
+            $items = $modelItems->concat($daftarItems)
+                ->filter(fn($it) => !in_array(strtolower(trim($it->judul)), $hiddenTitles))
+                ->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }

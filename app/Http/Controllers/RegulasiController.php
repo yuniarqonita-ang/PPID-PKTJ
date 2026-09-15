@@ -42,7 +42,8 @@ class RegulasiController extends Controller
             })->delete();
         } catch (\Throwable $e) {}
 
-        if (Peraturan::count() === 0) {
+        $hasKpskj9 = Peraturan::where('nomor', 'like', '%KP-SKJ 9%')->exists();
+        if (!$hasKpskj9 || Peraturan::count() < 10) {
             try {
                 $seeder = new \Database\Seeders\RegulasiBpsdmPktjSeeder();
                 $seeder->run();
