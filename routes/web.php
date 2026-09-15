@@ -548,15 +548,26 @@ Route::get('/refresh-deploy', function() {
                 }
             }
 
-            // Jalankan sinkronisasi data resmi DIP Poltrada Bali & Menu Seeder
-            $seederFile = database_path('seeders/PoltradaBaliDipSeeder.php');
+            // Jalankan sinkronisasi data resmi DIP PKTJ 2026 (SK KP-SKJ 9 Tahun 2026) & Menu Seeder & Pejabat Seeder
+            $seederFile = database_path('seeders/DipPktj2026Seeder.php');
             if (file_exists($seederFile)) {
                 require_once $seederFile;
-                $seeder = new \Database\Seeders\PoltradaBaliDipSeeder();
+                $seeder = new \Database\Seeders\DipPktj2026Seeder();
                 $seeder->run();
             }
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\DefaultMenuSeeder', '--force' => true]);
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\PejabatSeeder', '--force' => true]);
+
+            // Pastikan folder Google Drive Kepegawaian tersimpan di setting
+            \App\Models\Dashboard::updateOrCreate(
+                ['key' => 'statistik_pegawai_gdrive_folder_url'],
+                [
+                    'value' => 'https://drive.google.com/drive/folders/164eOazEqPabeX6h6atbn3KEs8FWHQVjJ?usp=drive_link',
+                    'type' => 'text',
+                    'description' => 'Link Folder Google Drive Kepegawaian',
+                    'aktif' => true
+                ]
+            );
 
             // Bersihkan lhkpn_link generik KPK dari pejabat agar tidak tampil tautan default
             foreach (\App\Models\Pejabat::all() as $pj) {
@@ -566,15 +577,19 @@ Route::get('/refresh-deploy', function() {
             }
         } catch (\Throwable $ex) {}
 
-        $berkalaCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-berkala')->where('aktif', 1)->count();
-        $setiapCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-setiap-saat')->where('aktif', 1)->count();
-        $sertaCount = \Illuminate\Support\Facades\DB::table('daftar_informasis')->where('kategori', 'informasi-serta-merta')->where('aktif', 1)->count();
-        $totalCount = $berkalaCount + $setiapCount + $sertaCount;
+        $berkalaCount = \Illuminate\Support\Facades\DB::table('informasi_berkalas')->where('aktif', 1)->count();
+        $setiapCount = \Illuminate\Support\Facades\DB::table('informasi_setiap_saats')->where('aktif', 1)->count();
+        $sertaCount = \Illuminate\Support\Facades\DB::table('informasi_serta_mertas')->where('aktif', 1)->count();
+        $pejabatCount = \App\Models\Pejabat::where('aktif', 1)->count();
 
-        return '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Deploy & Sinkronisasi Selesai</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></head><body class="bg-light d-flex align-items-center justify-content-center min-vh-100 py-5"><div class="card shadow-lg p-5 rounded-4 text-center" style="max-width: 720px;"><div class="display-4 text-success mb-3"><i class="fas fa-check-circle"></i></div><h3 class="fw-bold text-dark mb-2">Sinkronisasi & Pembaruan Berhasil!</h3><p class="text-muted small mb-4">Database telah disinkronkan dan seluruh halaman Informasi Publik telah diperbarui sesuai klasifikasi resmi PKTJ.</p><div class="p-3 bg-light border rounded-3 text-start small mb-4"><ul class="mb-0 ps-3"><li class="mb-1"><strong>Informasi Berkala:</strong> ' . $berkalaCount . ' Dokumen Aktif Terverifikasi (dengan tautan resmi & Google Drive)</li><li class="mb-1"><strong>Informasi Setiap Saat:</strong> ' . $setiapCount . ' Dokumen Aktif Terverifikasi (SOP, PKS, RUP, SK Tim)</li><li class="mb-1"><strong>Informasi Serta Merta:</strong> ' . $sertaCount . ' Dokumen Aktif Terverifikasi (Termasuk MoU Perpustakaan Tersensor & SIPENCATAR)</li><li><strong>Status Draft:</strong> Dokumen tanpa link tetap tersimpan rapi sebagai Draft (Tidak Aktif) di Admin Panel.</li></ul></div><div class="d-grid gap-2"><a href="/informasi-publik/berkala" class="btn btn-primary fw-bold py-2.5 rounded-3"><i class="fas fa-table me-2"></i> Buka Halaman Informasi Berkala</a><a href="/informasi-publik/setiap-saat" class="btn btn-outline-primary fw-bold py-2.5 rounded-3"><i class="fas fa-folder me-2"></i> Buka Halaman Informasi Setiap Saat</a><a href="/informasi-publik/serta-merta" class="btn btn-outline-primary fw-bold py-2.5 rounded-3"><i class="fas fa-bullhorn me-2"></i> Buka Halaman Informasi Serta Merta</a></div></div></body></html>';
+        return '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Deploy & Sinkronisasi DIP 2026 Berhasil</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></head><body class="bg-light d-flex align-items-center justify-content-center min-vh-100 py-5"><div class="card shadow-lg p-4 p-md-5 rounded-4 text-center" style="max-width: 760px;"><div class="display-4 text-success mb-3"><i class="fas fa-check-circle"></i></div><h3 class="fw-bold text-dark mb-2">Sinkronisasi & Pembaruan DIP 2026 Berhasil!</h3><p class="text-muted small mb-4">Seluruh data Daftar Informasi Publik 2026 (SK KP-SKJ 9 Tahun 2026), Sertijab Pejabat Wadir I-III, ATM BPSDM link pill, dan Google Drive Kepegawaian telah aktif.</p><div class="p-3 bg-light border rounded-3 text-start small mb-4"><ul class="mb-0 ps-3"><li class="mb-2"><strong>Informasi Berkala:</strong> <span class="badge bg-success">' . $berkalaCount . ' Dokumen Aktif</span> (Sesuai Lampiran I Bagian A KP-SKJ 9/2026)</li><li class="mb-2"><strong>Informasi Setiap Saat:</strong> <span class="badge bg-success">' . $setiapCount . ' Dokumen Aktif</span> (Sesuai Lampiran I Bagian B)</li><li class="mb-2"><strong>Informasi Serta Merta:</strong> <span class="badge bg-success">' . $sertaCount . ' Dokumen Aktif</span> (Sesuai Lampiran I Bagian C)</li><li class="mb-2"><strong>Pejabat Struktural Sertijab (14 Sep 2026):</strong> <span class="badge bg-primary">' . $pejabatCount . ' Pejabat Aktif</span> (Wadir I Dr. Setya Wijayanta, Wadir II R. Arief Novianto, Wadir III Hendrik Prasetiyo)</li><li class="mb-0"><strong>Link Folder GDrive Kepegawaian:</strong> <span class="badge bg-info text-dark">Aktif & Siap Akses</span></li></ul></div><div class="row g-2"><div class="col-md-6"><a href="/informasi-publik/berkala" class="btn btn-primary w-100 fw-bold py-2 rounded-3"><i class="fas fa-table me-2"></i> Informasi Berkala</a></div><div class="col-md-6"><a href="/informasi-publik/setiap-saat" class="btn btn-outline-primary w-100 fw-bold py-2 rounded-3"><i class="fas fa-folder-open me-2"></i> Informasi Setiap Saat</a></div><div class="col-md-6"><a href="/informasi-publik/serta-merta" class="btn btn-outline-primary w-100 fw-bold py-2 rounded-3"><i class="fas fa-bullhorn me-2"></i> Informasi Serta Merta</a></div><div class="col-md-6"><a href="/profil/pejabat" class="btn btn-outline-secondary w-100 fw-bold py-2 rounded-3"><i class="fas fa-user-tie me-2"></i> Profil Pejabat</a></div><div class="col-12 mt-2"><a href="/admin/login" class="btn btn-dark w-100 fw-bold py-2 rounded-3"><i class="fas fa-lock me-2"></i> Masuk Admin Panel</a></div></div></div></body></html>';
     } catch (\Throwable $e) {
         return 'Error clearing deploy cache: ' . $e->getMessage();
     }
+});
+
+Route::get('/deploy-sync-dip-2026', function() {
+    return redirect('/refresh-deploy');
 });
 
 Route::get('/setup-db-2025', function() {

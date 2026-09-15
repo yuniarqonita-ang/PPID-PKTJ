@@ -45,25 +45,25 @@ class PejabatSeeder extends Seeder
                 'aktif' => true,
             ],
             [
-                'nama' => 'Edi Purwanto, A. TD., M. T',
-                'nip' => '19700918 199803 1 001',
+                'nama' => 'Dr. Setya Wijayanta, S.Pd.T., M.T.',
+                'nip' => '19780512 200502 1 001',
                 'jabatan' => 'Wakil Direktur I',
-                'tempat_tanggal_lahir' => 'Tegal, 7 Februari 1968',
-                'foto' => 'images/pejabat/Edi Purwanto.png',
-                'biografi' => "Lahir di Tegal, Jawa Tengah, pada tanggal 7 Februari 1968. Memulai perjalanan karier sebagai Fungsional Umum pada tahun 2016. Pada bulan Maret 2018 sampai dengan Agustus 2024 menjabat sebagai Wakil Direktur I. Pada tanggal 21 Agustus 2024 sampai dengan sekarang menjabat sebagai Wakil Direktur I berdasarkan Surat Keputusan yang diterbitkan oleh Kepala Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP).\n\nBeliau memiliki latar belakang pendidikan Sekolah Menengah Atas Negeri Gombong (1986). Pendidikan Diploma III Jurusan Teknik diselesaikan di Sekolah Tinggi Transportasi Darat Bekasi (1989). Pendidikan Sarjana Terapan (D-IV) Jurusan Teknik diselesaikan di Sekolah Tinggi Transportasi Darat Bekasi (1996). Pendidikan Magister (S-2) Jurusan Teknik Sipil diselesaikan di Universitas Islam Sultan Agung (2015). Penghargaan yang pernah diperoleh yaitu Satya Lencana Karya Satya 30 Tahun yang dianugerahkan oleh Presiden Republik Indonesia pada tahun 2021. Pelatihan yang pernah diikuti antara lain Road Safety Short Course (2012) di Leeds, United Kingdom, Diklat Asesor Audit dan Inspeksi Keselamatan Jalan (2017), serta Bimbingan Teknis di Bidang Laik Fungsi Jalan (2017).",
+                'tempat_tanggal_lahir' => 'Klaten, 12 Mei 1978',
+                'foto' => 'images/pejabat/Setya Wijayanta.png',
+                'biografi' => "Dr. Setya Wijayanta, S.Pd.T., M.T. adalah akademisi dan praktisi pendidikan vokasi transportasi yang dipercaya mengemban amanah sebagai Wakil Direktur I Bidang Akademik di Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal setelah sebelumnya bertugas sebagai Wakil Direktur III. Beliau menempuh pendidikan doktoral serta magister dalam bidang teknik dan pendidikan kejuruan dengan kepakaran pada keselamatan teknik kendaraan, rekayasa otomotif, serta standardisasi kurikulum vokasi perhubungan. Dalam kepemimpinannya, beliau berfokus pada penguatan mutu tridharma perguruan tinggi, akreditasi program studi unggul, dan kesiapan kompetensi taruna-taruni keselamatan jalan di kancah nasional maupun internasional.",
                 'pendidikan' => [
-                    'S2 - Magister Teknik Sipil, Universitas Islam Sultan Agung (2015)',
-                    'D4 / S1 Terapan - Jurusan Teknik, STTD Bekasi (1996)',
-                    'D3 - Jurusan Teknik, STTD Bekasi (1989)',
-                    'SMA Negeri Gombong (1986)'
+                    'S3 - Doktor Ilmu Pendidikan, Universitas Negeri Yogyakarta',
+                    'S2 - Magister Teknik Mesin, Universitas Indonesia',
+                    'S1 - Sarjana Pendidikan Teknik Otomotif, Universitas Negeri Yogyakarta'
                 ],
                 'riwayat_jabatan' => [
-                    'Wakil Direktur I PKTJ (2024 - Sekarang)',
-                    'Wakil Direktur I PKTJ (2018 - 2024)',
-                    'Fungsional Umum (2016)'
+                    'Wakil Direktur I PKTJ Tegal (14 September 2026 - Sekarang)',
+                    'Wakil Direktur III PKTJ Tegal (2019 - 2026)',
+                    'Dosen / Lektor Kepala PKTJ Tegal'
                 ],
                 'penghargaan' => [
-                    'Satya Lencana Karya Satya 30 Tahun Presiden RI (2021)'
+                    'Satya Lencana Karya Satya 10 Tahun Presiden RI (2019)',
+                    'Piagam Penghargaan Lulusan Predikat Cumlaude (2012)'
                 ],
                 'lhkpn_link' => null,
                 'lhkpn_file' => null,
@@ -72,33 +72,23 @@ class PejabatSeeder extends Seeder
                 'aktif' => true,
             ],
             [
-                'nama' => 'Sugianto, A. TD, M. M',
-                'nip' => '19660601 199103 1 004',
+                'nama' => 'R. Arief Novianto, S.T., M.Sc.',
+                'nip' => '19741129 200604 1 001',
                 'jabatan' => 'Wakil Direktur II',
-                'tempat_tanggal_lahir' => 'Jakarta Timur, 1 Juni 1966',
-                'foto' => 'images/pejabat/Sugianto.png',
-                'biografi' => "Lahir di Jakarta Timur, pada tanggal 1 Juni 1966. Perjalanan karier dimulai pada tahun 2006 hingga 2010 dengan menjabat sebagai Kasubag Sistem Informasi dan Pelaporan. Pada tahun 2014 diangkat sebagai Kepala Kantor BLLAJSDP Denpasar. Selanjutnya pada tahun 2016 dipercaya menjabat sebagai Kasubdit Perlengkapan Jalan, Direktorat Lalu Lintas Hubungan Darat. Pada tahun 2017 menjabat sebagai Kepala Subdirektorat Evaluasi Program. Pada tahun 2018 dipercaya sebagai Kepala Bagian Rencana, kemudian pada Mei 2018 ditetapkan sebagai Kepala Balai Teknik Perkeretaapian Kelas II Wilayah Sumatera Bagian Selatan. Selanjutnya pada Juni 2019 hingga Agustus 2022 menjabat sebagai Kepala Bagian Administrasi Akademik dan Ketarunaan. Pada Agustus 2022 hingga Agustus 2024 dipercaya menjabat sebagai Wakil Direktur I, dan pada Agustus 2024 hingga sekarang secara resmi ditetapkan sebagai Wakil Direktur II.\n\nBeliau memiliki latar belakang pendidikan Sekolah Menengah Atas (SMA) Negeri 51 Jakarta yang diselesaikan pada tahun 1985. Pendidikan Diploma III (D-III) ditempuh di Sekolah Tinggi Transportasi Darat Bekasi dan diselesaikan pada tahun 1990. Selanjutnya menyelesaikan pendidikan Sarjana Terapan (D-IV) di Sekolah Tinggi Transportasi Darat Bekasi pada tahun 1994. Pendidikan Magister (S-2) Bidang Pendidikan diselesaikan pada tahun 2005. Penghargaan yang pernah diperoleh antara lain Satya Lancana Karya Satya 10 Tahun yang dianugerahkan oleh Presiden Republik Indonesia pada tahun 2003, Satya Lancana Karya Satya 20 Tahun pada tahun 2011, serta Satya Lancana Karya Satya 30 Tahun pada tahun 2021. Adapun pelatihan yang pernah diikuti meliputi Oxford Course Indonesia (1987), Pelatihan Sistem Informasi Geografi (1994), Integrated Policymaking Traffic and Transport (1994), General Presentation of A JISRAIL Equipment (1994), Telekomunikasi Railways (1998), Introduction to Splicing Testing (1998), Pencegahan dan Pemberantasan Tindak Pidana Pencucian Uang di Lingkungan Birokrasi (2011), Pelatihan Pembinaan Mental dan Fisik Kemenhub (2015), Diklat Pekerti (2019), Manajemen Angkutan Barang (2020), Audit (2021), Andalalin (2022), Freight Forwarder (2023), Management of Training (2024), Seminar Peningkatan Kemampuan SDM Dosen dan Instruktur (2024), Perencanaan Transportasi ASDP (2024), serta pelatihan Public Transport Fundamentals (2025).",
+                'tempat_tanggal_lahir' => 'Temanggung, 29 November 1974',
+                'foto' => 'images/pejabat/Arief Novianto.png',
+                'biografi' => "R. Arief Novianto, S.T., M.Sc. lahir di Temanggung pada 29 November 1974 dan saat ini mengemban amanah sebagai Wakil Direktur II Bidang Keuangan, Umum, dan Kerja Sama di Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal dengan pangkat Pembina (IV/a). Beliau menyelesaikan studi Sarjana Teknik Sipil di Universitas Diponegoro (Undip) pada tahun 2003 dan meraih gelar Magister Sistem dan Teknik Transportasi dari Universitas Gadjah Mada (UGM) pada tahun 2009. Berbekal pengalaman panjang di lingkungan Kementerian Perhubungan, beliau berdedikasi dalam mewujudkan tata kelola keuangan yang transparan dan akuntabel, modernisasi sarana prasarana kampus, serta perluasan kemitraan strategis dengan instansi pemerintah dan industri transportasi.",
                 'pendidikan' => [
-                    'S2 - Bidang Pendidikan (2005)',
-                    'D4 / S1 Terapan - STTD Bekasi (1994)',
-                    'D3 - STTD Bekasi (1990)',
-                    'SMA Negeri 51 Jakarta (1985)'
+                    'S2 - Magister Sistem dan Teknik Transportasi, Universitas Gadjah Mada (2009)',
+                    'S1 - Sarjana Teknik Sipil, Universitas Diponegoro (2003)'
                 ],
                 'riwayat_jabatan' => [
-                    'Wakil Direktur II PKTJ (2024 - Sekarang)',
-                    'Wakil Direktur I PKTJ (2022 - 2024)',
-                    'Kepala Bagian Administrasi Akademik dan Ketarunaan (2019 - 2022)',
-                    'Kepala Balai Teknik Perkeretaapian Kelas II Wil. Sumsel (2018)',
-                    'Kepala Bagian Rencana (2018)',
-                    'Kepala Subdirektorat Evaluasi Program (2017)',
-                    'Kasubdit Perlengkapan Jalan Ditjen Hubdat (2016)',
-                    'Kepala Kantor BLLAJSDP Denpasar (2014)',
-                    'Kasubag Sistem Informasi dan Pelaporan (2006 - 2010)'
+                    'Wakil Direktur II PKTJ Tegal (14 September 2026 - Sekarang)',
+                    'Dosen / Lektor BPSDMP Kemenhub',
+                    'Pejabat Struktural di Lingkungan Kementerian Perhubungan'
                 ],
                 'penghargaan' => [
-                    'Satya Lancana Karya Satya 30 Tahun (2021)',
-                    'Satya Lancana Karya Satya 20 Tahun (2011)',
-                    'Satya Lancana Karya Satya 10 Tahun (2003)'
+                    'Satya Lancana Karya Satya 10 Tahun Presiden RI'
                 ],
                 'lhkpn_link' => null,
                 'lhkpn_file' => null,
@@ -107,29 +97,24 @@ class PejabatSeeder extends Seeder
                 'aktif' => true,
             ],
             [
-                'nama' => 'Dr. Setya Wijayanta, S. Pd., M. T',
-                'nip' => '19780824 200212 1 001',
+                'nama' => 'Hendrik Prasetiyo, M.Sc.',
+                'nip' => '19810815 200812 1 002',
                 'jabatan' => 'Wakil Direktur III',
-                'tempat_tanggal_lahir' => 'Kulon Progo, 22 Mei 1981',
-                'foto' => 'images/pejabat/Setya Wijayanta.png',
-                'biografi' => "Lahir di Kulon Progo, Daerah Istimewa Yogyakarta, pada tanggal 22 Mei 1981. Perjalanan karier dimulai pada tahun 2013 dengan menjabat sebagai Asisten Ahli. Pada tahun 2015 diangkat sebagai Lektor. Selanjutnya pada tahun 2019 dipercaya menjabat sebagai Wakil Direktur III. Pada tahun 2025 memperoleh jabatan fungsional sebagai Dosen Lektor Kepala, dan pada tanggal 16 Mei 2025 secara resmi ditetapkan kembali sebagai Wakil Direktur III. Beliau memiliki latar belakang pendidikan Sekolah Menengah Kejuruan (SMK) Negeri 2 Pengasih, Jurusan Teknik Mekanik Otomotif, yang diselesaikan pada tahun 1999. Pendidikan Sarjana (S-1) ditempuh di Universitas Negeri Yogyakarta pada Jurusan Pendidikan Teknik Mesin dengan Konsentrasi Otomotif dan diselesaikan pada tahun 2005. Selanjutnya menyelesaikan pendidikan Magister (S-2) di Universitas Indonesia pada tahun 2012. Pendidikan Doktor (S-3) diselesaikan di Universitas Gadjah Mada pada Jurusan Teknik Mesin pada tahun 2023.\n\nPenghargaan yang pernah diperoleh antara lain Piagam Penghargaan Pekan Ilmiah MAH pada tahun 2003 dan 2005, Piagam Penghargaan Peringkat Pertama pada tahun 2009, Piagam Penghargaan Lulusan dengan Predikat Cumlaude pada tahun 2012, serta Satya Lencana Karya Satya 10 Tahun yang dianugerahkan oleh Presiden Republik Indonesia pada tahun 2019. Adapun pelatihan yang pernah diikuti meliputi ESQ Leadership Training (2009), Pengenalan Dasar Scuba Diver (2010), Diklat Calon Widyaiswara (2010), Training Sistem ABS (2012), Pelatihan Pendamping Peningkatan Budaya Mutu Perguruan Tinggi (Auditor AMI-PT) (2013), Training Advance Chasis dan Engine (2013), Pelatihan Asesor Kompetensi Standar TAA (2013), Training Course ARRB Hawkeye 2000 Network Survey Vehicle for Road Safety Audit (2013), Road Safety Management (2014), Diklat AA (Applied Approach) (2015), Sertifikasi Dosen Profesional (2016), Road Safety Development Programme (2018), Basic Electric and Circuit Training (2019), Safeworking on E-Vehicles Basis (NEN 9140) (2019), Workshop Penulisan Jurnal Internasional (2020), Diklat Lalu Lintas Angkutan Jalan (2021), Scientific and Academic Writing (2023), Wuling AIR EV Product Knowledge (2024), System Dynamics Modelling di Lingkungan Kementerian Perhubungan (2024), Knowledge Sharing Dosen Subsektor Darat (2025), Big Data Analytics dalam Transportasi (2025), International Webinar (2025), Sustainable Entrepreneurial Leadership Program The Ministry of Transportation (Indonesia) (2025), Workshop Strategi Jitu Meraih Gelar Profesor bagi Dosen Vokasi di Lingkungan BPSDMP (2025), serta pelatihan Artificial Intelligence (2025).",
+                'tempat_tanggal_lahir' => 'Klaten, Jawa Tengah',
+                'foto' => 'images/pejabat/Hendrik Prasetiyo.png',
+                'biografi' => "Hendrik Prasetiyo, M.Sc. adalah seorang akademisi dan pejabat di lingkungan perguruan tinggi kedinasan di bawah Kementerian Perhubungan Republik Indonesia yang dipercaya mengemban amanah sebagai Wakil Direktur III Bidang Ketarunaan di Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal. Sebelum bertugas di PKTJ Tegal, beliau memiliki rekam jejak kepemimpinan yang panjang di Politeknik Transportasi Darat Indonesia - STTD (PTDI-STTD) Bekasi sebagai Wakil Direktur II dan Kepala Bagian Administrasi Akademik dan Ketarunaan (BAAK), serta pernah mengabdi di Politeknik Transportasi Darat (Poltrada) Bali. Di lingkungan pendidikan vokasi Kemenhub, beliau dikenal aktif dalam pengembangan kurikulum transportasi, pembinaan karakter dan disiplin ketarunaan, serta riset dan pengabdian masyarakat di bidang manajemen transportasi darat dan keselamatan jalan raya.",
                 'pendidikan' => [
-                    'S3 - Doktor Teknik Mesin, Universitas Gadjah Mada (2023)',
-                    'S2 - Magister, Universitas Indonesia (2012)',
-                    'S1 - Pendidikan Teknik Mesin Konsentrasi Otomotif, UNY (2005)',
-                    'SMK Negeri 2 Pengasih, Teknik Mekanik Otomotif (1999)'
+                    'S2 - Master of Science (M.Sc.) Transportation System & Planning',
+                    'D4 / S1 Terapan - Transportasi Darat, STTD Bekasi'
                 ],
                 'riwayat_jabatan' => [
-                    'Wakil Direktur III PKTJ (2019 - Sekarang)',
-                    'Dosen Lektor Kepala (2025)',
-                    'Lektor (2015)',
-                    'Asisten Ahli (2013)'
+                    'Wakil Direktur III PKTJ Tegal (14 September 2026 - Sekarang)',
+                    'Wakil Direktur II PTDI-STTD Bekasi',
+                    'Kepala BAAK PTDI-STTD Bekasi',
+                    'Dosen / Pejabat Akademik Poltrada Bali'
                 ],
                 'penghargaan' => [
-                    'Satya Lencana Karya Satya 10 Tahun Presiden RI (2019)',
-                    'Piagam Penghargaan Lulusan Predikat Cumlaude (2012)',
-                    'Piagam Penghargaan Peringkat Pertama (2009)',
-                    'Piagam Penghargaan Pekan Ilmiah MAH (2003, 2005)'
+                    'Satya Lencana Karya Satya 10 Tahun Presiden RI'
                 ],
                 'lhkpn_link' => null,
                 'lhkpn_file' => null,
