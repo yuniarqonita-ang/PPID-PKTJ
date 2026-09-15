@@ -17,6 +17,9 @@
             </a>
         </div>
 
+        <!-- ATURAN PENGISIAN TAUTAN DOKUMEN -->
+        @include('admin.components.aturan-pengisian-banner')
+
         <form action="{{ route('admin.informasi.sertamerta.update', $item->id) }}" method="POST" enctype="multipart/form-data" class="space-y-6">
             @csrf
             @method('PUT')

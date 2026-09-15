@@ -42,6 +42,9 @@
             </div>
         @endif
 
+        <!-- ATURAN & PETUNJUK TEKNIS PENGISIAN TAUTAN DOKUMEN ATM BPSDM -->
+        @include('admin.components.aturan-pengisian-banner')
+
         <!-- FILTER KATEGORI TAUTAN / DOKUMEN (KHUSUS ADMIN) -->
         <div class="flex flex-wrap items-center gap-2 p-3 bg-white rounded-2xl border border-slate-200 shadow-sm mb-4">
             <span class="text-xs font-black text-slate-500 uppercase tracking-wider mr-2 ml-1">

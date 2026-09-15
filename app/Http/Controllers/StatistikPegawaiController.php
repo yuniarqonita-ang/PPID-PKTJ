@@ -88,6 +88,7 @@ class StatistikPegawaiController extends Controller
             'callout_deskripsi' => 'Informasi resmi komposisi ketenagaan serta kepatuhan Laporan Harta Kekayaan Penyelenggara Negara (LHKPN) pimpinan PKTJ Tegal.',
             'callout_btn_text' => 'Profil Pejabat & LHKPN',
             'callout_btn_url' => '/profil/pejabat',
+            'gdrive_folder_url' => 'https://drive.google.com/drive/folders/164eOazEqPabeX6h6atbn3KEs8FWHQVjJ?usp=drive_link',
         ];
     }
 
@@ -144,6 +145,7 @@ class StatistikPegawaiController extends Controller
             'bukti_2_indikator', 'bukti_2_judul', 'bukti_2_deskripsi',
             'bukti_3_indikator', 'bukti_3_judul', 'bukti_3_deskripsi',
             'callout_judul', 'callout_deskripsi', 'callout_btn_text', 'callout_btn_url',
+            'gdrive_folder_url',
         ];
 
         foreach ($fields as $field) {

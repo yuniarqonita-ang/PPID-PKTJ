@@ -320,19 +320,8 @@
                                     <td class="text-center">{{ $it->bentuk_informasi ?? 'Hardcopy & Softcopy' }}</td>
                                     <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
                                     <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
-                                    <td class="text-center" style="vertical-align: middle;">
-                                        @if(!empty($resolvedLinks))
-                                            <div class="d-flex flex-column gap-1.5 align-items-center justify-content-center py-1">
-                                                @foreach($resolvedLinks as $lnk)
-                                                    <a href="{{ $lnk['url'] }}" class="pktj-tautan-pill" target="_self" title="{{ $lnk['nama'] }}">
-                                                        <i class="fas fa-external-link-alt text-warning" style="font-size: 10px;"></i>
-                                                        <span>{{ $lnk['nama'] }}</span>
-                                                    </a>
-                                                @endforeach
-                                            </div>
-                                        @else
-                                            <span class="text-muted fw-bold">-</span>
-                                        @endif
+                                    <td class="text-center" style="vertical-align: middle; min-width: 170px;">
+                                        <x-dip-link-bpsdm :links="$resolvedLinks" :catatan="$it->catatan ?? null" :judul="$it->judul" />
                                     </td>
                                 </tr>
                             @endforeach

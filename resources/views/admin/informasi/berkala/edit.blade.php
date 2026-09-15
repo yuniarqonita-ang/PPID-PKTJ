@@ -21,6 +21,9 @@
             </div>
         </div>
 
+        <!-- ATURAN PENGISIAN TAUTAN DOKUMEN -->
+        @include('admin.components.aturan-pengisian-banner')
+
         <!-- FORM CARD -->
         <div class="bg-white rounded-3xl shadow-xl ring-1 ring-gray-200 overflow-hidden border-t-4 border-[#ffc107]">
             <form action="{{ route('admin.informasi.berkala.update', $item->id) }}" method="POST" enctype="multipart/form-data" class="p-6 md:p-10 space-y-8" id="edit-berkala-form">

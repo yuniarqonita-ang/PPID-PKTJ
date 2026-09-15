@@ -438,6 +438,9 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-2 flex-wrap">
+                    <a href="{{ $settings['statistik_pegawai_gdrive_folder_url'] ?? 'https://drive.google.com/drive/folders/164eOazEqPabeX6h6atbn3KEs8FWHQVjJ?usp=drive_link' }}" target="_blank" class="btn btn-outline-warning text-dark border-warning rounded-pill px-3 py-2 fw-bold btn-sm shadow-sm">
+                        <i class="fab fa-google-drive me-1 text-warning"></i> Folder Google Drive (DRH & SK)
+                    </a>
                     <button type="button" class="btn btn-outline-secondary rounded-pill px-3 py-2 fw-semibold btn-sm" onclick="openKepegawaianProofModal()">
                         <i class="fas fa-images me-1 text-primary"></i> Lihat Tangkapan Layar Resmi
                     </button>

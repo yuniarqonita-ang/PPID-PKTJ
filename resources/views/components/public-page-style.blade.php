@@ -900,6 +900,63 @@
         transform: scale(1.03);
     }
 
+    /* ── BPSDM Link & Action Pill Styles (ATM BPSDM) ── */
+    .bpsdm-pill-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 9999px;
+        text-decoration: none !important;
+        font-size: 11.5px;
+        font-weight: 700;
+        letter-spacing: 0.2px;
+        color: #ffffff !important;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        white-space: nowrap;
+    }
+    .bpsdm-pill-btn:hover {
+        transform: translateY(-1.5px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+        color: #ffffff !important;
+    }
+    .bpsdm-pill-green {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%) !important;
+    }
+    .bpsdm-pill-green:hover {
+        background: linear-gradient(135deg, #059669 0%, #047857 100%) !important;
+    }
+    .bpsdm-pill-blue {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    }
+    .bpsdm-pill-blue:hover {
+        background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%) !important;
+    }
+    .bpsdm-pill-request {
+        background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%) !important;
+    }
+    .bpsdm-pill-request:hover {
+        background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%) !important;
+    }
+    .bpsdm-folder-badge {
+        background: #fef3c7;
+        color: #92400e;
+        border: 1px solid #fde68a;
+        font-size: 11px;
+    }
+    .bpsdm-doc-item {
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+    }
+    .bpsdm-doc-item:hover {
+        background: #f0fdf4 !important;
+        border-color: #86efac !important;
+        transform: translateX(2px);
+    }
+
 </style>
 
 <script>

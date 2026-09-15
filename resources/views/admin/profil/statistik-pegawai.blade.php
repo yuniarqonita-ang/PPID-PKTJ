@@ -492,6 +492,41 @@
             </div>
         </div>
 
+        <!-- 8. INTEGRASI FOLDER GOOGLE DRIVE KEPEGAWAIAN (DRH & ARSIP RESMI) -->
+        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+            <div class="px-6 py-5 bg-gradient-to-r from-amber-50 to-blue-50 border-b border-slate-200 flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <span class="w-9 h-9 rounded-lg bg-amber-500 text-white flex items-center justify-center font-bold text-sm shadow-sm">
+                        <i class="fab fa-google-drive"></i>
+                    </span>
+                    <div>
+                        <h3 class="font-black text-[#002b5c] text-base mb-0">8. Link Folder Google Drive Data Kepegawaian & DRH</h3>
+                        <p class="text-xs text-slate-500 mb-0">Tautan folder Google Drive publik untuk data dukung, DRH pejabat, dan rekapitulasi kepegawaian</p>
+                    </div>
+                </div>
+            </div>
+            <div class="p-6 md:p-8 space-y-4">
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                        URL Folder Google Drive <span class="text-amber-600 font-normal">(Muncul sebagai tombol resmi di halaman publik & profil pejabat)</span>
+                    </label>
+                    <div class="flex items-center gap-3">
+                        <input type="url" name="gdrive_folder_url" value="{{ old('gdrive_folder_url', $data['gdrive_folder_url'] ?? 'https://drive.google.com/drive/folders/164eOazEqPabeX6h6atbn3KEs8FWHQVjJ?usp=drive_link') }}"
+                            class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs text-slate-800 focus:ring-2 focus:ring-[#004a99] focus:bg-white"
+                            placeholder="https://drive.google.com/drive/folders/...">
+                        @if(!empty($data['gdrive_folder_url']))
+                            <a href="{{ $data['gdrive_folder_url'] }}" target="_blank" class="px-4 py-3 bg-amber-500 hover:bg-amber-600 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 flex-shrink-0">
+                                <i class="fas fa-external-link-alt"></i> Buka Folder
+                            </a>
+                        @endif
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1">
+                        <i class="fas fa-info-circle text-[#004a99]"></i> Gunakan link folder Google Drive dengan izin akses "Siapa saja yang memiliki link dapat melihat".
+                    </p>
+                </div>
+            </div>
+        </div>
+
         <!-- SUBMIT ACTION BAR -->
         <div class="pt-4 pb-12 flex justify-end">
             <button type="submit" class="w-full md:w-auto px-10 py-5 bg-gradient-to-r from-[#004a99] to-[#006ccf] text-white font-black text-base uppercase tracking-[3px] rounded-2xl shadow-xl hover:scale-[1.01] active:scale-95 transition-all border-none cursor-pointer flex items-center justify-center gap-3">

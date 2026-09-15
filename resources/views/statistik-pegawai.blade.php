@@ -457,6 +457,11 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-center gap-2 flex-wrap">
+                    @if(!empty($data['gdrive_folder_url']))
+                        <a href="{{ $data['gdrive_folder_url'] }}" target="_blank" class="btn btn-warning text-dark rounded-pill px-3.5 py-2 fw-bold btn-sm shadow-sm">
+                            <i class="fab fa-google-drive me-1.5 text-dark"></i> Folder Google Drive (DRH & SK)
+                        </a>
+                    @endif
                     <a href="{{ url($data['callout_btn_url'] ?? '/profil/pejabat') }}" class="btn btn-primary rounded-pill px-4 py-2 fw-bold btn-sm shadow-sm">
                         <i class="fas fa-user-tie me-1"></i> {{ $data['callout_btn_text'] ?? 'Profil Pejabat & LHKPN' }}
                     </a>

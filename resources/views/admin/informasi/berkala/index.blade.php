@@ -138,6 +138,9 @@
             </div>
         </div>
 
+        <!-- ATURAN & PETUNJUK TEKNIS PENGISIAN TAUTAN DOKUMEN ATM BPSDM -->
+        @include('admin.components.aturan-pengisian-banner')
+
         <!-- 2. SECTION DOKUMEN & INFORMASI BERKALA LAINNYA -->
         <div class="p-4 md:p-6 bg-slate-50 rounded-2xl border border-slate-200 mb-4 flex items-center justify-between">
             <div>
