@@ -433,7 +433,7 @@
                         <i class="fas fa-file-invoice"></i>
                     </div>
                     <div>
-                        <div class="fw-bold text-dark">Data Dukung Penilaian Keterbukaan Informasi Publik (AKIP 2026 - Indikator E.8)</div>
+                        <div class="fw-bold text-dark">Data Dukung Statistik Kepegawaian</div>
                         <div class="text-muted small">Tersedia tangkapan layar resmi sistem SIMPEG dan arsip pendukung kepegawaian Politeknik Keselamatan Transportasi Jalan.</div>
                     </div>
                 </div>
@@ -506,8 +506,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer bg-white p-3 justify-content-between">
-                    <span class="text-muted small"><i class="fas fa-check-circle text-success me-1"></i> Data otentik terverifikasi untuk pemenuhan Indikator E.8 AKIP 2026</span>
+                <div class="modal-footer bg-white p-3 justify-content-end">
                     <button type="button" class="btn btn-secondary px-4 rounded-pill fw-bold btn-sm" data-bs-dismiss="modal">Tutup</button>
                 </div>
             </div>

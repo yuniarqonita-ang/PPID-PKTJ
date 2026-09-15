@@ -1,23 +1,10 @@
 <!-- ULTRA-MODERN ACCESSIBILITY HUB (AUDIO SCREEN READER & VISUAL SETTINGS) -->
 <div id="neonAccessibilityWrapper">
 
-    <!-- FLOATING NEON DOCK STACK (DOCKABLE LEFT EDGE) -->
-    <div class="neon-dock-stack">
-        <!-- Tombol Cepat: Langsung Bersuara (Ramah Tunanetra - Sekali Tekan Langsung Bicara) -->
-        <button type="button" id="btnNeonDirectSpeech" class="neon-access-pill-trigger neon-speech-trigger" onclick="toggleTextToSpeech()" title="Dengarkan Halaman Ini (Langsung Bersuara / Alt + S)" aria-label="Langsung Dengarkan Halaman">
-            <div class="neon-icon-glow">
-                <i class="fas fa-volume-high"></i>
-            </div>
-            <span class="neon-pill-label">Dengar Suara</span>
-        </button>
-
-        <!-- Tombol Buka Menu Pengaturan Visual & Huruf -->
-        <button type="button" id="btnNeonAccessTrigger" class="neon-access-pill-trigger" onclick="toggleNeonAccessDrawer()" title="Pusat Aksesibilitas & Tampilan (Alt + A)" aria-label="Buka Menu Aksesibilitas">
-            <div class="neon-pulse-ring"></div>
-            <div class="neon-icon-glow">
-                <i class="fas fa-universal-access"></i>
-            </div>
-            <span class="neon-pill-label">Aksesibilitas</span>
+    <!-- FLOATING ACCESSIBILITY CIRCLE TRIGGER (MINIMALIS TANPA TEKS) -->
+    <div class="neon-floating-circle-wrap">
+        <button type="button" id="btnNeonAccessTrigger" class="neon-circle-access-btn" onclick="toggleNeonAccessDrawer()" title="Pusat Aksesibilitas & Pembaca Suara (Alt + A)" aria-label="Buka Pusat Aksesibilitas dan Suara">
+            <i class="fas fa-universal-access"></i>
         </button>
     </div>
 
@@ -192,94 +179,54 @@
 
 <style>
     /* ==============================================
-       NEON FLOATING ACCESS PILL (ULTRA-MODERN DOCK)
+       NEON FLOATING CIRCLE TRIGGER (MINIMALIS BULAT TANPA TEKS)
        ============================================== */
-    .neon-dock-stack {
+    .neon-floating-circle-wrap {
         position: fixed;
-        left: 0;
+        left: 16px;
         top: 50%;
         transform: translateY(-50%);
         z-index: 99990;
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
     }
 
-    .neon-access-pill-trigger {
-        position: relative;
-        left: 0;
-        top: auto;
-        transform: none;
+    .neon-circle-access-btn {
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
         background: linear-gradient(135deg, #001738 0%, #002b5c 50%, #004a99 100%);
-        color: #ffffff;
-        border: 2px solid #00f2fe;
-        border-left: none;
-        border-radius: 0 9999px 9999px 0;
-        padding: 11px 16px 11px 13px;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        cursor: pointer;
-        box-shadow: 0 0 20px rgba(0, 242, 254, 0.35), 0 10px 30px rgba(0, 23, 56, 0.6);
-        transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-    }
-
-    .neon-speech-trigger {
-        background: linear-gradient(135deg, #78350f 0%, #d97706 50%, #f59e0b 100%) !important;
-        border-color: #ffd166 !important;
-        box-shadow: 0 0 20px rgba(255, 209, 102, 0.4), 0 10px 30px rgba(120, 53, 15, 0.6) !important;
-    }
-    .neon-speech-trigger .neon-icon-glow {
-        color: #ffffff !important;
-        filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.8)) !important;
-    }
-
-    .neon-access-pill-trigger:hover {
-        padding-left: 18px;
-        padding-right: 22px;
-        box-shadow: 0 0 30px rgba(0, 242, 254, 0.6), 0 0 50px rgba(255, 193, 7, 0.4);
-        border-color: #ffd166;
-        transform: scale(1.04);
-    }
-
-    .neon-icon-glow {
-        font-size: 18px;
         color: #00f2fe;
-        filter: drop-shadow(0 0 6px rgba(0, 242, 254, 0.8));
+        border: 2px solid #00f2fe;
+        box-shadow: 0 4px 16px rgba(0, 43, 92, 0.45), 0 0 14px rgba(0, 242, 254, 0.35);
         display: flex;
         align-items: center;
         justify-content: center;
+        cursor: pointer;
+        font-size: 20px;
+        transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        padding: 0;
+        outline: none;
     }
 
-    .neon-pill-label {
-        font-family: 'Outfit', sans-serif;
-        font-size: 12px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.8px;
+    .neon-circle-access-btn:hover {
+        transform: scale(1.12);
         color: #ffffff;
-        text-shadow: 0 0 10px rgba(0, 242, 254, 0.6);
-        white-space: nowrap;
+        background: linear-gradient(135deg, #004a99 0%, #0284c7 100%);
+        border-color: #ffd166;
+        box-shadow: 0 6px 20px rgba(0, 242, 254, 0.6), 0 0 16px rgba(255, 209, 102, 0.5);
     }
 
     @media (max-width: 768px) {
-        .neon-dock-stack {
+        .neon-floating-circle-wrap {
             top: auto;
-            bottom: 75px;
+            bottom: 24px;
+            left: 14px;
             transform: none;
-            left: 10px;
-            flex-direction: row;
-            gap: 8px;
         }
-        .neon-access-pill-trigger {
-            border-radius: 9999px;
-            border-left: 2px solid #00f2fe;
-            padding: 9px 12px;
+        .neon-circle-access-btn {
+            width: 42px;
+            height: 42px;
+            font-size: 18px;
         }
-        .neon-speech-trigger {
-            border-left: 2px solid #ffd166 !important;
-        }
-        .neon-pill-label { display: none; }
     }
 
     /* NEON BACKDROP */

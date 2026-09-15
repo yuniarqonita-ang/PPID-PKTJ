@@ -101,6 +101,16 @@
                                     <input type="url" name="whatsapp_link" value="{{ old('whatsapp_link', $settings['whatsapp_link'] ?? '') }}"
                                         class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://wa.me/...">
                                 </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">WBS Kemenhub Link (Whistleblowing System)</label>
+                                    <input type="url" name="wbs_link" value="{{ old('wbs_link', $settings['wbs_link'] ?? 'https://itjen.kemenhub.go.id/wbs/') }}"
+                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://itjen.kemenhub.go.id/wbs/">
+                                </div>
+                                <div class="space-y-2">
+                                    <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">SIMADU Kemenhub Link (Pengaduan Terpadu)</label>
+                                    <input type="url" name="simadu_link" value="{{ old('simadu_link', $settings['simadu_link'] ?? 'https://simadu.kemenhub.go.id/') }}"
+                                        class="w-full px-6 py-4 bg-slate-50 border-2 border-slate-100 rounded-2xl focus:ring-4 focus:ring-[#004a99]/10 focus:bg-white transition-all font-semibold text-slate-700" placeholder="https://simadu.kemenhub.go.id/">
+                                </div>
                             </div>
                         </div>
                     </div>

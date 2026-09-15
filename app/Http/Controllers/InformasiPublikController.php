@@ -206,8 +206,8 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // HANYA TAYANGKAN YANG MEMILIKI LINK GOOGLE DRIVE ATAU FILE DOKUMEN RIIL!
-            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
+            // Tampilkan seluruh daftar informasi berkala resmi yang aktif
+            $items = $merged->sortBy('id')->values();
 
         } catch (\Throwable $e) {
             $items = collect([]);
@@ -284,8 +284,8 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // HANYA TAYANGKAN YANG MEMILIKI LINK GOOGLE DRIVE ATAU FILE DOKUMEN RIIL!
-            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
+            // Tampilkan seluruh daftar informasi serta merta resmi yang aktif
+            $items = $merged->sortBy('id')->values();
 
         } catch (\Throwable $e) {
             $items = collect([]);
@@ -334,8 +334,8 @@ class InformasiPublikController extends Controller
                 }
             }
 
-            // HANYA TAYANGKAN YANG MEMILIKI LINK GOOGLE DRIVE ATAU FILE DOKUMEN RIIL!
-            $items = $merged->filter(fn($it) => $this->itemHasValidContent($it))->sortBy('id')->values();
+            // Tampilkan seluruh daftar informasi setiap saat resmi yang aktif
+            $items = $merged->sortBy('id')->values();
         } catch (\Throwable $e) {
             $items = collect([]);
         }

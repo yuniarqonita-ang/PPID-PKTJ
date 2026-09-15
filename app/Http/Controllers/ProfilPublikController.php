@@ -589,6 +589,57 @@ class ProfilPublikController extends Controller
             if ($overrideMedsos !== null && trim($overrideMedsos) !== '') $medsos = (int)$overrideMedsos;
             if ($overrideWebsite !== null && trim($overrideWebsite) !== '') $website = (int)$overrideWebsite;
 
+            // Modern Status Metrics for Permohonan & Keberatan (matching user screenshot)
+            $permohonan_belum = isset($settings['laporan_akses_permohonan_belum']) && $settings['laporan_akses_permohonan_belum'] !== '' 
+                ? (int)$settings['laporan_akses_permohonan_belum'] 
+                : $belum_ditindaklanjuti;
+            $permohonan_proses = isset($settings['laporan_akses_permohonan_proses']) && $settings['laporan_akses_permohonan_proses'] !== '' 
+                ? (int)$settings['laporan_akses_permohonan_proses'] 
+                : 0;
+            $permohonan_selesai = isset($settings['laporan_akses_permohonan_selesai']) && $settings['laporan_akses_permohonan_selesai'] !== '' 
+                ? (int)$settings['laporan_akses_permohonan_selesai'] 
+                : $ditindaklanjuti;
+
+            $keberatan_belum = isset($settings['laporan_akses_keberatan_belum']) && $settings['laporan_akses_keberatan_belum'] !== '' 
+                ? (int)$settings['laporan_akses_keberatan_belum'] 
+                : 0;
+            $keberatan_proses = isset($settings['laporan_akses_keberatan_proses']) && $settings['laporan_akses_keberatan_proses'] !== '' 
+                ? (int)$settings['laporan_akses_keberatan_proses'] 
+                : 0;
+            $keberatan_selesai = isset($settings['laporan_akses_keberatan_selesai']) && $settings['laporan_akses_keberatan_selesai'] !== '' 
+                ? (int)$settings['laporan_akses_keberatan_selesai'] 
+                : 0;
+
+            // 12 Months Labels matching official dashboard
+            $trendMonths = ['Okt 2025', 'Nov 2025', 'Des 2025', 'Jan 2026', 'Feb 2026', 'Mar 2026', 'Apr 2026', 'Mei 2026', 'Jun 2026', 'Jul 2026', 'Agt 2026', 'Sep 2026'];
+
+            $parseTrend = function($raw, $defaultCount = 12) {
+                if (!$raw) return array_fill(0, $defaultCount, 0);
+                $parts = array_map('trim', explode(',', $raw));
+                $res = [];
+                for ($i = 0; $i < $defaultCount; $i++) {
+                    $res[] = isset($parts[$i]) && is_numeric($parts[$i]) ? (int)$parts[$i] : 0;
+                }
+                return $res;
+            };
+
+            $permohonan_trend_diterima = $parseTrend($settings['laporan_akses_permohonan_trend_diterima'] ?? '');
+            $permohonan_trend_selesai = $parseTrend($settings['laporan_akses_permohonan_trend_selesai'] ?? '');
+            $keberatan_trend_diterima = $parseTrend($settings['laporan_akses_keberatan_trend_diterima'] ?? '');
+            $keberatan_trend_selesai = $parseTrend($settings['laporan_akses_keberatan_trend_selesai'] ?? '');
+
+            $extraData['permohonan_belum'] = $permohonan_belum;
+            $extraData['permohonan_proses'] = $permohonan_proses;
+            $extraData['permohonan_selesai'] = $permohonan_selesai;
+            $extraData['keberatan_belum'] = $keberatan_belum;
+            $extraData['keberatan_proses'] = $keberatan_proses;
+            $extraData['keberatan_selesai'] = $keberatan_selesai;
+            $extraData['trendMonths'] = $trendMonths;
+            $extraData['permohonan_trend_diterima'] = $permohonan_trend_diterima;
+            $extraData['permohonan_trend_selesai'] = $permohonan_trend_selesai;
+            $extraData['keberatan_trend_diterima'] = $keberatan_trend_diterima;
+            $extraData['keberatan_trend_selesai'] = $keberatan_trend_selesai;
+
             $extraData['available_years'] = $available_years;
             $extraData['selectedYear'] = $selectedYear;
             $extraData['monthlyData'] = $monthlyData;

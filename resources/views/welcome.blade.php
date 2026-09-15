@@ -911,7 +911,7 @@
             </div>
 
             <div class="text-center mt-5">
-                <a href="{{ url('/berita') }}" class="btn btn-outline-primary fw-bold px-5 py-3 rounded-pill shadow-sm" style="color: #004a99; border-color: #004a99; font-family: 'Outfit', sans-serif;">
+                <a href="https://pktj.ac.id/berita" target="_blank" rel="noopener noreferrer" class="btn btn-outline-primary fw-bold px-5 py-3 rounded-pill shadow-sm" style="color: #004a99; border-color: #004a99; font-family: 'Outfit', sans-serif;">
                     <i class="fas fa-newspaper me-2"></i> Lihat Selengkapnya Berita PKTJ <i class="fas fa-arrow-right ms-2"></i>
                 </a>
             </div>

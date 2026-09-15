@@ -320,131 +320,204 @@
     </div>
 
     <div class="container page-container">
-        <!-- VISUAL STATS DASHBOARD -->
-        <div class="dashboard-card">
-            <!-- Filter & Status Row -->
-            <div class="filter-row">
-                <div>
-                    <h3 class="filter-title">Dashboard Visualisasi Akses</h3>
-                    <p class="text-muted text-xs mb-0">Statistik real-time permohonan informasi publik PPID PKTJ</p>
+        <!-- VISUAL STATS DASHBOARD (MODERN THEME MATCHING SCREENSHOT) -->
+        <div class="rounded-4 overflow-hidden shadow-2xl mb-5" style="background: #081225; border: 1px solid rgba(255,255,255,0.08); border-radius: 28px; padding: 28px 32px; color: #fff;">
+            
+            <!-- Top Banner / Header Bar -->
+            <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 pb-4 mb-4" style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+                <div class="d-flex align-items-center gap-3">
+                    <div class="d-flex align-items-center justify-content-center text-white fw-bold rounded-circle shadow-sm" style="width: 44px; height: 44px; background: linear-gradient(135deg, #004a99, #0284c7); font-size: 18px;">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <h4 class="outfit fw-black text-white mb-0" style="font-size: 1.25rem; letter-spacing: -0.02em;">Dashboard Statistik Akses Informasi Publik</h4>
+                        <span class="small" style="font-size: 0.8rem; color: #94a3b8;">PPID Pelaksana Politeknik Keselamatan Transportasi Jalan • Data Realtime</span>
+                    </div>
                 </div>
-                
-                <div class="d-flex align-items-center gap-3 flex-wrap">
-                    <span class="badge-live-pulse">
-                        <span class="pulse-dot"></span> Realtime Data
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge rounded-pill px-3 py-2 fw-bold font-mono d-inline-flex align-items-center gap-1.5" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 11px;">
+                        <span class="pulse-dot" style="width: 6px; height: 6px; background: #10b981; border-radius: 50%;"></span> SISTEM AKTIF
                     </span>
-
                     <form action="{{ url()->current() }}" method="GET" class="m-0" id="filter-year-form">
-                        <select name="filter_year" class="select-custom" onchange="document.getElementById('filter-year-form').submit()">
+                        <select name="filter_year" class="form-select form-select-sm rounded-pill fw-bold text-white" style="background-color: #132238; border-color: rgba(255,255,255,0.12); font-size: 12px; padding-left: 14px; padding-right: 32px;" onchange="document.getElementById('filter-year-form').submit()">
                             @foreach($available_years as $yr)
-                                <option value="{{ $yr }}" {{ $yr == $selectedYear ? 'selected' : '' }}>Tahun {{ $yr }}</option>
+                                <option value="{{ $yr }}" {{ $yr == $selectedYear ? 'selected' : '' }} style="background-color: #132238; color: #fff;">Tahun {{ $yr }}</option>
                             @endforeach
                         </select>
                     </form>
                 </div>
             </div>
 
-            <!-- Executive Summary Summary Box -->
+            <!-- Executive Summary (if provided by admin) -->
             @if(isset($settings['laporan_akses_ringkasan_eksekutif']) && !empty($settings['laporan_akses_ringkasan_eksekutif']))
-                <div class="mb-4 p-4 bg-light rounded-3xl border border-slate-100">
-                    <h5 class="fw-bold outfit text-[#004a99] mb-2"><i class="fas fa-info-circle me-2"></i> Ringkasan Eksekutif</h5>
-                    <div class="text-muted text-sm leading-relaxed">{!! $settings['laporan_akses_ringkasan_eksekutif'] !!}</div>
+                <div class="mb-4 p-4 rounded-3xl" style="background: #111e36; border: 1px solid rgba(255,255,255,0.06);">
+                    <h5 class="fw-bold outfit text-warning mb-2" style="font-size: 14px;"><i class="fas fa-info-circle me-2"></i> Ringkasan Eksekutif</h5>
+                    <div class="small leading-relaxed" style="color: #cbd5e1;">{!! $settings['laporan_akses_ringkasan_eksekutif'] !!}</div>
                 </div>
             @endif
 
-            <!-- High Level Metrics Row -->
-            <div class="row g-4 mb-5">
-                <div class="col-md-3 col-sm-6">
-                    <div class="metric-card">
-                        <div class="metric-icon-wrapper"><i class="fas fa-envelope-open-text"></i></div>
-                        <div>
-                            <div class="metric-value">{{ number_format($totalYearly) }}</div>
-                            <div class="metric-label">Total Permohonan</div>
+            <!-- SECTION 1: PERMOHONAN INFORMASI (3 STATUS CARDS) -->
+            <div class="mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="outfit fw-bold text-white mb-0" style="font-size: 1.05rem; letter-spacing: -0.01em;">
+                        Permohonan Informasi
+                    </h5>
+                    <span class="small" style="color: #64748b; font-size: 12px;">Klasifikasi status terkini</span>
+                </div>
+                
+                <div class="row g-3">
+                    <!-- 1. Belum Ditindaklanjuti -->
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="p-4 rounded-4 h-100" style="background: #111e36; border: 1px solid rgba(255,255,255,0.06); border-radius: 18px;">
+                            <div class="d-flex align-items-start gap-3 mb-3">
+                                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-radius: 12px; font-size: 18px;">
+                                    <i class="far fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <div class="text-white fw-bold" style="font-size: 14.5px;">Belum Ditindaklanjuti</div>
+                                    <div class="small" style="color: #94a3b8; font-size: 12px;">Permohonan Informasi</div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="outfit fw-black text-white" style="font-size: 32px; line-height: 1;">{{ number_format($permohonan_belum) }}</div>
+                                <div class="small mt-1" style="color: #64748b; font-size: 11.5px;">total data</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="metric-card">
-                        <div class="metric-icon-wrapper" style="color: #059669; background: rgba(5, 150, 105, 0.08);"><i class="fas fa-check-circle"></i></div>
-                        <div>
-                            <div class="metric-value">{{ number_format($ditindaklanjuti) }}</div>
-                            <div class="metric-label">Ditindaklanjuti</div>
+
+                    <!-- 2. Diproses -->
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="p-4 rounded-4 h-100" style="background: #111e36; border: 1px solid rgba(255,255,255,0.06); border-radius: 18px;">
+                            <div class="d-flex align-items-start gap-3 mb-3">
+                                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-radius: 12px; font-size: 18px;">
+                                    <i class="fas fa-arrows-rotate"></i>
+                                </div>
+                                <div>
+                                    <div class="text-white fw-bold" style="font-size: 14.5px;">Diproses</div>
+                                    <div class="small" style="color: #94a3b8; font-size: 12px;">Permohonan Informasi</div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="outfit fw-black text-white" style="font-size: 32px; line-height: 1;">{{ number_format($permohonan_proses) }}</div>
+                                <div class="small mt-1" style="color: #64748b; font-size: 11.5px;">total data</div>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="metric-card">
-                        <div class="metric-icon-wrapper" style="color: #ea580c; background: rgba(234, 88, 12, 0.08);"><i class="fas fa-clock"></i></div>
-                        <div>
-                            <div class="metric-value">{{ number_format($belum_ditindaklanjuti) }}</div>
-                            <div class="metric-label">Dalam Proses</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3 col-sm-6">
-                    <div class="metric-card">
-                        <div class="metric-icon-wrapper" style="color: #ca8a04; background: rgba(202, 138, 4, 0.08);"><i class="fas fa-history"></i></div>
-                        <div>
-                            <div class="metric-value">{{ $rata_rata_hari ?? '5 - 7' }}</div>
-                            <div class="metric-label">Rata-rata Hari Jawab</div>
+
+                    <!-- 3. Selesai -->
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="p-4 rounded-4 h-100" style="background: #111e36; border: 1px solid rgba(255,255,255,0.06); border-radius: 18px;">
+                            <div class="d-flex align-items-start gap-3 mb-3">
+                                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: rgba(16, 185, 129, 0.15); color: #10b981; border-radius: 12px; font-size: 18px;">
+                                    <i class="far fa-circle-check"></i>
+                                </div>
+                                <div>
+                                    <div class="text-white fw-bold" style="font-size: 14.5px;">Selesai</div>
+                                    <div class="small" style="color: #94a3b8; font-size: 12px;">Permohonan Informasi</div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="outfit fw-black text-white" style="font-size: 32px; line-height: 1;">{{ number_format($permohonan_selesai) }}</div>
+                                <div class="small mt-1" style="color: #64748b; font-size: 11.5px;">total data</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Charts Grid -->
-            <div class="row g-4">
-                <!-- Bar Chart: Bulanan -->
-                <div class="col-lg-8 col-12">
-                    <div class="chart-box">
-                        <div class="chart-title-wrapper">
-                            <span class="chart-indicator-bar"></span>
-                            <h4 class="chart-title">Tren Permohonan Informasi Bulanan (Tahun {{ $selectedYear }})</h4>
+            <!-- SECTION 2: KEBERATAN INFORMASI (3 STATUS CARDS) -->
+            <div class="mb-5">
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                    <h5 class="outfit fw-bold text-white mb-0" style="font-size: 1.05rem; letter-spacing: -0.01em;">
+                        Keberatan Informasi
+                    </h5>
+                    <span class="small" style="color: #64748b; font-size: 12px;">Klasifikasi status keberatan</span>
+                </div>
+                
+                <div class="row g-3">
+                    <!-- 1. Belum Ditindaklanjuti -->
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="p-4 rounded-4 h-100" style="background: #111e36; border: 1px solid rgba(255,255,255,0.06); border-radius: 18px;">
+                            <div class="d-flex align-items-start gap-3 mb-3">
+                                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-radius: 12px; font-size: 18px;">
+                                    <i class="far fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <div class="text-white fw-bold" style="font-size: 14.5px;">Belum Ditindaklanjuti</div>
+                                    <div class="small" style="color: #94a3b8; font-size: 12px;">Keberatan Informasi</div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="outfit fw-black text-white" style="font-size: 32px; line-height: 1;">{{ number_format($keberatan_belum) }}</div>
+                                <div class="small mt-1" style="color: #64748b; font-size: 11.5px;">total data</div>
+                            </div>
                         </div>
-                        <div class="chart-canvas-wrapper">
-                            <canvas id="monthlyChart"></canvas>
+                    </div>
+
+                    <!-- 2. Diproses -->
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="p-4 rounded-4 h-100" style="background: #111e36; border: 1px solid rgba(255,255,255,0.06); border-radius: 18px;">
+                            <div class="d-flex align-items-start gap-3 mb-3">
+                                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: rgba(245, 158, 11, 0.15); color: #f59e0b; border-radius: 12px; font-size: 18px;">
+                                    <i class="fas fa-arrows-rotate"></i>
+                                </div>
+                                <div>
+                                    <div class="text-white fw-bold" style="font-size: 14.5px;">Diproses</div>
+                                    <div class="small" style="color: #94a3b8; font-size: 12px;">Keberatan Informasi</div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="outfit fw-black text-white" style="font-size: 32px; line-height: 1;">{{ number_format($keberatan_proses) }}</div>
+                                <div class="small mt-1" style="color: #64748b; font-size: 11.5px;">total data</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 3. Selesai -->
+                    <div class="col-lg-4 col-md-4 col-12">
+                        <div class="p-4 rounded-4 h-100" style="background: #111e36; border: 1px solid rgba(255,255,255,0.06); border-radius: 18px;">
+                            <div class="d-flex align-items-start gap-3 mb-3">
+                                <div class="rounded-3 d-flex align-items-center justify-content-center" style="width: 44px; height: 44px; background: rgba(16, 185, 129, 0.15); color: #10b981; border-radius: 12px; font-size: 18px;">
+                                    <i class="far fa-circle-check"></i>
+                                </div>
+                                <div>
+                                    <div class="text-white fw-bold" style="font-size: 14.5px;">Selesai</div>
+                                    <div class="small" style="color: #94a3b8; font-size: 12px;">Keberatan Informasi</div>
+                                </div>
+                            </div>
+                            <div class="mt-2">
+                                <div class="outfit fw-black text-white" style="font-size: 32px; line-height: 1;">{{ number_format($keberatan_selesai) }}</div>
+                                <div class="small mt-1" style="color: #64748b; font-size: 11.5px;">total data</div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                <!-- Pie Chart: Tindak Lanjut -->
-                <div class="col-lg-4 col-md-6 col-12">
-                    <div class="chart-box">
-                        <div class="chart-title-wrapper">
-                            <span class="chart-indicator-bar"></span>
-                            <h4 class="chart-title">Persentase Tindak Lanjut</h4>
-                        </div>
-                        <div class="chart-canvas-wrapper">
-                            <canvas id="statusChart"></canvas>
-                        </div>
-                    </div>
+            <!-- SECTION 3: SPLINE CHART - JUMLAH PERMOHONAN INFORMASI PUBLIK -->
+            <div class="p-4 rounded-4 mb-4" style="background: #111e36; border: 1px solid rgba(255,255,255,0.06); border-radius: 20px;">
+                <div class="mb-3">
+                    <h5 class="outfit fw-bold text-white mb-0" style="font-size: 15px;">Jumlah Permohonan Informasi Publik</h5>
+                    <div class="small" style="color: #94a3b8; font-size: 12px;">Data 12 bulan terakhir</div>
                 </div>
-
-                <!-- Doughnut Chart: Kategori -->
-                <div class="col-md-6 col-12">
-                    <div class="chart-box">
-                        <div class="chart-title-wrapper">
-                            <span class="chart-indicator-bar"></span>
-                            <h4 class="chart-title">Kategori Pemohon Informasi</h4>
-                        </div>
-                        <div class="chart-canvas-wrapper">
-                            <canvas id="categoryChart"></canvas>
-                        </div>
-                    </div>
+                <div style="position: relative; height: 260px; width: 100%;">
+                    <canvas id="chartPermohonan12Bulan"></canvas>
                 </div>
+            </div>
 
-                <!-- Horizontal Bar Chart: Metode -->
-                <div class="col-md-6 col-12">
-                    <div class="chart-box">
-                        <div class="chart-title-wrapper">
-                            <span class="chart-indicator-bar"></span>
-                            <h4 class="chart-title">Metode / Media Pengajuan</h4>
-                        </div>
-                        <div class="chart-canvas-wrapper">
-                            <canvas id="channelChart"></canvas>
-                        </div>
+            <!-- SECTION 4: SPLINE CHART - JUMLAH KEBERATAN INFORMASI -->
+            <div class="p-4 rounded-4" style="background: #111e36; border: 1px solid rgba(255,255,255,0.06); border-radius: 20px;">
+                <div class="mb-3">
+                    <h5 class="outfit fw-bold text-white mb-0" style="font-size: 15px;">Jumlah Keberatan Informasi</h5>
+                    <div class="small" style="color: #94a3b8; font-size: 12px;">Data 12 bulan terakhir</div>
+                </div>
+                <div style="position: relative; height: 260px; width: 100%;">
+                    <canvas id="chartKeberatan12Bulan"></canvas>
+                </div>
+            </div>
+
         </div>
-        <!-- AKHIR DASHBOARD CARD -->
+        <!-- AKHIR VISUAL STATS DASHBOARD -->
 
         @php
             $validLaporan = collect($laporan ?? [])->filter(function($item) {
@@ -609,124 +682,147 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Data bindings from controller
-            const monthlyData = {!! json_encode($monthlyData) !!};
-            const categories = {!! json_encode($categories) !!};
-            const channels = {!! json_encode($channels) !!};
-            const ditindaklanjuti = {{ $ditindaklanjuti }};
-            const belumDitindaklanjuti = {{ $belum_ditindaklanjuti }};
+            const trendMonths = {!! json_encode($trendMonths ?? ['Okt 2025', 'Nov 2025', 'Des 2025', 'Jan 2026', 'Feb 2026', 'Mar 2026', 'Apr 2026', 'Mei 2026', 'Jun 2026', 'Jul 2026', 'Agt 2026', 'Sep 2026']) !!};
+            const permohonanDiterima = {!! json_encode($permohonan_trend_diterima ?? array_fill(0, 12, 0)) !!};
+            const permohonanSelesai = {!! json_encode($permohonan_trend_selesai ?? array_fill(0, 12, 0)) !!};
+            const keberatanDiterima = {!! json_encode($keberatan_trend_diterima ?? array_fill(0, 12, 0)) !!};
+            const keberatanSelesai = {!! json_encode($keberatan_trend_selesai ?? array_fill(0, 12, 0)) !!};
 
-            // 1. Monthly Bar Chart
-            const monthlyCtx = document.getElementById('monthlyChart').getContext('2d');
-            new Chart(monthlyCtx, {
-                type: 'bar',
-                data: {
-                    labels: monthlyData.map(item => item.bulan.substring(0, 3)),
-                    datasets: [
-                        {
-                            label: 'Jumlah',
-                            data: monthlyData.map(item => item.total),
-                            backgroundColor: '#ffc107',
-                            borderRadius: 6,
-                        },
-                        {
-                            label: 'Diterima',
-                            data: monthlyData.map(item => item.diterima),
-                            backgroundColor: '#004a99',
-                            borderRadius: 6,
-                        },
-                        {
-                            label: 'Ditolak',
-                            data: monthlyData.map(item => item.ditolak),
-                            backgroundColor: '#ea580c',
-                            borderRadius: 6,
+            const darkChartOptions = {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: '#94a3b8',
+                            font: { family: 'Inter', size: 12, weight: 'bold' },
+                            usePointStyle: true,
+                            pointStyle: 'circle',
+                            padding: 20
                         }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { weight: 'bold', family: 'Inter' } } }
                     },
-                    scales: {
-                        x: { grid: { display: false } },
-                        y: { 
-                            beginAtZero: true,
-                            ticks: { precision: 0 }
+                    tooltip: {
+                        backgroundColor: '#0f172a',
+                        titleColor: '#ffffff',
+                        bodyColor: '#e2e8f0',
+                        borderColor: 'rgba(255,255,255,0.1)',
+                        borderWidth: 1,
+                        padding: 12,
+                        cornerRadius: 10
+                    }
+                },
+                scales: {
+                    x: {
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.05)',
+                            borderDash: [4, 4]
+                        },
+                        ticks: {
+                            color: '#94a3b8',
+                            font: { family: 'Inter', size: 11 }
+                        }
+                    },
+                    y: {
+                        beginAtZero: true,
+                        suggestedMax: 4,
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.06)',
+                            borderDash: [4, 4]
+                        },
+                        ticks: {
+                            stepSize: 1,
+                            precision: 0,
+                            color: '#94a3b8',
+                            font: { family: 'Inter', size: 11 }
                         }
                     }
                 }
-            });
+            };
 
-            // 2. Status Pie Chart
-            const statusCtx = document.getElementById('statusChart').getContext('2d');
-            new Chart(statusCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['Ditindaklanjuti', 'Dalam Proses'],
-                    datasets: [{
-                        data: [ditindaklanjuti, belumDitindaklanjuti],
-                        backgroundColor: ['#004a99', '#ea580c'],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { weight: 'bold', family: 'Inter' } } }
-                    }
-                }
-            });
-
-            // 3. Category Doughnut Chart
-            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
-            new Chart(categoryCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Perorangan', 'Kelompok / Organisasi', 'Badan Hukum'],
-                    datasets: [{
-                        data: [categories.perorangan, categories.kelompok, categories.badan_hukum],
-                        backgroundColor: ['#004a99', '#ffc107', '#64748b'],
-                        borderWidth: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { position: 'bottom', labels: { font: { weight: 'bold', family: 'Inter' } } }
-                    }
-                }
-            });
-
-            // 4. Channel Horizontal Bar Chart
-            const channelCtx = document.getElementById('channelChart').getContext('2d');
-            new Chart(channelCtx, {
-                type: 'bar',
-                indexAxis: 'y',
-                data: {
-                    labels: ['Media Sosial', 'E-PPID / Website'],
-                    datasets: [{
-                        label: 'Pengajuan',
-                        data: [channels.medsos, channels.website],
-                        backgroundColor: ['#004a99', '#ffc107'],
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: { display: false }
+            // 1. Chart Permohonan 12 Bulan (Spline / Area)
+            const ctxPermohonan = document.getElementById('chartPermohonan12Bulan');
+            if (ctxPermohonan) {
+                new Chart(ctxPermohonan.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: trendMonths,
+                        datasets: [
+                            {
+                                label: 'Diterima',
+                                data: permohonanDiterima,
+                                borderColor: '#0284c7',
+                                backgroundColor: 'rgba(2, 132, 199, 0.1)',
+                                pointBackgroundColor: '#0284c7',
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 1.5,
+                                pointHoverRadius: 6,
+                                pointRadius: 4,
+                                tension: 0.35,
+                                borderWidth: 2.5,
+                                fill: true
+                            },
+                            {
+                                label: 'Selesai',
+                                data: permohonanSelesai,
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                pointBackgroundColor: '#10b981',
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 1.5,
+                                pointHoverRadius: 6,
+                                pointRadius: 4,
+                                tension: 0.35,
+                                borderWidth: 2.5,
+                                fill: true
+                            }
+                        ]
                     },
-                    scales: {
-                        x: { beginAtZero: true, ticks: { precision: 0 } },
-                        y: { grid: { display: false } }
-                    }
-                }
-            });
+                    options: darkChartOptions
+                });
+            }
+
+            // 2. Chart Keberatan 12 Bulan (Spline / Area)
+            const ctxKeberatan = document.getElementById('chartKeberatan12Bulan');
+            if (ctxKeberatan) {
+                new Chart(ctxKeberatan.getContext('2d'), {
+                    type: 'line',
+                    data: {
+                        labels: trendMonths,
+                        datasets: [
+                            {
+                                label: 'Diterima',
+                                data: keberatanDiterima,
+                                borderColor: '#f59e0b',
+                                backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                                pointBackgroundColor: '#f59e0b',
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 1.5,
+                                pointHoverRadius: 6,
+                                pointRadius: 4,
+                                tension: 0.35,
+                                borderWidth: 2.5,
+                                fill: true
+                            },
+                            {
+                                label: 'Selesai',
+                                data: keberatanSelesai,
+                                borderColor: '#10b981',
+                                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                                pointBackgroundColor: '#10b981',
+                                pointBorderColor: '#ffffff',
+                                pointBorderWidth: 1.5,
+                                pointHoverRadius: 6,
+                                pointRadius: 4,
+                                tension: 0.35,
+                                borderWidth: 2.5,
+                                fill: true
+                            }
+                        ]
+                    },
+                    options: darkChartOptions
+                });
+            }
         });
 
         function openLaporanModal(title, url) {

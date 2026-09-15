@@ -198,7 +198,7 @@
                         </p>
                     </div>
                     <div class="d-flex align-items-center gap-2 flex-shrink-0 flex-wrap">
-                        <a href="{{ route('preview.dokumen', ['file' => 'https://drive.google.com/file/d/1Xn6oWl-3z9uXlB0i17zDk1RzN84Z6H8v/view', 'title' => 'SK Penetapan DIP 2026 (KP-SKJ 9 Tahun 2026)']) }}" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1.5 shadow-sm" style="background: #004a99; font-size: 12px;">
+                        <a href="{{ route('preview.dokumen', ['file' => 'https://drive.google.com/file/d/14OP9rXn0Ff9-WWbuNhB49QYoSK7bm503/view?usp=drive_link', 'title' => 'SK Penetapan DIP 2026 (KP-SKJ 9 Tahun 2026)']) }}" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1.5 shadow-sm" style="background: #004a99; font-size: 12px;">
                             <i class="fas fa-file-pdf text-warning"></i>
                             <span>Unduh SK DIP 2026 (PDF Resmi)</span>
                         </a>

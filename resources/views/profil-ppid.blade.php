@@ -243,48 +243,29 @@
                         {!! $profil->konten_pembuka !!}
                     @else
                         <p class="lead fw-semibold text-dark" style="font-size: 1.15rem; line-height: 1.8;">
-                            Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Unit Pelaksana Teknis (UPT) Politeknik Keselamatan Transportasi Jalan (PKTJ) dibentuk sebagai garda terdepan keterbukaan informasi publik di lingkungan pendidikan tinggi vokasi Kementerian Perhubungan.
+                            Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal merupakan garda terdepan keterbukaan informasi publik di lingkungan perguruan tinggi kedinasan vokasi Kementerian Perhubungan. Keberadaan institusi ini berakar dari sejarah panjang pengabdian sejak 14 Mei 1971 saat pertama kali didirikan sebagai Balai Pendidikan dan Latihan Transportasi Jalan Raya (Balai Diklat Trans Jaya) Tegal, yang kemudian bertransformasi menjadi Balai Pendidikan dan Pelatihan Transportasi Darat (BPPTD) Tegal berdasarkan Keputusan Menteri Perhubungan Nomor KM 73 Tahun 2002, hingga akhirnya resmi bertransformasi menjadi Politeknik Keselamatan Transportasi Jalan (PKTJ) melalui Peraturan Menteri Perhubungan Nomor PM 15 Tahun 2012.
                         </p>
                         <p>
-                            Keberadaan PPID Pelaksana PKTJ berakar kuat dari sejarah panjang pengabdian institusi yang didirikan pada tanggal <strong>14 Mei 1971</strong> dengan nama awal <em>Balai Pendidikan dan Latihan Transportasi Jalan Raya (Balai Diklat Trans Jaya) Tegal</em>. Melalui perjalanan transformasi berkelanjutan, institusi ini berkembang menjadi Pusat Pendidikan dan Latihan Perhubungan Darat (Pusdiklat Perhubdat), kemudian bertransformasi menjadi Balai Pendidikan dan Pelatihan Transportasi Darat (BPPTD) Tegal berdasarkan Keputusan Menteri Perhubungan Nomor KM 73 Tahun 2002.
+                            Sebagai Unit Pelaksana Teknis (UPT) unggulan di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP), PKTJ mengemban amanat strategis dalam mencetak sumber daya manusia perhubungan yang PRIMA, profesional, dan berdaya saing global di bidang keselamatan jalan raya. Aktivitas tridharma perguruan tinggi dan layanan kedinasan diselenggarakan secara terpadu di Kota Tegal melalui Kampus 1 di Jalan Perintis Kemerdekaan Kelurahan Slerok serta Kampus 2 di Jalan KH. Abdul Syukur Margadana yang juga menjadi pusat Meja Layanan Terpadu PPID PKTJ, dengan menyelenggarakan program studi Sarjana Terapan Rekayasa Sistem Transportasi Jalan, Sarjana Terapan Teknologi Rekayasa Otomotif, dan Diploma Tiga Teknologi Otomotif.
                         </p>
                         <p>
-                            Puncaknya, pada tahun 2012 melalui Peraturan Menteri Perhubungan Republik Indonesia Nomor <strong>PM 15 Tahun 2012</strong>, institusi ini resmi ditingkatkan status kelembagaannya menjadi <strong>Politeknik Keselamatan Transportasi Jalan (PKTJ)</strong>, sebuah perguruan tinggi kedinasan vokasi pertama dan terdepan di Indonesia yang berfokus penuh pada keselamatan transportasi jalan.
+                            Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transparan, dan akuntabel (Good Institutional Governance), PPID Pelaksana PKTJ Tegal berkomitmen penuh melaksanakan amanat Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik dan Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018. Seluruh permohonan informasi publik dilayani secara berintegritas, cepat, akurat, dan tanpa dipungut biaya apapun (Rp 0), didukung integrasi sistem layanan modern baik secara daring melalui portal mandiri maupun luring di Meja Layanan Fisik yang ramah inklusif bagi seluruh lapisan masyarakat dan penyandang disabilitas.
                         </p>
-                        <p>
-                            Saat ini, PKTJ beroperasi dengan 2 (dua) kampus utama di Kota Tegal, yaitu:
-                        </p>
-                        <ul>
-                            <li><strong>Kampus 1 (Kampus Perintis)</strong>: Berlokasi di Jl. Perintis Kemerdekaan No. 17, Kelurahan Slerok, Kecamatan Tegal Timur, Kota Tegal.</li>
-                            <li><strong>Kampus 2 (Kampus Margadana)</strong>: Berlokasi di Jl. KH. Abdul Syukur No. 17, Margadana, Kota Tegal — yang juga menjadi lokasi utama <em>Desk Meja Layanan Terpadu PPID PKTJ</em>.</li>
-                        </ul>
                     @endif
                 </div>
             </div>
 
-            <!-- SECTION 2: PERAN & TUGAS FUNGSI DALAM MENDUKUNG PKTJ -->
+            <!-- SECTION 2: PERAN & TUGAS FUNGSI DALAM MENDUKUNG PKTJ (OPSIONAL) -->
+            @if(!empty($profil->konten_detail))
             <div class="mb-5">
                 <div class="section-header-pill" style="background: #fef3c7; color: #92400e;">
                     <i class="fas fa-bullseye text-warning"></i> {{ $profil->judul_sub ?? 'Mandat Kelembagaan & Transformasi Pendidikan Vokasi Keselamatan Jalan' }}
                 </div>
                 <div class="rich-content text-justify" style="font-size: 15px; color: #334155; line-height: 1.8;">
-                    @if(!empty($profil->konten_detail))
-                        {!! $profil->konten_detail !!}
-                    @else
-                        <p>
-                            Sebagai Unit Pelaksana Teknis (UPT) di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan, PKTJ memiliki mandat mulia mencetak perwira transportasi jalan yang profesional, berkarakter, dan berdaya saing global melalui 3 (tiga) program studi unggulan:
-                        </p>
-                        <ol>
-                            <li><strong>Sarjana Terapan (D-IV) Rekayasa Sistem Transportasi Jalan (RSTJ)</strong></li>
-                            <li><strong>Sarjana Terapan (D-IV) Teknologi Rekayasa Otomotif (TRO)</strong></li>
-                            <li><strong>Diploma III (D-III) Teknologi Otomotif (TO)</strong></li>
-                        </ol>
-                        <p>
-                            Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transparan, dan bebas dari korupsi (Good Governance & Clean Government), PPID Pelaksana UPT PKTJ Tegal berkomitmen penuh memberikan pelayanan informasi yang cepat, akurat, tidak memungut biaya apapun (Rp 0), serta menjamin hak setiap pemohon informasi publik sesuai amanat Undang-Undang Nomor 14 Tahun 2008 dan Peraturan Menhub Nomor PM 46 Tahun 2018.
-                        </p>
-                    @endif
+                    {!! $profil->konten_detail !!}
                 </div>
             </div>
+            @endif
 
             <!-- SECTION 3: DUA KANAL SALURAN LAYANAN UTAMA -->
             <div class="mb-5">
@@ -365,7 +346,7 @@
                 <div class="modal-header bg-primary text-white border-0 py-3 px-4" style="background: linear-gradient(135deg, #002b5c, #0d6efd) !important;">
                     <div class="d-flex align-items-center gap-2">
                         <i class="fas fa-building text-warning fs-5"></i>
-                        <h5 class="modal-title outfit fw-bold mb-0 text-white" id="modalFotoMejaLayananLabel">Sarana & Jam Pelayanan Informasi Publik Terpadu (AKIP C.1 & C.2)</h5>
+                        <h5 class="modal-title outfit fw-bold mb-0 text-white" id="modalFotoMejaLayananLabel">Sarana & Jam Pelayanan Informasi Publik Terpadu</h5>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" onclick="closeFotoModal()" aria-label="Close"></button>
                 </div>

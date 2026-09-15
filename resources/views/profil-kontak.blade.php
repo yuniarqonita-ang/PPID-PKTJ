@@ -1182,7 +1182,7 @@
                             <div class="d-flex align-items-center gap-2 mb-2">
                                 <i class="fas fa-link text-success" style="width: 18px;"></i>
                                 <span class="small text-muted">Portal SIMADU:</span>
-                                <span class="small fw-bold text-dark ms-auto">simadu.dephub.go.id</span>
+                                <span class="small fw-bold text-dark ms-auto">simadu.kemenhub.go.id</span>
                             </div>
                             <div class="d-flex align-items-center gap-2">
                                 <i class="fas fa-id-card text-success" style="width: 18px;"></i>
@@ -1191,12 +1191,9 @@
                             </div>
                         </div>
 
-                        <div class="mt-auto d-flex flex-column gap-2">
-                            <a href="https://simadu.dephub.go.id" target="_blank" rel="noopener" class="btn btn-success btn-sm rounded-pill px-3 py-2 fw-bold shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="background: #059669; font-size: 12.5px;">
-                                <i class="fas fa-external-link-alt"></i> Buka Portal SIMADU Dephub
-                            </a>
-                            <a href="https://simadu.polines.ac.id/login" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1.5 fw-semibold d-inline-flex align-items-center justify-content-center gap-1.5" style="font-size: 11.5px;">
-                                <i class="fas fa-right-to-bracket"></i> Login SIMADU Terpadu
+                        <div class="mt-auto">
+                            <a href="{{ $settings['kontak_simadu_link'] ?? $settings['simadu_link'] ?? 'https://simadu.kemenhub.go.id/' }}" target="_blank" rel="noopener" class="btn btn-success btn-sm rounded-pill px-3 py-2 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="background: #059669; font-size: 12.5px;">
+                                <i class="fas fa-external-link-alt"></i> Buka Portal SIMADU Kemenhub
                             </a>
                         </div>
                     </div>
@@ -1233,8 +1230,8 @@
                         </div>
 
                         <div class="mt-auto">
-                            <a href="https://wbs.dephub.go.id" target="_blank" rel="noopener" class="btn btn-danger btn-sm rounded-pill px-3 py-2 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="background: #dc2626; font-size: 12.5px;">
-                                <i class="fas fa-bullhorn"></i> Lapor Pelanggaran ke WBS
+                            <a href="{{ $settings['kontak_wbs_link'] ?? $settings['wbs_link'] ?? 'https://itjen.kemenhub.go.id/wbs/' }}" target="_blank" rel="noopener" class="btn btn-danger btn-sm rounded-pill px-3 py-2 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="background: #dc2626; font-size: 12.5px;">
+                                <i class="fas fa-bullhorn"></i> Lapor Pelanggaran ke WBS Itjen
                             </a>
                         </div>
                     </div>
@@ -1317,7 +1314,7 @@
                 <div class="modal-header text-white border-0 py-3 px-4" style="background: linear-gradient(135deg, #002b5c, #004a99) !important;">
                     <div class="d-flex align-items-center gap-2">
                         <i class="fas fa-building text-warning fs-5"></i>
-                        <h5 class="modal-title outfit fw-bold mb-0 text-white" id="modalFotoMejaLayananLabel">Sarana & Jam Pelayanan Informasi Publik Terpadu (AKIP C.1 & C.2)</h5>
+                        <h5 class="modal-title outfit fw-bold mb-0 text-white" id="modalFotoMejaLayananLabel">Sarana & Jam Pelayanan Informasi Publik Terpadu</h5>
                     </div>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" onclick="closeFotoModal()" aria-label="Close"></button>
                 </div>

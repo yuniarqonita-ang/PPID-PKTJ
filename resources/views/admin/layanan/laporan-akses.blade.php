@@ -104,50 +104,91 @@
                 </div>
 
                 <div class="p-6 md:p-8 space-y-8">
-                    <!-- SUBSECTION A: 4 HIGH-LEVEL METRICS CARDS -->
-                    <div>
-                        <h4 class="text-xs font-black text-gray-400 uppercase tracking-widest mb-4 flex items-center">
-                            <i class="fas fa-cubes mr-2 text-[#004a99]"></i> 4 Kartu Metrik Ringkasan Utama (Atas Diagram)
-                        </h4>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-                            <div class="p-5 bg-blue-50/50 border-2 border-blue-100 rounded-2xl space-y-2">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[11px] font-black text-[#004a99] uppercase">Total Permohonan</span>
-                                    <i class="fas fa-envelope-open-text text-[#004a99]"></i>
+                    <!-- SUBSECTION A: STATUS PERMOHONAN & KEBERATAN (SESUAI DASHBOARD MODERN) -->
+                    <div class="space-y-6">
+                        <!-- 1. Permohonan Informasi -->
+                        <div class="p-6 bg-slate-900 text-white rounded-3xl space-y-4 border border-slate-800">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                                <h4 class="text-xs font-black text-amber-400 uppercase tracking-widest flex items-center">
+                                    <i class="fas fa-envelope-open-text mr-2"></i> 1. Status Permohonan Informasi
+                                </h4>
+                                <span class="text-[10px] text-slate-400">Nilai akan tampil di 3 kartu Permohonan</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-1">
+                                    <label class="text-[10px] font-black uppercase tracking-wider text-amber-400 block">Belum Ditindaklanjuti</label>
+                                    <input type="number" name="permohonan_belum" value="{{ $settings['laporan_akses_permohonan_belum'] ?? 0 }}"
+                                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl font-black text-xl text-white">
                                 </div>
-                                <input type="number" name="total_permohonan" value="{{ $settings['laporan_akses_total_permohonan'] ?? '' }}" placeholder="Otomatis / Isi Angka"
-                                    class="w-full px-4 py-3 bg-white border border-blue-200 rounded-xl font-black text-xl text-[#002b5c]">
-                                <p class="text-[10px] text-gray-500">Kosongkan jika ingin otomatis dari database formulir online.</p>
+                                <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-1">
+                                    <label class="text-[10px] font-black uppercase tracking-wider text-amber-400 block">Diproses</label>
+                                    <input type="number" name="permohonan_proses" value="{{ $settings['laporan_akses_permohonan_proses'] ?? 0 }}"
+                                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl font-black text-xl text-white">
+                                </div>
+                                <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-1">
+                                    <label class="text-[10px] font-black uppercase tracking-wider text-emerald-400 block">Selesai</label>
+                                    <input type="number" name="permohonan_selesai" value="{{ $settings['laporan_akses_permohonan_selesai'] ?? 0 }}"
+                                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl font-black text-xl text-white">
+                                </div>
                             </div>
 
-                            <div class="p-5 bg-emerald-50/50 border-2 border-emerald-100 rounded-2xl space-y-2">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[11px] font-black text-emerald-700 uppercase">Ditindaklanjuti</span>
-                                    <i class="fas fa-check-circle text-emerald-600"></i>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                                <div>
+                                    <label class="text-[10px] font-bold uppercase text-slate-300 block mb-1">Tren Permohonan Diterima (12 Bulan pisahkan koma)</label>
+                                    <input type="text" name="permohonan_trend_diterima" value="{{ $settings['laporan_akses_permohonan_trend_diterima'] ?? '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0' }}"
+                                        placeholder="0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+                                        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl font-mono text-xs text-sky-400">
                                 </div>
-                                <input type="number" name="ditindaklanjuti" value="{{ $settings['laporan_akses_ditindaklanjuti'] ?? '' }}" placeholder="Otomatis / Isi Angka"
-                                    class="w-full px-4 py-3 bg-white border border-emerald-200 rounded-xl font-black text-xl text-emerald-700">
-                                <p class="text-[10px] text-gray-500">Permohonan yang telah selesai dilayani.</p>
+                                <div>
+                                    <label class="text-[10px] font-bold uppercase text-slate-300 block mb-1">Tren Permohonan Selesai (12 Bulan pisahkan koma)</label>
+                                    <input type="text" name="permohonan_trend_selesai" value="{{ $settings['laporan_akses_permohonan_trend_selesai'] ?? '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0' }}"
+                                        placeholder="0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+                                        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl font-mono text-xs text-emerald-400">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- 2. Keberatan Informasi -->
+                        <div class="p-6 bg-slate-900 text-white rounded-3xl space-y-4 border border-slate-800">
+                            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+                                <h4 class="text-xs font-black text-amber-400 uppercase tracking-widest flex items-center">
+                                    <i class="fas fa-shield-halved mr-2"></i> 2. Status Keberatan Informasi
+                                </h4>
+                                <span class="text-[10px] text-slate-400">Nilai akan tampil di 3 kartu Keberatan</span>
+                            </div>
+                            
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-1">
+                                    <label class="text-[10px] font-black uppercase tracking-wider text-amber-400 block">Belum Ditindaklanjuti</label>
+                                    <input type="number" name="keberatan_belum" value="{{ $settings['laporan_akses_keberatan_belum'] ?? 0 }}"
+                                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl font-black text-xl text-white">
+                                </div>
+                                <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-1">
+                                    <label class="text-[10px] font-black uppercase tracking-wider text-amber-400 block">Diproses</label>
+                                    <input type="number" name="keberatan_proses" value="{{ $settings['laporan_akses_keberatan_proses'] ?? 0 }}"
+                                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl font-black text-xl text-white">
+                                </div>
+                                <div class="p-4 bg-slate-800/80 rounded-2xl border border-slate-700 space-y-1">
+                                    <label class="text-[10px] font-black uppercase tracking-wider text-emerald-400 block">Selesai</label>
+                                    <input type="number" name="keberatan_selesai" value="{{ $settings['laporan_akses_keberatan_selesai'] ?? 0 }}"
+                                        class="w-full px-4 py-2.5 bg-slate-900 border border-slate-700 rounded-xl font-black text-xl text-white">
+                                </div>
                             </div>
 
-                            <div class="p-5 bg-orange-50/50 border-2 border-orange-100 rounded-2xl space-y-2">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[11px] font-black text-orange-700 uppercase">Dalam Proses</span>
-                                    <i class="fas fa-clock text-orange-600"></i>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                                <div>
+                                    <label class="text-[10px] font-bold uppercase text-slate-300 block mb-1">Tren Keberatan Diterima (12 Bulan pisahkan koma)</label>
+                                    <input type="text" name="keberatan_trend_diterima" value="{{ $settings['laporan_akses_keberatan_trend_diterima'] ?? '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0' }}"
+                                        placeholder="0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+                                        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl font-mono text-xs text-amber-400">
                                 </div>
-                                <input type="number" name="dalam_proses" value="{{ $settings['laporan_akses_dalam_proses'] ?? '' }}" placeholder="Otomatis / Isi Angka"
-                                    class="w-full px-4 py-3 bg-white border border-orange-200 rounded-xl font-black text-xl text-orange-700">
-                                <p class="text-[10px] text-gray-500">Permohonan yang sedang dalam penelaahan.</p>
-                            </div>
-
-                            <div class="p-5 bg-amber-50/50 border-2 border-amber-100 rounded-2xl space-y-2">
-                                <div class="flex items-center justify-between">
-                                    <span class="text-[11px] font-black text-amber-800 uppercase">Rata-rata Waktu Jawab</span>
-                                    <i class="fas fa-history text-amber-600"></i>
+                                <div>
+                                    <label class="text-[10px] font-bold uppercase text-slate-300 block mb-1">Tren Keberatan Selesai (12 Bulan pisahkan koma)</label>
+                                    <input type="text" name="keberatan_trend_selesai" value="{{ $settings['laporan_akses_keberatan_trend_selesai'] ?? '0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0' }}"
+                                        placeholder="0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+                                        class="w-full px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl font-mono text-xs text-emerald-400">
                                 </div>
-                                <input type="text" name="rata_rata_hari" value="{{ $settings['laporan_akses_rata_rata_hari'] ?? '5 - 7' }}" placeholder="Contoh: 5 - 7"
-                                    class="w-full px-4 py-3 bg-white border border-amber-200 rounded-xl font-black text-xl text-amber-800">
-                                <p class="text-[10px] text-gray-500">Durasi rata-rata penyelesaian permohonan.</p>
                             </div>
                         </div>
                     </div>
