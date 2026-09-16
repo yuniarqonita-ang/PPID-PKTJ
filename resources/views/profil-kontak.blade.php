@@ -1163,7 +1163,7 @@
 
                 <!-- 2. SIMADU KEMENHUB -->
                 <div class="col-lg-4 col-md-6">
-                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 position-relative overflow-hidden hover-lift" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1.5px solid #e2e8f0 !important; border-top: 5px solid #059669 !important;">
+                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 position-relative overflow-hidden hover-lift d-flex flex-column" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1.5px solid #e2e8f0 !important; border-top: 5px solid #059669 !important;">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 56px; height: 56px; background: rgba(5, 150, 105, 0.1); color: #059669; font-size: 24px;">
                                 <i class="fas fa-users-gear"></i>
@@ -1174,25 +1174,12 @@
                         </div>
                         <h4 class="outfit fw-black text-dark mb-1" style="font-size: 1.3rem;">SIMADU Kemenhub</h4>
                         <span class="text-muted small fw-semibold d-block mb-3">Sistem Informasi Pengaduan Masyarakat Terpadu</span>
-                        <p class="text-secondary small mb-4" style="line-height: 1.6;">
-                            Platform daring terpadu penanganan aspirasi, ketidakpuasan, dan pengaduan pelayanan publik aparatur Kementerian Perhubungan dengan tindak lanjut terukur dan berjenjang.
+                        <p class="text-secondary small mb-4 flex-grow-1" style="line-height: 1.7; font-size: 13.5px;">
+                            Platform daring terpadu penanganan aspirasi, ketidakpuasan, dan pengaduan pelayanan publik aparatur Kementerian Perhubungan dengan tindak lanjut terukur, transparan, dan terhubung langsung dengan UPT PKTJ Tegal.
                         </p>
 
-                        <div class="p-3 rounded-3 bg-light border mb-4">
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <i class="fas fa-link text-success" style="width: 18px;"></i>
-                                <span class="small text-muted">Portal SIMADU:</span>
-                                <span class="small fw-bold text-dark ms-auto">simadu.kemenhub.go.id</span>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="fas fa-id-card text-success" style="width: 18px;"></i>
-                                <span class="small text-muted">Akses Layanan:</span>
-                                <span class="badge bg-success bg-opacity-25 text-success ms-auto small">Publik &amp; Civitas</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-auto">
-                            <a href="{{ $settings['kontak_simadu_link'] ?? $settings['simadu_link'] ?? 'https://simadu.kemenhub.go.id/' }}" target="_blank" rel="noopener" class="btn btn-success btn-sm rounded-pill px-3 py-2 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="background: #059669; font-size: 12.5px;">
+                        <div class="mt-auto pt-3">
+                            <a href="{{ $settings['kontak_simadu_link'] ?? $settings['simadu_link'] ?? 'https://simadu.kemenhub.go.id/' }}" target="_blank" rel="noopener" class="btn btn-success btn-sm rounded-pill px-3 py-2.5 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-2" style="background: #059669; font-size: 13px;">
                                 <i class="fas fa-external-link-alt"></i> Buka Portal SIMADU Kemenhub
                             </a>
                         </div>
@@ -1201,7 +1188,7 @@
 
                 <!-- 3. WBS (WHISTLEBLOWING SYSTEM) -->
                 <div class="col-lg-4 col-md-12">
-                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 position-relative overflow-hidden hover-lift" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1.5px solid #e2e8f0 !important; border-top: 5px solid #dc2626 !important;">
+                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 position-relative overflow-hidden hover-lift d-flex flex-column" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1.5px solid #e2e8f0 !important; border-top: 5px solid #dc2626 !important;">
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 56px; height: 56px; background: rgba(220, 38, 38, 0.1); color: #dc2626; font-size: 24px;">
                                 <i class="fas fa-user-shield"></i>
@@ -1212,25 +1199,12 @@
                         </div>
                         <h4 class="outfit fw-black text-dark mb-1" style="font-size: 1.3rem;">WBS Kemenhub</h4>
                         <span class="text-muted small fw-semibold d-block mb-3">Whistleblowing System Kemenhub</span>
-                        <p class="text-secondary small mb-4" style="line-height: 1.6;">
-                            Kanal khusus pelaporan dugaan tindak pidana korupsi, penyuapan, gratifikasi, pemerasan, kecurangan (fraud), atau benturan kepentingan dengan jaminan perlindungan identitas pelapor.
+                        <p class="text-secondary small mb-4 flex-grow-1" style="line-height: 1.7; font-size: 13.5px;">
+                            Kanal khusus pelaporan dugaan tindak pidana korupsi, penyuapan, gratifikasi, pemerasan, kecurangan (fraud), atau benturan kepentingan. Identitas pelapor dijamin kerahasiaannya dan dilindungi undang-undang secara penuh (Anonim).
                         </p>
 
-                        <div class="p-3 rounded-3 bg-light border mb-4">
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <i class="fas fa-user-secret text-danger" style="width: 18px;"></i>
-                                <span class="small text-muted">Identitas:</span>
-                                <span class="badge bg-dark text-white ms-auto small">Anonim / Dijamin UU</span>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="fas fa-gavel text-danger" style="width: 18px;"></i>
-                                <span class="small text-muted">Pengelola:</span>
-                                <span class="small fw-bold text-dark ms-auto">Itjen Kemenhub</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-auto">
-                            <a href="{{ $settings['kontak_wbs_link'] ?? $settings['wbs_link'] ?? 'https://itjen.kemenhub.go.id/wbs/' }}" target="_blank" rel="noopener" class="btn btn-danger btn-sm rounded-pill px-3 py-2 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="background: #dc2626; font-size: 12.5px;">
+                        <div class="mt-auto pt-3">
+                            <a href="{{ $settings['kontak_wbs_link'] ?? $settings['wbs_link'] ?? 'https://itjen.kemenhub.go.id/wbs/' }}" target="_blank" rel="noopener" class="btn btn-danger btn-sm rounded-pill px-3 py-2.5 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-2" style="background: #dc2626; font-size: 13px;">
                                 <i class="fas fa-bullhorn"></i> Lapor Pelanggaran ke WBS Itjen
                             </a>
                         </div>
