@@ -41,7 +41,7 @@ class InformasiPublikController extends Controller
     {
         try {
             $syncVersion = Dashboard::where('key', 'dip_sync_version')->value('value');
-            $currentVersion = '2026_09_17_v5';
+            $currentVersion = '2026_09_17_v6';
 
             // Cek apakah data resmi DIP 2026 sudah ada di database dan memiliki tautan folder drive resmi PDF
             $hasFolderDipa = class_exists(InformasiBerkala::class) 
