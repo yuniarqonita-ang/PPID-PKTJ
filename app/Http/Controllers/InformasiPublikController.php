@@ -40,18 +40,29 @@ class InformasiPublikController extends Controller
     private function ensureDataSeeded(): void
     {
         try {
-            // Cek apakah data resmi DIP 2026 sudah ada di database
-            $berkalaCount = class_exists(InformasiBerkala::class) ? InformasiBerkala::where('aktif', true)->count() : 0;
-            $setiapCount = class_exists(InformasiSetiapSaat::class) ? InformasiSetiapSaat::where('aktif', true)->count() : 0;
-            $sertaCount = class_exists(InformasiSertaMerta::class) ? InformasiSertaMerta::where('aktif', true)->count() : 0;
+            $syncVersion = Dashboard::where('key', 'dip_sync_version')->value('value');
+            $currentVersion = '2026_09_17_v4';
 
-            // Jika data DIP kurang dari jumlah resmi (25 Berkala, 10 Setiap Saat, 3 Serta Merta), jalankan seeder otomatis
-            if ($berkalaCount < 25 || $setiapCount < 10 || $sertaCount < 3) {
-                $seederFile = database_path('seeders/DipPktj2026Seeder.php');
+            // Cek apakah data resmi DIP 2026 sudah ada di database dan memiliki tautan folder drive resmi PDF
+            $hasFolderDipa = class_exists(InformasiBerkala::class) 
+                ? InformasiBerkala::where('judul', 'like', '%DIPA%')->where('file_path', 'like', '%1HwIHVdnIlidb-InhibiBIZk5cO5iQGLB%')->exists()
+                : false;
+
+            $berkalaCount = class_exists(InformasiBerkala::class) ? InformasiBerkala::count() : 0;
+            $setiapCount = class_exists(InformasiSetiapSaat::class) ? InformasiSetiapSaat::count() : 0;
+            $sertaCount = class_exists(InformasiSertaMerta::class) ? InformasiSertaMerta::count() : 0;
+
+            // Jika versi seeder belum terbaru atau tautan belum sinkron ke PDF, jalankan Dip2026SyncSeeder
+            if ($syncVersion !== $currentVersion || !$hasFolderDipa || $berkalaCount < 20 || $setiapCount < 8 || $sertaCount < 2) {
+                $seederFile = database_path('seeders/Dip2026SyncSeeder.php');
                 if (file_exists($seederFile)) {
                     require_once $seederFile;
-                    $seeder = new \Database\Seeders\DipPktj2026Seeder();
+                    $seeder = new \Database\Seeders\Dip2026SyncSeeder();
                     $seeder->run();
+                    Dashboard::updateOrCreate(
+                        ['key' => 'dip_sync_version'],
+                        ['value' => $currentVersion, 'type' => 'text', 'aktif' => true]
+                    );
                 }
             }
 

@@ -445,7 +445,110 @@
                 </div>
             </div>
 
-            <!-- 5. CALLOUT DOKUMEN DUKUNG -->
+            <!-- 5. TAUTAN LANGSUNG DOKUMEN & BERKAS KEPEGAWAIAN (GOOGLE DRIVE FILE) -->
+            <div class="mb-5 pt-2" data-aos="fade-up">
+                <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3 flex-wrap gap-2">
+                    <div>
+                        <h4 class="fw-bold outfit text-[#002b5c] mb-1">
+                            <i class="fas fa-file-contract text-primary me-2"></i>Berkas & Dokumen Otentik Kepegawaian
+                        </h4>
+                        <p class="text-muted small mb-0">Akses langsung ke dokumen primer (Excel, PDF SK, dan Berkas Visualisasi) yang tersimpan resmi di Google Drive</p>
+                    </div>
+                    @if(!empty($data['gdrive_folder_url']))
+                    <a href="{{ $data['gdrive_folder_url'] }}" target="_blank" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1.5 fw-bold">
+                        <i class="fab fa-google-drive me-1"></i> Buka Folder Induk Drive
+                    </a>
+                    @endif
+                </div>
+
+                <div class="row g-3">
+                    <!-- File 1: DRH Excel 155 Pegawai -->
+                    <div class="col-md-6 col-lg-6">
+                        <div class="p-3.5 rounded-3 border bg-white h-100 d-flex align-items-center justify-content-between gap-3 shadow-sm hover-shadow transition" style="border-left: 4px solid #10b981 !important;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-3 d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width: 44px; height: 44px; background: #10b981;">
+                                    <i class="fas fa-file-excel fs-5"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark" style="font-size: 14px;">DRH Seluruh Pegawai PKTJ (.xlsx)</div>
+                                    <div class="text-muted small" style="font-size: 11.5px;">Data Riwayat Hidup lengkap 155 Pegawai (114 PNS, 41 PPPK)</div>
+                                </div>
+                            </div>
+                            <a href="{{ $data['link_excel_drh'] ?? 'https://drive.google.com/file/d/1WA7CSaxqt0j8e0fHnjqnl8K8TCRdUAAV/view?usp=drive_link' }}" target="_blank" class="btn btn-sm btn-success rounded-pill px-3 py-1.5 fw-bold text-nowrap flex-shrink-0">
+                                <i class="fas fa-download me-1"></i> Buka File
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- File 2: SK PPID PKTJ 2026 -->
+                    <div class="col-md-6 col-lg-6">
+                        <div class="p-3.5 rounded-3 border bg-white h-100 d-flex align-items-center justify-content-between gap-3 shadow-sm hover-shadow transition" style="border-left: 4px solid #dc2626 !important;">
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="rounded-3 d-flex align-items-center justify-content-center text-white flex-shrink-0" style="width: 44px; height: 44px; background: #dc2626;">
+                                    <i class="fas fa-file-pdf fs-5"></i>
+                                </div>
+                                <div>
+                                    <div class="fw-bold text-dark" style="font-size: 14px;">SK Penetapan PPID PKTJ 2026 (.pdf)</div>
+                                    <div class="text-muted small" style="font-size: 11.5px;">Surat Keputusan Direktur mengenai Pengelola Informasi & Dokumentasi</div>
+                                </div>
+                            </div>
+                            <a href="{{ $data['link_sk_ppid_2026'] ?? 'https://drive.google.com/file/d/1tAtixggFCU10eazzSDrAuv4O0zoeOfJS/view?usp=drive_link' }}" target="_blank" class="btn btn-sm btn-danger rounded-pill px-3 py-1.5 fw-bold text-nowrap flex-shrink-0">
+                                <i class="fas fa-eye me-1"></i> Buka File
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- File 3: Grafik Jenis Pegawai -->
+                    <div class="col-md-4 col-12">
+                        <div class="p-3 rounded-3 border bg-white h-100 d-flex align-items-center justify-content-between gap-2 shadow-sm">
+                            <div class="d-flex align-items-center gap-2.5">
+                                <i class="fas fa-chart-pie text-primary fs-5"></i>
+                                <div>
+                                    <div class="fw-bold text-dark" style="font-size: 13px;">Grafik Jenis Pegawai</div>
+                                    <div class="text-muted" style="font-size: 11px;">Berkas Diagram Status ASN</div>
+                                </div>
+                            </div>
+                            <a href="{{ $data['link_grafik_jenis'] ?? 'https://drive.google.com/file/d/1waPJx0eSSfwhA3N9ggLE7qJHxOxOPblg/view?usp=drive_link' }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-2.5 py-1 text-nowrap" style="font-size: 11px;">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- File 4: Grafik Pendidikan -->
+                    <div class="col-md-4 col-12">
+                        <div class="p-3 rounded-3 border bg-white h-100 d-flex align-items-center justify-content-between gap-2 shadow-sm">
+                            <div class="d-flex align-items-center gap-2.5">
+                                <i class="fas fa-graduation-cap text-indigo fs-5" style="color: #6366f1;"></i>
+                                <div>
+                                    <div class="fw-bold text-dark" style="font-size: 13px;">Grafik Pendidikan</div>
+                                    <div class="text-muted" style="font-size: 11px;">Berkas Jenjang Akademik</div>
+                                </div>
+                            </div>
+                            <a href="{{ $data['link_grafik_pendidikan'] ?? 'https://drive.google.com/file/d/1tPH7bcOA16ZJrcdG03JEj2EklKVeUW7W/view?usp=drive_link' }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-2.5 py-1 text-nowrap" style="font-size: 11px;">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- File 5: Grafik Golongan -->
+                    <div class="col-md-4 col-12">
+                        <div class="p-3 rounded-3 border bg-white h-100 d-flex align-items-center justify-content-between gap-2 shadow-sm">
+                            <div class="d-flex align-items-center gap-2.5">
+                                <i class="fas fa-layer-group text-warning fs-5"></i>
+                                <div>
+                                    <div class="fw-bold text-dark" style="font-size: 13px;">Grafik Golongan / Pangkat</div>
+                                    <div class="text-muted" style="font-size: 11px;">Berkas Kepangkatan Pegawai</div>
+                                </div>
+                            </div>
+                            <a href="{{ $data['link_grafik_golongan'] ?? 'https://drive.google.com/file/d/12ugth3EsodPjIZK4U7dOz4EAD0oObowf/view?usp=drive_link' }}" target="_blank" class="btn btn-sm btn-outline-primary rounded-pill px-2.5 py-1 text-nowrap" style="font-size: 11px;">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. CALLOUT DOKUMEN DUKUNG -->
             <div class="p-4 rounded-4 border bg-light d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                 <div class="d-flex align-items-center gap-3">
                     <div class="w-12 h-12 rounded-3 bg-primary text-white d-flex align-items-center justify-content-center fs-4 flex-shrink-0" style="width: 48px; height: 48px;">
@@ -459,7 +562,7 @@
                 <div class="d-flex align-items-center gap-2 flex-wrap">
                     @if(!empty($data['gdrive_folder_url']))
                         <a href="{{ $data['gdrive_folder_url'] }}" target="_blank" class="btn btn-warning text-dark rounded-pill px-3.5 py-2 fw-bold btn-sm shadow-sm">
-                            <i class="fab fa-google-drive me-1.5 text-dark"></i> Folder Google Drive (DRH & SK)
+                            <i class="fab fa-google-drive me-1.5 text-dark"></i> Folder Google Drive Cadangan
                         </a>
                     @endif
                     <a href="{{ url($data['callout_btn_url'] ?? '/profil/pejabat') }}" class="btn btn-primary rounded-pill px-4 py-2 fw-bold btn-sm shadow-sm">

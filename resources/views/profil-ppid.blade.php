@@ -233,6 +233,33 @@
         <!-- 2. MAIN PROFIL NARRATIVE -->
         <div class="main-profil-card" data-aos="fade-up" data-aos-delay="100">
             
+            <!-- VIDEO PROFIL PPID -->
+            @php
+                $rawVideo = !empty($settings['profil_youtube_link']) ? $settings['profil_youtube_link'] : (!empty($settings['video_url']) ? $settings['video_url'] : 'https://www.youtube.com/watch?v=9kI1jndsRdw');
+                $embedUrl = null;
+                if ($rawVideo) {
+                    $rawVideo = trim($rawVideo);
+                    $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/ ]{11})/i';
+                    if (preg_match($pattern, $rawVideo, $matches)) {
+                        $embedUrl = "https://www.youtube.com/embed/" . $matches[1];
+                    } elseif (preg_match('/^[a-zA-Z0-9_-]{11}$/', $rawVideo)) {
+                        $embedUrl = "https://www.youtube.com/embed/" . $rawVideo;
+                    }
+                }
+            @endphp
+            @if($embedUrl)
+                <div class="mb-5" data-aos="fade-up">
+                    <div class="section-header-pill" style="background: #fee2e2; color: #991b1b;">
+                        <i class="fab fa-youtube text-danger"></i> Video Profil PPID PKTJ Tegal
+                    </div>
+                    <div class="rounded-4 overflow-hidden shadow-lg border border-slate-200 mt-3 position-relative" style="background: #000;">
+                        <div class="ratio ratio-16x9">
+                            <iframe src="{{ $embedUrl }}" title="Video Profil PPID Politeknik Keselamatan Transportasi Jalan" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            @endif
+
             <!-- SECTION 1: LATAR BELAKANG -->
             <div class="mb-5">
                 <div class="section-header-pill">
@@ -243,19 +270,16 @@
                         {!! $profil->konten_pembuka !!}
                     @else
                         <p class="lead fw-semibold text-dark" style="font-size: 1.15rem; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
-                            Dalam mewujudkan tata kelola kepemerintahan yang baik, bersih, transparan, dan akuntabel (<em>Good Institutional Governance</em>) di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal, keterbukaan informasi publik diposisikan sebagai instrumen fundamental dalam menjamin pemenuhan hak konstitusional setiap pemohon informasi sesuai dengan amanat peraturan perundang-undangan. Sebagai perguruan tinggi kedinasan vokasi di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan, PKTJ Tegal senantiasa berkomitmen menyelenggarakan pelayanan informasi yang profesional, berintegritas, dan berorientasi pada kepuasan masyarakat.
+                            Dalam mewujudkan tata kelola kepemerintahan yang baik, transparan, dan akuntabel di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal melalui transparansi informasi publik guna memenuhi hak setiap pemohon informasi sesuai dengan ketentuan peraturan perundang-undangan.
                         </p>
                         <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-                            Pemberlakuan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP) secara efektif sejak 30 April 2010 telah menjadi tonggak penting dalam mendorong transformasi peradaban demokrasi bangsa Indonesia menuju era transparansi dan akuntabilitas pengelolaan sumber daya publik. UU KIP memberikan landasan hukum yang mengikat bagi seluruh masyarakat untuk bersama-sama mengawal dan mengawasi secara langsung penyelenggaraan tridharma perguruan tinggi, pengelolaan anggaran negara, serta pemanfaatan fasilitas pendidikan kedinasan keselamatan jalan di PKTJ Tegal.
+                            Sejak Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan sebuah sarana dalam mengoptimalkan pengawasan publik terhadap penyelenggaraan negara, pendidikan tinggi vokasi kedinasan, serta segala sesuatu yang berakibat pada kepentingan publik di lingkungan PKTJ Tegal.
                         </p>
                         <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-                            Keterbukaan informasi merupakan pilar utama dalam membangun ekosistem integritas dan memupuk kepercayaan publik (<em>public trust</em>). Terlebih di era kemajuan teknologi digital saat ini, animo dan tuntutan masyarakat untuk memperoleh data yang valid, cepat, dan terpercaya kian meningkat. Oleh karena itu, segenap jajaran pimpinan dan sivitas akademika PKTJ Tegal menanamkan kesadaran kolektif bahwa setiap pengelolaan informasi publik harus berlandaskan asas kepatutan, ketepatan data, keterpaduan sistem informasi, serta prinsip tata kelola yang bersih dan bebas korupsi.
+                            Keterbukaan informasi publik merupakan sarana dalam mengoptimalkan pengawasan publik terhadap penyelenggaraan negara dan Badan Publik lainnya dan segala sesuatu yang berakibat pada kepentingan publik sebagaimana yang diamanatkan dalam Undang-Undang Nomor 14 Tahun 2008. Pengelolaan informasi publik yang baik di lingkungan Politeknik Keselamatan Transportasi Jalan merupakan salah satu upaya untuk mengembangkan masyarakat informasi guna meningkatkan peran serta aktif masyarakat dalam pengambilan kebijakan publik.
                         </p>
                         <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-                            Sejalan dengan arahan kebijakan nasional keterbukaan informasi, Kementerian Perhubungan telah membentuk Pejabat Pengelola Informasi dan Dokumentasi (PPID) serta menetapkan pedoman pelaksanaan layanan melalui Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan. Berdasarkan regulasi sektoral ini, PPID Pelaksana UPT PKTJ Tegal memiliki mandat kelembagaan untuk menghimpun, mengklasifikasikan, memutakhirkan, dan menyediakan Daftar Informasi Publik (DIP) yang akurat serta menetapkan informasi yang dikecualikan secara ketat melalui uji konsekuensi.
-                        </p>
-                        <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-                            Landasan hukum ini menjamin hak setiap orang untuk memperoleh informasi publik secara cepat, akurat, mudah, dan berkualitas tanpa dipungut biaya apapun (Rp 0). Guna mengoptimalkan layanan tersebut, PPID Pelaksana PKTJ Tegal menyediakan dua kanal saluran terpadu: portal layanan daring 24/7 di <strong>ppid.pktj.ac.id</strong> yang dilengkapi fitur ramah disabilitas (inklusi), serta Meja Layanan Fisik Terpadu di Kampus Margadana Kota Tegal yang siap melayani konsultasi dan permohonan informasi secara langsung dengan standar pelayanan prima.
+                            Sejalan dengan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP), Kementerian Perhubungan telah menetapkan Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan. Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal sebagai salah satu Unit Pelaksana Teknis (UPT) di lingkungan Kementerian Perhubungan telah membentuk Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana melalui Surat Keputusan Direktur Nomor KP-PKTJ 384 Tahun 2026.
                         </p>
                     @endif
                 </div>

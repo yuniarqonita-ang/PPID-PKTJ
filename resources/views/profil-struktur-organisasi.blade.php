@@ -348,6 +348,113 @@
             }
         }
 
+        /* BUTTON SK PPID PKTJ 2026 TERBARU (KANAN BAWAH BAGAN) */
+        .pktj-sk-footer-bar {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-top: 35px;
+            padding-top: 20px;
+            border-top: 1px dashed rgba(0, 74, 153, 0.2);
+            position: relative;
+        }
+
+        .pktj-btn-sk-terbaru {
+            display: inline-flex;
+            align-items: center;
+            gap: 14px;
+            background: linear-gradient(135deg, #002b5c 0%, #004a99 50%, #0284c7 100%);
+            color: #ffffff !important;
+            padding: 12px 24px;
+            border-radius: 9999px;
+            text-decoration: none !important;
+            box-shadow: 0 10px 25px rgba(0, 74, 153, 0.25), 0 0 0 2px rgba(255, 193, 7, 0.4);
+            border: 2px solid #ffc107;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .pktj-btn-sk-terbaru:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 16px 35px rgba(0, 74, 153, 0.35), 0 0 0 4px rgba(255, 193, 7, 0.6);
+            border-color: #ffd166;
+        }
+
+        .pktj-sk-icon-box {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #ffc107, #f59e0b);
+            color: #002b5c;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            flex-shrink: 0;
+            box-shadow: 0 4px 10px rgba(245, 158, 11, 0.4);
+        }
+
+        .pktj-sk-text-group {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            line-height: 1.2;
+        }
+
+        .pktj-sk-badge-pill {
+            font-size: 9.5px;
+            font-weight: 800;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            color: #ffc107;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .pktj-sk-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 0.2px;
+            color: #ffffff;
+        }
+
+        .pktj-sk-arrow-box {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            color: #ffffff;
+            transition: transform 0.3s ease;
+        }
+
+        .pktj-btn-sk-terbaru:hover .pktj-sk-arrow-box {
+            transform: translateX(3px) translateY(-3px);
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .pulse-beacon-gold {
+            width: 6px;
+            height: 6px;
+            background: #ffc107;
+            border-radius: 50%;
+            display: inline-block;
+            box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7);
+            animation: pulse-gold 2s infinite;
+        }
+
+        @keyframes pulse-gold {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(255, 193, 7, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 193, 7, 0); }
+        }
+
         /* Organizational Chart Styling */
         .org-container {
             display: flex;
@@ -674,6 +781,30 @@
                                     {{ $settings['struktur_petugas_nama'] ?? 'STAFF' }}
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- KETERANGAN & TOMBOL SK PPID PKTJ 2026 TERBARU (KANAN BAWAH) -->
+                        @php
+                            $skPpidLink = $settings['struktur_link_sk_ppid_terbaru'] 
+                                ?? ($settings['link_sk_ppid_terbaru'] 
+                                ?? (!empty($settings['struktur_file_sk_ppid_terbaru']) ? asset('storage/halaman/' . $settings['struktur_file_sk_ppid_terbaru']) : 'https://drive.google.com/file/d/18UCD9lMWZNp7IfIxpx8WC1V99hQGIwxX/view?usp=drive_link'));
+                        @endphp
+                        <div class="pktj-sk-footer-bar">
+                            <a href="{{ $skPpidLink }}" target="_blank" rel="noopener noreferrer" class="pktj-btn-sk-terbaru" title="Unduh / Lihat Dokumen SK PPID PKTJ 2026 Terbaru">
+                                <div class="pktj-sk-icon-box">
+                                    <i class="fas fa-file-signature"></i>
+                                </div>
+                                <div class="pktj-sk-text-group">
+                                    <div class="pktj-sk-badge-pill">
+                                        <span class="pulse-beacon-gold"></span>
+                                        <span>DOKUMEN RESMI 2026</span>
+                                    </div>
+                                    <span class="pktj-sk-label">SK PPID PKTJ 2026 Terbaru</span>
+                                </div>
+                                <div class="pktj-sk-arrow-box">
+                                    <i class="fas fa-arrow-up-right-from-square"></i>
+                                </div>
+                            </a>
                         </div>
                     </div>
                 </div>

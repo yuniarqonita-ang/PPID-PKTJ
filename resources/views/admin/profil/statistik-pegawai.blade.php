@@ -492,7 +492,7 @@
             </div>
         </div>
 
-        <!-- 8. INTEGRASI FOLDER GOOGLE DRIVE KEPEGAWAIAN (DRH & ARSIP RESMI) -->
+        <!-- 8. INTEGRASI BERKAS LANGSUNG GOOGLE DRIVE (DRH, SK & GRAFIK) -->
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="px-6 py-5 bg-gradient-to-r from-amber-50 to-blue-50 border-b border-slate-200 flex items-center justify-between">
                 <div class="flex items-center gap-3">
@@ -500,18 +500,85 @@
                         <i class="fab fa-google-drive"></i>
                     </span>
                     <div>
-                        <h3 class="font-black text-[#002b5c] text-base mb-0">8. Link Folder Google Drive Data Kepegawaian & DRH</h3>
-                        <p class="text-xs text-slate-500 mb-0">Tautan folder Google Drive publik untuk data dukung, DRH pejabat, dan rekapitulasi kepegawaian</p>
+                        <h3 class="font-black text-[#002b5c] text-base mb-0">8. Tautan Langsung Berkas File Google Drive (Bukan Folder)</h3>
+                        <p class="text-xs text-slate-500 mb-0">Tautan langsung per file Google Drive agar publik dapat mengunduh dokumen otentik satu per satu</p>
                     </div>
                 </div>
             </div>
-            <div class="p-6 md:p-8 space-y-4">
+            <div class="p-6 md:p-8 space-y-6">
+                <!-- 1. Excel DRH 155 Pegawai -->
                 <div class="space-y-2">
                     <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">
-                        URL Folder Google Drive <span class="text-amber-600 font-normal">(Muncul sebagai tombol resmi di halaman publik & profil pejabat)</span>
+                        <i class="fas fa-file-excel text-emerald-600 me-1"></i> File Dokumen Excel DRH Lengkap (155 Pegawai PKTJ)
                     </label>
                     <div class="flex items-center gap-3">
-                        <input type="url" name="gdrive_folder_url" value="{{ old('gdrive_folder_url', $data['gdrive_folder_url'] ?? 'https://drive.google.com/drive/folders/164eOazEqPabeX6h6atbn3KEs8FWHQVjJ?usp=drive_link') }}"
+                        <input type="url" name="link_excel_drh" value="{{ old('link_excel_drh', $data['link_excel_drh'] ?? '') }}"
+                            class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs text-slate-800 focus:ring-2 focus:ring-[#004a99] focus:bg-white"
+                            placeholder="https://drive.google.com/file/d/.../view?usp=drive_link">
+                        @if(!empty($data['link_excel_drh']))
+                            <a href="{{ $data['link_excel_drh'] }}" target="_blank" class="px-4 py-3 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 flex-shrink-0">
+                                <i class="fas fa-external-link-alt"></i> Buka File
+                            </a>
+                        @endif
+                    </div>
+                </div>
+
+                <!-- 2. SK PPID 2026 -->
+                <div class="space-y-2">
+                    <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                        <i class="fas fa-file-pdf text-rose-600 me-1"></i> File SK Penetapan PPID PKTJ 2026
+                    </label>
+                    <div class="flex items-center gap-3">
+                        <input type="url" name="link_sk_ppid_2026" value="{{ old('link_sk_ppid_2026', $data['link_sk_ppid_2026'] ?? '') }}"
+                            class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs text-slate-800 focus:ring-2 focus:ring-[#004a99] focus:bg-white"
+                            placeholder="https://drive.google.com/file/d/.../view?usp=drive_link">
+                        @if(!empty($data['link_sk_ppid_2026']))
+                            <a href="{{ $data['link_sk_ppid_2026'] }}" target="_blank" class="px-4 py-3 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5 flex-shrink-0">
+                                <i class="fas fa-external-link-alt"></i> Buka File
+                            </a>
+                        @endif
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-2">
+                    <!-- 3. Grafik Jenis Pegawai -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                            <i class="fas fa-image text-blue-600 me-1"></i> File Gambar Grafik Status Pegawai
+                        </label>
+                        <input type="url" name="link_grafik_jenis" value="{{ old('link_grafik_jenis', $data['link_grafik_jenis'] ?? '') }}"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs text-slate-800"
+                            placeholder="https://drive.google.com/file/d/...">
+                    </div>
+
+                    <!-- 4. Grafik Pendidikan -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                            <i class="fas fa-image text-indigo-600 me-1"></i> File Gambar Grafik Pendidikan
+                        </label>
+                        <input type="url" name="link_grafik_pendidikan" value="{{ old('link_grafik_pendidikan', $data['link_grafik_pendidikan'] ?? '') }}"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs text-slate-800"
+                            placeholder="https://drive.google.com/file/d/...">
+                    </div>
+
+                    <!-- 5. Grafik Golongan -->
+                    <div class="space-y-2">
+                        <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                            <i class="fas fa-image text-amber-600 me-1"></i> File Gambar Grafik Golongan
+                        </label>
+                        <input type="url" name="link_grafik_golongan" value="{{ old('link_grafik_golongan', $data['link_grafik_golongan'] ?? '') }}"
+                            class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs text-slate-800"
+                            placeholder="https://drive.google.com/file/d/...">
+                    </div>
+                </div>
+
+                <!-- 6. Folder Google Drive Cadangan -->
+                <div class="space-y-2 pt-2 border-t border-slate-200">
+                    <label class="text-xs font-bold text-slate-700 uppercase tracking-wider block">
+                        <i class="fas fa-folder text-amber-500 me-1"></i> URL Folder Induk Google Drive (Opsional)
+                    </label>
+                    <div class="flex items-center gap-3">
+                        <input type="url" name="gdrive_folder_url" value="{{ old('gdrive_folder_url', $data['gdrive_folder_url'] ?? '') }}"
                             class="flex-1 px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl font-mono text-xs text-slate-800 focus:ring-2 focus:ring-[#004a99] focus:bg-white"
                             placeholder="https://drive.google.com/drive/folders/...">
                         @if(!empty($data['gdrive_folder_url']))
@@ -520,9 +587,6 @@
                             </a>
                         @endif
                     </div>
-                    <p class="text-[11px] text-slate-500 mt-1">
-                        <i class="fas fa-info-circle text-[#004a99]"></i> Gunakan link folder Google Drive dengan izin akses "Siapa saja yang memiliki link dapat melihat".
-                    </p>
                 </div>
             </div>
         </div>

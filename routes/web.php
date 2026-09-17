@@ -548,23 +548,39 @@ Route::get('/refresh-deploy', function() {
                 }
             }
 
-            // Jalankan sinkronisasi data resmi DIP PKTJ 2026 (SK KP-SKJ 9 Tahun 2026) & Menu Seeder & Pejabat Seeder
-            $seederFile = database_path('seeders/DipPktj2026Seeder.php');
+            // Jalankan sinkronisasi data resmi DIP PKTJ 2026 (SK KP-SKJ 9 Tahun 2026 & Tautan Langsung Drive)
+            $seederFile = database_path('seeders/Dip2026SyncSeeder.php');
             if (file_exists($seederFile)) {
                 require_once $seederFile;
-                $seeder = new \Database\Seeders\DipPktj2026Seeder();
+                $seeder = new \Database\Seeders\Dip2026SyncSeeder();
                 $seeder->run();
             }
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\DefaultMenuSeeder', '--force' => true]);
             \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\PejabatSeeder', '--force' => true]);
 
-            // Pastikan folder Google Drive Kepegawaian tersimpan di setting
+            // Pastikan data & tautan langsung statistik pegawai tersimpan di setting
+            if (class_exists(\App\Http\Controllers\StatistikPegawaiController::class)) {
+                $statDefaults = \App\Http\Controllers\StatistikPegawaiController::getDefaults();
+                foreach ($statDefaults as $sK => $sV) {
+                    \App\Models\Dashboard::updateOrCreate(
+                        ['key' => 'statistik_pegawai_' . $sK],
+                        [
+                            'value' => $sV,
+                            'type' => (str_contains($sK, 'list') ? 'json' : 'text'),
+                            'description' => 'Statistik Pegawai ' . $sK,
+                            'aktif' => true
+                        ]
+                    );
+                }
+            }
+
+            // Pastikan tombol SK PPID 2026 Terbaru di Struktur Organisasi aktif
             \App\Models\Dashboard::updateOrCreate(
-                ['key' => 'statistik_pegawai_gdrive_folder_url'],
+                ['key' => 'link_sk_ppid_terbaru'],
                 [
-                    'value' => 'https://drive.google.com/drive/folders/164eOazEqPabeX6h6atbn3KEs8FWHQVjJ?usp=drive_link',
+                    'value' => 'https://drive.google.com/file/d/18UCD9lMWZNp7IfIxpx8WC1V99hQGIwxX/view?usp=drive_link',
                     'type' => 'text',
-                    'description' => 'Link Folder Google Drive Kepegawaian',
+                    'description' => 'Tautan SK PPID PKTJ 2026 Terbaru',
                     'aktif' => true
                 ]
             );

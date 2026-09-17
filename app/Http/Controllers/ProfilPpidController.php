@@ -197,7 +197,7 @@ class ProfilPpidController extends Controller
             'wbs_link', 'simadu_link',
             'kampus_1_nama', 'kampus_1_alamat', 'kampus_1_email', 'kampus_1_telepon', 'kampus_1_map',
             'kampus_2_nama', 'kampus_2_alamat', 'kampus_2_email', 'kampus_2_telepon', 'kampus_2_map',
-            'l1_role', 'l1_name', 'lhkpn_direktur_link', 'upt_lhkpn',
+            'l1_role', 'l1_name', 'lhkpn_direktur_link', 'upt_lhkpn', 'link_sk_ppid_terbaru',
             'l2_c1_role', 'l2_c1_name', 'l2_c2_role', 'l2_c2_name', 'l2_c3_role', 'l2_c3_name', 'l2_c4_role', 'l2_c4_name',
             'l3_c1_role', 'l3_c1_name', 'l3_c2_role', 'l3_c2_name',
             'l4_c1_role', 'l4_c1_name', 'l4_c2_role', 'l4_c2_name', 'l4_c3_role', 'l4_c3_name', 'l4_c4_role', 'l4_c4_name', 'l4_c5_role', 'l4_c5_name', 'l4_c6_role', 'l4_c6_name', 'l4_c7_role', 'l4_c7_name'
@@ -209,7 +209,7 @@ class ProfilPpidController extends Controller
                 $value = $request->input($field) ?? '';
 
                 // Restore https:// if it was stripped by client JS to bypass ModSecurity
-                if (in_array($field, ['facebook_link', 'instagram_link', 'twitter_link', 'linktree_link', 'whatsapp_link', 'lhkpn_direktur_link', 'upt_lhkpn', 'wbs_link', 'simadu_link']) && !empty($value)) {
+                if (in_array($field, ['facebook_link', 'instagram_link', 'twitter_link', 'linktree_link', 'whatsapp_link', 'lhkpn_direktur_link', 'upt_lhkpn', 'wbs_link', 'simadu_link', 'link_sk_ppid_terbaru']) && !empty($value)) {
                     if (!preg_match('/^https?:\/\//i', $value) && $value !== '#') {
                         $value = 'https://' . $value;
                     }
@@ -219,6 +219,13 @@ class ProfilPpidController extends Controller
                     ['key' => $key],
                     ['value' => $value, 'type' => 'text', 'aktif' => true]
                 );
+                // Also save non-prefixed key for universal access
+                if ($field === 'link_sk_ppid_terbaru') {
+                    \App\Models\Dashboard::updateOrCreate(
+                        ['key' => 'link_sk_ppid_terbaru'],
+                        ['value' => $value, 'type' => 'text', 'aktif' => true]
+                    );
+                }
             }
         }
 
@@ -263,7 +270,7 @@ class ProfilPpidController extends Controller
         }
 
         // Handle Dashboard Files
-        $fileFields = ['gambar_sop', 'gambar_proses', 'gambar_maklumat', 'file_laporan'];
+        $fileFields = ['gambar_sop', 'gambar_proses', 'gambar_maklumat', 'file_laporan', 'file_sk_ppid_terbaru'];
         foreach ($fileFields as $field) {
             if ($request->hasFile($field)) {
                 $key = $pfx . '_' . $field;

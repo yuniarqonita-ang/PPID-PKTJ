@@ -401,6 +401,60 @@
                                      </div>
                                  </div>
 
+                                 <!-- Dokumen SK PPID PKTJ 2026 Terbaru -->
+                                 <div class="bg-gradient-to-r from-blue-50 to-amber-50/40 p-6 rounded-[2rem] border-2 border-blue-200/80 space-y-4 mt-6 relative overflow-hidden shadow-sm">
+                                     <div class="flex items-center justify-between">
+                                         <span class="inline-flex items-center gap-2 bg-[#004a99] text-white text-[11px] font-black px-4 py-1.5 rounded-full uppercase tracking-wider shadow-sm">
+                                             <i class="fas fa-file-signature text-amber-300"></i> Dokumen Keterangan SK PPID PKTJ 2026 Terbaru
+                                         </span>
+                                         <span class="text-[10px] font-extrabold text-amber-800 bg-amber-100 px-3 py-1 rounded-full border border-amber-300">
+                                             Tampil di Kanan Bawah Bagan
+                                         </span>
+                                     </div>
+                                     <p class="text-xs text-slate-600 leading-relaxed">
+                                         Atur tautan atau berkas Surat Keputusan (SK) PPID PKTJ 2026 yang akan ditampilkan sebagai tombol khusus <strong>"SK PPID PKTJ 2026 Terbaru"</strong> di bagian kanan bawah diagram struktur organisasi publik.
+                                     </p>
+
+                                     <div class="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+                                         <div class="space-y-1.5">
+                                             <label class="text-[11px] font-black text-[#002b5c] uppercase tracking-wider flex items-center gap-1.5">
+                                                 <i class="fab fa-google-drive text-emerald-600"></i> Link Dokumen SK PPID Terbaru
+                                             </label>
+                                             @php
+                                                 $defaultSkLink = 'https://drive.google.com/file/d/18UCD9lMWZNp7IfIxpx8WC1V99hQGIwxX/view?usp=drive_link';
+                                                 $currentSkLink = $settings['link_sk_ppid_terbaru'] ?? ($settings['struktur_link_sk_ppid_terbaru'] ?? $defaultSkLink);
+                                             @endphp
+                                             <input type="text" name="link_sk_ppid_terbaru" value="{{ old('link_sk_ppid_terbaru', $currentSkLink) }}" 
+                                                    placeholder="https://drive.google.com/file/d/..."
+                                                    class="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-xs font-semibold focus:ring-2 focus:ring-[#004a99] text-slate-800">
+                                             <div class="flex items-center justify-between text-[10px] mt-1">
+                                                 <span class="text-slate-400">Tautan resmi Google Drive SK PPID PKTJ.</span>
+                                                 @if(!empty($currentSkLink))
+                                                     <a href="{{ $currentSkLink }}" target="_blank" class="text-blue-600 font-bold hover:underline flex items-center gap-1">
+                                                         <i class="fas fa-external-link-alt"></i> Buka Tautan SK
+                                                     </a>
+                                                 @endif
+                                             </div>
+                                         </div>
+
+                                         <div class="space-y-1.5">
+                                             <label class="text-[11px] font-black text-[#002b5c] uppercase tracking-wider flex items-center gap-1.5">
+                                                 <i class="fas fa-upload text-blue-600"></i> Atau Upload Berkas SK (PDF)
+                                             </label>
+                                             <input type="file" name="file_sk_ppid_terbaru" accept=".pdf" 
+                                                    class="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-xs font-medium text-slate-700 file:mr-4 file:py-1 file:px-3 file:rounded-lg file:border-0 file:text-[10px] file:font-bold file:bg-[#004a99] file:text-white hover:file:bg-[#002b5c]">
+                                             @if(!empty($settings['file_sk_ppid_terbaru']) || !empty($settings['struktur_file_sk_ppid_terbaru']))
+                                                 @php $fName = $settings['file_sk_ppid_terbaru'] ?? $settings['struktur_file_sk_ppid_terbaru']; @endphp
+                                                 <p class="text-[10px] text-emerald-600 font-bold flex items-center gap-1 mt-1">
+                                                     <i class="fas fa-check-circle"></i> File terupload: <a href="{{ asset('storage/halaman/' . $fName) }}" target="_blank" class="underline">{{ $fName }}</a>
+                                                 </p>
+                                             @else
+                                                 <p class="text-[10px] text-slate-400">Opsional jika ingin mengupload file PDF langsung ke server.</p>
+                                             @endif
+                                         </div>
+                                     </div>
+                                 </div>
+
                                  <div class="space-y-2 animate-fade-in mt-6">
                                      <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Tugas & Wewenang Detail (Editor)</label>
                                      <div class="rounded-3xl overflow-hidden border-2 border-slate-100">
