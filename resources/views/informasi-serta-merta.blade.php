@@ -165,6 +165,159 @@
         .pktj-tautan-pill:hover i {
             color: #ffc107 !important;
         }
+
+        /* ===== RESPONSIVE TABLE STYLES ===== */
+        /* Desktop & Laptop: Fluid width, word wrapping, fits without horizontal scroll */
+        @media (min-width: 992px) {
+            .table-responsive {
+                overflow-x: auto;
+            }
+            .tablepress-dip {
+                width: 100% !important;
+                table-layout: auto !important;
+            }
+            .tablepress-dip th, .tablepress-dip td {
+                word-break: break-word;
+                overflow-wrap: break-word;
+            }
+            .tablepress-dip th.col-no, .tablepress-dip td.col-no { width: 4%; }
+            .tablepress-dip th.col-info, .tablepress-dip td.col-info { width: 19%; }
+            .tablepress-dip th.col-ringkasan, .tablepress-dip td.col-ringkasan { width: 23%; }
+            .tablepress-dip th.col-pejabat, .tablepress-dip td.col-pejabat { width: 13%; }
+            .tablepress-dip th.col-penerbit, .tablepress-dip td.col-penerbit { width: 12%; }
+            .tablepress-dip th.col-bentuk, .tablepress-dip td.col-bentuk { width: 8%; }
+            .tablepress-dip th.col-waktu, .tablepress-dip td.col-waktu { width: 8%; }
+            .tablepress-dip th.col-retensi, .tablepress-dip td.col-retensi { width: 5%; }
+            .tablepress-dip th.col-tautan, .tablepress-dip td.col-tautan { width: 8%; }
+        }
+
+        /* Tablet & Mobile (< 992px): Stacked Card Layout (HANYA SCROLL KE ATAS-BAWAH) */
+        @media (max-width: 991px) {
+            .content-card {
+                padding: 24px 16px !important;
+                border-radius: 18px !important;
+            }
+            .table-responsive {
+                overflow: visible !important;
+            }
+            .tablepress-dip,
+            .tablepress-dip tbody {
+                display: block !important;
+                width: 100% !important;
+                border: none !important;
+                background: transparent !important;
+            }
+            .tablepress-dip thead {
+                display: none !important;
+            }
+            .tablepress-dip tr.dip-data-row {
+                display: block !important;
+                background: #ffffff !important;
+                border: 1.5px solid #e2e8f0 !important;
+                border-radius: 18px !important;
+                padding: 18px !important;
+                margin-bottom: 16px !important;
+                box-shadow: 0 4px 16px rgba(0, 43, 92, 0.04) !important;
+                position: relative !important;
+                transition: transform 0.2s ease, box-shadow 0.2s ease !important;
+            }
+            .tablepress-dip tr.dip-data-row:hover {
+                box-shadow: 0 8px 24px rgba(0, 43, 92, 0.08) !important;
+            }
+            .tablepress-dip tr.dip-data-row:nth-child(even) td {
+                background-color: transparent !important;
+            }
+            .tablepress-dip tr.dip-data-row td {
+                display: block !important;
+                width: 100% !important;
+                padding: 6px 0 !important;
+                border: none !important;
+                background: transparent !important;
+                text-align: left !important;
+                line-height: 1.5 !important;
+            }
+            /* Row number badge at top */
+            .tablepress-dip tr.dip-data-row td.col-no {
+                display: inline-flex !important;
+                align-items: center !important;
+                justify-content: center !important;
+                width: auto !important;
+                min-width: 30px !important;
+                height: 26px !important;
+                background: #004a99 !important;
+                color: #ffffff !important;
+                border-radius: 8px !important;
+                font-weight: 800 !important;
+                font-size: 11.5px !important;
+                padding: 0 10px !important;
+                margin-bottom: 8px !important;
+            }
+            .tablepress-dip tr.dip-data-row td.col-no::before {
+                content: "No. " !important;
+                font-weight: 600 !important;
+                font-size: 11px !important;
+                margin-right: 2px !important;
+            }
+            /* Title of document */
+            .tablepress-dip tr.dip-data-row td.col-info {
+                padding-top: 0 !important;
+                padding-bottom: 8px !important;
+                border-bottom: 1px solid #e2e8f0 !important;
+                margin-bottom: 10px !important;
+            }
+            .tablepress-dip tr.dip-data-row td.col-info strong {
+                font-size: 15px !important;
+                color: #002b5c !important;
+                display: block !important;
+                line-height: 1.35 !important;
+            }
+            /* Description box */
+            .tablepress-dip tr.dip-data-row td.col-ringkasan {
+                background: #f8fafc !important;
+                border-radius: 10px !important;
+                padding: 10px 12px !important;
+                margin-bottom: 10px !important;
+                border: 1px solid #edf2f7 !important;
+                font-size: 12.5px !important;
+                color: #475569 !important;
+            }
+            /* Meta rows: Pejabat, Penerbit, Bentuk, Waktu, Retensi */
+            .tablepress-dip tr.dip-data-row td.col-meta {
+                display: flex !important;
+                justify-content: space-between !important;
+                align-items: flex-start !important;
+                gap: 12px !important;
+                padding: 7px 0 !important;
+                border-bottom: 1px dashed #edf2f7 !important;
+                font-size: 12px !important;
+                text-align: right !important;
+            }
+            .tablepress-dip tr.dip-data-row td.col-meta::before {
+                content: attr(data-label);
+                font-weight: 700;
+                color: #64748b;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                flex-shrink: 0;
+                text-align: left;
+            }
+            /* Action Button / Tautan */
+            .tablepress-dip tr.dip-data-row td.col-tautan {
+                padding-top: 14px !important;
+                margin-top: 6px !important;
+                border-top: 1px solid #e2e8f0 !important;
+                text-align: center !important;
+            }
+            .tablepress-dip tr.dip-data-row td.col-tautan .bpsdm-link-wrapper {
+                max-width: 100% !important;
+            }
+            .tablepress-dip td[colspan] {
+                display: block !important;
+                text-align: center !important;
+                padding: 24px 0 !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -183,41 +336,15 @@
     <div class="container-fluid px-3 px-md-5">
         <div class="content-card">
             
-            <!-- OFFICIAL DECREE HEADER BANNER -->
-            <div class="p-4 mb-4 rounded-4 border shadow-sm" style="background: linear-gradient(135deg, #f0f7ff 0%, #e0effe 100%); border-color: #bae0fd;">
-                <div class="d-flex flex-column flex-md-row align-items-start align-items-md-center justify-content-between gap-3">
-                    <div>
-                        <div class="d-inline-flex align-items-center gap-2 px-3 py-1 bg-white text-primary rounded-pill text-xs font-bold uppercase shadow-xs mb-2 border border-primary-subtle" style="font-size: 11px;">
-                            <i class="fas fa-stamp text-warning"></i> SK SEKJEN KEMENHUB NOMOR KP-SKJ 9 TAHUN 2026
-                        </div>
-                        <h4 class="fw-bold outfit mb-1" style="color: #002b5c; font-size: 1.5rem;">
-                            Daftar Informasi Publik (DIP) Serta Merta PKTJ Tegal Tahun 2026
-                        </h4>
-                        <p class="text-muted small mb-0">
-                            Sesuai Lampiran I Bagian C Keputusan Sekretaris Jenderal Kementerian Perhubungan Republik Indonesia Nomor KP-SKJ 9 Tahun 2026 tentang Penetapan Daftar Informasi Publik (DIP).
-                        </p>
-                    </div>
-                    <div class="d-flex align-items-center gap-2 flex-shrink-0 flex-wrap">
-                        <a href="{{ route('preview.dokumen', ['file' => 'https://drive.google.com/file/d/14OP9rXn0Ff9-WWbuNhB49QYoSK7bm503/view?usp=drive_link', 'title' => 'SK Penetapan DIP 2026 (KP-SKJ 9 Tahun 2026)']) }}" class="btn btn-sm btn-primary rounded-pill px-3 py-2 fw-bold d-inline-flex align-items-center gap-1.5 shadow-sm" style="background: #004a99; font-size: 12px;">
-                            <i class="fas fa-file-pdf text-warning"></i>
-                            <span>Unduh SK DIP 2026 (PDF Resmi)</span>
-                        </a>
-                        <span class="badge bg-white text-primary border px-3 py-2 rounded-pill font-mono" style="font-size: 12px;">
-                            Total: {{ $items->count() }} Dokumen DIP
-                        </span>
-                    </div>
-                </div>
-            </div>
-
+            <!-- SEARCH & TOOLBAR -->
             <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3 pb-3 border-bottom">
-                <div>
-                    <h5 class="fw-bold outfit mb-0" style="color: #002b5c;">
-                        Tabel Informasi Serta Merta (1 s.d. {{ $items->count() }})
-                    </h5>
-                    <p class="text-muted small mb-0">9 Kolom Format Baku Daftar Informasi Publik (DIP) Kementerian Perhubungan</p>
+                <div class="d-flex align-items-center gap-2">
+                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-2 rounded-pill font-mono fw-bold" style="font-size: 12.5px;">
+                        <i class="fas fa-file-lines me-1"></i> Total: {{ $items->count() }} Dokumen DIP
+                    </span>
                 </div>
                 <!-- SEARCH INPUT -->
-                <div style="min-width: 280px; max-width: 380px;" class="w-100 w-md-auto">
+                <div style="min-width: 280px; max-width: 420px;" class="w-100 w-md-auto ms-auto">
                     <div class="input-group shadow-xs">
                         <span class="input-group-text bg-white border-end-0 text-muted"><i class="fas fa-search"></i></span>
                         <input type="text" id="tableSearchInput" placeholder="Cari nomor, nama dokumen, atau pejabat..." onkeyup="filterDIPTable()" class="form-control border-start-0 ps-0" style="font-size: 13px;">
@@ -232,15 +359,15 @@
                 <table class="tablepress-dip" id="dipTableSertaMerta">
                     <thead>
                         <tr>
-                            <th class="text-center" style="width: 45px;">No</th>
-                            <th style="min-width: 190px;">Informasi</th>
-                            <th style="min-width: 260px;">Ringkasan Informasi</th>
-                            <th style="min-width: 160px;">Pejabat yang Menguasai Informasi</th>
-                            <th style="min-width: 150px;">Penerbit Informasi</th>
-                            <th class="text-center" style="min-width: 120px;">Bentuk Informasi yang Tersedia</th>
-                            <th class="text-center" style="min-width: 130px;">Tempat dan Waktu Pembuatan Informasi</th>
-                            <th class="text-center" style="min-width: 110px;">Jangka Waktu Penyimpanan / Retensi Arsip</th>
-                            <th class="text-center" style="min-width: 110px;">Tautan</th>
+                            <th class="col-no text-center">No</th>
+                            <th class="col-info">Informasi</th>
+                            <th class="col-ringkasan">Ringkasan Informasi</th>
+                            <th class="col-pejabat">Pejabat Penguasa</th>
+                            <th class="col-penerbit">Penerbit Informasi</th>
+                            <th class="col-bentuk text-center">Bentuk</th>
+                            <th class="col-waktu text-center">Tempat & Waktu</th>
+                            <th class="col-retensi text-center">Retensi</th>
+                            <th class="col-tautan text-center">Tautan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -312,15 +439,15 @@
                                     }
                                 @endphp
                                 <tr class="dip-data-row" data-keywords="{{ strtolower($it->judul . ' ' . $cleanDesc) }}">
-                                    <td class="text-center fw-bold text-muted">{{ $idx + 1 }}</td>
-                                    <td><strong class="text-dark">{{ $it->judul }}</strong></td>
-                                    <td class="text-muted small">{{ $cleanDesc }}</td>
-                                    <td>{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
-                                    <td>{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
-                                    <td class="text-center">{{ $it->bentuk_informasi ?? 'Hardcopy & Softcopy' }}</td>
-                                    <td class="text-center">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
-                                    <td class="text-center">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
-                                    <td class="text-center" style="vertical-align: middle; min-width: 170px;">
+                                    <td class="col-no text-center fw-bold text-muted">{{ $idx + 1 }}</td>
+                                    <td class="col-info"><strong class="text-dark">{{ $it->judul }}</strong></td>
+                                    <td class="col-ringkasan text-muted small">{{ $cleanDesc }}</td>
+                                    <td class="col-meta col-pejabat" data-label="Pejabat Penguasa">{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
+                                    <td class="col-meta col-penerbit" data-label="Penerbit / PJ">{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
+                                    <td class="col-meta col-bentuk text-center" data-label="Bentuk Informasi">{{ $it->bentuk_informasi ?? 'Hardcopy & Softcopy' }}</td>
+                                    <td class="col-meta col-waktu text-center" data-label="Tempat & Waktu">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
+                                    <td class="col-meta col-retensi text-center" data-label="Retensi Arsip">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
+                                    <td class="col-tautan text-center" style="vertical-align: middle;">
                                         <x-dip-link-bpsdm :links="$resolvedLinks" :catatan="$it->catatan ?? null" :judul="$it->judul" />
                                     </td>
                                 </tr>

@@ -71,11 +71,7 @@
         <div class="bg-white rounded-2xl shadow-xl ring-1 ring-gray-200 overflow-hidden">
             <div class="p-5 border-b border-slate-100 bg-gradient-to-r from-blue-50/50 via-white to-amber-50/30 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                 <div>
-                    <div class="inline-flex items-center gap-2 px-3 py-1 bg-blue-100 text-[#004a99] rounded-full text-[10px] font-black uppercase tracking-wider mb-1">
-                        <i class="fas fa-stamp text-amber-600"></i> Standar Baku 9 Kolom DIP: SK Sekjen KP-SKJ 9 / 2026 (Bagian B)
-                    </div>
                     <h3 class="text-lg font-black text-[#004a99]">Daftar Informasi Publik (DIP) Setiap Saat PKTJ Tegal</h3>
-                    <p class="text-slate-500 font-medium text-xs">Menampilkan 9 kolom resmi sesuai format Keputusan Sekretaris Jenderal Kementerian Perhubungan.</p>
                 </div>
                 <div class="flex items-center gap-2">
                     <span class="px-3 py-1.5 bg-white border border-slate-200 text-slate-700 font-bold text-xs rounded-xl shadow-xs">

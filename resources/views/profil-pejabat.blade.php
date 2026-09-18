@@ -448,31 +448,11 @@
                 </div>
             </div>
 
-            <!-- Footer Section & Direct Drive File Buttons -->
-            <div class="p-4 rounded-4 border bg-white d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
-                <div class="d-flex align-items-center gap-3">
-                    <div class="w-10 h-10 rounded-circle bg-primary-subtle text-primary d-flex align-items-center justify-content-center fs-5 flex-shrink-0" style="width: 40px; height: 40px;">
-                        <i class="fas fa-file-invoice"></i>
-                    </div>
-                    <div>
-                        <div class="fw-bold text-dark">Data Dukung & Berkas Otentik Kepegawaian</div>
-                        <div class="text-muted small">Tersedia dokumen primer DRH 155 Pegawai (.xlsx), SK PPID 2026, dan tangkapan layar SIMPEG PKTJ.</div>
-                    </div>
-                </div>
-                <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <a href="{{ $statData['link_excel_drh'] ?? 'https://drive.google.com/file/d/1WA7CSaxqt0j8e0fHnjqnl8K8TCRdUAAV/view?usp=drive_link' }}" target="_blank" class="btn btn-success rounded-pill px-3 py-2 fw-bold btn-sm shadow-sm">
-                        <i class="fas fa-file-excel me-1"></i> Unduh DRH (.xlsx)
-                    </a>
-                    <a href="{{ $statData['link_sk_ppid_2026'] ?? 'https://drive.google.com/file/d/1tAtixggFCU10eazzSDrAuv4O0zoeOfJS/view?usp=drive_link' }}" target="_blank" class="btn btn-danger rounded-pill px-3 py-2 fw-bold btn-sm shadow-sm">
-                        <i class="fas fa-file-pdf me-1"></i> SK PPID (.pdf)
-                    </a>
-                    <button type="button" class="btn btn-outline-secondary rounded-pill px-3 py-2 fw-semibold btn-sm" onclick="openKepegawaianProofModal()">
-                        <i class="fas fa-images me-1 text-primary"></i> Layar SIMPEG
-                    </button>
-                    <a href="{{ url('/profil/statistik-pegawai') }}" class="btn btn-primary rounded-pill px-3.5 py-2 fw-bold btn-sm shadow-sm">
-                        <i class="fas fa-chart-line me-1"></i> Halaman Statistik Lengkap
-                    </a>
-                </div>
+            <!-- Action Link to Full Statistics Page -->
+            <div class="mt-4 d-flex justify-content-end">
+                <a href="{{ url('/profil/statistik-pegawai') }}" class="btn btn-primary rounded-pill px-4 py-2.5 fw-bold btn-sm shadow-sm d-inline-flex align-items-center gap-2" style="background: #004a99; font-size: 13px;">
+                    <i class="fas fa-chart-line"></i> Halaman Statistik Lengkap
+                </a>
             </div>
 
         </div>
@@ -496,51 +476,6 @@
         </div>
     </div>
 
-    <!-- MODAL TANGKAPAN LAYAR RESMI SIMPEG KEPEGAWAIAN -->
-    <div class="modal fade" id="kepegawaianProofModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content border-0 shadow-2xl rounded-4 overflow-hidden">
-                <div class="modal-header bg-[#002b5c] text-white p-3.5">
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="fas fa-chart-bar text-warning fs-5"></i>
-                        <h5 class="modal-title fw-bold outfit text-white mb-0">Tangkapan Layar Resmi SIMPEG PKTJ (TA 2025)</h5>
-                    </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4 bg-light">
-                    <ul class="nav nav-pills mb-3 gap-2" id="simpegTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active rounded-pill fw-bold btn-sm px-3" id="tab-jenis-tab" data-bs-toggle="pill" data-bs-target="#tab-jenis" type="button" role="tab">1. Pegawai Per Jenis</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link rounded-pill fw-bold btn-sm px-3" id="tab-pendidikan-tab" data-bs-toggle="pill" data-bs-target="#tab-pendidikan" type="button" role="tab">2. Tingkat Pendidikan</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link rounded-pill fw-bold btn-sm px-3" id="tab-golongan-tab" data-bs-toggle="pill" data-bs-target="#tab-golongan" type="button" role="tab">3. Golongan Pegawai</button>
-                        </li>
-                    </ul>
-                    <div class="tab-content bg-white p-3 rounded-3 border shadow-sm" id="simpegTabsContent">
-                        <div class="tab-pane fade show active text-center" id="tab-jenis" role="tabpanel">
-                            <img src="{{ asset('images/kepegawaian/E6a.jpg') }}" alt="Pegawai Per Jenis" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
-                            <div class="text-muted small mt-2">Sumber: SIMPEG Kementerian Perhubungan - Politeknik Keselamatan Transportasi Jalan</div>
-                        </div>
-                        <div class="tab-pane fade text-center" id="tab-pendidikan" role="tabpanel">
-                            <img src="{{ asset('images/kepegawaian/E6b.jpg') }}" alt="Tingkat Pendidikan Pegawai" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
-                            <div class="text-muted small mt-2">Komposisi Pegawai Berdasarkan Tingkat Pendidikan Akhir</div>
-                        </div>
-                        <div class="tab-pane fade text-center" id="tab-golongan" role="tabpanel">
-                            <img src="{{ asset('images/kepegawaian/E6c.jpg') }}" alt="Golongan Pegawai" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
-                            <div class="text-muted small mt-2">Komposisi Pegawai Berdasarkan Golongan / Ruang</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer bg-white p-3 justify-content-end">
-                    <button type="button" class="btn btn-secondary px-4 rounded-pill fw-bold btn-sm" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     @include('footer')
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -554,10 +489,6 @@
             document.getElementById('lightboxName').textContent = name;
             document.getElementById('lightboxRole').textContent = role;
             new bootstrap.Modal(document.getElementById('pejabatPhotoLightbox')).show();
-        }
-
-        function openKepegawaianProofModal() {
-            new bootstrap.Modal(document.getElementById('kepegawaianProofModal')).show();
         }
 
         document.addEventListener('DOMContentLoaded', function() {
