@@ -41,19 +41,19 @@ class InformasiPublikController extends Controller
     {
         try {
             $syncVersion = Dashboard::where('key', 'dip_sync_version')->value('value');
-            $currentVersion = '2026_09_17_v6';
+            $currentVersion = '2026_09_18_v2';
 
-            // Cek apakah data resmi DIP 2026 sudah ada di database dan memiliki tautan folder drive resmi PDF
-            $hasFolderDipa = class_exists(InformasiBerkala::class) 
-                ? InformasiBerkala::where('judul', 'like', '%DIPA%')->where('file_path', 'like', '%1HwIHVdnIlidb-InhibiBIZk5cO5iQGLB%')->exists()
+            // Cek apakah data resmi DIP 2026 sudah ada di database dan memiliki tautan berkas langsung (bukan folder)
+            $hasDirectDipa = class_exists(InformasiBerkala::class) 
+                ? InformasiBerkala::where('judul', 'like', '%DIPA%')->where('file_path', 'like', '%1EsnQSLq7b43vjdq2KOfmL-84fAWxvT_z%')->exists()
                 : false;
 
             $berkalaCount = class_exists(InformasiBerkala::class) ? InformasiBerkala::count() : 0;
             $setiapCount = class_exists(InformasiSetiapSaat::class) ? InformasiSetiapSaat::count() : 0;
             $sertaCount = class_exists(InformasiSertaMerta::class) ? InformasiSertaMerta::count() : 0;
 
-            // Jika versi seeder belum terbaru atau tautan belum sinkron ke PDF, jalankan Dip2026SyncSeeder
-            if ($syncVersion !== $currentVersion || !$hasFolderDipa || $berkalaCount < 20 || $setiapCount < 8 || $sertaCount < 2) {
+            // Jika versi seeder belum terbaru atau tautan belum sinkron ke berkas langsung, jalankan Dip2026SyncSeeder
+            if ($syncVersion !== $currentVersion || !$hasDirectDipa || $berkalaCount < 20 || $setiapCount < 8 || $sertaCount < 2) {
                 $seederFile = database_path('seeders/Dip2026SyncSeeder.php');
                 if (file_exists($seederFile)) {
                     require_once $seederFile;
@@ -249,6 +249,7 @@ class InformasiPublikController extends Controller
     // Profil Pejabat Publik & LHKPN (Dedicated Page)
     public function profilPejabat()
     {
+        $this->ensureDataSeeded();
         try {
             $pejabats = Pejabat::getActivePejabats();
         } catch (\Throwable $e) {
@@ -256,12 +257,14 @@ class InformasiPublikController extends Controller
         }
 
         $settings = $this->getSettings();
-        return view('profil-pejabat', compact('pejabats', 'settings'));
+        $data = \App\Http\Controllers\StatistikPegawaiController::getMergedSettings();
+        return view('profil-pejabat', compact('pejabats', 'settings', 'data'));
     }
 
     // Data & Statistik Kepegawaian PKTJ (Dedicated Page)
     public function statistikPegawai()
     {
+        $this->ensureDataSeeded();
         $settings = $this->getSettings();
         $data = \App\Http\Controllers\StatistikPegawaiController::getMergedSettings();
         return view('statistik-pegawai', compact('settings', 'data'));

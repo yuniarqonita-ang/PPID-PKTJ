@@ -6,15 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @php
         $data = $data ?? \App\Http\Controllers\StatistikPegawaiController::getMergedSettings();
-        $totalSdm = (int) ($data['total_sdm'] ?? 174);
-        $pnsCount = (int) ($data['pns_count'] ?? 115);
+        $totalSdm = (int) ($data['total_sdm'] ?? 155);
+        $pnsCount = (int) ($data['pns_count'] ?? 114);
         $pppkCount = (int) ($data['pppk_count'] ?? 41);
-        $nonAsnCount = (int) ($data['nonasn_count'] ?? 18);
+        $nonAsnCount = (int) ($data['nonasn_count'] ?? 0);
 
-        $statusPns = (int) ($data['status_pns'] ?? 115);
+        $statusPns = (int) ($data['status_pns'] ?? 114);
         $statusPppk = (int) ($data['status_pppk'] ?? 41);
-        $statusNonAsn = (int) ($data['status_nonasn'] ?? 17);
-        $statusCpns = (int) ($data['status_cpns'] ?? 1);
+        $statusNonAsn = (int) ($data['status_nonasn'] ?? 0);
+        $statusCpns = (int) ($data['status_cpns'] ?? 0);
         $totalStatus = max(1, $statusPns + $statusPppk + $statusNonAsn + $statusCpns);
 
         $pctPns = number_format(($statusPns / $totalStatus) * 100, 1);
@@ -195,9 +195,9 @@
                             <i class="fas fa-users"></i>
                         </div>
                         <div>
-                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['total_sdm_label'] ?? 'Total SDM Pegawai' }}</div>
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['total_sdm_label'] ?? 'Total Pegawai PKTJ' }}</div>
                             <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $totalSdm }} <span class="fs-6 fw-normal text-muted">Orang</span></div>
-                            <div class="text-success fw-semibold" style="font-size: 11px;"><i class="fas fa-check-circle"></i> {{ $data['total_sdm_sub'] ?? 'SIMPEG Kemenhub' }}</div>
+                            <div class="text-success fw-semibold" style="font-size: 11px;"><i class="fas fa-check-circle"></i> {{ $data['total_sdm_sub'] ?? '155 Pegawai (DRH Kemenhub)' }}</div>
                         </div>
                     </div>
                 </div>
@@ -208,9 +208,9 @@
                             <i class="fas fa-id-badge"></i>
                         </div>
                         <div>
-                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['pns_label'] ?? 'Pegawai Negeri Sipil' }}</div>
+                            <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['pns_label'] ?? 'Pegawai Negeri Sipil (PNS)' }}</div>
                             <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $pnsCount }} <span class="fs-6 fw-normal text-muted">Org</span></div>
-                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['pns_sub'] ?? '66.1% Dari Total SDM' }}</div>
+                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['pns_sub'] ?? '73.5% Dari Total SDM' }}</div>
                         </div>
                     </div>
                 </div>
@@ -223,20 +223,20 @@
                         <div>
                             <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['pppk_label'] ?? 'Pegawai PPPK' }}</div>
                             <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $pppkCount }} <span class="fs-6 fw-normal text-muted">Org</span></div>
-                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['pppk_sub'] ?? '23.6% Dari Total SDM' }}</div>
+                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['pppk_sub'] ?? '26.5% Dari Total SDM' }}</div>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-6 col-lg-3">
-                    <div class="stat-card-kpi d-flex align-items-center gap-3" style="border-left: 4px solid #ef4444;">
-                        <div class="rounded-3 text-white d-flex align-items-center justify-content-center fs-4 flex-shrink-0" style="background: linear-gradient(135deg, #dc2626, #f87171); width: 50px; height: 50px;">
-                            <i class="fas fa-user-clock"></i>
+                    <div class="stat-card-kpi d-flex align-items-center gap-3" style="border-left: 4px solid #6366f1;">
+                        <div class="rounded-3 text-white d-flex align-items-center justify-content-center fs-4 flex-shrink-0" style="background: linear-gradient(135deg, #4f46e5, #818cf8); width: 50px; height: 50px;">
+                            <i class="fas fa-user-shield"></i>
                         </div>
                         <div>
                             <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['nonasn_label'] ?? 'Non-ASN & CPNS' }}</div>
                             <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $nonAsnCount }} <span class="fs-6 fw-normal text-muted">Org</span></div>
-                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['nonasn_sub'] ?? '17 Non-ASN, 1 CPNS' }}</div>
+                            <div class="text-success fw-semibold" style="font-size: 11px;"><i class="fas fa-check"></i> {{ $data['nonasn_sub'] ?? '100% Pegawai ASN (PNS & PPPK)' }}</div>
                         </div>
                     </div>
                 </div>
@@ -270,8 +270,16 @@
                             <div class="d-flex flex-wrap gap-2 justify-content-center mt-3 pt-2 border-top">
                                 <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#0284c7;"></span> PNS: <strong>{{ $statusPns }} ({{ $pctPns }}%)</strong></span>
                                 <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#10b981;"></span> PPPK: <strong>{{ $statusPppk }} ({{ $pctPppk }}%)</strong></span>
+                                @if($statusNonAsn > 0)
                                 <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#ef4444;"></span> Non-ASN: <strong>{{ $statusNonAsn }} ({{ $pctNonAsn }}%)</strong></span>
+                                @else
+                                <span class="badge rounded-pill text-muted border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#cbd5e1;"></span> Non-ASN: <strong>0 (0%)</strong></span>
+                                @endif
+                                @if($statusCpns > 0)
                                 <span class="badge rounded-pill text-dark border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#a855f7;"></span> CPNS: <strong>{{ $statusCpns }} ({{ $pctCpns }}%)</strong></span>
+                                @else
+                                <span class="badge rounded-pill text-muted border bg-white px-2.5 py-1.5"><span class="d-inline-block rounded-circle me-1" style="width:8px; height:8px; background:#cbd5e1;"></span> CPNS: <strong>0 (0%)</strong></span>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -336,31 +344,31 @@
                                     <tr>
                                         <td class="text-center fw-bold">1</td>
                                         <td class="fw-bold text-[#004a99]">Pegawai Negeri Sipil (PNS)</td>
-                                        <td class="text-center fw-bold">{{ $statusPns }}</td>
-                                        <td class="text-center">{{ $pctPns }}%</td>
+                                        <td class="text-center fw-bold text-[#004a99]">{{ $statusPns }}</td>
+                                        <td class="text-center fw-semibold">{{ $pctPns }}%</td>
                                     </tr>
                                     <tr>
                                         <td class="text-center fw-bold">2</td>
                                         <td class="fw-bold text-success">Pegawai Pemerintah Perjanjian Kerja (PPPK)</td>
-                                        <td class="text-center fw-bold">{{ $statusPppk }}</td>
-                                        <td class="text-center">{{ $pctPppk }}%</td>
+                                        <td class="text-center fw-bold text-success">{{ $statusPppk }}</td>
+                                        <td class="text-center fw-semibold">{{ $pctPppk }}%</td>
                                     </tr>
                                     <tr>
                                         <td class="text-center fw-bold">3</td>
-                                        <td class="fw-bold text-danger">Pegawai Non-ASN / PPNPN</td>
-                                        <td class="text-center fw-bold">{{ $statusNonAsn }}</td>
-                                        <td class="text-center">{{ $pctNonAsn }}%</td>
+                                        <td class="text-muted">Calon Pegawai Negeri Sipil (CPNS)</td>
+                                        <td class="text-center text-muted">{{ $statusCpns }}</td>
+                                        <td class="text-center text-muted">{{ $pctCpns }}%</td>
                                     </tr>
                                     <tr>
                                         <td class="text-center fw-bold">4</td>
-                                        <td class="fw-bold text-purple" style="color: #a855f7;">Calon Pegawai Negeri Sipil (CPNS)</td>
-                                        <td class="text-center fw-bold">{{ $statusCpns }}</td>
-                                        <td class="text-center">{{ $pctCpns }}%</td>
+                                        <td class="text-muted">Pegawai Non-ASN / PPNPN</td>
+                                        <td class="text-center text-muted">{{ $statusNonAsn }}</td>
+                                        <td class="text-center text-muted">{{ $pctNonAsn }}%</td>
                                     </tr>
-                                    <tr class="table-primary fw-bold">
+                                    <tr class="table-primary fw-bold" style="background: #e0f2fe; color: #002b5c;">
                                         <td colspan="2" class="text-uppercase text-center">Total Seluruh Pegawai PKTJ</td>
-                                        <td class="text-center">{{ $totalStatus }}</td>
-                                        <td class="text-center">100.0%</td>
+                                        <td class="text-center fs-6 text-[#002b5c]">{{ $totalStatus }}</td>
+                                        <td class="text-center fs-6 text-[#002b5c]">100.0%</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -658,15 +666,27 @@
             // Chart 1: Jenis Pegawai (Doughnut)
             const ctxJenis = document.getElementById('chartJenisPegawai');
             if (ctxJenis) {
-                const jenisData = [{{ $statusPns }}, {{ $statusPppk }}, {{ $statusNonAsn }}, {{ $statusCpns }}];
+                const jenisLabels = ['PNS ({{ $statusPns }})', 'PPPK ({{ $statusPppk }})'];
+                const jenisData = [{{ $statusPns }}, {{ $statusPppk }}];
+                const jenisColors = ['#0284c7', '#10b981'];
+                @if($statusNonAsn > 0)
+                    jenisLabels.push('Non-ASN ({{ $statusNonAsn }})');
+                    jenisData.push({{ $statusNonAsn }});
+                    jenisColors.push('#ef4444');
+                @endif
+                @if($statusCpns > 0)
+                    jenisLabels.push('CPNS ({{ $statusCpns }})');
+                    jenisData.push({{ $statusCpns }});
+                    jenisColors.push('#a855f7');
+                @endif
                 const totalJenis = {{ $totalStatus }};
                 new Chart(ctxJenis.getContext('2d'), {
                     type: 'doughnut',
                     data: {
-                        labels: ['PNS', 'PPPK', 'Non-ASN', 'CPNS'],
+                        labels: jenisLabels,
                         datasets: [{
                             data: jenisData,
-                            backgroundColor: ['#0284c7', '#10b981', '#ef4444', '#a855f7'],
+                            backgroundColor: jenisColors,
                             borderWidth: 2,
                             borderColor: '#ffffff'
                         }]

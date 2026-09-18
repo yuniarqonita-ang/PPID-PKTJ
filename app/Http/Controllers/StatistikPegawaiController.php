@@ -114,6 +114,36 @@ class StatistikPegawaiController extends Controller
             $dbRows = [];
         }
 
+        // Auto-sync if total_sdm in DB is not 155, or if status_nonasn > 0, or if counts or lists are outdated
+        $needSync = !isset($dbRows['statistik_pegawai_total_sdm']) 
+            || $dbRows['statistik_pegawai_total_sdm'] !== '155'
+            || !isset($dbRows['statistik_pegawai_pns_count'])
+            || $dbRows['statistik_pegawai_pns_count'] !== '114'
+            || !isset($dbRows['statistik_pegawai_pppk_count'])
+            || $dbRows['statistik_pegawai_pppk_count'] !== '41'
+            || (isset($dbRows['statistik_pegawai_status_nonasn']) && (int)$dbRows['statistik_pegawai_status_nonasn'] > 0)
+            || !isset($dbRows['statistik_pegawai_pendidikan_list'])
+            || !str_contains($dbRows['statistik_pegawai_pendidikan_list'], '68')
+            || !isset($dbRows['statistik_pegawai_golongan_list'])
+            || !str_contains($dbRows['statistik_pegawai_golongan_list'], '33');
+
+        if ($needSync) {
+            try {
+                foreach ($defaults as $field => $val) {
+                    $key = 'statistik_pegawai_' . $field;
+                    // Don't overwrite custom uploaded proof image if exists
+                    if (str_contains($field, 'gambar') && !empty($dbRows[$key])) {
+                        continue;
+                    }
+                    Dashboard::updateOrCreate(
+                        ['key' => $key],
+                        ['value' => $val, 'type' => (is_array(json_decode($val, true)) ? 'json' : 'text'), 'description' => 'Statistik Pegawai ' . $field, 'aktif' => true]
+                    );
+                    $dbRows[$key] = $val;
+                }
+            } catch (\Throwable $e) {}
+        }
+
         $merged = [];
         foreach ($defaults as $field => $defaultVal) {
             $key = 'statistik_pegawai_' . $field;

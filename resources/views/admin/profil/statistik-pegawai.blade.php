@@ -118,17 +118,17 @@
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Jumlah Angka</label>
-                            <input type="number" name="total_sdm" value="{{ old('total_sdm', $data['total_sdm'] ?? '174') }}"
+                            <input type="number" name="total_sdm" value="{{ old('total_sdm', $data['total_sdm'] ?? '155') }}"
                                 class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg font-black text-xl text-[#002b5c]">
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Label Judul</label>
-                            <input type="text" name="total_sdm_label" value="{{ old('total_sdm_label', $data['total_sdm_label'] ?? 'Total SDM Pegawai') }}"
+                            <input type="text" name="total_sdm_label" value="{{ old('total_sdm_label', $data['total_sdm_label'] ?? 'Total Pegawai PKTJ') }}"
                                 class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold">
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Sub-keterangan</label>
-                            <input type="text" name="total_sdm_sub" value="{{ old('total_sdm_sub', $data['total_sdm_sub'] ?? 'SIMPEG Kemenhub') }}"
+                            <input type="text" name="total_sdm_sub" value="{{ old('total_sdm_sub', $data['total_sdm_sub'] ?? '155 Pegawai (DRH Kemenhub)') }}"
                                 class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs">
                         </div>
                     </div>
@@ -140,17 +140,17 @@
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Jumlah Angka</label>
-                            <input type="number" name="pns_count" value="{{ old('pns_count', $data['pns_count'] ?? '115') }}"
+                            <input type="number" name="pns_count" value="{{ old('pns_count', $data['pns_count'] ?? '114') }}"
                                 class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg font-black text-xl text-sky-700">
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Label Judul</label>
-                            <input type="text" name="pns_label" value="{{ old('pns_label', $data['pns_label'] ?? 'Pegawai Negeri Sipil') }}"
+                            <input type="text" name="pns_label" value="{{ old('pns_label', $data['pns_label'] ?? 'Pegawai Negeri Sipil (PNS)') }}"
                                 class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold">
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Sub-keterangan</label>
-                            <input type="text" name="pns_sub" value="{{ old('pns_sub', $data['pns_sub'] ?? '66.1% Dari Total SDM') }}"
+                            <input type="text" name="pns_sub" value="{{ old('pns_sub', $data['pns_sub'] ?? '73.5% Dari Total SDM') }}"
                                 class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs">
                         </div>
                     </div>
@@ -172,20 +172,20 @@
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Sub-keterangan</label>
-                            <input type="text" name="pppk_sub" value="{{ old('pppk_sub', $data['pppk_sub'] ?? '23.6% Dari Total SDM') }}"
+                            <input type="text" name="pppk_sub" value="{{ old('pppk_sub', $data['pppk_sub'] ?? '26.5% Dari Total SDM') }}"
                                 class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs">
                         </div>
                     </div>
 
                     <!-- KPI 4: Non-ASN & CPNS -->
-                    <div class="p-5 rounded-xl border border-rose-200 bg-rose-50/50 space-y-3">
-                        <div class="flex items-center gap-2 text-rose-700 font-bold text-xs">
-                            <i class="fas fa-user-clock"></i> KPI 4: NON-ASN & CPNS
+                    <div class="p-5 rounded-xl border border-indigo-200 bg-indigo-50/50 space-y-3">
+                        <div class="flex items-center gap-2 text-indigo-700 font-bold text-xs">
+                            <i class="fas fa-user-shield"></i> KPI 4: NON-ASN & CPNS
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Jumlah Angka</label>
-                            <input type="number" name="nonasn_count" value="{{ old('nonasn_count', $data['nonasn_count'] ?? '18') }}"
-                                class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg font-black text-xl text-rose-700">
+                            <input type="number" name="nonasn_count" value="{{ old('nonasn_count', $data['nonasn_count'] ?? '0') }}"
+                                class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg font-black text-xl text-indigo-700">
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Label Judul</label>
@@ -194,7 +194,7 @@
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Sub-keterangan</label>
-                            <input type="text" name="nonasn_sub" value="{{ old('nonasn_sub', $data['nonasn_sub'] ?? '17 Non-ASN, 1 CPNS') }}"
+                            <input type="text" name="nonasn_sub" value="{{ old('nonasn_sub', $data['nonasn_sub'] ?? '0 Non-ASN, 0 CPNS (100% ASN)') }}"
                                 class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs">
                         </div>
                     </div>
@@ -220,7 +220,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-sky-700 uppercase tracking-wider block">Jumlah PNS</label>
-                        <input type="number" name="status_pns" value="{{ old('status_pns', $data['status_pns'] ?? '115') }}"
+                        <input type="number" name="status_pns" value="{{ old('status_pns', $data['status_pns'] ?? '114') }}"
                             class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-base text-slate-800">
                     </div>
                     <div class="space-y-2">
@@ -229,13 +229,13 @@
                             class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-base text-slate-800">
                     </div>
                     <div class="space-y-2">
-                        <label class="text-xs font-bold text-rose-700 uppercase tracking-wider block">Jumlah Non-ASN</label>
-                        <input type="number" name="status_nonasn" value="{{ old('status_nonasn', $data['status_nonasn'] ?? '17') }}"
+                        <label class="text-xs font-bold text-slate-600 uppercase tracking-wider block">Jumlah Non-ASN</label>
+                        <input type="number" name="status_nonasn" value="{{ old('status_nonasn', $data['status_nonasn'] ?? '0') }}"
                             class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-base text-slate-800">
                     </div>
                     <div class="space-y-2">
-                        <label class="text-xs font-bold text-purple-700 uppercase tracking-wider block">Jumlah CPNS</label>
-                        <input type="number" name="status_cpns" value="{{ old('status_cpns', $data['status_cpns'] ?? '1') }}"
+                        <label class="text-xs font-bold text-slate-600 uppercase tracking-wider block">Jumlah CPNS</label>
+                        <input type="number" name="status_cpns" value="{{ old('status_cpns', $data['status_cpns'] ?? '0') }}"
                             class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-base text-slate-800">
                     </div>
                 </div>

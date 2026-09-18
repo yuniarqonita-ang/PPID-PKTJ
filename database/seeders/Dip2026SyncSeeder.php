@@ -96,7 +96,7 @@ class Dip2026SyncSeeder extends Seeder
                 'jangka' => '1 Tahun',
                 'file' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login',
                 'tautan' => [
-                    ['nama' => 'Hubungi PPID PKTJ (Belum Ada di Drive Humas)', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login']
+                    ['nama' => 'Hubungi PPID PKTJ', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login']
                 ],
                 'aktif' => true
             ],
@@ -110,9 +110,8 @@ class Dip2026SyncSeeder extends Seeder
                 'tempat' => 'Tegal',
                 'waktu' => '2026',
                 'jangka' => '1 Tahun',
-                'file' => 'https://drive.google.com/drive/folders/1KhHXMXZoYdnNA06RrJ7iWQxanlsBSrA8?usp=drive_link',
+                'file' => 'https://drive.google.com/file/d/1o5Kev4qnRM6MmLz9vJwOaCUykLR2bw-k/view?usp=sharing',
                 'tautan' => [
-                    ['nama' => 'Folder Google Drive RKA-KL PKTJ (2020-2026)', 'url' => 'https://drive.google.com/drive/folders/1KhHXMXZoYdnNA06RrJ7iWQxanlsBSrA8?usp=drive_link'],
                     ['nama' => 'RKA-KL TA 2026', 'url' => 'https://drive.google.com/file/d/1o5Kev4qnRM6MmLz9vJwOaCUykLR2bw-k/view?usp=sharing'],
                     ['nama' => 'RKA-KL TA 2025', 'url' => 'https://drive.google.com/file/d/1NIsJLSo6T0xAhPGAbI_7YYIPSG6fdxrK/view?usp=sharing'],
                     ['nama' => 'RKA-KL TA 2024', 'url' => 'https://drive.google.com/file/d/1LLCo6lY0DHhWKsitGcUWCKj_aAaMEj21/view?usp=sharing'],
@@ -133,9 +132,8 @@ class Dip2026SyncSeeder extends Seeder
                 'tempat' => 'Tegal',
                 'waktu' => '2026',
                 'jangka' => '1 Tahun',
-                'file' => 'https://drive.google.com/drive/folders/1HwIHVdnIlidb-InhibiBIZk5cO5iQGLB?usp=drive_link',
+                'file' => 'https://drive.google.com/file/d/1EsnQSLq7b43vjdq2KOfmL-84fAWxvT_z/view?usp=sharing',
                 'tautan' => [
-                    ['nama' => 'Folder Google Drive DIPA Induk PKTJ (2020-2026)', 'url' => 'https://drive.google.com/drive/folders/1HwIHVdnIlidb-InhibiBIZk5cO5iQGLB?usp=drive_link'],
                     ['nama' => 'DIPA Pagu Awal TA 2026', 'url' => 'https://drive.google.com/file/d/1EsnQSLq7b43vjdq2KOfmL-84fAWxvT_z/view?usp=sharing'],
                     ['nama' => 'DIPA Pagu Awal TA 2025', 'url' => 'https://drive.google.com/file/d/1SfIry5JjGLWZ7i0D10tQVHqspga5rbFY/view?usp=sharing'],
                     ['nama' => 'DIPA Pagu Awal TA 2024', 'url' => 'https://drive.google.com/file/d/1vyOQ0VWJmJ_P2RFWNchf41KuvoedBFTn/view?usp=sharing'],
@@ -156,9 +154,8 @@ class Dip2026SyncSeeder extends Seeder
                 'tempat' => 'Tegal',
                 'waktu' => '2026',
                 'jangka' => '1 Tahun',
-                'file' => 'https://drive.google.com/drive/folders/14FuEZsIJRG8P7stbNwSsZeu0gPZ0Vhn5?usp=drive_link',
+                'file' => 'https://drive.google.com/file/d/1E2Fx7edSCxWjueyXbeL2mJE0wiKqQbiq/view?usp=sharing',
                 'tautan' => [
-                    ['nama' => 'Folder Google Drive LAKIP PKTJ (2020-2025)', 'url' => 'https://drive.google.com/drive/folders/14FuEZsIJRG8P7stbNwSsZeu0gPZ0Vhn5?usp=drive_link'],
                     ['nama' => 'LAKIP PKTJ TA 2025', 'url' => 'https://drive.google.com/file/d/1E2Fx7edSCxWjueyXbeL2mJE0wiKqQbiq/view?usp=sharing'],
                     ['nama' => 'LKIP PKTJ TA 2024', 'url' => 'https://drive.google.com/file/d/16csyS0TDykmrcsXFpc5csDP_yHh7_3V4/view?usp=sharing'],
                     ['nama' => 'LKIP PKTJ TA 2023', 'url' => 'https://drive.google.com/file/d/1oZfbiyr2zG5wX-aqaHAoQKqpuLTW1Qm5/view?usp=sharing'],
@@ -178,9 +175,8 @@ class Dip2026SyncSeeder extends Seeder
                 'tempat' => 'Tegal',
                 'waktu' => '2026',
                 'jangka' => '1 Tahun',
-                'file' => 'https://drive.google.com/drive/folders/1td8zGUwf7b8ExA5yjBkBlf3JfdzgnPsg?usp=drive_link',
+                'file' => 'https://drive.google.com/file/d/1m1YOiiiDftQlnEkGPOuCu_neoN03YiFV/view?usp=sharing',
                 'tautan' => [
-                    ['nama' => 'Folder Google Drive Laporan Tahunan PKTJ (2020-2025)', 'url' => 'https://drive.google.com/drive/folders/1td8zGUwf7b8ExA5yjBkBlf3JfdzgnPsg?usp=drive_link'],
                     ['nama' => 'Laporan Tahunan PKTJ TA 2025', 'url' => 'https://drive.google.com/file/d/1m1YOiiiDftQlnEkGPOuCu_neoN03YiFV/view?usp=sharing'],
                     ['nama' => 'Laporan Tahunan PKTJ TA 2024', 'url' => 'https://drive.google.com/file/d/1gpZpRgGckUIaIIYF6AtAVAW54iTnpMnB/view?usp=sharing'],
                     ['nama' => 'Laporan Tahunan PKTJ TA 2023', 'url' => 'https://drive.google.com/file/d/1NTubEAWdoeUND9haBHZiaCEZOo35buGa/view?usp=sharing'],
@@ -249,9 +245,8 @@ class Dip2026SyncSeeder extends Seeder
                 'tempat' => 'Tegal',
                 'waktu' => '2026',
                 'jangka' => '1 Tahun',
-                'file' => 'https://drive.google.com/drive/folders/14n9Q1C0-ZzG8dqEIVF_Rz_6W36XXpvEg?usp=drive_link',
+                'file' => 'https://drive.google.com/file/d/1_7i4BBiD3w9an0JqXx3ujiLOcvfCUQhG/view?usp=sharing',
                 'tautan' => [
-                    ['nama' => 'Folder Google Drive Kalender Akademik PKTJ (2024-2025)', 'url' => 'https://drive.google.com/drive/folders/14n9Q1C0-ZzG8dqEIVF_Rz_6W36XXpvEg?usp=drive_link'],
                     ['nama' => 'SK Penetapan Kalender Akademik TA 2024-2025 (Signed)', 'url' => 'https://drive.google.com/file/d/1_7i4BBiD3w9an0JqXx3ujiLOcvfCUQhG/view?usp=sharing'],
                     ['nama' => 'Bagan Presentasi Kalender Akademik 2024-2025', 'url' => 'https://drive.google.com/file/d/1rGHNkjQdqveSymPlD1Qf8Bu64avXFgz6/view?usp=sharing']
                 ],
@@ -267,9 +262,13 @@ class Dip2026SyncSeeder extends Seeder
                 'tempat' => 'Tegal',
                 'waktu' => '2026',
                 'jangka' => '1 Tahun',
-                'file' => 'https://drive.google.com/drive/folders/164eOazEqPabeX6h6atbn3KEs8FWHQVjJ?usp=drive_link',
+                'file' => 'https://drive.google.com/file/d/1WA7CSaxqt0j8e0fHnjqnl8K8TCRdUAAV/view?usp=sharing',
                 'tautan' => [
-                    ['nama' => 'Folder Google Drive Statistik PKTJ 2025', 'url' => 'https://drive.google.com/drive/folders/164eOazEqPabeX6h6atbn3KEs8FWHQVjJ?usp=drive_link'],
+                    ['nama' => 'DRH Seluruh Pegawai PKTJ (.xlsx)', 'url' => 'https://drive.google.com/file/d/1WA7CSaxqt0j8e0fHnjqnl8K8TCRdUAAV/view?usp=sharing'],
+                    ['nama' => 'SK Penetapan PPID PKTJ 2026 (.pdf)', 'url' => 'https://drive.google.com/file/d/1tAtixggFCU10eazzSDrAuv4O0zoeOfJS/view?usp=sharing'],
+                    ['nama' => 'Grafik Jenis Pegawai (.jpg)', 'url' => 'https://drive.google.com/file/d/1waPJx0eSSfwhA3N9ggLE7qJHxOxOPblg/view?usp=sharing'],
+                    ['nama' => 'Grafik Pendidikan Pegawai (.png)', 'url' => 'https://drive.google.com/file/d/1tPH7bcOA16ZJrcdG03JEj2EklKVeUW7W/view?usp=sharing'],
+                    ['nama' => 'Grafik Golongan Pegawai (.png)', 'url' => 'https://drive.google.com/file/d/12ugth3EsodPjIZK4U7dOz4EAD0oObowf/view?usp=sharing'],
                     ['nama' => 'Halaman Data & Statistik Kepegawaian PKTJ', 'url' => '/profil/statistik-pegawai']
                 ],
                 'aktif' => true
@@ -316,10 +315,14 @@ class Dip2026SyncSeeder extends Seeder
                 'tempat' => 'Tegal',
                 'waktu' => '2026',
                 'jangka' => '1 Tahun',
-                'file' => 'https://drive.google.com/drive/folders/1PjNN8h09JuEA7iEmzl6JZHX5PAlvx-26?usp=drive_link',
+                'file' => 'https://drive.google.com/file/d/1h_at5nDbhL85ID5xFZKDIIPnUac5J1VC/view?usp=sharing',
                 'tautan' => [
-                    ['nama' => 'Folder Google Drive Laporan Keuangan PKTJ (2020-2025)', 'url' => 'https://drive.google.com/drive/folders/1PjNN8h09JuEA7iEmzl6JZHX5PAlvx-26?usp=drive_link'],
-                    ['nama' => 'Laporan Keuangan TA 2025 (Audited)', 'url' => 'https://drive.google.com/file/d/1h_at5nDbhL85ID5xFZKDIIPnUac5J1VC/view?usp=sharing']
+                    ['nama' => 'Laporan Keuangan TA 2025 (Audited)', 'url' => 'https://drive.google.com/file/d/1h_at5nDbhL85ID5xFZKDIIPnUac5J1VC/view?usp=sharing'],
+                    ['nama' => 'Laporan Keuangan TA 2024 (Audited)', 'url' => 'https://drive.google.com/file/d/1SiWL0SN2Fd/view?usp=sharing'],
+                    ['nama' => 'Laporan Keuangan TA 2023 (Audited)', 'url' => 'https://drive.google.com/file/d/1rg2FKvss8nSs2SoMRoeRyDwzdRf469Nt/view?usp=sharing'],
+                    ['nama' => 'Laporan Keuangan TA 2022 (Audited)', 'url' => 'https://drive.google.com/file/d/1pTi35DtqVhJPsRPi76dDtAoMjfUeP3_o/view?usp=sharing'],
+                    ['nama' => 'Laporan Keuangan TA 2021 (Audited)', 'url' => 'https://drive.google.com/file/d/1Fga_/view?usp=sharing'],
+                    ['nama' => 'Laporan Keuangan TA 2020 (Audited)', 'url' => 'https://drive.google.com/file/d/13TRRsPSCAnsKVVPpws2Vah5VxCml6VPb/view?usp=sharing']
                 ],
                 'aktif' => true
             ],
@@ -416,7 +419,7 @@ class Dip2026SyncSeeder extends Seeder
                 'jangka' => '1 Tahun',
                 'file' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login',
                 'tautan' => [
-                    ['nama' => 'Portal Layanan Informasi PPID PKTJ', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login'],
+                    ['nama' => 'Hubungi PPID PKTJ', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login'],
                     ['nama' => 'Whistleblowing System (WBS) BPSDMP', 'url' => 'https://bit.ly/ethicslineBPSDMP'],
                     ['nama' => 'Kanal Permasalahan Pembayaran PKTJ', 'url' => 'https://sites.google.com/pktj.ac.id/permasalahan-pembayaran/beranda?authuser=0']
                 ],
@@ -434,7 +437,7 @@ class Dip2026SyncSeeder extends Seeder
                 'jangka' => '1 Tahun',
                 'file' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login',
                 'tautan' => [
-                    ['nama' => 'Hubungi PPID PKTJ (Masih Proses Membuat)', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login']
+                    ['nama' => 'Hubungi PPID PKTJ', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login']
                 ],
                 'aktif' => false // Dihapus/disembunyikan dari tampilan publik sesuai instruksi user
             ],
@@ -466,7 +469,7 @@ class Dip2026SyncSeeder extends Seeder
                 'jangka' => '1 Tahun',
                 'file' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login',
                 'tautan' => [
-                    ['nama' => 'Hubungi PPID PKTJ (Belum Ada di Drive Humas)', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login']
+                    ['nama' => 'Hubungi PPID PKTJ', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login']
                 ],
                 'aktif' => true
             ]
@@ -517,7 +520,7 @@ class Dip2026SyncSeeder extends Seeder
                 'jangka' => '1 Tahun',
                 'file' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login',
                 'tautan' => [
-                    ['nama' => 'Hubungi PPID PKTJ (Belum Ada di Drive Humas)', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login']
+                    ['nama' => 'Hubungi PPID PKTJ', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login']
                 ],
                 'aktif' => true
             ],
@@ -564,9 +567,23 @@ class Dip2026SyncSeeder extends Seeder
                 'tempat' => 'Tegal',
                 'waktu' => '2026',
                 'jangka' => '1 Tahun',
-                'file' => 'https://drive.google.com/drive/folders/12kwFvlBF6V7AggNSLpAI0d2axPmYErvL?usp=drive_link',
+                'file' => 'https://drive.google.com/file/d/1snKcqdyvlv4F4PWsg9AhbcU55KxlKXWr/view?usp=sharing',
                 'tautan' => [
-                    ['nama' => 'Folder Google Drive SOP PKTJ Tegal', 'url' => 'https://drive.google.com/drive/folders/12kwFvlBF6V7AggNSLpAI0d2axPmYErvL?usp=drive_link']
+                    ['nama' => '01. SOP Pelayanan Praktik Bahasa', 'url' => 'https://drive.google.com/file/d/1rWe1ppcd1n_LyR_uiREYXethRilMfCrh/view?usp=sharing'],
+                    ['nama' => '02. SOP Penyusunan & Penetapan SPMI', 'url' => 'https://drive.google.com/file/d/1nb7bCXaeZWsYhqoeQ4_fvfTf57s1ZRaq/view?usp=sharing'],
+                    ['nama' => '03. SOP Pengelolaan IT', 'url' => 'https://drive.google.com/file/d/14Z0PBFGWQ64vXwOdXw9hTgMfXog4Vl_c/view?usp=sharing'],
+                    ['nama' => '04. SOP Pelaksanaan Apel Pegawai', 'url' => 'https://drive.google.com/file/d/1Ss67Nd46HVHKHg-5gpC3CDw_QAN5C5DV/view?usp=sharing'],
+                    ['nama' => '05. SOP Audit Kinerja', 'url' => 'https://drive.google.com/file/d/1MZrNZgiyYpPv9wmrc9hidMmXdS-17bSP/view?usp=sharing'],
+                    ['nama' => '06. SOP Penyelenggaraan Diklat Teknis', 'url' => 'https://drive.google.com/file/d/1tUfgaJrXVKRhfHEsHct0_fFRmzKi2Yzd/view?usp=sharing'],
+                    ['nama' => '08. SOP Kelompok Dosen & Mata Kuliah', 'url' => 'https://drive.google.com/file/d/1B90BKD97zmDxH8RcwMcMwXq5UIEtru1U/view?usp=sharing'],
+                    ['nama' => '09. SOP Pengelolaan Perpustakaan', 'url' => 'https://drive.google.com/file/d/1fmGVq4jAjePUtdnNdIpj_LghyqRTtocO/view?usp=sharing'],
+                    ['nama' => '10. SOP Standar Pedoman Penelitian', 'url' => 'https://drive.google.com/file/d/14k4t_jQnthBjouHX2A5KVRP5mbClFVhk/view?usp=sharing'],
+                    ['nama' => '11. SOP Praktik Laboratorium & Simulator', 'url' => 'https://drive.google.com/file/d/1UImxrWPLLP3OQoH_qNc0zSRLUsAx6j27/view?usp=sharing'],
+                    ['nama' => '12. SOP Pengusulan Tarif Diklat', 'url' => 'https://drive.google.com/file/d/1SeV6C6pRMRf__3sRzIdBMOsgI5TdyJaP/view?usp=sharing'],
+                    ['nama' => '14. SOP Pengabdian Masyarakat', 'url' => 'https://drive.google.com/file/d/1Fl8iIqF3bDR3mI_DgRzMXI7gcwdAdydF/view?usp=sharing'],
+                    ['nama' => '15. SOP Layanan Perpustakaan & Belajar', 'url' => 'https://drive.google.com/file/d/18mBGiZ-7bOIc1f7dgTVj010GmdQXjTS3/view?usp=sharing'],
+                    ['nama' => '16. SOP Pengelolaan Informasi Publik', 'url' => 'https://drive.google.com/file/d/1snKcqdyvlv4F4PWsg9AhbcU55KxlKXWr/view?usp=sharing'],
+                    ['nama' => '17. SOP Pengelolaan Pengaduan Masyarakat', 'url' => 'https://drive.google.com/file/d/1Sh2z3gv93ZJHnCnfq1_46K1nBJl-NiYp/view?usp=sharing']
                 ],
                 'aktif' => true
             ],
@@ -1097,5 +1114,21 @@ class Dip2026SyncSeeder extends Seeder
         Dashboard::updateOrCreate(['key' => 'menu_dikecualikan_aktif'], ['value' => '0', 'type' => 'boolean']);
         Dashboard::updateOrCreate(['key' => 'video_url'], ['value' => 'https://youtu.be/e-zh2icc4EQ?si=H1w-zNXl56bVJiB3', 'type' => 'text', 'aktif' => 1]);
         Dashboard::updateOrCreate(['key' => 'profil_youtube_link'], ['value' => 'https://youtu.be/e-zh2icc4EQ?si=H1w-zNXl56bVJiB3', 'type' => 'text', 'aktif' => 1]);
+
+        // 11. SINKRONISASI DATA RESMI STATISTIK KEPEGAWAIAN (155 PEGAWAI DARI EXCEL DRH SIMPEG)
+        if (class_exists(\App\Http\Controllers\StatistikPegawaiController::class)) {
+            $statDefaults = \App\Http\Controllers\StatistikPegawaiController::getDefaults();
+            foreach ($statDefaults as $sKey => $sVal) {
+                Dashboard::updateOrCreate(
+                    ['key' => 'statistik_pegawai_' . $sKey],
+                    [
+                        'value' => $sVal,
+                        'type' => (is_array(json_decode($sVal, true)) ? 'json' : 'text'),
+                        'description' => 'Statistik Pegawai ' . $sKey,
+                        'aktif' => true
+                    ]
+                );
+            }
+        }
     }
 }
