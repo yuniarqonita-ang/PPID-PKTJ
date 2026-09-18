@@ -44,9 +44,6 @@ class InformasiBerkalaController extends Controller
 
         $items = collect();
         foreach ($grouped as $titleKey => $group) {
-            if ($titleKey === 'laporan ppid' || str_contains($titleKey, 'laporan ppid')) {
-                continue;
-            }
             $best = $group->sortByDesc(function($it) {
                 return ($it->aktif ? 1000 : 0) + (!empty($it->tautan_links) ? 200 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
             })->first();

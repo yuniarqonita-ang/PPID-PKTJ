@@ -41,7 +41,7 @@ class InformasiPublikController extends Controller
     {
         try {
             $syncVersion = Dashboard::where('key', 'dip_sync_version')->value('value');
-            $currentVersion = '2026_09_18_v3';
+            $currentVersion = '2026_09_18_v4';
 
             // Cek apakah data resmi DIP 2026 sudah ada di database dan memiliki tautan berkas langsung (bukan folder)
             $hasDirectDipa = class_exists(InformasiBerkala::class) 
@@ -99,15 +99,11 @@ class InformasiPublikController extends Controller
                 ? InformasiSertaMerta::where('aktif', false)->pluck('judul')->map(fn($t) => strtolower(trim($t)))->all() 
                 : [];
 
-            $manualHidden = [
-                'laporan ppid',
-                'laporan tahunan ppid',
-                'laporan tahunan layanan informasi publik (laporan ppid) pktj',
-            ];
+            $manualHidden = [];
 
             return array_unique(array_filter(array_merge($hiddenDaftar, $hiddenBerkala, $hiddenSetiapSaat, $hiddenSertaMerta, $manualHidden)));
         } catch (\Throwable $e) {
-            return ['laporan ppid'];
+            return [];
         }
     }
 
@@ -234,7 +230,7 @@ class InformasiPublikController extends Controller
                 ->map(fn($item) => $this->mapDaftarInformasi($item));
 
             $items = $modelItems->concat($daftarItems)
-                ->filter(fn($it) => !in_array(strtolower(trim($it->judul)), $hiddenTitles) && strtolower(trim($it->judul)) !== 'laporan ppid')
+                ->filter(fn($it) => !in_array(strtolower(trim($it->judul)), $hiddenTitles))
                 ->values();
 
         } catch (\Throwable $e) {

@@ -348,12 +348,12 @@
             }
         }
 
-        /* BUTTON SK PPID PKTJ 2026 (TENGAH BAWAH BAGAN) */
+        /* BUTTON SK PPID PKTJ 2026 (POJOK KANAN BAWAH BAGAN) */
         .pktj-sk-footer-bar {
             display: flex;
-            justify-content: center;
+            justify-content: flex-end;
             align-items: center;
-            margin-top: 30px;
+            margin-top: 25px;
             position: relative;
             width: 100%;
             border: none !important;
@@ -743,7 +743,7 @@
                                 ?? ($settings['link_sk_ppid_terbaru'] 
                                 ?? (!empty($settings['struktur_file_sk_ppid_terbaru']) ? asset('storage/halaman/' . $settings['struktur_file_sk_ppid_terbaru']) : 'https://drive.google.com/file/d/1tAtixggFCU10eazzSDrAuv4O0zoeOfJS/view?usp=sharing'));
                         @endphp
-                        <div class="pktj-sk-footer-bar" style="display: flex !important; justify-content: center !important; align-items: center !important; width: 100% !important; margin: 30px auto 0 auto !important; border: none !important; outline: none !important;">
+                        <div class="pktj-sk-footer-bar" style="display: flex !important; justify-content: flex-end !important; align-items: center !important; width: 100% !important; margin-top: 25px !important; border: none !important; outline: none !important;">
                             <a href="{{ $skPpidLink }}" target="_blank" rel="noopener noreferrer" class="pktj-btn-sk-terbaru" style="display: inline-flex !important; align-items: center !important; justify-content: center !important; background: #002b5c !important; color: #ffc107 !important; font-size: 15px !important; font-weight: 800 !important; text-decoration: none !important; text-decoration-line: none !important; border: 0 !important; outline: none !important; box-shadow: 0 4px 14px rgba(0,43,92,0.2) !important; border-radius: 12px !important; padding: 12px 32px !important; text-align: center !important;" title="SK PPID PKTJ 2026">
                                 SK PPID PKTJ 2026
                             </a>

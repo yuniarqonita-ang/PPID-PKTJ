@@ -428,6 +428,22 @@ class Dip2026SyncSeeder extends Seeder
             ],
             [
                 'no' => 23,
+                'judul' => 'Laporan PPID',
+                'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan pengelolaan dokumentasi PPID Pelaksana UPT PKTJ Tegal Tahun 2025 (Versi Canva / Paparan Laporan).',
+                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
+                'penerbit' => 'Unit Pelaksana Teknis PKTJ Tegal',
+                'bentuk' => 'hardcopy dan softcopy',
+                'tempat' => 'Tegal',
+                'waktu' => '2026',
+                'jangka' => '1 Tahun',
+                'file' => 'storage/dokumen/Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                'tautan' => [
+                    ['nama' => 'Laporan PPID PKTJ 2025 (PDF)', 'url' => 'storage/dokumen/Laporan_Tahunan_PPID_PKTJ_2025.pdf']
+                ],
+                'aktif' => true
+            ],
+            [
+                'no' => 24,
                 'judul' => 'Jurnal Ilmiah',
                 'deskripsi' => 'Daftar jurnal ilmiah transportasi Politeknik Keselamatan Transportasi Jalan.',
                 'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
@@ -443,7 +459,7 @@ class Dip2026SyncSeeder extends Seeder
                 'aktif' => true
             ],
             [
-                'no' => 24,
+                'no' => 25,
                 'judul' => 'Informasi tentang pengadaan barang dan jasa di PKTJ Tegal',
                 'deskripsi' => 'Berisi informasi tentang pengadaan barnag dan jasa sesuai Peraturan Komisi Informasi Republik Indonesia Nomor 1 Tahun 2021 pasal 14 yang berisikan Tahap Perencanaan (dokumen, RUP), Tahap Pemilihan (23 dokumentasi) dan Tahap pelaksanaan (15 dokumen) (Belum ada di drive humas).',
                 'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
@@ -1142,9 +1158,5 @@ class Dip2026SyncSeeder extends Seeder
                 ]
             );
         }
-
-        // Hapus juga Laporan PPID dari informasi berkala & daftar informasi jika ada sisa
-        InformasiBerkala::whereRaw('LOWER(TRIM(judul)) = ?', ['laporan ppid'])->delete();
-        DaftarInformasi::whereRaw('LOWER(TRIM(judul_informasi)) = ?', ['laporan ppid'])->delete();
     }
 }
