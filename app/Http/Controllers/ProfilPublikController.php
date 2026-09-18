@@ -480,14 +480,14 @@ class ProfilPublikController extends Controller
                         'is_blurred' => 0
                     ],
                     [
-                        'judul' => 'Penyampaian Laporan Tahunan Pelayanan Informasi Publik PKTJ Tahun 2025 ke PPID Utama Kementerian Perhubungan',
-                        'file_path' => 'https://drive.google.com/file/d/1NabSL0TAkoFyp7aEEiyeXbWrkBDbMGyx/view?usp=drive_link',
-                        'file_name' => 'Penyampaian Laporan Permohonan Informasi PKTJ Tahun 2025.pdf',
-                        'file_size' => '1.05 MB',
+                        'judul' => 'Laporan Tahunan PPID Pelaksana UPT PKTJ Tegal Tahun 2025',
+                        'file_path' => 'dokumen/Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                        'file_name' => 'Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                        'file_size' => '965 KB',
                         'file_type' => 'pdf',
                         'kategori' => 'Laporan Layanan',
                         'tanggal' => '2025-12-31',
-                        'deskripsi' => 'Surat pengantar resmi nomor UM.006/2/16/PKTJ/2025 dan tanda terima pengiriman laporan tahunan pelayanan informasi publik PKTJ Tegal ke PPID Utama Kementerian Perhubungan.',
+                        'deskripsi' => 'Laporan Tahunan PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal Tahun 2025 (Versi Paparan Laporan Komprehensif).',
                         'aktif' => 1,
                         'bisa_download' => 1,
                         'is_blurred' => 0

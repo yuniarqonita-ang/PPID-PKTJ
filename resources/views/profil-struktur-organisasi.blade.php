@@ -348,54 +348,55 @@
             }
         }
 
-        /* BUTTON DOKUMEN RESMI SK PPID PKTJ 2026 (KANAN BAWAH BAGAN) */
+        /* BUTTON SK PPID PKTJ 2026 (TENGAH BAWAH BAGAN) */
         .pktj-sk-footer-bar {
             display: flex;
-            justify-content: flex-end;
+            justify-content: center;
             align-items: center;
-            margin-top: 25px;
+            margin-top: 30px;
             position: relative;
+            width: 100%;
+            border: none !important;
+            outline: none !important;
         }
 
         .pktj-btn-sk-terbaru {
             display: inline-flex;
-            flex-direction: column;
-            align-items: flex-start;
+            align-items: center;
             justify-content: center;
-            background: #002b5c;
-            color: #ffffff !important;
-            padding: 10px 22px;
+            background: #002b5c !important;
+            color: #ffc107 !important;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 800 !important;
+            letter-spacing: 0.5px;
+            padding: 12px 32px;
             border-radius: 12px;
             text-decoration: none !important;
-            box-shadow: 0 4px 14px rgba(0, 43, 92, 0.12);
-            border: none;
+            text-decoration-line: none !important;
+            border: none !important;
+            outline: none !important;
+            box-shadow: 0 4px 14px rgba(0, 43, 92, 0.2);
             transition: all 0.25s ease;
+            text-align: center;
+        }
+
+        .pktj-btn-sk-terbaru,
+        .pktj-btn-sk-terbaru:hover,
+        .pktj-btn-sk-terbaru:focus,
+        .pktj-btn-sk-terbaru:active {
+            text-decoration: none !important;
+            text-decoration-line: none !important;
+            border: none !important;
+            outline: none !important;
         }
 
         .pktj-btn-sk-terbaru:hover {
-            background: #004a99;
+            background: #004a99 !important;
+            color: #ffd166 !important;
+            text-decoration: none !important;
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0, 43, 92, 0.22);
-            color: #ffffff !important;
-        }
-
-        .pktj-sk-badge-pill {
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.6px;
-            text-transform: uppercase;
-            color: #ffd166;
-            margin-bottom: 2px;
-            line-height: 1.2;
-        }
-
-        .pktj-sk-label {
-            font-family: 'Outfit', sans-serif;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.2px;
-            color: #ffffff;
-            line-height: 1.2;
+            box-shadow: 0 6px 20px rgba(0, 74, 153, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -405,8 +406,6 @@
             }
             .pktj-btn-sk-terbaru {
                 width: 100%;
-                text-align: center;
-                align-items: center;
             }
         }
 
@@ -744,10 +743,9 @@
                                 ?? ($settings['link_sk_ppid_terbaru'] 
                                 ?? (!empty($settings['struktur_file_sk_ppid_terbaru']) ? asset('storage/halaman/' . $settings['struktur_file_sk_ppid_terbaru']) : 'https://drive.google.com/file/d/1tAtixggFCU10eazzSDrAuv4O0zoeOfJS/view?usp=sharing'));
                         @endphp
-                        <div class="pktj-sk-footer-bar">
-                            <a href="{{ $skPpidLink }}" target="_blank" rel="noopener noreferrer" class="pktj-btn-sk-terbaru" title="Unduh / Lihat Dokumen SK PPID PKTJ 2026 Terbaru">
-                                <span class="pktj-sk-badge-pill">DOKUMEN RESMI 2026</span>
-                                <span class="pktj-sk-label">SK PPID PKTJ 2026 Terbaru</span>
+                        <div class="pktj-sk-footer-bar" style="display: flex !important; justify-content: center !important; align-items: center !important; width: 100% !important; margin: 30px auto 0 auto !important; border: none !important; outline: none !important;">
+                            <a href="{{ $skPpidLink }}" target="_blank" rel="noopener noreferrer" class="pktj-btn-sk-terbaru" style="display: inline-flex !important; align-items: center !important; justify-content: center !important; background: #002b5c !important; color: #ffc107 !important; font-size: 15px !important; font-weight: 800 !important; text-decoration: none !important; text-decoration-line: none !important; border: 0 !important; outline: none !important; box-shadow: 0 4px 14px rgba(0,43,92,0.2) !important; border-radius: 12px !important; padding: 12px 32px !important; text-align: center !important;" title="SK PPID PKTJ 2026">
+                                SK PPID PKTJ 2026
                             </a>
                         </div>
                     </div>

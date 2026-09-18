@@ -13,6 +13,7 @@ use App\Models\ProfilPpid;
 use App\Models\Peraturan;
 use App\Models\CustomMenu;
 use App\Models\Dashboard;
+use App\Models\Dokumen;
 
 class Dip2026SyncSeeder extends Seeder
 {
@@ -427,22 +428,6 @@ class Dip2026SyncSeeder extends Seeder
             ],
             [
                 'no' => 23,
-                'judul' => 'Laporan PPID',
-                'deskripsi' => 'Rekapitulasi permohonan informasi, tujuan informasi, jumlah pemohon, status penerimaan permohonan informasi (Masih Proses Membuat).',
-                'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
-                'penerbit' => 'Unit Kerja di Lingkungan PKTJ Tegal',
-                'bentuk' => 'softcopy dan hardcopy',
-                'tempat' => 'Tegal',
-                'waktu' => '2026',
-                'jangka' => '1 Tahun',
-                'file' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login',
-                'tautan' => [
-                    ['nama' => 'Hubungi PPID PKTJ', 'url' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login']
-                ],
-                'aktif' => false // Dihapus/disembunyikan dari tampilan publik sesuai instruksi user
-            ],
-            [
-                'no' => 24,
                 'judul' => 'Jurnal Ilmiah',
                 'deskripsi' => 'Daftar jurnal ilmiah transportasi Politeknik Keselamatan Transportasi Jalan.',
                 'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
@@ -458,7 +443,7 @@ class Dip2026SyncSeeder extends Seeder
                 'aktif' => true
             ],
             [
-                'no' => 25,
+                'no' => 24,
                 'judul' => 'Informasi tentang pengadaan barang dan jasa di PKTJ Tegal',
                 'deskripsi' => 'Berisi informasi tentang pengadaan barnag dan jasa sesuai Peraturan Komisi Informasi Republik Indonesia Nomor 1 Tahun 2021 pasal 14 yang berisikan Tahap Perencanaan (dokumen, RUP), Tahap Pemilihan (23 dokumentasi) dan Tahap pelaksanaan (15 dokumen) (Belum ada di drive humas).',
                 'pejabat' => 'PPID Pelaksana UPT PKTJ Tegal',
@@ -1130,5 +1115,36 @@ class Dip2026SyncSeeder extends Seeder
                 );
             }
         }
+
+        // 12. SINKRONISASI DOKUMEN RESMI LAPORAN LAYANAN 2025 (VERSI PAPARAN LAPORAN / PPT PDF)
+        if (class_exists(Dokumen::class)) {
+            Dokumen::where('kategori', 'Laporan Layanan')
+                ->where(function($q) {
+                    $q->where('judul', 'like', '%Penyampaian Laporan%')
+                      ->orWhere('deskripsi', 'like', '%UM.006/2/16/PKTJ/2025%');
+                })->delete();
+
+            Dokumen::updateOrCreate(
+                [
+                    'kategori' => 'Laporan Layanan',
+                    'judul' => 'Laporan Tahunan PPID Pelaksana UPT PKTJ Tegal Tahun 2025'
+                ],
+                [
+                    'file_path' => 'dokumen/Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                    'file_name' => 'Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                    'file_size' => '965 KB',
+                    'file_type' => 'pdf',
+                    'tanggal' => '2025-12-31',
+                    'deskripsi' => 'Laporan Tahunan PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal Tahun 2025 (Versi Paparan Laporan Komprehensif).',
+                    'aktif' => true,
+                    'bisa_download' => true,
+                    'is_blurred' => false,
+                ]
+            );
+        }
+
+        // Hapus juga Laporan PPID dari informasi berkala & daftar informasi jika ada sisa
+        InformasiBerkala::whereRaw('LOWER(TRIM(judul)) = ?', ['laporan ppid'])->delete();
+        DaftarInformasi::whereRaw('LOWER(TRIM(judul_informasi)) = ?', ['laporan ppid'])->delete();
     }
 }

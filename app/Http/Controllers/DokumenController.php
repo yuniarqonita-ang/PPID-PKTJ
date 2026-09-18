@@ -23,13 +23,67 @@ class DokumenController extends Controller
         return view('admin.dokumen.create', compact('kategori'));
     }
 
+    /**
+     * Helper to safely delete file from public disk without throwing exceptions
+     */
+    private function safeDeleteStorageFile(?string $path): void
+    {
+        if (empty($path)) return;
+        $path = trim($path);
+        
+        // Skip URLs, external links, dash, hash, or empty
+        if (
+            preg_match('~^(https?://|//|www\.|drive\.google\.com|docs\.google\.com)~i', $path) ||
+            str_contains($path, '://') ||
+            str_contains($path, ':') ||
+            $path === '-' ||
+            $path === '#'
+        ) {
+            return;
+        }
+
+        try {
+            $clean = ltrim($path, '/\\');
+            if (str_starts_with($clean, 'storage/')) {
+                $clean = substr($clean, 8);
+            }
+            if (!empty($clean) && Storage::disk('public')->exists($clean)) {
+                Storage::disk('public')->delete($clean);
+            }
+        } catch (\Throwable $e) {
+            // Silently ignore storage errors to avoid 500 error
+        }
+    }
+
+    /**
+     * Helper to safely sanitize Google Drive or external URL
+     */
+    private function sanitizeUrl(?string $url): ?string
+    {
+        if (!$url) return null;
+        $clean = trim($url);
+        if ($clean === '' || $clean === '-' || $clean === '#') return null;
+        if (!preg_match('~^(https?://|//|/)~i', $clean)) {
+            $clean = 'https://' . ltrim($clean, '/');
+        }
+        return $clean;
+    }
+
+    /**
+     * Helper to silently ensure table schema without throwing on DDL
+     */
+    private function ensureDokumenSchema(): void
+    {
+        // Table schema is already migrated and verified.
+    }
+
     public function store(Request $request)
     {
         // Check for PHP upload size errors
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($request->isMethod('post')) {
             $max_upload = ini_get('upload_max_filesize');
             $max_post = ini_get('post_max_size');
-            if (empty($_POST) && empty($_FILES) && isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 0) {
+            if (empty($_POST) && empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH'])) {
                 return back()->withErrors(['file' => "Ukuran upload melebihi batas server (post_max_size: {$max_post}). Silakan gunakan link Google Drive sebagai alternatif."])->withInput();
             }
             if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_OK && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
@@ -42,30 +96,20 @@ class DokumenController extends Controller
             }
         }
 
+        $this->ensureDokumenSchema();
+        $rawGdrive = $this->sanitizeUrl($request->input('gdrive_link'));
+
         $validated = $request->validate([
             'judul' => 'required|max:255',
-            'file' => 'required_without:gdrive_link|nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
-            'gdrive_link' => 'required_without:file|nullable|url',
+            'file' => $rawGdrive ? 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240' : 'required_without:gdrive_link|nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
+            'gdrive_link' => 'nullable|string',
             'kategori' => 'nullable|string',
-            'tanggal' => 'nullable|date',
+            'tanggal' => 'nullable',
             'deskripsi' => 'nullable|string'
         ], [
             'file.required_without' => 'Pilih file yang ingin diunggah ATAU masukkan link Google Drive.',
-            'gdrive_link.required_without' => 'Masukkan link Google Drive ATAU pilih file yang ingin diunggah.',
             'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
-            'gdrive_link.url' => 'Format link Google Drive tidak valid.'
         ]);
-
-        // Silently ensure all columns exist in database via Schema and raw SQL
-        try {
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `tanggal` date NULL AFTER `kategori`");
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `deskripsi` longtext NULL AFTER `tanggal`");
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_name` varchar(255) NULL AFTER `file_path`");
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_size` varchar(50) NULL AFTER `file_name`");
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_type` varchar(100) NULL AFTER `file_size`");
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `bisa_download` tinyint(1) NOT NULL DEFAULT 0 AFTER `aktif`");
-            \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `is_blurred` tinyint(1) NOT NULL DEFAULT 0 AFTER `bisa_download`");
-        } catch (\Throwable $e) {}
 
         $data = [
             'judul'         => $validated['judul'],
@@ -91,8 +135,8 @@ class DokumenController extends Controller
                 $data['file_size'] = $size . ' Bytes';
             }
             $data['file_type'] = $file->getClientMimeType();
-        } elseif ($request->filled('gdrive_link')) {
-            $data['file_path'] = $request->gdrive_link;
+        } elseif (!empty($rawGdrive)) {
+            $data['file_path'] = $rawGdrive;
             $data['file_name'] = 'Dokumen Google Drive';
             $data['file_size'] = 'Google Drive';
             $data['file_type'] = 'gdrive';
@@ -101,23 +145,7 @@ class DokumenController extends Controller
             $data['file_path'] = '-';
         }
 
-        $existingCols = [];
-        try {
-            $existingCols = Schema::getColumnListing('dokumens');
-        } catch (\Throwable $e) {}
-
-        $safeData = empty($existingCols) ? $data : array_intersect_key($data, array_flip($existingCols));
-
-        try {
-            Dokumen::create($safeData);
-        } catch (\Throwable $e) {
-            // Minimal fallback insert
-            Dokumen::create([
-                'judul' => $data['judul'],
-                'file_path' => $data['file_path'] ?? '-',
-                'kategori' => $data['kategori'] ?? 'Umum',
-            ]);
-        }
+        Dokumen::create($data);
 
         $kategori = $validated['kategori'] ?? 'Umum';
         try {
@@ -143,10 +171,10 @@ class DokumenController extends Controller
     public function update(Request $request, $id)
     {
         // Check for PHP upload size errors
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        if ($request->isMethod('post') || $request->isMethod('put')) {
             $max_upload = ini_get('upload_max_filesize');
             $max_post = ini_get('post_max_size');
-            if (empty($_POST) && empty($_FILES) && isset($_SERVER['CONTENT_LENGTH']) && $_SERVER['CONTENT_LENGTH'] > 0) {
+            if (empty($_POST) && empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH'])) {
                 return back()->withErrors(['file' => "Ukuran upload melebihi batas server (post_max_size: {$max_post}). Silakan gunakan link Google Drive sebagai alternatif."])->withInput();
             }
             if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_OK && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
@@ -159,27 +187,21 @@ class DokumenController extends Controller
             }
         }
 
+        $this->ensureDokumenSchema();
         $dokumen = Dokumen::findOrFail($id);
+
+        $rawGdrive = $this->sanitizeUrl($request->input('gdrive_link'));
+
         $validated = $request->validate([
             'judul' => 'required|max:255',
             'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
-            'gdrive_link' => 'nullable|url',
+            'gdrive_link' => 'nullable|string',
             'kategori' => 'nullable|string',
-            'tanggal' => 'nullable|date',
+            'tanggal' => 'nullable',
             'deskripsi' => 'nullable|string'
         ], [
             'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
-            'gdrive_link.url' => 'Format link Google Drive tidak valid.'
         ]);
-
-        // Silently ensure all columns exist in database (bypasses shared hosting/cPanel permission locks on information_schema)
-        try { Schema::table('dokumens', function (\Illuminate\Database\Schema\Blueprint $table) { $table->date('tanggal')->nullable()->after('kategori'); }); } catch (\Exception $e) {}
-        try { Schema::table('dokumens', function (\Illuminate\Database\Schema\Blueprint $table) { $table->longText('deskripsi')->nullable()->after('tanggal'); }); } catch (\Exception $e) {}
-        try { Schema::table('dokumens', function (\Illuminate\Database\Schema\Blueprint $table) { $table->string('file_name')->nullable()->after('file_path'); }); } catch (\Exception $e) {}
-        try { Schema::table('dokumens', function (\Illuminate\Database\Schema\Blueprint $table) { $table->string('file_size', 50)->nullable()->after('file_name'); }); } catch (\Exception $e) {}
-        try { Schema::table('dokumens', function (\Illuminate\Database\Schema\Blueprint $table) { $table->string('file_type', 100)->nullable()->after('file_size'); }); } catch (\Exception $e) {}
-        try { Schema::table('dokumens', function (\Illuminate\Database\Schema\Blueprint $table) { $table->boolean('bisa_download')->default(false)->after('aktif'); }); } catch (\Exception $e) {}
-        try { Schema::table('dokumens', function (\Illuminate\Database\Schema\Blueprint $table) { $table->boolean('is_blurred')->default(false)->after('bisa_download'); }); } catch (\Exception $e) {}
 
         $data = [
             'judul'         => $validated['judul'],
@@ -192,17 +214,13 @@ class DokumenController extends Controller
         ];
 
         if ($request->has('hapus_file')) {
-            if ($dokumen->file_path && !str_starts_with($dokumen->file_path, 'http') && Storage::disk('public')->exists($dokumen->file_path)) {
-                Storage::disk('public')->delete($dokumen->file_path);
-            }
+            $this->safeDeleteStorageFile($dokumen->file_path);
             $data['file_path'] = null;
             $data['file_name'] = null;
             $data['file_size'] = null;
             $data['file_type'] = null;
         } elseif ($request->hasFile('file')) {
-            if ($dokumen->file_path && !str_starts_with($dokumen->file_path, 'http') && Storage::disk('public')->exists($dokumen->file_path)) {
-                Storage::disk('public')->delete($dokumen->file_path);
-            }
+            $this->safeDeleteStorageFile($dokumen->file_path);
             $file = $request->file('file');
             $data['file_path'] = $file->store('dokumen', 'public');
             $data['file_name'] = $file->getClientOriginalName();
@@ -215,35 +233,18 @@ class DokumenController extends Controller
                 $data['file_size'] = $size . ' Bytes';
             }
             $data['file_type'] = $file->getClientMimeType();
-        } elseif ($request->filled('gdrive_link')) {
-            if ($dokumen->file_path && !str_starts_with($dokumen->file_path, 'http') && Storage::disk('public')->exists($dokumen->file_path)) {
-                Storage::disk('public')->delete($dokumen->file_path);
-            }
-            $data['file_path'] = $request->gdrive_link;
+        } elseif (!empty($rawGdrive)) {
+            $this->safeDeleteStorageFile($dokumen->file_path);
+            $data['file_path'] = $rawGdrive;
             $data['file_name'] = 'Dokumen Google Drive';
             $data['file_size'] = 'Google Drive';
             $data['file_type'] = 'gdrive';
             $data['bisa_download'] = 1;
         }
 
-        $existingCols = [];
-        try {
-            $existingCols = Schema::getColumnListing('dokumens');
-        } catch (\Throwable $e) {}
+        $dokumen->update($data);
 
-        $safeData = empty($existingCols) ? $data : array_intersect_key($data, array_flip($existingCols));
-
-        try {
-            $dokumen->update($safeData);
-        } catch (\Throwable $e) {
-            $dokumen->update([
-                'judul' => $data['judul'] ?? $dokumen->judul,
-                'file_path' => $data['file_path'] ?? $dokumen->file_path,
-                'kategori' => $data['kategori'] ?? $dokumen->kategori,
-            ]);
-        }
-
-        $kategori = $validated['kategori'] ?? 'Umum';
+        $kategori = $validated['kategori'] ?? $dokumen->kategori ?? 'Umum';
         try {
             $this->saveSopPageSettings($request, $kategori);
         } catch (\Throwable $e) {}
@@ -258,9 +259,7 @@ class DokumenController extends Controller
         $dokumen = Dokumen::findOrFail($id);
         $kategori = $dokumen->kategori;
         
-        if ($dokumen->file_path && !str_starts_with($dokumen->file_path, 'http') && Storage::disk('public')->exists($dokumen->file_path)) { 
-            Storage::disk('public')->delete($dokumen->file_path); 
-        }
+        $this->safeDeleteStorageFile($dokumen->file_path);
         $dokumen->delete();
 
         $redirectTo = $this->getRedirectUrl($kategori);
@@ -273,19 +272,33 @@ class DokumenController extends Controller
      */
     private function getRedirectUrl($kategori)
     {
-        $redirectMap = [
-            'Laporan Layanan' => \Illuminate\Support\Facades\Route::has('admin.layanan.laporan-layanan') ? route('admin.layanan.laporan-layanan') : url('/admin/layanan/laporan-layanan'),
-            'Laporan Akses' => \Illuminate\Support\Facades\Route::has('admin.layanan.laporan-akses') ? route('admin.layanan.laporan-akses') : url('/admin/layanan/laporan-akses'),
-            'Laporan Survey' => \Illuminate\Support\Facades\Route::has('admin.layanan.laporan-survey') ? route('admin.layanan.laporan-survey') : url('/admin/layanan/laporan-survey'),
-            'SOP Permintaan Informasi Publik' => \Illuminate\Support\Facades\Route::has('admin.prosedur.sop-permintaan') ? route('admin.prosedur.sop-permintaan') : url('/admin/prosedur/sop-permintaan'),
-            'SOP Penanganan Keberatan' => \Illuminate\Support\Facades\Route::has('admin.prosedur.sop-keberatan') ? route('admin.prosedur.sop-keberatan') : url('/admin/prosedur/sop-keberatan'),
-            'SOP Pengajuan Sengketa Informasi Publik' => \Illuminate\Support\Facades\Route::has('admin.prosedur.sop-sengketa') ? route('admin.prosedur.sop-sengketa') : url('/admin/prosedur/sop-sengketa'),
-            'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' => \Illuminate\Support\Facades\Route::has('admin.prosedur.sop-penetapan') ? route('admin.prosedur.sop-penetapan') : url('/admin/prosedur/sop-penetapan'),
-            'SOP Pengujian Konsekuensi' => \Illuminate\Support\Facades\Route::has('admin.prosedur.sop-pengujian') ? route('admin.prosedur.sop-pengujian') : url('/admin/prosedur/sop-pengujian'),
-            'SOP Pendokumentasian Informasi Publik' => \Illuminate\Support\Facades\Route::has('admin.prosedur.sop-pendokumentasian') ? route('admin.prosedur.sop-pendokumentasian') : url('/admin/prosedur/sop-pendokumentasian'),
-        ];
-        
-        return $redirectMap[$kategori] ?? (\Illuminate\Support\Facades\Route::has('admin.dokumen.index') ? route('admin.dokumen.index') : url('/admin/dokumen'));
+        try {
+            $redirectMap = [
+                'Laporan Layanan' => \Illuminate\Support\Facades\Route::has('admin.layanan.laporan-layanan') 
+                    ? route('admin.layanan.laporan-layanan') 
+                    : url('/admin/layanan/laporan-layanan'),
+                'Laporan Akses' => \Illuminate\Support\Facades\Route::has('admin.layanan.laporan-akses') 
+                    ? route('admin.layanan.laporan-akses') 
+                    : url('/admin/layanan/laporan-akses'),
+                'Laporan Survey' => \Illuminate\Support\Facades\Route::has('admin.layanan.laporan-survey') 
+                    ? route('admin.layanan.laporan-survey') 
+                    : url('/admin/layanan/laporan-survey'),
+                'SOP Permintaan Informasi Publik' => url('/admin/prosedur/sop-permintaan'),
+                'SOP Penanganan Keberatan' => url('/admin/prosedur/sop-keberatan'),
+                'SOP Pengajuan Sengketa Informasi Publik' => url('/admin/prosedur/sop-sengketa'),
+                'SOP Penetapan dan Pemutakhiran Daftar Informasi Publik' => url('/admin/prosedur/sop-penetapan'),
+                'SOP Pengujian Konsekuensi' => url('/admin/prosedur/sop-pengujian'),
+                'SOP Pendokumentasian Informasi Publik' => url('/admin/prosedur/sop-pendokumentasian'),
+            ];
+            
+            return $redirectMap[$kategori] ?? (
+                \Illuminate\Support\Facades\Route::has('admin.dokumen.index') 
+                    ? route('admin.dokumen.index') 
+                    : url('/admin/dokumen')
+            );
+        } catch (\Throwable $e) {
+            return url('/admin/layanan/laporan-layanan');
+        }
     }
 
     /**

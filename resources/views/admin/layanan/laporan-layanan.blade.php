@@ -6,11 +6,33 @@
         if (request('purge_all') == '1') {
             \App\Models\Dokumen::where('kategori', 'Laporan Layanan')->delete();
         }
-        // Bersihkan HANYA dummy persis bawaan lama (tidak menyentuh data baru yang diinput user)
+        // Bersihkan dummy lama dan surat lama (sesuai arahan user diganti versi PPT PDF)
         \App\Models\Dokumen::where('judul', 'Laporan Permohonan Informasi PPID Pelaksana UPT PKTJ Tahun 2025')
             ->where(function($q) {
                 $q->whereNull('file_path')->orWhere('file_path', '-')->orWhere('file_path', '');
             })->delete();
+
+        \App\Models\Dokumen::where('kategori', 'Laporan Layanan')
+            ->where(function($q) {
+                $q->where('judul', 'like', '%Penyampaian Laporan%')
+                  ->orWhere('deskripsi', 'like', '%UM.006/2/16/PKTJ/2025%');
+            })->delete();
+
+        if (!\App\Models\Dokumen::where('kategori', 'Laporan Layanan')->where('judul', 'like', '%PPID Pelaksana UPT PKTJ%2025%')->exists()) {
+            \App\Models\Dokumen::create([
+                'judul' => 'Laporan Tahunan PPID Pelaksana UPT PKTJ Tegal Tahun 2025',
+                'file_path' => 'dokumen/Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                'file_name' => 'Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                'file_size' => '965 KB',
+                'file_type' => 'pdf',
+                'kategori' => 'Laporan Layanan',
+                'tanggal' => '2025-12-31',
+                'deskripsi' => 'Laporan Tahunan PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal Tahun 2025 (Versi Paparan Laporan Komprehensif).',
+                'aktif' => true,
+                'bisa_download' => true,
+                'is_blurred' => false,
+            ]);
+        }
     } catch (\Throwable $e) {}
 
     $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
