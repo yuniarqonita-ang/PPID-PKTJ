@@ -365,7 +365,7 @@
                     <h3 class="fw-bold outfit text-[#002b5c] mb-1">
                         <i class="fas fa-table text-[#004a99] me-2"></i>Daftar Laporan Tahunan Layanan Informasi
                     </h3>
-                    <p class="text-muted small mb-0">Klik <strong>Unduh Laporan</strong> untuk mengunduh dokumen atau <strong>Lihat Laporan</strong> untuk pratinjau langsung.</p>
+                    <p class="text-muted small mb-0">Klik <strong>Unduh Laporan</strong> untuk mengunduh dokumen atau <strong>Buka Dokumen</strong> untuk membukanya secara langsung.</p>
                 </div>
                 
                 @if($validLaporan->count() > 0)
@@ -385,7 +385,7 @@
                                 <th>Judul Laporan</th>
                                 <th class="text-center" style="width: 140px;">Tahun</th>
                                 <th class="text-center" style="width: 180px;">Unduh Laporan</th>
-                                <th class="text-center" style="width: 180px;">Lihat Laporan</th>
+                                <th class="text-center" style="width: 180px;">Buka Dokumen</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -393,7 +393,7 @@
                             @php
                                 $isGDrive = $item->file_path && (str_starts_with($item->file_path, 'http://') || str_starts_with($item->file_path, 'https://'));
                                 $directDownload = $isGDrive ? $item->file_path : route('dokumen.download', $item->id);
-                                $previewUrl = $isGDrive ? $item->file_path : asset('storage/' . $item->file_path);
+                                $openUrl = $isGDrive ? $item->file_path : asset(str_starts_with($item->file_path, 'storage/') ? $item->file_path : 'storage/' . $item->file_path);
                                 
                                 // Deteksi tahun
                                 $tahunLaporan = '-';
@@ -433,16 +433,9 @@
                                     </a>
                                 </td>
                                 <td class="text-center">
-                                    @if($isGDrive)
-                                        <a href="{{ $item->file_path }}" target="_blank" rel="noopener noreferrer" class="btn-poltrada-lihat w-100">
-                                            <i class="fas fa-external-link-alt"></i> Buka Dokumen
-                                        </a>
-                                    @else
-                                        <button type="button" class="btn-poltrada-lihat w-100" 
-                                            onclick="openLaporanModal('{{ addslashes($item->judul) }}', '{{ $previewUrl }}', '{{ $item->is_blurred ? '1' : '0' }}')">
-                                            <i class="fas fa-eye"></i> Lihat Laporan
-                                        </button>
-                                    @endif
+                                    <a href="{{ $openUrl }}" target="_blank" rel="noopener noreferrer" class="btn-poltrada-lihat w-100">
+                                        <i class="fas fa-external-link-alt"></i> Buka Dokumen
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach
@@ -531,16 +524,7 @@
         // Open Modal Preview
         function openLaporanModal(title, url, isBlurred) {
             document.getElementById('modalLaporanTitle').textContent = title;
-            
-            // Generate Google Docs Viewer URL or direct PDF
-            let embedUrl = url;
-            if (url.endsWith('.pdf')) {
-                embedUrl = url;
-            } else {
-                embedUrl = 'https://docs.google.com/viewer?url=' + encodeURIComponent(url) + '&embedded=true';
-            }
-            
-            document.getElementById('modalLaporanFrame').src = embedUrl;
+            document.getElementById('modalLaporanFrame').src = url;
             const modal = new bootstrap.Modal(document.getElementById('previewLaporanModal'));
             modal.show();
         }

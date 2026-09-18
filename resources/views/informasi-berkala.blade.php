@@ -281,6 +281,8 @@
                                                 }
                                             } elseif (str_starts_with($lUrl, '/') && !in_array($lUrl, ['/', '/#', '/layanan-informasi/daftar'])) {
                                                 $tUrl = url($lUrl);
+                                            } elseif (str_ends_with(strtolower($lUrl), '.pdf')) {
+                                                $tUrl = asset($lUrl);
                                             } else {
                                                 $tUrl = route('preview.dokumen', ['file' => $lUrl, 'title' => $lNama]);
                                             }
@@ -307,6 +309,8 @@
                                                 }
                                             } elseif (str_starts_with($rawPath, '/') && !in_array($rawPath, ['/', '/#', '/layanan-informasi/daftar'])) {
                                                 $resolvedLinks[] = ['nama' => 'Lihat Halaman', 'url' => url($rawPath)];
+                                            } elseif (str_ends_with(strtolower($rawPath), '.pdf')) {
+                                                $resolvedLinks[] = ['nama' => 'Lihat Dokumen', 'url' => asset($rawPath)];
                                             } else {
                                                 $resolvedLinks[] = ['nama' => 'Lihat Dokumen', 'url' => route('preview.dokumen', ['file' => $rawPath, 'title' => $it->judul])];
                                             }
