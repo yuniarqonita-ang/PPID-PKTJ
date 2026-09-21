@@ -26,29 +26,6 @@ class RegulasiController extends Controller
                 });
             } catch (\Throwable $e) {}
         }
-
-        try {
-            // Hapus SK Direktur dan SOP PKTJ tanpa dokumen sesuai arahan user
-            Peraturan::where(function($q) {
-                $q->where('nomor', 'like', '%KP-PKTJ 32%')
-                  ->orWhere('nomor', 'like', '%SK Direktur%')
-                  ->orWhere('judul', 'like', '%Penetapan Pengelola PPID%')
-                  ->orWhere('judul', 'like', '%SOP Pelayanan dan Tata Kelola%')
-                  ->orWhere('judul', 'like', '%SOP PPID PKTJ%')
-                  ->orWhere('link_download', 'like', '%SK_PPID_PKTJ%')
-                  ->orWhere('link_download', 'like', '%SOP_PPID_PKTJ%')
-                  ->orWhere('link_download', 'like', '%pktj.ac.id/ppid%')
-                  ->orWhere('file_path', 'like', '%pktj.ac.id/ppid%');
-            })->delete();
-        } catch (\Throwable $e) {}
-
-        $hasKpskj9 = Peraturan::where('nomor', 'like', '%KP-SKJ 9%')->exists();
-        if (!$hasKpskj9 || Peraturan::count() < 10) {
-            try {
-                $seeder = new \Database\Seeders\RegulasiBpsdmPktjSeeder();
-                $seeder->run();
-            } catch (\Throwable $e) {}
-        }
     }
 
     /**
@@ -80,15 +57,6 @@ class RegulasiController extends Controller
         }
 
         $allRegulasi = $query->orderBy('urutan', 'asc')->orderBy('tahun', 'desc')->orderBy('id', 'asc')->get();
-
-        // If still empty (e.g. fresh environment or migration glitch), fallback to complete collection
-        if ($allRegulasi->isEmpty() && !$request->filled('q') && (!$request->filled('kategori') || $request->kategori === 'all')) {
-            try {
-                $seeder = new \Database\Seeders\RegulasiBpsdmPktjSeeder();
-                $seeder->run();
-                $allRegulasi = Peraturan::where('is_active', true)->orderBy('urutan', 'asc')->orderBy('tahun', 'desc')->get();
-            } catch (\Throwable $e) {}
-        }
 
         $peraturanGrouped = $allRegulasi->groupBy('kategori');
         $categories = Peraturan::where('is_active', true)->select('kategori')->distinct()->pluck('kategori');

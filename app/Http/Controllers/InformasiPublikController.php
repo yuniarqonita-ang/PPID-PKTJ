@@ -39,44 +39,9 @@ class InformasiPublikController extends Controller
 
     private function ensureDataSeeded(): void
     {
-        try {
-            $syncVersion = Dashboard::where('key', 'dip_sync_version')->value('value');
-            $currentVersion = '2026_09_18_v4';
-
-            // Cek apakah data resmi DIP 2026 sudah ada di database dan memiliki tautan berkas langsung (bukan folder)
-            $hasDirectDipa = class_exists(InformasiBerkala::class) 
-                ? InformasiBerkala::where('judul', 'like', '%DIPA%')->where('file_path', 'like', '%1EsnQSLq7b43vjdq2KOfmL-84fAWxvT_z%')->exists()
-                : false;
-
-            $berkalaCount = class_exists(InformasiBerkala::class) ? InformasiBerkala::count() : 0;
-            $setiapCount = class_exists(InformasiSetiapSaat::class) ? InformasiSetiapSaat::count() : 0;
-            $sertaCount = class_exists(InformasiSertaMerta::class) ? InformasiSertaMerta::count() : 0;
-
-            // Jika versi seeder belum terbaru atau tautan belum sinkron ke berkas langsung, jalankan Dip2026SyncSeeder
-            if ($syncVersion !== $currentVersion || !$hasDirectDipa || $berkalaCount < 20 || $setiapCount < 8 || $sertaCount < 2) {
-                $seederFile = database_path('seeders/Dip2026SyncSeeder.php');
-                if (file_exists($seederFile)) {
-                    require_once $seederFile;
-                    $seeder = new \Database\Seeders\Dip2026SyncSeeder();
-                    $seeder->run();
-                    Dashboard::updateOrCreate(
-                        ['key' => 'dip_sync_version'],
-                        ['value' => $currentVersion, 'type' => 'text', 'aktif' => true]
-                    );
-                }
-            }
-
-            // Cek apakah Pejabat Sertijab 14 September 2026 sudah sinkron (Wadir I Dr. Setya, Wadir II Arief, Wadir III Hendrik)
-            $wadir1 = Pejabat::where('urutan', 2)->first();
-            if (!$wadir1 || !str_contains($wadir1->nama, 'Setya')) {
-                $seederPejabat = database_path('seeders/PejabatSeeder.php');
-                if (file_exists($seederPejabat)) {
-                    require_once $seederPejabat;
-                    $seeder = new \Database\Seeders\PejabatSeeder();
-                    $seeder->run();
-                }
-            }
-        } catch (\Throwable $e) {}
+        // PERMANEN DINONAKTIFKAN: Jangan jalankan seeder apapun saat request halaman publik
+        // agar perubahan data, upload file, atau link baru dari admin panel tidak pernah tertimpa.
+        return;
     }
 
     private function getHiddenTitles(): array
