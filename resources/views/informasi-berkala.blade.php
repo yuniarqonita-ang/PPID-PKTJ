@@ -58,9 +58,9 @@
 
         .content-card {
             background: white;
-            padding: 40px 45px;
-            border-radius: 24px;
-            box-shadow: 0 15px 45px rgba(0, 43, 92, 0.08);
+            padding: 24px 18px;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0, 43, 92, 0.06);
             margin-top: -45px;
             border: 1px solid rgba(226, 232, 240, 0.9);
             position: relative;
@@ -68,35 +68,35 @@
             margin-bottom: 70px;
         }
 
-        /* Poltrada Bali TablePress Style Table */
+        /* Poltrada / BPSDM TablePress Style Table */
         .tablepress-dip {
-            border-collapse: separate;
-            border-spacing: 0;
+            border-collapse: collapse;
             width: 100%;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
-            overflow: hidden;
-            font-size: 13px;
+            font-size: 11.5px;
         }
 
         .tablepress-dip thead th {
             background: #dcecf8;
-            color: #0f172a;
+            color: #0f2b48;
             font-weight: 700;
-            padding: 13px 12px;
+            padding: 9px 5px;
             vertical-align: middle;
             border: 1px solid #cbd5e1;
-            font-size: 13px;
+            font-size: 11px;
             letter-spacing: 0.2px;
+            text-transform: uppercase;
         }
 
         .tablepress-dip tbody td {
-            padding: 12px 14px;
+            padding: 8px 6px;
             vertical-align: middle;
             border-top: 1px solid #e2e8f0;
             border-right: 1px solid #f1f5f9;
             color: #334155;
-            line-height: 1.5;
+            line-height: 1.4;
+            font-size: 11.5px;
         }
         .tablepress-dip tbody td:last-child {
             border-right: none;
@@ -115,10 +115,10 @@
             background: #f8fafc !important;
             color: #0f172a !important;
             font-weight: 800 !important;
-            font-size: 13px !important;
+            font-size: 12px !important;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            padding: 11px 16px !important;
+            padding: 9px 12px !important;
             border-top: 1px solid #cbd5e1 !important;
             border-bottom: 1px solid #cbd5e1 !important;
         }
@@ -126,7 +126,7 @@
         .tautan-disini {
             color: #0056b3;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 11.5px;
             text-decoration: none;
             cursor: pointer;
             transition: all 0.15s ease-in-out;
@@ -136,66 +136,54 @@
             text-decoration: underline;
         }
 
-        /* Multi-link pill button styling ala BPSDM */
-        .pktj-tautan-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 12px;
-            font-size: 11.5px;
-            font-weight: 700;
-            color: #004a99;
-            background: #f0f7ff;
-            border: 1px solid #bae0fd;
-            border-radius: 20px;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            white-space: normal;
-            text-align: left;
-            line-height: 1.35;
-            box-shadow: 0 1px 2px rgba(0, 74, 153, 0.05);
-        }
-        .pktj-tautan-pill:hover {
-            background: #004a99;
-            color: #ffffff !important;
-            border-color: #004a99;
-            transform: translateY(-1px);
-            box-shadow: 0 3px 8px rgba(0, 74, 153, 0.25);
-        }
-        .pktj-tautan-pill:hover i {
-            color: #ffc107 !important;
-        }
-
         /* ===== RESPONSIVE TABLE STYLES ===== */
-        /* Desktop & Laptop: Fluid width, word wrapping, fits without horizontal scroll */
+        /* Desktop & Laptop (>= 992px): Pas 100% Layar Tanpa Geser Kanan-Kiri & Tanpa Huruf Terpotong */
         @media (min-width: 992px) {
             .table-responsive {
-                overflow-x: auto;
+                overflow-x: visible !important;
             }
             .tablepress-dip {
                 width: 100% !important;
-                table-layout: auto !important;
+                table-layout: fixed !important;
             }
-            .tablepress-dip th, .tablepress-dip td {
-                word-break: break-word;
-                overflow-wrap: break-word;
+            .tablepress-dip th, 
+            .tablepress-dip td {
+                word-break: normal !important;
+                overflow-wrap: break-word !important;
+                hyphens: none !important;
+                white-space: normal !important;
             }
-            .tablepress-dip th.col-no, .tablepress-dip td.col-no { width: 4%; }
-            .tablepress-dip th.col-info, .tablepress-dip td.col-info { width: 19%; }
-            .tablepress-dip th.col-ringkasan, .tablepress-dip td.col-ringkasan { width: 23%; }
-            .tablepress-dip th.col-pejabat, .tablepress-dip td.col-pejabat { width: 13%; }
-            .tablepress-dip th.col-penerbit, .tablepress-dip td.col-penerbit { width: 12%; }
-            .tablepress-dip th.col-bentuk, .tablepress-dip td.col-bentuk { width: 8%; }
-            .tablepress-dip th.col-waktu, .tablepress-dip td.col-waktu { width: 8%; }
-            .tablepress-dip th.col-retensi, .tablepress-dip td.col-retensi { width: 5%; }
-            .tablepress-dip th.col-tautan, .tablepress-dip td.col-tautan { width: 8%; }
+            
+            /* Proporsi Lebar 9 Kolom Tepat 100% */
+            .tablepress-dip th.col-no, .tablepress-dip td.col-no { width: 3.5% !important; text-align: center; font-weight: 700; }
+            .tablepress-dip th.col-info, .tablepress-dip td.col-info { width: 19% !important; }
+            .tablepress-dip th.col-ringkasan, .tablepress-dip td.col-ringkasan { width: 22.5% !important; }
+            .tablepress-dip th.col-pejabat, .tablepress-dip td.col-pejabat { width: 13% !important; }
+            .tablepress-dip th.col-penerbit, .tablepress-dip td.col-penerbit { width: 13% !important; }
+            .tablepress-dip th.col-bentuk, .tablepress-dip td.col-bentuk { width: 7.5% !important; text-align: center; }
+            .tablepress-dip th.col-waktu, .tablepress-dip td.col-waktu { width: 7.5% !important; text-align: center; }
+            .tablepress-dip th.col-retensi, .tablepress-dip td.col-retensi { width: 6% !important; text-align: center; }
+            .tablepress-dip th.col-tautan, .tablepress-dip td.col-tautan { width: 8% !important; text-align: center; }
+            
+            .dip-title {
+                font-size: 11.5px !important;
+                font-weight: 700 !important;
+                line-height: 1.35 !important;
+                color: #0f172a !important;
+                display: block;
+            }
+            .dip-desc {
+                font-size: 11px !important;
+                line-height: 1.35 !important;
+                color: #475569 !important;
+            }
         }
 
         /* Tablet & Mobile (< 992px): Stacked Card Layout (HANYA SCROLL KE ATAS-BAWAH) */
         @media (max-width: 991px) {
             .content-card {
-                padding: 24px 16px !important;
-                border-radius: 18px !important;
+                padding: 18px 12px !important;
+                border-radius: 16px !important;
             }
             .table-responsive {
                 overflow: visible !important;
@@ -214,15 +202,14 @@
                 display: block !important;
                 background: #ffffff !important;
                 border: 1.5px solid #e2e8f0 !important;
-                border-radius: 18px !important;
-                padding: 18px !important;
-                margin-bottom: 16px !important;
-                box-shadow: 0 4px 16px rgba(0, 43, 92, 0.04) !important;
+                border-radius: 14px !important;
+                padding: 14px 12px !important;
+                margin-bottom: 14px !important;
+                box-shadow: 0 3px 12px rgba(0, 43, 92, 0.04) !important;
                 position: relative !important;
-                transition: transform 0.2s ease, box-shadow 0.2s ease !important;
             }
             .tablepress-dip tr.dip-data-row:hover {
-                box-shadow: 0 8px 24px rgba(0, 43, 92, 0.08) !important;
+                box-shadow: 0 6px 18px rgba(0, 43, 92, 0.08) !important;
             }
             .tablepress-dip tr.dip-data-row:nth-child(even) td {
                 background-color: transparent !important;
@@ -230,11 +217,13 @@
             .tablepress-dip tr.dip-data-row td {
                 display: block !important;
                 width: 100% !important;
-                padding: 6px 0 !important;
+                padding: 5px 0 !important;
                 border: none !important;
                 background: transparent !important;
                 text-align: left !important;
-                line-height: 1.5 !important;
+                line-height: 1.4 !important;
+                word-break: normal !important;
+                overflow-wrap: break-word !important;
             }
             /* Row number badge at top */
             .tablepress-dip tr.dip-data-row td.col-no {
@@ -242,61 +231,66 @@
                 align-items: center !important;
                 justify-content: center !important;
                 width: auto !important;
-                min-width: 30px !important;
-                height: 26px !important;
+                min-width: 26px !important;
+                height: 24px !important;
                 background: #004a99 !important;
                 color: #ffffff !important;
-                border-radius: 8px !important;
+                border-radius: 6px !important;
                 font-weight: 800 !important;
-                font-size: 11.5px !important;
-                padding: 0 10px !important;
-                margin-bottom: 8px !important;
+                font-size: 11px !important;
+                padding: 0 8px !important;
+                margin-bottom: 6px !important;
             }
             .tablepress-dip tr.dip-data-row td.col-no::before {
                 content: "No. " !important;
                 font-weight: 600 !important;
-                font-size: 11px !important;
+                font-size: 10.5px !important;
                 margin-right: 2px !important;
             }
             /* Title of document */
             .tablepress-dip tr.dip-data-row td.col-info {
                 padding-top: 0 !important;
-                padding-bottom: 8px !important;
+                padding-bottom: 6px !important;
                 border-bottom: 1px solid #e2e8f0 !important;
-                margin-bottom: 10px !important;
+                margin-bottom: 8px !important;
             }
-            .tablepress-dip tr.dip-data-row td.col-info strong {
-                font-size: 15px !important;
+            .dip-title {
+                font-size: 13.5px !important;
+                font-weight: 700 !important;
                 color: #002b5c !important;
                 display: block !important;
                 line-height: 1.35 !important;
             }
             /* Description box */
             .tablepress-dip tr.dip-data-row td.col-ringkasan {
+                margin-bottom: 6px !important;
+            }
+            .dip-desc {
                 background: #f8fafc !important;
-                border-radius: 10px !important;
-                padding: 10px 12px !important;
-                margin-bottom: 10px !important;
+                border-radius: 8px !important;
+                padding: 8px 10px !important;
+                margin: 4px 0 6px !important;
                 border: 1px solid #edf2f7 !important;
-                font-size: 12.5px !important;
+                font-size: 11.5px !important;
                 color: #475569 !important;
+                line-height: 1.4 !important;
             }
             /* Meta rows: Pejabat, Penerbit, Bentuk, Waktu, Retensi */
             .tablepress-dip tr.dip-data-row td.col-meta {
                 display: flex !important;
                 justify-content: space-between !important;
                 align-items: flex-start !important;
-                gap: 12px !important;
-                padding: 7px 0 !important;
+                gap: 10px !important;
+                padding: 6px 0 !important;
                 border-bottom: 1px dashed #edf2f7 !important;
-                font-size: 12px !important;
+                font-size: 11.5px !important;
                 text-align: right !important;
             }
             .tablepress-dip tr.dip-data-row td.col-meta::before {
                 content: attr(data-label);
                 font-weight: 700;
                 color: #64748b;
-                font-size: 11px;
+                font-size: 10.5px;
                 text-transform: uppercase;
                 letter-spacing: 0.5px;
                 flex-shrink: 0;
@@ -304,8 +298,8 @@
             }
             /* Action Button / Tautan */
             .tablepress-dip tr.dip-data-row td.col-tautan {
-                padding-top: 14px !important;
-                margin-top: 6px !important;
+                padding-top: 10px !important;
+                margin-top: 4px !important;
                 border-top: 1px solid #e2e8f0 !important;
                 text-align: center !important;
             }
@@ -315,7 +309,7 @@
             .tablepress-dip td[colspan] {
                 display: block !important;
                 text-align: center !important;
-                padding: 24px 0 !important;
+                padding: 20px 0 !important;
             }
         }
     </style>
@@ -333,7 +327,7 @@
     </div>
 
     <!-- MAIN CONTENT CONTAINER -->
-    <div class="container-fluid px-3 px-md-5">
+    <div class="container-fluid px-2 px-md-3 px-xl-4">
         <div class="content-card">
             
             <!-- SEARCH & TOOLBAR -->
@@ -363,9 +357,9 @@
                             <th class="col-info">Informasi</th>
                             <th class="col-ringkasan">Ringkasan Informasi</th>
                             <th class="col-pejabat">Pejabat Penguasa</th>
-                            <th class="col-penerbit">Penerbit Informasi</th>
+                            <th class="col-penerbit">Penanggung Jawab</th>
                             <th class="col-bentuk text-center">Bentuk</th>
-                            <th class="col-waktu text-center">Tempat & Waktu</th>
+                            <th class="col-waktu text-center">Waktu & Tempat</th>
                             <th class="col-retensi text-center">Retensi</th>
                             <th class="col-tautan text-center">Tautan</th>
                         </tr>
@@ -445,12 +439,12 @@
                                 @endphp
                                 <tr class="dip-data-row" data-keywords="{{ strtolower($runningNo . ' ' . $it->judul . ' ' . $cleanDesc . ' ' . ($it->pejabat_penguasa ?? '') . ' ' . ($it->penanggung_jawab ?? '')) }}">
                                     <td class="col-no text-center fw-bold text-muted">{{ $runningNo }}</td>
-                                    <td class="col-info"><strong class="text-dark" style="font-size: 13.5px;">{{ $it->judul }}</strong></td>
-                                    <td class="col-ringkasan text-muted small" style="font-size: 12.5px; line-height: 1.5;">{{ $cleanDesc }}</td>
+                                    <td class="col-info" data-label="Informasi"><strong class="dip-title">{{ $it->judul }}</strong></td>
+                                    <td class="col-ringkasan" data-label="Ringkasan"><div class="dip-desc">{{ $cleanDesc }}</div></td>
                                     <td class="col-meta col-pejabat" data-label="Pejabat Penguasa">{{ $it->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal' }}</td>
-                                    <td class="col-meta col-penerbit" data-label="Penerbit / PJ">{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
+                                    <td class="col-meta col-penerbit" data-label="Penanggung Jawab">{{ $it->penanggung_jawab ?? $it->penerbit_informasi ?? 'Bagian Keuangan dan Umum' }}</td>
                                     <td class="col-meta col-bentuk text-center" data-label="Bentuk Informasi">{{ $it->bentuk_informasi ?? 'Hardcopy & Softcopy' }}</td>
-                                    <td class="col-meta col-waktu text-center" data-label="Tempat & Waktu">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
+                                    <td class="col-meta col-waktu text-center" data-label="Waktu & Tempat">{{ $it->tempat_pembuatan ?? 'Tegal' }}, {{ $it->waktu_pembuatan ?? $tahun }}</td>
                                     <td class="col-meta col-retensi text-center" data-label="Retensi Arsip">{{ $it->jangka_waktu ?? '1 Tahun' }}</td>
                                     <td class="col-tautan text-center" style="vertical-align: middle;">
                                         <x-dip-link-bpsdm :links="$resolvedLinks" :catatan="$it->catatan ?? null" :judul="$it->judul" />

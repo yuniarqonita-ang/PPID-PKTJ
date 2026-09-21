@@ -905,22 +905,23 @@
         display: inline-flex;
         align-items: center;
         justify-content: center;
-        gap: 6px;
-        padding: 6px 14px;
+        gap: 5px;
+        padding: 3.5px 9px;
         border-radius: 9999px;
         text-decoration: none !important;
-        font-size: 11.5px;
+        font-size: 11px;
         font-weight: 700;
         letter-spacing: 0.2px;
         color: #ffffff !important;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
         transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         border: none;
         white-space: nowrap;
+        max-width: 100%;
     }
     .bpsdm-pill-btn:hover {
-        transform: translateY(-1.5px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.16);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(0, 0, 0, 0.14);
         color: #ffffff !important;
     }
     .bpsdm-pill-green {

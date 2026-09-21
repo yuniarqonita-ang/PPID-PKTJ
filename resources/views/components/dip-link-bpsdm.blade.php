@@ -26,28 +26,28 @@
     $total = count($validLinks);
 @endphp
 
-<div class="bpsdm-link-wrapper d-inline-flex flex-column align-items-center justify-content-center w-100 py-1" style="max-width: 260px; margin: 0 auto;">
+<div class="bpsdm-link-wrapper d-inline-flex flex-column align-items-center justify-content-center w-100 py-0.5" style="max-width: 100%; margin: 0 auto;">
     @if($total >= 2)
         {{-- KASUS 1: MULTI DOKUMEN (2 ATAU LEBIH) - FOLDER CONTAINER ALA BPSDM --}}
         <div class="bpsdm-folder-box w-100 text-start">
-            <div class="bpsdm-folder-badge d-inline-flex align-items-center gap-1 mb-1 px-2 py-0.5 rounded text-[11px] fw-bold">
-                <i class="fas fa-folder-open text-warning" style="font-size: 11px;"></i>
-                <span>📁 {{ $total }} Dokumen</span>
+            <div class="bpsdm-folder-badge d-inline-flex align-items-center gap-1 mb-1 px-1.5 py-0.5 rounded text-[10px] fw-bold">
+                <i class="fas fa-folder-open text-warning" style="font-size: 10px;"></i>
+                <span>📁 {{ $total }} Berkas</span>
             </div>
-            <div class="bpsdm-scroll-list rounded-3 border p-1.5 shadow-2xs" style="max-height: 180px; overflow-y: auto; background: #f8fafc;">
+            <div class="bpsdm-scroll-list rounded border p-1 shadow-2xs" style="max-height: 140px; overflow-y: auto; background: #f8fafc;">
                 @foreach($validLinks as $item)
                     <a href="{{ $item['url'] }}" target="_blank" rel="noopener noreferrer" 
-                       class="bpsdm-doc-item d-flex align-items-center gap-1.5 px-2 py-1 rounded text-decoration-none mb-1 transition-all"
+                       class="bpsdm-doc-item d-flex align-items-center gap-1 px-1.5 py-0.5 rounded text-decoration-none mb-1 transition-all"
                        title="{{ $item['nama'] }} ({{ $item['url'] }})">
                         @if($item['is_external'])
-                            <i class="fas fa-globe text-emerald-600 flex-shrink-0" style="color: #059669; font-size: 11px;"></i>
+                            <i class="fas fa-globe text-emerald-600 flex-shrink-0" style="color: #059669; font-size: 9.5px;"></i>
                         @else
-                            <i class="fas fa-file-alt text-primary flex-shrink-0" style="color: #004a99; font-size: 11px;"></i>
+                            <i class="fas fa-file-alt text-primary flex-shrink-0" style="color: #004a99; font-size: 9.5px;"></i>
                         @endif
-                        <span class="text-truncate fw-semibold text-dark" style="font-size: 11.5px; line-height: 1.3;">
+                        <span class="text-truncate fw-semibold text-dark" style="font-size: 10.5px; line-height: 1.25;">
                             {{ $item['nama'] }}
                         </span>
-                        <i class="fas fa-arrow-up-right-from-square ms-auto text-muted opacity-50 flex-shrink-0" style="font-size: 9px;"></i>
+                        <i class="fas fa-arrow-up-right-from-square ms-auto text-muted opacity-50 flex-shrink-0" style="font-size: 8px;"></i>
                     </a>
                 @endforeach
             </div>
@@ -59,30 +59,30 @@
         @if($single['is_external'])
             {{-- Tombol Gradien Hijau Emerald untuk Tautan Web Eksternal (ala BPSDM) --}}
             <a href="{{ $single['url'] }}" target="_blank" rel="noopener noreferrer"
-               class="bpsdm-pill-btn bpsdm-pill-green d-inline-flex align-items-center justify-content-center gap-1.5 px-3 py-1.5 rounded-pill text-decoration-none text-white fw-bold shadow-xs transition-all"
+               class="bpsdm-pill-btn bpsdm-pill-green d-inline-flex align-items-center justify-content-center gap-1 px-2.5 py-1 rounded-pill text-decoration-none text-white fw-bold shadow-xs transition-all"
                title="{{ $single['nama'] }} (Buka Portal Resmi)">
-                <i class="fas fa-globe text-white" style="font-size: 11px;"></i>
-                <span class="text-truncate" style="max-width: 170px; font-size: 11.5px;">{{ $single['nama'] }}</span>
-                <i class="fas fa-external-link-alt ms-0.5" style="font-size: 9px; opacity: 0.85;"></i>
+                <i class="fas fa-globe text-white" style="font-size: 9.5px;"></i>
+                <span class="text-truncate" style="max-width: 72px; font-size: 11px;">{{ !empty($single['nama']) && !in_array(strtolower($single['nama']), ['lihat dokumen', 'lihat halaman', 'dokumen']) ? $single['nama'] : 'Buka Web' }}</span>
+                <i class="fas fa-external-link-alt ms-0.5" style="font-size: 8px; opacity: 0.85;"></i>
             </a>
         @else
             {{-- Tombol Gradien Biru-Indigo untuk Dokumen / Google Drive (ala BPSDM) --}}
             <a href="{{ $single['url'] }}" target="_blank" rel="noopener noreferrer"
-               class="bpsdm-pill-btn bpsdm-pill-blue d-inline-flex align-items-center justify-content-center gap-1.5 px-3 py-1.5 rounded-pill text-decoration-none text-white fw-bold shadow-xs transition-all"
+               class="bpsdm-pill-btn bpsdm-pill-blue d-inline-flex align-items-center justify-content-center gap-1 px-2.5 py-1 rounded-pill text-decoration-none text-white fw-bold shadow-xs transition-all"
                title="{{ $single['nama'] }} (Buka / Unduh Dokumen)">
-                <i class="fas fa-file-alt text-warning" style="font-size: 11px;"></i>
-                <span class="text-truncate" style="max-width: 170px; font-size: 11.5px;">{{ $single['nama'] }}</span>
-                <i class="fas fa-download ms-0.5" style="font-size: 9px; opacity: 0.85;"></i>
+                <i class="fas fa-file-alt text-warning" style="font-size: 10px;"></i>
+                <span class="text-truncate" style="max-width: 72px; font-size: 11px;">{{ !empty($single['nama']) && !in_array(strtolower($single['nama']), ['lihat dokumen', 'lihat halaman', 'dokumen']) ? $single['nama'] : 'Buka File' }}</span>
+                <i class="fas fa-arrow-up-right-from-square ms-0.5" style="font-size: 8px; opacity: 0.85;"></i>
             </a>
         @endif
 
     @else
         {{-- KASUS 3: TIDAK ADA DOKUMEN / KOSONG - TOMBOL PERMOHONAN INFORMASI ALA BPSDM --}}
         <a href="{{ url('/layanan/permohonan-informasi') }}" 
-           class="bpsdm-pill-btn bpsdm-pill-request d-inline-flex align-items-center justify-content-center gap-1.5 px-3 py-1.5 rounded-pill text-decoration-none text-white fw-bold shadow-xs transition-all"
+           class="bpsdm-pill-btn bpsdm-pill-request d-inline-flex align-items-center justify-content-center gap-1 px-2 py-1 rounded-pill text-decoration-none text-white fw-bold shadow-xs transition-all"
            title="Ajukan Permohonan Informasi Publik Resmi">
-            <i class="fas fa-phone-alt text-white" style="font-size: 10px;"></i>
-            <span style="font-size: 11.5px; white-space: nowrap;">Permohonan Informasi</span>
+            <i class="fas fa-paper-plane text-white" style="font-size: 9px;"></i>
+            <span style="font-size: 10.5px; white-space: nowrap;">Permohonan</span>
         </a>
     @endif
 
