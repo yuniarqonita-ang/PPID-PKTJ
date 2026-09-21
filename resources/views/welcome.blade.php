@@ -632,25 +632,13 @@
         <div class="container hero-content-wrapper">
             <div class="glass-hero-card">
                 <h1 class="hero-title">{{ $settings['hero_title'] ?? 'SELAMAT DATANG DI PORTAL PPID PKTJ' }}</h1>
-                <p class="hero-subtitle">{{ $settings['hero_subtitle'] ?? 'Wujudkan transparansi informasi publik melalui layanan prima berbasis teknologi informasi yang cepat, mudah, dan transparan.' }}</p>
+                <p class="hero-subtitle mb-0">{{ $settings['hero_subtitle'] ?? 'Wujudkan transparansi informasi publik melalui layanan prima berbasis teknologi informasi yang cepat, mudah, dan transparan.' }}</p>
                 
                 @if(!empty($settings['hero_content']))
-                    <div class="hero-custom-content">
+                    <div class="hero-custom-content mt-4">
                         {!! $settings['hero_content'] !!}
                     </div>
                 @endif
-                
-                <div class="d-flex flex-wrap justify-content-center gap-4">
-                    <a href="#informasi-publik" class="btn-premium btn-gold">
-                        <i class="fas fa-search"></i> CARI INFORMASI
-                    </a>
-                    @php
-                        $urlPermohonanBpsdm = \App\Models\Dashboard::getValue('link_permohonan_bpsdm') ?: 'https://bpsdm.kemenhub.go.id/ppid/pktj/login';
-                    @endphp
-                    <a href="{{ $urlPermohonanBpsdm }}" target="_blank" class="btn-premium px-8 btn-outline-white">
-                        <i class="fas fa-paper-plane mr-2"></i> AJUKAN PERMOHONAN
-                    </a>
-                </div>
             </div>
         </div>
     </section>
