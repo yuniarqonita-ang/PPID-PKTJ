@@ -20,6 +20,12 @@ class HalamanCustomController extends Controller
         if (in_array($type, ['laporan_layanan', 'laporan_akses', 'laporan_survey'])) {
             $inputs['bisa_download'] = $request->has('bisa_download') ? '1' : '0';
         }
+        if ($type === 'aksesibilitas_disabilitas') {
+            $inputs['widget_aktif'] = $request->has('widget_aktif') ? '1' : '0';
+            $inputs['audio_tts_aktif'] = $request->has('audio_tts_aktif') ? '1' : '0';
+            $inputs['kontras_aktif'] = $request->has('kontras_aktif') ? '1' : '0';
+            $inputs['disleksia_aktif'] = $request->has('disleksia_aktif') ? '1' : '0';
+        }
         
         try {
             \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dashboards` ADD COLUMN IF NOT EXISTS `aktif` tinyint(1) NOT NULL DEFAULT 1 AFTER `description`");

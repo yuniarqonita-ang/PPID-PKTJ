@@ -437,8 +437,8 @@
                             <a href="{{ route('admin.layanan.laporan-layanan') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-layanan*') ? 'active' : '' }}">Laporan Layanan</a>
                             <a href="{{ route('admin.layanan.laporan-akses') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-akses*') ? 'active' : '' }}">Laporan Akses</a>
                             <a href="{{ route('admin.layanan.laporan-survey') }}" class="submenu-link {{ request()->routeIs('admin.layanan.laporan-survey*') ? 'active' : '' }}">Laporan Survey</a>
-                            <a href="{{ route('admin.layanan.aksesibilitas') }}" class="submenu-link {{ request()->routeIs('admin.layanan.aksesibilitas*') ? 'active' : '' }}">
-                                <i class="fas fa-universal-access mr-1.5 text-[#ffc107]"></i> Layanan Inklusif (Braille)
+                            <a href="{{ route('admin.layanan.aksesibilitas') }}" class="submenu-link {{ request()->routeIs('admin.layanan.aksesibilitas*') || request()->is('admin/aksesibilitas*') ? 'active' : '' }}">
+                                <i class="fas fa-universal-access mr-1.5 text-[#ffc107]"></i> Pengaturan Disabilitas
                             </a>
                         </div>
 
@@ -476,6 +476,9 @@
                         </a>
                         <a href="{{ route('admin.menu.index') }}" class="nav-link {{ request()->routeIs('admin.menu.*') ? 'active' : '' }}">
                             <i class="fas fa-compass nav-icon"></i> KELOLA MENU NAVIGASI
+                        </a>
+                        <a href="{{ route('admin.layanan.aksesibilitas') }}" class="nav-link {{ request()->routeIs('admin.layanan.aksesibilitas*') || request()->is('admin/aksesibilitas*') ? 'active' : '' }}">
+                            <i class="fas fa-universal-access nav-icon"></i> PENGATURAN DISABILITAS
                         </a>
                         <a href="{{ route('dashboard.edit') }}" class="nav-link {{ request()->routeIs('dashboard.edit') ? 'active' : '' }}">
                             <i class="fas fa-images nav-icon"></i> HERO BANNER
@@ -1359,48 +1362,8 @@
                 let lastPermohonanTime = localStorage.getItem('last_seen_permohonan_time');
 
                 function playLoudNotificationChime() {
-                    try {
-                        const AudioContext = window.AudioContext || window.webkitAudioContext;
-                        if (!AudioContext) return;
-                        const ctx = new AudioContext();
-                        const now = ctx.currentTime;
-                        
-                        // Note 1 (D5)
-                        const osc1 = ctx.createOscillator();
-                        const gain1 = ctx.createGain();
-                        osc1.type = 'sine';
-                        osc1.frequency.setValueAtTime(587.33, now);
-                        gain1.gain.setValueAtTime(0.6, now);
-                        gain1.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-                        osc1.connect(gain1);
-                        gain1.connect(ctx.destination);
-                        osc1.start(now);
-                        osc1.stop(now + 0.35);
-
-                        // Note 2 (A5)
-                        const osc2 = ctx.createOscillator();
-                        const gain2 = ctx.createGain();
-                        osc2.type = 'sine';
-                        osc2.frequency.setValueAtTime(880, now + 0.18);
-                        gain2.gain.setValueAtTime(0.7, now + 0.18);
-                        gain2.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
-                        osc2.connect(gain2);
-                        gain2.connect(ctx.destination);
-                        osc2.start(now + 0.18);
-                        osc2.stop(now + 0.55);
-
-                        // Note 3 (High Loud D6)
-                        const osc3 = ctx.createOscillator();
-                        const gain3 = ctx.createGain();
-                        osc3.type = 'triangle';
-                        osc3.frequency.setValueAtTime(1174.66, now + 0.38);
-                        gain3.gain.setValueAtTime(0.9, now + 0.38);
-                        gain3.gain.exponentialRampToValueAtTime(0.001, now + 0.9);
-                        osc3.connect(gain3);
-                        gain3.connect(ctx.destination);
-                        osc3.start(now + 0.38);
-                        osc3.stop(now + 0.9);
-                    } catch(e){}
+                    // Suara dinonaktifkan total agar tidak mengganggu admin panel
+                    return;
                 }
 
                 function checkNewSubmissions() {
@@ -1423,7 +1386,6 @@
                                 lastPermohonanTime = data.permohonan_latest_time;
                                 localStorage.setItem('last_seen_permohonan_time', lastPermohonanTime);
                                 
-                                playLoudNotificationChime();
                                 showToast('🔴 PERMOHONAN INFORMASI BARU!', 
                                           'Pemohon: ' + (data.permohonan_latest_nama || 'Masyarakat'), 
                                           "{{ route('admin.permohonan.submissions') }}");
@@ -1449,6 +1411,5 @@
         @stack('scripts')
         <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
         <script>AOS.init({duration: 800, once: true});</script>
-        @include('components.accessibility-widget')
 </body>
 </html>

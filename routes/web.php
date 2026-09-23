@@ -111,22 +111,13 @@ use App\Http\Controllers\InformasiSetiapSaatController;
 use App\Http\Controllers\InformasiDikecualikanController;
 use App\Http\Controllers\HalamanCustomController;
 
-// Emergency 1-Click Clean DIP Sync Route for Live Deployment
+// Safe cache refresh route (TIDAK menyentuh database)
 Route::get('/refresh-dip-clean-now', function() {
-    // Seed DIP categories (Berkala, Setiap Saat, Serta Merta) WITHOUT touching Dokumen / Pejabat / Dashboards
-    \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Dip2026SyncSeeder', '--force' => true]);
-
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
     return response()->json([
         'status' => 'success',
-        'message' => 'DIP Database telah diperbarui menggunakan tautan Google Drive resmi tanpa menyentuh Laporan Layanan ataupun Profil Pejabat!',
-        'berkala_total' => \App\Models\InformasiBerkala::count(),
-        'berkala_aktif' => \App\Models\InformasiBerkala::where('aktif', 1)->count(),
-        'sertamerta_total' => \App\Models\InformasiSertaMerta::count(),
-        'setiapsaat_total' => \App\Models\InformasiSetiapSaat::count(),
-        'daftar_informasi_total' => \App\Models\DaftarInformasi::count(),
-        'daftar_informasi_aktif' => \App\Models\DaftarInformasi::where('aktif', 1)->count(),
-        'laporan_layanan_total' => \App\Models\Dokumen::count(),
-        'pejabat_total' => \App\Models\Pejabat::count(),
+        'message' => 'Cache tampilan dan aplikasi berhasil dibersihkan tanpa mengubah database!'
     ]);
 });
 
@@ -397,57 +388,20 @@ Route::middleware(['auth'])->group(function () {
 Route::redirect('/dashboard', '/admin');
 
 Route::get('/sync-menu', function() {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DefaultMenuSeeder', '--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('view:clear');
-        \Illuminate\Support\Facades\Artisan::call('cache:clear');
-        \Illuminate\Support\Facades\Artisan::call('route:clear');
-        return '<h2 style="color:green;font-family:sans-serif;">SUCCESS: Menu navigasi publik berhasil dikembalikan ke 5 menu original!</h2><p><a href="/">Kembali ke Beranda</a></p>';
-    } catch (\Throwable $e) {
-        return 'ERROR: ' . $e->getMessage();
-    }
+    \Illuminate\Support\Facades\Artisan::call('view:clear');
+    \Illuminate\Support\Facades\Artisan::call('cache:clear');
+    \Illuminate\Support\Facades\Artisan::call('route:clear');
+    return '<h2 style="color:green;font-family:sans-serif;">SUCCESS: Cache berhasil dibersihkan!</h2><p><a href="/">Kembali ke Beranda</a></p>';
 });
 
 Route::get('/refresh-deploy', function() {
     try {
-        try {
-            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-        } catch (\Throwable $mEx) {}
-
-        // Dokumen & Dashboards (Laporan Layanan) TIDAK DISENTUH SAMA SEKALI agar seluruh edit user di admin panel tetap permanen!
-
-        // 1. Bersihkan dummy regulasi lama & hapus SK / SOP yang tidak memiliki dokumen (sesuai arahan user)
-        try {
-            \Illuminate\Support\Facades\DB::table('peraturans')
-                ->where('nomor', 'like', '%KP-PKTJ 32%')
-                ->orWhere('nomor', 'like', '%SK Direktur%')
-                ->orWhere('judul', 'like', '%Penetapan Pengelola PPID%')
-                ->orWhere('judul', 'like', '%SOP Pelayanan dan Tata Kelola%')
-                ->orWhere('judul', 'like', '%SOP PPID PKTJ%')
-                ->orWhere('link_download', 'like', '%SK_PPID_PKTJ%')
-                ->orWhere('link_download', 'like', '%SOP_PPID_PKTJ%')
-                ->orWhere('link_download', 'like', '%pktj.ac.id/ppid%')
-                ->orWhere('file_path', 'like', '%pktj.ac.id/ppid%')
-                ->delete();
-            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'RegulasiBpsdmPktjSeeder', '--force' => true]);
-        } catch (\Throwable $rEx) {}
-
-        // 2. Sinkronkan navigasi menu publik ke struktur original (5 Menu Standar: PROFIL, INFORMASI PUBLIK, LAYANAN INFORMASI, PROSEDUR, FAQ)
-        try {
-            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DefaultMenuSeeder', '--force' => true]);
-        } catch (\Throwable $mEx) {}
-
         \Illuminate\Support\Facades\Artisan::call('view:clear');
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
         \Illuminate\Support\Facades\Artisan::call('route:clear');
-        \Illuminate\Support\Facades\Cache::forget('pktj_live_all_news_v5');
-        \Illuminate\Support\Facades\Cache::forget('pktj_live_all_news_v4');
-        \Illuminate\Support\Facades\Cache::forget('pktj_live_all_news_v3');
-        try {
-            app(\App\Services\PktjNewsService::class)->syncToDatabase();
-        } catch (\Throwable $nEx) {}
+        \Illuminate\Support\Facades\Artisan::call('config:clear');
 
-        // Manually purge all compiled blade view files in storage
+        // Bersihkan file kompilasi view blade di storage
         $viewsPath = storage_path('framework/views');
         if (is_dir($viewsPath)) {
             $files = glob($viewsPath . '/*.php');
@@ -462,145 +416,9 @@ Route::get('/refresh-deploy', function() {
             @opcache_reset();
         }
 
-        try {
-            \App\Models\Pejabat::where('nama', 'LIKE', '%Prima%')
-                ->update(['foto' => 'images/pejabat/Prima Anna Maria.png']);
-
-            \App\Models\Pejabat::where('nama', 'LIKE', '%Bambang%')
-                ->update([
-                    'nama' => 'Dr. Ir. Bambang Istiyanto, S.SiT., M.T., IPU',
-                ]);
-            
-            \App\Models\Dashboard::updateOrCreate(
-                ['key' => 'link_permohonan_bpsdm'],
-                [
-                    'value' => 'https://bpsdm.kemenhub.go.id/ppid/pktj/login',
-                    'type' => 'text',
-                    'description' => 'Link Portal Permohonan Informasi Terintegrasi BPSDMP',
-                    'aktif' => true
-                ]
-            );
-
-            // Auto-update CustomMenu & Profil to 'Tugas & Fungsi PPID'
-            \App\Models\CustomMenu::where('nama', 'like', '%Tanggung%')
-                ->orWhere('nama', 'like', '%Tugas%')
-                ->orWhere('url', 'like', '%tugas%')
-                ->orWhere('slug', 'like', '%tugas%')
-                ->update([
-                    'nama' => 'Tugas & Fungsi PPID',
-                    'url' => '/profil/tugas-dan-fungsi-ppid',
-                    'slug' => 'tugas-dan-fungsi-ppid'
-                ]);
-
-            \App\Models\Profil::where('tipe', 'tugas')->update([
-                'judul' => 'Tugas & Fungsi PPID',
-                'tagline_hero' => 'Tugas, Wewenang, dan Fungsi PPID PKTJ'
-            ]);
-
-            // Pastikan kolom baru di dokumens dan dashboards tersedia di cPanel / live DB
-            try {
-                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `tanggal` date NULL AFTER `kategori`");
-                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `deskripsi` longtext NULL AFTER `tanggal`");
-                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_name` varchar(255) NULL AFTER `file_path`");
-                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_size` varchar(50) NULL AFTER `file_name`");
-                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `file_type` varchar(100) NULL AFTER `file_size`");
-                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `bisa_download` tinyint(1) NOT NULL DEFAULT 0 AFTER `aktif`");
-                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dokumens` ADD COLUMN IF NOT EXISTS `is_blurred` tinyint(1) NOT NULL DEFAULT 0 AFTER `bisa_download`");
-                \Illuminate\Support\Facades\DB::statement("ALTER TABLE `dashboards` ADD COLUMN IF NOT EXISTS `aktif` tinyint(1) NOT NULL DEFAULT 1 AFTER `description`");
-            } catch (\Throwable $ex) {}
-
-            // Sub-menu Daftar Informasi Publik dinonaktifkan dari menu publik (sesuai standar BPSDM & Poltrada Bali)
-            try {
-                \App\Models\CustomMenu::where('url', 'like', '%layanan-informasi/daftar%')
-                    ->orWhere('nama', 'like', '%Daftar Informasi Publik%')
-                    ->update(['aktif' => false]);
-            } catch (\Throwable $ex) {}
-
-            // Auto-sync Campus Names & SP4N-LAPOR defaults
-            $autoSettings = [
-                'kontak_kampus_1_nama' => 'Kampus Perintis',
-                'kontak_kampus_2_nama' => 'Kampus Margadana',
-                'kontak_kampus_1_alamat' => 'Jl. Perintis Kemerdekaan No. 17, Kota Tegal',
-                'kontak_kampus_2_alamat' => 'Jl. Abdul Syukur No. 17, Margadana, Kota Tegal',
-                'kontak_kampus_1_maps' => 'https://maps.google.com/maps?q=Politeknik%20Keselamatan%20Transportasi%20Jalan%20(PKTJ)%20Kampus%20I%20Tegal&t=&z=15&ie=UTF8&iwloc=&output=embed',
-                'kontak_kampus_2_maps' => 'https://maps.google.com/maps?q=Politeknik%20Keselamatan%20Transportasi%20Jalan%20(PKTJ)%20Kampus%20II%20Tegal&t=&z=15&ie=UTF8&iwloc=&output=embed',
-                'span_lapor_judul' => 'UNTUK PELAYANAN PUBLIK YANG LEBIH BAIK, BERANI LAPOR MELALUI SP4N-LAPOR!',
-                'span_lapor_deskripsi' => 'Sistem Pengelolaan Pengaduan Pelayanan Publik Nasional - Layanan Aspirasi dan Pengaduan Online Rakyat. Sampaikan aspirasi, saran, dan laporan pelayanan secara transparan, aman, dan terpercaya.',
-                'span_lapor_link' => 'https://www.lapor.go.id/instansi/politeknik-keselamatan-transportasi-jalan-tegal',
-                'struktur_atasan_nama' => 'MENTERI PERHUBUNGAN',
-                'struktur_utama_nama' => 'SEKRETARIS JENDERAL',
-                'struktur_pelaksana_itjen' => 'INSPEKTUR JENDERAL',
-                'struktur_pelaksana_ditjen' => 'DIREKTUR JENDERAL',
-                'struktur_pelaksana_kaban' => 'KEPALA BADAN',
-                'struktur_upt_direktur' => 'DIREKTUR PKTJ TEGAL',
-                'struktur_manajer_nama' => 'PEJABAT STRUKTURAL',
-                'struktur_pengelola_nama' => 'PEJABAT STRUKTURAL/STAFF',
-                'struktur_petugas_nama' => 'STAFF',
-            ];
-            foreach ($autoSettings as $sK => $sV) {
-                if (!\App\Models\Dashboard::where('key', $sK)->exists()) {
-                    \App\Models\Dashboard::create([
-                        'key' => $sK,
-                        'value' => $sV,
-                        'type' => 'text',
-                        'aktif' => true
-                    ]);
-                }
-            }
-
-            // Jalankan sinkronisasi data resmi DIP PKTJ 2026 (SK KP-SKJ 9 Tahun 2026 & Tautan Langsung Drive)
-            $seederFile = database_path('seeders/Dip2026SyncSeeder.php');
-            if (file_exists($seederFile)) {
-                require_once $seederFile;
-                $seeder = new \Database\Seeders\Dip2026SyncSeeder();
-                $seeder->run();
-            }
-            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\DefaultMenuSeeder', '--force' => true]);
-            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'Database\\Seeders\\PejabatSeeder', '--force' => true]);
-
-            // Pastikan data & tautan langsung statistik pegawai tersimpan di setting
-            if (class_exists(\App\Http\Controllers\StatistikPegawaiController::class)) {
-                $statDefaults = \App\Http\Controllers\StatistikPegawaiController::getDefaults();
-                foreach ($statDefaults as $sK => $sV) {
-                    \App\Models\Dashboard::updateOrCreate(
-                        ['key' => 'statistik_pegawai_' . $sK],
-                        [
-                            'value' => $sV,
-                            'type' => (str_contains($sK, 'list') ? 'json' : 'text'),
-                            'description' => 'Statistik Pegawai ' . $sK,
-                            'aktif' => true
-                        ]
-                    );
-                }
-            }
-
-            // Pastikan tombol SK PPID 2026 Terbaru di Struktur Organisasi aktif
-            \App\Models\Dashboard::updateOrCreate(
-                ['key' => 'link_sk_ppid_terbaru'],
-                [
-                    'value' => 'https://drive.google.com/file/d/18UCD9lMWZNp7IfIxpx8WC1V99hQGIwxX/view?usp=drive_link',
-                    'type' => 'text',
-                    'description' => 'Tautan SK PPID PKTJ 2026 Terbaru',
-                    'aktif' => true
-                ]
-            );
-
-            // Bersihkan lhkpn_link generik KPK dari pejabat agar tidak tampil tautan default
-            foreach (\App\Models\Pejabat::all() as $pj) {
-                if ($pj->lhkpn_link && (str_contains($pj->lhkpn_link, 'elhkpn.kpk.go.id') || $pj->lhkpn_link === '#')) {
-                    $pj->update(['lhkpn_link' => null]);
-                }
-            }
-        } catch (\Throwable $ex) {}
-
-        $berkalaCount = \App\Models\InformasiBerkala::where('aktif', 1)->count();
-        $setiapCount = \App\Models\InformasiSetiapSaat::where('aktif', 1)->count();
-        $sertaCount = \App\Models\InformasiSertaMerta::where('aktif', 1)->count();
-        $pejabatCount = \App\Models\Pejabat::where('aktif', 1)->count();
-
-        return '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Deploy & Sinkronisasi DIP 2026 Berhasil</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"></head><body class="bg-light d-flex align-items-center justify-content-center min-vh-100 py-5"><div class="card shadow-lg p-4 p-md-5 rounded-4 text-center" style="max-width: 760px;"><div class="display-4 text-success mb-3"><i class="fas fa-check-circle"></i></div><h3 class="fw-bold text-dark mb-2">Sinkronisasi & Pembaruan DIP 2026 Berhasil!</h3><p class="text-muted small mb-4">Seluruh data Daftar Informasi Publik 2026 (SK KP-SKJ 9 Tahun 2026), Sertijab Pejabat Wadir I-III, ATM BPSDM link pill, dan Google Drive Kepegawaian telah aktif.</p><div class="p-3 bg-light border rounded-3 text-start small mb-4"><ul class="mb-0 ps-3"><li class="mb-2"><strong>Informasi Berkala:</strong> <span class="badge bg-success">' . $berkalaCount . ' Dokumen Aktif</span> (Sesuai Lampiran I Bagian A KP-SKJ 9/2026)</li><li class="mb-2"><strong>Informasi Setiap Saat:</strong> <span class="badge bg-success">' . $setiapCount . ' Dokumen Aktif</span> (Sesuai Lampiran I Bagian B)</li><li class="mb-2"><strong>Informasi Serta Merta:</strong> <span class="badge bg-success">' . $sertaCount . ' Dokumen Aktif</span> (Sesuai Lampiran I Bagian C)</li><li class="mb-2"><strong>Pejabat Struktural Sertijab (14 Sep 2026):</strong> <span class="badge bg-primary">' . $pejabatCount . ' Pejabat Aktif</span> (Wadir I Dr. Setya Wijayanta, Wadir II R. Arief Novianto, Wadir III Hendrik Prasetiyo)</li><li class="mb-0"><strong>Link Folder GDrive Kepegawaian:</strong> <span class="badge bg-info text-dark">Aktif & Siap Akses</span></li></ul></div><div class="row g-2"><div class="col-md-6"><a href="/informasi-publik/berkala" class="btn btn-primary w-100 fw-bold py-2 rounded-3"><i class="fas fa-table me-2"></i> Informasi Berkala</a></div><div class="col-md-6"><a href="/informasi-publik/setiap-saat" class="btn btn-outline-primary w-100 fw-bold py-2 rounded-3"><i class="fas fa-folder-open me-2"></i> Informasi Setiap Saat</a></div><div class="col-md-6"><a href="/informasi-publik/serta-merta" class="btn btn-outline-primary w-100 fw-bold py-2 rounded-3"><i class="fas fa-bullhorn me-2"></i> Informasi Serta Merta</a></div><div class="col-md-6"><a href="/profil/pejabat" class="btn btn-outline-secondary w-100 fw-bold py-2 rounded-3"><i class="fas fa-user-tie me-2"></i> Profil Pejabat</a></div><div class="col-12 mt-2"><a href="/admin/login" class="btn btn-dark w-100 fw-bold py-2 rounded-3"><i class="fas fa-lock me-2"></i> Masuk Admin Panel</a></div></div></div></body></html>';
+        return '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Deploy Cache Cleared</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light d-flex align-items-center justify-content-center min-vh-100"><div class="card shadow p-5 rounded-4 text-center" style="max-width: 500px;"><h3 class="text-success fw-bold mb-3">Cache Berhasil Dibersihkan!</h3><p class="text-muted">Seluruh cache view, konfigurasi, dan rute telah disegarkan tanpa menyentuh atau mengubah data di database.</p><a href="/" class="btn btn-primary fw-bold rounded-pill px-4">Kembali ke Beranda</a></div></body></html>';
     } catch (\Throwable $e) {
-        return 'Error clearing deploy cache: ' . $e->getMessage();
+        return 'Error: ' . $e->getMessage();
     }
 });
 
@@ -609,33 +427,7 @@ Route::get('/deploy-sync-dip-2026', function() {
 });
 
 Route::get('/setup-db-2025', function() {
-    try {
-        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('view:clear');
-        \Illuminate\Support\Facades\Artisan::call('cache:clear');
-        \Illuminate\Support\Facades\Artisan::call('route:clear');
-        \Illuminate\Support\Facades\Artisan::call('config:clear');
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'PoltradaBaliDipSeeder', '--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'PejabatSeeder', '--force' => true]);
-        \Illuminate\Support\Facades\Artisan::call('db:seed', ['--class' => 'DefaultMenuSeeder', '--force' => true]);
-
-        try {
-            \App\Models\Pejabat::where('nama', 'LIKE', '%Prima%')
-                ->update(['foto' => 'images/pejabat/Prima Anna Maria.png']);
-        } catch (\Throwable $ex) {}
-        try {
-            \Illuminate\Support\Facades\Artisan::call('storage:link');
-        } catch (\Exception $ex) {}
-
-        $newsResult = ['total_fetched' => 0];
-        try {
-            $newsResult = app(\App\Services\PktjNewsService::class)->syncToDatabase();
-        } catch (\Exception $ex) {}
-
-        return 'Database migrated and cache cleared successfully!<br><strong>Berita PKTJ Terhubung:</strong> ' . ($newsResult['total_fetched'] ?? 0) . ' artikel resmi berhasil disinkronkan langsung dari PKTJ.ac.id.<br><br><strong>Penting:</strong> Karena database lokal Kakak menggunakan password bawaan seeder, maka password login admin panel cPanel Kakak saat ini kembali ke password default: <strong>admin123</strong>. Kakak bisa menggunakannya untuk login dan menggantinya kembali setelah masuk.';
-    } catch (\Exception $e) {
-        return 'Migration error: ' . $e->getMessage();
-    }
+    return redirect('/refresh-deploy');
 });
 
 Route::middleware(['auth'])->prefix('admin')->group(function () {

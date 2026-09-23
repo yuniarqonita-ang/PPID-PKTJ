@@ -1,3 +1,9 @@
+@php
+    $accessWidgetEnabled = \App\Models\Dashboard::where('key', 'aksesibilitas_disabilitas_widget_aktif')->value('value') ?? '1';
+    if ($accessWidgetEnabled === '0' || $accessWidgetEnabled === 0 || $accessWidgetEnabled === false) {
+        return;
+    }
+@endphp
 <!-- ==========================================================================
      MENU AKSESIBILITAS & FITUR DISABILITAS PPID PKTJ
      Sesuai Standar AccessiYes (CookieYes) & UU No. 8/2016 tentang Penyandang Disabilitas
