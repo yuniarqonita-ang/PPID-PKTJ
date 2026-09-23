@@ -31,23 +31,10 @@ class ProfilPublikController extends Controller
 
     public function showProfil()
     {
-        $profil = ProfilPpid::where('type', 'profil')->first();
-        if ($profil && (!str_contains($profil->konten_pembuka ?? '', 'Margadana') || str_contains($profil->konten_pembuka ?? '', 'Bali') || strlen($profil->konten_pembuka ?? '') > 2500)) {
-            $profil->konten_pembuka = '<p class="lead fw-semibold text-dark" style="font-size: 1.15rem; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
-    Dalam mewujudkan tata kelola kepemerintahan yang baik, transparan, dan akuntabel di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal melalui transparansi informasi publik guna memenuhi hak setiap pemohon informasi sesuai dengan ketentuan peraturan perundang-undangan.
-</p>
-<p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-    Sejak Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan sarana dalam mengoptimalkan pengawasan publik terhadap penyelenggaraan negara dan Badan Publik lainnya serta segala sesuatu yang berakibat pada kepentingan publik, sekaligus menjadi upaya strategis dalam mengembangkan masyarakat informasi guna meningkatkan peran serta aktif masyarakat dalam pengambilan kebijakan publik.
-</p>
-<p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-    Sejalan dengan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP), Kementerian Perhubungan telah menetapkan Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan. Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal sebagai salah satu Unit Pelaksana Teknis (UPT) di lingkungan Kementerian Perhubungan telah membentuk Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana melalui Surat Keputusan Direktur Nomor KP-PKTJ 384 Tahun 2026 guna menjamin kepastian layanan informasi yang profesional, cepat, dan berintegritas.
-</p>
-<p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-    Sebagai perguruan tinggi kedinasan vokasi di bawah naungan Kementerian Perhubungan yang berdiri sejak 14 Mei 1971—berawal dari Balai Diklat Trans Jaya, bertransformasi menjadi Balai Pendidikan dan Pelatihan Transportasi Darat (BPPTD), hingga ditetapkan menjadi Politeknik Keselamatan Transportasi Jalan berdasarkan Peraturan Menteri Perhubungan Nomor PM 15 Tahun 2012—PKTJ kini beroperasi di dua kampus di Kota Tegal, yaitu Kampus I di Jl. Perintis Kemerdekaan dan Kampus II di Jl. KH. Abdul Syukur Margadana. Melalui semangat keterbukaan informasi publik, PPID Pelaksana PKTJ Tegal berkomitmen terus mendukung terwujudnya tata kelola pendidikan vokasi transportasi jalan yang unggul, berintegritas, serta berdaya saing nasional dan global.
-</p>';
-            $profil->konten_detail = null;
-            try { $profil->save(); } catch (\Throwable $e) {}
-        }
+        $profil = ProfilPpid::where('type', 'profil')->first()
+            ?? ProfilPpid::where('type', 'profil-ppid')->first()
+            ?? ProfilPpid::where('type', 'profil_singkat')->first();
+
         if ($profil) {
             $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
             $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
@@ -67,7 +54,9 @@ class ProfilPublikController extends Controller
 
     public function showTugas()
     {
-        $profil = ProfilPpid::where('type', 'tugas')->first();
+        $profil = ProfilPpid::where('type', 'tugas')->first()
+            ?? ProfilPpid::where('type', 'tugas_fungsi')->first();
+
         if ($profil) {
             $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
             $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
@@ -86,147 +75,20 @@ class ProfilPublikController extends Controller
 
     public function showVisi()
     {
-        $profil = ProfilPpid::where('type', 'visi')->first();
-        if ($profil && (!str_contains($profil->konten_pembuka ?? '', 'sektor transportasi') || !str_contains($profil->konten_pembuka ?? '', 'desentralisasi') || str_contains($profil->konten_pembuka ?? '', 'vision-banner') || !empty($profil->konten_detail))) {
-            $profil->konten_pembuka = '<div class="visi-misi-wrapper mb-5">
-    <!-- VISI HERO CARD -->
-    <div class="card border-0 rounded-4 shadow-sm p-4 p-md-5 text-center mb-5 position-relative overflow-hidden" style="background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 100%); border: 2px solid #bfdbfe !important; border-top: 6px solid #004a99 !important;">
-        <div class="d-inline-flex align-items-center gap-2 px-3.5 py-1.5 rounded-pill fw-bold text-uppercase mb-3 mx-auto" style="background: #002b5c; color: #ffc107 !important; font-size: 12px; letter-spacing: 1.5px;">
-            <i class="fas fa-eye text-warning"></i> VISI PPID PKTJ TEGAL
-        </div>
-        <h3 class="outfit fw-black text-center mb-0 px-2" style="color: #002b5c !important; font-size: 1.65rem; line-height: 1.6; max-width: 950px; margin: 15px auto;">
-            “Terwujudnya layanan informasi publik yang Transparan, Objektif dan Prima untuk meningkatkan peran serta aktif masyarakat dalam penyelenggaraan pembangunan sektor transportasi.”
-        </h3>
-        <p class="text-muted small text-center mb-0 mt-3" style="color: #64748b !important;">
-            <i class="fas fa-quote-left text-warning opacity-50 me-2"></i>Komitmen Utama Keterbukaan Informasi Publik di Lingkungan Politeknik Keselamatan Transportasi Jalan<i class="fas fa-quote-right text-warning opacity-50 ms-2"></i>
-        </p>
-    </div>
+        $profil = ProfilPpid::where('type', 'visi')->first()
+            ?? ProfilPpid::where('type', 'visi-misi')->first();
 
-    <!-- PENJELASAN MAKNA DARI VISI -->
-    <div class="mb-5">
-        <div class="d-flex align-items-center gap-3 mb-4">
-            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 46px; height: 46px; background: #e0f2fe; color: #0284c7; font-size: 22px;">
-                <i class="fas fa-shapes"></i>
-            </div>
-            <div>
-                <h4 class="outfit fw-bold text-dark mb-0" style="color: #002b5c !important; font-size: 1.35rem;">Makna dari Visi</h4>
-                <span class="text-muted small">Penjabaran prinsip utama penyelenggaraan informasi publik</span>
-            </div>
-        </div>
-
-        <div class="row g-4">
-            <div class="col-md-6">
-                <div class="p-4 rounded-4 border bg-white shadow-sm h-100 position-relative overflow-hidden" style="border: 1px solid #e2e8f0 !important; border-top: 5px solid #0284c7 !important;">
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 13px; font-weight: bold; background: #e0f2fe; color: #0284c7 !important;">1</span>
-                        <h5 class="outfit fw-bold mb-0" style="color: #002b5c !important; font-size: 16px;">Layanan Informasi Publik</h5>
-                    </div>
-                    <p class="mb-0" style="color: #334155 !important; line-height: 1.7; font-size: 14.5px;">
-                        Suatu usaha untuk memberikan informasi publik sesuai Undang- Undang No. 14 tahun 2008 tentang Keterbukaan Informasi Publik di lingkungan Kementerian Perhubungan;
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="p-4 rounded-4 border bg-white shadow-sm h-100 position-relative overflow-hidden" style="border: 1px solid #e2e8f0 !important; border-top: 5px solid #10b981 !important;">
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 13px; font-weight: bold; background: #d1fae5; color: #059669 !important;">2</span>
-                        <h5 class="outfit fw-bold mb-0" style="color: #002b5c !important; font-size: 16px;">Transparan</h5>
-                    </div>
-                    <p class="mb-0" style="color: #334155 !important; line-height: 1.7; font-size: 14.5px;">
-                        Memberikan akses seluar-luasnya kepada masyarakat dalam memperoleh informasi publik dengan cepat dan tepat waktu, biaya ringan, dan cara yang sederhana;
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="p-4 rounded-4 border bg-white shadow-sm h-100 position-relative overflow-hidden" style="border: 1px solid #e2e8f0 !important; border-top: 5px solid #6366f1 !important;">
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 13px; font-weight: bold; background: #ede9fe; color: #6366f1 !important;">3</span>
-                        <h5 class="outfit fw-bold mb-0" style="color: #002b5c !important; font-size: 16px;">Objektif</h5>
-                    </div>
-                    <p class="mb-0" style="color: #334155 !important; line-height: 1.7; font-size: 14.5px;">
-                        Memberikan akses informasi kepada setiap kalangan, baik Perorangan, Kelompok, maupun Badan Hukum;
-                    </p>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="p-4 rounded-4 border bg-white shadow-sm h-100 position-relative overflow-hidden" style="border: 1px solid #e2e8f0 !important; border-top: 5px solid #f59e0b !important;">
-                    <div class="d-flex align-items-center gap-2 mb-2">
-                        <span class="badge rounded-circle d-flex align-items-center justify-content-center" style="width: 30px; height: 30px; font-size: 13px; font-weight: bold; background: #fef3c7; color: #d97706 !important;">4</span>
-                        <h5 class="outfit fw-bold mb-0" style="color: #002b5c !important; font-size: 16px;">Prima</h5>
-                    </div>
-                    <p class="mb-0" style="color: #334155 !important; line-height: 1.7; font-size: 14.5px;">
-                        Terus Berupaya penuh dalam peningkatan Pelayanan, Pengelolaan dan Pendokumentasian Informasi Publik secara Akuntabel, Efisien dan Mudah Diakses.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- MISI SECTION -->
-    <div class="misi-section mb-4">
-        <div class="d-flex align-items-center gap-3 mb-4 mt-5">
-            <div class="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 46px; height: 46px; background: #e0e7ff; color: #002b5c; font-size: 22px;">
-                <i class="fas fa-bullseye"></i>
-            </div>
-            <div>
-                <h4 class="outfit fw-bold text-dark mb-0" style="color: #002b5c !important; font-size: 1.45rem;">Misi</h4>
-                <span class="text-muted small">Lima komitmen penyelenggaraan pelayanan informasi publik PPID PKTJ</span>
-            </div>
-        </div>
-
-        <div class="row g-3">
-            <div class="col-12">
-                <div class="p-3.5 p-md-4 rounded-4 border bg-white shadow-sm d-flex gap-3 align-items-center hover-lift" style="border: 1px solid #e2e8f0 !important; border-left: 5px solid #004a99 !important;">
-                    <span class="badge rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px; font-size: 15px; font-weight: 800; background: #002b5c; color: #ffffff !important;">1</span>
-                    <div class="fw-semibold" style="color: #1e293b !important; font-size: 15px; line-height: 1.6;">
-                        Menjamin akses informasi publik sesuai Undang-Undang No. 14 tahun 2008 tentang Keterbukaan Informasi Publik;
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="p-3.5 p-md-4 rounded-4 border bg-white shadow-sm d-flex gap-3 align-items-center hover-lift" style="border: 1px solid #e2e8f0 !important; border-left: 5px solid #004a99 !important;">
-                    <span class="badge rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px; font-size: 15px; font-weight: 800; background: #002b5c; color: #ffffff !important;">2</span>
-                    <div class="fw-semibold" style="color: #1e293b !important; font-size: 15px; line-height: 1.6;">
-                        Meningkatkan kualitas layanan informasi publik;
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="p-3.5 p-md-4 rounded-4 border bg-white shadow-sm d-flex gap-3 align-items-center hover-lift" style="border: 1px solid #e2e8f0 !important; border-left: 5px solid #004a99 !important;">
-                    <span class="badge rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px; font-size: 15px; font-weight: 800; background: #002b5c; color: #ffffff !important;">3</span>
-                    <div class="fw-semibold" style="color: #1e293b !important; font-size: 15px; line-height: 1.6;">
-                        Meningkatkan profesionalisme SDM layanan informasi publik;
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="p-3.5 p-md-4 rounded-4 border bg-white shadow-sm d-flex gap-3 align-items-center hover-lift" style="border: 1px solid #e2e8f0 !important; border-left: 5px solid #004a99 !important;">
-                    <span class="badge rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px; font-size: 15px; font-weight: 800; background: #002b5c; color: #ffffff !important;">4</span>
-                    <div class="fw-semibold" style="color: #1e293b !important; font-size: 15px; line-height: 1.6;">
-                        Meningkatkan sarana-prasarana dalam rangka efisiensi dan efektivitas layanan informasi publik;
-                    </div>
-                </div>
-            </div>
-            <div class="col-12">
-                <div class="p-3.5 p-md-4 rounded-4 border bg-white shadow-sm d-flex gap-3 align-items-center hover-lift" style="border: 1px solid #e2e8f0 !important; border-left: 5px solid #004a99 !important;">
-                    <span class="badge rounded-circle d-flex align-items-center justify-content-center flex-shrink-0" style="width: 36px; height: 36px; font-size: 15px; font-weight: 800; background: #002b5c; color: #ffffff !important;">5</span>
-                    <div class="fw-semibold" style="color: #1e293b !important; font-size: 15px; line-height: 1.6;">
-                        Meningkatkan pengelolaan informasi dan dokumentasi secara baik, efisien, mudah diakses dan bersifat desentralisasi.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>';
-            $profil->konten_detail = null;
-            try { $profil->save(); } catch (\Throwable $e) {}
-        }
         if ($profil) {
             $profil->konten_pembuka = $this->processContent($profil->konten_pembuka, $profil->is_blurred ?? false);
             $profil->konten_detail = $this->processContent($profil->konten_detail, $profil->is_blurred ?? false);
+            
+            if ($profil->additional_sections) {
+                $sections = $profil->additional_sections;
+                foreach ($sections as &$section) {
+                    $section['content'] = $this->processContent($section['content'], $profil->is_blurred ?? false);
+                }
+                $profil->additional_sections = $sections;
+            }
         }
         $settings = Dashboard::pluck('value', 'key')->toArray();
         return view('profil-visi-misi', compact('profil', 'settings'));

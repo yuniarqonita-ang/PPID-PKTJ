@@ -457,8 +457,27 @@
 
 <!-- STYLESHEET ELEGAN SESUAI GAMBAR ACCESSIYES COOKIEYES -->
 <style>
+    /* =============================================================
+       NEON KEYFRAMES & GLOW ANIMATIONS (PKTJ NEON CYAN & GOLD)
+       ============================================================= */
+    @keyframes accessNeonPulse {
+        0% {
+            box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.7), 0 0 12px rgba(255, 193, 7, 0.4), 0 8px 24px rgba(0, 74, 153, 0.45);
+        }
+        50% {
+            box-shadow: 0 0 0 9px rgba(0, 229, 255, 0), 0 0 20px rgba(0, 229, 255, 0.5), 0 8px 24px rgba(0, 74, 153, 0.45);
+        }
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 229, 255, 0), 0 0 12px rgba(255, 193, 7, 0.4), 0 8px 24px rgba(0, 74, 153, 0.45);
+        }
+    }
+    @keyframes neonGlow {
+        0%, 100% { filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.7)); }
+        50% { filter: drop-shadow(0 0 9px rgba(0, 229, 255, 1)); }
+    }
+
     /* -------------------------------------------------------------
-       1. TRIGGER BUTTON (FLOATING BULAT BIRU ELEGAN)
+       1. TRIGGER BUTTON (FLOATING NEON GLASS BULAT DI SISI KANAN)
        ------------------------------------------------------------- */
     .access-floating-trigger-wrap {
         position: fixed;
@@ -468,26 +487,37 @@
         z-index: 99990;
     }
     .access-trigger-btn {
-        width: 48px;
-        height: 48px;
+        width: 52px;
+        height: 52px;
         border-radius: 50%;
-        background: #1a62d6;
+        background: linear-gradient(135deg, #071e3d 0%, #004a99 60%, #0066cc 100%);
         color: #ffffff;
-        border: 2.5px solid #ffffff;
-        box-shadow: 0 4px 18px rgba(26, 98, 214, 0.45);
+        border: 2.5px solid #00e5ff;
+        box-shadow: 0 0 18px rgba(0, 229, 255, 0.55), 0 0 10px rgba(255, 193, 7, 0.4), 0 8px 24px rgba(0, 43, 92, 0.4);
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        font-size: 22px;
+        font-size: 24px;
         transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         outline: none;
         padding: 0;
+        animation: accessNeonPulse 3s infinite ease-in-out;
+    }
+    .access-trigger-btn i {
+        color: #00e5ff;
+        filter: drop-shadow(0 0 5px rgba(0, 229, 255, 0.8));
+        transition: transform 0.3s ease;
     }
     .access-trigger-btn:hover {
-        transform: scale(1.12);
-        background: #0f4db0;
-        box-shadow: 0 8px 25px rgba(26, 98, 214, 0.6);
+        transform: scale(1.15) rotate(5deg);
+        background: linear-gradient(135deg, #002b5c 0%, #0056b3 60%, #0284c7 100%);
+        border-color: #ffc107;
+        box-shadow: 0 0 25px rgba(255, 193, 7, 0.7), 0 0 15px rgba(0, 229, 255, 0.8), 0 10px 30px rgba(0, 43, 92, 0.5);
+    }
+    .access-trigger-btn:hover i {
+        color: #ffc107;
+        filter: drop-shadow(0 0 8px rgba(255, 193, 7, 1));
     }
     @media (max-width: 768px) {
         .access-floating-trigger-wrap {
@@ -497,9 +527,9 @@
             transform: none;
         }
         .access-trigger-btn {
-            width: 44px;
-            height: 44px;
-            font-size: 20px;
+            width: 46px;
+            height: 46px;
+            font-size: 21px;
         }
     }
 
@@ -509,8 +539,8 @@
     .access-backdrop-overlay {
         position: fixed;
         inset: 0;
-        background: rgba(15, 23, 42, 0.45);
-        backdrop-filter: blur(4px);
+        background: rgba(7, 30, 61, 0.5);
+        backdrop-filter: blur(5px);
         z-index: 99995;
         opacity: 0;
         pointer-events: none;
@@ -522,48 +552,55 @@
     }
 
     /* -------------------------------------------------------------
-       3. SLIDE DRAWER (CANVAS PUTIH-ABU PERSIS GAMBAR)
+       3. SLIDE DRAWER (CANVAS PUTIH-TERANG DENGAN AKSEN NEON PKTJ)
        ------------------------------------------------------------- */
     .access-drawer {
         position: fixed;
         top: 0;
-        right: -450px;
-        width: 410px;
+        right: -460px;
+        width: 420px;
         max-width: 95vw;
         height: 100vh;
-        background: #f4f6f8;
-        box-shadow: -10px 0 40px rgba(0, 0, 0, 0.2);
+        background: #f8fafc;
+        border-left: 2px solid #00d2ff;
+        box-shadow: -10px 0 45px rgba(0, 43, 92, 0.25), 0 0 25px rgba(0, 210, 255, 0.15);
         z-index: 100000;
         display: flex;
         flex-direction: column;
-        transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: right 0.38s cubic-bezier(0.16, 1, 0.3, 1);
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     }
     .access-drawer.active {
         right: 0;
     }
 
-    /* HEADER */
+    /* DRAWER HEADER (NAVY-BIRU GRADIENT DENGAN GARIS EMAS NEON) */
     .access-drawer-header {
-        background: #1a62d6;
+        background: linear-gradient(135deg, #071e3d 0%, #003a80 50%, #0056b3 100%);
         padding: 16px 20px;
         display: flex;
         align-items: center;
         justify-content: space-between;
         color: #ffffff;
+        border-bottom: 3px solid #ffc107;
+        box-shadow: 0 4px 18px rgba(255, 193, 7, 0.35);
     }
     .access-header-title {
         font-size: 17px;
-        font-weight: 700;
-        letter-spacing: 0.2px;
+        font-weight: 800;
+        letter-spacing: 0.3px;
         color: #ffffff;
+    }
+    .access-drawer-header .fa-universal-access {
+        color: #00e5ff !important;
+        filter: drop-shadow(0 0 6px rgba(0, 229, 255, 0.8));
     }
     .access-hdr-icon-btn {
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        background: rgba(0, 35, 90, 0.35);
-        border: none;
+        background: rgba(0, 229, 255, 0.12);
+        border: 1px solid rgba(0, 229, 255, 0.4);
         color: #ffffff;
         display: flex;
         align-items: center;
@@ -573,8 +610,11 @@
         transition: all 0.2s ease;
     }
     .access-hdr-icon-btn:hover {
-        background: rgba(0, 35, 90, 0.6);
+        background: rgba(255, 193, 7, 0.25);
+        border-color: #ffc107;
+        color: #ffc107;
         transform: scale(1.08);
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
     }
 
     /* BODY */
@@ -582,6 +622,7 @@
         padding: 18px 16px;
         overflow-y: auto;
         flex: 1;
+        background: #f8fafc;
     }
     .access-drawer-body::-webkit-scrollbar {
         width: 6px;
@@ -594,10 +635,15 @@
     /* ACCORDION BOXES */
     .access-accordion-box {
         background: #ffffff;
-        border: 1px solid #e2e8f0;
+        border: 1.5px solid #e2e8f0;
         border-radius: 14px;
         overflow: hidden;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+        transition: all 0.25s ease;
+    }
+    .access-accordion-box:hover {
+        border-color: #00d2ff;
+        box-shadow: 0 4px 16px rgba(0, 210, 255, 0.15);
     }
     .access-accordion-btn {
         width: 100%;
@@ -611,28 +657,30 @@
         transition: background 0.2s ease;
     }
     .access-accordion-btn:hover {
-        background: #f8fafc;
+        background: #f0f9ff;
     }
     .access-lang-badge {
         width: 34px;
         height: 34px;
         border-radius: 50%;
-        background: #f1f5f9;
-        color: #334155;
-        font-weight: 700;
-        font-size: 12.5px;
+        background: linear-gradient(135deg, #004a99, #0066cc);
+        color: #ffffff;
+        border: 1.5px solid #00e5ff;
+        box-shadow: 0 0 8px rgba(0, 229, 255, 0.35);
+        font-weight: 800;
+        font-size: 12px;
         display: flex;
         align-items: center;
         justify-content: center;
     }
     .access-accordion-label {
         font-size: 13.5px;
-        font-weight: 600;
-        color: #1e293b;
+        font-weight: 700;
+        color: #0f172a;
     }
     .access-chevron {
         font-size: 13px;
-        color: #64748b;
+        color: #0066cc;
         transition: transform 0.25s ease;
     }
     .access-chevron.rotate-down {
@@ -648,16 +696,21 @@
     .access-search-icon {
         position: absolute;
         left: 12px;
-        color: #94a3b8;
+        color: #0084ff;
         font-size: 13px;
     }
     .access-search-input {
         width: 100%;
         padding: 9px 12px 9px 34px;
-        border: 1.5px solid #1a62d6;
-        border-radius: 8px;
+        border: 1.5px solid #00d2ff;
+        border-radius: 10px;
         font-size: 13px;
         outline: none;
+        box-shadow: 0 0 8px rgba(0, 210, 255, 0.15);
+    }
+    .access-search-input:focus {
+        border-color: #004a99;
+        box-shadow: 0 0 10px rgba(0, 102, 204, 0.3);
     }
     .access-lang-list {
         max-height: 180px;
@@ -681,21 +734,26 @@
         transition: all 0.15s ease;
     }
     .access-lang-opt:hover, .access-lang-opt.active {
-        background: #eff6ff;
-        color: #1a62d6;
-        font-weight: 600;
+        background: #e0f2fe;
+        color: #004a99;
+        font-weight: 700;
     }
     .access-lang-opt .badge-mini {
         width: 26px;
         height: 26px;
         border-radius: 50%;
         background: #e2e8f0;
-        color: #475569;
+        color: #004a99;
         font-size: 11px;
         font-weight: 700;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    .access-lang-opt.active .badge-mini {
+        background: #ffc107;
+        color: #071e3d;
+        box-shadow: 0 0 8px rgba(255, 193, 7, 0.5);
     }
 
     /* PROFILE CARDS */
@@ -712,23 +770,38 @@
         cursor: pointer;
         transition: all 0.2s ease;
         text-align: left;
+        position: relative;
     }
     .access-profile-card:hover {
-        border-color: #1a62d6;
-        background: #f8fafc;
+        border-color: #00d2ff;
+        background: #f0f9ff;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 16px rgba(0, 210, 255, 0.18);
     }
     .access-profile-card.active {
-        border-color: #1a62d6;
-        background: #eff6ff;
-        box-shadow: 0 0 0 2px rgba(26, 98, 214, 0.2);
+        border-color: #0066cc !important;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+        box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.35), 0 6px 18px rgba(0, 102, 204, 0.15) !important;
+    }
+    .access-profile-card.active::after {
+        content: '';
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #ffc107;
+        box-shadow: 0 0 8px #ffc107;
     }
     .access-prof-icon {
         font-size: 20px;
-        color: #1e293b;
+        color: #004a99;
+        transition: all 0.2s ease;
     }
-    .access-profile-card.active .access-prof-icon,
-    .access-profile-card.active .access-prof-title {
-        color: #1a62d6;
+    .access-profile-card.active .access-prof-icon {
+        color: #0056b3;
+        filter: drop-shadow(0 0 6px rgba(0, 210, 255, 0.6));
     }
     .access-prof-title {
         font-size: 12px;
@@ -736,14 +809,31 @@
         color: #1e293b;
         line-height: 1.3;
     }
-
-    /* SECTION HEADING */
-    .access-sec-heading {
-        font-size: 13px;
+    .access-profile-card.active .access-prof-title {
+        color: #004a99;
         font-weight: 800;
-        color: #334155;
-        margin-bottom: 10px;
-        letter-spacing: -0.2px;
+    }
+
+    /* SECTION HEADING (DENGAN INDIKATOR NEON BULAT) */
+    .access-sec-heading {
+        font-size: 12px;
+        font-weight: 800;
+        color: #1e293b;
+        text-transform: uppercase;
+        letter-spacing: 0.6px;
+        margin-bottom: 11px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+    .access-sec-heading::before {
+        content: '';
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #00d2ff;
+        box-shadow: 0 0 8px #00d2ff, 0 0 2px #ffc107;
+        flex-shrink: 0;
     }
 
     /* 3-COLUMNS GRID */
@@ -764,19 +854,25 @@
         flex-direction: column;
         justify-content: space-between;
         min-height: 84px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        transition: all 0.2s ease;
+    }
+    .access-font-card:hover {
+        border-color: #00d2ff;
+        box-shadow: 0 4px 14px rgba(0, 210, 255, 0.15);
     }
     .access-font-card.active {
-        border-color: #1a62d6;
-        box-shadow: 0 0 0 2px rgba(26, 98, 214, 0.2);
+        border-color: #0066cc;
+        box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.35);
     }
     .access-font-btn {
         width: 32px;
         height: 32px;
         border-radius: 50%;
-        background: #1a62d6;
+        background: linear-gradient(135deg, #004a99, #0066cc);
         color: #ffffff;
-        border: none;
+        border: 1px solid #00e5ff;
+        box-shadow: 0 2px 8px rgba(0, 229, 255, 0.35);
         display: flex;
         align-items: center;
         justify-content: center;
@@ -785,12 +881,17 @@
         transition: all 0.2s ease;
     }
     .access-font-btn:hover {
-        background: #0f4db0;
-        transform: scale(1.06);
+        background: linear-gradient(135deg, #003a80, #0056b3);
+        border-color: #ffc107;
+        color: #ffc107;
+        transform: scale(1.08);
+        box-shadow: 0 0 10px rgba(255, 193, 7, 0.5);
     }
     .access-font-pill {
-        background: #e2e8f0;
-        color: #1a62d6;
+        background: #f0f9ff;
+        color: #004a99;
+        border: 1.5px solid #00d2ff;
+        box-shadow: 0 0 8px rgba(0, 210, 255, 0.2);
         font-weight: 800;
         font-size: 12.5px;
         padding: 5px 16px;
@@ -798,7 +899,7 @@
         display: inline-block;
     }
 
-    /* SQUARE TOOL CARDS (PERSIS GAMBAR) */
+    /* SQUARE TOOL CARDS */
     .access-tool-card {
         background: #ffffff;
         border: 1.5px solid #e2e8f0;
@@ -812,23 +913,35 @@
         cursor: pointer;
         transition: all 0.2s ease;
         min-height: 84px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+        box-shadow: 0 2px 6px rgba(0,0,0,0.02);
+        position: relative;
     }
     .access-tool-card:hover {
-        border-color: #1a62d6;
+        border-color: #00d2ff;
         transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(26, 98, 214, 0.08);
+        box-shadow: 0 5px 16px rgba(0, 210, 255, 0.22);
     }
     .access-tool-card.active {
-        border: 2px solid #1a62d6 !important;
-        background: #eff6ff !important;
-        box-shadow: 0 0 0 2px rgba(26, 98, 214, 0.2) !important;
+        border: 2px solid #0066cc !important;
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%) !important;
+        box-shadow: 0 0 0 2px rgba(0, 210, 255, 0.35), 0 5px 16px rgba(0, 102, 204, 0.18) !important;
+    }
+    .access-tool-card.active::after {
+        content: '';
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: #ffc107;
+        box-shadow: 0 0 8px #ffc107;
     }
     .access-tool-card.active .access-card-icon,
     .access-tool-card.active .access-card-label,
     .access-tool-card.active .access-box-icon {
-        color: #1a62d6 !important;
-        border-color: #1a62d6 !important;
+        color: #004a99 !important;
+        border-color: #004a99 !important;
     }
     .access-card-icon {
         height: 28px;
@@ -838,6 +951,10 @@
         color: #1e293b;
         font-size: 20px;
         margin-bottom: 6px;
+        transition: all 0.2s ease;
+    }
+    .access-tool-card:hover .access-card-icon {
+        color: #0066cc;
     }
     .access-card-label {
         font-size: 11px;
@@ -855,13 +972,13 @@
         line-height: 1.4;
     }
 
-    /* RESET BUTTON (BIRU SOLID) */
+    /* RESET BUTTON (ENERGETIC GRADIENT DENGAN NEON CYAN BORDER) */
     .btn-reset-access {
         width: 100%;
-        background: #1a62d6;
+        background: linear-gradient(135deg, #004a99 0%, #0066cc 50%, #0284c7 100%);
         color: #ffffff;
-        border: none;
-        border-radius: 12px;
+        border: 1.5px solid #00e5ff;
+        border-radius: 14px;
         padding: 13px 20px;
         font-size: 13.5px;
         font-weight: 700;
@@ -870,32 +987,44 @@
         justify-content: center;
         gap: 10px;
         cursor: pointer;
-        transition: all 0.2s ease;
-        box-shadow: 0 4px 14px rgba(26, 98, 214, 0.3);
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 18px rgba(0, 210, 255, 0.35);
+    }
+    .btn-reset-access i {
+        color: #ffc107;
+        filter: drop-shadow(0 0 6px rgba(255, 193, 7, 0.8));
     }
     .btn-reset-access:hover {
-        background: #0f4db0;
-        transform: translateY(-1px);
-        box-shadow: 0 6px 18px rgba(26, 98, 214, 0.4);
+        background: linear-gradient(135deg, #003a80 0%, #0056b3 50%, #0096c7 100%);
+        box-shadow: 0 6px 24px rgba(0, 229, 255, 0.55), 0 0 10px rgba(255, 193, 7, 0.4);
+        transform: translateY(-2px);
     }
 
     /* FOOTER LINK */
     .access-statement-link {
         font-size: 12px;
-        color: #64748b;
-        text-decoration: underline;
+        color: #0066cc;
+        text-decoration: none;
+        border-bottom: 1.5px dashed #00d2ff;
+        padding-bottom: 2px;
         font-weight: 600;
-        transition: color 0.2s;
+        transition: all 0.2s;
     }
     .access-statement-link:hover {
-        color: #1a62d6;
+        color: #004a99;
+        border-bottom-color: #ffc107;
+        text-shadow: 0 0 8px rgba(0, 210, 255, 0.3);
     }
     .access-footer-badge {
         text-align: center;
-        font-size: 10.5px;
+        font-size: 11px;
         font-weight: 700;
-        color: #94a3b8;
-        padding-top: 4px;
+        color: #64748b;
+        padding-top: 6px;
+    }
+    .access-footer-badge i {
+        color: #00d2ff !important;
+        filter: drop-shadow(0 0 5px rgba(0, 210, 255, 0.5));
     }
 
     /* -------------------------------------------------------------
@@ -1051,7 +1180,7 @@
     body.access-monochrome { filter: grayscale(100%) !important; }
 
     /* -------------------------------------------------------------
-       8. SCREEN READER (TTS) FLOATING BAR
+       8. SCREEN READER (TTS) FLOATING BAR (FUTURISTIC NEON)
        ------------------------------------------------------------- */
     .access-tts-bar {
         position: fixed;
@@ -1060,7 +1189,7 @@
         transform: translateX(-50%);
         z-index: 999999;
         max-width: 92vw;
-        width: 600px;
+        width: 620px;
         animation: slideUpTts 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     @keyframes slideUpTts {
@@ -1068,9 +1197,10 @@
         to { opacity: 1; transform: translate(-50%, 0); }
     }
     .access-tts-inner {
-        background: #002b5c;
-        border: 2px solid #1a62d6;
-        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+        background: rgba(7, 30, 61, 0.96);
+        backdrop-filter: blur(16px);
+        border: 2px solid #00e5ff;
+        box-shadow: 0 15px 40px rgba(0, 229, 255, 0.35), 0 0 20px rgba(255, 193, 7, 0.25);
         border-radius: 50px;
         padding: 10px 18px;
         display: flex;
@@ -1081,23 +1211,22 @@
     .access-tts-wave {
         display: flex;
         align-items: center;
-        gap: 3px;
-        height: 20px;
+        gap: 3.5px;
+        height: 22px;
     }
     .access-tts-wave span {
         width: 3.5px;
         height: 8px;
-        background: #38bdf8;
         border-radius: 4px;
         animation: waveAnim 0.9s ease-in-out infinite alternate;
     }
-    .access-tts-wave .b-1 { height: 16px; animation-delay: 0.1s; }
-    .access-tts-wave .b-2 { height: 22px; animation-delay: 0.3s; }
-    .access-tts-wave .b-3 { height: 12px; animation-delay: 0.2s; }
-    .access-tts-wave .b-4 { height: 18px; animation-delay: 0.4s; }
+    .access-tts-wave .b-1 { height: 16px; background: #00e5ff; box-shadow: 0 0 8px #00e5ff; animation-delay: 0.1s; }
+    .access-tts-wave .b-2 { height: 22px; background: #ffc107; box-shadow: 0 0 8px #ffc107; animation-delay: 0.3s; }
+    .access-tts-wave .b-3 { height: 12px; background: #00e5ff; box-shadow: 0 0 8px #00e5ff; animation-delay: 0.2s; }
+    .access-tts-wave .b-4 { height: 18px; background: #ffc107; box-shadow: 0 0 8px #ffc107; animation-delay: 0.4s; }
     @keyframes waveAnim {
         0% { height: 6px; }
-        100% { height: 20px; }
+        100% { height: 22px; }
     }
     .access-tts-info {
         flex-grow: 1;
@@ -1107,7 +1236,8 @@
         font-size: 11px;
         font-weight: 800;
         text-transform: uppercase;
-        color: #facc15;
+        color: #ffc107;
+        text-shadow: 0 0 6px rgba(255, 193, 7, 0.6);
     }
     .access-tts-snippet {
         font-size: 12px;
@@ -1133,25 +1263,39 @@
         transition: all 0.2s ease;
     }
     .btn-tts-ctrl:hover {
-        background: rgba(255, 255, 255, 0.3);
+        background: rgba(0, 229, 255, 0.3);
+        color: #00e5ff;
         transform: scale(1.08);
+        box-shadow: 0 0 10px rgba(0, 229, 255, 0.5);
     }
     .btn-tts-playpause {
-        background: #facc15;
-        color: #002b5c;
+        background: #ffc107;
+        color: #071e3d;
         padding: 6px 14px;
+        font-weight: 800;
+        box-shadow: 0 0 12px rgba(255, 193, 7, 0.6);
+    }
+    .btn-tts-playpause:hover {
+        background: #ffd54f;
+        box-shadow: 0 0 16px rgba(255, 193, 7, 0.8);
     }
     .btn-tts-stop {
         background: #ef4444;
         color: white;
+        box-shadow: 0 0 10px rgba(239, 68, 68, 0.5);
+    }
+    .btn-tts-stop:hover {
+        background: #dc2626;
+        box-shadow: 0 0 14px rgba(239, 68, 68, 0.8);
     }
 
     /* TTS Highlight in Page */
     .access-tts-active-highlight {
-        background-color: rgba(250, 204, 21, 0.35) !important;
-        outline: 3px solid #eab308 !important;
+        background-color: rgba(255, 193, 7, 0.3) !important;
+        outline: 3px solid #ffc107 !important;
         outline-offset: 4px !important;
         border-radius: 6px !important;
+        box-shadow: 0 0 12px rgba(255, 193, 7, 0.4) !important;
     }
 </style>
 

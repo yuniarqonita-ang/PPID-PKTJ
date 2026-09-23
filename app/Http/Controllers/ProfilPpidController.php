@@ -38,9 +38,15 @@ class ProfilPpidController extends Controller
         $type = $type ?: 'profil';
         $aliasMap = [
             'profil_singkat' => 'profil',
+            'profil-ppid' => 'profil',
+            'profil-singkat' => 'profil',
             'tugas_fungsi' => 'tugas',
+            'tugas-dan-fungsi-ppid' => 'tugas',
+            'tugas-fungsi' => 'tugas',
             'visi_misi' => 'visi',
+            'visi-misi' => 'visi',
             'struktur_organisasi' => 'struktur',
+            'struktur-organisasi' => 'struktur',
         ];
         $type = $aliasMap[$type] ?? $type;
 
@@ -68,6 +74,20 @@ class ProfilPpidController extends Controller
     public function update(Request $request, string $type = 'profil'): RedirectResponse
     {
         $type = $type ?: 'profil';
+        $aliasMap = [
+            'profil_singkat' => 'profil',
+            'profil-ppid' => 'profil',
+            'profil-singkat' => 'profil',
+            'tugas_fungsi' => 'tugas',
+            'tugas-dan-fungsi-ppid' => 'tugas',
+            'tugas-fungsi' => 'tugas',
+            'visi_misi' => 'visi',
+            'visi-misi' => 'visi',
+            'struktur_organisasi' => 'struktur',
+            'struktur-organisasi' => 'struktur',
+        ];
+        $type = $aliasMap[$type] ?? $type;
+
         if (!in_array($type, $this->types)) {
             abort(404);
         }
@@ -187,6 +207,36 @@ class ProfilPpidController extends Controller
         }
         $profil->is_blurred          = $request->has('is_blurred');
         $profil->save();
+
+        // Sync sibling slug records so that either type loaded will have identical data
+        $siblingTypes = [];
+        if ($type === 'visi') {
+            $siblingTypes = ['visi-misi', 'visi_misi'];
+        } elseif ($type === 'profil') {
+            $siblingTypes = ['profil-ppid', 'profil_singkat'];
+        } elseif ($type === 'tugas') {
+            $siblingTypes = ['tugas_fungsi', 'tugas-dan-fungsi-ppid'];
+        } elseif ($type === 'struktur') {
+            $siblingTypes = ['struktur_organisasi', 'struktur-organisasi'];
+        }
+        foreach ($siblingTypes as $sibType) {
+            ProfilPpid::updateOrCreate(
+                ['type' => $sibType],
+                [
+                    'judul' => $profil->judul,
+                    'tagline_hero' => $profil->tagline_hero,
+                    'konten_pembuka' => $profil->konten_pembuka,
+                    'judul_sub' => $profil->judul_sub,
+                    'konten_detail' => $profil->konten_detail,
+                    'link_dokumen' => $profil->link_dokumen,
+                    'additional_sections' => $profil->additional_sections,
+                    'gambaran' => $profil->gambaran,
+                    'gambar' => $profil->gambar,
+                    'image_hero' => $profil->image_hero,
+                    'is_blurred' => $profil->is_blurred,
+                ]
+            );
+        }
 
         // ===== HANDLE DASHBOARD-BASED FIELDS (Prefix-based) =====
         $pfx = str_replace('-', '_', $type);

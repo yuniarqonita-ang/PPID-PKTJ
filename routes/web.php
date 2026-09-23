@@ -211,7 +211,7 @@ Route::get('/', function () {
 // Visitor tracked via controller
 
 // Profil Publik
-Route::get('/profil', [ProfilPpidController::class, 'showPublic'])->name('profil.public');
+Route::get('/profil', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil'])->name('profil.public');
 
 // Permohonan Informasi Routes (Dialihkan langsung ke portal permohonan BPSDMP PKTJ Tegal atau link yang diatur di Admin)
 Route::get('/permohonan-informasi', function() {
@@ -286,6 +286,10 @@ Route::get('/dokumen/{id}/download', [DokumenController::class, 'download'])->na
 
 // Profil PPID (Public - Dynamic from Database matching the original HTML links)
 Route::get('/profil-ppid.html', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil'])->name('profil.ppid.html');
+Route::get('/profil/profil-ppid', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil'])->name('profil.profil-ppid');
+Route::get('/profil/profil', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil']);
+Route::get('/profil-ppid', [\App\Http\Controllers\ProfilPublikController::class, 'showProfil']);
+
 Route::get('/profil-pejabat.html', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('profil.pejabat.html');
 Route::get('/profil/pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat'])->name('profil.pejabat');
 Route::get('/profil-pejabat', [\App\Http\Controllers\InformasiPublikController::class, 'profilPejabat']);
@@ -295,20 +299,35 @@ Route::get('/profil/profil-pejabat', [\App\Http\Controllers\InformasiPublikContr
 // Tugas & Fungsi PPID Routes (URL Baru Bersih & Redirect Otomatis)
 Route::get('/profil-tugas-dan-fungsi-ppid.html', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas'])->name('profil.tugas-fungsi.html');
 Route::get('/profil/tugas-dan-fungsi-ppid', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas'])->name('profil.tugas-dan-fungsi-ppid');
+Route::get('/profil/tugas', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas']);
 Route::get('/tugas-dan-fungsi-ppid', [\App\Http\Controllers\ProfilPublikController::class, 'showTugas'])->name('tugas-dan-fungsi-ppid');
 Route::get('/profil-tugas-tanggung-jawab.html', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); })->name('profil.tugas.html');
 Route::get('/profil-tugas-fungsi.html', function() { return redirect('/profil/tugas-dan-fungsi-ppid', 301); });
+
+// Visi & Misi PPID Routes
 Route::get('/profil-visi-misi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showVisi'])->name('profil.visi.html');
+Route::get('/profil/visi-misi', [\App\Http\Controllers\ProfilPublikController::class, 'showVisi'])->name('profil.visi-misi');
+Route::get('/profil/visi', [\App\Http\Controllers\ProfilPublikController::class, 'showVisi']);
+Route::get('/visi-misi', [\App\Http\Controllers\ProfilPublikController::class, 'showVisi']);
+Route::get('/profil-visi-misi', [\App\Http\Controllers\ProfilPublikController::class, 'showVisi']);
+
+// Struktur Organisasi PPID Routes
 Route::get('/profil-struktur-organisasi.html', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur'])->name('profil.struktur.html');
 Route::get('/profil/struktur-organisasi', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur'])->name('profil.struktur-organisasi');
+Route::get('/profil/struktur', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
 Route::get('/profil-struktur', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
 Route::get('/profil-struktur.html', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
-Route::get('/profil/struktur', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
 Route::get('/struktur-organisasi', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
 Route::get('/struktur', [\App\Http\Controllers\ProfilPublikController::class, 'showStruktur']);
+
+// Regulasi & Dasar Hukum
 Route::get('/profil-regulasi.html', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('profil.regulasi.html');
+Route::get('/profil/regulasi', [\App\Http\Controllers\RegulasiController::class, 'publicIndex']);
 Route::get('/regulasi', [\App\Http\Controllers\RegulasiController::class, 'publicIndex'])->name('regulasi');
+
+// Kontak PPID Routes
 Route::get('/profil-kontak.html', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak'])->name('profil.kontak.html');
+Route::get('/profil/kontak', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak'])->name('profil.kontak');
 Route::get('/profil-kontak', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak']);
 Route::get('/kontak', [\App\Http\Controllers\ProfilPublikController::class, 'showKontak']);
 

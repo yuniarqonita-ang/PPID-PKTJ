@@ -864,7 +864,7 @@
                 <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="{{ $loop->iteration * 100 }}">
                     <div class="article-card h-100 shadow-sm hover-lift d-flex flex-column" style="border-radius: 20px; overflow: hidden; border: 1px solid #e2e8f0; background: white;">
                         <div class="article-image position-relative" style="height: 220px; overflow: hidden; background: #0f172a;">
-                            <img src="{{ $gambar }}" alt="{{ $judul }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.5s ease;" onerror="this.src='https://pktj.ac.id/assets/frontoffice/images/pktj_hero.png'">
+                            <img src="{{ $gambar }}" alt="{{ $judul }}" class="w-100 h-100" style="object-fit: cover; transition: transform 0.5s ease;" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null; this.src='{{ asset('images/logo-pktj.png') }}';">
                             <div class="article-badge position-absolute top-0 start-0 m-3 px-3 py-1 rounded-pill text-xs fw-bold text-white shadow-sm" style="background: linear-gradient(135deg, #004a99, #0066cc); font-size: 11px; letter-spacing: 0.5px;">
                                 <i class="fas fa-tag me-1 text-warning"></i> {{ $kategori }}
                             </div>

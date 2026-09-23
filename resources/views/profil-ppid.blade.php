@@ -233,33 +233,6 @@
         <!-- 2. MAIN PROFIL NARRATIVE -->
         <div class="main-profil-card" data-aos="fade-up" data-aos-delay="100">
             
-            <!-- VIDEO PROFIL PPID -->
-            @php
-                $rawVideo = !empty($settings['profil_youtube_link']) ? $settings['profil_youtube_link'] : (!empty($settings['video_url']) ? $settings['video_url'] : 'https://youtu.be/e-zh2icc4EQ?si=H1w-zNXl56bVJiB3');
-                $embedUrl = null;
-                if ($rawVideo) {
-                    $rawVideo = trim($rawVideo);
-                    $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/ ]{11})/i';
-                    if (preg_match($pattern, $rawVideo, $matches)) {
-                        $embedUrl = "https://www.youtube.com/embed/" . $matches[1];
-                    } elseif (preg_match('/^[a-zA-Z0-9_-]{11}$/', $rawVideo)) {
-                        $embedUrl = "https://www.youtube.com/embed/" . $rawVideo;
-                    }
-                }
-            @endphp
-            @if($embedUrl)
-                <div class="mb-5" data-aos="fade-up">
-                    <div class="section-header-pill" style="background: #fee2e2; color: #991b1b;">
-                        <i class="fab fa-youtube text-danger"></i> Video Profil PPID PKTJ Tegal
-                    </div>
-                    <div class="rounded-4 overflow-hidden shadow-lg border border-slate-200 mt-3 position-relative" style="background: #000;">
-                        <div class="ratio ratio-16x9">
-                            <iframe src="{{ $embedUrl }}" title="Video Profil PPID Politeknik Keselamatan Transportasi Jalan" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                </div>
-            @endif
-
             <!-- SECTION 1: LATAR BELAKANG -->
             <div class="mb-5">
                 <div class="section-header-pill">

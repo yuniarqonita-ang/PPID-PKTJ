@@ -577,11 +577,6 @@
 
 
 
-                            <div class="space-y-2">
-                                <label class="text-[10px] font-black text-[#004a99] uppercase">ID Video YouTube (11 Karakter)</label>
-                                <input type="text" name="youtube_link" id="youtube_link_umum" value="{{ $settings['youtube_link'] ?? '' }}" class="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-xs font-bold" placeholder="Contoh: dQw4w9WgXcQ">
-                                <p class="text-[9px] text-slate-400">Masukkan kode ID video saja (11 karakter). Link penuh otomatis diubah menjadi ID saat ditempelkan.</p>
-                            </div>
                         </div>
                     </div>
                 </div>
