@@ -391,23 +391,7 @@ class InformasiPublikController extends Controller
     public function informasiBerkala()
     {
         $this->ensureDataSeeded();
-        try {
-            // Auto self-healing jika Barjas belum terisi Google Drive folder atau masih link bpsdm
-            $barjasItem = class_exists(InformasiBerkala::class) ? InformasiBerkala::where('judul', 'like', '%pengadaan barang%')->first() : null;
-            if (!$barjasItem || !str_contains($barjasItem->file_path ?? '', '1JBjaCxiQUD8DwxzIwpQtd7pTulydHz0N') || str_contains($barjasItem->file_path ?? '', 'bpsdm.kemenhub.go.id')) {
-                self::syncBarjasData();
-            }
 
-            // Auto self-healing memastikan Statistik PKTJ hanya memiliki tautan website resmi
-            $statItem = class_exists(InformasiBerkala::class) ? InformasiBerkala::where('judul', 'like', '%Statistik PKTJ%')->first() : null;
-            if ($statItem) {
-                $links = $statItem->tautan_links;
-                if (is_string($links)) $links = json_decode($links, true);
-                if (is_array($links) && (count($links) > 1 || !empty(array_filter($links, fn($l) => str_contains($l['url'] ?? '', 'drive.google.com'))))) {
-                    self::syncStatistikData();
-                }
-            }
-        } catch (\Throwable $e) {}
 
         try {
             $hiddenTitles = $this->getHiddenTitles();
@@ -514,13 +498,7 @@ class InformasiPublikController extends Controller
     public function informasiSetiapsaat()
     {
         $this->ensureDataSeeded();
-        try {
-            // Auto self-healing jika BMN belum terisi Google Drive folder atau masih link bpsdm
-            $bmnItem = class_exists(InformasiSetiapSaat::class) ? InformasiSetiapSaat::where('judul', 'like', '%Barang Milik Negara%')->first() : null;
-            if (!$bmnItem || !str_contains($bmnItem->file_path ?? '', '1t4KTWXJGCgNfF1Co-1yh6cnUKgwfClii') || str_contains($bmnItem->file_path ?? '', 'bpsdm.kemenhub.go.id')) {
-                self::syncBmnData();
-            }
-        } catch (\Throwable $e) {}
+
 
         try {
             $hiddenTitles = $this->getHiddenTitles();

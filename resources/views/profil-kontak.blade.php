@@ -1255,24 +1255,6 @@
             </div>
         </div>
 
-        @if(!empty($profil->additional_sections))
-            <div class="row g-4 mt-4">
-                @foreach($profil->additional_sections as $sec)
-                    @if(!empty($sec['content']))
-                    <div class="col-12">
-                        <div class="premium-card p-4 p-md-5">
-                            @if(!empty($sec['title']))
-                                <h3 class="outfit fw-bold text-primary mb-3" style="color: #004a99 !important;">{{ $sec['title'] }}</h3>
-                            @endif
-                            <div class="rich-content text-slate-600">
-                                {!! $sec['content'] !!}
-                            </div>
-                        </div>
-                    </div>
-                    @endif
-                @endforeach
-            </div>
-        @endif
     </div>
 
     @include('footer')
