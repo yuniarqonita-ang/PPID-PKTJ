@@ -22,67 +22,67 @@ class StatistikPegawaiController extends Controller
             'sumber_data' => 'Sistem Informasi Kepegawaian (SIMPEG) Kementerian Perhubungan Republik Indonesia',
 
             // 4 KPI Summary Cards
-            'total_sdm' => '155',
+            'total_sdm' => '160',
             'total_sdm_label' => 'Total Pegawai PKTJ',
-            'total_sdm_sub' => 'SIMPEG Kemenhub & DRH Resmi',
+            'total_sdm_sub' => '160 Pegawai (DRH Kemenhub)',
             'pns_count' => '114',
             'pns_label' => 'Pegawai Negeri Sipil (PNS)',
-            'pns_sub' => '73.5% Dari Total SDM',
-            'pppk_count' => '41',
+            'pns_sub' => '71.3% Dari Total SDM',
+            'pppk_count' => '46',
             'pppk_label' => 'Pegawai PPPK',
-            'pppk_sub' => '26.5% Dari Total SDM',
+            'pppk_sub' => '28.8% Dari Total SDM',
             'nonasn_count' => '0',
             'nonasn_label' => 'Non-ASN & CPNS',
             'nonasn_sub' => '0 Non-ASN, 0 CPNS',
 
             // Status Kepegawaian Breakdown (Doughnut Chart & Table)
             'status_pns' => '114',
-            'status_pppk' => '41',
+            'status_pppk' => '46',
             'status_nonasn' => '0',
             'status_cpns' => '0',
 
             // Pendidikan Breakdown (JSON)
             'pendidikan_list' => json_encode([
-                ['jenjang' => 'Magister / S-2', 'jumlah' => 68, 'keterangan' => 'Dosen & Pejabat Struktural (43.9%)'],
-                ['jenjang' => 'Sarjana (S-1)', 'jumlah' => 27, 'keterangan' => 'Administrasi & Pengelola (17.4%)'],
-                ['jenjang' => 'Diploma III (D-III)', 'jumlah' => 24, 'keterangan' => 'Instruktur & Laboran (15.5%)'],
-                ['jenjang' => 'Diploma IV / Terapan (D-IV)', 'jumlah' => 19, 'keterangan' => 'Fungsional Teknis (12.3%)'],
-                ['jenjang' => 'SLTA / SMK Sederajat', 'jumlah' => 9, 'keterangan' => 'Pelaksana Teknis (5.8%)'],
-                ['jenjang' => 'Profesi', 'jumlah' => 6, 'keterangan' => 'Tenaga Fungsional (3.9%)'],
-                ['jenjang' => 'Doktoral / S-3', 'jumlah' => 2, 'keterangan' => 'Dosen Senior (1.3%)'],
+                ['jenjang' => 'Magister / S-2', 'jumlah' => 67, 'keterangan' => 'Dosen & Pejabat Struktural (41.9%)'],
+                ['jenjang' => 'Sarjana (S-1)', 'jumlah' => 30, 'keterangan' => 'Administrasi & Pengelola (18.8%)'],
+                ['jenjang' => 'Diploma III (D-III)', 'jumlah' => 24, 'keterangan' => 'Instruktur & Laboran (15.0%)'],
+                ['jenjang' => 'Diploma IV / Terapan (D-IV)', 'jumlah' => 22, 'keterangan' => 'Fungsional Teknis (13.8%)'],
+                ['jenjang' => 'SLTA / SMK Sederajat', 'jumlah' => 9, 'keterangan' => 'Pelaksana Teknis (5.6%)'],
+                ['jenjang' => 'Profesi', 'jumlah' => 5, 'keterangan' => 'Tenaga Fungsional Medis (3.1%)'],
+                ['jenjang' => 'Doktoral / S-3', 'jumlah' => 3, 'keterangan' => 'Dosen Senior / Lektor (1.9%)'],
             ]),
 
             // Golongan Breakdown (JSON)
             'golongan_list' => json_encode([
-                ['golongan' => 'Penata Tk. I (III/d)', 'jumlah' => 33],
-                ['golongan' => 'Penata Muda Tk. I (III/b)', 'jumlah' => 25],
-                ['golongan' => 'Penata (III/c)', 'jumlah' => 17],
-                ['golongan' => 'Golongan IX (PPPK)', 'jumlah' => 16],
-                ['golongan' => 'Pembina (IV/a)', 'jumlah' => 15],
+                ['golongan' => 'Penata Tk. I (III/d)', 'jumlah' => 34],
+                ['golongan' => 'Penata Muda Tk. I (III/b)', 'jumlah' => 24],
+                ['golongan' => 'Golongan IX (PPPK)', 'jumlah' => 21],
+                ['golongan' => 'Penata (III/c)', 'jumlah' => 18],
                 ['golongan' => 'Golongan VII (PPPK)', 'jumlah' => 15],
+                ['golongan' => 'Pembina (IV/a)', 'jumlah' => 14],
                 ['golongan' => 'Penata Muda (III/a)', 'jumlah' => 8],
                 ['golongan' => 'Pengatur Tk. I (II/d)', 'jumlah' => 8],
                 ['golongan' => 'Golongan X (PPPK)', 'jumlah' => 5],
                 ['golongan' => 'Golongan V (PPPK)', 'jumlah' => 5],
-                ['golongan' => 'Pengatur (II/c)', 'jumlah' => 4],
                 ['golongan' => 'Pembina Tk. I (IV/b)', 'jumlah' => 4],
+                ['golongan' => 'Pengatur (II/c)', 'jumlah' => 4],
             ]),
 
             // Proof Images (SIMPEG Screens)
             'bukti_1_gambar' => 'images/kepegawaian/E6a.jpg',
             'bukti_1_indikator' => '',
             'bukti_1_judul' => 'Data Pegawai Berdasarkan Jenis',
-            'bukti_1_deskripsi' => 'Visualisasi data komposisi 114 PNS dan 41 PPPK (Total 155 Pegawai).',
+            'bukti_1_deskripsi' => 'Visualisasi data komposisi 114 PNS dan 46 PPPK (Total 160 Pegawai).',
 
             'bukti_2_gambar' => 'images/kepegawaian/E6b.jpg',
             'bukti_2_indikator' => '',
             'bukti_2_judul' => 'Data Tingkat Pendidikan Pegawai',
-            'bukti_2_deskripsi' => 'Komposisi jenjang pendidikan S-2 (68), S-1 (27), D-III (24), D-IV (19), SLTA (9), Profesi (6), S-3 (2).',
+            'bukti_2_deskripsi' => 'Komposisi jenjang pendidikan S-2 (67), S-1 (30), D-III (24), D-IV (22), SLTA (9), Profesi (5), S-3 (3).',
 
             'bukti_3_gambar' => 'images/kepegawaian/E6c.jpg',
             'bukti_3_indikator' => '',
             'bukti_3_judul' => 'Data Golongan / Ruang Pegawai',
-            'bukti_3_deskripsi' => 'Komposisi pangkat dan golongan pegawai III/d (33), III/b (25), III/c (17), Gol. IX (16), IV/a (15), Gol. VII (15), dst.',
+            'bukti_3_deskripsi' => 'Komposisi pangkat dan golongan pegawai III/d (34), III/b (24), Gol. IX (21), III/c (18), Gol. VII (15), IV/a (14), dst.',
 
             // Tautan Berkas Langsung Google Drive (Bukan Folder)
             'link_excel_drh' => 'https://drive.google.com/file/d/1WA7CSaxqt0j8e0fHnjqnl8K8TCRdUAAV/view?usp=drive_link',
@@ -114,27 +114,11 @@ class StatistikPegawaiController extends Controller
             $dbRows = [];
         }
 
-        // Auto-sync if total_sdm in DB is not 155, or if status_nonasn > 0, or if counts or lists are outdated
-        $needSync = !isset($dbRows['statistik_pegawai_total_sdm']) 
-            || $dbRows['statistik_pegawai_total_sdm'] !== '155'
-            || !isset($dbRows['statistik_pegawai_pns_count'])
-            || $dbRows['statistik_pegawai_pns_count'] !== '114'
-            || !isset($dbRows['statistik_pegawai_pppk_count'])
-            || $dbRows['statistik_pegawai_pppk_count'] !== '41'
-            || (isset($dbRows['statistik_pegawai_status_nonasn']) && (int)$dbRows['statistik_pegawai_status_nonasn'] > 0)
-            || !isset($dbRows['statistik_pegawai_pendidikan_list'])
-            || !str_contains($dbRows['statistik_pegawai_pendidikan_list'], '68')
-            || !isset($dbRows['statistik_pegawai_golongan_list'])
-            || !str_contains($dbRows['statistik_pegawai_golongan_list'], '33');
-
-        if ($needSync) {
+        // Only initialize defaults if completely empty (never seeded before)
+        if (empty($dbRows)) {
             try {
                 foreach ($defaults as $field => $val) {
                     $key = 'statistik_pegawai_' . $field;
-                    // Don't overwrite custom uploaded proof image if exists
-                    if (str_contains($field, 'gambar') && !empty($dbRows[$key])) {
-                        continue;
-                    }
                     Dashboard::updateOrCreate(
                         ['key' => $key],
                         ['value' => $val, 'type' => (is_array(json_decode($val, true)) ? 'json' : 'text'), 'description' => 'Statistik Pegawai ' . $field, 'aktif' => true]

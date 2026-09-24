@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @php
         $data = $data ?? \App\Http\Controllers\StatistikPegawaiController::getMergedSettings();
-        $totalSdm = (int) ($data['total_sdm'] ?? 155);
+        $totalSdm = (int) ($data['total_sdm'] ?? 160);
         $pnsCount = (int) ($data['pns_count'] ?? 114);
-        $pppkCount = (int) ($data['pppk_count'] ?? 41);
+        $pppkCount = (int) ($data['pppk_count'] ?? 46);
         $nonAsnCount = (int) ($data['nonasn_count'] ?? 0);
 
         $statusPns = (int) ($data['status_pns'] ?? 114);
-        $statusPppk = (int) ($data['status_pppk'] ?? 41);
+        $statusPppk = (int) ($data['status_pppk'] ?? 46);
         $statusNonAsn = (int) ($data['status_nonasn'] ?? 0);
         $statusCpns = (int) ($data['status_cpns'] ?? 0);
         $totalStatus = max(1, $statusPns + $statusPppk + $statusNonAsn + $statusCpns);
@@ -30,10 +30,6 @@
 
         $golLabels = array_column($golList, 'golongan');
         $golCounts = array_column($golList, 'jumlah');
-
-        $img1 = $data['bukti_1_gambar'] ?? 'images/kepegawaian/E6a.jpg';
-        $img2 = $data['bukti_2_gambar'] ?? 'images/kepegawaian/E6b.jpg';
-        $img3 = $data['bukti_3_gambar'] ?? 'images/kepegawaian/E6c.jpg';
     @endphp
     <title>{{ $data['hero_judul'] ?? 'Data & Statistik Kepegawaian' }} - {{ $settings['ppid_nama'] ?? 'Portal PPID PKTJ Tegal' }}</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -123,33 +119,6 @@
             vertical-align: middle;
             border-bottom: 1px solid #e2e8f0;
         }
-
-        .proof-img-card {
-            border: 1px solid #e2e8f0;
-            border-radius: 16px;
-            overflow: hidden;
-            background: white;
-            transition: all 0.3s ease;
-        }
-
-        .proof-img-card:hover {
-            border-color: #004a99;
-            box-shadow: 0 10px 30px rgba(0, 74, 153, 0.12);
-            transform: translateY(-3px);
-        }
-
-        .proof-img-card img {
-            width: 100%;
-            height: 230px;
-            object-fit: cover;
-            object-position: top center;
-            cursor: pointer;
-            transition: transform 0.4s ease;
-        }
-
-        .proof-img-card:hover img {
-            transform: scale(1.03);
-        }
     </style>
 </head>
 <body>
@@ -184,7 +153,7 @@
                         <div>
                             <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['total_sdm_label'] ?? 'Total Pegawai PKTJ' }}</div>
                             <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $totalSdm }} <span class="fs-6 fw-normal text-muted">Orang</span></div>
-                            <div class="text-success fw-semibold" style="font-size: 11px;"><i class="fas fa-check-circle"></i> {{ $data['total_sdm_sub'] ?? '155 Pegawai (DRH Kemenhub)' }}</div>
+                            <div class="text-success fw-semibold" style="font-size: 11px;"><i class="fas fa-check-circle"></i> {{ $data['total_sdm_sub'] ?? '160 Pegawai (DRH Kemenhub)' }}</div>
                         </div>
                     </div>
                 </div>
@@ -197,7 +166,7 @@
                         <div>
                             <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['pns_label'] ?? 'Pegawai Negeri Sipil (PNS)' }}</div>
                             <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $pnsCount }} <span class="fs-6 fw-normal text-muted">Org</span></div>
-                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['pns_sub'] ?? '73.5% Dari Total SDM' }}</div>
+                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['pns_sub'] ?? '71.3% Dari Total SDM' }}</div>
                         </div>
                     </div>
                 </div>
@@ -210,7 +179,7 @@
                         <div>
                             <div class="text-muted text-uppercase fw-bold" style="font-size: 11px; letter-spacing: 0.5px;">{{ $data['pppk_label'] ?? 'Pegawai PPPK' }}</div>
                             <div class="fw-bold outfit text-dark" style="font-size: 26px; line-height: 1.1;">{{ $pppkCount }} <span class="fs-6 fw-normal text-muted">Org</span></div>
-                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['pppk_sub'] ?? '26.5% Dari Total SDM' }}</div>
+                            <div class="text-muted fw-semibold" style="font-size: 11px;">{{ $data['pppk_sub'] ?? '28.8% Dari Total SDM' }}</div>
                         </div>
                     </div>
                 </div>
@@ -389,119 +358,64 @@
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 4. TANGKAPAN LAYAR RESMI SIMPEG -->
-            <div id="bukti-otentik" class="mb-5 pt-3">
-                <div class="d-flex align-items-center justify-content-between mb-3 border-bottom pb-3 flex-wrap gap-2">
-                    <div>
-                        <h4 class="fw-bold outfit text-[#002b5c] mb-1">
-                            <i class="fas fa-file-shield text-primary me-2"></i>Tangkapan Layar Resmi SIMPEG Kemenhub
-                        </h4>
-                        <p class="text-muted small mb-0">Arsip otentik sistem kepegawaian resmi SIMPEG Kemenhub (Klik gambar untuk memperbesar)</p>
-                    </div>
-                    <button type="button" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1.5 fw-bold" onclick="openKepegawaianProofModal()">
-                        <i class="fas fa-expand me-1"></i> Mode Galeri
-                    </button>
-                </div>
-
-                <div class="row g-4">
-                    <div class="col-md-4" data-aos="fade-up">
-                        <div class="proof-img-card">
-                            <img src="{{ asset($img1) }}" alt="{{ $data['bukti_1_judul'] ?? 'Pegawai Per Jenis - SIMPEG PKTJ' }}" onclick="openProofLightbox('{{ asset($img1) }}', '{{ addslashes($data['bukti_1_judul'] ?? 'Data Pegawai Berdasarkan Jenis') }}')">
-                            <div class="p-3 bg-white">
-                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $data['bukti_1_judul'] ?? 'Data Pegawai Berdasarkan Jenis' }}</h6>
-                                <p class="text-muted small mb-0">{{ $data['bukti_1_deskripsi'] ?? 'Tangkapan layar otentik data PNS, PPPK, dan Non-ASN SIMPEG.' }}</p>
+                    <!-- 3. Rincian Golongan / Ruang Table -->
+                    <div class="col-12 mt-3">
+                        <div class="table-responsive rounded-4 border shadow-sm">
+                            <div class="px-4 py-3 bg-[#002b5c] text-white d-flex align-items-center justify-content-between flex-wrap gap-2">
+                                <h6 class="fw-bold outfit text-white mb-0">
+                                    <i class="fas fa-layer-group me-2 text-warning"></i>Distribusi Pangkat & Golongan / Ruang Pegawai PKTJ
+                                </h6>
+                                <span class="badge bg-white text-dark rounded-pill px-3 py-1 font-semibold" style="font-size: 11px;">Rincian Pangkat PNS & Golongan PPPK</span>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-                        <div class="proof-img-card">
-                            <img src="{{ asset($img2) }}" alt="{{ $data['bukti_2_judul'] ?? 'Tingkat Pendidikan Pegawai - SIMPEG PKTJ' }}" onclick="openProofLightbox('{{ asset($img2) }}', '{{ addslashes($data['bukti_2_judul'] ?? 'Data Tingkat Pendidikan Pegawai') }}')">
-                            <div class="p-3 bg-white">
-                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $data['bukti_2_judul'] ?? 'Data Tingkat Pendidikan Pegawai' }}</h6>
-                                <p class="text-muted small mb-0">{{ $data['bukti_2_deskripsi'] ?? 'Komposisi jenjang pendidikan S-2, D-III, D-IV, dan S-1.' }}</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-                        <div class="proof-img-card">
-                            <img src="{{ asset($img3) }}" alt="{{ $data['bukti_3_judul'] ?? 'Golongan Pegawai - SIMPEG PKTJ' }}" onclick="openProofLightbox('{{ asset($img3) }}', '{{ addslashes($data['bukti_3_judul'] ?? 'Data Golongan / Ruang Pegawai') }}')">
-                            <div class="p-3 bg-white">
-                                <h6 class="fw-bold text-dark mb-1" style="font-size: 14px;">{{ $data['bukti_3_judul'] ?? 'Data Golongan / Ruang Pegawai' }}</h6>
-                                <p class="text-muted small mb-0">{{ $data['bukti_3_deskripsi'] ?? 'Komposisi pegawai dari Golongan II/c hingga IV/b dan PPPK.' }}</p>
-                            </div>
+                            <table class="table table-hover table-custom-stat mb-0">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center" style="width: 8%;">No</th>
+                                        <th style="width: 45%;">Golongan / Ruang & Pangkat</th>
+                                        <th class="text-center" style="width: 17%;">Kategori</th>
+                                        <th class="text-center" style="width: 15%;">Jumlah</th>
+                                        <th class="text-center" style="width: 15%;">Persentase</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $totalGolonganSum = array_sum(array_column($golList, 'jumlah')) ?: $totalSdm;
+                                    @endphp
+                                    @forelse($golList as $idx => $g)
+                                    @php
+                                        $isPppk = str_contains(strtoupper($g['golongan'] ?? ''), 'PPPK') || str_contains(strtoupper($g['golongan'] ?? ''), 'GOLONGAN');
+                                        $pctG = number_format(($g['jumlah'] / max(1, $totalGolonganSum)) * 100, 1);
+                                    @endphp
+                                    <tr>
+                                        <td class="text-center fw-bold">{{ $idx + 1 }}</td>
+                                        <td class="fw-bold">{{ $g['golongan'] }}</td>
+                                        <td class="text-center">
+                                            @if($isPppk)
+                                            <span class="badge bg-emerald-subtle text-success border border-success-subtle rounded-pill px-2.5 py-1 fw-bold">PPPK</span>
+                                            @else
+                                            <span class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill px-2.5 py-1 fw-bold">PNS</span>
+                                            @endif
+                                        </td>
+                                        <td class="text-center fw-bold text-[#004a99]">{{ $g['jumlah'] }} Orang</td>
+                                        <td class="text-center fw-semibold text-muted">{{ $pctG }}%</td>
+                                    </tr>
+                                    @empty
+                                    <tr>
+                                        <td colspan="5" class="text-center text-muted py-3">Belum ada data golongan.</td>
+                                    </tr>
+                                    @endforelse
+                                    <tr class="table-primary fw-bold" style="background: #e0f2fe; color: #002b5c;">
+                                        <td colspan="3" class="text-uppercase text-center">Total Akumulasi Seluruh Golongan / Ruang</td>
+                                        <td class="text-center fs-6 text-[#002b5c]">{{ $totalGolonganSum }} Orang</td>
+                                        <td class="text-center fs-6 text-[#002b5c]">100.0%</td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
             </div>
 
-        </div>
-    </div>
-
-    <!-- MODAL TANGKAPAN LAYAR RESMI SIMPEG KEPEGAWAIAN -->
-    <div class="modal fade" id="kepegawaianProofModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-xl modal-dialog-centered">
-            <div class="modal-content border-0 shadow-2xl rounded-4 overflow-hidden">
-                <div class="modal-header bg-[#002b5c] text-white p-3.5" style="background: #002b5c;">
-                    <div class="d-flex align-items-center gap-2">
-                        <i class="fas fa-chart-bar text-warning fs-5"></i>
-                        <h5 class="modal-title fw-bold outfit text-white mb-0">Tangkapan Layar Resmi SIMPEG PKTJ ({{ $data['tahun_anggaran'] ?? 'TA 2025/2026' }})</h5>
-                    </div>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-4 bg-light">
-                    <ul class="nav nav-pills mb-3 gap-2" id="simpegTabs" role="tablist">
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link active rounded-pill fw-bold btn-sm px-3" id="tab-jenis-tab" data-bs-toggle="pill" data-bs-target="#tab-jenis" type="button" role="tab">1. Pegawai Per Jenis</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link rounded-pill fw-bold btn-sm px-3" id="tab-pendidikan-tab" data-bs-toggle="pill" data-bs-target="#tab-pendidikan" type="button" role="tab">2. Tingkat Pendidikan</button>
-                        </li>
-                        <li class="nav-item" role="presentation">
-                            <button class="nav-link rounded-pill fw-bold btn-sm px-3" id="tab-golongan-tab" data-bs-toggle="pill" data-bs-target="#tab-golongan" type="button" role="tab">3. Golongan Pegawai</button>
-                        </li>
-                    </ul>
-                    <div class="tab-content bg-white p-3 rounded-3 border shadow-sm" id="simpegTabsContent">
-                        <div class="tab-pane fade show active text-center" id="tab-jenis" role="tabpanel">
-                            <img src="{{ asset($img1) }}" alt="Pegawai Per Jenis" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
-                            <div class="text-muted small mt-2">Sumber: SIMPEG Kementerian Perhubungan - Politeknik Keselamatan Transportasi Jalan</div>
-                        </div>
-                        <div class="tab-pane fade text-center" id="tab-pendidikan" role="tabpanel">
-                            <img src="{{ asset($img2) }}" alt="Tingkat Pendidikan Pegawai" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
-                            <div class="text-muted small mt-2">Komposisi Pegawai Berdasarkan Tingkat Pendidikan Akhir</div>
-                        </div>
-                        <div class="tab-pane fade text-center" id="tab-golongan" role="tabpanel">
-                            <img src="{{ asset($img3) }}" alt="Golongan Pegawai" class="img-fluid rounded border shadow-sm" style="max-height: 65vh; object-fit: contain;">
-                            <div class="text-muted small mt-2">Komposisi Pegawai Berdasarkan Golongan / Ruang</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer bg-white p-3 justify-content-between">
-                    <span class="text-muted small"><i class="fas fa-check-circle text-success me-1"></i> Data otentik terverifikasi sistem kepegawaian SIMPEG Kemenhub</span>
-                    <button type="button" class="btn btn-secondary px-4 rounded-pill fw-bold btn-sm" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- LIGHTBOX SINGLE PROOF MODAL -->
-    <div class="modal fade" id="proofSingleModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content border-0 shadow-2xl rounded-4 overflow-hidden bg-dark text-white">
-                <div class="modal-header border-0 pb-0 pe-3 pt-3">
-                    <h6 id="proofSingleTitle" class="fw-bold outfit text-white mb-0"></h6>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body text-center p-4 pt-2">
-                    <img id="proofSingleImg" src="" alt="Bukti Kepegawaian" class="img-fluid rounded-3 shadow mb-2" style="max-height: 75vh; object-fit: contain;">
-                    <p class="text-muted small mb-0">Tangkapan Layar Resmi SIMPEG Kementerian Perhubungan Republik Indonesia</p>
-                </div>
-            </div>
         </div>
     </div>
 
@@ -512,16 +426,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 600, once: true });
-
-        function openKepegawaianProofModal() {
-            new bootstrap.Modal(document.getElementById('kepegawaianProofModal')).show();
-        }
-
-        function openProofLightbox(imgUrl, title) {
-            document.getElementById('proofSingleImg').src = imgUrl;
-            document.getElementById('proofSingleTitle').textContent = title;
-            new bootstrap.Modal(document.getElementById('proofSingleModal')).show();
-        }
 
         document.addEventListener('DOMContentLoaded', function() {
             // Chart 1: Jenis Pegawai (Doughnut)

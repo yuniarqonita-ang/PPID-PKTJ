@@ -19,7 +19,7 @@
                         Kelola <span class="text-[#ffc107]">Statistik Kepegawaian</span> PKTJ
                     </h1>
                     <p class="text-blue-50 text-sm md:text-base font-semibold max-w-2xl opacity-90">
-                        Sesuaikan seluruh angka statistik, persentase, kualifikasi pendidikan, kepangkatan, dan bukti otentik SIMPEG secara langsung.
+                        Sesuaikan seluruh angka statistik, persentase, kualifikasi pendidikan, dan kepangkatan secara langsung dan realtime.
                     </p>
                 </div>
             </div>
@@ -118,7 +118,7 @@
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Jumlah Angka</label>
-                            <input type="number" name="total_sdm" value="{{ old('total_sdm', $data['total_sdm'] ?? '155') }}"
+                            <input type="number" name="total_sdm" value="{{ old('total_sdm', $data['total_sdm'] ?? '160') }}"
                                 class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg font-black text-xl text-[#002b5c]">
                         </div>
                         <div>
@@ -128,7 +128,7 @@
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Sub-keterangan</label>
-                            <input type="text" name="total_sdm_sub" value="{{ old('total_sdm_sub', $data['total_sdm_sub'] ?? '155 Pegawai (DRH Kemenhub)') }}"
+                            <input type="text" name="total_sdm_sub" value="{{ old('total_sdm_sub', $data['total_sdm_sub'] ?? '160 Pegawai (DRH Kemenhub)') }}"
                                 class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs">
                         </div>
                     </div>
@@ -150,7 +150,7 @@
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Sub-keterangan</label>
-                            <input type="text" name="pns_sub" value="{{ old('pns_sub', $data['pns_sub'] ?? '73.5% Dari Total SDM') }}"
+                            <input type="text" name="pns_sub" value="{{ old('pns_sub', $data['pns_sub'] ?? '71.3% Dari Total SDM') }}"
                                 class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs">
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Jumlah Angka</label>
-                            <input type="number" name="pppk_count" value="{{ old('pppk_count', $data['pppk_count'] ?? '41') }}"
+                            <input type="number" name="pppk_count" value="{{ old('pppk_count', $data['pppk_count'] ?? '46') }}"
                                 class="w-full px-3 py-2 bg-white border border-slate-200 rounded-lg font-black text-xl text-emerald-700">
                         </div>
                         <div>
@@ -172,7 +172,7 @@
                         </div>
                         <div>
                             <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Sub-keterangan</label>
-                            <input type="text" name="pppk_sub" value="{{ old('pppk_sub', $data['pppk_sub'] ?? '26.5% Dari Total SDM') }}"
+                            <input type="text" name="pppk_sub" value="{{ old('pppk_sub', $data['pppk_sub'] ?? '28.8% Dari Total SDM') }}"
                                 class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs">
                         </div>
                     </div>
@@ -225,7 +225,7 @@
                     </div>
                     <div class="space-y-2">
                         <label class="text-xs font-bold text-emerald-700 uppercase tracking-wider block">Jumlah PPPK</label>
-                        <input type="number" name="status_pppk" value="{{ old('status_pppk', $data['status_pppk'] ?? '41') }}"
+                        <input type="number" name="status_pppk" value="{{ old('status_pppk', $data['status_pppk'] ?? '46') }}"
                             class="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl font-bold text-base text-slate-800">
                     </div>
                     <div class="space-y-2">
@@ -349,104 +349,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                </div>
-            </div>
-        </div>
-
-        <!-- 6. TANGKAPAN LAYAR BUKTI OTENTIK SIMPEG (AKIP E.8a, E.8b, E.8c) -->
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="px-6 py-5 bg-slate-50 border-b border-slate-200 flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <span class="w-9 h-9 rounded-lg bg-[#004a99] text-white flex items-center justify-center font-bold text-sm">
-                        <i class="fas fa-file-shield"></i>
-                    </span>
-                    <div>
-                        <h3 class="font-black text-[#002b5c] text-base mb-0">6. Tangkapan Layar Resmi SIMPEG Kemenhub (Bukti AKIP 2026)</h3>
-                        <p class="text-xs text-slate-500 mb-0">Unggah dan kelola tangkapan layar bukti otentik penilaian AKIP</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-6 md:p-8 space-y-8">
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-                    <!-- Bukti 1 -->
-                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full font-bold text-[11px]">Bukti Otentik 1</span>
-                        </div>
-                        <div class="aspect-video bg-slate-200 rounded-xl overflow-hidden border border-slate-300 relative group">
-                            <img src="{{ asset($data['bukti_1_gambar'] ?? 'images/kepegawaian/E6a.jpg') }}" alt="Bukti 1" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Ganti Gambar (Upload File)</label>
-                            <input type="file" name="bukti_1_file" accept="image/*" class="w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#004a99] file:text-white hover:file:bg-[#002b5c]">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Badge Indikator</label>
-                            <input type="text" name="bukti_1_indikator" value="{{ old('bukti_1_indikator', $data['bukti_1_indikator'] ?? 'Indikator E.8a') }}" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Judul Bukti</label>
-                            <input type="text" name="bukti_1_judul" value="{{ old('bukti_1_judul', $data['bukti_1_judul'] ?? 'Data Pegawai Berdasarkan Jenis') }}" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Deskripsi Singkat</label>
-                            <textarea name="bukti_1_deskripsi" rows="2" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-600">{{ old('bukti_1_deskripsi', $data['bukti_1_deskripsi'] ?? 'Tangkapan layar otentik data PNS, PPPK, dan Non-ASN SIMPEG.') }}</textarea>
-                        </div>
-                    </div>
-
-                    <!-- Bukti 2 -->
-                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="px-3 py-1 bg-emerald-100 text-emerald-800 rounded-full font-bold text-[11px]">Bukti Otentik 2</span>
-                        </div>
-                        <div class="aspect-video bg-slate-200 rounded-xl overflow-hidden border border-slate-300 relative group">
-                            <img src="{{ asset($data['bukti_2_gambar'] ?? 'images/kepegawaian/E6b.jpg') }}" alt="Bukti 2" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Ganti Gambar (Upload File)</label>
-                            <input type="file" name="bukti_2_file" accept="image/*" class="w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#004a99] file:text-white hover:file:bg-[#002b5c]">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Badge Indikator</label>
-                            <input type="text" name="bukti_2_indikator" value="{{ old('bukti_2_indikator', $data['bukti_2_indikator'] ?? 'Indikator E.8b') }}" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Judul Bukti</label>
-                            <input type="text" name="bukti_2_judul" value="{{ old('bukti_2_judul', $data['bukti_2_judul'] ?? 'Data Tingkat Pendidikan Pegawai') }}" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Deskripsi Singkat</label>
-                            <textarea name="bukti_2_deskripsi" rows="2" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-600">{{ old('bukti_2_deskripsi', $data['bukti_2_deskripsi'] ?? 'Komposisi jenjang pendidikan S-2, D-III, D-IV, dan S-1.') }}</textarea>
-                        </div>
-                    </div>
-
-                    <!-- Bukti 3 -->
-                    <div class="p-5 rounded-2xl border border-slate-200 bg-slate-50/50 space-y-4">
-                        <div class="flex items-center justify-between">
-                            <span class="px-3 py-1 bg-amber-100 text-amber-800 rounded-full font-bold text-[11px]">Bukti Otentik 3</span>
-                        </div>
-                        <div class="aspect-video bg-slate-200 rounded-xl overflow-hidden border border-slate-300 relative group">
-                            <img src="{{ asset($data['bukti_3_gambar'] ?? 'images/kepegawaian/E6c.jpg') }}" alt="Bukti 3" class="w-full h-full object-cover">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Ganti Gambar (Upload File)</label>
-                            <input type="file" name="bukti_3_file" accept="image/*" class="w-full text-xs text-slate-600 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-[#004a99] file:text-white hover:file:bg-[#002b5c]">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Badge Indikator</label>
-                            <input type="text" name="bukti_3_indikator" value="{{ old('bukti_3_indikator', $data['bukti_3_indikator'] ?? 'Indikator E.8c') }}" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Judul Bukti</label>
-                            <input type="text" name="bukti_3_judul" value="{{ old('bukti_3_judul', $data['bukti_3_judul'] ?? 'Data Golongan / Ruang Pegawai') }}" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-bold text-slate-800">
-                        </div>
-                        <div>
-                            <label class="text-[11px] font-bold text-slate-600 uppercase block mb-1">Deskripsi Singkat</label>
-                            <textarea name="bukti_3_deskripsi" rows="2" class="w-full px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs text-slate-600">{{ old('bukti_3_deskripsi', $data['bukti_3_deskripsi'] ?? 'Komposisi pegawai dari Golongan II/c hingga IV/b dan PPPK.') }}</textarea>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>
