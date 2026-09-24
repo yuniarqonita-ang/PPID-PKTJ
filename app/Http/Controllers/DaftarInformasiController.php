@@ -248,12 +248,8 @@ class DaftarInformasiController extends Controller
                 'waktu_pembuatan'    => $data['waktu_pembuatan'] ?? null,
                 'jangka_waktu'       => $data['jangka_waktu'] ?? null,
             ];
-            if (!empty($data['isi_informasi'])) {
-                $syncData['deskripsi'] = $data['isi_informasi'];
-            }
-            if (!empty($data['file_informasi'])) {
-                $syncData['file_path'] = $data['file_informasi'];
-            }
+            $syncData['deskripsi'] = $data['isi_informasi'] ?? null;
+            $syncData['file_path'] = $data['file_informasi'] ?? null;
 
             try {
                 if (class_exists(\App\Models\InformasiBerkala::class)) {

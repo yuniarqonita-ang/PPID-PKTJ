@@ -45,7 +45,7 @@ class InformasiBerkalaController extends Controller
         $items = collect();
         foreach ($grouped as $titleKey => $group) {
             $best = $group->sortByDesc(function($it) {
-                return ($it->aktif ? 1000 : 0) + (!empty($it->tautan_links) ? 200 : 0) + (!empty($it->file_path) ? 100 : 0) + strlen(strip_tags($it->deskripsi ?? ''));
+                return ($it->aktif ? 1000 : 0) + ($it->updated_at ? $it->updated_at->timestamp : 0);
             })->first();
             $items->push($best);
         }
@@ -202,7 +202,7 @@ class InformasiBerkalaController extends Controller
             $item = $berkala;
             $item->judul = $berkala->judul;
             $item->deskripsi = $berkala->deskripsi;
-            $item->file_path = $berkala->file_path ?: ($daftar ? $daftar->file_informasi : null);
+            $item->file_path = $berkala->file_path;
             $item->tanggal = $berkala->created_at ?? $berkala->tanggal;
             $item->pejabat_penguasa = $berkala->pejabat_penguasa ?: ($daftar->pejabat_penguasa ?? 'PPID Pelaksana UPT PKTJ Tegal');
             $item->penanggung_jawab = $berkala->penanggung_jawab ?: ($daftar->penanggung_jawab ?? 'Bagian Keuangan dan Umum');
@@ -212,7 +212,7 @@ class InformasiBerkalaController extends Controller
             $item->waktu_pembuatan = $berkala->waktu_pembuatan ?: ($daftar->waktu_pembuatan ?? '2025');
             $item->jangka_waktu = $berkala->jangka_waktu ?: ($daftar->jangka_waktu ?? '1 Tahun');
             
-            $links = $berkala->tautan_links ?: ($daftar ? $daftar->tautan_links : []);
+            $links = $berkala->tautan_links ?? [];
             if (is_string($links)) $links = json_decode($links, true);
             $item->tautan_links = is_array($links) ? $links : [];
 
@@ -312,8 +312,13 @@ class InformasiBerkalaController extends Controller
             $filePath = 'storage/daftar-informasi/' . $filename;
         } elseif ($request->filled('gdrive_link')) {
             $filePath = $request->input('gdrive_link');
+        } elseif ($request->has('gdrive_link') && !$request->filled('gdrive_link') && $filePath && str_starts_with($filePath, 'http')) {
+            // User dikosongkan input link Google Drivenya
+            $filePath = !empty($tautanLinks) ? ($tautanLinks[0]['url'] ?? null) : null;
         } elseif (!empty($tautanLinks) && empty($filePath)) {
             $filePath = $tautanLinks[0]['url'] ?? null;
+        } elseif (empty($tautanLinks) && $request->has('gdrive_link') && !$request->filled('gdrive_link')) {
+            $filePath = null;
         }
 
         $isAktif = $request->has('aktif');
