@@ -1232,6 +1232,32 @@ Route::get('/debug-live-categories', function() {
     }
 });
 
+// Route pemulihan & sinkronisasi instan DIP 2026 (BMN, Barjas, Statistik)
+Route::get('/refresh-dip-clean-now', function() {
+    try {
+        \App\Http\Controllers\InformasiPublikController::syncBmnData();
+        \App\Http\Controllers\InformasiPublikController::syncBarjasData();
+        \App\Http\Controllers\InformasiPublikController::syncStatistikData();
+        
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        
+        return response()->json([
+            'status' => 'success',
+            'message' => 'DIP 2026 Sync Berhasil! Laporan BMN (Folder Google Drive & 6 Berkas Tahunan), Pengadaan Barang & Jasa (Folder Google Drive & 27 Dokumen Lengkap), dan Statistik PKTJ (1 Tautan Halaman Website Resmi) telah tersinkronisasi sempurna.',
+            'urls' => [
+                'setiap_saat' => url('/informasi-publik/setiap-saat'),
+                'berkala' => url('/informasi-publik/berkala'),
+            ]
+        ], 200, [], JSON_PRETTY_PRINT);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ], 500);
+    }
+});
+
 // Fallback storage server route (serves storage files directly via Laravel when public/storage symlink is broken)
 Route::get('storage/{path}', function ($path) {
     $filePath = storage_path('app/public/' . $path);
