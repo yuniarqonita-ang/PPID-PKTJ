@@ -436,8 +436,9 @@
                                             }
                                         }
                                     }
+                                    $allLinkNames = !empty($resolvedLinks) ? implode(' ', array_column($resolvedLinks, 'nama')) : '';
                                 @endphp
-                                <tr class="dip-data-row" data-keywords="{{ strtolower($runningNo . ' ' . $it->judul . ' ' . $cleanDesc . ' ' . ($it->pejabat_penguasa ?? '') . ' ' . ($it->penanggung_jawab ?? '')) }}">
+                                <tr class="dip-data-row" data-keywords="{{ strtolower($runningNo . ' ' . $it->judul . ' ' . $cleanDesc . ' ' . $allLinkNames . ' ' . ($it->pejabat_penguasa ?? '') . ' ' . ($it->penanggung_jawab ?? '')) }}">
                                     <td class="col-no text-center fw-bold text-muted">{{ $runningNo }}</td>
                                     <td class="col-info" data-label="Informasi"><strong class="dip-title">{{ $it->judul }}</strong></td>
                                     <td class="col-ringkasan" data-label="Ringkasan"><div class="dip-desc">{{ $cleanDesc }}</div></td>

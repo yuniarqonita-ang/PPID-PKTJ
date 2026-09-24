@@ -246,7 +246,7 @@
                             </td>
                             <td class="py-3 px-3 border-r border-slate-100">
                                 @if($hasLinks)
-                                    <div class="flex flex-col gap-1 items-center justify-center">
+                                    <div class="flex flex-col gap-1 items-center justify-center max-h-48 overflow-y-auto pr-1">
                                         @foreach($item->tautan_links as $lnk)
                                             @php $lUrl = trim($lnk['url'] ?? ''); @endphp
                                             @if($lUrl !== '')
