@@ -443,12 +443,20 @@ class DipPktj2026Seeder extends Seeder
                 'pejabat_penguasa' => 'Subbagian Rumah Tangga dan BMN',
                 'penerbit_informasi' => 'Bagian Keuangan dan Umum',
                 'penanggung_jawab' => 'Bagian Keuangan dan Umum',
-                'bentuk_informasi' => 'Softcopy',
+                'bentuk_informasi' => 'Softcopy & Hardcopy',
                 'tempat_pembuatan' => 'Tegal',
                 'waktu_pembuatan' => '2025',
                 'jangka_waktu' => '5 Tahun',
-                'tautan_links' => [],
-                'file_path' => null,
+                'tautan_links' => [
+                    ['nama' => 'Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2025', 'url' => 'https://drive.google.com/file/d/18xnwHrVu13TN1IWd_a2172osc6vaJIl_/view?usp=sharing'],
+                    ['nama' => 'Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2024', 'url' => 'https://drive.google.com/file/d/1ktav_JxuX311w0YOsh7EG1B3RswhKtqT/view?usp=sharing'],
+                    ['nama' => 'Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2023', 'url' => 'https://drive.google.com/file/d/11pcsgNxnJZIcGW8-9YSOLOYFxGlf-R1s/view?usp=sharing'],
+                    ['nama' => 'Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2022', 'url' => 'https://drive.google.com/file/d/1wgltn9co46Y8bmAfevFRqSxcIxYdJo5P/view?usp=sharing'],
+                    ['nama' => 'Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2021', 'url' => 'https://drive.google.com/file/d/1yOu1eiR0D_gAKi4vrGl2iSDNA3ITmO0q/view?usp=sharing'],
+                    ['nama' => 'Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2020', 'url' => 'https://drive.google.com/file/d/1BT6qXihTuk1qk8UmaoIR4IcEdh4SciEa/view?usp=sharing'],
+                    ['nama' => 'Folder Google Drive: Informasi Data Perbendaharaan atau Inventaris BMN Tahun 2020-2025', 'url' => 'https://drive.google.com/drive/folders/1t4KTWXJGCgNfF1Co-1yh6cnUKgwfClii?usp=sharing']
+                ],
+                'file_path' => 'https://drive.google.com/drive/folders/1t4KTWXJGCgNfF1Co-1yh6cnUKgwfClii?usp=sharing',
                 'aktif' => true,
             ],
             [

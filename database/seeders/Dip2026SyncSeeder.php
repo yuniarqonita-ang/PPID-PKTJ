@@ -971,14 +971,14 @@ class Dip2026SyncSeeder extends Seeder
 
         $pVisi = [
             'type' => 'visi',
-            'judul' => 'Visi & Misi PPID PKTJ Tegal',
+            'judul' => 'Visi & Misi PPID PKTJ',
             'tagline_hero' => 'Landasan Komitmen Keterbukaan Informasi Publik yang Transparan, Objektif, dan Prima',
             'image_hero' => null,
             'konten_pembuka' => '<div class="visi-misi-wrapper mb-5">
     <!-- VISI HERO CARD -->
     <div class="card border-0 rounded-4 shadow-sm p-4 p-md-5 text-center mb-5 position-relative overflow-hidden" style="background: linear-gradient(180deg, #f0f7ff 0%, #ffffff 100%); border: 2px solid #bfdbfe !important; border-top: 6px solid #004a99 !important;">
         <div class="d-inline-flex align-items-center gap-2 px-3.5 py-1.5 rounded-pill fw-bold text-uppercase mb-3 mx-auto" style="background: #002b5c; color: #ffc107 !important; font-size: 12px; letter-spacing: 1.5px;">
-            <i class="fas fa-eye text-warning"></i> VISI PPID PKTJ TEGAL
+            <i class="fas fa-eye text-warning"></i> VISI PPID PKTJ
         </div>
         <h3 class="outfit fw-black text-center mb-0 px-2" style="color: #002b5c !important; font-size: 1.65rem; line-height: 1.6; max-width: 950px; margin: 15px auto;">
             “Terwujudnya layanan informasi publik yang Transparan, Objektif dan Prima untuk meningkatkan peran serta aktif masyarakat dalam penyelenggaraan pembangunan sektor transportasi.”

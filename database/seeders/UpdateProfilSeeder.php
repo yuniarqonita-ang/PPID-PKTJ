@@ -344,7 +344,7 @@ class UpdateProfilSeeder extends Seeder
             DB::table('profil_ppids')->updateOrInsert(
                 ['type' => $vType],
                 [
-                    'judul'          => 'Visi & Misi PPID PKTJ Tegal',
+                    'judul'          => 'Visi & Misi PPID PKTJ',
                     'tagline_hero'   => 'Landasan Komitmen Keterbukaan Informasi Publik yang Transparan, Objektif, dan Prima',
                     'konten_pembuka' => $visiMisiHtmlPembuka,
                     'judul_sub'      => 'Prinsip Penyelenggaraan Layanan Informasi Publik',
