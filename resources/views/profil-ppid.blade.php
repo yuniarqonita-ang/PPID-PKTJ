@@ -178,11 +178,13 @@
                 <i class="fas fa-shield-alt text-warning"></i> Mengenal Pejabat Pengelola Informasi & Dokumentasi
             </div>
             <h1 class="display-5 fw-bold outfit text-uppercase mb-3 tracking-tight" data-aos="fade-up">
-                {{ $profil->judul ?? 'Profil PPID PKTJ Tegal' }}
+                {{ !empty($profil->judul) ? $profil->judul : 'Profil PPID PKTJ Tegal' }}
             </h1>
+            @if(!empty($profil->tagline_hero))
             <p class="lead opacity-90 mx-auto" style="max-width: 800px; font-size: 16px;" data-aos="fade-up" data-aos-delay="100">
-                {{ $profil->tagline_hero ?? 'Keterbukaan Informasi Publik Menuju Tata Kelola Pendidikan Vokasi yang Transparan, Akuntabel, dan Bebas Korupsi.' }}
+                {{ $profil->tagline_hero }}
             </p>
+            @endif
         </div>
     </div>
 
@@ -234,29 +236,16 @@
         <div class="main-profil-card" data-aos="fade-up" data-aos-delay="100">
             
             <!-- SECTION 1: LATAR BELAKANG -->
+            @if(!empty($profil->konten_pembuka))
             <div class="mb-5">
                 <div class="section-header-pill">
                     <i class="fas fa-landmark text-primary"></i> Latar Belakang & Komitmen Institusi
                 </div>
                 <div class="rich-content text-justify" style="font-size: 15px; color: #334155; line-height: 1.8;">
-                    @if(!empty($profil->konten_pembuka))
-                        {!! $profil->konten_pembuka !!}
-                    @else
-                        <p class="lead fw-semibold text-dark" style="font-size: 1.15rem; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
-                            Dalam mewujudkan tata kelola kepemerintahan yang baik, transparan, dan akuntabel di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal melalui transparansi informasi publik guna memenuhi hak setiap pemohon informasi sesuai dengan ketentuan peraturan perundang-undangan.
-                        </p>
-                        <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-                            Sejak Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan sarana dalam mengoptimalkan pengawasan publik terhadap penyelenggaraan negara dan Badan Publik lainnya serta segala sesuatu yang berakibat pada kepentingan publik, sekaligus menjadi upaya strategis dalam mengembangkan masyarakat informasi guna meningkatkan peran serta aktif masyarakat dalam pengambilan kebijakan publik.
-                        </p>
-                        <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-                            Sejalan dengan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP), Kementerian Perhubungan telah menetapkan Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan. Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal sebagai salah satu Unit Pelaksana Teknis (UPT) di lingkungan Kementerian Perhubungan telah membentuk Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana melalui Surat Keputusan Direktur Nomor KP-PKTJ 384 Tahun 2026 guna menjamin kepastian layanan informasi yang profesional, cepat, dan berintegritas.
-                        </p>
-                        <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-                            Sebagai perguruan tinggi kedinasan vokasi di bawah naungan Kementerian Perhubungan yang berdiri sejak 14 Mei 1971—berawal dari Balai Diklat Trans Jaya, bertransformasi menjadi Balai Pendidikan dan Pelatihan Transportasi Darat (BPPTD), hingga ditetapkan menjadi Politeknik Keselamatan Transportasi Jalan berdasarkan Peraturan Menteri Perhubungan Nomor PM 15 Tahun 2012—PKTJ kini beroperasi di dua kampus di Kota Tegal, yaitu Kampus I di Jl. Perintis Kemerdekaan dan Kampus II di Jl. KH. Abdul Syukur Margadana. Melalui semangat keterbukaan informasi publik, PPID Pelaksana PKTJ Tegal berkomitmen terus mendukung terwujudnya tata kelola pendidikan vokasi transportasi jalan yang unggul, berintegritas, serta berdaya saing nasional dan global.
-                        </p>
-                    @endif
+                    {!! $profil->konten_pembuka !!}
                 </div>
             </div>
+            @endif
 
             <!-- SECTION 2: PERAN & TUGAS FUNGSI DALAM MENDUKUNG PKTJ (OPSIONAL) -->
             @if(!empty($profil->konten_detail))
@@ -268,6 +257,34 @@
                     {!! $profil->konten_detail !!}
                 </div>
             </div>
+            @endif
+
+            <!-- SECTION GAMBARAN UMUM (DARI ADMIN PANEL) -->
+            @if(!empty($profil->gambaran))
+            <div class="mb-5">
+                <div class="section-header-pill" style="background: #f0fdf4; color: #166534;">
+                    <i class="fas fa-compass text-success"></i> Gambaran Umum
+                </div>
+                <div class="rich-content text-justify" style="font-size: 15px; color: #334155; line-height: 1.8;">
+                    {!! $profil->gambaran !!}
+                </div>
+            </div>
+            @endif
+
+            <!-- SEKSI TAMBAHAN (DARI ADMIN PANEL) -->
+            @if(!empty($profil->additional_sections))
+                @foreach($profil->additional_sections as $sec)
+                    @if(!empty($sec['content']))
+                    <div class="mb-5">
+                        <div class="section-header-pill">
+                            <i class="fas fa-layer-group text-primary"></i> {{ $sec['title'] ?? 'Informasi Tambahan' }}
+                        </div>
+                        <div class="rich-content text-justify" style="font-size: 15px; color: #334155; line-height: 1.8;">
+                            {!! $sec['content'] !!}
+                        </div>
+                    </div>
+                    @endif
+                @endforeach
             @endif
 
             <!-- SECTION 3: DUA KANAL SALURAN LAYANAN UTAMA -->

@@ -197,7 +197,11 @@ class ProfilPpidController extends Controller
             $profil->konten_pembuka = $cleanHtml($validated['konten_pembuka'] ?? null);
         }
         $profil->judul_sub           = $validated['judul_sub'] ?? null;
-        $profil->konten_detail       = $cleanHtml($validated['konten_detail'] ?? null);
+        if ($request->has('hapus_konten_detail')) {
+            $profil->konten_detail = null;
+        } else {
+            $profil->konten_detail = $cleanHtml($validated['konten_detail'] ?? null);
+        }
         $profil->link_dokumen        = $validated['link_dokumen'] ?? null;
         $profil->additional_sections = $sections;
         if ($request->has('hapus_gambaran')) {

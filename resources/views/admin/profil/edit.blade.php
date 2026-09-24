@@ -17,7 +17,7 @@
             </a>
         </div>
 
-        <form action="{{ route('admin.profil.update', $type) }}" method="POST" enctype="multipart/form-data" id="profil-form" class="space-y-8">
+        <form action="{{ route('admin.profil.update', $type) }}" method="POST" enctype="multipart/form-data" id="profil-form" novalidate class="space-y-8">
             @csrf
             @method('PUT')
 
@@ -245,12 +245,10 @@
                                     <div class="rounded-3xl overflow-hidden border-2 border-slate-100">
                                         <textarea name="konten_pembuka" id="editor_pembuka" class="tinymce-editor">{!! old('konten_pembuka',$profil->konten_pembuka) !!}</textarea>
                                     </div>
-                                    @if($type === 'profil')
                                     <label class="flex items-center gap-3 p-4 bg-rose-50 rounded-2xl border border-rose-100 mt-3 cursor-pointer select-none">
                                         <input type="checkbox" name="hapus_konten_pembuka" value="1" class="w-5 h-5 text-rose-600 rounded border-slate-300">
                                         <span class="text-xs font-bold text-rose-800">Centang untuk Hapus / Sembunyikan Isi Konten Utama dari Halaman Publik</span>
                                     </label>
-                                    @endif
                                 </div>
 
                                 @if($type === 'profil')
@@ -449,13 +447,19 @@
                                          </div>
                                      </div>
                                  </div>
+                                 @endif
 
+                                 @if($type === 'struktur' || $type === 'tugas')
                                  <div class="space-y-2 animate-fade-in mt-6">
-                                     <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Tugas & Wewenang Detail (Editor)</label>
+                                     <label class="text-xs font-black text-[#004a99] uppercase tracking-[2px] block">Konten Detail / Tugas & Fungsi Rinci (Editor)</label>
                                      <div class="rounded-3xl overflow-hidden border-2 border-slate-100">
                                          <textarea name="konten_detail" id="editor_detail" class="tinymce-editor">{!! old('konten_detail',$profil->konten_detail) !!}</textarea>
                                      </div>
-                                     <p class="text-[10px] text-slate-400 mt-1">Masukkan rincian tugas dan wewenang (dalam bentuk list, tabel, atau accordion) yang akan tampil di bawah bagan organisasi.</p>
+                                     <p class="text-[10px] text-slate-400 mt-1">Masukkan rincian tugas pokok, fungsi utama, atau rincian wewenang lainnya yang akan tampil di halaman publik.</p>
+                                     <label class="flex items-center gap-3 p-4 bg-rose-50 rounded-2xl border border-rose-100 mt-3 cursor-pointer select-none">
+                                         <input type="checkbox" name="hapus_konten_detail" value="1" class="w-5 h-5 text-rose-600 rounded border-slate-300">
+                                         <span class="text-xs font-bold text-rose-800">Centang untuk Hapus / Sembunyikan Konten Detail ini dari Halaman Publik</span>
+                                     </label>
                                  </div>
                                  @endif
                             </div>
@@ -671,6 +675,10 @@
         const form = document.getElementById('profil-form');
         if (form) {
             form.addEventListener('submit', () => {
+                if (typeof tinymce !== 'undefined') {
+                    tinymce.triggerSave();
+                }
+
                 ['youtube_link_kontak', 'youtube_link_umum'].forEach(id => {
                     const input = document.getElementById(id);
                     if (input) {

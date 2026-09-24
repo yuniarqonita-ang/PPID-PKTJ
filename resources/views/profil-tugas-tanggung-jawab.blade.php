@@ -93,35 +93,16 @@
 
     <div class="hero-section">
         <div class="container hero-content">
-            <h1 class="display-4 fw-bold outfit uppercase mb-3">{{ $profil->judul ?? 'Tugas & Fungsi PPID' }}</h1>
-            <p class="lead opacity-75">{{ $profil->tagline_hero ?? 'Tugas, Wewenang, dan Fungsi PPID PKTJ' }}</p>
+            <h1 class="display-4 fw-bold outfit uppercase mb-3">{{ !empty($profil->judul) ? $profil->judul : 'Tugas & Fungsi PPID' }}</h1>
+            @if(!empty($profil->tagline_hero))
+                <p class="lead opacity-75">{{ $profil->tagline_hero }}</p>
+            @endif
         </div>
     </div>
 
     <div class="container mb-5">
         <div class="content-card" data-aos="fade-up" data-aos-delay="100">
             @if($profil)
-                @php
-                    $videoUrl = $settings['tugas_youtube_link'] ?? null;
-                    $embedUrl = null;
-                    if ($videoUrl) {
-                        $videoUrl = trim($videoUrl);
-                        $pattern = '/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/|youtube\.com\/shorts\/)([^"&?\/ ]{11})/i';
-                        if (preg_match($pattern, $videoUrl, $matches)) {
-                            $embedUrl = "https://www.youtube.com/embed/" . $matches[1];
-                        } elseif (preg_match('/^[a-zA-Z0-9_-]{11}$/', $videoUrl)) {
-                            $embedUrl = "https://www.youtube.com/embed/" . $videoUrl;
-                        }
-                    }
-                @endphp
-
-                @if($embedUrl)
-                    <div class="video-container mb-5 rounded-4 overflow-hidden shadow-sm border border-slate-100">
-                        <div class="ratio ratio-16x9">
-                            <iframe src="{{ $embedUrl }}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-                        </div>
-                    </div>
-                @endif
 
                 <div class="rich-content">
                     @if($profil->konten_pembuka)

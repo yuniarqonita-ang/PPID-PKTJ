@@ -786,8 +786,10 @@
     <div class="hero-section">
         <div class="container hero-content">
             <div class="hero-card-outline animate__animated animate__fadeInDown">
-                <h1 class="display-5 fw-bold outfit uppercase mb-2 text-white">{{ $profil->judul ?? 'Hubungi Kami' }}</h1>
-                <p class="lead opacity-90 mb-0 font-medium">{{ $profil->tagline_hero ?? 'Kami Siap Melayani Kebutuhan Informasi Anda' }}</p>
+                <h1 class="display-5 fw-bold outfit uppercase mb-2 text-white">{{ !empty($profil->judul) ? $profil->judul : 'Hubungi Kami' }}</h1>
+                @if(!empty($profil->tagline_hero))
+                    <p class="lead opacity-90 mb-0 font-medium">{{ $profil->tagline_hero }}</p>
+                @endif
             </div>
         </div>
     </div>
@@ -1252,6 +1254,25 @@
                 </div>
             </div>
         </div>
+
+        @if(!empty($profil->additional_sections))
+            <div class="row g-4 mt-4">
+                @foreach($profil->additional_sections as $sec)
+                    @if(!empty($sec['content']))
+                    <div class="col-12">
+                        <div class="premium-card p-4 p-md-5">
+                            @if(!empty($sec['title']))
+                                <h3 class="outfit fw-bold text-primary mb-3" style="color: #004a99 !important;">{{ $sec['title'] }}</h3>
+                            @endif
+                            <div class="rich-content text-slate-600">
+                                {!! $sec['content'] !!}
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                @endforeach
+            </div>
+        @endif
     </div>
 
     @include('footer')

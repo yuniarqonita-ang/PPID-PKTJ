@@ -497,15 +497,16 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         // Dashboard menunjukkan semua profil sections (Redirect to Halaman hub)
         Route::get('/', function() { return redirect()->route('halaman.index'); })->name('index');
         
-        // CRUD untuk setiap tipe profil (lengkap dengan alias edit)
-        Route::get('/profil/{type?}', [ProfilPpidController::class, 'edit'])->name('edit');
-        Route::get('/edit/{type?}', [ProfilPpidController::class, 'edit']);
-        Route::get('/{type?}', [ProfilPpidController::class, 'edit']);
-        Route::put('/profil/{type?}', [ProfilPpidController::class, 'update'])->name('update');
-        Route::put('/edit/{type?}', [ProfilPpidController::class, 'update']);
-        Route::put('/{type?}', [ProfilPpidController::class, 'update']);
-
+        // CRUD untuk setiap tipe profil: /admin/profil/{type?}
+        Route::get('/{type?}', [ProfilPpidController::class, 'edit'])->name('edit');
+        Route::put('/{type?}', [ProfilPpidController::class, 'update'])->name('update');
         Route::delete('/{type?}', [ProfilPpidController::class, 'destroy'])->name('destroy');
+
+        // Aliases untuk kompatibilitas tautan lama
+        Route::get('/profil/{type?}', [ProfilPpidController::class, 'edit']);
+        Route::get('/edit/{type?}', [ProfilPpidController::class, 'edit']);
+        Route::put('/profil/{type?}', [ProfilPpidController::class, 'update']);
+        Route::put('/edit/{type?}', [ProfilPpidController::class, 'update']);
     });
 
     // Fallback Alias untuk Kontak Update & Kategori
