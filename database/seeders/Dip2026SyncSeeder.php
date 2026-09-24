@@ -47,8 +47,7 @@ class Dip2026SyncSeeder extends Seeder
                     ['nama' => 'Profil PKTJ Tegal', 'url' => 'https://pktj.ac.id/tentang#'],
                     ['nama' => 'Tugas dan Fungsi PKTJ', 'url' => 'https://pktj.ac.id/tentang/93-tugas-dan-fungsi'],
                     ['nama' => 'Struktur Organisasi PKTJ', 'url' => 'https://pktj.ac.id/tentang/18-struktur-organisasi'],
-                    ['nama' => 'Visi dan Misi PKTJ', 'url' => 'https://pktj.ac.id/tentang/14-visi-dan-misi'],
-                    ['nama' => 'Halaman Profil PPID PKTJ', 'url' => '/profil/profil-ppid']
+                    ['nama' => 'Visi dan Misi PKTJ', 'url' => 'https://pktj.ac.id/tentang/14-visi-dan-misi']
                 ],
                 'aktif' => true
             ],
@@ -64,8 +63,7 @@ class Dip2026SyncSeeder extends Seeder
                 'jangka' => '1 Tahun',
                 'file' => 'https://ppid.pktj.ac.id/profil/profil-pejabat',
                 'tautan' => [
-                    ['nama' => 'Profil Pejabat PKTJ Tegal', 'url' => 'https://ppid.pktj.ac.id/profil/profil-pejabat'],
-                    ['nama' => 'Portal e-LHKPN KPK', 'url' => 'https://elhkpn.kpk.go.id']
+                    ['nama' => 'Profil Pejabat PKTJ Tegal', 'url' => 'https://ppid.pktj.ac.id/profil/profil-pejabat']
                 ],
                 'aktif' => true
             ],
@@ -209,8 +207,7 @@ class Dip2026SyncSeeder extends Seeder
                 'jangka' => '1 Tahun',
                 'file' => 'https://drive.google.com/file/d/1RhCMtybOF3-wz3IRdnYgg8ET_6FjI8Ln/view?usp=sharing',
                 'tautan' => [
-                    ['nama' => 'LHKPN Pejabat PKTJ 2025', 'url' => 'https://drive.google.com/file/d/1RhCMtybOF3-wz3IRdnYgg8ET_6FjI8Ln/view?usp=sharing'],
-                    ['nama' => 'Portal e-LHKPN KPK', 'url' => 'https://elhkpn.kpk.go.id']
+                    ['nama' => 'LHKPN Pejabat PKTJ 2025', 'url' => 'https://drive.google.com/file/d/1RhCMtybOF3-wz3IRdnYgg8ET_6FjI8Ln/view?usp=sharing']
                 ],
                 'aktif' => true
             ],
@@ -273,14 +270,9 @@ class Dip2026SyncSeeder extends Seeder
                 'tempat' => 'Tegal',
                 'waktu' => '2026',
                 'jangka' => '1 Tahun',
-                'file' => 'https://drive.google.com/file/d/1WA7CSaxqt0j8e0fHnjqnl8K8TCRdUAAV/view?usp=sharing',
+                'file' => 'https://ppid.pktj.ac.id/profil/statistik-pegawai',
                 'tautan' => [
-                    ['nama' => 'DRH Seluruh Pegawai PKTJ (.xlsx)', 'url' => 'https://drive.google.com/file/d/1WA7CSaxqt0j8e0fHnjqnl8K8TCRdUAAV/view?usp=sharing'],
-                    ['nama' => 'SK Penetapan PPID PKTJ 2026 (.pdf)', 'url' => 'https://drive.google.com/file/d/1tAtixggFCU10eazzSDrAuv4O0zoeOfJS/view?usp=sharing'],
-                    ['nama' => 'Grafik Jenis Pegawai (.jpg)', 'url' => 'https://drive.google.com/file/d/1waPJx0eSSfwhA3N9ggLE7qJHxOxOPblg/view?usp=sharing'],
-                    ['nama' => 'Grafik Pendidikan Pegawai (.png)', 'url' => 'https://drive.google.com/file/d/1tPH7bcOA16ZJrcdG03JEj2EklKVeUW7W/view?usp=sharing'],
-                    ['nama' => 'Grafik Golongan Pegawai (.png)', 'url' => 'https://drive.google.com/file/d/12ugth3EsodPjIZK4U7dOz4EAD0oObowf/view?usp=sharing'],
-                    ['nama' => 'Halaman Data & Statistik Kepegawaian PKTJ', 'url' => '/profil/statistik-pegawai']
+                    ['nama' => 'Halaman Data & Statistik Kepegawaian PKTJ', 'url' => 'https://ppid.pktj.ac.id/profil/statistik-pegawai']
                 ],
                 'aktif' => true
             ],

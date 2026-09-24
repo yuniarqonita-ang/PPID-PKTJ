@@ -137,7 +137,7 @@ class DipPktj2026Seeder extends Seeder
             ],
             [
                 'judul' => 'LHKPN Pejabat Negara',
-                'deskripsi' => 'Rekapitulasi bukti tanda terima dan kepatuhan penyampaian Laporan Harta Kekayaan Penyelenggara Negara (LHKPN) para pejabat pimpinan di lingkungan Politeknik Keselamatan Transportasi Jalan kepada Komisi Pemberantasan Korupsi (KPK). Terdapat submenu tautan resmi portal e-LHKPN KPK.',
+                'deskripsi' => 'Rekapitulasi bukti tanda terima dan kepatuhan penyampaian Laporan Harta Kekayaan Penyelenggara Negara (LHKPN) para pejabat pimpinan di lingkungan Politeknik Keselamatan Transportasi Jalan.',
                 'pejabat_penguasa' => 'PPID PKTJ Tegal',
                 'penerbit_informasi' => 'Subbagian Kepegawaian dan Umum',
                 'penanggung_jawab' => 'Subbagian Kepegawaian dan Umum',
@@ -146,9 +146,9 @@ class DipPktj2026Seeder extends Seeder
                 'waktu_pembuatan' => '2025/2026',
                 'jangka_waktu' => '5 Tahun',
                 'tautan_links' => [
-                    ['nama' => 'Portal e-LHKPN KPK', 'url' => 'https://elhkpn.kpk.go.id']
+                    ['nama' => 'LHKPN Pejabat PKTJ 2025', 'url' => 'https://drive.google.com/file/d/1RhCMtybOF3-wz3IRdnYgg8ET_6FjI8Ln/view?usp=sharing']
                 ],
-                'file_path' => 'https://elhkpn.kpk.go.id',
+                'file_path' => 'https://drive.google.com/file/d/1RhCMtybOF3-wz3IRdnYgg8ET_6FjI8Ln/view?usp=sharing',
                 'aktif' => true,
             ],
             [

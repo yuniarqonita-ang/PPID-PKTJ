@@ -42,7 +42,7 @@
                     <h4 class="text-xs font-black text-slate-800 uppercase tracking-wider mb-0">1. Tautan Web Resmi</h4>
                 </div>
                 <p class="text-[11.5px] text-slate-600 leading-relaxed mb-0">
-                    Untuk portal website eksternal (misal: <code class="text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded font-mono">pktj.ac.id</code>, <code class="text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded font-mono">elhkpn.kpk.go.id</code>). Awali dengan <code class="font-bold text-slate-700">https://</code>.
+                    Untuk portal website eksternal (misal: <code class="text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded font-mono">pktj.ac.id</code>, <code class="text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded font-mono">dephub.go.id</code>). Awali dengan <code class="font-bold text-slate-700">https://</code>.
                 </p>
                 <div class="pt-1.5 border-t border-slate-100">
                     <span class="text-[10px] text-slate-400 font-bold block mb-1">Hasil di Publik:</span>
