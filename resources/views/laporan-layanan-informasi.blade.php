@@ -27,14 +27,7 @@
             overflow: hidden;
         }
         .hero-section::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 40px;
-            background: #f8fafc;
-            clip-path: ellipse(55% 100% at 50% 100%);
+            display: none !important;
         }
         .hero-badge {
             display: inline-flex;
