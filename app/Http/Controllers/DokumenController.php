@@ -79,82 +79,88 @@ class DokumenController extends Controller
 
     public function store(Request $request)
     {
-        // Check for PHP upload size errors
-        if ($request->isMethod('post')) {
-            $max_upload = ini_get('upload_max_filesize');
-            $max_post = ini_get('post_max_size');
-            if (empty($_POST) && empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH'])) {
-                return back()->withErrors(['file' => "Ukuran upload melebihi batas server (post_max_size: {$max_post}). Silakan gunakan link Google Drive sebagai alternatif."])->withInput();
-            }
-            if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_OK && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
-                $errorCode = $_FILES['file']['error'];
-                $errorMsg = "Gagal mengunggah file (PHP Error Code: {$errorCode}).";
-                if ($errorCode == UPLOAD_ERR_INI_SIZE || $errorCode == UPLOAD_ERR_FORM_SIZE) {
-                    $errorMsg = "Ukuran file melebihi batas server (upload_max_filesize: {$max_upload}). Silakan gunakan link Google Drive sebagai alternatif.";
-                }
-                return back()->withErrors(['file' => $errorMsg])->withInput();
-            }
-        }
-
-        $this->ensureDokumenSchema();
-        $rawGdrive = $this->sanitizeUrl($request->input('gdrive_link'));
-
-        $validated = $request->validate([
-            'judul' => 'required|max:255',
-            'file' => $rawGdrive ? 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240' : 'required_without:gdrive_link|nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
-            'gdrive_link' => 'nullable|string',
-            'kategori' => 'nullable|string',
-            'tanggal' => 'nullable',
-            'deskripsi' => 'nullable|string'
-        ], [
-            'file.required_without' => 'Pilih file yang ingin diunggah ATAU masukkan link Google Drive.',
-            'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
-        ]);
-
-        $data = [
-            'judul'         => $validated['judul'],
-            'kategori'      => $validated['kategori'] ?? 'Umum',
-            'aktif'         => $request->has('aktif'),
-            'user_id'       => Auth::id(),
-            'is_blurred'    => $request->has('is_blurred'),
-            'bisa_download' => $request->has('bisa_download'),
-            'tanggal'       => $request->input('tanggal') ?: date('Y-m-d'),
-            'deskripsi'     => $request->input('deskripsi'),
-        ];
-
-        if ($request->hasFile('file')) {
-            $file = $request->file('file');
-            $data['file_path'] = $file->store('dokumen', 'public');
-            $data['file_name'] = $file->getClientOriginalName();
-            $size = $file->getSize();
-            if ($size >= 1048576) {
-                $data['file_size'] = round($size / 1048576, 2) . ' MB';
-            } elseif ($size >= 1024) {
-                $data['file_size'] = round($size / 1024, 2) . ' KB';
-            } else {
-                $data['file_size'] = $size . ' Bytes';
-            }
-            $data['file_type'] = $file->getClientMimeType();
-        } elseif (!empty($rawGdrive)) {
-            $data['file_path'] = $rawGdrive;
-            $data['file_name'] = 'Dokumen Google Drive';
-            $data['file_size'] = 'Google Drive';
-            $data['file_type'] = 'gdrive';
-            $data['bisa_download'] = 1;
-        } else {
-            $data['file_path'] = '-';
-        }
-
-        Dokumen::create($data);
-
-        $kategori = $validated['kategori'] ?? 'Umum';
         try {
-            $this->saveSopPageSettings($request, $kategori);
-        } catch (\Throwable $e) {}
-        
-        $redirectTo = $this->getRedirectUrl($kategori);
+            // Check for PHP upload size errors
+            if ($request->isMethod('post')) {
+                $max_upload = ini_get('upload_max_filesize');
+                $max_post = ini_get('post_max_size');
+                if (empty($_POST) && empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH'])) {
+                    return back()->withErrors(['file' => "Ukuran upload melebihi batas server (post_max_size: {$max_post}). Silakan gunakan link Google Drive sebagai alternatif."])->withInput();
+                }
+                if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_OK && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
+                    $errorCode = $_FILES['file']['error'];
+                    $errorMsg = "Gagal mengunggah file (PHP Error Code: {$errorCode}).";
+                    if ($errorCode == UPLOAD_ERR_INI_SIZE || $errorCode == UPLOAD_ERR_FORM_SIZE) {
+                        $errorMsg = "Ukuran file melebihi batas server (upload_max_filesize: {$max_upload}). Silakan gunakan link Google Drive sebagai alternatif.";
+                    }
+                    return back()->withErrors(['file' => $errorMsg])->withInput();
+                }
+            }
 
-        return redirect($redirectTo)->with('success', 'Dokumen berhasil ditambahkan!');
+            $this->ensureDokumenSchema();
+            $rawGdrive = $this->sanitizeUrl($request->input('gdrive_link'));
+
+            $validated = $request->validate([
+                'judul' => 'required',
+                'file' => $rawGdrive ? 'nullable|file|max:20480' : 'required_without:gdrive_link|nullable|file|max:20480',
+                'gdrive_link' => 'nullable|string',
+                'kategori' => 'nullable|string',
+                'tanggal' => 'nullable',
+                'deskripsi' => 'nullable|string'
+            ], [
+                'file.required_without' => 'Pilih file yang ingin diunggah ATAU masukkan link Google Drive.',
+                'file.max' => 'Ukuran file tidak boleh melebihi 20 MB.',
+            ]);
+
+            $data = [
+                'judul'         => $validated['judul'],
+                'kategori'      => $validated['kategori'] ?? 'Umum',
+                'aktif'         => $request->has('aktif') ? 1 : 0,
+                'user_id'       => Auth::id() ?: 1,
+                'is_blurred'    => $request->has('is_blurred') ? 1 : 0,
+                'bisa_download' => $request->has('bisa_download') ? 1 : 0,
+                'tanggal'       => $request->input('tanggal') ?: date('Y-m-d'),
+                'deskripsi'     => $request->input('deskripsi'),
+            ];
+
+            if ($request->hasFile('file')) {
+                $file = $request->file('file');
+                $data['file_path'] = $file->store('dokumen', 'public');
+                $data['file_name'] = $file->getClientOriginalName();
+                $size = $file->getSize();
+                if ($size >= 1048576) {
+                    $data['file_size'] = round($size / 1048576, 2) . ' MB';
+                } elseif ($size >= 1024) {
+                    $data['file_size'] = round($size / 1024, 2) . ' KB';
+                } else {
+                    $data['file_size'] = $size . ' Bytes';
+                }
+                $data['file_type'] = $file->getClientMimeType();
+            } elseif (!empty($rawGdrive)) {
+                $data['file_path'] = $rawGdrive;
+                $data['file_name'] = 'Dokumen Google Drive';
+                $data['file_size'] = 'Google Drive';
+                $data['file_type'] = 'gdrive';
+                $data['bisa_download'] = 1;
+            } else {
+                $data['file_path'] = '-';
+            }
+
+            Dokumen::create($data);
+
+            $kategori = $validated['kategori'] ?? 'Umum';
+            try {
+                $this->saveSopPageSettings($request, $kategori);
+            } catch (\Throwable $e) {}
+            
+            $redirectTo = $this->getRedirectUrl($kategori);
+
+            return redirect($redirectTo)->with('success', 'Dokumen berhasil ditambahkan!');
+        } catch (\Illuminate\Validation\ValidationException $ve) {
+            throw $ve;
+        } catch (\Throwable $e) {
+            return back()->withErrors(['gdrive_link' => 'Terjadi kesalahan saat menyimpan dokumen: ' . $e->getMessage()])->withInput();
+        }
     }
 
     public function show($id)
@@ -170,99 +176,105 @@ class DokumenController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Check for PHP upload size errors
-        if ($request->isMethod('post') || $request->isMethod('put')) {
-            $max_upload = ini_get('upload_max_filesize');
-            $max_post = ini_get('post_max_size');
-            if (empty($_POST) && empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH'])) {
-                return back()->withErrors(['file' => "Ukuran upload melebihi batas server (post_max_size: {$max_post}). Silakan gunakan link Google Drive sebagai alternatif."])->withInput();
-            }
-            if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_OK && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
-                $errorCode = $_FILES['file']['error'];
-                $errorMsg = "Gagal mengunggah file (PHP Error Code: {$errorCode}).";
-                if ($errorCode == UPLOAD_ERR_INI_SIZE || $errorCode == UPLOAD_ERR_FORM_SIZE) {
-                    $errorMsg = "Ukuran file melebihi batas server (upload_max_filesize: {$max_upload}). Silakan gunakan link Google Drive sebagai alternatif.";
-                }
-                return back()->withErrors(['file' => $errorMsg])->withInput();
-            }
-        }
-
-        $this->ensureDokumenSchema();
-        $dokumen = Dokumen::findOrFail($id);
-
-        $rawGdrive = $this->sanitizeUrl($request->input('gdrive_link'));
-
-        $validated = $request->validate([
-            'judul' => 'required|max:255',
-            'file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:10240',
-            'gdrive_link' => 'nullable|string',
-            'kategori' => 'nullable|string',
-            'tanggal' => 'nullable',
-            'deskripsi' => 'nullable|string'
-        ], [
-            'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
-        ]);
-
-        $tanggalVal = date('Y-m-d');
-        if ($request->filled('tanggal')) {
-            $tanggalVal = $request->input('tanggal');
-        } elseif (!empty($dokumen->tanggal)) {
-            try {
-                $tanggalVal = \Carbon\Carbon::parse($dokumen->tanggal)->format('Y-m-d');
-            } catch (\Throwable $e) {
-                $tanggalVal = date('Y-m-d');
-            }
-        }
-
-        $data = [
-            'judul'         => $validated['judul'],
-            'kategori'      => $validated['kategori'] ?? $dokumen->kategori,
-            'aktif'         => $request->has('aktif'),
-            'is_blurred'    => $request->has('is_blurred'),
-            'bisa_download' => $request->has('bisa_download'),
-            'tanggal'       => $tanggalVal,
-            'deskripsi'     => $request->input('deskripsi'),
-        ];
-
-        if ($request->has('hapus_file')) {
-            $this->safeDeleteStorageFile($dokumen->file_path);
-            $data['file_path'] = null;
-            $data['file_name'] = null;
-            $data['file_size'] = null;
-            $data['file_type'] = null;
-        } elseif ($request->hasFile('file')) {
-            $this->safeDeleteStorageFile($dokumen->file_path);
-            $file = $request->file('file');
-            $data['file_path'] = $file->store('dokumen', 'public');
-            $data['file_name'] = $file->getClientOriginalName();
-            $size = $file->getSize();
-            if ($size >= 1048576) {
-                $data['file_size'] = round($size / 1048576, 2) . ' MB';
-            } elseif ($size >= 1024) {
-                $data['file_size'] = round($size / 1024, 2) . ' KB';
-            } else {
-                $data['file_size'] = $size . ' Bytes';
-            }
-            $data['file_type'] = $file->getClientMimeType();
-        } elseif (!empty($rawGdrive)) {
-            $this->safeDeleteStorageFile($dokumen->file_path);
-            $data['file_path'] = $rawGdrive;
-            $data['file_name'] = 'Dokumen Google Drive';
-            $data['file_size'] = 'Google Drive';
-            $data['file_type'] = 'gdrive';
-            $data['bisa_download'] = 1;
-        }
-
-        $dokumen->update($data);
-
-        $kategori = $validated['kategori'] ?? $dokumen->kategori ?? 'Umum';
         try {
-            $this->saveSopPageSettings($request, $kategori);
-        } catch (\Throwable $e) {}
-        
-        $redirectTo = $this->getRedirectUrl($kategori);
+            // Check for PHP upload size errors
+            if ($request->isMethod('post') || $request->isMethod('put')) {
+                $max_upload = ini_get('upload_max_filesize');
+                $max_post = ini_get('post_max_size');
+                if (empty($_POST) && empty($_FILES) && !empty($_SERVER['CONTENT_LENGTH'])) {
+                    return back()->withErrors(['file' => "Ukuran upload melebihi batas server (post_max_size: {$max_post}). Silakan gunakan link Google Drive sebagai alternatif."])->withInput();
+                }
+                if (isset($_FILES['file']) && $_FILES['file']['error'] !== UPLOAD_ERR_OK && $_FILES['file']['error'] !== UPLOAD_ERR_NO_FILE) {
+                    $errorCode = $_FILES['file']['error'];
+                    $errorMsg = "Gagal mengunggah file (PHP Error Code: {$errorCode}).";
+                    if ($errorCode == UPLOAD_ERR_INI_SIZE || $errorCode == UPLOAD_ERR_FORM_SIZE) {
+                        $errorMsg = "Ukuran file melebihi batas server (upload_max_filesize: {$max_upload}). Silakan gunakan link Google Drive sebagai alternatif.";
+                    }
+                    return back()->withErrors(['file' => $errorMsg])->withInput();
+                }
+            }
 
-        return redirect($redirectTo)->with('success', 'Dokumen berhasil diupdate!');
+            $this->ensureDokumenSchema();
+            $dokumen = Dokumen::findOrFail($id);
+
+            $rawGdrive = $this->sanitizeUrl($request->input('gdrive_link'));
+
+            $validated = $request->validate([
+                'judul' => 'required',
+                'file' => 'nullable|file|max:20480',
+                'gdrive_link' => 'nullable|string',
+                'kategori' => 'nullable|string',
+                'tanggal' => 'nullable',
+                'deskripsi' => 'nullable|string'
+            ], [
+                'file.max' => 'Ukuran file tidak boleh melebihi 20 MB.',
+            ]);
+
+            $tanggalVal = date('Y-m-d');
+            if ($request->filled('tanggal')) {
+                $tanggalVal = $request->input('tanggal');
+            } elseif (!empty($dokumen->tanggal)) {
+                try {
+                    $tanggalVal = \Carbon\Carbon::parse($dokumen->tanggal)->format('Y-m-d');
+                } catch (\Throwable $e) {
+                    $tanggalVal = date('Y-m-d');
+                }
+            }
+
+            $data = [
+                'judul'         => $validated['judul'],
+                'kategori'      => $validated['kategori'] ?? $dokumen->kategori,
+                'aktif'         => $request->has('aktif') ? 1 : 0,
+                'is_blurred'    => $request->has('is_blurred') ? 1 : 0,
+                'bisa_download' => $request->has('bisa_download') ? 1 : 0,
+                'tanggal'       => $tanggalVal,
+                'deskripsi'     => $request->input('deskripsi'),
+            ];
+
+            if ($request->has('hapus_file')) {
+                $this->safeDeleteStorageFile($dokumen->file_path);
+                $data['file_path'] = null;
+                $data['file_name'] = null;
+                $data['file_size'] = null;
+                $data['file_type'] = null;
+            } elseif ($request->hasFile('file')) {
+                $this->safeDeleteStorageFile($dokumen->file_path);
+                $file = $request->file('file');
+                $data['file_path'] = $file->store('dokumen', 'public');
+                $data['file_name'] = $file->getClientOriginalName();
+                $size = $file->getSize();
+                if ($size >= 1048576) {
+                    $data['file_size'] = round($size / 1048576, 2) . ' MB';
+                } elseif ($size >= 1024) {
+                    $data['file_size'] = round($size / 1024, 2) . ' KB';
+                } else {
+                    $data['file_size'] = $size . ' Bytes';
+                }
+                $data['file_type'] = $file->getClientMimeType();
+            } elseif (!empty($rawGdrive)) {
+                $this->safeDeleteStorageFile($dokumen->file_path);
+                $data['file_path'] = $rawGdrive;
+                $data['file_name'] = 'Dokumen Google Drive';
+                $data['file_size'] = 'Google Drive';
+                $data['file_type'] = 'gdrive';
+                $data['bisa_download'] = 1;
+            }
+
+            $dokumen->update($data);
+
+            $kategori = $validated['kategori'] ?? $dokumen->kategori ?? 'Umum';
+            try {
+                $this->saveSopPageSettings($request, $kategori);
+            } catch (\Throwable $e) {}
+            
+            $redirectTo = $this->getRedirectUrl($kategori);
+
+            return redirect($redirectTo)->with('success', 'Dokumen berhasil diupdate!');
+        } catch (\Illuminate\Validation\ValidationException $ve) {
+            throw $ve;
+        } catch (\Throwable $e) {
+            return back()->withErrors(['gdrive_link' => 'Terjadi kesalahan saat memperbarui dokumen: ' . $e->getMessage()])->withInput();
+        }
     }
 
     public function destroy($id)
