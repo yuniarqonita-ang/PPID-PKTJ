@@ -368,7 +368,7 @@
                         @if(isset($items) && $items->count() > 0)
                             @foreach($items as $idx => $it)
                                 @php
-                                    $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 160);
+                                    $cleanDesc = trim(strip_tags($it->deskripsi ?? ''));
                                     if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
                                         $cleanDesc = 'Informasi serta merta resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
                                     }

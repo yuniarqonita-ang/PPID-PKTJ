@@ -369,7 +369,7 @@
                             @foreach($items as $idx => $it)
                                 @php
                                     $runningNo = $idx + 1;
-                                    $cleanDesc = Str::limit(strip_tags($it->deskripsi ?? ''), 220);
+                                    $cleanDesc = trim(strip_tags($it->deskripsi ?? ''));
                                     if (empty($cleanDesc) || $cleanDesc === 'Tidak ada deskripsi') {
                                         $cleanDesc = 'Informasi berkala resmi Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
                                     }

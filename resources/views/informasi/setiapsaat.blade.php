@@ -24,7 +24,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title text-info fw-bold">{{ $item->judul }}</h5>
                                     @if($item->deskripsi)
-                                        <p class="card-text text-muted small">{{ Str::limit($item->deskripsi, 100) }}</p>
+                                        <p class="card-text text-muted small">{{ trim(strip_tags($item->deskripsi)) }}</p>
                                     @endif
                                     
                                     @if(has_valid_document($item->file_path))

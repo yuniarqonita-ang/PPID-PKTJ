@@ -1,4 +1,4 @@
-﻿@extends('layouts.app')
+@extends('layouts.app')
 
 @section('title', 'Prosedur - PPID PKTJ')
 
@@ -24,7 +24,7 @@
                                 <div class="card-body">
                                     <h5 class="card-title text-success fw-bold">{{ $item->judul }}</h5>
                                     @if($item->deskripsi)
-                                        <p class="card-text text-muted small">{{ Str::limit($item->deskripsi, 100) }}</p>
+                                        <p class="card-text text-muted small">{{ trim(strip_tags($item->deskripsi)) }}</p>
                                     @endif
                                     
                                     <div class="d-flex justify-content-between align-items-center mt-3">
