@@ -46,30 +46,7 @@ class InformasiPublikController extends Controller
 
     private function getHiddenTitles(): array
     {
-        try {
-            $hiddenDaftar = DaftarInformasi::where('aktif', false)
-                ->pluck('judul_informasi')
-                ->map(fn($t) => strtolower(trim($t)))
-                ->all();
-
-            $hiddenBerkala = class_exists(InformasiBerkala::class) 
-                ? InformasiBerkala::where('aktif', false)->pluck('judul')->map(fn($t) => strtolower(trim($t)))->all() 
-                : [];
-
-            $hiddenSetiapSaat = class_exists(InformasiSetiapSaat::class) 
-                ? InformasiSetiapSaat::where('aktif', false)->pluck('judul')->map(fn($t) => strtolower(trim($t)))->all() 
-                : [];
-
-            $hiddenSertaMerta = class_exists(InformasiSertaMerta::class) 
-                ? InformasiSertaMerta::where('aktif', false)->pluck('judul')->map(fn($t) => strtolower(trim($t)))->all() 
-                : [];
-
-            $manualHidden = [];
-
-            return array_unique(array_filter(array_merge($hiddenDaftar, $hiddenBerkala, $hiddenSetiapSaat, $hiddenSertaMerta, $manualHidden)));
-        } catch (\Throwable $e) {
-            return [];
-        }
+        return [];
     }
 
     private function mapDaftarInformasi($item)

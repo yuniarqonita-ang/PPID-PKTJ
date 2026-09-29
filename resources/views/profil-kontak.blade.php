@@ -1356,28 +1356,28 @@
                     </div>
                 </div>
 
-                <!-- 2. SP4N-LAPOR! -->
+                <!-- 2. CALL 151 / CONTACT CENTER KEMENHUB -->
                 <div class="col-lg-4 col-md-6">
                     <div class="neon-card cyan-neon">
                         <div>
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <div class="neon-icon-wrapper">
-                                    <i class="fas fa-bullhorn"></i>
+                                    <i class="fas fa-headset"></i>
                                 </div>
                                 <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-50 px-3 py-1.5 rounded-pill fw-bold" style="font-size: 10.5px; letter-spacing: 0.5px;">
-                                    <i class="fas fa-globe me-1"></i> PORTAL NASIONAL
+                                    <i class="fas fa-clock me-1"></i> CALL 151 KEMENHUB
                                 </span>
                             </div>
-                            <h4 class="neon-title">LAPOR!</h4>
-                            <span class="neon-subtitle">Layanan Aspirasi &amp; Pengaduan Online</span>
+                            <h4 class="neon-title">Contact Center 151</h4>
+                            <span class="neon-subtitle">Pusat Panggilan Informasi Kemenhub</span>
                             <p class="neon-desc">
-                                SP4N-LAPOR! merupakan kanal pengaduan pelayanan publik secara nasional yang memungkinkan masyarakat menyampaikan aspirasi, pengaduan, dan permintaan informasi kepada instansi pemerintah. Sistem ini mendukung pengelolaan pengaduan secara terintegrasi sehingga laporan masyarakat dapat diteruskan kepada instansi yang berwenang untuk ditindaklanjuti.
+                                Contact Center 151 (Call 151) merupakan saluran cepat satu pintu Kementerian Perhubungan Republik Indonesia untuk berkonsultasi mengenai informasi publik, perizinan transportasi, serta penanganan keluhan dan pengaduan masyarakat secara langsung.
                             </p>
                         </div>
                         <div>
-                            <a href="{{ $settings['span_lapor_link'] ?? 'https://www.lapor.go.id/instansi/politeknik-keselamatan-transportasi-jalan-tegal' }}" target="_blank" rel="noopener" class="btn-neon-action">
-                                <i class="fas fa-arrow-up-right-from-square"></i>
-                                <span>Kunjungi LAPOR!</span>
+                            <a href="tel:151" class="btn-neon-action">
+                                <i class="fas fa-phone-volume"></i>
+                                <span>Hubungi Call Center 151</span>
                             </a>
                         </div>
                     </div>
