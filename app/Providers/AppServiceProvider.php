@@ -19,7 +19,31 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        try {
+            $flagPath = storage_path('app/deploy_v2026_09_29_v3.flag');
+            if (!file_exists($flagPath)) {
+                // 1. Run UserDataSeeder automatically
+                if (class_exists(\Database\Seeders\UserDataSeeder::class)) {
+                    (new \Database\Seeders\UserDataSeeder())->run();
+                }
+
+                // 2. Clear compiled Blade views automatically
+                $viewsPath = storage_path('framework/views');
+                if (is_dir($viewsPath)) {
+                    $files = glob($viewsPath . '/*');
+                    foreach ($files as $file) {
+                        if (is_file($file) && basename($file) !== '.gitignore') {
+                            @unlink($file);
+                        }
+                    }
+                }
+
+                // 3. Save flag file
+                @file_put_contents($flagPath, date('Y-m-d H:i:s'));
+            }
+        } catch (\Throwable $e) {
+            // Silently ignore errors to prevent page crash
+        }
     }
 }
 

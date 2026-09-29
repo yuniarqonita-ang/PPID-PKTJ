@@ -121,6 +121,22 @@ Route::get('/refresh-dip-clean-now', function() {
     ]);
 });
 
+Route::get('/update-seeder-now', function() {
+    try {
+        if (class_exists(\Database\Seeders\UserDataSeeder::class)) {
+            (new \Database\Seeders\UserDataSeeder())->run();
+        }
+        \Illuminate\Support\Facades\Artisan::call('view:clear');
+        \Illuminate\Support\Facades\Artisan::call('cache:clear');
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Database user updates (A s.d. F) dan cache views berhasil diperbarui 100%!'
+        ]);
+    } catch (\Throwable $e) {
+        return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+    }
+});
+
 // ==========================================
 // 0. REDIRECT URL LAMA (.html) & EXTERNAL
 // ==========================================
