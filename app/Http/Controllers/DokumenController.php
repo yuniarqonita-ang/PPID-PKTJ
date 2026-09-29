@@ -146,6 +146,13 @@ class DokumenController extends Controller
                 $data['file_path'] = '-';
             }
 
+            // Ensure NOT NULL fields match MySQL schema constraints
+            foreach (['file_path', 'file_name', 'file_size', 'file_type'] as $field) {
+                if (!isset($data[$field]) || $data[$field] === null || $data[$field] === '') {
+                    $data[$field] = '-';
+                }
+            }
+
             Dokumen::create($data);
 
             $kategori = $validated['kategori'] ?? 'Umum';
@@ -233,10 +240,10 @@ class DokumenController extends Controller
 
             if ($request->has('hapus_file')) {
                 $this->safeDeleteStorageFile($dokumen->file_path);
-                $data['file_path'] = null;
-                $data['file_name'] = null;
-                $data['file_size'] = null;
-                $data['file_type'] = null;
+                $data['file_path'] = '-';
+                $data['file_name'] = '-';
+                $data['file_size'] = '-';
+                $data['file_type'] = '-';
             } elseif ($request->hasFile('file')) {
                 $this->safeDeleteStorageFile($dokumen->file_path);
                 $file = $request->file('file');
@@ -258,6 +265,13 @@ class DokumenController extends Controller
                 $data['file_size'] = 'Google Drive';
                 $data['file_type'] = 'gdrive';
                 $data['bisa_download'] = 1;
+            }
+
+            // Ensure NOT NULL fields match MySQL schema constraints
+            foreach (['file_path', 'file_name', 'file_size', 'file_type'] as $field) {
+                if (array_key_exists($field, $data) && ($data[$field] === null || $data[$field] === '')) {
+                    $data[$field] = '-';
+                }
             }
 
             $dokumen->update($data);
