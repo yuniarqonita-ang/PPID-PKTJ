@@ -4,18 +4,433 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use App\Models\InformasiBerkala;
+use App\Models\InformasiSetiapSaat;
+use App\Models\InformasiSertaMerta;
+use App\Models\DaftarInformasi;
+use App\Models\Dokumen;
+use App\Models\ProfilPpid;
 
 class UserDataSeeder extends Seeder
 {
     public function run()
     {
-        $sqlPath = base_path('database/user_updates_2026_09_29.sql');
-        if (file_exists($sqlPath)) {
-            $sql = file_get_contents($sqlPath);
-            $statements = array_filter(array_map('trim', explode(";\n\n", $sql)));
-            foreach ($statements as $stmt) {
-                if (!empty($stmt) && !str_starts_with($stmt, '--')) {
-                    DB::unprepared($stmt);
+        // -------------------------------------------------------------
+        // A. INFORMASI BERKALA #26 & SETIAP SAAT #3: INVENTARIS BMN (2020-2025)
+        // -------------------------------------------------------------
+        $bmnLinks = [
+            [
+                'url' => 'https://drive.google.com/file/d/1BT6qXihTuk1qk8UmaoIR4IcEdh4SciEa/view?usp=drive_link',
+                'nama' => '1. Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2020'
+            ],
+            [
+                'url' => 'https://drive.google.com/file/d/1yOu1eiR0D_gAKi4vrGl2iSDNA3ITmO0q/view?usp=sharing',
+                'nama' => '2. Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2021'
+            ],
+            [
+                'url' => 'https://drive.google.com/file/d/1wgltn9co46Y8bmAfevFRqSxcIxYdJo5P/view?usp=drive_link',
+                'nama' => '3. Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2022'
+            ],
+            [
+                'url' => 'https://drive.google.com/file/d/11pcsgNxnJZIcGW8-9YSOLOYFxGlf-R1s/view?usp=drive_link',
+                'nama' => '4. Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2023'
+            ],
+            [
+                'url' => 'https://drive.google.com/file/d/1ktav_JxuX311w0YOsh7EG1B3RswhKtqT/view?usp=drive_link',
+                'nama' => '5. Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2024'
+            ],
+            [
+                'url' => 'https://drive.google.com/file/d/18xnwHrVu13TN1IWd_a2172osc6vaJIl_/view?usp=drive_link',
+                'nama' => '6. Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara Tahun 2025'
+            ]
+        ];
+        $bmnFolder = 'https://drive.google.com/drive/folders/1t4KTWXJGCgNfF1Co-1yh6cnUKgwfClii?usp=drive_link';
+        $bmnJudul = 'Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara';
+        $bmnDesc = 'Informasi perbendaharaan dan daftar inventaris Barang Milik Negara (BMN) Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
+
+        // 1. Update or Insert into informasi_berkalas
+        if (Schema::hasTable('informasi_berkalas')) {
+            $berkalaBmn = DB::table('informasi_berkalas')->where('judul', 'like', '%Barang Milik Negara%')->first();
+            if ($berkalaBmn) {
+                DB::table('informasi_berkalas')->where('id', $berkalaBmn->id)->update([
+                    'judul' => $bmnJudul,
+                    'deskripsi' => $bmnDesc,
+                    'file_path' => $bmnFolder,
+                    'tautan_links' => json_encode($bmnLinks),
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
+                    'penanggung_jawab' => 'Subbagian Keuangan dan Umum',
+                    'penerbit_informasi' => 'Subbagian Keuangan dan Umum',
+                    'bentuk_informasi' => 'Softcopy & Link',
+                    'tempat_pembuatan' => 'Tegal',
+                    'waktu_pembuatan' => '2026',
+                    'jangka_waktu' => 'Selamanya',
+                    'updated_at' => now(),
+                ]);
+            } else {
+                DB::table('informasi_berkalas')->insert([
+                    'judul' => $bmnJudul,
+                    'deskripsi' => $bmnDesc,
+                    'tanggal' => date('Y-m-d'),
+                    'file_path' => $bmnFolder,
+                    'tautan_links' => json_encode($bmnLinks),
+                    'file_name' => 'Informasi Data BMN 2020-2025',
+                    'file_size' => 'Google Drive',
+                    'file_type' => 'link',
+                    'aktif' => 1,
+                    'is_blurred' => 0,
+                    'bisa_download' => 1,
+                    'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
+                    'penanggung_jawab' => 'Subbagian Keuangan dan Umum',
+                    'penerbit_informasi' => 'Subbagian Keuangan dan Umum',
+                    'bentuk_informasi' => 'Softcopy & Link',
+                    'tempat_pembuatan' => 'Tegal',
+                    'waktu_pembuatan' => '2026',
+                    'jangka_waktu' => 'Selamanya',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+        // 2. Update or Insert into daftar_informasis (Berkala)
+        if (Schema::hasTable('daftar_informasis')) {
+            $daftarBmn = DB::table('daftar_informasis')->where('judul_informasi', 'like', '%Barang Milik Negara%')->first();
+            if ($daftarBmn) {
+                DB::table('daftar_informasis')->where('id', $daftarBmn->id)->update([
+                    'judul_informasi' => $bmnJudul,
+                    'isi_informasi' => $bmnDesc,
+                    'kategori' => 'informasi-berkala',
+                    'file_informasi' => $bmnFolder,
+                    'tautan_links' => json_encode($bmnLinks),
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'updated_at' => now(),
+                ]);
+            } else {
+                DB::table('daftar_informasis')->insert([
+                    'judul_informasi' => $bmnJudul,
+                    'isi_informasi' => $bmnDesc,
+                    'kategori' => 'informasi-berkala',
+                    'tipe_informasi' => 'Berkala',
+                    'file_informasi' => $bmnFolder,
+                    'tautan_links' => json_encode($bmnLinks),
+                    'aktif' => 1,
+                    'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
+                    'penerbit_informasi' => 'Subbagian Keuangan dan Umum',
+                    'penanggung_jawab' => 'Subbagian Keuangan dan Umum',
+                    'bentuk_informasi' => 'Softcopy & Link',
+                    'tempat_pembuatan' => 'Tegal',
+                    'waktu_pembuatan' => '2026',
+                    'jangka_waktu' => 'Selamanya',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+        // 3. Update informasi_setiapsaats
+        if (Schema::hasTable('informasi_setiapsaats')) {
+            $setiapSaatLinks = array_merge([
+                [
+                    'url' => $bmnFolder,
+                    'nama' => 'Folder Google Drive: Laporan Data Barang Milik Negara (BMN) 2020-2025'
+                ]
+            ], array_reverse($bmnLinks));
+
+            DB::table('informasi_setiapsaats')
+                ->where('id', 186)
+                ->orWhere('judul', 'like', '%Barang Milik Negara%')
+                ->update([
+                    'tautan_links' => json_encode($setiapSaatLinks),
+                    'file_path' => $bmnFolder,
+                    'updated_at' => now(),
+                ]);
+        }
+
+        // -------------------------------------------------------------
+        // B. INFORMASI BERKALA #25: PENGADAAN BARANG DAN JASA
+        // -------------------------------------------------------------
+        $barjasLinks = [
+            ['url' => 'https://drive.google.com/drive/folders/1JBjaCxiQUD8DwxzIwpQtd7pTulydHz0N?usp=drive_link', 'nama' => 'Folder Google Drive: Pengadaan Barang dan Jasa PKTJ'],
+            ['url' => 'https://drive.google.com/file/d/1StO5AOV6Xt4FFWY3LcOOTii0jS2wR5sU/view?usp=sharing', 'nama' => '1. Dokumen Rencana Umum Pengadaan (RUP)'],
+            ['url' => 'https://drive.google.com/file/d/1PyEWbxB1QSgu3a0tqrTZaVEdkEa_BQZR/view?usp=drive_link', 'nama' => '2. Dokumen Kerangka Acuan Kerja (KAK)'],
+            ['url' => 'https://drive.google.com/file/d/1_lNGaDoySZPqLhU3azxn9lrlUwe6tQGw/view?usp=sharing', 'nama' => '3. Dokumen Harga Perkiraan Sendiri (HPS) serta Riwayat HPS'],
+            ['url' => 'https://drive.google.com/file/d/1F_cds12A50j7vJJ_IbZYWYf8Q86mgTwQ/view?usp=sharing', 'nama' => '4. Dokumen Spesifikasi Teknis'],
+            ['url' => 'https://drive.google.com/file/d/1TnMFLc674pgRxDL-GecajQvPNZwHKpQv/view?usp=sharing', 'nama' => '5. Dokumen Rancangan Kontrak'],
+            ['url' => 'https://drive.google.com/file/d/1aJpW_hogUqtqiIjvxNCL65PPPxPuRkWt/view?usp=sharing', 'nama' => '6. Dokumen Persyaratan Penyedia atau Lembar Data kualifikasi'],
+            ['url' => 'https://drive.google.com/file/d/1SE4qWg00pplfJ3MMuPe9U7R-k0Hn8MKu/view?usp=sharing', 'nama' => '7. Dokumen Persyaratan Proses Pemilihan atau Lembar Data Pemilihan'],
+            ['url' => 'https://drive.google.com/file/d/11ZYHhF0EyYpeCsMK6oTKSLN4_9OoOC4V/view?usp=sharing', 'nama' => '8. Dokumen Daftar Kuantitas dan Harga'],
+            ['url' => 'https://drive.google.com/file/d/1VMZMjYZc9LZtTuLSL3srZ_NJbVfK4jyz/view?usp=sharing', 'nama' => '9. Dokumen Jadwal Pelaksanaan dan Data Lokasi Pekerjaan'],
+            ['url' => 'https://drive.google.com/file/d/1sq8PTV3h--bU3LztVcmk81rAHl4NlQhb/view?usp=sharing', 'nama' => '10. Dokumen Gambar Rancangan Pekerjaan'],
+            ['url' => 'https://drive.google.com/file/d/1h3_mBtYmj27G7kh3I5Qe_N-zzcfDHmf_/view?usp=sharing', 'nama' => '12. Dokumen Penawaran Administratif'],
+            ['url' => 'https://drive.google.com/file/d/1w1AGtIyFOEBRImqIyGJa4cNxtWsQzD0f/view?usp=sharing', 'nama' => '13. Dokumen Surat Penawaran Penyedia'],
+            ['url' => 'https://drive.google.com/file/d/1TZWn88VYxR6qQZEovw4gijgGbBVxo24a/view?usp=drive_link', 'nama' => '15-17. Dokumen Berita Acara Pemberian Penjelasan, Pengumuman Negosiasi, Sanggah dan Sanggah Banding'],
+            ['url' => 'https://drive.google.com/file/d/1bKKdaLA95j1r2pHqu_nySjeiZWJ3sdtt/view?usp=sharing', 'nama' => '18. Dokumen Berita Acara Penetapan atau Pengumuman Penyedia'],
+            ['url' => 'https://drive.google.com/file/d/1FTzYU3o02FNO5ViWh9PrRA0tucZjgqDv/view?usp=sharing', 'nama' => '19. Dokumen Laporan Hasil Pemilihan Penyedia'],
+            ['url' => 'https://drive.google.com/file/d/1B6pItBIYTTnv9G0-WZY3p5YxZDYgBRH-/view?usp=sharing', 'nama' => '20. Dokumen Surat Penunjukan Penyedia Barang/Jasa (SPPBJ)'],
+            ['url' => 'https://drive.google.com/file/d/1dzFnN98DAZTWyQCpqNKZLnE94UttNWUq/view?usp=sharing', 'nama' => '21. Dokumen Kontrak yang telah ditandatangani beserta Perubahan Kontrak'],
+            ['url' => 'https://drive.google.com/file/d/1ZcmrV_gAkkfi4Zm3TYiwde-i8evlixtd/view?usp=sharing', 'nama' => '22. Dokumen Ringkasan Kontrak'],
+            ['url' => 'https://drive.google.com/file/d/1FdGK8LjSjpCWAkUbnD0n2Zgk3WT5KGRg/view?usp=sharing', 'nama' => '23. Dokumen Surat Perintah Mulai Kerja'],
+            ['url' => 'https://drive.google.com/file/d/10Z-9uh8t46cvNgIivT04z6tuDgs5cknl/view?usp=sharing', 'nama' => '25. Dokumen Surat Jaminan Uang Muka'],
+            ['url' => 'https://drive.google.com/file/d/1dpGnnPcvZ4IfH4B_durmQyjMeXOf7wmf/view?usp=sharing', 'nama' => '26. Dokumen Surat Jaminan Pemeliharaan'],
+            ['url' => 'https://drive.google.com/file/d/1jjQB8OQsmAbrzUpBX6_9g49mqNoYzMiB/view?usp=sharing', 'nama' => '27. Dokumen Surat Tagihan'],
+            ['url' => 'https://drive.google.com/file/d/10QAqH5umdPkYFVaeP-fl6s8BYHXzPFE-/view?usp=sharing', 'nama' => '28. Dokumen Surat Pesanan E-purchasing'],
+            ['url' => 'https://drive.google.com/file/d/14ll5EhG4PCa_hpzg-whp8x7UIEyfmiSI/view?usp=sharing', 'nama' => '29. Dokumen Surat Perintah Membayar'],
+            ['url' => 'https://drive.google.com/file/d/1p-qP2HrcZXni59HjCbedNzvp3utTeH4b/view?usp=sharing', 'nama' => '30. Dokumen Surat Perintah Pencairan Dana'],
+            ['url' => 'https://drive.google.com/file/d/1MOQPPW6Lby9KlplsTReLrCzFv1MectnI/view?usp=sharing', 'nama' => '31. Dokumen Laporan Pelaksanaan Pekerjaan'],
+            ['url' => 'https://drive.google.com/file/d/1MSE1Vmdd5lLZSSlqdf_Njd4SM9FhI-YQ/view?usp=sharing', 'nama' => '32. Dokumen Laporan Penyelesaian Pekerjaan'],
+            ['url' => 'https://drive.google.com/file/d/1FvD7eqJm1gEKMeWNJ6iJYYiE-XbXTGB1/view?usp=sharing', 'nama' => '33. Dokumen Berita Acara Pemeriksaan Hasil Pekerjaan'],
+            ['url' => 'https://drive.google.com/file/d/1-d5_KHHS3LWrU7TZd1Yp3J5GarLU7X2Z/view?usp=sharing', 'nama' => '34. Dokumen Berita Acara Serah Terima Sementara (PHO)']
+        ];
+
+        if (Schema::hasTable('informasi_berkalas')) {
+            DB::table('informasi_berkalas')
+                ->where('judul', 'like', '%pengadaan barang%')
+                ->orWhere('id', 377)
+                ->update([
+                    'tautan_links' => json_encode($barjasLinks),
+                    'file_path' => 'https://drive.google.com/drive/folders/1JBjaCxiQUD8DwxzIwpQtd7pTulydHz0N?usp=drive_link',
+                    'updated_at' => now(),
+                ]);
+        }
+
+        if (Schema::hasTable('daftar_informasis')) {
+            DB::table('daftar_informasis')
+                ->where('judul_informasi', 'like', '%pengadaan barang%')
+                ->update([
+                    'tautan_links' => json_encode($barjasLinks),
+                    'file_informasi' => 'https://drive.google.com/drive/folders/1JBjaCxiQUD8DwxzIwpQtd7pTulydHz0N?usp=drive_link',
+                    'updated_at' => now(),
+                ]);
+        }
+
+        // -------------------------------------------------------------
+        // C. INFORMASI BERKALA #14: RENSTRA PKTJ (2020-2024 & 2025-2029)
+        // -------------------------------------------------------------
+        $renstraLinks = [
+            [
+                'url' => 'https://drive.google.com/file/d/1Y-OeqeZYBuX9TsHdzVI0xJe0AMsupr7J/view?usp=sharing',
+                'nama' => 'Rencana Strategis (Renstra) PKTJ 2020-2024'
+            ],
+            [
+                'url' => 'https://drive.google.com/file/d/1iWTCnNe1f-6-8TYVXM1ryi5A2VVUiZD5/view?usp=drive_link',
+                'nama' => 'Rencana Strategis (Renstra) PKTJ 2025-2029'
+            ]
+        ];
+        $renstraDesc = 'Rencana Strategis (Renstra) Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal Periode 2020-2024 dan 2025-2029.';
+
+        if (Schema::hasTable('informasi_berkalas')) {
+            DB::table('informasi_berkalas')
+                ->where('judul', 'like', '%Strategis%')
+                ->orWhere('judul', 'like', '%Renstra%')
+                ->orWhere('id', 366)
+                ->update([
+                    'tautan_links' => json_encode($renstraLinks),
+                    'deskripsi' => $renstraDesc,
+                    'file_path' => 'https://drive.google.com/file/d/1Y-OeqeZYBuX9TsHdzVI0xJe0AMsupr7J/view?usp=sharing',
+                    'updated_at' => now(),
+                ]);
+        }
+
+        if (Schema::hasTable('daftar_informasis')) {
+            DB::table('daftar_informasis')
+                ->where('judul_informasi', 'like', '%Strategis%')
+                ->orWhere('judul_informasi', 'like', '%Renstra%')
+                ->update([
+                    'tautan_links' => json_encode($renstraLinks),
+                    'isi_informasi' => $renstraDesc,
+                    'file_informasi' => 'https://drive.google.com/file/d/1Y-OeqeZYBuX9TsHdzVI0xJe0AMsupr7J/view?usp=sharing',
+                    'updated_at' => now(),
+                ]);
+        }
+
+        // -------------------------------------------------------------
+        // D. PROFIL PPID & VIDEO PROFIL
+        // -------------------------------------------------------------
+        $profilPembuka = '<div class="mb-4">
+    <p class="lead fw-semibold text-dark" style="font-size: 1.15rem; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
+        Dalam mewujudkan tata kelola kepemerintahan yang baik, transparan, dan akuntabel di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal melalui transparansi informasi publik guna memenuhi hak setiap pemohon informasi sesuai dengan ketentuan peraturan perundang-undangan.
+    </p>
+    <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+        Sejak Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan sarana dalam mengoptimalkan pengawasan publik terhadap penyelenggaraan negara dan Badan Publik lainnya serta segala sesuatu yang berakibat pada kepentingan publik, sekaligus menjadi upaya strategis dalam mengembangkan masyarakat informasi guna meningkatkan peran serta aktif masyarakat dalam pengambilan kebijakan publik.
+    </p>
+    <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+        Sejalan dengan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP), Kementerian Perhubungan telah menetapkan Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan. Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal sebagai salah satu Unit Pelaksana Teknis (UPT) di lingkungan Kementerian Perhubungan telah membentuk Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana melalui Surat Keputusan Direktur Nomor KP-PKTJ 384 Tahun 2026 guna menjamin kepastian layanan informasi yang profesional, cepat, dan berintegritas.
+    </p>
+    <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+Sebagai perguruan tinggi kedinasan vokasi di bawah naungan Kementerian Perhubungan yang berdiri sejak 14 Mei 1971, berawal dari Balai Diklat Trans Jaya, bertransformasi menjadi Balai Pendidikan dan Pelatihan Transportasi Darat (BPPTD), hingga ditetapkan menjadi Politeknik Keselamatan Transportasi Jalan berdasarkan Peraturan Menteri Perhubungan Nomor PM 15 Tahun 2012. PKTJ kini beroperasi di dua kampus di Kota Tegal, yaitu Kampus Perintis di Jl. Perintis Kemerdekaan dan Kampus Margadana di Jl. KH. Abdul Syukur Margadana. Melalui semangat keterbukaan informasi publik, PPID Pelaksana UPT PKTJ Tegal berkomitmen terus mendukung terwujudnya tata kelola pendidikan vokasi transportasi jalan yang unggul, berintegritas, serta berdaya saing nasional dan global.
+</p>
+</div>';
+
+        $profilDetail = '<div class="video-container my-4 text-center">
+    <iframe width="100%" height="450" src="https://www.youtube.com/embed/e-zh2icc4EQ" title="Video Profil PPID PKTJ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="max-width: 800px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); width: 100%;"></iframe>
+</div>
+<div class="mb-4">
+    <p>
+        Sebagai Unit Pelaksana Teknis (UPT) di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan, PKTJ memiliki mandat mulia mencetak perwira transportasi jalan yang profesional, berkarakter, dan berdaya saing global melalui 3 (tiga) program studi unggulan:
+    </p>
+    <ol>
+        <li><strong>Sarjana Terapan (D-IV) Rekayasa Sistem Transportasi Jalan (RSTJ)</strong></li>
+        <li><strong>Sarjana Terapan (D-IV) Teknologi Rekayasa Otomotif (TRO)</strong></li>
+        <li><strong>Diploma III (D-III) Teknologi Otomotif (TO)</strong></li>
+    </ol>
+    <p>
+        Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transparan, dan bebas dari korupsi (Good Governance & Clean Government), PPID Pelaksana UPT PKTJ Tegal berkomitmen penuh memberikan pelayanan informasi yang cepat, akurat, tidak memungut biaya apapun (Rp 0), serta menjamin hak setiap pemohon informasi publik sesuai amanat Undang-Undang Nomor 14 Tahun 2008 dan Peraturan Menhub Nomor PM 46 Tahun 2018.
+    </p>
+</div>';
+
+        if (Schema::hasTable('profil_ppids')) {
+            DB::table('profil_ppids')->updateOrInsert(
+                ['id' => 1],
+                [
+                    'konten_pembuka' => $profilPembuka,
+                    'konten_detail' => $profilDetail,
+                    'updated_at' => now(),
+                ]
+            );
+        }
+
+        // -------------------------------------------------------------
+        // E. LAPORAN PPID 2025 (DOKUMENS & INFORMASI BERKALA)
+        // -------------------------------------------------------------
+        $laporanGdrive = 'https://drive.google.com/file/d/1ZIZ7ZVVFPz5Fo17T2AZAbjhuYKiI5STM/view?usp=sharing';
+        $laporanJudul = 'Laporan Tahunan PPID Pelaksana UPT PKTJ Tegal Tahun 2025';
+
+        if (Schema::hasTable('dokumens')) {
+            $dokLaporan = DB::table('dokumens')
+                ->where('judul', 'like', '%PPID%2025%')
+                ->orWhere('judul', 'like', '%Laporan%2025%')
+                ->first();
+
+            if ($dokLaporan) {
+                DB::table('dokumens')->where('id', $dokLaporan->id)->update([
+                    'judul' => $laporanJudul,
+                    'file_path' => $laporanGdrive,
+                    'file_name' => 'Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                    'file_size' => 'Google Drive',
+                    'file_type' => 'gdrive',
+                    'kategori' => 'Laporan Layanan',
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'updated_at' => now(),
+                ]);
+            } else {
+                DB::table('dokumens')->insert([
+                    'judul' => $laporanJudul,
+                    'file_path' => $laporanGdrive,
+                    'file_name' => 'Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                    'file_size' => 'Google Drive',
+                    'file_type' => 'gdrive',
+                    'is_blurred' => 0,
+                    'kategori' => 'Laporan Layanan',
+                    'tanggal' => '2025-12-31',
+                    'deskripsi' => '<p>Laporan Tahunan PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal Tahun 2025.</p>',
+                    'aktif' => 1,
+                    'bisa_download' => 1,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+        }
+
+        $laporanBerkalaLinks = [
+            ['url' => $laporanGdrive, 'nama' => 'Laporan PPID PKTJ 2025 (Google Drive)'],
+            ['url' => 'storage/dokumen/Laporan_Tahunan_PPID_PKTJ_2025.pdf', 'nama' => 'Laporan PPID PKTJ 2025 (PDF Direct)']
+        ];
+
+        if (Schema::hasTable('informasi_berkalas')) {
+            DB::table('informasi_berkalas')
+                ->where('judul', 'like', '%Laporan PPID%')
+                ->orWhere('id', 375)
+                ->update([
+                    'tautan_links' => json_encode($laporanBerkalaLinks),
+                    'file_path' => 'storage/dokumen/Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                    'updated_at' => now(),
+                ]);
+        }
+
+        // -------------------------------------------------------------
+        // F. SERTA MERTA (3 PENGUMUMAN RESMI)
+        // -------------------------------------------------------------
+        $sertaMertaItems = [
+            [
+                'id' => 51,
+                'judul' => 'Perpanjangan Masa Pendaftaran SIPENCATAR Jalur Mandiri Gelombang II PKTJ Tahun Akademik 2026/2027',
+                'deskripsi' => 'Informasi mengenai perpanjangan masa pendaftaran Seleksi Penerimaan Calon Taruna (SIPENCATAR) Jalur Mandiri Gelombang II Politeknik Keselamatan Transportasi Jalan (PKTJ) Tahun Akademik 2026/2027 sebagaimana tercantum dalam Pengumuman Nomor PG-PKTJ 30 Tahun 2026. Masa pendaftaran yang semula berakhir pada tanggal 18 Juni 2026 diperpanjang sampai dengan tanggal 24 Juni 2026 pukul 23.59 WIB. Bagi calon peserta yang belum menyelesaikan proses pendaftaran, diimbau untuk segera melakukan pendaftaran dan melengkapi seluruh persyaratan yang telah ditentukan sebelum batas waktu yang ditetapkan.',
+                'file_path' => 'https://pktj.ac.id/berita/20260618-1130-perpanjangan-masa-pendaftaran-sipencatar-jalur-mandiri-gelombang-ii-pktj-tahun-akademik-20262027',
+                'tanggal' => '2026-06-18',
+            ],
+            [
+                'id' => 52,
+                'judul' => 'Imbauan Cetak Ulang Kartu Peserta Seleksi Kompetensi Dasar (SKD) SIPENCATAR Pola Pembibitan Tahun Akademik 2026/2027',
+                'deskripsi' => 'Informasi mengenai pembaruan data pada Kartu Peserta Seleksi Kompetensi Dasar (SKD) SIPENCATAR Pola Pembibitan Kementerian Perhubungan Tahun Akademik 2026/2027. Sehubungan dengan adanya penyesuaian informasi jadwal pelaksanaan SKD pada beberapa kartu peserta, seluruh peserta diimbau untuk mencetak ulang Kartu Peserta SKD melalui akun masing-masing pada portal pendaftaran. Peserta diminta memastikan kembali kesesuaian informasi pada kartu terbaru, meliputi tanggal pelaksanaan SKD, lokasi pelaksanaan SKD, serta waktu atau sesi pelaksanaan SKD. Kartu peserta yang telah diperbarui wajib dibawa dan ditunjukkan pada saat pelaksanaan SKD sesuai dengan jadwal yang tercantum pada kartu peserta terbaru. Pengumuman selengkapnya dapat diakses melalui https://sipencatar.kemenhub.go.id/ dan https://sscasn.bkn.go.id/.',
+                'file_path' => 'https://pktj.ac.id/berita/20260919-1225-peserta-sipencatar-diimbau-cetak-ulang-kartu-peserta-skd-tahun-akademik-20262027',
+                'tanggal' => '2026-09-19',
+            ],
+            [
+                'id' => 53,
+                'judul' => 'Pemberitahuan Potensi Kepadatan Lalu Lintas Kegiatan Transjaya Run 2026 di Kawasan Jalan Semeru Kota Tegal',
+                'deskripsi' => 'Informasi mengenai imbauan kepada warga masyarakat Kota Tegal, khususnya pengguna jalan di Kawasan Jalan Semeru, sehubungan dengan penyelenggaraan kegiatan Transjaya Run 2026 pada hari Minggu, 24 Mei 2026, pukul 05.00 s.d. 10.00 WIB. Guna mengantisipasi kepadatan arus lalu lintas, seluruh pengguna jalan diimbau untuk tetap berhati-hati, mengurangi kecepatan berkendara, dan mengutamakan keselamatan. Panitia Transjaya Run 2026 menyampaikan permohonan maaf atas ketidaknyamanan perjalanan yang mungkin timbul akibat potensi kepadatan tersebut, serta ucapan terima kasih atas perhatian, dukungan, dan kerja sama seluruh pihak.',
+                'file_path' => 'https://www.instagram.com/p/DYrb10MlHfY/?utm_source=ig_web_copy_link&stkn=NTc4MTIwNjQ2YQ==',
+                'tanggal' => '2026-05-24',
+            ]
+        ];
+
+        foreach ($sertaMertaItems as $sm) {
+            $smLinks = [
+                ['url' => $sm['file_path'], 'nama' => 'Informasi Selengkapnya']
+            ];
+
+            if (Schema::hasTable('informasi_sertamertas')) {
+                DB::table('informasi_sertamertas')->updateOrInsert(
+                    ['id' => $sm['id']],
+                    [
+                        'judul' => $sm['judul'],
+                        'deskripsi' => $sm['deskripsi'],
+                        'file_path' => $sm['file_path'],
+                        'file_name' => 'Informasi Selengkapnya',
+                        'tautan_links' => json_encode($smLinks),
+                        'tanggal' => $sm['tanggal'],
+                        'aktif' => 1,
+                        'updated_at' => now(),
+                    ]
+                );
+            }
+
+            if (Schema::hasTable('daftar_informasis')) {
+                $exDaftar = DB::table('daftar_informasis')->where('judul_informasi', $sm['judul'])->first();
+                if ($exDaftar) {
+                    DB::table('daftar_informasis')->where('id', $exDaftar->id)->update([
+                        'isi_informasi' => $sm['deskripsi'],
+                        'kategori' => 'informasi-serta-merta',
+                        'tipe_informasi' => 'serta-merta',
+                        'file_informasi' => $sm['file_path'],
+                        'tautan_links' => json_encode($smLinks),
+                        'aktif' => 1,
+                        'updated_at' => now(),
+                    ]);
+                } else {
+                    DB::table('daftar_informasis')->insert([
+                        'judul_informasi' => $sm['judul'],
+                        'isi_informasi' => $sm['deskripsi'],
+                        'kategori' => 'informasi-serta-merta',
+                        'tipe_informasi' => 'serta-merta',
+                        'file_informasi' => $sm['file_path'],
+                        'tautan_links' => json_encode($smLinks),
+                        'aktif' => 1,
+                        'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
+                        'penerbit_informasi' => 'Bagian Keuangan dan Umum',
+                        'penanggung_jawab' => 'Bagian Keuangan dan Umum',
+                        'bentuk_informasi' => 'Softcopy & Website',
+                        'tempat_pembuatan' => 'Tegal',
+                        'waktu_pembuatan' => '2026',
+                        'jangka_waktu' => 'Selamanya',
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
                 }
             }
         }

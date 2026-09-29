@@ -270,39 +270,96 @@
             padding-top: 70px !important;
         }
     }
+    /* MOBILE OFFCANVAS SIDEBAR STYLING */
+    .mobile-sidebar-drawer {
+        width: 320px !important;
+        max-width: 86vw !important;
+        z-index: 2147483647 !important;
+        background-color: #ffffff !important;
+        border-right: 3px solid #ffc107 !important;
+        box-shadow: 12px 0 35px rgba(0, 43, 92, 0.28) !important;
+    }
+    .mobile-nav-link {
+        transition: background 0.15s ease, color 0.15s ease;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-nav-link:active,
+    .mobile-nav-link:hover {
+        background-color: #f1f5f9;
+        color: #004a99 !important;
+    }
+    .mobile-nav-accordion[aria-expanded="true"] {
+        background-color: #f1f5f9 !important;
+        color: #004a99 !important;
+    }
+    .mobile-nav-accordion[aria-expanded="true"] .mobile-chevron {
+        transform: rotate(180deg);
+    }
+    .mobile-subnav-link {
+        transition: background 0.15s ease, color 0.15s ease, padding-left 0.15s ease;
+        user-select: none;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .mobile-subnav-link:active,
+    .mobile-subnav-link:hover {
+        background-color: #ffffff;
+        color: #004a99 !important;
+        padding-left: 32px !important;
+        font-weight: 700;
+    }
 </style>
 
+@php
+    try {
+        $headerMenus = \App\Models\CustomMenu::with(['children' => function($query) {
+            $query->where('aktif', true)->orderBy('urutan', 'asc');
+        }])
+        ->whereNull('parent_id')
+        ->where('aktif', true)
+        ->whereIn('penempatan', ['header', 'both'])
+        ->orderBy('urutan', 'asc')
+        ->get();
+    } catch (\Exception $e) {
+        $headerMenus = collect([]);
+    }
+
+    $getMenuIcon = function($nama) {
+        $n = strtolower($nama);
+        if (str_contains($n, 'beranda') || str_contains($n, 'home')) return 'fas fa-home';
+        if (str_contains($n, 'profil')) return 'fas fa-id-card';
+        if (str_contains($n, 'informasi publik') || str_contains($n, 'berkala') || str_contains($n, 'setiap saat') || str_contains($n, 'serta merta')) return 'fas fa-newspaper';
+        if (str_contains($n, 'prosedur') || str_contains($n, 'sop')) return 'fas fa-clipboard-list';
+        if (str_contains($n, 'layanan')) return 'fas fa-headset';
+        if (str_contains($n, 'regulasi') || str_contains($n, 'hukum') || str_contains($n, 'jdih')) return 'fas fa-scale-balanced';
+        if (str_contains($n, 'kontak') || str_contains($n, 'hubungi')) return 'fas fa-envelope';
+        return 'fas fa-circle-dot';
+    };
+@endphp
+
 <nav class="navbar navbar-expand-lg navbar-dark navbar-fixed-top-pktj" style="position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; width: 100% !important; z-index: 2147483647 !important; background-color: #004a99 !important; border-bottom: 3px solid #ffc107 !important; padding: 10px 0 !important; box-shadow: 0 6px 25px rgba(0, 43, 92, 0.35) !important;">
-    <div class="container">
-        <a class="navbar-brand fw-bold me-4 d-flex align-items-center" href="{{ route('home') }}">
+    <div class="container d-flex align-items-center justify-content-between">
+        <a class="navbar-brand fw-bold me-auto d-flex align-items-center" href="{{ route('home') }}">
             <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo {{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}" style="height: 50px; margin-right: 12px;">
             <span>{{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}</span>
         </a>
 
-        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <!-- MOBILE ACTION & HAMBURGER (D-LG-NONE) -->
+        <div class="d-flex align-items-center gap-2 d-lg-none">
+            <button type="button" class="btn btn-outline-light rounded-circle p-2 d-flex align-items-center justify-content-center" onclick="openGlobalSearchModal()" title="Cari Dokumen" style="width: 40px; height: 40px; border-color: rgba(255,255,255,0.3); background: rgba(0, 23, 56, 0.3);">
+                <i class="fas fa-search text-warning" style="font-size: 14px;"></i>
+            </button>
+            <button class="navbar-toggler border-0 p-2 text-white d-flex align-items-center justify-content-center" type="button" data-bs-toggle="offcanvas" data-bs-target="#mobileLeftSidebar" aria-controls="mobileLeftSidebar" aria-label="Buka Menu Navigasi" style="width: 42px; height: 42px; background: rgba(255,255,255,0.1); border-radius: 8px; outline: none; box-shadow: none;">
+                <i class="fas fa-bars text-white" style="font-size: 20px;"></i>
+            </button>
+        </div>
         
-        <div class="collapse navbar-collapse" id="navbarNav">
+        <!-- DESKTOP NAVBAR (D-NONE D-LG-FLEX) -->
+        <div class="collapse navbar-collapse d-none d-lg-flex" id="navbarNav">
             <ul class="navbar-nav me-auto align-items-center">
                 <li class="nav-item">
                     <a class="nav-link text-white px-3 fw-bold uppercase" href="{{ route('home') }}">BERANDA</a>
                 </li>
-
-                @php
-                    try {
-                        $headerMenus = \App\Models\CustomMenu::with(['children' => function($query) {
-                            $query->where('aktif', true)->orderBy('urutan', 'asc');
-                        }])
-                        ->whereNull('parent_id')
-                        ->where('aktif', true)
-                        ->whereIn('penempatan', ['header', 'both'])
-                        ->orderBy('urutan', 'asc')
-                        ->get();
-                    } catch (\Exception $e) {
-                        $headerMenus = collect([]);
-                    }
-                @endphp
 
                 @foreach($headerMenus as $menu)
                     @if(in_array(strtolower(trim($menu->nama)), ['regulasi', 'berita', 'daftar informasi publik']) || str_contains(strtolower($menu->nama), 'daftar informasi publik') || str_contains($menu->url ?? '', 'layanan-informasi/daftar'))
@@ -412,6 +469,157 @@
         </div>
     </div>
 </nav>
+
+<!-- ============================================================== -->
+<!-- MOBILE LEFT OFFCANVAS SIDEBAR DRAWER (THUMB-FRIENDLY & COMFORTABLE) -->
+<!-- ============================================================== -->
+<div class="offcanvas offcanvas-start mobile-sidebar-drawer" tabindex="-1" id="mobileLeftSidebar" aria-labelledby="mobileLeftSidebarLabel">
+    <div class="offcanvas-header py-3 px-3" style="background: linear-gradient(135deg, #002b5c 0%, #004a99 100%); border-bottom: 2px solid #ffc107;">
+        <div class="d-flex align-items-center gap-2" id="mobileLeftSidebarLabel">
+            <img src="{{ asset('images/logo-pktj.png') }}" alt="Logo PKTJ" style="height: 42px;">
+            <div class="d-flex flex-column text-white">
+                <span class="fw-black outfit" style="font-size: 15px; letter-spacing: 0.5px;">{{ $settings['ppid_nama'] ?? 'PPID PKTJ' }}</span>
+                <span class="text-white-50" style="font-size: 10px;">Kementerian Perhubungan</span>
+            </div>
+        </div>
+        <button type="button" class="btn-close btn-close-white p-2" data-bs-dismiss="offcanvas" aria-label="Tutup" style="opacity: 0.9;"></button>
+    </div>
+
+    <!-- QUICK ACTIONS: PERMOHONAN & CARI (THUMB TARGET MIN 48PX) -->
+    <div class="p-3 bg-light border-bottom d-flex flex-column gap-2">
+        <a class="btn btn-warning fw-bold w-100 py-2.5 text-dark rounded-3 shadow-xs d-flex align-items-center justify-content-center gap-2" href="{{ $urlPermohonanBpsdm }}" target="_blank" style="font-size: 13px; min-height: 48px; letter-spacing: 0.3px;">
+            <i class="fas fa-file-signature text-dark"></i>
+            <span>PERMOHONAN INFORMASI</span>
+        </a>
+        <button type="button" class="btn btn-outline-primary fw-semibold w-100 py-2 rounded-3 d-flex align-items-center justify-content-center gap-2" onclick="openGlobalSearchModal(); bootstrap.Offcanvas.getInstance(document.getElementById('mobileLeftSidebar'))?.hide();" style="font-size: 12.5px; min-height: 44px; background: #ffffff;">
+            <i class="fas fa-search text-warning"></i>
+            <span>Cari Dokumen / Informasi...</span>
+        </button>
+    </div>
+
+    <!-- MAIN SCROLLABLE MENU LIST -->
+    <div class="offcanvas-body p-0" style="overflow-y: auto; -webkit-overflow-scrolling: touch;">
+        <ul class="list-unstyled mb-0 py-2">
+            <!-- BERANDA -->
+            <li class="border-bottom border-light">
+                <a class="mobile-nav-link d-flex align-items-center gap-3 px-3 py-3 text-dark text-decoration-none fw-bold" href="{{ route('home') }}" style="min-height: 52px; font-size: 14.5px;">
+                    <i class="fas fa-home text-primary" style="width: 22px; font-size: 16px; text-align: center;"></i>
+                    <span>BERANDA</span>
+                </a>
+            </li>
+
+            <!-- DYNAMIC MENUS & ACCORDIONS -->
+            @foreach($headerMenus as $menuIdx => $menu)
+                @if(in_array(strtolower(trim($menu->nama)), ['regulasi', 'berita', 'daftar informasi publik']) || str_contains(strtolower($menu->nama), 'daftar informasi publik') || str_contains($menu->url ?? '', 'layanan-informasi/daftar'))
+                    @continue
+                @endif
+                @php
+                    $menuNama = $menu->nama;
+                    $menuUrl = $menu->url;
+                    $menuNama = str_ireplace('SOP', 'Prosedur', $menuNama);
+                    if ($menu->slug === 'jdih-sub' || str_contains(strtolower($menu->slug), 'jdih') || str_contains(strtolower($menuUrl ?? ''), 'jdih') || str_contains(strtolower($menuNama), 'jdih')) {
+                        $menuNama = 'JDIH BPSDM Perhubungan';
+                        $menuUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
+                    }
+                    if (str_contains(strtolower($menuNama), 'tanggung jawab') || str_contains(strtolower($menuNama), 'tugas') || str_contains(strtolower($menuUrl ?? ''), 'tugas') || str_contains(strtolower($menu->slug ?? ''), 'tugas')) {
+                        $menuNama = 'Tugas & Fungsi PPID';
+                        $menuUrl = '/profil/tugas-dan-fungsi-ppid';
+                    }
+                    $menuIcon = $getMenuIcon($menuNama);
+                    $hasChildren = $menu->children->count() > 0;
+                @endphp
+
+                @if($hasChildren)
+                    @php
+                        $sortedChildren = $menu->children;
+                        if (str_contains(strtoupper($menuNama), 'INFORMASI PUBLIK')) {
+                            $sortedChildren = $menu->children->sortBy(function($child) {
+                                $s = strtolower($child->slug . ' ' . $child->url . ' ' . $child->nama);
+                                if (str_contains($s, 'berkala')) return 1;
+                                if (str_contains($s, 'setiap')) return 2;
+                                if (str_contains($s, 'serta')) return 3;
+                                if (str_contains($s, 'dikecualikan')) return 4;
+                                return 99;
+                            });
+                        }
+                    @endphp
+                    <li class="border-bottom border-light">
+                        <button class="mobile-nav-link mobile-nav-accordion w-100 d-flex align-items-center justify-content-between px-3 py-3 text-dark text-decoration-none fw-bold border-0 bg-transparent text-start" type="button" data-bs-toggle="collapse" data-bs-target="#mobileSubmenu{{ $menuIdx }}" aria-expanded="false" style="min-height: 52px; font-size: 14.5px;">
+                            <div class="d-flex align-items-center gap-3">
+                                <i class="{{ $menuIcon }} text-primary" style="width: 22px; font-size: 16px; text-align: center;"></i>
+                                <span>{{ $menuNama }}</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-muted transition-transform mobile-chevron" style="font-size: 12px;"></i>
+                        </button>
+                        <div class="collapse bg-light border-top border-bottom" id="mobileSubmenu{{ $menuIdx }}">
+                            <ul class="list-unstyled mb-0 py-1">
+                                @foreach($sortedChildren as $child)
+                                    @if(in_array($child->slug, ['sop-penetapan-sub', 'sop-pengujian-sub', 'sop-pendokumentasian-sub', 'layanan-daftar-sub', 'daftar-informasi-sub']) || str_contains(strtolower($child->nama), 'daftar informasi publik') || str_contains($child->url, 'sop-penetapan') || str_contains($child->url, 'sop-pengujian') || str_contains($child->url, 'sop-pendokumentasian') || str_contains($child->url, 'layanan-informasi/daftar'))
+                                        @continue
+                                    @endif
+                                    @if(str_contains(strtolower($child->nama), 'dikecualikan') || str_contains(strtolower($child->url ?? ''), 'dikecualikan') || $child->slug === 'informasi-dikecualikan-sub')
+                                        @continue
+                                    @endif
+                                    @php
+                                        $childNama = $child->nama;
+                                        $childUrl = $child->url;
+                                        $childNama = str_ireplace('SOP', 'Prosedur', $childNama);
+                                        if (str_contains(strtolower($childNama), 'maklumat')) {
+                                            $childNama = 'Maklumat dan Standar Biaya Layanan';
+                                            $childUrl = '/layanan-informasi/maklumat-dan-standar-biaya-layanan';
+                                        }
+                                        if (str_contains($childUrl ?? '', 'sop-permintaan')) {
+                                            $childUrl = '/prosedur/permintaan-informasi';
+                                        }
+                                        if (str_contains($childUrl ?? '', 'sop-keberatan')) {
+                                            $childUrl = '/prosedur/penanganan-keberatan';
+                                        }
+                                        if (str_contains($childUrl ?? '', 'sop-sengketa')) {
+                                            $childUrl = '/prosedur/sengketa-informasi';
+                                        }
+                                        if ($child->slug === 'jdih-sub' || str_contains(strtolower($child->slug), 'jdih') || str_contains(strtolower($childUrl ?? ''), 'jdih') || str_contains(strtolower($childNama), 'jdih')) {
+                                            $childNama = 'JDIH BPSDM Perhubungan';
+                                            $childUrl = 'https://bpsdm.kemenhub.go.id/jdih/';
+                                        }
+                                        if (str_contains(strtolower($childNama), 'tanggung jawab') || str_contains(strtolower($childNama), 'tugas') || str_contains(strtolower($childUrl ?? ''), 'tugas') || str_contains(strtolower($child->slug ?? ''), 'tugas')) {
+                                            $childNama = 'Tugas & Fungsi PPID';
+                                            $childUrl = '/profil/tugas-dan-fungsi-ppid';
+                                        }
+                                        $targetUrl = (str_starts_with($childUrl ?? '', 'http://') || str_starts_with($childUrl ?? '', 'https://')) ? $childUrl : ($childUrl ?: '/halaman/' . $child->slug);
+                                        $isExternal = (str_starts_with($childUrl ?? '', 'http://') || str_starts_with($childUrl ?? '', 'https://'));
+                                    @endphp
+                                    <li class="border-bottom border-white">
+                                        <a class="mobile-subnav-link d-flex align-items-center gap-2.5 px-3 py-2.5 text-secondary text-decoration-none fw-medium" href="{{ $targetUrl }}" {{ $isExternal ? 'target="_blank"' : '' }} style="min-height: 48px; font-size: 13.5px; padding-left: 28px !important;">
+                                            <i class="fas fa-angle-right text-warning" style="font-size: 12px; width: 14px; text-align: center;"></i>
+                                            <span>{{ $childNama }}</span>
+                                        </a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </li>
+                @else
+                    @php
+                        $targetUrl = (str_starts_with($menuUrl ?? '', 'http://') || str_starts_with($menuUrl ?? '', 'https://')) ? $menuUrl : ($menuUrl ?: '/halaman/' . $menu->slug);
+                        $isExternal = (str_starts_with($menuUrl ?? '', 'http://') || str_starts_with($menuUrl ?? '', 'https://'));
+                    @endphp
+                    <li class="border-bottom border-light">
+                        <a class="mobile-nav-link d-flex align-items-center gap-3 px-3 py-3 text-dark text-decoration-none fw-bold" href="{{ $targetUrl }}" {{ $isExternal ? 'target="_blank"' : '' }} style="min-height: 52px; font-size: 14.5px;">
+                            <i class="{{ $menuIcon }} text-primary" style="width: 22px; font-size: 16px; text-align: center;"></i>
+                            <span>{{ $menuNama }}</span>
+                        </a>
+                    </li>
+                @endif
+            @endforeach
+        </ul>
+
+        <!-- SIDEBAR FOOTER -->
+        <div class="p-3 mt-3 text-center text-muted border-top bg-light" style="font-size: 11px;">
+            <div class="fw-bold text-dark mb-1">PPID Politeknik Keselamatan Transportasi Jalan</div>
+            <div>Jl. Perintis Kemerdekaan No. 17 Kota Tegal</div>
+        </div>
+    </div>
+</div>
 
 <!-- PREMIUM DOCUMENT VIEWER MODAL (GLOBAL) -->
 <style>

@@ -45,12 +45,35 @@ class InformasiPublikController extends Controller
                 $hasBmn2025 = InformasiBerkala::where('judul', 'like', '%Barang Milik Negara%')
                     ->where('tautan_links', 'like', '%18xnwHrVu13TN1IWd_a2172osc6vaJIl_%')
                     ->exists();
-                if (!$hasBmn2025) {
+                $hasRenstra2029 = InformasiBerkala::where(function($q) {
+                        $q->where('judul', 'like', '%Strategis%')->orWhere('judul', 'like', '%Renstra%');
+                    })
+                    ->where('tautan_links', 'like', '%1iWTCnNe1f-6-8TYVXM1ryi5A2VVUiZD5%')
+                    ->exists();
+                $hasBarjasKak = InformasiBerkala::where('judul', 'like', '%pengadaan barang%')
+                    ->where('tautan_links', 'like', '%1PyEWbxB1QSgu3a0tqrTZaVEdkEa_BQZR%')
+                    ->exists();
+
+                if (!$hasBmn2025 || !$hasRenstra2029 || !$hasBarjasKak) {
                     $needsSync = true;
                 }
             }
 
-            if (class_exists(\App\Models\Dokumen::class)) {
+            if (!$needsSync && class_exists(DaftarInformasi::class)) {
+                $hasBmnDaftar = DaftarInformasi::where('judul_informasi', 'like', '%Barang Milik Negara%')
+                    ->where('tautan_links', 'like', '%18xnwHrVu13TN1IWd_a2172osc6vaJIl_%')
+                    ->exists();
+                $hasRenstraDaftar = DaftarInformasi::where(function($q) {
+                        $q->where('judul_informasi', 'like', '%Strategis%')->orWhere('judul_informasi', 'like', '%Renstra%');
+                    })
+                    ->where('tautan_links', 'like', '%1iWTCnNe1f-6-8TYVXM1ryi5A2VVUiZD5%')
+                    ->exists();
+                if (!$hasBmnDaftar || !$hasRenstraDaftar) {
+                    $needsSync = true;
+                }
+            }
+
+            if (!$needsSync && class_exists(\App\Models\Dokumen::class)) {
                 $hasLaporan2025 = \App\Models\Dokumen::where('judul', 'like', '%2025%')
                     ->where(function($q) {
                         $q->where('file_path', 'like', '%1ZIZ7ZVVFPz5Fo17T2AZAbjhuYKiI5STM%')

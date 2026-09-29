@@ -179,137 +179,60 @@
             }
         }
 
-        /* Tablet & Mobile (< 992px): Stacked Card Layout (HANYA SCROLL KE ATAS-BAWAH) */
+        /* Tablet & Mobile (< 992px): Tetap Tampilan Tabel Asli Lengkap (9 Kolom) dengan Horizontal Scroll Halus */
         @media (max-width: 991px) {
             .content-card {
                 padding: 18px 12px !important;
                 border-radius: 16px !important;
             }
             .table-responsive {
-                overflow: visible !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                border-radius: 8px;
+                border: 1px solid #cbd5e1;
             }
-            .tablepress-dip,
-            .tablepress-dip tbody {
-                display: block !important;
+            .tablepress-dip {
                 width: 100% !important;
-                border: none !important;
-                background: transparent !important;
+                min-width: 960px !important;
+                display: table !important;
             }
             .tablepress-dip thead {
-                display: none !important;
+                display: table-header-group !important;
             }
-            .tablepress-dip tr.dip-data-row {
-                display: block !important;
-                background: #ffffff !important;
-                border: 1.5px solid #e2e8f0 !important;
-                border-radius: 14px !important;
-                padding: 14px 12px !important;
-                margin-bottom: 14px !important;
-                box-shadow: 0 3px 12px rgba(0, 43, 92, 0.04) !important;
-                position: relative !important;
+            .tablepress-dip tbody {
+                display: table-row-group !important;
             }
-            .tablepress-dip tr.dip-data-row:hover {
-                box-shadow: 0 6px 18px rgba(0, 43, 92, 0.08) !important;
+            .tablepress-dip tr {
+                display: table-row !important;
             }
-            .tablepress-dip tr.dip-data-row:nth-child(even) td {
-                background-color: transparent !important;
-            }
-            .tablepress-dip tr.dip-data-row td {
-                display: block !important;
-                width: 100% !important;
-                padding: 5px 0 !important;
-                border: none !important;
-                background: transparent !important;
-                text-align: left !important;
-                line-height: 1.4 !important;
+            .tablepress-dip th,
+            .tablepress-dip td {
+                display: table-cell !important;
                 word-break: normal !important;
                 overflow-wrap: break-word !important;
+                white-space: normal !important;
             }
-            /* Row number badge at top */
-            .tablepress-dip tr.dip-data-row td.col-no {
-                display: inline-flex !important;
-                align-items: center !important;
-                justify-content: center !important;
-                width: auto !important;
-                min-width: 26px !important;
-                height: 24px !important;
-                background: #004a99 !important;
-                color: #ffffff !important;
-                border-radius: 6px !important;
-                font-weight: 800 !important;
-                font-size: 11px !important;
-                padding: 0 8px !important;
-                margin-bottom: 6px !important;
-            }
-            .tablepress-dip tr.dip-data-row td.col-no::before {
-                content: "No. " !important;
-                font-weight: 600 !important;
-                font-size: 10.5px !important;
-                margin-right: 2px !important;
-            }
-            /* Title of document */
-            .tablepress-dip tr.dip-data-row td.col-info {
-                padding-top: 0 !important;
-                padding-bottom: 6px !important;
-                border-bottom: 1px solid #e2e8f0 !important;
-                margin-bottom: 8px !important;
-            }
+            .tablepress-dip th.col-no, .tablepress-dip td.col-no { width: 45px !important; min-width: 45px !important; text-align: center; }
+            .tablepress-dip th.col-info, .tablepress-dip td.col-info { min-width: 180px !important; }
+            .tablepress-dip th.col-ringkasan, .tablepress-dip td.col-ringkasan { min-width: 220px !important; }
+            .tablepress-dip th.col-pejabat, .tablepress-dip td.col-pejabat { min-width: 130px !important; }
+            .tablepress-dip th.col-penerbit, .tablepress-dip td.col-penerbit { min-width: 130px !important; }
+            .tablepress-dip th.col-bentuk, .tablepress-dip td.col-bentuk { min-width: 80px !important; text-align: center; }
+            .tablepress-dip th.col-waktu, .tablepress-dip td.col-waktu { min-width: 85px !important; text-align: center; }
+            .tablepress-dip th.col-retensi, .tablepress-dip td.col-retensi { min-width: 70px !important; text-align: center; }
+            .tablepress-dip th.col-tautan, .tablepress-dip td.col-tautan { min-width: 110px !important; text-align: center; }
+            
             .dip-title {
-                font-size: 13.5px !important;
+                font-size: 12px !important;
                 font-weight: 700 !important;
-                color: #002b5c !important;
-                display: block !important;
                 line-height: 1.35 !important;
-            }
-            /* Description box */
-            .tablepress-dip tr.dip-data-row td.col-ringkasan {
-                margin-bottom: 6px !important;
+                color: #0f172a !important;
+                display: block;
             }
             .dip-desc {
-                background: #f8fafc !important;
-                border-radius: 8px !important;
-                padding: 8px 10px !important;
-                margin: 4px 0 6px !important;
-                border: 1px solid #edf2f7 !important;
-                font-size: 11.5px !important;
+                font-size: 11px !important;
+                line-height: 1.35 !important;
                 color: #475569 !important;
-                line-height: 1.4 !important;
-            }
-            /* Meta rows: Pejabat, Penerbit, Bentuk, Waktu, Retensi */
-            .tablepress-dip tr.dip-data-row td.col-meta {
-                display: flex !important;
-                justify-content: space-between !important;
-                align-items: flex-start !important;
-                gap: 10px !important;
-                padding: 6px 0 !important;
-                border-bottom: 1px dashed #edf2f7 !important;
-                font-size: 11.5px !important;
-                text-align: right !important;
-            }
-            .tablepress-dip tr.dip-data-row td.col-meta::before {
-                content: attr(data-label);
-                font-weight: 700;
-                color: #64748b;
-                font-size: 10.5px;
-                text-transform: uppercase;
-                letter-spacing: 0.5px;
-                flex-shrink: 0;
-                text-align: left;
-            }
-            /* Action Button / Tautan */
-            .tablepress-dip tr.dip-data-row td.col-tautan {
-                padding-top: 10px !important;
-                margin-top: 4px !important;
-                border-top: 1px solid #e2e8f0 !important;
-                text-align: center !important;
-            }
-            .tablepress-dip tr.dip-data-row td.col-tautan .bpsdm-link-wrapper {
-                max-width: 100% !important;
-            }
-            .tablepress-dip td[colspan] {
-                display: block !important;
-                text-align: center !important;
-                padding: 20px 0 !important;
             }
         }
     </style>
@@ -347,6 +270,12 @@
             </div>
 
             @include('components.konten-dinamis', ['prefix' => 'informasi_berkala'])
+
+            <!-- MOBILE SCROLL HINT -->
+            <div class="d-lg-none d-flex align-items-center gap-2 text-muted mb-2 px-1 fw-semibold" style="font-size: 11.5px;">
+                <i class="fas fa-arrows-left-right text-primary"></i>
+                <span>Geser tabel ke samping untuk melihat seluruh 9 kolom dokumen</span>
+            </div>
 
             <!-- OFFICIAL MASTER 9-COLUMN DIP TABLE -->
             <div class="table-responsive mb-3">
