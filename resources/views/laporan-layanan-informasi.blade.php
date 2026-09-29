@@ -289,64 +289,11 @@
     <div class="container my-5">
 
         @php
-            // Filter dokumen laporan yang valid (memiliki berkas fisik / link aktif)
+            // Filter dokumen laporan yang valid dari database
             $validLaporan = collect($laporan ?? [])->filter(function($item) {
                 $path = trim(is_array($item) ? ($item['file_path'] ?? '') : ($item->file_path ?? ''));
                 return $path !== '' && $path !== '-' && $path !== '#';
             })->values();
-
-            if ($validLaporan->isEmpty()) {
-                $validLaporan = collect([
-                    (object)[
-                        'id' => 11,
-                        'judul' => 'Laporan Tahunan Pelaksanaan Program Kerja dan Pengelolaan Keuangan PKTJ Tahun 2025',
-                        'file_path' => 'https://drive.google.com/file/d/1pe1vqLCRemRpA6G5q2VpC0L6KhTGriEo/view?usp=sharing',
-                        'tanggal' => '2025-12-31',
-                        'deskripsi' => 'Laporan Tahunan komprehensif memuat evaluasi program kerja, capaian operasional, dan pengelolaan keuangan Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2025.',
-                        'is_blurred' => 0
-                    ],
-                    (object)[
-                        'id' => 12,
-                        'judul' => 'Laporan Tahunan PPID Pelaksana UPT PKTJ Tegal Tahun 2025',
-                        'file_path' => 'dokumen/Laporan_Tahunan_PPID_PKTJ_2025.pdf',
-                        'tanggal' => '2025-12-31',
-                        'deskripsi' => 'Laporan Tahunan PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal Tahun 2025 (Versi Paparan Laporan Komprehensif).',
-                        'is_blurred' => 0
-                    ],
-                    (object)[
-                        'id' => 13,
-                        'judul' => 'Ringkasan Eksekutif Laporan Kinerja Instansi Pemerintah (LKjIP / LAKIP) PKTJ Tahun 2025',
-                        'file_path' => 'https://drive.google.com/file/d/18azvUjvumzPkAN-hTmSWhkWaJrXZFle3/view?usp=drive_link',
-                        'tanggal' => '2025-12-31',
-                        'deskripsi' => 'Ringkasan eksekutif akuntabilitas kinerja instansi pemerintah (LKjIP) PKTJ Tahun 2025 yang merangkum pencapaian Indikator Kinerja Utama (IKU).',
-                        'is_blurred' => 0
-                    ],
-                    (object)[
-                        'id' => 14,
-                        'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2024',
-                        'file_path' => 'https://drive.google.com/file/d/1WzJYrLqNvVcXtJRU0TD8czhsJmpYgumh/view?usp=sharing',
-                        'tanggal' => '2024-12-31',
-                        'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2024 (Dokumen B1-B4).',
-                        'is_blurred' => 0
-                    ],
-                    (object)[
-                        'id' => 15,
-                        'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2023',
-                        'file_path' => 'https://drive.google.com/file/d/1hcC1XY8hd7XWF-AHqW1fdDoUzyyED934/view?usp=sharing',
-                        'tanggal' => '2023-12-31',
-                        'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2023.',
-                        'is_blurred' => 0
-                    ],
-                    (object)[
-                        'id' => 16,
-                        'judul' => 'Laporan Tahunan Layanan Informasi Publik PKTJ Tahun 2022',
-                        'file_path' => 'https://drive.google.com/file/d/1qucNCvXKKfXm8XjP14hRYRE0buqa2vKD/view?usp=sharing',
-                        'tanggal' => '2022-12-31',
-                        'deskripsi' => 'Laporan tahunan pelaksanaan pelayanan informasi publik dan keterbukaan informasi PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan Tahun Anggaran 2022.',
-                        'is_blurred' => 0
-                    ]
-                ]);
-            }
         @endphp
 
         <!-- TABLE SECTION ALA POLTRADA BALI (UPGRADED) -->

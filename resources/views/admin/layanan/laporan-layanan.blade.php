@@ -1,50 +1,11 @@
 @extends('layouts.app')
 
 @php
-    // Hanya kosongkan jika user mengklik tombol "Kosongkan Semua"
-    try {
-        if (request('purge_all') == '1') {
-            \App\Models\Dokumen::where('kategori', 'Laporan Layanan')->delete();
-        }
-        // Bersihkan dummy lama dan surat lama (sesuai arahan user diganti versi PPT PDF)
-        \App\Models\Dokumen::where('judul', 'Laporan Permohonan Informasi PPID Pelaksana UPT PKTJ Tahun 2025')
-            ->where(function($q) {
-                $q->whereNull('file_path')->orWhere('file_path', '-')->orWhere('file_path', '');
-            })->delete();
-
-        \App\Models\Dokumen::where('kategori', 'Laporan Layanan')
-            ->where(function($q) {
-                $q->where('judul', 'like', '%Penyampaian Laporan%')
-                  ->orWhere('deskripsi', 'like', '%UM.006/2/16/PKTJ/2025%');
-            })->delete();
-
-        if (!\App\Models\Dokumen::where('kategori', 'Laporan Layanan')->where('judul', 'like', '%PPID Pelaksana UPT PKTJ%2025%')->exists()) {
-            \App\Models\Dokumen::create([
-                'judul' => 'Laporan Tahunan PPID Pelaksana UPT PKTJ Tegal Tahun 2025',
-                'file_path' => 'dokumen/Laporan_Tahunan_PPID_PKTJ_2025.pdf',
-                'file_name' => 'Laporan_Tahunan_PPID_PKTJ_2025.pdf',
-                'file_size' => '965 KB',
-                'file_type' => 'pdf',
-                'kategori' => 'Laporan Layanan',
-                'tanggal' => '2025-12-31',
-                'deskripsi' => 'Laporan Tahunan PPID Pelaksana UPT Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal Tahun 2025 (Versi Paparan Laporan Komprehensif).',
-                'aktif' => true,
-                'bisa_download' => true,
-                'is_blurred' => false,
-            ]);
-        }
-    } catch (\Throwable $e) {}
-
     $settings = \App\Models\Dashboard::pluck('value', 'key')->toArray();
     $hasTanggal = \Illuminate\Support\Facades\Schema::hasColumn('dokumens', 'tanggal');
     
-    // Ambil SEMUA dokumen Laporan Layanan resmi
+    // Ambil SEMUA dokumen Laporan Layanan dari database tanpa menghapus/menambah otomatis
     $items = \App\Models\Dokumen::where('kategori', 'Laporan Layanan')
-        ->where(function($q) {
-            $q->whereNotNull('file_path')
-              ->where('file_path', '!=', '')
-              ->where('file_path', '!=', '-');
-        })
         ->when($hasTanggal, fn($q) => $q->orderByRaw('COALESCE(tanggal, created_at) DESC'), fn($q) => $q->latest())
         ->get();
 @endphp
@@ -75,9 +36,6 @@
                 <div class="flex items-center gap-3 flex-wrap">
                     <a href="{{ \Illuminate\Support\Facades\Route::has('layanan.laporan-layanan') ? route('layanan.laporan-layanan') : url('/layanan-informasi/laporan') }}" target="_blank" class="px-6 py-4 bg-white/10 border border-white/20 text-white font-black text-xs uppercase tracking-widest rounded-2xl hover:bg-white/20 transition-all flex items-center">
                         <i class="fas fa-eye mr-2"></i> Lihat Publik
-                    </a>
-                    <a href="{{ url('/admin/layanan/laporan-layanan?purge_all=1') }}" onclick="return confirm('Apakah Anda yakin ingin menghapus SELURUH data laporan layanan untuk memulai input dari nol?')" class="px-6 py-4 bg-rose-500/80 hover:bg-rose-600 text-white font-black text-xs uppercase tracking-widest rounded-2xl transition-all flex items-center">
-                        <i class="fas fa-trash-alt mr-2"></i> Kosongkan Semua
                     </a>
                     <a href="{{ route('admin.dokumen.create', ['kategori' => 'Laporan Layanan']) }}" class="px-8 py-4 bg-[#ffc107] text-[#004a99] font-black text-xs uppercase tracking-[3px] rounded-2xl shadow-xl shadow-amber-500/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center border-none cursor-pointer">
                         <i class="fas fa-plus mr-2"></i> Tambah Data
