@@ -273,6 +273,45 @@ Route::get('/storage/dokumen/{filename}', function($filename) {
             }
         }
     }
+
+    // Smart DB fallback matching if direct physical file name was not found
+    try {
+        $cleanSearch = str_replace(['_', '-'], ' ', pathinfo($decoded, PATHINFO_FILENAME));
+        $doc = \App\Models\Dokumen::where('file_name', 'like', '%' . $decoded . '%')
+            ->orWhere('file_path', 'like', '%' . $decoded . '%')
+            ->orWhere('file_name', 'like', '%' . basename($decoded) . '%')
+            ->orWhere('judul', 'like', '%' . $cleanSearch . '%')
+            ->latest()
+            ->first();
+
+        if ($doc) {
+            if (!empty($doc->file_path) && (str_starts_with($doc->file_path, 'http://') || str_starts_with($doc->file_path, 'https://'))) {
+                return redirect($doc->file_path);
+            }
+            if (!empty($doc->gdrive_link) && (str_starts_with($doc->gdrive_link, 'http://') || str_starts_with($doc->gdrive_link, 'https://'))) {
+                return redirect($doc->gdrive_link);
+            }
+            if (!empty($doc->file_path) && $doc->file_path !== '-') {
+                $rawPath = ltrim($doc->file_path, '/\\');
+                if (str_starts_with($rawPath, 'storage/')) {
+                    $rawPath = substr($rawPath, 8);
+                }
+                $fileCand = basename($rawPath);
+                foreach ($baseDirs as $dir) {
+                    $full = rtrim($dir, '/\\') . DIRECTORY_SEPARATOR . $fileCand;
+                    if (file_exists($full) && !is_dir($full)) {
+                        return response()->file($full, [
+                            'Content-Type' => 'application/pdf',
+                            'Content-Disposition' => 'inline; filename="' . ($doc->file_name ?: basename($full)) . '"',
+                            'Access-Control-Allow-Origin' => '*',
+                            'Access-Control-Allow-Methods' => 'GET, OPTIONS',
+                        ]);
+                    }
+                }
+            }
+        }
+    } catch (\Throwable $e) {}
+
     abort(404, 'Dokumen tidak ditemukan.');
 })->where('filename', '.*');
 

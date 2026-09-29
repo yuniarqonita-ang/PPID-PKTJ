@@ -371,17 +371,7 @@ class ProfilPublikController extends Controller
                     ],
                 ];
 
-                try {
-                    foreach ($defaultAkses as $acc) {
-                        \App\Models\Dokumen::updateOrCreate(['judul' => $acc['judul']], $acc);
-                    }
-                    $filteredAkses = \App\Models\Dokumen::where('kategori', 'Laporan Akses')
-                        ->where('aktif', true)
-                        ->orderByRaw('COALESCE(tanggal, created_at) DESC')
-                        ->get();
-                } catch (\Throwable $e) {
-                    $filteredAkses = collect(array_map(fn($d) => (object)$d, $defaultAkses));
-                }
+                $filteredAkses = collect(array_map(fn($d) => (object)$d, $defaultAkses));
             }
 
             $extraData['laporan'] = $filteredAkses;
