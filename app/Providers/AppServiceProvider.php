@@ -20,8 +20,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         try {
-            $flagPath = storage_path('app/deploy_v2026_09_29_v10.flag');
+            $flagPath = storage_path('app/deploy_v2026_09_29_v12.flag');
             if (!file_exists($flagPath)) {
+                // Delete older flags
+                foreach (glob(storage_path('app/deploy_v2026_*.flag')) as $oldFlag) {
+                    @unlink($oldFlag);
+                }
+
                 // 1. Run UserDataSeeder automatically
                 if (class_exists(\Database\Seeders\UserDataSeeder::class)) {
                     (new \Database\Seeders\UserDataSeeder())->run();
