@@ -39,9 +39,32 @@ class InformasiPublikController extends Controller
 
     private function ensureDataSeeded(): void
     {
-        // PERMANEN DINONAKTIFKAN: Jangan jalankan seeder apapun saat request halaman publik
-        // agar perubahan data, upload file, atau link baru dari admin panel tidak pernah tertimpa.
-        return;
+        try {
+            $needsSync = false;
+            if (class_exists(InformasiBerkala::class)) {
+                $hasBmn2025 = InformasiBerkala::where('judul', 'like', '%Barang Milik Negara%')
+                    ->where('tautan_links', 'like', '%18xnwHrVu13TN1IWd_a2172osc6vaJIl_%')
+                    ->exists();
+                if (!$hasBmn2025) {
+                    $needsSync = true;
+                }
+            }
+
+            if (class_exists(\App\Models\Dokumen::class)) {
+                $hasLaporan2025 = \App\Models\Dokumen::where('judul', 'like', '%2025%')
+                    ->where(function($q) {
+                        $q->where('file_path', 'like', '%1ZIZ7ZVVFPz5Fo17T2AZAbjhuYKiI5STM%')
+                          ->orWhere('file_path', 'like', '%Laporan_Tahunan_PPID_PKTJ_2025.pdf%');
+                    })->exists();
+                if (!$hasLaporan2025) {
+                    $needsSync = true;
+                }
+            }
+
+            if ($needsSync && class_exists(\Database\Seeders\UserDataSeeder::class)) {
+                (new \Database\Seeders\UserDataSeeder())->run();
+            }
+        } catch (\Throwable $e) {}
     }
 
     private function getHiddenTitles(): array
