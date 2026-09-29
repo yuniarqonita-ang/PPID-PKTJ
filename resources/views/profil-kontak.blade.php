@@ -577,6 +577,218 @@
         }
 
         /* ============================================================ */
+        /* ULTRA MODERN NEON GLASS CARDS FOR KANAL PENGADUAN & ETHIC LINE */
+        /* ============================================================ */
+        .neon-pengaduan-grid {
+            margin-top: 25px;
+        }
+
+        .neon-card {
+            background: linear-gradient(145deg, rgba(0, 26, 56, 0.95) 0%, rgba(0, 43, 92, 0.96) 50%, rgba(0, 61, 128, 0.95) 100%);
+            border-radius: 28px;
+            padding: 34px 28px 30px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 2px solid rgba(255, 255, 255, 0.14);
+            box-shadow: 0 15px 35px rgba(0, 20, 50, 0.35);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+        }
+
+        .neon-card::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            filter: blur(45px);
+            opacity: 0.45;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            pointer-events: none;
+        }
+
+        .neon-card.gold-neon::before {
+            background: radial-gradient(circle, #f59e0b 0%, transparent 70%);
+        }
+        .neon-card.cyan-neon::before {
+            background: radial-gradient(circle, #00d2ff 0%, transparent 70%);
+        }
+        .neon-card.emerald-neon::before {
+            background: radial-gradient(circle, #10b981 0%, transparent 70%);
+        }
+
+        .neon-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 60%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transform: skewX(-25deg);
+            transition: left 0.75s ease;
+            pointer-events: none;
+        }
+
+        .neon-card:hover::after {
+            left: 140%;
+        }
+
+        .neon-card:hover {
+            transform: translateY(-10px) scale(1.02);
+        }
+
+        .neon-card.gold-neon:hover {
+            border-color: rgba(245, 158, 11, 0.85);
+            box-shadow: 0 22px 50px rgba(0, 20, 50, 0.45), 0 0 35px rgba(245, 158, 11, 0.4);
+        }
+
+        .neon-card.cyan-neon:hover {
+            border-color: rgba(0, 210, 255, 0.85);
+            box-shadow: 0 22px 50px rgba(0, 20, 50, 0.45), 0 0 35px rgba(0, 210, 255, 0.4);
+        }
+
+        .neon-card.emerald-neon:hover {
+            border-color: rgba(16, 185, 129, 0.85);
+            box-shadow: 0 22px 50px rgba(0, 20, 50, 0.45), 0 0 35px rgba(16, 185, 129, 0.4);
+        }
+
+        .neon-icon-wrapper {
+            width: 66px;
+            height: 66px;
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin-bottom: 22px;
+            position: relative;
+            z-index: 2;
+            transition: transform 0.3s ease;
+        }
+
+        .neon-card:hover .neon-icon-wrapper {
+            transform: scale(1.1) rotate(-5deg);
+        }
+
+        .neon-card.gold-neon .neon-icon-wrapper {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.15) 100%);
+            border: 2px solid rgba(245, 158, 11, 0.5);
+            color: #fbbf24;
+            box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+        }
+
+        .neon-card.cyan-neon .neon-icon-wrapper {
+            background: linear-gradient(135deg, rgba(0, 210, 255, 0.25) 0%, rgba(0, 114, 255, 0.15) 100%);
+            border: 2px solid rgba(0, 210, 255, 0.5);
+            color: #38bdf8;
+            box-shadow: 0 0 20px rgba(0, 210, 255, 0.3);
+        }
+
+        .neon-card.emerald-neon .neon-icon-wrapper {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.25) 0%, rgba(5, 150, 105, 0.15) 100%);
+            border: 2px solid rgba(16, 185, 129, 0.5);
+            color: #34d399;
+            box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+        }
+
+        .neon-title {
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 1.65rem;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+            margin-bottom: 4px;
+            line-height: 1.2;
+        }
+
+        .neon-subtitle {
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: block;
+        }
+
+        .neon-card.gold-neon .neon-subtitle { color: #fbbf24; }
+        .neon-card.cyan-neon .neon-subtitle { color: #38bdf8; }
+        .neon-card.emerald-neon .neon-subtitle { color: #34d399; }
+
+        .neon-desc {
+            font-size: 13.5px;
+            line-height: 1.65;
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 26px;
+            flex-grow: 1;
+        }
+
+        .btn-neon-action {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 15px 22px;
+            border-radius: 16px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 900;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            text-decoration: none !important;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 2;
+            border: none;
+            cursor: pointer;
+        }
+
+        .neon-card.gold-neon .btn-neon-action {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: #001a38;
+            box-shadow: 0 8px 20px rgba(245, 158, 11, 0.35);
+        }
+        .neon-card.gold-neon .btn-neon-action:hover {
+            background: linear-gradient(135deg, #fcd34d 0%, #fbbf24 100%);
+            box-shadow: 0 12px 28px rgba(245, 158, 11, 0.55), 0 0 20px rgba(251, 191, 36, 0.5);
+            transform: translateY(-2px);
+            color: #000f24;
+        }
+
+        .neon-card.cyan-neon .btn-neon-action {
+            background: linear-gradient(135deg, #38bdf8 0%, #0284c7 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(2, 132, 199, 0.35);
+        }
+        .neon-card.cyan-neon .btn-neon-action:hover {
+            background: linear-gradient(135deg, #7dd3fc 0%, #38bdf8 100%);
+            box-shadow: 0 12px 28px rgba(2, 132, 199, 0.55), 0 0 20px rgba(56, 189, 248, 0.5);
+            transform: translateY(-2px);
+            color: #001a38;
+        }
+
+        .neon-card.emerald-neon .btn-neon-action {
+            background: linear-gradient(135deg, #34d399 0%, #059669 100%);
+            color: #ffffff;
+            box-shadow: 0 8px 20px rgba(5, 150, 105, 0.35);
+        }
+        .neon-card.emerald-neon .btn-neon-action:hover {
+            background: linear-gradient(135deg, #6ee7b7 0%, #34d399 100%);
+            box-shadow: 0 12px 28px rgba(5, 150, 105, 0.55), 0 0 20px rgba(52, 211, 153, 0.5);
+            transform: translateY(-2px);
+            color: #001a38;
+        }
+
+        /* ============================================================ */
         /* UNIQUE SHOWCASE STYLES: DESK MEJA LAYANAN PPID              */
         /* ============================================================ */
         .desk-layanan-hero-card {
@@ -1102,87 +1314,97 @@
             </div>
         </div>
 
-        <!-- KANAL RESMI PENGADUAN & LAYANAN TERPADU KEMENTERIAN PERHUBUNGAN -->
+        <!-- KANAL RESMI PENGADUAN, SIMADU, LAPOR! & ETHIC LINE BPSDMP -->
         <div class="mt-5 pt-2 mb-5" data-aos="fade-up">
             <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 mb-4">
                 <div>
-                    <div class="section-header-badge mb-2">
-                        <i class="fa-solid fa-building-shield"></i> INTEGRASI KEMENTERIAN PERHUBUNGAN
+                    <div class="section-header-badge mb-2" style="background: rgba(0, 74, 153, 0.08); color: #004a99; border: 1px solid rgba(0, 74, 153, 0.15);">
+                        <i class="fa-solid fa-shield-halved text-primary"></i> KANAL PENGADUAN INTEGRASI KEMENHUB &amp; BPSDMP
                     </div>
                     <h3 class="outfit fw-black text-slate-900 mb-1" style="font-size: 1.85rem; letter-spacing: -0.5px;">
-                        Kanal Informasi & Pengaduan Terpadu Kemenhub
+                        Kanal Informasi, Whistleblowing &amp; Ethic Line
                     </h3>
-                    <p class="text-muted small mb-0">Saluran resmi pelaporan, penanganan keluhan, dan pusat panggilan Kementerian Perhubungan Republik Indonesia yang terhubung langsung dengan UPT PKTJ Tegal.</p>
+                    <p class="text-muted small mb-0">Saluran resmi pelaporan, penanganan keluhan, dan Whistleblowing System Kementerian Perhubungan &amp; BPSDMP yang terhubung dengan PPID PKTJ Tegal.</p>
                 </div>
             </div>
 
-            <div class="row g-4">
-                <!-- 1. CONTACT CENTER 151 KEMENHUB -->
-                <div class="col-lg-6 col-md-6">
-                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 position-relative overflow-hidden hover-lift d-flex flex-column" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1.5px solid #e2e8f0 !important; border-top: 5px solid #004a99 !important;">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 56px; height: 56px; background: rgba(0, 74, 153, 0.1); color: #004a99; font-size: 24px;">
-                                <i class="fas fa-headset"></i>
+            <div class="row g-4 neon-pengaduan-grid">
+                <!-- 1. SIMADU / WBS KEMENHUB -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="neon-card gold-neon">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="neon-icon-wrapper">
+                                    <i class="fas fa-shield-cat"></i>
+                                </div>
+                                <span class="badge bg-warning bg-opacity-25 text-warning border border-warning border-opacity-50 px-3 py-1.5 rounded-pill fw-bold" style="font-size: 10.5px; letter-spacing: 0.5px;">
+                                    <i class="fas fa-user-ninja me-1"></i> 100% ANONIM
+                                </span>
                             </div>
-                            <span class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 px-3 py-1.5 rounded-pill fw-bold font-mono" style="font-size: 11px;">
-                                <i class="fas fa-circle-dot text-success me-1"></i> 24 JAM / 7 HARI
-                            </span>
+                            <h4 class="neon-title">SIMADU</h4>
+                            <span class="neon-subtitle">Whistleblowing System Kemenhub</span>
+                            <p class="neon-desc">
+                                SIMADU merupakan aplikasi Whistleblowing System (WBS) Kementerian Perhubungan yang digunakan sebagai sarana penyampaian pengaduan dan informasi mengenai dugaan pelanggaran peraturan perundang-undangan, standar, kode etik, kebijakan, serta tindakan lain yang berpotensi merugikan kepentingan umum, termasuk Korupsi, Kolusi, dan Nepotisme (KKN).
+                            </p>
                         </div>
-                        <h4 class="outfit fw-black text-dark mb-1" style="font-size: 1.3rem;">Contact Center 151</h4>
-                        <span class="text-muted small fw-semibold d-block mb-3">Pusat Panggilan Informasi Kemenhub</span>
-                        <p class="text-secondary small mb-4" style="line-height: 1.6;">
-                            Saluran cepat satu pintu Kementerian Perhubungan untuk konsultasi informasi publik, informasi rute dan perizinan transportasi, serta pengaduan masyarakat secara langsung.
-                        </p>
-                        
-                        <div class="p-3 rounded-3 bg-light border mb-4">
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <i class="fas fa-phone text-primary" style="width: 18px;"></i>
-                                <span class="small text-muted">Telepon:</span>
-                                <a href="tel:151" class="fw-bold text-dark text-decoration-none ms-auto fs-6">151</a>
-                            </div>
-                            <div class="d-flex align-items-center gap-2 mb-2">
-                                <i class="fas fa-envelope text-primary" style="width: 18px;"></i>
-                                <span class="small text-muted">Email:</span>
-                                <a href="mailto:info151@dephub.go.id" class="fw-bold text-primary text-decoration-none ms-auto small">info151@dephub.go.id</a>
-                            </div>
-                            <div class="d-flex align-items-center gap-2">
-                                <i class="fas fa-globe text-primary" style="width: 18px;"></i>
-                                <span class="small text-muted">Portal:</span>
-                                <a href="https://dephub.go.id" target="_blank" rel="noopener" class="fw-bold text-primary text-decoration-none ms-auto small">dephub.go.id</a>
-                            </div>
-                        </div>
-
-                        <div class="mt-auto d-flex gap-2">
-                            <a href="tel:151" class="btn btn-primary btn-sm rounded-pill px-3 py-2 fw-bold flex-fill shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="background: #004a99; font-size: 12.5px;">
-                                <i class="fas fa-phone-volume"></i> Telepon 151
-                            </a>
-                            <a href="mailto:info151@dephub.go.id" class="btn btn-outline-primary btn-sm rounded-pill px-3 py-2 fw-bold shadow-sm d-inline-flex align-items-center justify-content-center gap-1.5" style="font-size: 12.5px;">
-                                <i class="fas fa-envelope"></i> Email
+                        <div>
+                            <a href="{{ $settings['kontak_wbs_link'] ?? $settings['wbs_link'] ?? 'https://itjen.kemenhub.go.id/wbs/' }}" target="_blank" rel="noopener" class="btn-neon-action">
+                                <i class="fas fa-arrow-up-right-from-square"></i>
+                                <span>Kunjungi SIMADU</span>
                             </a>
                         </div>
                     </div>
                 </div>
 
-                <!-- 2. WBS (WHISTLEBLOWING SYSTEM) -->
-                <div class="col-lg-6 col-md-6">
-                    <div class="card h-100 border-0 rounded-4 shadow-sm p-4 position-relative overflow-hidden hover-lift d-flex flex-column" style="background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%); border: 1.5px solid #e2e8f0 !important; border-top: 5px solid #dc2626 !important;">
-                        <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="rounded-circle d-flex align-items-center justify-content-center shadow-sm" style="width: 56px; height: 56px; background: rgba(220, 38, 38, 0.1); color: #dc2626; font-size: 24px;">
-                                <i class="fas fa-user-shield"></i>
+                <!-- 2. SP4N-LAPOR! -->
+                <div class="col-lg-4 col-md-6">
+                    <div class="neon-card cyan-neon">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="neon-icon-wrapper">
+                                    <i class="fas fa-bullhorn"></i>
+                                </div>
+                                <span class="badge bg-info bg-opacity-25 text-info border border-info border-opacity-50 px-3 py-1.5 rounded-pill fw-bold" style="font-size: 10.5px; letter-spacing: 0.5px;">
+                                    <i class="fas fa-globe me-1"></i> PORTAL NASIONAL
+                                </span>
                             </div>
-                            <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-25 px-3 py-1.5 rounded-pill fw-bold font-mono" style="font-size: 11px;">
-                                <i class="fas fa-lock me-1"></i> 100% RAHASIA
-                            </span>
+                            <h4 class="neon-title">LAPOR!</h4>
+                            <span class="neon-subtitle">Layanan Aspirasi &amp; Pengaduan Online</span>
+                            <p class="neon-desc">
+                                SP4N-LAPOR! merupakan kanal pengaduan pelayanan publik secara nasional yang memungkinkan masyarakat menyampaikan aspirasi, pengaduan, dan permintaan informasi kepada instansi pemerintah. Sistem ini mendukung pengelolaan pengaduan secara terintegrasi sehingga laporan masyarakat dapat diteruskan kepada instansi yang berwenang untuk ditindaklanjuti.
+                            </p>
                         </div>
-                        <h4 class="outfit fw-black text-dark mb-1" style="font-size: 1.3rem;">WBS Kemenhub</h4>
-                        <span class="text-muted small fw-semibold d-block mb-3">Whistleblowing System Kemenhub</span>
-                        <p class="text-secondary small mb-4 flex-grow-1" style="line-height: 1.7; font-size: 13.5px;">
-                            Kanal khusus pelaporan dugaan tindak pidana korupsi, penyuapan, gratifikasi, pemerasan, kecurangan (fraud), atau benturan kepentingan. Identitas pelapor dijamin kerahasiaannya dan dilindungi undang-undang secara penuh (Anonim).
-                        </p>
+                        <div>
+                            <a href="{{ $settings['span_lapor_link'] ?? 'https://www.lapor.go.id/instansi/politeknik-keselamatan-transportasi-jalan-tegal' }}" target="_blank" rel="noopener" class="btn-neon-action">
+                                <i class="fas fa-arrow-up-right-from-square"></i>
+                                <span>Kunjungi LAPOR!</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
 
-                        <div class="mt-auto pt-3">
-                            <a href="{{ $settings['kontak_wbs_link'] ?? $settings['wbs_link'] ?? 'https://itjen.kemenhub.go.id/wbs/' }}" target="_blank" rel="noopener" class="btn btn-danger btn-sm rounded-pill px-3 py-2.5 fw-bold w-100 shadow-sm d-inline-flex align-items-center justify-content-center gap-2" style="background: #dc2626; font-size: 13px;">
-                                <i class="fas fa-bullhorn"></i> Lapor Pelanggaran ke WBS Itjen
+                <!-- 3. ETHIC LINE BPSDMP -->
+                <div class="col-lg-4 col-md-12">
+                    <div class="neon-card emerald-neon">
+                        <div>
+                            <div class="d-flex align-items-center justify-content-between mb-3">
+                                <div class="neon-icon-wrapper">
+                                    <i class="fas fa-comments"></i>
+                                </div>
+                                <span class="badge bg-success bg-opacity-25 text-success border border-success border-opacity-50 px-3 py-1.5 rounded-pill fw-bold" style="font-size: 10.5px; letter-spacing: 0.5px;">
+                                    <i class="fas fa-graduation-cap me-1"></i> BPSDMP KEMENHUB
+                                </span>
+                            </div>
+                            <h4 class="neon-title">Ethic Line</h4>
+                            <span class="neon-subtitle">Pelaporan &amp; Pengaduan BPSDMP</span>
+                            <p class="neon-desc">
+                                Ethic Line merupakan kanal layanan pelaporan dan pengaduan yang disediakan untuk mendukung penyelenggaraan pendidikan dan pelatihan di lingkungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP). Layanan ini dapat digunakan untuk menyampaikan laporan, pengaduan terkait penyelenggaraan pendidikan dan pelatihan secara lebih mudah, terarah, dan dapat ditindaklanjuti sesuai dengan ketentuan yang berlaku.
+                            </p>
+                        </div>
+                        <div>
+                            <a href="{{ $settings['ethicline_link'] ?? 'https://bpsdm.kemenhub.go.id/ethic-line' }}" target="_blank" rel="noopener" class="btn-neon-action">
+                                <i class="fas fa-arrow-up-right-from-square"></i>
+                                <span>Kunjungi Ethic Line</span>
                             </a>
                         </div>
                     </div>
