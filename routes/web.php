@@ -123,15 +123,30 @@ Route::get('/refresh-dip-clean-now', function() {
 
 Route::get('/update-seeder-now', function() {
     try {
+        // Delete flag files to ensure seeder runs
+        $flags = glob(storage_path('app/*.flag'));
+        if ($flags) {
+            foreach ($flags as $f) { @unlink($f); }
+        }
+
         if (class_exists(\Database\Seeders\UserDataSeeder::class)) {
             (new \Database\Seeders\UserDataSeeder())->run();
         }
+
         \Illuminate\Support\Facades\Artisan::call('view:clear');
         \Illuminate\Support\Facades\Artisan::call('cache:clear');
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Database user updates (A s.d. F) dan cache views berhasil diperbarui 100%!'
-        ]);
+
+        $viewsPath = storage_path('framework/views');
+        if (is_dir($viewsPath)) {
+            $files = glob($viewsPath . '/*');
+            foreach ($files as $file) {
+                if (is_file($file) && basename($file) !== '.gitignore') {
+                    @unlink($file);
+                }
+            }
+        }
+
+        return '<!DOCTYPE html><html lang="id"><head><meta charset="UTF-8"><title>Update & Sync Success</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"></head><body class="bg-light d-flex align-items-center justify-content-center min-vh-100"><div class="card shadow-lg p-5 rounded-4 text-center" style="max-width: 550px; border: none;"><div class="display-1 text-success mb-3">✓</div><h3 class="text-success fw-bold mb-2">Pembaruan Data Berhasil 100%!</h3><p class="text-muted mb-4">Seluruh data Laporan PPID 2025, BMN 2020-2025, Renstra 2025-2029, Barjas, Profil & Video PPID, dan Serta Merta telah diperbarui di database dan cache tampilan telah dibersihkan.</p><div class="d-flex justify-content-center gap-2"><a href="/informasi-publik/berkala" class="btn btn-primary fw-bold rounded-pill px-4">Lihat Informasi Berkala</a><a href="/layanan-informasi/laporan" class="btn btn-outline-primary fw-bold rounded-pill px-4">Lihat Laporan Layanan</a></div></div></body></html>';
     } catch (\Throwable $e) {
         return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
     }
