@@ -203,13 +203,24 @@ class DokumenController extends Controller
             'file.max' => 'Ukuran file tidak boleh melebihi 10 MB.',
         ]);
 
+        $tanggalVal = date('Y-m-d');
+        if ($request->filled('tanggal')) {
+            $tanggalVal = $request->input('tanggal');
+        } elseif (!empty($dokumen->tanggal)) {
+            try {
+                $tanggalVal = \Carbon\Carbon::parse($dokumen->tanggal)->format('Y-m-d');
+            } catch (\Throwable $e) {
+                $tanggalVal = date('Y-m-d');
+            }
+        }
+
         $data = [
             'judul'         => $validated['judul'],
             'kategori'      => $validated['kategori'] ?? $dokumen->kategori,
             'aktif'         => $request->has('aktif'),
             'is_blurred'    => $request->has('is_blurred'),
             'bisa_download' => $request->has('bisa_download'),
-            'tanggal'       => $request->input('tanggal') ?: ($dokumen->tanggal ? \Carbon\Carbon::parse($dokumen->tanggal)->format('Y-m-d') : date('Y-m-d')),
+            'tanggal'       => $tanggalVal,
             'deskripsi'     => $request->input('deskripsi'),
         ];
 
