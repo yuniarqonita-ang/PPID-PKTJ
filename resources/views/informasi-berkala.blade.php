@@ -403,7 +403,7 @@
                     <div class="d-flex align-items-center gap-1.5 ms-md-2">
                         <span class="text-muted small">Tampilkan:</span>
                         <select class="form-select form-select-sm py-0 px-2" style="width: auto; font-size: 12px; height: 28px;" onchange="changePageSize(this.value)">
-                            <option value="all" selected>Semua data (25 item)</option>
+                            <option value="all" selected>Semua data</option>
                             <option value="10">10 data per halaman</option>
                             <option value="25">25 data per halaman</option>
                         </select>

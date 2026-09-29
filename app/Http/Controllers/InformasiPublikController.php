@@ -256,7 +256,11 @@ class InformasiPublikController extends Controller
         }
 
         $settings = $this->getSettings();
-        return view('informasi-berkala', compact('items', 'settings', 'pejabats'));
+        return response()
+            ->view('informasi-berkala', compact('items', 'settings', 'pejabats'))
+            ->header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', 'Sat, 01 Jan 1990 00:00:00 GMT');
     }
 
     // Profil Pejabat Publik & LHKPN (Dedicated Page)
@@ -287,6 +291,8 @@ class InformasiPublikController extends Controller
     public function informasiSertamerta()
     {
         $this->ensureDataSeeded();
+
+
         try {
             $hiddenTitles = $this->getHiddenTitles();
 
@@ -317,7 +323,11 @@ class InformasiPublikController extends Controller
         }
 
         $settings = $this->getSettings();
-        return view('informasi-serta-merta', compact('items', 'settings'));
+        return response()
+            ->view('informasi-serta-merta', compact('items', 'settings'))
+            ->header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', 'Sat, 01 Jan 1990 00:00:00 GMT');
     }
 
     // Informasi Setiap Saat
@@ -355,7 +365,11 @@ class InformasiPublikController extends Controller
         }
 
         $settings = $this->getSettings();
-        return view('informasi-setiap-saat', compact('items', 'settings'));
+        return response()
+            ->view('informasi-setiap-saat', compact('items', 'settings'))
+            ->header('Cache-Control', 'no-cache, no-store, max-age=0, must-revalidate')
+            ->header('Pragma', 'no-cache')
+            ->header('Expires', 'Sat, 01 Jan 1990 00:00:00 GMT');
     }
 
 
