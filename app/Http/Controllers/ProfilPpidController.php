@@ -242,6 +242,22 @@ class ProfilPpidController extends Controller
             );
         }
 
+        if ($type === 'profil') {
+            ProfilPpid::where('id', 1)->orWhere('type', '')->update([
+                'judul' => $profil->judul,
+                'tagline_hero' => $profil->tagline_hero,
+                'konten_pembuka' => $profil->konten_pembuka,
+                'judul_sub' => $profil->judul_sub,
+                'konten_detail' => $profil->konten_detail,
+                'link_dokumen' => $profil->link_dokumen,
+                'additional_sections' => $profil->additional_sections,
+                'gambaran' => $profil->gambaran,
+                'gambar' => $profil->gambar,
+                'image_hero' => $profil->image_hero,
+                'is_blurred' => $profil->is_blurred,
+            ]);
+        }
+
         // ===== HANDLE DASHBOARD-BASED FIELDS (Prefix-based) =====
         $pfx = str_replace('-', '_', $type);
         $dashboardFields = [

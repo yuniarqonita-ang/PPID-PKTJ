@@ -163,6 +163,31 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 25px rgba(0, 74, 153, 0.35);
         }
+
+        /* RESPONSIVE VIDEO EMBED IN TEXT EDITOR */
+        .rich-content iframe {
+            max-width: 100%;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.12);
+        }
+
+        .video-container {
+            position: relative;
+            max-width: 850px;
+            margin: 30px auto;
+            text-align: center;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            height: auto;
+            min-height: 240px;
+            max-height: 480px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 43, 92, 0.12);
+            border: none;
+        }
     </style>
     @include('components.public-page-style')
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -235,25 +260,24 @@
         <!-- 2. MAIN PROFIL NARRATIVE -->
         <div class="main-profil-card" data-aos="fade-up" data-aos-delay="100">
             
-            <!-- SECTION 1: LATAR BELAKANG -->
+            <!-- SECTION 1: KONTEN UTAMA DARI EDITOR ADMIN PANEL -->
             @if(!empty($profil->konten_pembuka))
             <div class="mb-5">
+                @if(!empty($profil->judul_sub))
                 <div class="section-header-pill">
-                    <i class="fas fa-landmark text-primary"></i> Latar Belakang & Komitmen Institusi
+                    <i class="fas fa-landmark text-primary"></i> {{ $profil->judul_sub }}
                 </div>
-                <div class="rich-content text-justify" style="font-size: 15px; color: #334155; line-height: 1.8;">
+                @endif
+                <div class="rich-content text-justify" style="font-size: 15.5px; color: #334155; line-height: 1.85;">
                     {!! $profil->konten_pembuka !!}
                 </div>
             </div>
             @endif
 
-            <!-- SECTION 2: PERAN & TUGAS FUNGSI DALAM MENDUKUNG PKTJ (OPSIONAL) -->
+            <!-- SECTION 2: KONTEN DETAIL TAMBAHAN (JIKA ADA) -->
             @if(!empty($profil->konten_detail))
             <div class="mb-5">
-                <div class="section-header-pill" style="background: #fef3c7; color: #92400e;">
-                    <i class="fas fa-bullseye text-warning"></i> {{ $profil->judul_sub ?? 'Mandat Kelembagaan & Transformasi Pendidikan Vokasi Keselamatan Jalan' }}
-                </div>
-                <div class="rich-content text-justify" style="font-size: 15px; color: #334155; line-height: 1.8;">
+                <div class="rich-content text-justify" style="font-size: 15.5px; color: #334155; line-height: 1.85;">
                     {!! $profil->konten_detail !!}
                 </div>
             </div>

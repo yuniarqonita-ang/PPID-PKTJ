@@ -248,48 +248,60 @@ class UserDataSeeder extends Seeder
         }
 
         // -------------------------------------------------------------
-        // D. PROFIL PPID & VIDEO PROFIL
+        // D. PROFIL PPID & VIDEO PROFIL (EMBEDDED INSIDE TEXT EDITOR)
         // -------------------------------------------------------------
-        $profilPembuka = '<div class="mb-4">
-    <p class="lead fw-semibold text-dark" style="font-size: 1.15rem; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
-        Dalam mewujudkan tata kelola kepemerintahan yang baik, transparan, dan akuntabel di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal melalui transparansi informasi publik guna memenuhi hak setiap pemohon informasi sesuai dengan ketentuan peraturan perundang-undangan.
-    </p>
-    <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-        Sejak Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan sarana dalam mengoptimalkan pengawasan publik terhadap penyelenggaraan negara dan Badan Publik lainnya serta segala sesuatu yang berakibat pada kepentingan publik, sekaligus menjadi upaya strategis dalam mengembangkan masyarakat informasi guna meningkatkan peran serta aktif masyarakat dalam pengambilan kebijakan publik.
-    </p>
-    <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
-        Sejalan dengan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP), Kementerian Perhubungan telah menetapkan Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan. Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal sebagai salah satu Unit Pelaksana Teknis (UPT) di lingkungan Kementerian Perhubungan telah membentuk Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana melalui Surat Keputusan Direktur Nomor KP-PKTJ 384 Tahun 2026 guna menjamin kepastian layanan informasi yang profesional, cepat, dan berintegritas.
-    </p>
-    <p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+        $profilPembuka = '<p class="lead fw-semibold text-dark" style="font-size: 1.15rem; line-height: 1.8; text-align: justify; margin-bottom: 20px;">
+Dalam mewujudkan tata kelola kepemerintahan yang baik, transparan, dan akuntabel di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal melalui transparansi informasi publik guna memenuhi hak setiap pemohon informasi sesuai dengan ketentuan peraturan perundang-undangan.
+</p>
+<p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+Sejak Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP) diberlakukan secara efektif pada tanggal 30 April 2010 telah mendorong bangsa Indonesia satu langkah maju ke depan, menjadi bangsa yang transparan dan akuntabel dalam mengelola sumber daya publik. UU KIP sebagai instrumen hukum yang mengikat merupakan sarana dalam mengoptimalkan pengawasan publik terhadap penyelenggaraan negara dan Badan Publik lainnya serta segala sesuatu yang berakibat pada kepentingan publik, sekaligus menjadi upaya strategis dalam mengembangkan masyarakat informasi guna meningkatkan peran serta aktif masyarakat dalam pengambilan kebijakan publik.
+</p>
+<p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+Sejalan dengan Undang-Undang Nomor 14 Tahun 2008 tentang Keterbukaan Informasi Publik (UU KIP), Kementerian Perhubungan telah menetapkan Peraturan Menteri Perhubungan Nomor PM 46 Tahun 2018 tentang Pedoman Pengelolaan Informasi dan Dokumentasi di Lingkungan Kementerian Perhubungan. Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal sebagai salah satu Unit Pelaksana Teknis (UPT) di lingkungan Kementerian Perhubungan telah membentuk Pejabat Pengelola Informasi dan Dokumentasi (PPID) Pelaksana melalui Surat Keputusan Direktur Nomor KP-PKTJ 384 Tahun 2026 guna menjamin kepastian layanan informasi yang profesional, cepat, dan berintegritas.
+</p>
+<div class="video-container my-4 text-center">
+    <iframe width="100%" height="450" src="https://www.youtube.com/embed/e-zh2icc4EQ" title="Video Profil PPID PKTJ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="max-width: 820px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15); width: 100%;"></iframe>
+</div>
+<p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
 Sebagai perguruan tinggi kedinasan vokasi di bawah naungan Kementerian Perhubungan yang berdiri sejak 14 Mei 1971, berawal dari Balai Diklat Trans Jaya, bertransformasi menjadi Balai Pendidikan dan Pelatihan Transportasi Darat (BPPTD), hingga ditetapkan menjadi Politeknik Keselamatan Transportasi Jalan berdasarkan Peraturan Menteri Perhubungan Nomor PM 15 Tahun 2012. PKTJ kini beroperasi di dua kampus di Kota Tegal, yaitu Kampus Perintis di Jl. Perintis Kemerdekaan dan Kampus Margadana di Jl. KH. Abdul Syukur Margadana. Melalui semangat keterbukaan informasi publik, PPID Pelaksana UPT PKTJ Tegal berkomitmen terus mendukung terwujudnya tata kelola pendidikan vokasi transportasi jalan yang unggul, berintegritas, serta berdaya saing nasional dan global.
 </p>
-</div>';
-
-        $profilDetail = '<div class="video-container my-4 text-center">
-    <iframe width="100%" height="450" src="https://www.youtube.com/embed/e-zh2icc4EQ" title="Video Profil PPID PKTJ" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen style="max-width: 800px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.15); width: 100%;"></iframe>
-</div>
-<div class="mb-4">
-    <p>
-        Sebagai Unit Pelaksana Teknis (UPT) di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan, PKTJ memiliki mandat mulia mencetak perwira transportasi jalan yang profesional, berkarakter, dan berdaya saing global melalui 3 (tiga) program studi unggulan:
-    </p>
-    <ol>
-        <li><strong>Sarjana Terapan (D-IV) Rekayasa Sistem Transportasi Jalan (RSTJ)</strong></li>
-        <li><strong>Sarjana Terapan (D-IV) Teknologi Rekayasa Otomotif (TRO)</strong></li>
-        <li><strong>Diploma III (D-III) Teknologi Otomotif (TO)</strong></li>
-    </ol>
-    <p>
-        Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transparan, dan bebas dari korupsi (Good Governance & Clean Government), PPID Pelaksana UPT PKTJ Tegal berkomitmen penuh memberikan pelayanan informasi yang cepat, akurat, tidak memungut biaya apapun (Rp 0), serta menjamin hak setiap pemohon informasi publik sesuai amanat Undang-Undang Nomor 14 Tahun 2008 dan Peraturan Menhub Nomor PM 46 Tahun 2018.
-    </p>
-</div>';
+<p style="text-align: justify; line-height: 1.8; margin-bottom: 15px;">
+Sebagai Unit Pelaksana Teknis (UPT) di bawah naungan Badan Pengembangan Sumber Daya Manusia Perhubungan (BPSDMP) Kementerian Perhubungan, PKTJ memiliki mandat mulia mencetak perwira transportasi jalan yang profesional, berkarakter, dan berdaya saing global melalui 3 (tiga) program studi unggulan:
+</p>
+<ol style="line-height: 1.8; margin-bottom: 20px; padding-left: 24px;">
+    <li><strong>Sarjana Terapan (D-IV) Rekayasa Sistem Transportasi Jalan (RSTJ)</strong></li>
+    <li><strong>Sarjana Terapan (D-IV) Teknologi Rekayasa Otomotif (TRO)</strong></li>
+    <li><strong>Diploma III (D-III) Teknologi Otomotif (TO)</strong></li>
+</ol>
+<p style="text-align: justify; line-height: 1.8; margin-bottom: 20px;">
+Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transparan, dan bebas dari korupsi (Good Governance & Clean Government), PPID Pelaksana UPT PKTJ Tegal berkomitmen penuh memberikan pelayanan informasi yang cepat, akurat, tidak memungut biaya apapun (Rp 0), serta menjamin hak setiap pemohon informasi publik sesuai amanat Undang-Undang Nomor 14 Tahun 2008 dan Peraturan Menhub Nomor PM 46 Tahun 2018.
+</p>';
 
         if (Schema::hasTable('profil_ppids')) {
+            $profilData = [
+                'judul' => 'Profil PPID PKTJ Tegal',
+                'tagline_hero' => 'Keterbukaan Informasi Publik Menuju Tata Kelola Pendidikan Vokasi yang Transparan, Akuntabel, dan Bebas Korupsi.',
+                'konten_pembuka' => $profilPembuka,
+                'konten_detail' => null,
+                'judul_sub' => null,
+                'updated_at' => now(),
+            ];
+
+            // 1. Update id 1 & 2 directly
+            DB::table('profil_ppids')->whereIn('id', [1, 2])->update($profilData);
+
+            // 2. Update by types: 'profil', 'profil-ppid', 'profil_singkat', ''
+            DB::table('profil_ppids')->whereIn('type', ['profil', 'profil-ppid', 'profil_singkat', ''])->update($profilData);
+
+            // 3. Ensure 'type' = 'profil' exists and is up to date
             DB::table('profil_ppids')->updateOrInsert(
-                ['id' => 1],
-                [
-                    'konten_pembuka' => $profilPembuka,
-                    'konten_detail' => $profilDetail,
-                    'updated_at' => now(),
-                ]
+                ['type' => 'profil'],
+                array_merge($profilData, ['type' => 'profil'])
+            );
+            // Also sync profil-ppid
+            DB::table('profil_ppids')->updateOrInsert(
+                ['type' => 'profil-ppid'],
+                array_merge($profilData, ['type' => 'profil-ppid'])
             );
         }
 
