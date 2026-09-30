@@ -291,7 +291,18 @@ class InformasiBerkalaController extends Controller
         ]);
 
         $berkala = InformasiBerkala::find($id);
-        $daftar  = DaftarInformasi::find($id) ?? ($berkala ? DaftarInformasi::where('judul_informasi', $berkala->judul)->first() : null);
+        $daftar  = DaftarInformasi::find($id);
+
+        if (!$berkala && $daftar) {
+            $berkala = InformasiBerkala::where('judul', $daftar->judul_informasi)
+                ->orWhere('id', $daftar->id)
+                ->first();
+        }
+        if (!$daftar && $berkala) {
+            $daftar = DaftarInformasi::where('judul_informasi', $berkala->judul)
+                ->orWhere('id', $berkala->id)
+                ->first();
+        }
 
         $tautanLinks = $this->extractTautanLinks($request);
 
@@ -333,7 +344,6 @@ class InformasiBerkalaController extends Controller
         $waktuPembuatan = $request->input('waktu_pembuatan') ?: date('Y', strtotime($request->tanggal));
         $jangkaWaktu = $request->input('jangka_waktu') ?: '1 Tahun';
 
-        // Pastikan kedua tabel terupdate secara serentak (by id maupun by judul)
         $oldTitle = ($berkala ? $berkala->judul : ($daftar ? $daftar->judul_informasi : null)) ?? $validated['judul'];
 
         $updateDataBerkala = [
@@ -354,10 +364,14 @@ class InformasiBerkalaController extends Controller
             'tanggal'            => $request->tanggal,
         ];
 
-        InformasiBerkala::where('id', $id)
-            ->orWhere('judul', $oldTitle)
-            ->orWhere('judul', $validated['judul'])
-            ->update($updateDataBerkala);
+        if ($berkala) {
+            $berkala->update($updateDataBerkala);
+        } else {
+            InformasiBerkala::create($updateDataBerkala);
+        }
+
+        // Sinkronkan juga jika ada record lain dengan judul lama/baru di InformasiBerkala
+        InformasiBerkala::where('judul', $oldTitle)->orWhere('judul', $validated['judul'])->update($updateDataBerkala);
 
         $updateDataDaftar = [
             'judul_informasi'    => $validated['judul'],
@@ -376,17 +390,17 @@ class InformasiBerkalaController extends Controller
             'bisa_download'      => $bisaDownload,
         ];
 
-        DaftarInformasi::where('id', $id)
-            ->orWhere('judul_informasi', $oldTitle)
-            ->orWhere('judul_informasi', $validated['judul'])
-            ->update($updateDataDaftar);
-
-        if (!$berkala && !$daftar) {
+        if ($daftar) {
+            $daftar->update($updateDataDaftar);
+        } else {
             DaftarInformasi::create(array_merge($updateDataDaftar, [
                 'kategori'        => 'informasi-berkala',
                 'tipe_informasi'  => 'berkala',
             ]));
         }
+
+        // Sinkronkan juga jika ada record lain dengan judul lama/baru di DaftarInformasi
+        DaftarInformasi::where('judul_informasi', $oldTitle)->orWhere('judul_informasi', $validated['judul'])->update($updateDataDaftar);
 
         return redirect()->route('admin.informasi.berkala.index')
             ->with('success', 'Informasi berkala berhasil diperbarui!');

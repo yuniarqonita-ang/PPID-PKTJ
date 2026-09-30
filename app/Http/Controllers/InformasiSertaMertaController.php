@@ -361,10 +361,12 @@ class InformasiSertaMertaController extends Controller
             'tanggal'            => $request->tanggal,
         ];
 
-        InformasiSertaMerta::where('id', $id)
-            ->orWhere('judul', $oldTitle)
-            ->orWhere('judul', $request->judul)
-            ->update($updateData);
+        if ($sertamerta) {
+            $sertamerta->update($updateData);
+        } else {
+            InformasiSertaMerta::create($updateData);
+        }
+        InformasiSertaMerta::where('judul', $oldTitle)->orWhere('judul', $request->judul)->update($updateData);
 
         $updateDataDaftar = [
             'judul_informasi'    => $request->judul,
@@ -383,17 +385,15 @@ class InformasiSertaMertaController extends Controller
             'bisa_download'      => $bisaDownload,
         ];
 
-        DaftarInformasi::where('id', $id)
-            ->orWhere('judul_informasi', $oldTitle)
-            ->orWhere('judul_informasi', $request->judul)
-            ->update($updateDataDaftar);
-
-        if (!$sertamerta && !$daftar) {
+        if ($daftar) {
+            $daftar->update($updateDataDaftar);
+        } else {
             DaftarInformasi::create(array_merge($updateDataDaftar, [
                 'kategori'        => 'informasi-serta-merta',
                 'tipe_informasi'  => 'sertamerta',
             ]));
         }
+        DaftarInformasi::where('judul_informasi', $oldTitle)->orWhere('judul_informasi', $request->judul)->update($updateDataDaftar);
 
         return redirect()->route('admin.informasi.sertamerta.index')
             ->with('success', 'Informasi serta merta berhasil diperbarui!');

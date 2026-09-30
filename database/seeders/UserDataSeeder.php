@@ -14,6 +14,11 @@ use App\Models\ProfilPpid;
 
 class UserDataSeeder extends Seeder
 {
+    /**
+     * Run the database seeds.
+     * CATATAN: Seeder ini HANYA menyisipkan data jika BELUM ada (insert-only).
+     * Tidak akan pernah menimpa (overwrite) data/link yang telah diedit oleh admin!
+     */
     public function run()
     {
         // -------------------------------------------------------------
@@ -49,27 +54,10 @@ class UserDataSeeder extends Seeder
         $bmnJudul = 'Informasi Data Perbendaharaan atau Inventaris Barang Milik Negara';
         $bmnDesc = 'Informasi perbendaharaan dan daftar inventaris Barang Milik Negara (BMN) Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.';
 
-        // 1. Update or Insert into informasi_berkalas
+        // 1. Insert into informasi_berkalas (jika belum ada)
         if (Schema::hasTable('informasi_berkalas')) {
             $berkalaBmn = DB::table('informasi_berkalas')->where('judul', 'like', '%Barang Milik Negara%')->first();
-            if ($berkalaBmn) {
-                DB::table('informasi_berkalas')->where('id', $berkalaBmn->id)->update([
-                    'judul' => $bmnJudul,
-                    'deskripsi' => $bmnDesc,
-                    'file_path' => $bmnFolder,
-                    'tautan_links' => json_encode($bmnLinks),
-                    'aktif' => 1,
-                    'bisa_download' => 1,
-                    'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
-                    'penanggung_jawab' => 'Subbagian Keuangan dan Umum',
-                    'penerbit_informasi' => 'Subbagian Keuangan dan Umum',
-                    'bentuk_informasi' => 'Softcopy & Link',
-                    'tempat_pembuatan' => 'Tegal',
-                    'waktu_pembuatan' => '2026',
-                    'jangka_waktu' => 'Selamanya',
-                    'updated_at' => now(),
-                ]);
-            } else {
+            if (!$berkalaBmn) {
                 DB::table('informasi_berkalas')->insert([
                     'judul' => $bmnJudul,
                     'deskripsi' => $bmnDesc,
@@ -95,21 +83,10 @@ class UserDataSeeder extends Seeder
             }
         }
 
-        // 2. Update or Insert into daftar_informasis (Berkala)
+        // 2. Insert into daftar_informasis (jika belum ada)
         if (Schema::hasTable('daftar_informasis')) {
             $daftarBmn = DB::table('daftar_informasis')->where('judul_informasi', 'like', '%Barang Milik Negara%')->first();
-            if ($daftarBmn) {
-                DB::table('daftar_informasis')->where('id', $daftarBmn->id)->update([
-                    'judul_informasi' => $bmnJudul,
-                    'isi_informasi' => $bmnDesc,
-                    'kategori' => 'informasi-berkala',
-                    'file_informasi' => $bmnFolder,
-                    'tautan_links' => json_encode($bmnLinks),
-                    'aktif' => 1,
-                    'bisa_download' => 1,
-                    'updated_at' => now(),
-                ]);
-            } else {
+            if (!$daftarBmn) {
                 DB::table('daftar_informasis')->insert([
                     'judul_informasi' => $bmnJudul,
                     'isi_informasi' => $bmnDesc,
@@ -131,7 +108,7 @@ class UserDataSeeder extends Seeder
             }
         }
 
-        // 3. Update informasi_setiapsaats
+        // 3. Insert into informasi_setiapsaats (jika belum ada)
         if (Schema::hasTable('informasi_setiapsaats')) {
             $setiapSaatLinks = array_merge([
                 [
@@ -140,14 +117,29 @@ class UserDataSeeder extends Seeder
                 ]
             ], array_reverse($bmnLinks));
 
-            DB::table('informasi_setiapsaats')
+            $ssBmn = DB::table('informasi_setiapsaats')
                 ->where('id', 186)
                 ->orWhere('judul', 'like', '%Barang Milik Negara%')
-                ->update([
-                    'tautan_links' => json_encode($setiapSaatLinks),
+                ->first();
+            if (!$ssBmn) {
+                DB::table('informasi_setiapsaats')->insert([
+                    'judul' => $bmnJudul,
+                    'deskripsi' => $bmnDesc,
                     'file_path' => $bmnFolder,
+                    'tautan_links' => json_encode($setiapSaatLinks),
+                    'aktif' => 1,
+                    'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
+                    'penanggung_jawab' => 'Subbagian Keuangan dan Umum',
+                    'penerbit_informasi' => 'Subbagian Keuangan dan Umum',
+                    'bentuk_informasi' => 'Softcopy & Link',
+                    'tempat_pembuatan' => 'Tegal',
+                    'waktu_pembuatan' => '2026',
+                    'jangka_waktu' => 'Selamanya',
+                    'tanggal' => date('Y-m-d'),
+                    'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+            }
         }
 
         // -------------------------------------------------------------
@@ -187,24 +179,55 @@ class UserDataSeeder extends Seeder
         ];
 
         if (Schema::hasTable('informasi_berkalas')) {
-            DB::table('informasi_berkalas')
+            $exBarjas = DB::table('informasi_berkalas')
                 ->where('judul', 'like', '%pengadaan barang%')
                 ->orWhere('id', 377)
-                ->update([
-                    'tautan_links' => json_encode($barjasLinks),
+                ->first();
+            if (!$exBarjas) {
+                DB::table('informasi_berkalas')->insert([
+                    'judul' => 'Informasi Pengadaan Barang dan Jasa',
+                    'deskripsi' => 'Informasi mengenai pengadaan barang dan jasa di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.',
                     'file_path' => 'https://drive.google.com/drive/folders/1JBjaCxiQUD8DwxzIwpQtd7pTulydHz0N?usp=drive_link',
+                    'tautan_links' => json_encode($barjasLinks),
+                    'tanggal' => date('Y-m-d'),
+                    'aktif' => 1,
+                    'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
+                    'penanggung_jawab' => 'Subbagian Keuangan dan Umum',
+                    'penerbit_informasi' => 'Subbagian Keuangan dan Umum',
+                    'bentuk_informasi' => 'Softcopy & Link',
+                    'tempat_pembuatan' => 'Tegal',
+                    'waktu_pembuatan' => '2026',
+                    'jangka_waktu' => 'Selamanya',
+                    'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+            }
         }
 
         if (Schema::hasTable('daftar_informasis')) {
-            DB::table('daftar_informasis')
+            $exBarjasDaftar = DB::table('daftar_informasis')
                 ->where('judul_informasi', 'like', '%pengadaan barang%')
-                ->update([
-                    'tautan_links' => json_encode($barjasLinks),
+                ->first();
+            if (!$exBarjasDaftar) {
+                DB::table('daftar_informasis')->insert([
+                    'judul_informasi' => 'Informasi Pengadaan Barang dan Jasa',
+                    'isi_informasi' => 'Informasi mengenai pengadaan barang dan jasa di lingkungan Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal.',
+                    'kategori' => 'informasi-berkala',
+                    'tipe_informasi' => 'Berkala',
                     'file_informasi' => 'https://drive.google.com/drive/folders/1JBjaCxiQUD8DwxzIwpQtd7pTulydHz0N?usp=drive_link',
+                    'tautan_links' => json_encode($barjasLinks),
+                    'aktif' => 1,
+                    'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
+                    'penanggung_jawab' => 'Subbagian Keuangan dan Umum',
+                    'penerbit_informasi' => 'Subbagian Keuangan dan Umum',
+                    'bentuk_informasi' => 'Softcopy & Link',
+                    'tempat_pembuatan' => 'Tegal',
+                    'waktu_pembuatan' => '2026',
+                    'jangka_waktu' => 'Selamanya',
+                    'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+            }
         }
 
         // -------------------------------------------------------------
@@ -223,28 +246,57 @@ class UserDataSeeder extends Seeder
         $renstraDesc = 'Rencana Strategis (Renstra) Politeknik Keselamatan Transportasi Jalan (PKTJ) Tegal Periode 2020-2024 dan 2025-2029.';
 
         if (Schema::hasTable('informasi_berkalas')) {
-            DB::table('informasi_berkalas')
+            $exRenstra = DB::table('informasi_berkalas')
                 ->where('judul', 'like', '%Strategis%')
                 ->orWhere('judul', 'like', '%Renstra%')
                 ->orWhere('id', 366)
-                ->update([
-                    'tautan_links' => json_encode($renstraLinks),
+                ->first();
+            if (!$exRenstra) {
+                DB::table('informasi_berkalas')->insert([
+                    'judul' => 'Rencana Strategis (Renstra)',
                     'deskripsi' => $renstraDesc,
                     'file_path' => 'https://drive.google.com/file/d/1Y-OeqeZYBuX9TsHdzVI0xJe0AMsupr7J/view?usp=sharing',
+                    'tautan_links' => json_encode($renstraLinks),
+                    'tanggal' => date('Y-m-d'),
+                    'aktif' => 1,
+                    'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
+                    'penanggung_jawab' => 'Subbagian Keuangan dan Umum',
+                    'penerbit_informasi' => 'Subbagian Keuangan dan Umum',
+                    'bentuk_informasi' => 'Softcopy & Link',
+                    'tempat_pembuatan' => 'Tegal',
+                    'waktu_pembuatan' => '2026',
+                    'jangka_waktu' => 'Selamanya',
+                    'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+            }
         }
 
         if (Schema::hasTable('daftar_informasis')) {
-            DB::table('daftar_informasis')
+            $exRenstraDaftar = DB::table('daftar_informasis')
                 ->where('judul_informasi', 'like', '%Strategis%')
                 ->orWhere('judul_informasi', 'like', '%Renstra%')
-                ->update([
-                    'tautan_links' => json_encode($renstraLinks),
+                ->first();
+            if (!$exRenstraDaftar) {
+                DB::table('daftar_informasis')->insert([
+                    'judul_informasi' => 'Rencana Strategis (Renstra)',
                     'isi_informasi' => $renstraDesc,
+                    'kategori' => 'informasi-berkala',
+                    'tipe_informasi' => 'Berkala',
                     'file_informasi' => 'https://drive.google.com/file/d/1Y-OeqeZYBuX9TsHdzVI0xJe0AMsupr7J/view?usp=sharing',
+                    'tautan_links' => json_encode($renstraLinks),
+                    'aktif' => 1,
+                    'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
+                    'penanggung_jawab' => 'Subbagian Keuangan dan Umum',
+                    'penerbit_informasi' => 'Subbagian Keuangan dan Umum',
+                    'bentuk_informasi' => 'Softcopy & Link',
+                    'tempat_pembuatan' => 'Tegal',
+                    'waktu_pembuatan' => '2026',
+                    'jangka_waktu' => 'Selamanya',
+                    'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+            }
         }
 
         // -------------------------------------------------------------
@@ -278,31 +330,20 @@ Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transp
 </p>';
 
         if (Schema::hasTable('profil_ppids')) {
-            $profilData = [
-                'judul' => 'Profil PPID PKTJ Tegal',
-                'tagline_hero' => 'Keterbukaan Informasi Publik Menuju Tata Kelola Pendidikan Vokasi yang Transparan, Akuntabel, dan Bebas Korupsi.',
-                'konten_pembuka' => $profilPembuka,
-                'konten_detail' => null,
-                'judul_sub' => null,
-                'updated_at' => now(),
-            ];
-
-            // 1. Update id 1 & 2 directly
-            DB::table('profil_ppids')->whereIn('id', [1, 2])->update($profilData);
-
-            // 2. Update by types: 'profil', 'profil-ppid', 'profil_singkat', ''
-            DB::table('profil_ppids')->whereIn('type', ['profil', 'profil-ppid', 'profil_singkat', ''])->update($profilData);
-
-            // 3. Ensure 'type' = 'profil' exists and is up to date
-            DB::table('profil_ppids')->updateOrInsert(
-                ['type' => 'profil'],
-                array_merge($profilData, ['type' => 'profil'])
-            );
-            // Also sync profil-ppid
-            DB::table('profil_ppids')->updateOrInsert(
-                ['type' => 'profil-ppid'],
-                array_merge($profilData, ['type' => 'profil-ppid'])
-            );
+            $profilCount = DB::table('profil_ppids')->count();
+            if ($profilCount === 0) {
+                $profilData = [
+                    'type' => 'profil',
+                    'judul' => 'Profil PPID PKTJ Tegal',
+                    'tagline_hero' => 'Keterbukaan Informasi Publik Menuju Tata Kelola Pendidikan Vokasi yang Transparan, Akuntabel, dan Bebas Korupsi.',
+                    'konten_pembuka' => $profilPembuka,
+                    'konten_detail' => null,
+                    'judul_sub' => null,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ];
+                DB::table('profil_ppids')->insert($profilData);
+            }
         }
 
         // -------------------------------------------------------------
@@ -317,19 +358,7 @@ Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transp
                 ->orWhere('judul', 'like', '%Laporan%2025%')
                 ->first();
 
-            if ($dokLaporan) {
-                DB::table('dokumens')->where('id', $dokLaporan->id)->update([
-                    'judul' => $laporanJudul,
-                    'file_path' => $laporanGdrive,
-                    'file_name' => 'Laporan_Tahunan_PPID_PKTJ_2025.pdf',
-                    'file_size' => 'Google Drive',
-                    'file_type' => 'gdrive',
-                    'kategori' => 'Laporan Layanan',
-                    'aktif' => 1,
-                    'bisa_download' => 1,
-                    'updated_at' => now(),
-                ]);
-            } else {
+            if (!$dokLaporan) {
                 DB::table('dokumens')->insert([
                     'judul' => $laporanJudul,
                     'file_path' => $laporanGdrive,
@@ -354,14 +383,29 @@ Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transp
         ];
 
         if (Schema::hasTable('informasi_berkalas')) {
-            DB::table('informasi_berkalas')
+            $exLaporan = DB::table('informasi_berkalas')
                 ->where('judul', 'like', '%Laporan PPID%')
                 ->orWhere('id', 375)
-                ->update([
-                    'tautan_links' => json_encode($laporanBerkalaLinks),
+                ->first();
+            if (!$exLaporan) {
+                DB::table('informasi_berkalas')->insert([
+                    'judul' => 'Laporan Layanan Informasi Publik (Laporan PPID)',
+                    'deskripsi' => 'Laporan Layanan Informasi Publik PPID Politeknik Keselamatan Transportasi Jalan Tegal Tahun 2025.',
                     'file_path' => 'storage/dokumen/Laporan_Tahunan_PPID_PKTJ_2025.pdf',
+                    'tautan_links' => json_encode($laporanBerkalaLinks),
+                    'tanggal' => date('Y-m-d'),
+                    'aktif' => 1,
+                    'pejabat_penguasa' => 'PPID Pelaksana UPT PKTJ Tegal',
+                    'penanggung_jawab' => 'Bagian Keuangan dan Umum',
+                    'penerbit_informasi' => 'Bagian Keuangan dan Umum',
+                    'bentuk_informasi' => 'Softcopy & Link',
+                    'tempat_pembuatan' => 'Tegal',
+                    'waktu_pembuatan' => '2026',
+                    'jangka_waktu' => 'Selamanya',
+                    'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+            }
         }
 
         // -------------------------------------------------------------
@@ -397,9 +441,10 @@ Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transp
             ];
 
             if (Schema::hasTable('informasi_sertamertas')) {
-                DB::table('informasi_sertamertas')->updateOrInsert(
-                    ['id' => $sm['id']],
-                    [
+                $exSm = DB::table('informasi_sertamertas')->where('id', $sm['id'])->orWhere('judul', $sm['judul'])->first();
+                if (!$exSm) {
+                    DB::table('informasi_sertamertas')->insert([
+                        'id' => $sm['id'],
                         'judul' => $sm['judul'],
                         'deskripsi' => $sm['deskripsi'],
                         'file_path' => $sm['file_path'],
@@ -407,24 +452,15 @@ Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transp
                         'tautan_links' => json_encode($smLinks),
                         'tanggal' => $sm['tanggal'],
                         'aktif' => 1,
+                        'created_at' => now(),
                         'updated_at' => now(),
-                    ]
-                );
+                    ]);
+                }
             }
 
             if (Schema::hasTable('daftar_informasis')) {
                 $exDaftar = DB::table('daftar_informasis')->where('judul_informasi', $sm['judul'])->first();
-                if ($exDaftar) {
-                    DB::table('daftar_informasis')->where('id', $exDaftar->id)->update([
-                        'isi_informasi' => $sm['deskripsi'],
-                        'kategori' => 'informasi-serta-merta',
-                        'tipe_informasi' => 'serta-merta',
-                        'file_informasi' => $sm['file_path'],
-                        'tautan_links' => json_encode($smLinks),
-                        'aktif' => 1,
-                        'updated_at' => now(),
-                    ]);
-                } else {
+                if (!$exDaftar) {
                     DB::table('daftar_informasis')->insert([
                         'judul_informasi' => $sm['judul'],
                         'isi_informasi' => $sm['deskripsi'],
@@ -448,7 +484,7 @@ Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transp
         }
 
         // -------------------------------------------------------------
-        // F. BERSIHKAN BERITA DUPLIKAT DAN TANGGAL TIDAK VALID DI BERANDA
+        // G. BERSIHKAN BERITA DUPLIKAT DAN TANGGAL TIDAK VALID DI BERANDA
         // -------------------------------------------------------------
         if (Schema::hasTable('beritas')) {
             DB::table('beritas')
@@ -462,4 +498,3 @@ Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transp
         }
     }
 }
-

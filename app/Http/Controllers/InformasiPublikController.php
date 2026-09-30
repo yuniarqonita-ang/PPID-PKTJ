@@ -39,55 +39,10 @@ class InformasiPublikController extends Controller
 
     private function ensureDataSeeded(): void
     {
-        try {
-            $needsSync = false;
-            if (class_exists(InformasiBerkala::class)) {
-                $hasBmn2025 = InformasiBerkala::where('judul', 'like', '%Barang Milik Negara%')
-                    ->where('tautan_links', 'like', '%18xnwHrVu13TN1IWd_a2172osc6vaJIl_%')
-                    ->exists();
-                $hasRenstra2029 = InformasiBerkala::where(function($q) {
-                        $q->where('judul', 'like', '%Strategis%')->orWhere('judul', 'like', '%Renstra%');
-                    })
-                    ->where('tautan_links', 'like', '%1iWTCnNe1f-6-8TYVXM1ryi5A2VVUiZD5%')
-                    ->exists();
-                $hasBarjasKak = InformasiBerkala::where('judul', 'like', '%pengadaan barang%')
-                    ->where('tautan_links', 'like', '%1PyEWbxB1QSgu3a0tqrTZaVEdkEa_BQZR%')
-                    ->exists();
-
-                if (!$hasBmn2025 || !$hasRenstra2029 || !$hasBarjasKak) {
-                    $needsSync = true;
-                }
-            }
-
-            if (!$needsSync && class_exists(DaftarInformasi::class)) {
-                $hasBmnDaftar = DaftarInformasi::where('judul_informasi', 'like', '%Barang Milik Negara%')
-                    ->where('tautan_links', 'like', '%18xnwHrVu13TN1IWd_a2172osc6vaJIl_%')
-                    ->exists();
-                $hasRenstraDaftar = DaftarInformasi::where(function($q) {
-                        $q->where('judul_informasi', 'like', '%Strategis%')->orWhere('judul_informasi', 'like', '%Renstra%');
-                    })
-                    ->where('tautan_links', 'like', '%1iWTCnNe1f-6-8TYVXM1ryi5A2VVUiZD5%')
-                    ->exists();
-                if (!$hasBmnDaftar || !$hasRenstraDaftar) {
-                    $needsSync = true;
-                }
-            }
-
-            if (!$needsSync && class_exists(\App\Models\Dokumen::class)) {
-                $hasLaporan2025 = \App\Models\Dokumen::where('judul', 'like', '%2025%')
-                    ->where(function($q) {
-                        $q->where('file_path', 'like', '%1ZIZ7ZVVFPz5Fo17T2AZAbjhuYKiI5STM%')
-                          ->orWhere('file_path', 'like', '%Laporan_Tahunan_PPID_PKTJ_2025.pdf%');
-                    })->exists();
-                if (!$hasLaporan2025) {
-                    $needsSync = true;
-                }
-            }
-
-            if ($needsSync && class_exists(\Database\Seeders\UserDataSeeder::class)) {
-                (new \Database\Seeders\UserDataSeeder())->run();
-            }
-        } catch (\Throwable $e) {}
+        // PENTING: Jangan pernah menjalankan seeder otomatis saat request halaman publik
+        // agar seluruh perubahan link, judul, dan data dari admin panel tersimpan permanen
+        // dan tidak pernah tertimpa lagi.
+        return;
     }
 
     private function getHiddenTitles(): array

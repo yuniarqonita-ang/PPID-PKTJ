@@ -313,17 +313,6 @@ class ProfilPublikController extends Controller
         }
 
         if ($type === 'laporan-layanan' || $type === 'laporan_layanan') {
-            try {
-                $hasLaporan2025 = \App\Models\Dokumen::where('judul', 'like', '%2025%')
-                    ->where(function($q) {
-                        $q->where('file_path', 'like', '%1ZIZ7ZVVFPz5Fo17T2AZAbjhuYKiI5STM%')
-                          ->orWhere('file_path', 'like', '%Laporan_Tahunan_PPID_PKTJ_2025.pdf%');
-                    })->exists();
-                if (!$hasLaporan2025 && class_exists(\Database\Seeders\UserDataSeeder::class)) {
-                    (new \Database\Seeders\UserDataSeeder())->run();
-                }
-            } catch (\Throwable $e) {}
-
             $query = \App\Models\Dokumen::where(function($q) {
                 $q->whereIn('kategori', ['Laporan Layanan', 'Laporan Tahunan', 'Laporan Layanan Informasi', 'Laporan Layanan Informasi Publik'])
                   ->orWhere('judul', 'like', '%Laporan Tahunan%')

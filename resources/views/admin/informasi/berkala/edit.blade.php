@@ -118,7 +118,7 @@
                                                         <input type="text" name="tautan_nama[]" value="{{ $tItem['nama'] ?? '' }}" placeholder="Contoh: Profil Lengkap / Renstra 2020-2024" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:border-[#004a99] outline-none">
                                                     </td>
                                                     <td class="py-2.5 px-3">
-                                                        <input type="url" name="tautan_url[]" value="{{ $tItem['url'] ?? '' }}" placeholder="https://drive.google.com/file/d/... atau /profil-organisasi" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:border-[#004a99] outline-none">
+                                                        <input type="text" name="tautan_url[]" value="{{ $tItem['url'] ?? '' }}" placeholder="https://drive.google.com/file/d/... atau /profil-organisasi" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:border-[#004a99] outline-none">
                                                     </td>
                                                     <td class="py-2.5 px-3 text-center">
                                                         <button type="button" onclick="removeTautanRow(this)" class="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all" title="Hapus Link">
@@ -398,7 +398,7 @@
                 <input type="text" name="tautan_nama[]" value="${nama.replace(/"/g, '&quot;')}" placeholder="Contoh: Profil Lengkap / Renstra 2020-2024" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-800 focus:border-[#004a99] outline-none">
             </td>
             <td class="py-2.5 px-3">
-                <input type="url" name="tautan_url[]" value="${url.replace(/"/g, '&quot;')}" placeholder="https://drive.google.com/file/d/... atau /profil-organisasi" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:border-[#004a99] outline-none">
+                <input type="text" name="tautan_url[]" value="${url.replace(/"/g, '&quot;')}" placeholder="https://drive.google.com/file/d/... atau /profil-organisasi" class="w-full px-3.5 py-2.5 bg-white border border-slate-200 rounded-xl text-xs font-mono text-slate-800 focus:border-[#004a99] outline-none">
             </td>
             <td class="py-2.5 px-3 text-center">
                 <button type="button" onclick="removeTautanRow(this)" class="p-2 text-rose-500 hover:bg-rose-50 rounded-lg transition-all" title="Hapus Link">

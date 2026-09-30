@@ -27,12 +27,7 @@ class AppServiceProvider extends ServiceProvider
                     @unlink($oldFlag);
                 }
 
-                // 1. Run UserDataSeeder automatically
-                if (class_exists(\Database\Seeders\UserDataSeeder::class)) {
-                    (new \Database\Seeders\UserDataSeeder())->run();
-                }
-
-                // 2. Clear compiled Blade views automatically
+                // 1. Clear compiled Blade views automatically
                 $viewsPath = storage_path('framework/views');
                 if (is_dir($viewsPath)) {
                     $files = glob($viewsPath . '/*');

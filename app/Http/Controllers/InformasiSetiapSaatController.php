@@ -366,10 +366,12 @@ class InformasiSetiapSaatController extends Controller
             'tanggal'            => $request->tanggal,
         ];
 
-        InformasiSetiapSaat::where('id', $id)
-            ->orWhere('judul', $oldTitle)
-            ->orWhere('judul', $request->judul)
-            ->update($updateData);
+        if ($setiapsaat) {
+            $setiapsaat->update($updateData);
+        } else {
+            InformasiSetiapSaat::create($updateData);
+        }
+        InformasiSetiapSaat::where('judul', $oldTitle)->orWhere('judul', $request->judul)->update($updateData);
 
         $updateDataDaftar = [
             'judul_informasi'    => $request->judul,
@@ -388,17 +390,15 @@ class InformasiSetiapSaatController extends Controller
             'bisa_download'      => $bisaDownload,
         ];
 
-        DaftarInformasi::where('id', $id)
-            ->orWhere('judul_informasi', $oldTitle)
-            ->orWhere('judul_informasi', $request->judul)
-            ->update($updateDataDaftar);
-
-        if (!$setiapsaat && !$daftar) {
+        if ($daftar) {
+            $daftar->update($updateDataDaftar);
+        } else {
             DaftarInformasi::create(array_merge($updateDataDaftar, [
                 'kategori'        => 'informasi-setiap-saat',
                 'tipe_informasi'  => 'setiapsaat',
             ]));
         }
+        DaftarInformasi::where('judul_informasi', $oldTitle)->orWhere('judul_informasi', $request->judul)->update($updateDataDaftar);
 
         return redirect()->route('admin.informasi.setiapsaat.index')
             ->with('success', 'Informasi setiap saat berhasil diperbarui!');
