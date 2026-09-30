@@ -446,5 +446,20 @@ Dalam mendukung terwujudnya tata kelola pendidikan kedinasan yang bersih, transp
                 }
             }
         }
+
+        // -------------------------------------------------------------
+        // F. BERSIHKAN BERITA DUPLIKAT DAN TANGGAL TIDAK VALID DI BERANDA
+        // -------------------------------------------------------------
+        if (Schema::hasTable('beritas')) {
+            DB::table('beritas')
+                ->where('tanggal', '>', now()->addDays(7)->format('Y-m-d'))
+                ->orWhere('tanggal', 'like', '2027%')
+                ->orWhere(function($q) {
+                    $q->where('judul', 'like', '%Sekolah Rakyat%')
+                      ->where('tanggal', '<', '2026-09-20');
+                })
+                ->delete();
+        }
     }
 }
+

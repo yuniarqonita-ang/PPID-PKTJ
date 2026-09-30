@@ -33,10 +33,11 @@ class PktjNewsService
      */
     public function getLiveNews(int $limit = 500, bool $forceRefresh = false): array
     {
-        $cacheKey = 'pktj_live_all_news_v6';
+        $cacheKey = 'pktj_live_all_news_v7';
 
         if ($forceRefresh) {
             Cache::forget($cacheKey);
+            Cache::forget('pktj_live_all_news_v6');
             Cache::forget('pktj_live_all_news_v5');
             Cache::forget('pktj_live_all_news_v4');
         }
@@ -403,6 +404,20 @@ class PktjNewsService
     }
 
     /**
+     * Normalisasi judul berita untuk mendeteksi duplikasi topik serupa
+     */
+    public function normalizeTitle(string $title): string
+    {
+        $clean = strtolower($title);
+        $clean = preg_replace('/[^a-z0-9\s]/', ' ', $clean);
+        $stopwords = ['kegiatan', 'dalam', 'rangka', 'pada', 'di', 'ke', 'dari', 'dan', 'atau', 'untuk', 'tahun', 'resmi', 'kota', 'kabupaten'];
+        $words = array_filter(explode(' ', $clean), function($w) use ($stopwords) {
+            return strlen($w) > 2 && !in_array($w, $stopwords);
+        });
+        return implode(' ', $words);
+    }
+
+    /**
      * Auto-sync top artikel terbaru dari remote ke Database lokal (phpMyAdmin)
      */
     public function quickSyncToDatabase(array $articles): void
@@ -413,10 +428,23 @@ class PktjNewsService
                 $judul = $art['judul'] ?? null;
                 if (!$judul) continue;
 
+                $normNew = $this->normalizeTitle($judul);
+
                 $existing = Berita::where('judul', $judul)
                     ->orWhere(function($q) use ($link) {
                         if ($link) $q->where('link_sumber', $link);
                     })->first();
+
+                // Deteksi topik duplikat berdasarkan judul yang dinormalisasi
+                if (!$existing && strlen($normNew) > 10) {
+                    $recentArticles = Berita::orderBy('id', 'desc')->take(50)->get();
+                    foreach ($recentArticles as $cand) {
+                        if ($this->normalizeTitle($cand->judul) === $normNew) {
+                            $existing = $cand;
+                            break;
+                        }
+                    }
+                }
 
                 if (!$existing) {
                     Berita::create([
@@ -434,11 +462,13 @@ class PktjNewsService
                         'is_blurred'  => 0,
                     ]);
                 } else {
-                    // Update gambar atau tanggal jika belum ada
-                    if (empty($existing->gambar) || str_contains($existing->gambar, 'ajax-loader')) {
-                        $existing->gambar = $art['gambar'] ?? $existing->gambar;
+                    // Update data terbaru jika sudah ada
+                    $existing->judul = $art['judul'];
+                    if ($link) $existing->link_sumber = $link;
+                    if (!empty($art['gambar']) && !str_contains($art['gambar'], 'ajax-loader')) {
+                        $existing->gambar = $art['gambar'];
                     }
-                    if ($art['tanggal'] && $art['tanggal'] !== $existing->tanggal) {
+                    if (!empty($art['tanggal']) && $art['tanggal'] <= now()->addDays(2)->format('Y-m-d')) {
                         $existing->tanggal = $art['tanggal'];
                     }
                     $existing->save();
@@ -568,12 +598,27 @@ class PktjNewsService
     {
         try {
             $beritas = Berita::where('aktif', true)
+                ->where(function($q) {
+                    $q->whereNull('tanggal')
+                      ->orWhere('tanggal', '<=', now()->addDays(2)->format('Y-m-d'));
+                })
                 ->orderBy('tanggal', 'desc')
                 ->orderBy('created_at', 'desc')
-                ->take($limit)
+                ->take($limit * 2)
                 ->get();
 
-            return $beritas->map(function ($b) {
+            $uniqueList = [];
+            $seenTitles = [];
+
+            foreach ($beritas as $b) {
+                $normTitle = $this->normalizeTitle($b->judul ?? '');
+                if (!empty($normTitle) && isset($seenTitles[$normTitle])) {
+                    continue;
+                }
+                if (!empty($normTitle)) {
+                    $seenTitles[$normTitle] = true;
+                }
+
                 $img = $b->gambar;
                 if (!empty($img) && !str_starts_with($img, 'http')) {
                     $img = asset('storage/' . $img);
@@ -581,7 +626,7 @@ class PktjNewsService
 
                 $tglObj = $b->tanggal ? Carbon::parse($b->tanggal) : Carbon::parse($b->created_at);
 
-                return [
+                $uniqueList[] = [
                     'judul'       => $b->judul,
                     'slug'        => $b->slug,
                     'link'        => $b->link_sumber ?: url('/berita/' . $b->slug),
@@ -596,7 +641,13 @@ class PktjNewsService
                     'is_external' => (bool) $b->is_external,
                     'sumber'      => $b->is_external ? 'pktj.ac.id' : 'PPID PKTJ',
                 ];
-            })->toArray();
+
+                if (count($uniqueList) >= $limit) {
+                    break;
+                }
+            }
+
+            return $uniqueList;
         } catch (\Exception $e) {
             return [];
         }
