@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         try {
-            $flagPath = storage_path('app/deploy_v2026_09_29_v12.flag');
+            $flagPath = storage_path('app/deploy_v2026_09_30_v13.flag');
             if (!file_exists($flagPath)) {
                 // Delete older flags
                 foreach (glob(storage_path('app/deploy_v2026_*.flag')) as $oldFlag) {
